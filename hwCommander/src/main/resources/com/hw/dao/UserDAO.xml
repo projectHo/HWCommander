@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="com.hw.dao.UserDAO">
+	<select id="getIdDupliChkCount" resultType="Integer" parameterType="String">
+		SELECT COUNT(1) AS id_cnt FROM user_info WHERE id = #{id}
+	</select>
+	
+	<update id="insertUserInfo" parameterType="userInfoVO">
+		INSERT INTO user_info
+		(
+			id
+			, pw
+			, user_type_cd
+			, sex_cd
+			, name
+			, birth
+			, hp_number
+			, addr
+			, mail
+			, mail_key
+			, mail_confirm
+			, reg_dtm
+			, updt_dtm
+		)
+		VALUES
+		(
+			#{id}
+			, SHA2(#{pw}, 256)
+			, #{userTypeCd}
+			, #{sexCd}
+			, #{name}
+			, #{birth}
+			, #{hpNumber}
+			, #{addr}
+			, #{mail}
+			, #{mailKey}
+			, #{mailConfirm}
+			, NOW()
+			, #{updtDtm}
+		)
+	</update>
+	
+	<update id="updateMailKey" parameterType="userInfoVO">
+		UPDATE user_info SET mail_key = #{mailKey} WHERE mail = #{mail} AND id = #{id}
+	</update>
+	
+	<update id="updateMailConfirm" parameterType="userInfoVO">
+		UPDATE user_info SET mail_confirm = #{mailConfirm} WHERE mail = #{mail} AND mail_key = #{mailKey}
+	</update>
+	
+	<select id="getMailConfirmChkCount" resultType="Integer" parameterType="String">
+		SELECT COUNT(1) AS mail_confirm_cnt FROM user_info WHERE id = #{id} AND mail_confirm = 'Y'
+	</select>
+	
+	<select id="getIdListByMailAndMailKey" resultType="userInfoVO" parameterType="userInfoVO">
+		SELECT
+			id
+		FROM
+			user_info
+		WHERE mail_confirm = 'N' 
+		AND mail = #{mail} 
+		AND mail_key = #{mailKey}
+	</select>
+	
+	<select id="getUserInfoByIdAndPw" resultType="userInfoVO" parameterType="userInfoVO">
+		SELECT
+			id                        AS id         
+			, pw                      AS pw         
+			, user_type_cd            AS userTypeCd 
+			, sex_cd                  AS sexCd      
+			, name                    AS name       
+			, birth                   AS birth      
+			, hp_number               AS hpNumber   
+			, addr                    AS addr       
+			, mail                    AS mail       
+			, mail_key                AS mailKey    
+			, mail_confirm            AS mailConfirm
+			, reg_dtm                 AS regDtm     
+			, updt_dtm                AS updtDtm    
+		FROM
+			user_info
+		WHERE id = #{id} 
+		AND pw = SHA2(#{pw}, 256)
+	</select>
+</mapper>

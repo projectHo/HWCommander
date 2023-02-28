@@ -1,0 +1,229 @@
+@charset "UTF-8";
+*{
+	margin: 0;
+	padding:0;
+}
+.header_background {
+	background-color: rgba(255,255,255,0);
+	background-image:linear-gradient(180deg, #5052b7 0%,#7f81e2 100%);
+	background-position: center center;
+	background-repeat: no-repeat;
+	border-width: 0px 0px 0px 0px;
+	/* border-color:var(--awb-color3); */
+	border-style:solid;
+}
+
+
+/* 푸터 백그라운드 */
+.footer_background {
+	background-image: url('/resources/img/layer-8-copy-7-300x40.png');
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size:cover;
+}
+/* 기본 백그라운드 */
+.basic_background {
+	background-color: #7f81e2;
+	background-position: center center;
+	background-repeat: no-repeat;
+}
+
+/* termsOfService 백그라운드 */
+.termsOfService_background {
+	background-image: url('/resources/img/123123-e1666373939848.png');
+	background-repeat: repeat-y;
+	background-size: auto;
+}
+
+/* content border line white */
+.content_border_line_white {
+	border-color: #f2f3f5;
+	border: 1px solid #ccc;
+	border-radius : 4px;
+	font-family: Menlo,Consolas,monaco,monospace;
+	padding : .8em 1em;
+	display : block;
+	margin : 1em 0px;
+	white-space: pre-wrap;
+	height : auto;
+	line-height : 150%;
+	font-size : 17px;
+}
+
+/* hover effect */
+.hovereffect {
+  width: 100%;
+  height: 100%;
+  float: left;
+  overflow: hidden;
+  position: relative;
+  text-align: center;
+  cursor: default;
+}
+
+.hovereffect .overlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  overflow: hidden;
+  top: 0;
+  left: 0;
+  opacity: 0;
+  filter: alpha(opacity=0);
+  background-color: rgba(0,0,0,0.5);
+  -webkit-transition: all 0.4s cubic-bezier(0.88,-0.99, 0, 1.81);
+  transition: all 0.4s cubic-bezier(0.88,-0.99, 0, 1.81);
+}
+
+.hovereffect img {
+  display: block;
+  position: relative;
+  -webkit-transition: all 0.4s cubic-bezier(0.88,-0.99, 0, 1.81);
+  transition: all 0.4s cubic-bezier(0.88,-0.99, 0, 1.81);
+}
+
+.hovereffect h2 {
+  text-transform: uppercase;
+  color: #fff;
+  text-align: center;
+  position: relative;
+  font-size: 17px;
+  background: rgba(0,0,0,0.6);
+  -webkit-transform: translatey(-100px);
+  -ms-transform: translatey(-100px);
+  transform: translatey(-100px);
+  -webkit-transition: all 0.4s cubic-bezier(0.88,-0.99, 0, 1.81);
+  transition: all 0.4s cubic-bezier(0.88,-0.99, 0, 1.81);
+  padding: 10px;
+}
+
+.hovereffect a.info {
+  text-decoration: none;
+  display: inline-block;
+  text-transform: uppercase;
+  color: #fff;
+  border: 1px solid #fff;
+  background-color: transparent;
+  opacity: 0;
+  filter: alpha(opacity=0);
+  -webkit-transition: all 0.4s ease;
+  transition: all 0.4s ease;
+  margin: 50px 0 0;
+  padding: 7px 14px;
+}
+
+.hovereffect a.info:hover {
+  box-shadow: 0 0 5px #fff;
+}
+
+.hovereffect:hover img {
+  -ms-transform: scale(1.2);
+  -webkit-transform: scale(1.2);
+  transform: scale(1.2);
+}
+
+.hovereffect:hover .overlay {
+  opacity: 1;
+  filter: alpha(opacity=100);
+}
+
+.hovereffect:hover h2,.hovereffect:hover a.info {
+  opacity: 1;
+  filter: alpha(opacity=100);
+  -ms-transform: translatey(0);
+  -webkit-transform: translatey(0);
+  transform: translatey(0);
+}
+
+.hovereffect:hover a.info {
+  -webkit-transition-delay: .2s;
+  transition-delay: .2s;
+}
+/* hover effect END */
+
+
+
+
+
+
+/* 화면 전체 렙 */
+.wrapper{
+	width: 1900px;
+}
+/* content 랩 */
+.wrap{
+	width : 1080px;
+	margin: auto;
+}
+/* 홈페이지 기능 네비 */ 
+.top_gnb_area{
+	width: 100%;
+    height: 50px;
+    background-color: #a2a2ea;
+}
+/* 로고, 검색, 로그인 */
+.top_area{
+	width: 100%;
+    height: 150px;
+    /* background-color: #f7f0b9; */
+}
+/* 로고 영역 */
+.logo_area{
+	width: 25%;
+	height: 100%;
+	background-color: red;
+	float:left;
+}
+/* 검색 박스 영역 */
+.search_area{
+	width: 50%;
+	height: 100%;
+	background-color: yellow;
+	float:left;	
+}
+/* 로그인 버튼 영역 */
+.login_area{
+	width: 25%;
+	height: 100%;
+	display: inline-block;	
+	text-align: center;		
+}
+.login_button{
+	height: 50%;
+    background-color: #D4DFE6;
+    margin-top: 30px;
+    line-height: 77px;
+    font-size: 40px;
+    font-weight: 900;
+    border-radius: 10px;
+    cursor: pointer;	
+}
+.login_area>span{
+	margin-top: 10px;
+    font-weight: 900;
+    display: inline-block;
+}
+.login_button{
+	height : 50%;
+	background-color: #D4DFE6;
+	margin-top:30px;
+}
+
+/* 제품 목록 네비 */
+.navi_bar_area{
+	width: 100%;
+    height: 70px;
+    background-color: #7696fd;
+}
+
+/* 홈페이지 메인 제품 목록  */
+.content_area{
+	width: 100%;
+    background-color: #97ef97;
+    height: 1000px;
+}
+
+/* float 속성 해제 */
+.clearfix{
+	clear: both;
+}

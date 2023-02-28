@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+ 
+<configuration>
+	<typeAliases>
+		<typeAlias alias="partsCoolerVO" type="com.hw.model.PartsCoolerVO"></typeAlias>
+		<typeAlias alias="partsCpuVO" type="com.hw.model.PartsCpuVO"></typeAlias>
+		<typeAlias alias="partsGpuVO" type="com.hw.model.PartsGpuVO"></typeAlias>
+		<typeAlias alias="partsHddVO" type="com.hw.model.PartsHddVO"></typeAlias>
+		<typeAlias alias="partsMbVO" type="com.hw.model.PartsMbVO"></typeAlias>
+		<typeAlias alias="partsPsuVO" type="com.hw.model.PartsPsuVO"></typeAlias>
+		<typeAlias alias="partsRamVO" type="com.hw.model.PartsRamVO"></typeAlias>
+		<typeAlias alias="partsSfVO" type="com.hw.model.PartsSfVO"></typeAlias>
+		<typeAlias alias="partsSsdVO" type="com.hw.model.PartsSsdVO"></typeAlias>
+		<typeAlias alias="userInfoVO" type="com.hw.model.UserInfoVO"></typeAlias>
+      </typeAliases>
+</configuration>
