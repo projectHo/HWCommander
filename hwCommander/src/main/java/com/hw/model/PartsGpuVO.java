@@ -20,6 +20,7 @@ public class PartsGpuVO {
 	private int bn;
 	private int il;
 	private int gpl;
+	private int twelvePin;
 	private String partsImage;
 	private Date regDtm;
 	private Date updtDtm;

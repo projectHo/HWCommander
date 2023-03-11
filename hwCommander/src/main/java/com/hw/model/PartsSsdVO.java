@@ -17,6 +17,7 @@ public class PartsSsdVO {
 	private float rlb;
 	private int strTwoDotFive;
 	private String scsCd;
+	private int sata;
 	private String partsImage;
 	private Date regDtm;
 	private Date updtDtm;

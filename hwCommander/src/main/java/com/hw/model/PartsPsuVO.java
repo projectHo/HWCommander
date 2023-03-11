@@ -18,6 +18,7 @@ public class PartsPsuVO {
 	private int tdp;
 	private int pl;
 	private int gpl;
+	private int twelvePin;
 	private String partsImage;
 	private Date regDtm;
 	private Date updtDtm;
