@@ -46,7 +46,8 @@ function goMyPage() {
 
 function goAdminPage() {
 	if(loginCheck()) {
-		alert("관리자페이지로 이동");
+		//alert("관리자페이지로 이동");
+		location.href = "/admin/main.do";
 	}
 }
 
