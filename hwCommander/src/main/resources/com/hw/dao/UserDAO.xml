@@ -8,7 +8,7 @@
 		SELECT COUNT(1) AS id_cnt FROM user_info WHERE id = #{id}
 	</select>
 	
-	<update id="insertUserInfo" parameterType="userInfoVO">
+	<insert id="insertUserInfo" parameterType="userInfoVO">
 		INSERT INTO user_info
 		(
 			id
@@ -41,7 +41,7 @@
 			, NOW()
 			, #{updtDtm}
 		)
-	</update>
+	</insert>
 	
 	<update id="updateMailKey" parameterType="userInfoVO">
 		UPDATE user_info SET mail_key = #{mailKey} WHERE mail = #{mail} AND id = #{id}

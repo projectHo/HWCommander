@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="com.hw.dao.PartsDAO">
+
+	<select id="getPartsGpuVOMaxId" resultType="String">
+		SELECT CONCAT('GPU', (SELECT LPAD(NVL(MAX(SUBSTR(TRIM(id), 4)), 0)+1, 6, '0') FROM parts_gpu)) AS id FROM DUAL
+	</select>
+	
+	<insert id="insertPartsGpuVO" parameterType="partsGpuVO">
+		INSERT INTO parts_gpu
+		(
+			id
+			, parts_name
+			, parts_price
+			, gled_cd
+			, gn
+			, gmc_cd
+			, gsc_cd
+			, gsv
+			, gpuas_cd
+			, qc
+			, tdp
+			, bn
+			, il
+			, gpl
+			, twelve_pin
+			, parts_image
+			, reg_dtm
+			, updt_dtm
+		)
+		VALUES
+		(
+			#{id}
+			, #{partsName}
+			, #{partsPrice}
+			, #{gledCd}
+			, #{gn}
+			, #{gmcCd}
+			, #{gscCd}
+			, #{gsv}
+			, #{gpuasCd}
+			, #{qc}
+			, #{tdp}
+			, #{bn}
+			, #{il}
+			, #{gpl}
+			, #{twelvePin}
+			, #{partsImage}
+			, NOW()
+			, #{updtDtm}
+		)
+	</insert>
+	<select id="getGpuAllList" resultType="partsGpuVO">
+		SELECT 
+			a.id                                                                              AS id        
+			, a.parts_name                                                                    AS partsName 
+			, a.parts_price                                                                   AS partsPrice
+			, a.gled_cd                                                                       AS gledCd    
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'COM002' AND cd = a.gled_cd)     AS gledCdNm  
+			, a.gn                                                                            AS gn        
+			, a.gmc_cd                                                                        AS gmcCd     
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT001' AND cd = a.gmc_cd)      AS gmcCdNm   
+			, a.gsc_cd                                                                        AS gscCd     
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT002' AND cd = a.gsc_cd)      AS gscCdNm   
+			, a.gsv                                                                           AS gsv       
+			, a.gpuas_cd                                                                      AS gpuasCd   
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT003' AND cd = a.gpuas_cd)    AS gpuasCdNm 
+			, a.qc                                                                            AS qc        
+			, a.tdp                                                                           AS tdp       
+			, a.bn                                                                            AS bn        
+			, a.il                                                                            AS il        
+			, a.gpl                                                                           AS gpl       
+			, a.twelve_pin                                                                    AS twelvePin 
+			, a.parts_image                                                                   AS partsImage
+			, a.reg_dtm                                                                       AS regDtm    
+			, a.updt_dtm                                                                      AS updtDtm   
+		FROM
+			parts_gpu a;
+	</select>
+</mapper>

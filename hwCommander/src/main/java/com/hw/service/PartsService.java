@@ -1,13 +1,10 @@
 package com.hw.service;
 
-import com.hw.model.UserInfoVO;
+import java.util.List;
+
+import com.hw.model.PartsGpuVO;
 
 public interface PartsService {
-	public Integer getIdDupliChkCount(String id);
-	public Integer signUpLogic(UserInfoVO userInfoVO);
-	public Integer updateMailKey(UserInfoVO userInfoVO);
-	public Integer updateMailConfirm(UserInfoVO userInfoVO);
-	public Integer getMailConfirmChkCount(String id);
-	public Integer mailConfirmLogic(UserInfoVO userInfoVO);
-	public UserInfoVO getUserInfoByIdAndPw(UserInfoVO userInfoVO);
+	public Integer gpuRegistLogic(PartsGpuVO partsGpuVO);
+	public List<PartsGpuVO> getGpuAllList();
 }

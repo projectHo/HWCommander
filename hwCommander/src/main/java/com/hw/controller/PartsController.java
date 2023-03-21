@@ -36,63 +36,9 @@ public class PartsController {
 	public UserInfoVO loginLogic(HttpServletRequest request, UserInfoVO userInfoVO) {
 		HttpSession httpSession = request.getSession();
 		
-		UserInfoVO resultVO = partsService.getUserInfoByIdAndPw(userInfoVO);
-		if(resultVO.getMailConfirm().equals("Y")) {
-			httpSession.setAttribute("loginUser", resultVO);
-		}else {
-			httpSession.removeAttribute("loginUser"); 
-			httpSession.invalidate(); // 세션 전체 제거, 무효화 
-		}
-		System.out.println("===========================");
-		System.out.println("===========================");
-		System.out.println("id : "+userInfoVO.getId());
-		System.out.println("pw : "+userInfoVO.getPw());
-		System.out.println("===========================");
-		System.out.println("===========================");
 		
-		return resultVO;
+		return null;
 	}
 	
-	@RequestMapping(value = "/signUp.do", method = RequestMethod.GET)
-	public String goSignUp(Model model) {
-		return "signUp";
-	}
-	
-	@RequestMapping(value = "/idDupliChk.do", method = RequestMethod.POST)
-	@ResponseBody
-	public Integer idDupliChk(String id) {
-		return partsService.getIdDupliChkCount(id);
-	}
-	
-	@RequestMapping(value = "/signUpLogic.do", method = RequestMethod.POST)
-	@ResponseBody
-	public Integer signUpLogic(UserInfoVO userInfoVO) {
-		return partsService.signUpLogic(userInfoVO);
-	}
-	
-	@RequestMapping(value = "/mailConfirmLogic.do", method = RequestMethod.GET)
-	public String mailConfirmLogic(UserInfoVO userInfoVO, Model model) {
-		int result = partsService.mailConfirmLogic(userInfoVO);
-		model.addAttribute("result", result);
-		return "mailConfirmPage";
-	}
-	
-	// 아직 사용안함 인증메일 key값 재발급할때 쓸것.
-	@RequestMapping(value = "/updateMailKey.do", method = RequestMethod.POST)
-	@ResponseBody
-	public Integer updateMailKey(UserInfoVO userInfoVO) {
-		return partsService.updateMailKey(userInfoVO);
-	}
-	
-	@RequestMapping(value = "/logoutLogic.do", method = RequestMethod.GET)
-	public String logoutLogic(HttpServletRequest request, Model model) {
-		HttpSession httpSession = request.getSession(false);
-		if(httpSession != null) {
-			httpSession.removeAttribute("loginUser"); 
-			httpSession.invalidate(); 
-		}
-		model.addAttribute("loginUser", null);
-		return "redirect:/";
-	}
 	
 }

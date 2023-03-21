@@ -238,7 +238,7 @@ function idDupliChk(id) {
                         <div class="card mb-4">
                             <div class="card-header">
                                 Search GPU
-				                <a class="float-end" href="/">등록</a>
+				                <a class="float-end" href="gpuRegist.do">등록</a>
                             </div>
                             <div class="card-body">
                                 <table id="datatablesSimple">
@@ -263,30 +263,16 @@ function idDupliChk(id) {
                                         </tr>
                                     </tfoot>
                                     <tbody>
-                                        <tr>
-                                            <td>PALIT 지포스 RTX 3060 Dual D6 12GB</td>
-                                            <td>1,000,000</td>
-                                            <td>LED</td>
-                                            <td>BLACK</td>
-                                            <td>BLACK</td>
-                                            <td>STCOM</td>
-                                        </tr>
-                                        <tr>
-                                            <td>INNO3D 지포스 RTX 3060 D6 12GB TWIN X2</td>
-                                            <td>2,000,000</td>
-                                            <td>Non LED</td>
-                                            <td>BLACK</td>
-                                            <td>GRAY</td>
-                                            <td>아이노비아</td>
-                                        </tr>
-                                        <tr>
-                                            <td>갤럭시 GALAX 지포스 RTX 3060 V2 D6 12GB</td>
-                                            <td>3,000,000</td>
-                                            <td>Non LED</td>
-                                            <td>BLACK</td>
-                                            <td>WHITE</td>
-                                            <td>갤럭시코리아</td>
-                                        </tr>
+										<c:forEach var="item" items="${gpuList}">
+											<tr>
+	                                            <td>${item.partsName}</td>
+	                                            <td>${item.partsPrice}</td>
+	                                            <td>${item.gledCdNm}</td>
+	                                            <td>${item.gmcCdNm}</td>
+	                                            <td>${item.gscCdNm}</td>
+	                                            <td>${item.gpuasCdNm}</td>
+                                        	</tr>
+										</c:forEach>
                                     </tbody>
                                 </table>
                             </div>
@@ -296,7 +282,7 @@ function idDupliChk(id) {
                 <footer class="py-4 bg-light mt-auto">
                     <div class="container-fluid px-4">
                         <div class="d-flex align-items-center justify-content-between small">
-                            <div class="text-muted">Copyright &copy; Your Website 2022</div>
+                            <div class="text-muted">Copyright &copy; HW Commander 2023</div>
                             <div>
                                 <a href="#">Privacy Policy</a>
                                 &middot;

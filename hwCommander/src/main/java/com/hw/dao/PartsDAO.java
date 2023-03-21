@@ -2,14 +2,10 @@ package com.hw.dao;
 
 import java.util.List;
 
-import com.hw.model.UserInfoVO;
+import com.hw.model.PartsGpuVO;
 
 public interface PartsDAO {
-	public Integer getIdDupliChkCount(String id);
-	public Integer insertUserInfo(UserInfoVO userInfoVO);
-	public Integer updateMailKey(UserInfoVO userInfoVO);
-	public Integer updateMailConfirm(UserInfoVO userInfoVO);
-	public Integer getMailConfirmChkCount(String id);
-	public List<UserInfoVO> getIdListByMailAndMailKey(UserInfoVO userInfoVO);
-	public UserInfoVO getUserInfoByIdAndPw(UserInfoVO userInfoVO);
+	public String getPartsGpuVOMaxId();
+	public Integer insertPartsGpuVO(PartsGpuVO partsGpuVO);
+	public List<PartsGpuVO> getGpuAllList();
 }
