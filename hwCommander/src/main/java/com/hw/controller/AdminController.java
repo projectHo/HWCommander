@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hw.model.PartsCpuVO;
 import com.hw.model.PartsGpuVO;
+import com.hw.model.PartsMbVO;
+import com.hw.model.PartsRamVO;
 import com.hw.service.AdminService;
 import com.hw.service.PartsService;
 
@@ -53,46 +56,102 @@ public class AdminController {
 	
 	@RequestMapping(value = "/cpuManagement.do", method = RequestMethod.GET)
 	public String goCpuManagement(Model model) {
+		model.addAttribute("cpuList", partsService.getCpuAllList());
 		return "cpuManagement";
+	}
+	
+	@RequestMapping(value = "/cpuRegist.do", method = RequestMethod.GET)
+	public String goCpuRegist(Model model) {
+		model.addAttribute("maker_cd", adminService.getComnCdDetailList("PRT009"));
+		model.addAttribute("cpu_soc_cd", adminService.getComnCdDetailList("PRT007"));
+		return "cpuRegist";
+	}
+	
+	@RequestMapping(value = "/cpuRegistLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer cpuRegistLogic(PartsCpuVO partsCpuVO) {
+		return partsService.cpuRegistLogic(partsCpuVO);
 	}
 	
 	@RequestMapping(value = "/mbManagement.do", method = RequestMethod.GET)
 	public String goMbManagement(Model model) {
+		model.addAttribute("mbList", partsService.getMbAllList());
 		return "mbManagement";
+	}
+	
+	@RequestMapping(value = "/mbRegist.do", method = RequestMethod.GET)
+	public String goMbRegist(Model model) {
+		model.addAttribute("mled_cd", adminService.getComnCdDetailList("COM002"));
+		model.addAttribute("mmc_cd", adminService.getComnCdDetailList("PRT004"));
+		model.addAttribute("msc_cd", adminService.getComnCdDetailList("PRT005"));
+		model.addAttribute("mbas_cd", adminService.getComnCdDetailList("PRT006"));
+		model.addAttribute("cpu_soc_cd", adminService.getComnCdDetailList("PRT007"));
+		model.addAttribute("mem_soc_cd", adminService.getComnCdDetailList("PRT024"));
+		model.addAttribute("scs_cd", adminService.getComnCdDetailList("PRT008"));
+		return "mbRegist";
+	}
+	
+	@RequestMapping(value = "/mbRegistLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer mbRegistLogic(PartsMbVO partsMbVO) {
+		return partsService.mbRegistLogic(partsMbVO);
 	}
 	
 	@RequestMapping(value = "/ramManagement.do", method = RequestMethod.GET)
 	public String goRamManagement(Model model) {
+		model.addAttribute("ramList", partsService.getRamAllList());
 		return "ramManagement";
+	}
+	
+	@RequestMapping(value = "/ramRegist.do", method = RequestMethod.GET)
+	public String goRamRegist(Model model) {
+		model.addAttribute("rled_cd", adminService.getComnCdDetailList("COM002"));
+		model.addAttribute("rmc_cd", adminService.getComnCdDetailList("PRT010"));
+		model.addAttribute("rsc_cd", adminService.getComnCdDetailList("PRT011"));
+		model.addAttribute("pr_cd", adminService.getComnCdDetailList("PRT012"));
+		model.addAttribute("mem_soc_cd", adminService.getComnCdDetailList("PRT024"));
+		return "ramRegist";
+	}
+	
+	@RequestMapping(value = "/ramRegistLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer ramRegistLogic(PartsRamVO partsRamVO) {
+		return partsService.ramRegistLogic(partsRamVO);
 	}
 	
 	@RequestMapping(value = "/psuManagement.do", method = RequestMethod.GET)
 	public String goPsuManagement(Model model) {
+		model.addAttribute("psuList", partsService.getPsuAllList());
 		return "psuManagement";
 	}
 
 	@RequestMapping(value = "/caseManagement.do", method = RequestMethod.GET)
 	public String goCaseManagement(Model model) {
+		model.addAttribute("caseList", partsService.getCaseAllList());
 		return "caseManagement";
 	}
 	
 	@RequestMapping(value = "/coolerManagement.do", method = RequestMethod.GET)
 	public String goCoolerManagement(Model model) {
+		model.addAttribute("coolerList", partsService.getCoolerAllList());
 		return "coolerManagement";
 	}
 	
 	@RequestMapping(value = "/hddManagement.do", method = RequestMethod.GET)
 	public String goHddManagement(Model model) {
+		model.addAttribute("hddList", partsService.getHddAllList());
 		return "hddManagement";
 	}
 	
 	@RequestMapping(value = "/ssdManagement.do", method = RequestMethod.GET)
 	public String goSsdManagement(Model model) {
+		model.addAttribute("ssdList", partsService.getSsdAllList());
 		return "ssdManagement";
 	}
 	
 	@RequestMapping(value = "/sfManagement.do", method = RequestMethod.GET)
 	public String goSfManagement(Model model) {
+		model.addAttribute("sfList", partsService.getSfAllList());
 		return "sfManagement";
 	}
 }

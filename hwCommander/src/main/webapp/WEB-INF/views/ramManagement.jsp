@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - adminPage</title>
+<title>현우의 컴퓨터 공방 - RAM</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <!-- Bootstrap CSS -->
@@ -225,14 +225,56 @@ function idDupliChk(id) {
             <div id="layoutSidenav_content">
 				<main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">gggg pppp uuuu</h1>
+                        <h1 class="mt-4">RAM</h1>
                         <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item"><a href="main.do">Admin Page</li>
-                            <li class="breadcrumb-item active">GPU</li>
+                            <li class="breadcrumb-item"><a href="main.do">Admin Page</a></li>
+                            <li class="breadcrumb-item active">RAM</li>
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                                <p class="mb-0">이 페이지는 <code>관리자</code> 전용 페이지이며 일반 사용자는 접근할 수 없습니다.</p>
+                                RAM를 관리합니다. 조회, 추가, 수정 작업을 할 수 있습니다.
+                            </div>
+                        </div>
+                        <div class="card mb-4">
+                            <div class="card-header">
+                                Search RAM
+				                <a class="float-end" href="ramRegist.do">등록</a>
+                            </div>
+                            <div class="card-body">
+                                <table id="datatablesSimple">
+                                    <thead>
+                                        <tr>
+                                            <th>parts name</th>
+                                            <th>parts price</th>
+                                            <th>RLED</th>
+                                            <th>RMC</th>
+                                            <th>RSC</th>
+                                            <th>PR</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                        <tr>
+                                            <th>parts name</th>
+                                            <th>parts price</th>
+                                            <th>RLED</th>
+                                            <th>RMC</th>
+                                            <th>RSC</th>
+                                            <th>PR</th>
+                                        </tr>
+                                    </tfoot>
+                                    <tbody>
+										<c:forEach var="item" items="${ramList}">
+											<tr>
+	                                            <td>${item.partsName}</td>
+	                                            <td>${item.partsPrice}</td>
+	                                            <td>${item.rledCdNm}</td>
+	                                            <td>${item.rmcCdNm}</td>
+	                                            <td>${item.rscCdNm}</td>
+	                                            <td>${item.prCdNm}</td>
+                                        	</tr>
+										</c:forEach>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>

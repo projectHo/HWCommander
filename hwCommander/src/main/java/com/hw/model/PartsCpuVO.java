@@ -11,9 +11,11 @@ public class PartsCpuVO {
 	private int partsPrice;
 	private int csv;
 	private String makerCd;
+	private String makerCdNm;
 	private int thermal;
 	private int bn;
 	private String cpuSocCd;
+	private String cpuSocCdNm;
 	private float vrmRange;
 	private int ddr4MaxRange;
 	private int ddr5MaxRange;

@@ -1,8 +1,9 @@
+
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - GPU Regist</title>
+<title>현우의 컴퓨터 공방 - MB Regist</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <!-- Bootstrap CSS -->
@@ -21,20 +22,20 @@
 <script>
 
     $(function(){
-        $('#btn_gpu_regist').on("click", function () {
+        $('#btn_mb_regist').on("click", function () {
         	if(!validationCheck()) {
         		return false;
         	}
-        	goGpuRegist();
+        	goMbRegist();
         });
     });
     
-function goGpuRegist() {
-    var form = $("#gpu_regist_form").serialize();
+function goMbRegist() {
+    var form = $("#mb_regist_form").serialize();
     
     $.ajax({
         type: "post",
-        url: "/admin/gpuRegistLogic.do",
+        url: "/admin/mbRegistLogic.do",
         data: form,
         dataType: 'json',
         success: function (data) {
@@ -43,7 +44,7 @@ function goGpuRegist() {
         	}else {
         		alert("등록실패");
         	}
-        	window.location = "gpuManagement.do";
+        	window.location = "mbManagement.do";
             console.log(data);
         }
     });
@@ -195,20 +196,20 @@ function idDupliChk(id) {
             <div id="layoutSidenav_content">
 				<main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">GPU Regist</h1>
+                        <h1 class="mt-4">MB Regist</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="main.do">Admin Page</a></li>
-                            <li class="breadcrumb-item"><a href="gpuManagement.do">GPU</a></li>
-                            <li class="breadcrumb-item active">GPU Regist</li>
+                            <li class="breadcrumb-item"><a href="mbManagement.do">MB</a></li>
+                            <li class="breadcrumb-item active">MB Regist</li>
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                                GPU를  등록합니다.
+                                MB를  등록합니다.
                             </div>
                         </div>
                         <div class="card mb-4">
 							<div class="card-body">
-                               <form id="gpu_regist_form">
+                               <form id="mb_regist_form">
                                    <div class="form-floating mb-3">
                                        <input class="form-control" id="partsName" name="partsName" type="text" placeholder="Enter partsName"/>
                                        <label for="partsName">parts Name</label>
@@ -223,68 +224,35 @@ function idDupliChk(id) {
                                        </div>
                                        <div class="col-md-3">
                                            <div class="form-floating">
-												<select class="form-select pt-4" id="gledCd" name="gledCd">
+												<select class="form-select pt-4" id="mledCd" name="mledCd">
 												  <option selected>-선택-</option>
-												  <c:forEach var="item" items="${gled_cd}">
+												  <c:forEach var="item" items="${mled_cd}">
 													  <option value="${item.cd}">${item.nm}</option>
 												  </c:forEach>
 												</select>
-												<label for="gledCd">GLED</label>
+												<label for="mledCd">MLED</label>
                                            </div>
                                        </div>
                                        <div class="col-md-3">
                                            <div class="form-floating">
-		                                       <input class="form-control" id="gn" name="gn" type="text" placeholder="Enter gn"/>
-		                                       <label for="gn">GN</label>
-                                           </div>
-                                       </div>
-                                       <div class="col-md-3">
-                                           <div class="form-floating">
-												<select class="form-select pt-4" id="gmcCd" name="gmcCd">
+												<select class="form-select pt-4" id="mmcCd" name="mmcCd">
 												  <option selected>-선택-</option>
-												  <c:forEach var="item" items="${gmc_cd}">
+												  <c:forEach var="item" items="${mmc_cd}">
 													  <option value="${item.cd}">${item.nm}</option>
 												  </c:forEach>
 												</select>
-												<label for="gmcCd">GMC</label>
+												<label for="mmcCd">MMC</label>
                                            </div>
                                        </div>
-
-                                   </div>
-                                   
-                                   <div class="row mb-3">
                                        <div class="col-md-3">
                                            <div class="form-floating">
-												<select class="form-select pt-4" id="gscCd" name="gscCd">
+												<select class="form-select pt-4" id="mscCd" name="mscCd">
 												  <option selected>-선택-</option>
-												  <c:forEach var="item" items="${gsc_cd}">
+												  <c:forEach var="item" items="${msc_cd}">
 													  <option value="${item.cd}">${item.nm}</option>
 												  </c:forEach>
 												</select>
-												<label for="gscCd">GSC</label>
-                                           </div>
-                                       </div>
-                                       <div class="col-md-3">
-                                           <div class="form-floating mb-3 mb-md-0">
-                                               <input class="form-control" id="gsv" name="gsv" type="text" placeholder="Enter gsv" />
-                                               <label for="gsv">GSV</label>
-                                           </div>
-                                       </div>
-                                       <div class="col-md-3">
-                                           <div class="form-floating">
-												<select class="form-select pt-4" id="gpuasCd" name="gpuasCd">
-												  <option selected>-선택-</option>
-												  <c:forEach var="item" items="${gpuas_cd}">
-													  <option value="${item.cd}">${item.nm}</option>
-												  </c:forEach>
-												</select>
-												<label for="gpuasCd">GPUAS</label>
-                                           </div>
-                                       </div>
-                                       <div class="col-md-3">
-                                           <div class="form-floating">
-                                               <input class="form-control" id="qc" name="qc" type="text" placeholder="Enter qc" />
-                                               <label for="qc">QC</label>
+												<label for="mscCd">MSC</label>
                                            </div>
                                        </div>
                                    </div>
@@ -292,38 +260,100 @@ function idDupliChk(id) {
                                    <div class="row mb-3">
                                        <div class="col-md-3">
                                            <div class="form-floating">
-                                               <input class="form-control" id="tdp" name="tdp" type="text" placeholder="Enter tdp" />
-                                               <label for="tdp">TDP</label>
+												<select class="form-select pt-4" id="mbasCd" name="mbasCd">
+												  <option selected>-선택-</option>
+												  <c:forEach var="item" items="${mbas_cd}">
+													  <option value="${item.cd}">${item.nm}</option>
+												  </c:forEach>
+												</select>
+												<label for="mbasCd">MBAS</label>
                                            </div>
                                        </div>
                                        <div class="col-md-3">
                                            <div class="form-floating mb-3 mb-md-0">
-                                               <input class="form-control" id="bn" name="bn" type="text" placeholder="Enter bn" />
-                                               <label for="bn">BN</label>
+                                               <input class="form-control" id="port" name="port" type="text" placeholder="Enter port" />
+                                               <label for="port">PORT</label>
                                            </div>
                                        </div>
-                                       <div class="col-md-2">
-                                           <div class="form-floating">
-                                               <input class="form-control" id="il" name="il" type="text" placeholder="Enter il" />
-                                               <label for="il">IL</label>
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0">
+                                               <input class="form-control" id="scal" name="scal" type="text" placeholder="Enter scal" />
+                                               <label for="scal">SCAL</label>
                                            </div>
                                        </div>
-                                       <div class="col-md-2">
-                                           <div class="form-floating">
-                                               <input class="form-control" id="gpl" name="gpl" type="text" placeholder="Enter gpl" />
-                                               <label for="gpl">GPL</label>
-                                           </div>
-                                       </div>
-                                       <div class="col-md-2">
-                                           <div class="form-floating">
-                                               <input class="form-control" id="twelvePin" name="twelvePin" type="text" placeholder="Enter twelvePin" />
-                                               <label for="twelvePin">12PIN</label>
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0">
+                                               <input class="form-control" id="bios" name="bios" type="text" placeholder="Enter bios" />
+                                               <label for="bios">BIOS</label>
                                            </div>
                                        </div>
                                    </div>
-
+                                   
+                                   <div class="row mb-3">
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+												<select class="form-select pt-4" id="cpuSocCd" name="cpuSocCd">
+												  <option selected>-선택-</option>
+												  <c:forEach var="item" items="${cpu_soc_cd}">
+													  <option value="${item.cd}">${item.nm}</option>
+												  </c:forEach>
+												</select>
+												<label for="cpuSocCd">CPU SOC</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0">
+                                               <input class="form-control" id="vrmRange" name="vrmRange" type="text" placeholder="Enter vrmRange" />
+                                               <label for="vrmRange">VRM Range</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+												<select class="form-select pt-4" id="memSocCd" name="memSocCd">
+												  <option selected>-선택-</option>
+												  <c:forEach var="item" items="${mem_soc_cd}">
+													  <option value="${item.cd}">${item.nm}</option>
+												  </c:forEach>
+												</select>
+												<label for="memSocCd">MEM SOC</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+												<select class="form-select pt-4" id="scsCd" name="scsCd">
+												  <option selected>-선택-</option>
+												  <c:forEach var="item" items="${scs_cd}">
+													  <option value="${item.cd}">${item.nm}</option>
+												  </c:forEach>
+												</select>
+												<label for="scsCd">SCS</label>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   
+                                   <div class="row mb-3">
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0">
+                                               <input class="form-control" id="ff" name="ff" type="text" placeholder="Enter ff" />
+                                               <label for="ff">FF</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0">
+                                               <input class="form-control" id="pl" name="pl" type="text" placeholder="Enter pl" />
+                                               <label for="pl">PL</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0">
+                                               <input class="form-control" id="sata" name="sata" type="text" placeholder="Enter sata" />
+                                               <label for="sata">SATA</label>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   
                                    <div class="mt-4 mb-0">
-                                       <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_gpu_regist">Regist</a></div>
+                                       <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_mb_regist">Regist</a></div>
                                    </div>
                                </form>
                            </div>

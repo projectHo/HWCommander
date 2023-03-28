@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - CPU</title>
+<title>현우의 컴퓨터 공방 - MB</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <!-- Bootstrap CSS -->
@@ -225,20 +225,20 @@ function idDupliChk(id) {
             <div id="layoutSidenav_content">
 				<main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">CPU</h1>
+                        <h1 class="mt-4">MB</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="main.do">Admin Page</a></li>
-                            <li class="breadcrumb-item active">CPU</li>
+                            <li class="breadcrumb-item active">MB</li>
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                                CPU를 관리합니다. 조회, 추가, 수정 작업을 할 수 있습니다.
+                                MB를 관리합니다. 조회, 추가, 수정 작업을 할 수 있습니다.
                             </div>
                         </div>
                         <div class="card mb-4">
                             <div class="card-header">
-                                Search CPU
-				                <a class="float-end" href="cpuRegist.do">등록</a>
+                                Search MB
+				                <a class="float-end" href="mbRegist.do">등록</a>
                             </div>
                             <div class="card-body">
                                 <table id="datatablesSimple">
@@ -246,25 +246,31 @@ function idDupliChk(id) {
                                         <tr>
                                             <th>parts name</th>
                                             <th>parts price</th>
-                                            <th>I/A</th>
-                                            <th>CPU SOC</th>
+                                            <th>MLED</th>
+                                            <th>MMC</th>
+                                            <th>MSC</th>
+                                            <th>MBAS</th>
                                         </tr>
                                     </thead>
                                     <tfoot>
                                         <tr>
                                             <th>parts name</th>
                                             <th>parts price</th>
-                                            <th>I/A</th>
-                                            <th>CPU SOC</th>
+                                            <th>MLED</th>
+                                            <th>MMC</th>
+                                            <th>MSC</th>
+                                            <th>MBAS</th>
                                         </tr>
                                     </tfoot>
                                     <tbody>
-										<c:forEach var="item" items="${cpuList}">
+										<c:forEach var="item" items="${mbList}">
 											<tr>
 	                                            <td>${item.partsName}</td>
 	                                            <td>${item.partsPrice}</td>
-	                                            <td>${item.makerCdNm}</td>
-	                                            <td>${item.cpuSocCdNm}</td>
+	                                            <td>${item.mledCdNm}</td>
+	                                            <td>${item.mmcCdNm}</td>
+	                                            <td>${item.mscCdNm}</td>
+	                                            <td>${item.mbasCdNm}</td>
                                         	</tr>
 										</c:forEach>
                                     </tbody>

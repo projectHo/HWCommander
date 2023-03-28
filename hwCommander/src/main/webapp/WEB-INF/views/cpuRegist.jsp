@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - CPU</title>
+<title>현우의 컴퓨터 공방 - CPU Regist</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <!-- Bootstrap CSS -->
@@ -20,66 +20,37 @@
         
 <script>
 
-var targetId = null;
-
     $(function(){
-        $('#btn_signUp').on("click", function () {
+        $('#btn_cpu_regist').on("click", function () {
         	if(!validationCheck()) {
         		return false;
         	}
-        	goSignUp();
-        });
-        
-        // id 중복확인
-        $('#btn_id_dupli_chk').on("click", function () {
-        	idDupliChk($('#id').val().trim());
-        });
-        
-        // 이메일인증
-        /*
-        $('#btn_email_chk').on("click", function () {
-        	alert("이메일인증해~");
-        	return false;
-        	
-        });
-        */
-        
-        // 주소찾기
-        $('#btn_addr_search').on("click", function () {
-        	alert("주소찾아~");
-        	return false;
-        	
-        });
-        
-        // 핸드폰인증
-        $('#btn_hpNumber_chk').on("click", function () {
-        	alert("핸드폰인증해");
-        	return false;
-        	
+        	goCpuRegist();
         });
     });
     
-function goSignUp() {
-    var form = $("#signUp_form").serialize();
+function goCpuRegist() {
+    var form = $("#cpu_regist_form").serialize();
     
     $.ajax({
         type: "post",
-        url: "/user/signUpLogic.do",
+        url: "/admin/cpuRegistLogic.do",
         data: form,
         dataType: 'json',
         success: function (data) {
         	if(data == 1) {
-        		alert("회원가입이 완료되었습니다.\n이메일 인증 후 이용해주세요.");
+        		alert("등록완료");
         	}else {
-        		alert("회원가입이 정상적으로 처리되지 않았습니다.\n고객센터로 문의해주세요.");
+        		alert("등록실패");
         	}
-        	window.location = "/";
+        	window.location = "cpuManagement.do";
             console.log(data);
         }
     });
 }
 
 function validationCheck() {
+	/*
 	if($('#id').val().trim() == "") {
 		alert("아이디를 입력하세요");
 		return false;
@@ -124,8 +95,7 @@ function validationCheck() {
 		alert("이메일을 입력하세요.");
 		return false;
 	}
-	
-	//todo wonho validation check 추가해야함. maxlength 라던가 생년월일, 이메일, 주소 등 정규식코드라던가..
+	*/
 	
 	return true;
 }
@@ -225,51 +195,100 @@ function idDupliChk(id) {
             <div id="layoutSidenav_content">
 				<main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">CPU</h1>
+                        <h1 class="mt-4">CPU Regist</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="main.do">Admin Page</a></li>
-                            <li class="breadcrumb-item active">CPU</li>
+                            <li class="breadcrumb-item"><a href="cpuManagement.do">CPU</a></li>
+                            <li class="breadcrumb-item active">CPU Regist</li>
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                                CPU를 관리합니다. 조회, 추가, 수정 작업을 할 수 있습니다.
+                                CPU를  등록합니다.
                             </div>
                         </div>
                         <div class="card mb-4">
-                            <div class="card-header">
-                                Search CPU
-				                <a class="float-end" href="cpuRegist.do">등록</a>
-                            </div>
-                            <div class="card-body">
-                                <table id="datatablesSimple">
-                                    <thead>
-                                        <tr>
-                                            <th>parts name</th>
-                                            <th>parts price</th>
-                                            <th>I/A</th>
-                                            <th>CPU SOC</th>
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>parts name</th>
-                                            <th>parts price</th>
-                                            <th>I/A</th>
-                                            <th>CPU SOC</th>
-                                        </tr>
-                                    </tfoot>
-                                    <tbody>
-										<c:forEach var="item" items="${cpuList}">
-											<tr>
-	                                            <td>${item.partsName}</td>
-	                                            <td>${item.partsPrice}</td>
-	                                            <td>${item.makerCdNm}</td>
-	                                            <td>${item.cpuSocCdNm}</td>
-                                        	</tr>
-										</c:forEach>
-                                    </tbody>
-                                </table>
-                            </div>
+							<div class="card-body">
+                               <form id="cpu_regist_form">
+                                   <div class="form-floating mb-3">
+                                       <input class="form-control" id="partsName" name="partsName" type="text" placeholder="Enter partsName"/>
+                                       <label for="partsName">parts Name</label>
+                                   </div>
+                                   
+                                   <div class="row mb-3">
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0">
+                                               <input class="form-control" id="partsPrice" name="partsPrice" type="text" placeholder="Enter partsPrice" />
+                                               <label for="partsPrice">parts Price</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+		                                       <input class="form-control" id="csv" name="csv" type="text" placeholder="Enter csv"/>
+		                                       <label for="csv">CSV</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+												<select class="form-select pt-4" id="makerCd" name="makerCd">
+												  <option selected>-선택-</option>
+												  <c:forEach var="item" items="${maker_cd}">
+													  <option value="${item.cd}">${item.nm}</option>
+												  </c:forEach>
+												</select>
+												<label for="makerCd">I/A</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+		                                       <input class="form-control" id="thermal" name="thermal" type="text" placeholder="Enter thermal"/>
+		                                       <label for="thermal">Thermal</label>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   
+                                   <div class="row mb-3">
+                                       <div class="col-md-2">
+                                           <div class="form-floating">
+                                               <input class="form-control" id="bn" name="bn" type="text" placeholder="Enter bn" />
+                                               <label for="bn">BN</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-2">
+                                           <div class="form-floating">
+												<select class="form-select pt-4" id="cpuSocCd" name="cpuSocCd">
+												  <option selected>-선택-</option>
+												  <c:forEach var="item" items="${cpu_soc_cd}">
+													  <option value="${item.cd}">${item.nm}</option>
+												  </c:forEach>
+												</select>
+												<label for="cpuSocCd">CPU SOC</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-2">
+                                           <div class="form-floating">
+                                               <input class="form-control" id="vrmRange" name="vrmRange" type="text" placeholder="Enter vrmRange" />
+                                               <label for="vrmRange">VRM Range</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+                                               <input class="form-control" id="ddr4MaxRange" name="ddr4MaxRange" type="text" placeholder="Enter ddr4MaxRange" />
+                                               <label for="ddr4MaxRange">DDR4 MAX Range</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+                                               <input class="form-control" id="ddr5MaxRange" name="ddr5MaxRange" type="text" placeholder="Enter ddr5MaxRange" />
+                                               <label for="ddr5MaxRange">DDR5 MAX Range</label>
+                                           </div>
+                                       </div>
+                                   </div>
+
+                                   <div class="mt-4 mb-0">
+                                       <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_cpu_regist">Regist</a></div>
+                                   </div>
+                               </form>
+                           </div>
                         </div>
                     </div>
                 </main>

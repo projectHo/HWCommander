@@ -10,12 +10,17 @@ public class PartsRamVO {
 	private String partsName;
 	private int partsPrice;
 	private String rledCd;
+	private String rledCdNm;
 	private String rmcCd;
+	private String rmcCdNm;
 	private String rscCd;
+	private String rscCdNm;
 	private int cl;
 	private float lt;
 	private String prCd;
+	private String prCdNm;
 	private String memSocCd;
+	private String memSocCdNm;
 	private int ddr4MaxRange;
 	private int ddr5MaxRange;
 	private String partsImage;

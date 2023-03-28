@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - CPU</title>
+<title>현우의 컴퓨터 공방 - RAM Regist</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <!-- Bootstrap CSS -->
@@ -20,66 +20,37 @@
         
 <script>
 
-var targetId = null;
-
     $(function(){
-        $('#btn_signUp').on("click", function () {
+        $('#btn_ram_regist').on("click", function () {
         	if(!validationCheck()) {
         		return false;
         	}
-        	goSignUp();
-        });
-        
-        // id 중복확인
-        $('#btn_id_dupli_chk').on("click", function () {
-        	idDupliChk($('#id').val().trim());
-        });
-        
-        // 이메일인증
-        /*
-        $('#btn_email_chk').on("click", function () {
-        	alert("이메일인증해~");
-        	return false;
-        	
-        });
-        */
-        
-        // 주소찾기
-        $('#btn_addr_search').on("click", function () {
-        	alert("주소찾아~");
-        	return false;
-        	
-        });
-        
-        // 핸드폰인증
-        $('#btn_hpNumber_chk').on("click", function () {
-        	alert("핸드폰인증해");
-        	return false;
-        	
+        	goRamRegist();
         });
     });
     
-function goSignUp() {
-    var form = $("#signUp_form").serialize();
+function goRamRegist() {
+    var form = $("#ram_regist_form").serialize();
     
     $.ajax({
         type: "post",
-        url: "/user/signUpLogic.do",
+        url: "/admin/ramRegistLogic.do",
         data: form,
         dataType: 'json',
         success: function (data) {
         	if(data == 1) {
-        		alert("회원가입이 완료되었습니다.\n이메일 인증 후 이용해주세요.");
+        		alert("등록완료");
         	}else {
-        		alert("회원가입이 정상적으로 처리되지 않았습니다.\n고객센터로 문의해주세요.");
+        		alert("등록실패");
         	}
-        	window.location = "/";
+        	window.location = "ramManagement.do";
             console.log(data);
         }
     });
 }
 
 function validationCheck() {
+	/*
 	if($('#id').val().trim() == "") {
 		alert("아이디를 입력하세요");
 		return false;
@@ -124,8 +95,7 @@ function validationCheck() {
 		alert("이메일을 입력하세요.");
 		return false;
 	}
-	
-	//todo wonho validation check 추가해야함. maxlength 라던가 생년월일, 이메일, 주소 등 정규식코드라던가..
+	*/
 	
 	return true;
 }
@@ -225,51 +195,127 @@ function idDupliChk(id) {
             <div id="layoutSidenav_content">
 				<main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">CPU</h1>
+                        <h1 class="mt-4">RAM Regist</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="main.do">Admin Page</a></li>
-                            <li class="breadcrumb-item active">CPU</li>
+                            <li class="breadcrumb-item"><a href="ramManagement.do">RAM</a></li>
+                            <li class="breadcrumb-item active">RAM Regist</li>
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                                CPU를 관리합니다. 조회, 추가, 수정 작업을 할 수 있습니다.
+                                RAM를  등록합니다.
                             </div>
                         </div>
                         <div class="card mb-4">
-                            <div class="card-header">
-                                Search CPU
-				                <a class="float-end" href="cpuRegist.do">등록</a>
-                            </div>
-                            <div class="card-body">
-                                <table id="datatablesSimple">
-                                    <thead>
-                                        <tr>
-                                            <th>parts name</th>
-                                            <th>parts price</th>
-                                            <th>I/A</th>
-                                            <th>CPU SOC</th>
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>parts name</th>
-                                            <th>parts price</th>
-                                            <th>I/A</th>
-                                            <th>CPU SOC</th>
-                                        </tr>
-                                    </tfoot>
-                                    <tbody>
-										<c:forEach var="item" items="${cpuList}">
-											<tr>
-	                                            <td>${item.partsName}</td>
-	                                            <td>${item.partsPrice}</td>
-	                                            <td>${item.makerCdNm}</td>
-	                                            <td>${item.cpuSocCdNm}</td>
-                                        	</tr>
-										</c:forEach>
-                                    </tbody>
-                                </table>
-                            </div>
+							<div class="card-body">
+                               <form id="ram_regist_form">
+                                   <div class="form-floating mb-3">
+                                       <input class="form-control" id="partsName" name="partsName" type="text" placeholder="Enter partsName"/>
+                                       <label for="partsName">parts Name</label>
+                                   </div>
+                                   
+                                   <div class="row mb-3">
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0">
+                                               <input class="form-control" id="partsPrice" name="partsPrice" type="text" placeholder="Enter partsPrice" />
+                                               <label for="partsPrice">parts Price</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+												<select class="form-select pt-4" id="rledCd" name="rledCd">
+												  <option selected>-선택-</option>
+												  <c:forEach var="item" items="${rled_cd}">
+													  <option value="${item.cd}">${item.nm}</option>
+												  </c:forEach>
+												</select>
+												<label for="rledCd">RLED</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+												<select class="form-select pt-4" id="rmcCd" name="rmcCd">
+												  <option selected>-선택-</option>
+												  <c:forEach var="item" items="${rmc_cd}">
+													  <option value="${item.cd}">${item.nm}</option>
+												  </c:forEach>
+												</select>
+												<label for="rmcCd">RMC</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+												<select class="form-select pt-4" id="rscCd" name="rscCd">
+												  <option selected>-선택-</option>
+												  <c:forEach var="item" items="${rsc_cd}">
+													  <option value="${item.cd}">${item.nm}</option>
+												  </c:forEach>
+												</select>
+												<label for="rscCd">RSC</label>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   
+                                   <!-- 2 -->
+                                   <div class="row mb-3">
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0">
+                                               <input class="form-control" id="cl" name="cl" type="text" placeholder="Enter cl" />
+                                               <label for="cl">CL</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0">
+                                               <input class="form-control" id="lt" name="lt" type="text" placeholder="Enter lt" />
+                                               <label for="lt">LT</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+												<select class="form-select pt-4" id="prCd" name="prCd">
+												  <option selected>-선택-</option>
+												  <c:forEach var="item" items="${pr_cd}">
+													  <option value="${item.cd}">${item.nm}</option>
+												  </c:forEach>
+												</select>
+												<label for="prCd">PR</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+												<select class="form-select pt-4" id="memSocCd" name="memSocCd">
+												  <option selected>-선택-</option>
+												  <c:forEach var="item" items="${mem_soc_cd}">
+													  <option value="${item.cd}">${item.nm}</option>
+												  </c:forEach>
+												</select>
+												<label for="memSocCd">MEM SOC</label>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   
+                                   <!-- 3 -->
+                                   <div class="row mb-3">
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0">
+                                               <input class="form-control" id="ddr4MaxRange" name="ddr4MaxRange" type="text" placeholder="Enter ddr4MaxRange" />
+                                               <label for="ddr4MaxRange">DDR4 MAX Range</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0">
+                                               <input class="form-control" id="ddr5MaxRange" name="ddr5MaxRange" type="text" placeholder="Enter ddr5MaxRange" />
+                                               <label for="ddr5MaxRange">DDR5 MAX Range</label>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   
+
+                                   <div class="mt-4 mb-0">
+                                       <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_ram_regist">Regist</a></div>
+                                   </div>
+                               </form>
+                           </div>
                         </div>
                     </div>
                 </main>
