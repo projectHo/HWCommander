@@ -10,10 +10,15 @@ public class PartsCaseVO {
 	private String partsName;
 	private int partsPrice;
 	private String cledCd;
+	private String cledCdNm;
 	private String cmCd;
+	private String cmCdNm;
 	private String cmcCd;
+	private String cmcCdNm;
 	private String cscCd;
+	private String cscCdNm;
 	private String caseasCd;
+	private String caseasCdNm;
 	private float adap;
 	private float cool;
 	private float end;

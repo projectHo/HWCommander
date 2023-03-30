@@ -10,7 +10,9 @@ public class PartsPsuVO {
 	private String partsName;
 	private int partsPrice;
 	private String pmcCd;
+	private String pmcCdNm;
 	private String pscCd;
+	private String pscCdNm;
 	private float std;
 	private float psuas;
 	private float pfm;

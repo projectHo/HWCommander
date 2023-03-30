@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - CASE</title>
+<title>현우의 컴퓨터 공방 - PSU Regist</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <!-- Bootstrap CSS -->
@@ -20,66 +20,37 @@
         
 <script>
 
-var targetId = null;
-
     $(function(){
-        $('#btn_signUp').on("click", function () {
+        $('#btn_psu_regist').on("click", function () {
         	if(!validationCheck()) {
         		return false;
         	}
-        	goSignUp();
-        });
-        
-        // id 중복확인
-        $('#btn_id_dupli_chk').on("click", function () {
-        	idDupliChk($('#id').val().trim());
-        });
-        
-        // 이메일인증
-        /*
-        $('#btn_email_chk').on("click", function () {
-        	alert("이메일인증해~");
-        	return false;
-        	
-        });
-        */
-        
-        // 주소찾기
-        $('#btn_addr_search').on("click", function () {
-        	alert("주소찾아~");
-        	return false;
-        	
-        });
-        
-        // 핸드폰인증
-        $('#btn_hpNumber_chk').on("click", function () {
-        	alert("핸드폰인증해");
-        	return false;
-        	
+        	goPsuRegist();
         });
     });
     
-function goSignUp() {
-    var form = $("#signUp_form").serialize();
+function goPsuRegist() {
+    var form = $("#psu_regist_form").serialize();
     
     $.ajax({
         type: "post",
-        url: "/user/signUpLogic.do",
+        url: "/admin/psuRegistLogic.do",
         data: form,
         dataType: 'json',
         success: function (data) {
         	if(data == 1) {
-        		alert("회원가입이 완료되었습니다.\n이메일 인증 후 이용해주세요.");
+        		alert("등록완료");
         	}else {
-        		alert("회원가입이 정상적으로 처리되지 않았습니다.\n고객센터로 문의해주세요.");
+        		alert("등록실패");
         	}
-        	window.location = "/";
+        	window.location = "psuManagement.do";
             console.log(data);
         }
     });
 }
 
 function validationCheck() {
+	/*
 	if($('#id').val().trim() == "") {
 		alert("아이디를 입력하세요");
 		return false;
@@ -124,8 +95,7 @@ function validationCheck() {
 		alert("이메일을 입력하세요.");
 		return false;
 	}
-	
-	//todo wonho validation check 추가해야함. maxlength 라던가 생년월일, 이메일, 주소 등 정규식코드라던가..
+	*/
 	
 	return true;
 }
@@ -225,60 +195,116 @@ function idDupliChk(id) {
             <div id="layoutSidenav_content">
 				<main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">CASE</h1>
+                        <h1 class="mt-4">PSU Regist</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="main.do">Admin Page</a></li>
-                            <li class="breadcrumb-item active">CASE</li>
+                            <li class="breadcrumb-item"><a href="psuManagement.do">PSU</a></li>
+                            <li class="breadcrumb-item active">PSU Regist</li>
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                                CASE를 관리합니다. 조회, 추가, 수정 작업을 할 수 있습니다.
+                                PSU를  등록합니다.
                             </div>
                         </div>
                         <div class="card mb-4">
-                            <div class="card-header">
-                                Search CASE
-				                <a class="float-end" href="caseRegist.do">등록</a>
-                            </div>
-                            <div class="card-body">
-                                <table id="datatablesSimple">
-                                    <thead>
-                                        <tr>
-                                            <th>parts name</th>
-                                            <th>parts price</th>
-                                            <th>CLED</th>
-                                            <th>CM</th>
-                                            <th>CMC</th>
-                                            <th>CSC</th>
-                                            <th>CASEAS</th>
-                                        </tr>
-                                    </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>parts name</th>
-                                            <th>parts price</th>
-                                            <th>CLED</th>
-                                            <th>CM</th>
-                                            <th>CMC</th>
-                                            <th>CSC</th>
-                                            <th>CASEAS</th>
-                                        </tr>
-                                    </tfoot>
-                                    <tbody>
-										<c:forEach var="item" items="${caseList}">
-											<tr>
-	                                            <td>${item.partsName}</td>
-	                                            <td>${item.partsPrice}</td>
-	                                            <td>${item.cledCdNm}</td>
-	                                            <td>${item.cmCdNm}</td>
-	                                            <td>${item.cmcCdNm}</td>
-	                                            <td>${item.cscCdNm}</td>
-	                                            <td>${item.caseasCdNm}</td>
-                                        	</tr>
-										</c:forEach>
-                                    </tbody>
-                                </table>
-                            </div>
+							<div class="card-body">
+                               <form id="psu_regist_form">
+                                   <div class="form-floating mb-3">
+                                       <input class="form-control" id="partsName" name="partsName" type="text" placeholder="Enter partsName"/>
+                                       <label for="partsName">parts Name</label>
+                                   </div>
+                                   
+                                   <div class="row mb-3">
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0">
+                                               <input class="form-control" id="partsPrice" name="partsPrice" type="text" placeholder="Enter partsPrice" />
+                                               <label for="partsPrice">parts Price</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+												<select class="form-select pt-4" id="pmcCd" name="pmcCd">
+												  <option selected>-선택-</option>
+												  <c:forEach var="item" items="${pmc_cd}">
+													  <option value="${item.cd}">${item.nm}</option>
+												  </c:forEach>
+												</select>
+												<label for="pmcCd">PMC</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+												<select class="form-select pt-4" id="pscCd" name="pscCd">
+												  <option selected>-선택-</option>
+												  <c:forEach var="item" items="${psc_cd}">
+													  <option value="${item.cd}">${item.nm}</option>
+												  </c:forEach>
+												</select>
+												<label for="pscCd">PSC</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0">
+                                               <input class="form-control" id="std" name="std" type="text" placeholder="Enter std" />
+                                               <label for="std">STD</label>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   
+                                   <div class="row mb-3">
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0">
+                                               <input class="form-control" id="psuas" name="psuas" type="text" placeholder="Enter psuas" />
+                                               <label for="psuas">PSUAS</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0">
+                                               <input class="form-control" id="pfm" name="pfm" type="text" placeholder="Enter pfm" />
+                                               <label for="pfm">PFM</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0">
+                                               <input class="form-control" id="sft" name="sft" type="text" placeholder="Enter sft" />
+                                               <label for="sft">SFT</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0">
+                                               <input class="form-control" id="tdp" name="tdp" type="text" placeholder="Enter tdp" />
+                                               <label for="tdp">TDP</label>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   
+                                   <div class="row mb-3">
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0">
+                                               <input class="form-control" id="pl" name="pl" type="text" placeholder="Enter pl" />
+                                               <label for="pl">PL</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0">
+                                               <input class="form-control" id="gpl" name="gpl" type="text" placeholder="Enter gpl" />
+                                               <label for="gpl">GPL</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0">
+                                               <input class="form-control" id="twelvePin" name="twelvePin" type="text" placeholder="Enter twelvePin" />
+                                               <label for="twelvePin">12PIN</label>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   
+
+                                   <div class="mt-4 mb-0">
+                                       <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_psu_regist">Regist</a></div>
+                                   </div>
+                               </form>
+                           </div>
                         </div>
                     </div>
                 </main>

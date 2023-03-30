@@ -300,4 +300,185 @@
 			parts_ram a;
 	</select>
 	
+	<select id="getPartsPsuVOMaxId" resultType="String">
+		SELECT CONCAT('PSU', (SELECT LPAD(NVL(MAX(SUBSTR(TRIM(id), 4)), 0)+1, 6, '0') FROM parts_psu)) AS id FROM DUAL
+	</select>
+	
+	<insert id="insertPartsPsuVO" parameterType="partsPsuVO">
+		INSERT INTO parts_psu
+		(
+			id
+			, parts_name
+			, parts_price
+			, pmc_cd
+			, psc_cd
+			, std
+			, psuas
+			, pfm
+			, sft
+			, tdp
+			, pl
+			, gpl
+			, twelve_pin
+			, parts_image
+			, reg_dtm
+			, updt_dtm
+		)
+		VALUES
+		(
+			#{id}
+			, #{partsName}
+			, #{partsPrice}
+			, #{pmcCd}
+			, #{pscCd}
+			, #{std}
+			, #{psuas}
+			, #{pfm}
+			, #{sft}
+			, #{tdp}
+			, #{pl}
+			, #{gpl}
+			, #{twelvePin}
+			, #{partsImage}
+			, NOW()
+			, #{updtDtm}
+		)
+	</insert>
+	
+	<select id="getPsuAllList" resultType="partsPsuVO">
+		SELECT 
+			a.id                                                                               AS id        
+			, a.parts_name                                                                     AS partsName 
+			, a.parts_price                                                                    AS partsPrice
+			, a.pmc_cd                                                                         AS pmcCd     
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT013' AND cd = a.pmc_cd)       AS pmcCdNm   
+			, a.psc_cd                                                                         AS pscCd     
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT014' AND cd = a.psc_cd)       AS pscCdNm   
+			, a.std                                                                            AS std       
+			, a.psuas                                                                          AS psuas     
+			, a.pfm                                                                            AS pfm       
+			, a.sft                                                                            AS sft       
+			, a.tdp                                                                            AS tdp       
+			, a.pl                                                                             AS pl        
+			, a.gpl                                                                            AS gpl       
+			, a.twelve_pin                                                                     AS twelvePin 
+			, a.parts_image                                                                    AS partsImage
+			, a.reg_dtm                                                                        AS regDtm    
+			, a.updt_dtm                                                                       AS updtDtm     
+		FROM
+			parts_psu a;
+	</select>
+	
+	<select id="getPartsCaseVOMaxId" resultType="String">
+		SELECT CONCAT('CASE', (SELECT LPAD(NVL(MAX(SUBSTR(TRIM(id), 5)), 0)+1, 6, '0') FROM parts_case)) AS id FROM DUAL
+	</select>
+	
+	<insert id="insertPartsCaseVO" parameterType="partsCaseVO">
+		INSERT INTO parts_case
+		(
+			id
+			, parts_name
+			, parts_price
+			, cled_cd
+			, cm_cd
+			, cmc_cd
+			, csc_cd
+			, caseas_cd
+			, adap
+			, cool
+			, end
+			, conv
+			, ff
+			, iw
+			, il
+			, ih
+			, it
+			, fh
+			, ft
+			, str_two_dot_five
+			, str_three_dot_five
+			, parts_image
+			, reg_dtm
+			, updt_dtm
+		)
+		VALUES
+		(
+			#{id}
+			, #{partsName}
+			, #{partsPrice}
+			, #{cledCd}
+			, #{cmCd}
+			, #{cmcCd}
+			, #{cscCd}
+			, #{caseasCd}
+			, #{adap}
+			, #{cool}
+			, #{end}
+			, #{conv}
+			, #{ff}
+			, #{iw}
+			, #{il}
+			, #{ih}
+			, #{it}
+			, #{fh}
+			, #{ft}
+			, #{strTwoDotFive}
+			, #{strThreeDotFive}
+			, #{partsImage}
+			, NOW()
+			, #{updtDtm}
+		)
+	</insert>
+	
+	<select id="getCaseAllList" resultType="partsCaseVO">
+		SELECT 
+			a.id                                                                               AS id             
+			, a.parts_name                                                                     AS partsName      
+			, a.parts_price                                                                    AS partsPrice     
+			, a.cled_cd                                                                        AS cledCd         
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'COM002' AND cd = a.cled_cd)      AS cledCdNm
+			, a.cm_cd                                                                          AS cmCd           
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT023' AND cd = a.cm_cd)        AS cmCdNm
+			, a.cmc_cd                                                                         AS cmcCd          
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT015' AND cd = a.cmc_cd)       AS cmcCdNm
+			, a.csc_cd                                                                         AS cscCd          
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT016' AND cd = a.csc_cd)       AS cscCdNm
+			, a.caseas_cd                                                                      AS caseasCd       
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT017' AND cd = a.caseas_cd)    AS caseasCdNm
+			, a.adap                                                                           AS adap           
+			, a.cool                                                                           AS cool           
+			, a.end                                                                            AS end            
+			, a.conv                                                                           AS conv           
+			, a.ff                                                                             AS ff             
+			, a.iw                                                                             AS iw             
+			, a.il                                                                             AS il             
+			, a.ih                                                                             AS ih             
+			, a.it                                                                             AS it             
+			, a.fh                                                                             AS fh             
+			, a.ft                                                                             AS ft             
+			, a.str_two_dot_five                                                               AS strTwoDotFive  
+			, a.str_three_dot_five                                                             AS strThreeDotFive
+			, a.parts_image                                                                    AS partsImage     
+			, a.reg_dtm                                                                        AS regDtm         
+			, a.updt_dtm                                                                       AS updtDtm        
+		FROM
+			parts_case a;
+	</select>
+	
+	<select id="getPartsCoolerVOMaxId" resultType="String">
+		SELECT CONCAT('COOLER', (SELECT LPAD(NVL(MAX(SUBSTR(TRIM(id), 7)), 0)+1, 6, '0') FROM parts_cooler)) AS id FROM DUAL
+	</select>
+	
+	<select id="getPartsHddVOMaxId" resultType="String">
+		SELECT CONCAT('HDD', (SELECT LPAD(NVL(MAX(SUBSTR(TRIM(id), 4)), 0)+1, 6, '0') FROM parts_hdd)) AS id FROM DUAL
+	</select>
+	
+	<select id="getPartsSsdVOMaxId" resultType="String">
+		SELECT CONCAT('SSD', (SELECT LPAD(NVL(MAX(SUBSTR(TRIM(id), 4)), 0)+1, 6, '0') FROM parts_ssd)) AS id FROM DUAL
+	</select>
+	
+	<select id="getPartsSfVOMaxId" resultType="String">
+		SELECT CONCAT('SF', (SELECT LPAD(NVL(MAX(SUBSTR(TRIM(id), 3)), 0)+1, 6, '0') FROM parts_sf)) AS id FROM DUAL
+	</select>
+	
 </mapper>

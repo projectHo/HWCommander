@@ -9,10 +9,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hw.model.PartsCaseVO;
+import com.hw.model.PartsCoolerVO;
 import com.hw.model.PartsCpuVO;
 import com.hw.model.PartsGpuVO;
+import com.hw.model.PartsHddVO;
 import com.hw.model.PartsMbVO;
+import com.hw.model.PartsPsuVO;
 import com.hw.model.PartsRamVO;
+import com.hw.model.PartsSfVO;
+import com.hw.model.PartsSsdVO;
 import com.hw.service.AdminService;
 import com.hw.service.PartsService;
 
@@ -124,11 +130,40 @@ public class AdminController {
 		model.addAttribute("psuList", partsService.getPsuAllList());
 		return "psuManagement";
 	}
+	
+	@RequestMapping(value = "/psuRegist.do", method = RequestMethod.GET)
+	public String goPsuRegist(Model model) {
+		model.addAttribute("pmc_cd", adminService.getComnCdDetailList("PRT013"));
+		model.addAttribute("psc_cd", adminService.getComnCdDetailList("PRT014"));
+		return "psuRegist";
+	}
+	
+	@RequestMapping(value = "/psuRegistLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer psuRegistLogic(PartsPsuVO partsPsuVO) {
+		return partsService.psuRegistLogic(partsPsuVO);
+	}
 
 	@RequestMapping(value = "/caseManagement.do", method = RequestMethod.GET)
 	public String goCaseManagement(Model model) {
 		model.addAttribute("caseList", partsService.getCaseAllList());
 		return "caseManagement";
+	}
+	
+	@RequestMapping(value = "/caseRegist.do", method = RequestMethod.GET)
+	public String goCaseRegist(Model model) {
+		model.addAttribute("cled_cd", adminService.getComnCdDetailList("COM002"));
+		model.addAttribute("cm_cd", adminService.getComnCdDetailList("PRT023"));
+		model.addAttribute("cmc_cd", adminService.getComnCdDetailList("PRT015"));
+		model.addAttribute("csc_cd", adminService.getComnCdDetailList("PRT016"));
+		model.addAttribute("caseas_cd", adminService.getComnCdDetailList("PRT017"));
+		return "caseRegist";
+	}
+	
+	@RequestMapping(value = "/caseRegistLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer caseRegistLogic(PartsCaseVO partsCaseVO) {
+		return partsService.caseRegistLogic(partsCaseVO);
 	}
 	
 	@RequestMapping(value = "/coolerManagement.do", method = RequestMethod.GET)
@@ -137,10 +172,36 @@ public class AdminController {
 		return "coolerManagement";
 	}
 	
+	@RequestMapping(value = "/coolerRegist.do", method = RequestMethod.GET)
+	public String goCoolerRegist(Model model) {
+		model.addAttribute("pmc_cd", adminService.getComnCdDetailList("PRT013"));
+		model.addAttribute("psc_cd", adminService.getComnCdDetailList("PRT014"));
+		return "coolerRegist";
+	}
+	
+	@RequestMapping(value = "/coolerRegistLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer coolerRegistLogic(PartsCoolerVO partsCoolerVO) {
+		return partsService.coolerRegistLogic(partsCoolerVO);
+	}
+	
 	@RequestMapping(value = "/hddManagement.do", method = RequestMethod.GET)
 	public String goHddManagement(Model model) {
 		model.addAttribute("hddList", partsService.getHddAllList());
 		return "hddManagement";
+	}
+	
+	@RequestMapping(value = "/hddRegist.do", method = RequestMethod.GET)
+	public String goHddRegist(Model model) {
+		model.addAttribute("pmc_cd", adminService.getComnCdDetailList("PRT013"));
+		model.addAttribute("psc_cd", adminService.getComnCdDetailList("PRT014"));
+		return "hddRegist";
+	}
+	
+	@RequestMapping(value = "/hddRegistLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer hddRegistLogic(PartsHddVO partsHddVO) {
+		return partsService.hddRegistLogic(partsHddVO);
 	}
 	
 	@RequestMapping(value = "/ssdManagement.do", method = RequestMethod.GET)
@@ -149,9 +210,35 @@ public class AdminController {
 		return "ssdManagement";
 	}
 	
+	@RequestMapping(value = "/ssdRegist.do", method = RequestMethod.GET)
+	public String goSsdRegist(Model model) {
+		model.addAttribute("pmc_cd", adminService.getComnCdDetailList("PRT013"));
+		model.addAttribute("psc_cd", adminService.getComnCdDetailList("PRT014"));
+		return "ssdRegist";
+	}
+	
+	@RequestMapping(value = "/ssdRegistLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer ssdRegistLogic(PartsSsdVO partsSsdVO) {
+		return partsService.ssdRegistLogic(partsSsdVO);
+	}
+	
 	@RequestMapping(value = "/sfManagement.do", method = RequestMethod.GET)
 	public String goSfManagement(Model model) {
 		model.addAttribute("sfList", partsService.getSfAllList());
 		return "sfManagement";
+	}
+	
+	@RequestMapping(value = "/sfRegist.do", method = RequestMethod.GET)
+	public String goSfRegist(Model model) {
+		model.addAttribute("pmc_cd", adminService.getComnCdDetailList("PRT013"));
+		model.addAttribute("psc_cd", adminService.getComnCdDetailList("PRT014"));
+		return "sfRegist";
+	}
+	
+	@RequestMapping(value = "/sfRegistLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer sfRegistLogic(PartsSfVO partsSfVO) {
+		return partsService.sfRegistLogic(partsSfVO);
 	}
 }
