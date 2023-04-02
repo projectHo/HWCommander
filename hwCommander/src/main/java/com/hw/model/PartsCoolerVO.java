@@ -10,9 +10,13 @@ public class PartsCoolerVO {
 	private String partsName;
 	private int partsPrice;
 	private String clledCd;
+	private String clledCdNm;
 	private String clmcCd;
+	private String clmcCdNm;
 	private String clscCd;
+	private String clscCdNm;
 	private String formulaCd;
+	private String formulaCdNm;
 	private float sta;
 	private int wcas;
 	private int acas;

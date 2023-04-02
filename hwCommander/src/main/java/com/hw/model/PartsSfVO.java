@@ -10,8 +10,11 @@ public class PartsSfVO {
 	private String partsName;
 	private int partsPrice;
 	private String fledCd;
+	private String fledCdNm;
 	private String fmcCd;
+	private String fmcCdNm;
 	private String fscCd;
+	private String fscCdNm;
 	private float fnoi;
 	private float ffm;
 	private int fh;

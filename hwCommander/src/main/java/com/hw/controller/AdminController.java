@@ -174,8 +174,10 @@ public class AdminController {
 	
 	@RequestMapping(value = "/coolerRegist.do", method = RequestMethod.GET)
 	public String goCoolerRegist(Model model) {
-		model.addAttribute("pmc_cd", adminService.getComnCdDetailList("PRT013"));
-		model.addAttribute("psc_cd", adminService.getComnCdDetailList("PRT014"));
+		model.addAttribute("clled_cd", adminService.getComnCdDetailList("COM002"));
+		model.addAttribute("clmc_cd", adminService.getComnCdDetailList("PRT018"));
+		model.addAttribute("clsc_cd", adminService.getComnCdDetailList("PRT019"));
+		model.addAttribute("formula_cd", adminService.getComnCdDetailList("PRT020"));
 		return "coolerRegist";
 	}
 	
@@ -193,8 +195,6 @@ public class AdminController {
 	
 	@RequestMapping(value = "/hddRegist.do", method = RequestMethod.GET)
 	public String goHddRegist(Model model) {
-		model.addAttribute("pmc_cd", adminService.getComnCdDetailList("PRT013"));
-		model.addAttribute("psc_cd", adminService.getComnCdDetailList("PRT014"));
 		return "hddRegist";
 	}
 	
@@ -212,8 +212,7 @@ public class AdminController {
 	
 	@RequestMapping(value = "/ssdRegist.do", method = RequestMethod.GET)
 	public String goSsdRegist(Model model) {
-		model.addAttribute("pmc_cd", adminService.getComnCdDetailList("PRT013"));
-		model.addAttribute("psc_cd", adminService.getComnCdDetailList("PRT014"));
+		model.addAttribute("scs_cd", adminService.getComnCdDetailList("PRT008"));
 		return "ssdRegist";
 	}
 	
@@ -231,8 +230,9 @@ public class AdminController {
 	
 	@RequestMapping(value = "/sfRegist.do", method = RequestMethod.GET)
 	public String goSfRegist(Model model) {
-		model.addAttribute("pmc_cd", adminService.getComnCdDetailList("PRT013"));
-		model.addAttribute("psc_cd", adminService.getComnCdDetailList("PRT014"));
+		model.addAttribute("fled_cd", adminService.getComnCdDetailList("COM002"));
+		model.addAttribute("fmc_cd", adminService.getComnCdDetailList("PRT021"));
+		model.addAttribute("fsc_cd", adminService.getComnCdDetailList("PRT022"));
 		return "sfRegist";
 	}
 	
