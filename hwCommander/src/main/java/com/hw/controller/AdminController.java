@@ -1,5 +1,7 @@
 package com.hw.controller;
 
+import java.util.List;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,8 +21,11 @@ import com.hw.model.PartsPsuVO;
 import com.hw.model.PartsRamVO;
 import com.hw.model.PartsSfVO;
 import com.hw.model.PartsSsdVO;
+import com.hw.model.ProductDetailVO;
+import com.hw.model.ProductMasterVO;
 import com.hw.service.AdminService;
 import com.hw.service.PartsService;
+import com.hw.service.ProductService;
 
 @Controller
 @RequestMapping(value="/admin")
@@ -33,6 +38,9 @@ public class AdminController {
 	
 	@Autowired
     private PartsService partsService;
+	
+	@Autowired
+    private ProductService productService;
 	
 	@RequestMapping(value = "/main.do", method = RequestMethod.GET)
 	public String goAdminPageMain(Model model) {
@@ -240,5 +248,26 @@ public class AdminController {
 	@ResponseBody
 	public Integer sfRegistLogic(PartsSfVO partsSfVO) {
 		return partsService.sfRegistLogic(partsSfVO);
+	}
+	
+	@RequestMapping(value = "/productManagement.do", method = RequestMethod.GET)
+	public String goProductManagement(Model model) {
+		model.addAttribute("sfList", partsService.getSfAllList());
+		return "productManagement";
+	}
+	
+	@RequestMapping(value = "/productRegist.do", method = RequestMethod.GET)
+	public String goProductRegist(Model model) {
+		/* todo wonho */
+		model.addAttribute("fled_cd", adminService.getComnCdDetailList("COM002"));
+		model.addAttribute("fmc_cd", adminService.getComnCdDetailList("PRT021"));
+		model.addAttribute("fsc_cd", adminService.getComnCdDetailList("PRT022"));
+		return "productRegist";
+	}
+	
+	@RequestMapping(value = "/productRegistLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer productRegistLogic(ProductMasterVO productMasterVO, List<ProductDetailVO> productDetailVOList) {
+		return productService.productRegistLogic(productMasterVO, productDetailVOList);
 	}
 }

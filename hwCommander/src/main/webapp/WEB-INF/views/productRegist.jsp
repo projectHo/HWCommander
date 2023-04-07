@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - CASE Regist</title>
+<title>현우의 컴퓨터 공방 - Product Regist</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <!-- Bootstrap CSS -->
@@ -21,20 +21,20 @@
 <script>
 
     $(function(){
-        $('#btn_case_regist').on("click", function () {
+        $('#btn_product_regist').on("click", function () {
         	if(!validationCheck()) {
         		return false;
         	}
-        	goCaseRegist();
+        	goProductRegist();
         });
     });
     
-function goCaseRegist() {
-    var form = $("#case_regist_form").serialize();
+function goProductRegist() {
+    var form = $("#product_regist_form").serialize();
     
     $.ajax({
         type: "post",
-        url: "/admin/caseRegistLogic.do",
+        url: "/admin/productRegistLogic.do",
         data: form,
         dataType: 'json',
         success: function (data) {
@@ -43,7 +43,7 @@ function goCaseRegist() {
         	}else {
         		alert("등록실패");
         	}
-        	window.location = "caseManagement.do";
+        	window.location = "productManagement.do";
             console.log(data);
         }
     });
@@ -195,100 +195,68 @@ function idDupliChk(id) {
             <div id="layoutSidenav_content">
 				<main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">CASE Regist</h1>
+                        <h1 class="mt-4">Product Regist</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="main.do">Admin Page</a></li>
-                            <li class="breadcrumb-item"><a href="caseManagement.do">CASE</a></li>
-                            <li class="breadcrumb-item active">CASE Regist</li>
+                            <li class="breadcrumb-item"><a href="productManagement.do">Product</a></li>
+                            <li class="breadcrumb-item active">Product Regist</li>
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                                CASE를  등록합니다.
+                                Product를  등록합니다.
                             </div>
                         </div>
                         <div class="card mb-4">
 							<div class="card-body">
-                               <form id="case_regist_form">
+                               <form id="product_regist_form">
                                    <div class="form-floating mb-3">
-                                       <input class="form-control" id="partsName" name="partsName" type="text" placeholder="Enter partsName"/>
-                                       <label for="partsName">parts Name</label>
+                                       <input class="form-control" id="productName" name="productName" type="text" placeholder="Enter productName"/>
+                                       <label for="productName">product Name</label>
+                                   </div>
+                                   
+                                   <div class="form-floating mb-3">
+                                       <input class="form-control" id="productDescription" name="productDescription" type="text" placeholder="Enter productDescription"/>
+                                       <label for="productDescription">product Description</label>
                                    </div>
                                    
                                    <div class="row mb-3">
                                        <div class="col-md-3">
                                            <div class="form-floating mb-3 mb-md-0">
-                                               <input class="form-control" id="partsPrice" name="partsPrice" type="text" placeholder="Enter partsPrice" />
-                                               <label for="partsPrice">parts Price</label>
+                                               <input class="form-control" id="productPrice" name="productPrice" type="text" placeholder="Enter productPrice" />
+                                               <label for="productPrice">product Price</label>
                                            </div>
                                        </div>
                                        <div class="col-md-3">
                                            <div class="form-floating">
-												<select class="form-select pt-4" id="cledCd" name="cledCd">
+												<select class="form-select pt-4" id="fledCd" name="fledCd">
 												  <option selected>-선택-</option>
-												  <c:forEach var="item" items="${cled_cd}">
+												  <c:forEach var="item" items="${fled_cd}">
 													  <option value="${item.cd}">${item.nm}</option>
 												  </c:forEach>
 												</select>
-												<label for="cledCd">CLED</label>
+												<label for="fledCd">FLED</label>
                                            </div>
                                        </div>
                                        <div class="col-md-3">
                                            <div class="form-floating">
-												<select class="form-select pt-4" id="cmCd" name="cmCd">
+												<select class="form-select pt-4" id="fmcCd" name="fmcCd">
 												  <option selected>-선택-</option>
-												  <c:forEach var="item" items="${cm_cd}">
+												  <c:forEach var="item" items="${fmc_cd}">
 													  <option value="${item.cd}">${item.nm}</option>
 												  </c:forEach>
 												</select>
-												<label for="cmCd">CM</label>
+												<label for="fmcCd">FMC</label>
                                            </div>
                                        </div>
                                        <div class="col-md-3">
                                            <div class="form-floating">
-												<select class="form-select pt-4" id="cmcCd" name="cmcCd">
+												<select class="form-select pt-4" id="fscCd" name="fscCd">
 												  <option selected>-선택-</option>
-												  <c:forEach var="item" items="${cmc_cd}">
+												  <c:forEach var="item" items="${fsc_cd}">
 													  <option value="${item.cd}">${item.nm}</option>
 												  </c:forEach>
 												</select>
-												<label for="cmcCd">CMC</label>
-                                           </div>
-                                       </div>
-                                   </div>
-                                   
-                                   <div class="row mb-3">
-                                       <div class="col-md-3">
-                                           <div class="form-floating">
-												<select class="form-select pt-4" id="cscCd" name="cscCd">
-												  <option selected>-선택-</option>
-												  <c:forEach var="item" items="${csc_cd}">
-													  <option value="${item.cd}">${item.nm}</option>
-												  </c:forEach>
-												</select>
-												<label for="cscCd">CSC</label>
-                                           </div>
-                                       </div>
-                                       <div class="col-md-3">
-                                           <div class="form-floating">
-												<select class="form-select pt-4" id="caseasCd" name="caseasCd">
-												  <option selected>-선택-</option>
-												  <c:forEach var="item" items="${caseas_cd}">
-													  <option value="${item.cd}">${item.nm}</option>
-												  </c:forEach>
-												</select>
-												<label for="caseasCd">CASEAS</label>
-                                           </div>
-                                       </div>
-                                       <div class="col-md-3">
-                                           <div class="form-floating mb-3 mb-md-0">
-                                               <input class="form-control" id="adap" name="adap" type="text" placeholder="Enter adap" />
-                                               <label for="adap">ADAP</label>
-                                           </div>
-                                       </div>
-                                       <div class="col-md-3">
-                                           <div class="form-floating mb-3 mb-md-0">
-                                               <input class="form-control" id="cool" name="cool" type="text" placeholder="Enter cool" />
-                                               <label for="cool">Cool</label>
+												<label for="fscCd">FSC</label>
                                            </div>
                                        </div>
                                    </div>
@@ -296,47 +264,14 @@ function idDupliChk(id) {
                                    <div class="row mb-3">
                                        <div class="col-md-3">
                                            <div class="form-floating mb-3 mb-md-0">
-                                               <input class="form-control" id="end" name="end" type="text" placeholder="Enter end" />
-                                               <label for="end">END</label>
+                                               <input class="form-control" id="fnoi" name="fnoi" type="text" placeholder="Enter fnoi" />
+                                               <label for="fnoi">FNOI</label>
                                            </div>
                                        </div>
                                        <div class="col-md-3">
                                            <div class="form-floating mb-3 mb-md-0">
-                                               <input class="form-control" id="conv" name="conv" type="text" placeholder="Enter conv" />
-                                               <label for="conv">CONV</label>
-                                           </div>
-                                       </div>
-                                       <div class="col-md-3">
-                                           <div class="form-floating mb-3 mb-md-0">
-                                               <input class="form-control" id="ff" name="ff" type="text" placeholder="Enter ff" />
-                                               <label for="ff">FF</label>
-                                           </div>
-                                       </div>
-                                       <div class="col-md-3">
-                                           <div class="form-floating mb-3 mb-md-0">
-                                               <input class="form-control" id="iw" name="iw" type="text" placeholder="Enter iw" />
-                                               <label for="iw">IW</label>
-                                           </div>
-                                       </div>
-                                   </div>
-                                   
-                                   <div class="row mb-3">
-                                       <div class="col-md-3">
-                                           <div class="form-floating mb-3 mb-md-0">
-                                               <input class="form-control" id="il" name="il" type="text" placeholder="Enter il" />
-                                               <label for="il">IL</label>
-                                           </div>
-                                       </div>
-                                       <div class="col-md-3">
-                                           <div class="form-floating mb-3 mb-md-0">
-                                               <input class="form-control" id="ih" name="ih" type="text" placeholder="Enter ih" />
-                                               <label for="ih">IH</label>
-                                           </div>
-                                       </div>
-                                       <div class="col-md-3">
-                                           <div class="form-floating mb-3 mb-md-0">
-                                               <input class="form-control" id="it" name="it" type="text" placeholder="Enter it" />
-                                               <label for="it">IT</label>
+                                               <input class="form-control" id="ffm" name="ffm" type="text" placeholder="Enter ffm" />
+                                               <label for="ffm">FFM</label>
                                            </div>
                                        </div>
                                        <div class="col-md-3">
@@ -345,32 +280,16 @@ function idDupliChk(id) {
                                                <label for="fh">FH</label>
                                            </div>
                                        </div>
-                                   </div>
-                                   
-                                   <div class="row mb-3">
                                        <div class="col-md-3">
                                            <div class="form-floating mb-3 mb-md-0">
                                                <input class="form-control" id="ft" name="ft" type="text" placeholder="Enter ft" />
                                                <label for="ft">FT</label>
                                            </div>
                                        </div>
-                                       <div class="col-md-3">
-                                           <div class="form-floating mb-3 mb-md-0">
-                                               <input class="form-control" id="strTwoDotFive" name="strTwoDotFive" type="text" placeholder="Enter strTwoDotFive" />
-                                               <label for="strTwoDotFive">STR 2.5</label>
-                                           </div>
-                                       </div>
-                                       <div class="col-md-3">
-                                           <div class="form-floating mb-3 mb-md-0">
-                                               <input class="form-control" id="strThreeDotFive" name="strThreeDotFive" type="text" placeholder="Enter strThreeDotFive" />
-                                               <label for="strThreeDotFive">STR 3.5</label>
-                                           </div>
-                                       </div>
                                    </div>
-                                   
 
                                    <div class="mt-4 mb-0">
-                                       <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_case_regist">Regist</a></div>
+                                       <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_product_regist">Regist</a></div>
                                    </div>
                                </form>
                            </div>

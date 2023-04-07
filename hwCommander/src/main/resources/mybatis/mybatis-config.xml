@@ -5,6 +5,7 @@
  
 <configuration>
 	<typeAliases>
+		<!-- 부품 -->
 		<typeAlias alias="partsCaseVO" type="com.hw.model.PartsCaseVO"></typeAlias>
 		<typeAlias alias="partsCoolerVO" type="com.hw.model.PartsCoolerVO"></typeAlias>
 		<typeAlias alias="partsCpuVO" type="com.hw.model.PartsCpuVO"></typeAlias>
@@ -15,6 +16,11 @@
 		<typeAlias alias="partsRamVO" type="com.hw.model.PartsRamVO"></typeAlias>
 		<typeAlias alias="partsSfVO" type="com.hw.model.PartsSfVO"></typeAlias>
 		<typeAlias alias="partsSsdVO" type="com.hw.model.PartsSsdVO"></typeAlias>
+		
+		<!-- 완본체 -->
+		<typeAlias alias="productDetailVO" type="com.hw.model.ProductDetailVO"></typeAlias>
+		<typeAlias alias="productMasterVO" type="com.hw.model.ProductMasterVO"></typeAlias>
+		
 		<typeAlias alias="userInfoVO" type="com.hw.model.UserInfoVO"></typeAlias>
       </typeAliases>
 </configuration>
