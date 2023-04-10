@@ -3,6 +3,9 @@ package com.hw.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +32,7 @@ import com.hw.model.PartsSfVO;
 import com.hw.model.PartsSsdVO;
 import com.hw.model.ProductDetailVO;
 import com.hw.model.ProductMasterVO;
+import com.hw.model.UserInfoVO;
 import com.hw.service.AdminService;
 import com.hw.service.PartsService;
 import com.hw.service.ProductService;
@@ -49,8 +53,16 @@ public class AdminController {
     private ProductService productService;
 	
 	@RequestMapping(value = "/main.do", method = RequestMethod.GET)
-	public String goAdminPageMain(Model model) {
-		return "adminPageMain";
+	public String goAdminPageMain(HttpServletRequest request, Model model) {
+		HttpSession httpSession = request.getSession();
+		
+		UserInfoVO user = (UserInfoVO) httpSession.getAttribute("loginUser");
+		
+		if(null == user || user.getUserTypeCd().equals("02")) {
+			return "redirect:/user/login.do";
+		}else {
+			return "adminPageMain";
+		}
 	}
 	
 	@RequestMapping(value = "/gpuManagement.do", method = RequestMethod.GET)
