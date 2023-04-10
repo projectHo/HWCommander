@@ -5,6 +5,9 @@
  
 <configuration>
 	<typeAliases>
+	
+		<typeAlias alias="comnCdDetailVO" type="com.hw.model.ComnCdDetailVO"></typeAlias>
+		
 		<!-- 부품 -->
 		<typeAlias alias="partsCaseVO" type="com.hw.model.PartsCaseVO"></typeAlias>
 		<typeAlias alias="partsCoolerVO" type="com.hw.model.PartsCoolerVO"></typeAlias>
