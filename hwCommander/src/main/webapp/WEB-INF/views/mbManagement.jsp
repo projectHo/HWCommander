@@ -237,8 +237,12 @@ function idDupliChk(id) {
                         </div>
                         <div class="card mb-4">
                             <div class="card-header">
-                                Search MB
-				                <a class="float-end" href="mbRegist.do">등록</a>
+								<div class="d-flex">
+								  <div class="me-auto d-flex align-items-center">Search MB</div>
+								  <div>
+								  	<a class="btn btn-secondary btn-sm" href="mbRegist.do">등록</a>
+								  </div>
+								</div>
                             </div>
                             <div class="card-body">
                                 <table id="datatablesSimple">

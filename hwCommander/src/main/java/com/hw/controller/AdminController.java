@@ -1,5 +1,6 @@
 package com.hw.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
@@ -9,8 +10,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hw.model.PartsCaseVO;
 import com.hw.model.PartsCoolerVO;
 import com.hw.model.PartsCpuVO;
@@ -252,22 +258,40 @@ public class AdminController {
 	
 	@RequestMapping(value = "/productManagement.do", method = RequestMethod.GET)
 	public String goProductManagement(Model model) {
-		model.addAttribute("sfList", partsService.getSfAllList());
+		model.addAttribute("productList", productService.getProductMasterAllList());
 		return "productManagement";
 	}
 	
 	@RequestMapping(value = "/productRegist.do", method = RequestMethod.GET)
 	public String goProductRegist(Model model) {
-		/* todo wonho */
-		model.addAttribute("fled_cd", adminService.getComnCdDetailList("COM002"));
-		model.addAttribute("fmc_cd", adminService.getComnCdDetailList("PRT021"));
-		model.addAttribute("fsc_cd", adminService.getComnCdDetailList("PRT022"));
+		model.addAttribute("parts_type_cd", adminService.getComnCdDetailList("COM003"));
+		model.addAttribute("gpuList", partsService.getGpuAllList());
+		model.addAttribute("cpuList", partsService.getCpuAllList());
+		model.addAttribute("mbList", partsService.getMbAllList());
+		model.addAttribute("ramList", partsService.getRamAllList());
+		model.addAttribute("psuList", partsService.getPsuAllList());
+		model.addAttribute("caseList", partsService.getCaseAllList());
+		model.addAttribute("coolerList", partsService.getCoolerAllList());
+		model.addAttribute("hddList", partsService.getHddAllList());
+		model.addAttribute("ssdList", partsService.getSsdAllList());
+		model.addAttribute("sfList", partsService.getSfAllList());
 		return "productRegist";
 	}
 	
 	@RequestMapping(value = "/productRegistLogic.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Integer productRegistLogic(ProductMasterVO productMasterVO, List<ProductDetailVO> productDetailVOList) {
+	public Integer productRegistLogic(
+			@RequestParam(value = "productMasterVO", required = true) String productMasterVOString
+			, @RequestParam(value = "productDetailVOList", required = true) String productDetailVOListString) throws JsonMappingException, JsonProcessingException {
+		
+		ProductMasterVO productMasterVO = new ProductMasterVO();
+		List<ProductDetailVO> productDetailVOList = new ArrayList<>();
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		
+		productMasterVO = objectMapper.readValue(productMasterVOString, ProductMasterVO.class);
+		productDetailVOList = objectMapper.readValue(productDetailVOListString, new TypeReference<List<ProductDetailVO>>() {});
+		
 		return productService.productRegistLogic(productMasterVO, productDetailVOList);
 	}
 }

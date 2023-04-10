@@ -237,8 +237,12 @@ function idDupliChk(id) {
                         </div>
                         <div class="card mb-4">
                             <div class="card-header">
-                                Search GPU
-				                <a class="float-end" href="gpuRegist.do">등록</a>
+								<div class="d-flex">
+								  <div class="me-auto d-flex align-items-center">Search GPU</div>
+								  <div>
+								  	<a class="btn btn-secondary btn-sm" href="gpuRegist.do">등록</a>
+								  </div>
+								</div>
                             </div>
                             <div class="card-body">
                                 <table id="datatablesSimple">

@@ -10,8 +10,10 @@ public class ProductDetailVO {
 	private int seq;
 	private String partsTypeCd;
 	private String partsTypeCdNm;
+	private String partsId;
 	private int qty;
 	private int partsPrice;
+	private int partsTotalPrice;
 	private String partsImage;
 	private Date regDtm;
 	private Date updtDtm;

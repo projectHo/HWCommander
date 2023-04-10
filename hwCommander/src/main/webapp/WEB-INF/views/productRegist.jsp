@@ -5,20 +5,18 @@
 <title>현우의 컴퓨터 공방 - Product Regist</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
-<!-- Bootstrap CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-<link rel="stylesheet" href="/resources/css/main.css">
+
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-<meta name="description" content="" />
-<meta name="author" content="" />
+<!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+
 <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
+<link href="/resources/css/main.css" rel="stylesheet" >
 <link href="/resources/css/styles.css" rel="stylesheet" />
-<script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-        
-<script>
+
+<script type="text/javascript">
 
     $(function(){
         $('#btn_product_regist').on("click", function () {
@@ -27,15 +25,51 @@
         	}
         	goProductRegist();
         });
+        
+        // dataTable 적용
+        new simpleDatatables.DataTable(document.getElementById('datatablesSimple_01'));
+        new simpleDatatables.DataTable(document.getElementById('datatablesSimple_02'));
+        new simpleDatatables.DataTable(document.getElementById('datatablesSimple_03'));
+        new simpleDatatables.DataTable(document.getElementById('datatablesSimple_04'));
+        new simpleDatatables.DataTable(document.getElementById('datatablesSimple_05'));
+        new simpleDatatables.DataTable(document.getElementById('datatablesSimple_06'));
+        new simpleDatatables.DataTable(document.getElementById('datatablesSimple_07'));
+        new simpleDatatables.DataTable(document.getElementById('datatablesSimple_08'));
+        new simpleDatatables.DataTable(document.getElementById('datatablesSimple_09'));
+        new simpleDatatables.DataTable(document.getElementById('datatablesSimple_10'));
     });
     
 function goProductRegist() {
-    var form = $("#product_regist_form").serialize();
-    
+    var partsRegistFormArray = [];
+	
+	$('#parts_regist_table tr').each(function (index) {
+		if(0 != index) {
+			var item = {
+				partsId : $(this).find('input[name=partsId]').val(),
+				partsTypeCd : $(this).find('select[name=partsTypeCd]').val(),
+				qty : $(this).find('input[name=qty]').val(),
+				partsPrice : $(this).find('input[name=partsPrice]').val(),
+				partsTotalPrice : $(this).find('input[name=partsTotalPrice]').val(),
+			};
+			partsRegistFormArray.push(item);
+		}
+	});
+	
+	var productMasterVO = {
+		productName : $("#productName").val(),
+		productDescription : $("#productDescription").val(),
+		productPrice : $("#productPrice").val()
+	};
+	
+	var ajaxData = {
+			productMasterVO : JSON.stringify(productMasterVO),
+			productDetailVOList : JSON.stringify(partsRegistFormArray)
+	};
+		 
     $.ajax({
         type: "post",
         url: "/admin/productRegistLogic.do",
-        data: form,
+        data: ajaxData,
         dataType: 'json',
         success: function (data) {
         	if(data == 1) {
@@ -50,83 +84,154 @@ function goProductRegist() {
 }
 
 function validationCheck() {
-	/*
-	if($('#id').val().trim() == "") {
-		alert("아이디를 입력하세요");
+	
+	if($('#productName').val().trim() == "" || $('#productName').val().trim() == null) {
+		alert("제품명을 입력하세요");
 		return false;
 	}
 	
-	if(targetId == null || targetId != $('#id').val().trim()) {
-		alert("아이디 중복확인이 되지 않았습니다.");
+	if($('#productDescription').val().trim() == "" || $('#productDescription').val().trim() == "") {
+		alert("제품설명을 입력하세요");
 		return false;
 	}
 	
-	if($('#pw').val() == "" || $('#pw').val() == null) {
-		alert("비밀번호를 입력하세요.");
+	if(1 == $('#parts_regist_table tr').length) {
+		alert("추가 된 부품이 없습니다");
 		return false;
 	}
-	
-	if($('#pw').val() != $('#pwConfirm').val()) {
-		alert("비밀번호가 일치하지 않습니다.");
-		return false;
-	}
-	
-	if($('#name').val().trim() == "" || $('#name').val().trim() == null) {
-		alert("이름을 입력하세요.");
-		return false;
-	}
-	
-	if($('#birth').val() == "" || $('#birth').val() == null) {
-		alert("생년월일을 입력하세요.");
-		return false;
-	}
-	
-	if($('#hpNumber').val().trim() == "" || $('#hpNumber').val().trim() == null) {
-		alert("휴대폰번호를 입력하세요.");
-		return false;
-	}
-	
-	if($('#addr').val().trim() == "" || $('#addr').val().trim() == null) {
-		alert("주소를 입력하세요.");
-		return false;
-	}
-	
-	if($('#mail').val().trim() == "" || $('#mail').val().trim() == null) {
-		alert("이메일을 입력하세요.");
-		return false;
-	}
-	*/
 	
 	return true;
 }
 
-function idDupliChk(id) {
+
+var index = 0;
+function partsAdd() {
+	//var addIndex = $('#parts_regist_table tr').length;
+	++index;
+	var addIndex = index;
 	
-	if(id == "") {
-		alert("아이디를 입력하세요.");
+	var innerHtml = "";
+	innerHtml += '<tr id="parts_regist_table_tr_'+addIndex+'">';
+	innerHtml += '	<td>';
+	innerHtml += '		<input class="form-check-input" type="checkbox" value="" name="rowCheck" id="rowCheck_'+addIndex+'">';
+	innerHtml += '	</td>';
+	innerHtml += '	<td>';
+	innerHtml += '		<select class="form-select form-select-sm" name="partsTypeCd" onchange="partsTypeCdOnchange('+addIndex+')">';
+	innerHtml += '			<option value="null" selected>-선택-</option>';
+	innerHtml += '			<c:forEach var="item" items="${parts_type_cd}">';
+	innerHtml += '				<option value="${item.cd}">${item.nm}</option>';
+	innerHtml += '			</c:forEach>';
+	innerHtml += '		</select>';
+	innerHtml += '	</td>';
+	innerHtml +='	<td>';
+	innerHtml +='		<div class="input-group">';
+	innerHtml +='			<input type="text" class="form-control form-control-sm" id="partsName_'+addIndex+'" disabled>';
+	innerHtml +='			<a class="btn btn-outline-secondary btn-sm" type="button" href="javascript:partsSelect('+addIndex+')">선택</a>';
+	innerHtml +='			<input name="partsId" id="partsId_'+addIndex+'" type="hidden"/>';
+	innerHtml +='			<input name="partsTotalPrice" type="hidden"/>';
+	innerHtml +='		</div>';
+	innerHtml +='	</td>';
+	innerHtml += '	<td>';
+	innerHtml += '		<input class="form-control form-control-sm" name="qty" id="qty_'+addIndex+'" type="number" onchange="productPriceCalculate()" disabled/>';
+	innerHtml += '	</td>';
+	innerHtml += '	<td>';
+	innerHtml += '		<input class="form-control form-control-sm" name="partsPrice" id="partsPrice_'+addIndex+'" type="number" onchange="productPriceCalculate()"/>';
+	innerHtml += '	</td>';
+	innerHtml += '</tr>';
+	
+	$('#parts_regist_table > tbody:last').append(innerHtml);
+}
+
+function partsDel() {
+	if(1 == $('#parts_regist_table tr').length) {
+		alert("추가 된 부품이 없습니다");
 		return false;
 	}
 	
-	$.ajax({
-        type: "post",
-        url: "/user/idDupliChk.do",
-        data: {
-        	"id" : id
-        },
-        dataType: 'json',
-        success: function (data) {
-        	if(data == 0) {
-        		targetId = id;
-        		alert("사용가능한 ID 입니다.");
-        		$("#id").removeClass("is-invalid");
-        	}else {
-        		targetId = null;
-        		$("#id").addClass("is-invalid");
-        		alert("중복된 ID 입니다.");
-        	}
-        }
-    });
+	if(0 == $('input:checkbox[name=rowCheck]:checked').length) {
+		alert("체크된 부품이 없습니다.");
+		return false;
+	}
+	
+	if(confirm("선택한 행을 삭제하시겠습니까?")) {
+		$('input:checkbox[name=rowCheck]').each(function (index) {
+			if(true == $(this).is(":checked")) {
+		    	console.log($(this).closest('tr').attr('id'));
+		    	$(this).closest('tr').remove();
+		    }
+		});
+	}
 }
+
+var targetIndex = 0;
+var targetModelId = "";
+function partsSelect(rowNum) {
+	var trId = "parts_regist_table_tr_"+rowNum;
+	targetIndex = rowNum;
+	
+	if("null" == $('#'+trId+' select').val()) {
+		alert("부품타입을 선택한 후 부품을 선택할 수 있습니다.");
+		return false;
+	}
+
+	var modalId = "modal_"+$('#'+trId+' select').val();
+	targetModelId = modalId;
+	
+    var myModal = new bootstrap.Modal(document.getElementById(modalId), {});
+    myModal.show();
+}
+
+function modalPartsSelect(id, partsName, partsPrice) {
+	
+	$("#partsId_"+targetIndex).val(id);
+	$("#partsName_"+targetIndex).val(partsName);
+	$("#partsPrice_"+targetIndex).val(partsPrice);
+	
+	$("#"+targetModelId).modal('hide');
+	
+	// 재계산
+	productPriceCalculate();
+}
+
+function partsTypeCdOnchange(rowNum) {
+	var trId = "parts_regist_table_tr_"+rowNum;
+	$('#qty_'+rowNum).val(1);
+	
+	if("04" == $('#'+trId+' select').val()
+			|| "08" == $('#'+trId+' select').val()
+			|| "09" == $('#'+trId+' select').val()
+			|| "10" == $('#'+trId+' select').val()) {
+		$('#qty_'+rowNum).removeAttr("disabled");
+	}else {
+		$('#qty_'+rowNum).attr("disabled", true);
+	}
+	
+	// 재계산
+	productPriceCalculate();
+}
+
+function productPriceCalculate() {
+	var productPrice = 0;
+	
+	$('#parts_regist_table tr').each(function (index) {
+		var qty = 0;
+		var partsPrice = 0;
+		var partsTotalPrice = 0;
+		
+		if(0 != index) {
+			qty = $(this).find('input[name=qty]').val();
+			partsPrice = $(this).find('input[name=partsPrice]').val();
+			partsTotalPrice = qty * partsPrice;
+			
+			$(this).find('input[name=partsTotalPrice]').val(partsTotalPrice);
+			productPrice += partsTotalPrice;
+		}
+	});
+	
+	$('#productPrice').val(productPrice);
+}
+
+
 </script>
 </head>
     <body class="sb-nav-fixed">
@@ -219,80 +324,49 @@ function idDupliChk(id) {
                                        <label for="productDescription">product Description</label>
                                    </div>
                                    
-                                   <div class="row mb-3">
-                                       <div class="col-md-3">
-                                           <div class="form-floating mb-3 mb-md-0">
-                                               <input class="form-control" id="productPrice" name="productPrice" type="text" placeholder="Enter productPrice" />
-                                               <label for="productPrice">product Price</label>
-                                           </div>
-                                       </div>
-                                       <div class="col-md-3">
-                                           <div class="form-floating">
-												<select class="form-select pt-4" id="fledCd" name="fledCd">
-												  <option selected>-선택-</option>
-												  <c:forEach var="item" items="${fled_cd}">
-													  <option value="${item.cd}">${item.nm}</option>
-												  </c:forEach>
-												</select>
-												<label for="fledCd">FLED</label>
-                                           </div>
-                                       </div>
-                                       <div class="col-md-3">
-                                           <div class="form-floating">
-												<select class="form-select pt-4" id="fmcCd" name="fmcCd">
-												  <option selected>-선택-</option>
-												  <c:forEach var="item" items="${fmc_cd}">
-													  <option value="${item.cd}">${item.nm}</option>
-												  </c:forEach>
-												</select>
-												<label for="fmcCd">FMC</label>
-                                           </div>
-                                       </div>
-                                       <div class="col-md-3">
-                                           <div class="form-floating">
-												<select class="form-select pt-4" id="fscCd" name="fscCd">
-												  <option selected>-선택-</option>
-												  <c:forEach var="item" items="${fsc_cd}">
-													  <option value="${item.cd}">${item.nm}</option>
-												  </c:forEach>
-												</select>
-												<label for="fscCd">FSC</label>
-                                           </div>
-                                       </div>
-                                   </div>
-                                   
-                                   <div class="row mb-3">
-                                       <div class="col-md-3">
-                                           <div class="form-floating mb-3 mb-md-0">
-                                               <input class="form-control" id="fnoi" name="fnoi" type="text" placeholder="Enter fnoi" />
-                                               <label for="fnoi">FNOI</label>
-                                           </div>
-                                       </div>
-                                       <div class="col-md-3">
-                                           <div class="form-floating mb-3 mb-md-0">
-                                               <input class="form-control" id="ffm" name="ffm" type="text" placeholder="Enter ffm" />
-                                               <label for="ffm">FFM</label>
-                                           </div>
-                                       </div>
-                                       <div class="col-md-3">
-                                           <div class="form-floating mb-3 mb-md-0">
-                                               <input class="form-control" id="fh" name="fh" type="text" placeholder="Enter fh" />
-                                               <label for="fh">FH</label>
-                                           </div>
-                                       </div>
-                                       <div class="col-md-3">
-                                           <div class="form-floating mb-3 mb-md-0">
-                                               <input class="form-control" id="ft" name="ft" type="text" placeholder="Enter ft" />
-                                               <label for="ft">FT</label>
-                                           </div>
-                                       </div>
-                                   </div>
-
-                                   <div class="mt-4 mb-0">
-                                       <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_product_regist">Regist</a></div>
+                                   <div class="form-floating mb-3">
+                                       <input class="form-control" id="productPrice" name="productPrice" type="number" placeholder="Enter productPrice" />
+                                       <label for="productPrice">product Price</label>
                                    </div>
                                </form>
                            </div>
+                        </div>
+                        
+                        <div class="card mb-4">
+                            <div class="card-header">
+								<div class="d-flex">
+								  <div class="me-auto d-flex align-items-center">Parts List</div>
+								  <div>
+								  	<a class="btn btn-secondary btn-sm" id="btn_parts_add" href="javascript:partsAdd()">Add</a>
+								  </div>
+								  <div class="ms-2">
+								  	<a class="btn btn-secondary btn-sm" id="btn_parts_del" href="javascript:partsDel()">Del</a>
+								  </div>
+								</div>
+                            </div>
+                            <div class="card-body">
+                            	<form id="parts_regist_form">
+									<table class="table" id="parts_regist_table">
+									  <thead>
+									    <tr>
+									      <th scope="col">Row</th>
+									      <th scope="col">부품타입</th>
+									      <th scope="col">부품선택</th>
+									      <th scope="col">수량</th>
+									      <th scope="col">부품가격</th>
+									    </tr>
+									  </thead>
+									  <tbody id="parts_regist_table_tbody">
+									  </tbody>
+									</table>
+                                </form>
+                                
+	                            <div class="mt-4 mb-0">
+	                                <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_product_regist">Regist</a></div>
+	                            </div>
+                            
+                            </div>
+
                         </div>
                     </div>
                 </main>
@@ -310,6 +384,440 @@ function idDupliChk(id) {
                 </footer>
             </div>
         </div>
+        
+		
+		<!-- Modal -->
+		<div class="modal fade" id="modal_01" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal_01_label" aria-hidden="true">
+		  <div class="modal-dialog modal-dialog-centered modal-lg">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="modal_01_label">GPU</h5>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		      </div>
+		      <div class="modal-body">
+	              <div class="card-body">
+	                  <table id="datatablesSimple_01">
+	                      <thead>
+	                          <tr>
+	                              <th>gpu name</th>
+	                              <th>gpu price</th>
+	                              <th></th>
+	                          </tr>
+	                      </thead>
+	                      <tfoot>
+	                          <tr>
+	                              <th>gpu name</th>
+	                              <th>gpu price</th>
+	                              <th></th>
+	                          </tr>
+	                      </tfoot>
+	                      <tbody>
+							<c:forEach var="item" items="${gpuList}">
+								<tr>
+									<td>${item.partsName}</td>
+									<td>${item.partsPrice}</td>
+								    <td>
+								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}')">선택</button>
+								    </td>
+	                          	</tr>
+							</c:forEach>
+	                      </tbody>
+	                  </table>
+	              </div>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
+		
+		<!-- Modal -->
+		<div class="modal fade" id="modal_02" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal_02_label" aria-hidden="true">
+		  <div class="modal-dialog modal-dialog-centered modal-lg">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="modal_02_label">CPU</h5>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		      </div>
+		      <div class="modal-body">
+	              <div class="card-body">
+	                  <table id="datatablesSimple_02">
+	                      <thead>
+	                          <tr>
+	                              <th>cpu name</th>
+	                              <th>cpu price</th>
+	                              <th></th>
+	                          </tr>
+	                      </thead>
+	                      <tfoot>
+	                          <tr>
+	                              <th>cpu name</th>
+	                              <th>cpu price</th>
+	                              <th></th>
+	                          </tr>
+	                      </tfoot>
+	                      <tbody>
+							<c:forEach var="item" items="${cpuList}">
+								<tr>
+									<td>${item.partsName}</td>
+									<td>${item.partsPrice}</td>
+								    <td>
+								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}')">선택</button>
+								    </td>
+	                          	</tr>
+							</c:forEach>
+	                      </tbody>
+	                  </table>
+	              </div>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
+		<!-- Modal -->
+		<div class="modal fade" id="modal_03" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal_03_label" aria-hidden="true">
+		  <div class="modal-dialog modal-dialog-centered modal-lg">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="modal_03_label">MB</h5>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		      </div>
+		      <div class="modal-body">
+	              <div class="card-body">
+	                  <table id="datatablesSimple_03">
+	                      <thead>
+	                          <tr>
+	                              <th>mb name</th>
+	                              <th>mb price</th>
+	                              <th></th>
+	                          </tr>
+	                      </thead>
+	                      <tfoot>
+	                          <tr>
+	                              <th>mb name</th>
+	                              <th>mb price</th>
+	                              <th></th>
+	                          </tr>
+	                      </tfoot>
+	                      <tbody>
+							<c:forEach var="item" items="${mbList}">
+								<tr>
+									<td>${item.partsName}</td>
+									<td>${item.partsPrice}</td>
+								    <td>
+								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}')">선택</button>
+								    </td>
+	                          	</tr>
+							</c:forEach>
+	                      </tbody>
+	                  </table>
+	              </div>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
+		<!-- Modal -->
+		<div class="modal fade" id="modal_04" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal_04_label" aria-hidden="true">
+		  <div class="modal-dialog modal-dialog-centered modal-lg">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="modal_04_label">RAM</h5>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		      </div>
+		      <div class="modal-body">
+	              <div class="card-body">
+	                  <table id="datatablesSimple_04">
+	                      <thead>
+	                          <tr>
+	                              <th>ram name</th>
+	                              <th>ram price</th>
+	                              <th></th>
+	                          </tr>
+	                      </thead>
+	                      <tfoot>
+	                          <tr>
+	                              <th>ram name</th>
+	                              <th>ram price</th>
+	                              <th></th>
+	                          </tr>
+	                      </tfoot>
+	                      <tbody>
+							<c:forEach var="item" items="${ramList}">
+								<tr>
+									<td>${item.partsName}</td>
+									<td>${item.partsPrice}</td>
+								    <td>
+								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}')">선택</button>
+								    </td>
+	                          	</tr>
+							</c:forEach>
+	                      </tbody>
+	                  </table>
+	              </div>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
+		<!-- Modal -->
+		<div class="modal fade" id="modal_05" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal_05_label" aria-hidden="true">
+		  <div class="modal-dialog modal-dialog-centered modal-lg">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="modal_05_label">PSU</h5>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		      </div>
+		      <div class="modal-body">
+	              <div class="card-body">
+	                  <table id="datatablesSimple_05">
+	                      <thead>
+	                          <tr>
+	                              <th>psu name</th>
+	                              <th>psu price</th>
+	                              <th></th>
+	                          </tr>
+	                      </thead>
+	                      <tfoot>
+	                          <tr>
+	                              <th>psu name</th>
+	                              <th>psu price</th>
+	                              <th></th>
+	                          </tr>
+	                      </tfoot>
+	                      <tbody>
+							<c:forEach var="item" items="${psuList}">
+								<tr>
+									<td>${item.partsName}</td>
+									<td>${item.partsPrice}</td>
+								    <td>
+								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}')">선택</button>
+								    </td>
+	                          	</tr>
+							</c:forEach>
+	                      </tbody>
+	                  </table>
+	              </div>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
+		<!-- Modal -->
+		<div class="modal fade" id="modal_06" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal_06_label" aria-hidden="true">
+		  <div class="modal-dialog modal-dialog-centered modal-lg">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="modal_06_label">CASE</h5>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		      </div>
+		      <div class="modal-body">
+	              <div class="card-body">
+	                  <table id="datatablesSimple_06">
+	                      <thead>
+	                          <tr>
+	                              <th>case name</th>
+	                              <th>case price</th>
+	                              <th></th>
+	                          </tr>
+	                      </thead>
+	                      <tfoot>
+	                          <tr>
+	                              <th>case name</th>
+	                              <th>case price</th>
+	                              <th></th>
+	                          </tr>
+	                      </tfoot>
+	                      <tbody>
+							<c:forEach var="item" items="${caseList}">
+								<tr>
+									<td>${item.partsName}</td>
+									<td>${item.partsPrice}</td>
+								    <td>
+								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}')">선택</button>
+								    </td>
+	                          	</tr>
+							</c:forEach>
+	                      </tbody>
+	                  </table>
+	              </div>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
+		<!-- Modal -->
+		<div class="modal fade" id="modal_07" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal_07_label" aria-hidden="true">
+		  <div class="modal-dialog modal-dialog-centered modal-lg">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="modal_07_label">Cooler</h5>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		      </div>
+		      <div class="modal-body">
+	              <div class="card-body">
+	                  <table id="datatablesSimple_07">
+	                      <thead>
+	                          <tr>
+	                              <th>cooler name</th>
+	                              <th>cooler price</th>
+	                              <th></th>
+	                          </tr>
+	                      </thead>
+	                      <tfoot>
+	                          <tr>
+	                              <th>cooler name</th>
+	                              <th>cooler price</th>
+	                              <th></th>
+	                          </tr>
+	                      </tfoot>
+	                      <tbody>
+							<c:forEach var="item" items="${coolerList}">
+								<tr>
+									<td>${item.partsName}</td>
+									<td>${item.partsPrice}</td>
+								    <td>
+								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}')">선택</button>
+								    </td>
+	                          	</tr>
+							</c:forEach>
+	                      </tbody>
+	                  </table>
+	              </div>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
+		<!-- Modal -->
+		<div class="modal fade" id="modal_08" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal_08_label" aria-hidden="true">
+		  <div class="modal-dialog modal-dialog-centered modal-lg">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="modal_08_label">HDD</h5>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		      </div>
+		      <div class="modal-body">
+	              <div class="card-body">
+	                  <table id="datatablesSimple_08">
+	                      <thead>
+	                          <tr>
+	                              <th>hdd name</th>
+	                              <th>hdd price</th>
+	                              <th></th>
+	                          </tr>
+	                      </thead>
+	                      <tfoot>
+	                          <tr>
+	                              <th>hdd name</th>
+	                              <th>hdd price</th>
+	                              <th></th>
+	                          </tr>
+	                      </tfoot>
+	                      <tbody>
+							<c:forEach var="item" items="${hddList}">
+								<tr>
+									<td>${item.partsName}</td>
+									<td>${item.partsPrice}</td>
+								    <td>
+								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}')">선택</button>
+								    </td>
+	                          	</tr>
+							</c:forEach>
+	                      </tbody>
+	                  </table>
+	              </div>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
+		<!-- Modal -->
+		<div class="modal fade" id="modal_09" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal_09_label" aria-hidden="true">
+		  <div class="modal-dialog modal-dialog-centered modal-lg">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="modal_09_label">SSD</h5>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		      </div>
+		      <div class="modal-body">
+	              <div class="card-body">
+	                  <table id="datatablesSimple_09">
+	                      <thead>
+	                          <tr>
+	                              <th>ssd name</th>
+	                              <th>ssd price</th>
+	                              <th></th>
+	                          </tr>
+	                      </thead>
+	                      <tfoot>
+	                          <tr>
+	                              <th>ssd name</th>
+	                              <th>ssd price</th>
+	                              <th></th>
+	                          </tr>
+	                      </tfoot>
+	                      <tbody>
+							<c:forEach var="item" items="${ssdList}">
+								<tr>
+									<td>${item.partsName}</td>
+									<td>${item.partsPrice}</td>
+								    <td>
+								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}')">선택</button>
+								    </td>
+	                          	</tr>
+							</c:forEach>
+	                      </tbody>
+	                  </table>
+	              </div>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
+		<!-- Modal -->
+		<div class="modal fade" id="modal_10" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="modal_10_label" aria-hidden="true">
+		  <div class="modal-dialog modal-dialog-centered modal-lg">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="modal_10_label">SF</h5>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		      </div>
+		      <div class="modal-body">
+	              <div class="card-body">
+	                  <table id="datatablesSimple_10">
+	                      <thead>
+	                          <tr>
+	                              <th>sf name</th>
+	                              <th>sf price</th>
+	                              <th></th>
+	                          </tr>
+	                      </thead>
+	                      <tfoot>
+	                          <tr>
+	                              <th>sf name</th>
+	                              <th>sf price</th>
+	                              <th></th>
+	                          </tr>
+	                      </tfoot>
+	                      <tbody>
+							<c:forEach var="item" items="${sfList}">
+								<tr>
+									<td>${item.partsName}</td>
+									<td>${item.partsPrice}</td>
+								    <td>
+								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}')">선택</button>
+								    </td>
+	                          	</tr>
+							</c:forEach>
+	                      </tbody>
+	                  </table>
+	              </div>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+		
+		
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
         <script src="/resources/js/datatables-simple-demo.js"></script>
         <script src="/resources/js/scripts.js"></script>
