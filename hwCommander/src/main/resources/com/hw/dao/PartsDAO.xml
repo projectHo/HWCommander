@@ -6,7 +6,7 @@
 <mapper namespace="com.hw.dao.PartsDAO">
 
 	<select id="getPartsGpuVOMaxId" resultType="String">
-		SELECT CONCAT('GPU', (SELECT LPAD(NVL(MAX(SUBSTR(TRIM(id), 4)), 0)+1, 6, '0') FROM parts_gpu)) AS id FROM DUAL
+		SELECT CONCAT('GPU', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 4)), 0)+1, 6, '0') FROM parts_gpu)) AS id FROM DUAL
 	</select>
 	
 	<insert id="insertPartsGpuVO" parameterType="partsGpuVO">
@@ -83,7 +83,7 @@
 	</select>
 	
 	<select id="getPartsCpuVOMaxId" resultType="String">
-		SELECT CONCAT('CPU', (SELECT LPAD(NVL(MAX(SUBSTR(TRIM(id), 4)), 0)+1, 6, '0') FROM parts_cpu)) AS id FROM DUAL
+		SELECT CONCAT('CPU', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 4)), 0)+1, 6, '0') FROM parts_cpu)) AS id FROM DUAL
 	</select>
 	
 	<insert id="insertPartsCpuVO" parameterType="partsCpuVO">
@@ -146,7 +146,7 @@
 	</select>
 	
 	<select id="getPartsMbVOMaxId" resultType="String">
-		SELECT CONCAT('MB', (SELECT LPAD(NVL(MAX(SUBSTR(TRIM(id), 3)), 0)+1, 6, '0') FROM parts_mb)) AS id FROM DUAL
+		SELECT CONCAT('MB', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 3)), 0)+1, 6, '0') FROM parts_mb)) AS id FROM DUAL
 	</select>
 	
 	<insert id="insertPartsMbVO" parameterType="partsMbVO">
@@ -232,7 +232,7 @@
 	</select>
 	
 	<select id="getPartsRamVOMaxId" resultType="String">
-		SELECT CONCAT('RAM', (SELECT LPAD(NVL(MAX(SUBSTR(TRIM(id), 4)), 0)+1, 6, '0') FROM parts_ram)) AS id FROM DUAL
+		SELECT CONCAT('RAM', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 4)), 0)+1, 6, '0') FROM parts_ram)) AS id FROM DUAL
 	</select>
 	
 	<insert id="insertPartsRamVO" parameterType="partsRamVO">
@@ -301,7 +301,7 @@
 	</select>
 	
 	<select id="getPartsPsuVOMaxId" resultType="String">
-		SELECT CONCAT('PSU', (SELECT LPAD(NVL(MAX(SUBSTR(TRIM(id), 4)), 0)+1, 6, '0') FROM parts_psu)) AS id FROM DUAL
+		SELECT CONCAT('PSU', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 4)), 0)+1, 6, '0') FROM parts_psu)) AS id FROM DUAL
 	</select>
 	
 	<insert id="insertPartsPsuVO" parameterType="partsPsuVO">
@@ -370,7 +370,7 @@
 	</select>
 	
 	<select id="getPartsCaseVOMaxId" resultType="String">
-		SELECT CONCAT('CASE', (SELECT LPAD(NVL(MAX(SUBSTR(TRIM(id), 5)), 0)+1, 6, '0') FROM parts_case)) AS id FROM DUAL
+		SELECT CONCAT('CASE', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 5)), 0)+1, 6, '0') FROM parts_case)) AS id FROM DUAL
 	</select>
 	
 	<insert id="insertPartsCaseVO" parameterType="partsCaseVO">
@@ -466,7 +466,7 @@
 	</select>
 	
 	<select id="getPartsCoolerVOMaxId" resultType="String">
-		SELECT CONCAT('COOLER', (SELECT LPAD(NVL(MAX(SUBSTR(TRIM(id), 7)), 0)+1, 6, '0') FROM parts_cooler)) AS id FROM DUAL
+		SELECT CONCAT('COOLER', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 7)), 0)+1, 6, '0') FROM parts_cooler)) AS id FROM DUAL
 	</select>
 	
 	<insert id="insertPartsCoolerVO" parameterType="partsCoolerVO">
@@ -546,7 +546,7 @@
 	</select>
 	
 	<select id="getPartsHddVOMaxId" resultType="String">
-		SELECT CONCAT('HDD', (SELECT LPAD(NVL(MAX(SUBSTR(TRIM(id), 4)), 0)+1, 6, '0') FROM parts_hdd)) AS id FROM DUAL
+		SELECT CONCAT('HDD', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 4)), 0)+1, 6, '0') FROM parts_hdd)) AS id FROM DUAL
 	</select>
 	
 	<insert id="insertPartsHddVO" parameterType="partsHddVO">
@@ -607,7 +607,7 @@
 	</select>
 	
 	<select id="getPartsSsdVOMaxId" resultType="String">
-		SELECT CONCAT('SSD', (SELECT LPAD(NVL(MAX(SUBSTR(TRIM(id), 4)), 0)+1, 6, '0') FROM parts_ssd)) AS id FROM DUAL
+		SELECT CONCAT('SSD', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 4)), 0)+1, 6, '0') FROM parts_ssd)) AS id FROM DUAL
 	</select>
 	
 	<insert id="insertPartsSsdVO" parameterType="partsSsdVO">
@@ -672,7 +672,7 @@
 	</select>
 	
 	<select id="getPartsSfVOMaxId" resultType="String">
-		SELECT CONCAT('SF', (SELECT LPAD(NVL(MAX(SUBSTR(TRIM(id), 3)), 0)+1, 6, '0') FROM parts_sf)) AS id FROM DUAL
+		SELECT CONCAT('SF', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 3)), 0)+1, 6, '0') FROM parts_sf)) AS id FROM DUAL
 	</select>
 	
 	<insert id="insertPartsSfVO" parameterType="partsSfVO">

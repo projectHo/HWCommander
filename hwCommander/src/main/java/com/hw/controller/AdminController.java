@@ -59,7 +59,8 @@ public class AdminController {
 		UserInfoVO user = (UserInfoVO) httpSession.getAttribute("loginUser");
 		
 		if(null == user || user.getUserTypeCd().equals("02")) {
-			return "redirect:/user/login.do";
+			//return "redirect:/user/login.do";
+			return "redirect:/";
 		}else {
 			return "adminPageMain";
 		}

@@ -6,7 +6,7 @@
 <mapper namespace="com.hw.dao.ProductDAO">
 
 	<select id="getProductMasterVOMaxId" resultType="String">
-		SELECT CONCAT('PRODUCT', (SELECT LPAD(NVL(MAX(SUBSTR(TRIM(id), 8)), 0)+1, 6, '0') FROM product_master)) AS id FROM DUAL
+		SELECT CONCAT('PRODUCT', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 8)), 0)+1, 6, '0') FROM product_master)) AS id FROM DUAL
 	</select>
 	
 	<insert id="insertProductMasterVO" parameterType="productMasterVO">
