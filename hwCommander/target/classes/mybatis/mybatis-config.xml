@@ -8,6 +8,11 @@
 	
 		<typeAlias alias="comnCdDetailVO" type="com.hw.model.ComnCdDetailVO"></typeAlias>
 		
+		<!-- 주문 -->
+		<typeAlias alias="orderDetailVO" type="com.hw.model.OrderDetailVO"></typeAlias>
+		<typeAlias alias="orderMasterVO" type="com.hw.model.OrderMasterVO"></typeAlias>
+		<typeAlias alias="orderMasterHistroyVO" type="com.hw.model.OrderMasterHistoryVO"></typeAlias>
+		
 		<!-- 부품 -->
 		<typeAlias alias="partsCaseVO" type="com.hw.model.PartsCaseVO"></typeAlias>
 		<typeAlias alias="partsCoolerVO" type="com.hw.model.PartsCoolerVO"></typeAlias>

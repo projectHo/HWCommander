@@ -24,7 +24,7 @@
 					    <div class="hovereffect">
 					        <img class="img-responsive img-fluid" src="/resources/img/pc-1-800x1407.png" alt="">
 					        <div class="overlay">
-					           <h2>COMPUTER</h2>
+					           <h2>공식 유튜브</h2>
 					           <a class="info" href="javascript:alert('준비중')">link here</a>
 					        </div>
 					    </div>
@@ -33,7 +33,7 @@
 					    <div class="hovereffect">
 					        <img class="img-responsive img-fluid" src="/resources/img/laptop-1-400x704.png" alt="">
 					        <div class="overlay">
-					           <h2>LAPTOP</h2>
+					           <h2>견적산출</h2>
 					           <a class="info" href="javascript:alert('준비중')">link here</a>
 					        </div>
 					    </div>
@@ -42,7 +42,7 @@
 					    <div class="hovereffect">
 					        <img class="img-responsive img-fluid" src="/resources/img/headset-400x704.png" alt="">
 					        <div class="overlay">
-					           <h2>HEADSET</h2>
+					           <h2>기획상품</h2>
 					           <a class="info" href="javascript:alert('준비중')">link here</a>
 					        </div>
 					    </div>

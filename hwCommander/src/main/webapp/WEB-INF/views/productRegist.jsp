@@ -47,7 +47,7 @@ function goProductRegist() {
 			var item = {
 				partsId : $(this).find('input[name=partsId]').val(),
 				partsTypeCd : $(this).find('select[name=partsTypeCd]').val(),
-				qty : $(this).find('input[name=qty]').val(),
+				partsQty : $(this).find('input[name=partsQty]').val(),
 				partsPrice : $(this).find('input[name=partsPrice]').val(),
 				partsTotalPrice : $(this).find('input[name=partsTotalPrice]').val(),
 			};
@@ -58,7 +58,8 @@ function goProductRegist() {
 	var productMasterVO = {
 		productName : $("#productName").val(),
 		productDescription : $("#productDescription").val(),
-		productPrice : $("#productPrice").val()
+		productPrice : $("#productPrice").val(),
+		productQty : $("#productQty").val()
 	};
 	
 	var ajaxData = {
@@ -132,7 +133,7 @@ function partsAdd() {
 	innerHtml +='		</div>';
 	innerHtml +='	</td>';
 	innerHtml += '	<td>';
-	innerHtml += '		<input class="form-control form-control-sm" name="qty" id="qty_'+addIndex+'" type="number" onchange="productPriceCalculate()" disabled/>';
+	innerHtml += '		<input class="form-control form-control-sm" name="partsQty" id="partsQty_'+addIndex+'" type="number" onchange="productPriceCalculate()" disabled/>';
 	innerHtml += '	</td>';
 	innerHtml += '	<td>';
 	innerHtml += '		<input class="form-control form-control-sm" name="partsPrice" id="partsPrice_'+addIndex+'" type="number" onchange="productPriceCalculate()"/>';
@@ -195,15 +196,15 @@ function modalPartsSelect(id, partsName, partsPrice) {
 
 function partsTypeCdOnchange(rowNum) {
 	var trId = "parts_regist_table_tr_"+rowNum;
-	$('#qty_'+rowNum).val(1);
+	$('#partsQty_'+rowNum).val(1);
 	
 	if("04" == $('#'+trId+' select').val()
 			|| "08" == $('#'+trId+' select').val()
 			|| "09" == $('#'+trId+' select').val()
 			|| "10" == $('#'+trId+' select').val()) {
-		$('#qty_'+rowNum).removeAttr("disabled");
+		$('#partsQty_'+rowNum).removeAttr("disabled");
 	}else {
-		$('#qty_'+rowNum).attr("disabled", true);
+		$('#partsQty_'+rowNum).attr("disabled", true);
 	}
 	
 	// 재계산
@@ -214,14 +215,14 @@ function productPriceCalculate() {
 	var productPrice = 0;
 	
 	$('#parts_regist_table tr').each(function (index) {
-		var qty = 0;
+		var partsQty = 0;
 		var partsPrice = 0;
 		var partsTotalPrice = 0;
 		
 		if(0 != index) {
-			qty = $(this).find('input[name=qty]').val();
+			partsQty = $(this).find('input[name=partsQty]').val();
 			partsPrice = $(this).find('input[name=partsPrice]').val();
-			partsTotalPrice = qty * partsPrice;
+			partsTotalPrice = partsQty * partsPrice;
 			
 			$(this).find('input[name=partsTotalPrice]').val(partsTotalPrice);
 			productPrice += partsTotalPrice;
@@ -327,6 +328,11 @@ function productPriceCalculate() {
                                    <div class="form-floating mb-3">
                                        <input class="form-control" id="productPrice" name="productPrice" type="number" placeholder="Enter productPrice" />
                                        <label for="productPrice">product Price</label>
+                                   </div>
+                                   
+                                   <div class="form-floating mb-3">
+                                       <input class="form-control" id="productQty" name="productQty" type="number" placeholder="Enter productQty" />
+                                       <label for="productQty">product Qty</label>
                                    </div>
                                </form>
                            </div>

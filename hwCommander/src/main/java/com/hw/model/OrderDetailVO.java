@@ -5,7 +5,7 @@ import java.util.Date;
 import lombok.Data;
 
 @Data
-public class ProductMasterVO {
+public class OrderDetailVO {
 	private String id;
 	private String productName;
 	private int productPrice;

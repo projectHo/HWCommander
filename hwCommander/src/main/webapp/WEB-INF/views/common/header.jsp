@@ -135,11 +135,11 @@ function loginCheck() {
 						  <div class="container-fluid">
 						    <div class="collapse navbar-collapse justify-content-around">
 						      <div class="navbar-nav">
-						        <h3><a class="nav-link mx-5" href="javascript:alert('준비중')">Online</a></h3>
-						        <h3><a class="nav-link mx-5" href="javascript:alert('준비중')">Computer List</a></h3>
-						        <h3><a class="nav-link mx-5" href="javascript:alert('준비중')">Week Best</a></h3>
-						        <h3><a class="nav-link mx-5" href="javascript:alert('준비중')">Event</a></h3>
-						        <h3><a class="nav-link mx-5" href="javascript:alert('준비중')">Customer Service</a></h3>
+						        <h3><a class="nav-link mx-5" href="javascript:alert('준비중')">회사소개</a></h3>
+						        <h3><a class="nav-link mx-5" href="/eventMall.do">이벤트 몰</a></h3>
+						        <h3><a class="nav-link mx-5" href="javascript:alert('준비중')">모니터추천</a></h3>
+						        <h3><a class="nav-link mx-5" href="javascript:alert('준비중')">게시판</a></h3>
+						        <h3><a class="nav-link mx-5" href="javascript:alert('준비중')">견적산출</a></h3>
 						      </div>
 						    </div>
 						  </div>

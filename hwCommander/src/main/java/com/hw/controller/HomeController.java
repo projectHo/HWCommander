@@ -38,4 +38,9 @@ public class HomeController {
 	public String goPersonalInformationProcessingPolicy(Model model) {
 		return "personalInformationProcessingPolicy";
 	}
+	
+	@RequestMapping(value = "/eventMall.do", method = RequestMethod.GET)
+	public String goEventMall(Model model) {
+		return "eventMall";
+	}
 }

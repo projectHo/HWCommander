@@ -15,6 +15,7 @@
 			id
 			, product_name
 			, product_price
+			, product_qty
 			, product_description
 			, product_image
 			, reg_dtm
@@ -25,6 +26,7 @@
 			#{id}
 			, #{productName}
 			, #{productPrice}
+			, #{productQty}
 			, #{productDescription}
 			, #{productImage}
 			, NOW()
@@ -36,7 +38,8 @@
 		SELECT 
 			a.id                                                                             	AS id                
 			, a.product_name                                                                    AS productName       
-			, a.product_price                                                                   AS productPrice      
+			, a.product_price                                                                   AS productPrice
+			, a.product_qty                                                                     AS productQty      
 			, a.product_description                                                             AS productDescription
 			, a.product_image                                                                   AS productImage      
 			, a.reg_dtm                                                                         AS regDtm            
@@ -52,7 +55,7 @@
 			, seq
 			, parts_type_cd
 			, parts_id
-			, qty
+			, parts_qty
 			, parts_price
 			, parts_total_price
 			, parts_image
@@ -65,7 +68,7 @@
 			, #{seq}
 			, #{partsTypeCd}
 			, #{partsId}
-			, #{qty}
+			, #{partsQty}
 			, #{partsPrice}
 			, #{partsTotalPrice}
 			, #{partsImage}
@@ -81,7 +84,7 @@
 			, a.parts_type_cd                                                                 AS partsTypeCd    
 			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'COM003' AND cd = a.parts_type_cd )     AS partsTypeCdNm    
 			, a.parts_id                                                                      AS partsId        
-			, a.qty                                                                           AS qty            
+			, a.parts_qty                                                                     AS partsQty            
 			, a.parts_price                                                                   AS partsPrice     
 			, a.parts_total_price                                                             AS partsTotalPrice
 			, a.parts_image                                                                   AS partsImage     
