@@ -14,9 +14,53 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
 <meta name="author" content="" />
-<link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
-<link href="/resources/css/styles.css" rel="stylesheet" />
 <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+<link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet"/>
+
+<script>
+    $(function() {
+    	
+    	$('#eventMallListTable').DataTable({ 
+    	    bAutoWidth: false,
+    	    columnDefs: [
+    	    { width: "30%", targets : 0 },
+    	    { width: "70%", targets: 1 }
+    	    ],
+    	 });
+    	
+    	/* 
+    	$("#eventMallListTable").on('click', 'tbody tr', function () {
+    	    var row = $("#eventMallListTable").DataTable().row($(this)).data();
+    	    console.log(row);
+    	});
+    	 */
+    	 
+    	$("#eventMallListTable").on('click', 'tbody tr img', function () {
+    		var productId = $(this).attr("name");
+    		location.href = "/eventMallDetail.do?productId="+productId;
+    	});
+    	
+    	
+    	/* 
+    	$("#example").DataTable({
+    		// 표시 건수기능 숨기기
+    		lengthChange: true,
+    		// 검색 기능 숨기기
+    		searching: true,
+    		// 정렬 기능 숨기기
+    		ordering: true,
+    		// 정보 표시 숨기기
+    		info: true,
+    		// 페이징 기능 숨기기
+    		paging: true
+    	});
+    	 */
+    	
+    });
+</script>
 </head>
 <body>
 	<%@ include file="./common/header.jsp" %>
@@ -27,53 +71,33 @@
 			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
 			<div class="" style="width: 70%!important;">
 				<div class="w-100 row align-items-center mt-4 mb-4">
-					<table>
-	                    <thead>
-	                        <tr>
-	                            <th>제품이미지</th>
-	                            <th>정보</th>
-	                        </tr>
-	                    </thead>
-	                    <tbody>
-							<tr>
-								<td rowspan="3">이미지입니다만</td>
-								<td>갸각</td>
-							</tr>
-							<tr>
-								<td>갸가각</td>
-							</tr>
-							<tr>
-								<td>갸가가각</td>
-							</tr>
-	                    </tbody>
-					</table>
-					
-					<table id="datatablesSimple">
-					    <thead>
-					        <tr>
-					            <th>제품이미지</th>
-					            <th>정보</th>
-					        </tr>
-					    </thead>
-					    <tfoot>
-					        <tr>
-					            <th>제품이미지</th>
-					            <th>정보</th>
-					        </tr>
-					    </tfoot>
-					    <tbody>
-							<tr>
-								<td rowspan="3">이미지입니다만</td>
-								<td>갸각</td>
-							</tr>
-							<tr>
-								<td>갸가각</td>
-							</tr>
-							<tr>
-								<td>갸가가각</td>
-							</tr>
-					    </tbody>
-					</table>
+					<div class="card mb-4">
+                    	<div class="card-header">
+							<div class="d-flex">
+								<div class="me-auto d-flex align-items-center">이벤트 몰</div>
+							</div>
+						</div>
+						<div class="card-body">
+							<table id="eventMallListTable" class="table">
+								<thead>
+									<tr>
+										<th>상품이미지</th>
+										<th>상품정보</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="item" items="${eventMallList}">
+										<tr>
+                                            <td>
+                                            	<img class="img-responsive img-fluid" src="/resources/img/tempImage_200x200.png" alt="" style="cursor:pointer;" name="${item.id}">
+                                            </td>
+                                            <td>${item.eventMallInfo}</td>
+                                       	</tr>
+									</c:forEach>
+								</tbody>
+							</table>
+						</div>
+					</div>
 				</div>
 			</div>
 			<!-- 빈 영역 -->
@@ -91,9 +115,5 @@
 	
 	<%@ include file="./common/footer.jsp" %>
 	
-        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-        <script src="/resources/js/datatables-simple-demo.js"></script>
-        <script src="/resources/js/scripts.js"></script>
-
 </body>
 </html>

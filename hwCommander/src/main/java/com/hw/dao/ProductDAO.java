@@ -11,4 +11,5 @@ public interface ProductDAO {
 	public List<ProductMasterVO> getProductMasterAllList();
 	public Integer insertProductDetailVO(ProductDetailVO productDetailVO);
 	public List<ProductDetailVO> getProductDetailAllList(ProductMasterVO productMasterVO);
+	public List<ProductMasterVO> getEventMallList();
 }

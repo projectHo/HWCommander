@@ -12,9 +12,13 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 
-<link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
 <link href="/resources/css/main.css" rel="stylesheet" >
-<link href="/resources/css/styles.css" rel="stylesheet" />
+<link href="/resources/css/sbAdmin-styles.css" rel="stylesheet" />
+
+<!-- dataTables CDN -->
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+<link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet"/>
 
 <script type="text/javascript">
 
@@ -27,16 +31,16 @@
         });
         
         // dataTable 적용
-        new simpleDatatables.DataTable(document.getElementById('datatablesSimple_01'));
-        new simpleDatatables.DataTable(document.getElementById('datatablesSimple_02'));
-        new simpleDatatables.DataTable(document.getElementById('datatablesSimple_03'));
-        new simpleDatatables.DataTable(document.getElementById('datatablesSimple_04'));
-        new simpleDatatables.DataTable(document.getElementById('datatablesSimple_05'));
-        new simpleDatatables.DataTable(document.getElementById('datatablesSimple_06'));
-        new simpleDatatables.DataTable(document.getElementById('datatablesSimple_07'));
-        new simpleDatatables.DataTable(document.getElementById('datatablesSimple_08'));
-        new simpleDatatables.DataTable(document.getElementById('datatablesSimple_09'));
-        new simpleDatatables.DataTable(document.getElementById('datatablesSimple_10'));
+        $("#datatablesSimple_01").DataTable();
+        $("#datatablesSimple_02").DataTable();
+        $("#datatablesSimple_03").DataTable();
+        $("#datatablesSimple_04").DataTable();
+        $("#datatablesSimple_05").DataTable();
+        $("#datatablesSimple_06").DataTable();
+        $("#datatablesSimple_07").DataTable();
+        $("#datatablesSimple_08").DataTable();
+        $("#datatablesSimple_09").DataTable();
+        $("#datatablesSimple_10").DataTable();
     });
     
 function goProductRegist() {
@@ -320,11 +324,17 @@ function productPriceCalculate() {
                                        <label for="productName">product Name</label>
                                    </div>
                                    
+                                   <!-- 2023.04.25 input -> textarea 변경
                                    <div class="form-floating mb-3">
                                        <input class="form-control" id="productDescription" name="productDescription" type="text" placeholder="Enter productDescription"/>
                                        <label for="productDescription">product Description</label>
                                    </div>
+                                    -->
                                    
+                                   <div class="input-group mb-3">
+                                       <span class="input-group-text">product Description</span>
+                                       <textarea class="form-control" id="productDescription" name="productDescription"></textarea>
+                                   </div>
                                    <div class="form-floating mb-3">
                                        <input class="form-control" id="productPrice" name="productPrice" type="number" placeholder="Enter productPrice" />
                                        <label for="productPrice">product Price</label>
@@ -402,7 +412,7 @@ function productPriceCalculate() {
 		      </div>
 		      <div class="modal-body">
 	              <div class="card-body">
-	                  <table id="datatablesSimple_01">
+	                  <table id="datatablesSimple_01" class="table">
 	                      <thead>
 	                          <tr>
 	                              <th>gpu name</th>
@@ -410,13 +420,6 @@ function productPriceCalculate() {
 	                              <th></th>
 	                          </tr>
 	                      </thead>
-	                      <tfoot>
-	                          <tr>
-	                              <th>gpu name</th>
-	                              <th>gpu price</th>
-	                              <th></th>
-	                          </tr>
-	                      </tfoot>
 	                      <tbody>
 							<c:forEach var="item" items="${gpuList}">
 								<tr>
@@ -446,7 +449,7 @@ function productPriceCalculate() {
 		      </div>
 		      <div class="modal-body">
 	              <div class="card-body">
-	                  <table id="datatablesSimple_02">
+	                  <table id="datatablesSimple_02" class="table">
 	                      <thead>
 	                          <tr>
 	                              <th>cpu name</th>
@@ -454,13 +457,6 @@ function productPriceCalculate() {
 	                              <th></th>
 	                          </tr>
 	                      </thead>
-	                      <tfoot>
-	                          <tr>
-	                              <th>cpu name</th>
-	                              <th>cpu price</th>
-	                              <th></th>
-	                          </tr>
-	                      </tfoot>
 	                      <tbody>
 							<c:forEach var="item" items="${cpuList}">
 								<tr>
@@ -489,7 +485,7 @@ function productPriceCalculate() {
 		      </div>
 		      <div class="modal-body">
 	              <div class="card-body">
-	                  <table id="datatablesSimple_03">
+	                  <table id="datatablesSimple_03" class="table">
 	                      <thead>
 	                          <tr>
 	                              <th>mb name</th>
@@ -497,13 +493,6 @@ function productPriceCalculate() {
 	                              <th></th>
 	                          </tr>
 	                      </thead>
-	                      <tfoot>
-	                          <tr>
-	                              <th>mb name</th>
-	                              <th>mb price</th>
-	                              <th></th>
-	                          </tr>
-	                      </tfoot>
 	                      <tbody>
 							<c:forEach var="item" items="${mbList}">
 								<tr>
@@ -532,7 +521,7 @@ function productPriceCalculate() {
 		      </div>
 		      <div class="modal-body">
 	              <div class="card-body">
-	                  <table id="datatablesSimple_04">
+	                  <table id="datatablesSimple_04" class="table">
 	                      <thead>
 	                          <tr>
 	                              <th>ram name</th>
@@ -540,13 +529,6 @@ function productPriceCalculate() {
 	                              <th></th>
 	                          </tr>
 	                      </thead>
-	                      <tfoot>
-	                          <tr>
-	                              <th>ram name</th>
-	                              <th>ram price</th>
-	                              <th></th>
-	                          </tr>
-	                      </tfoot>
 	                      <tbody>
 							<c:forEach var="item" items="${ramList}">
 								<tr>
@@ -575,7 +557,7 @@ function productPriceCalculate() {
 		      </div>
 		      <div class="modal-body">
 	              <div class="card-body">
-	                  <table id="datatablesSimple_05">
+	                  <table id="datatablesSimple_05" class="table">
 	                      <thead>
 	                          <tr>
 	                              <th>psu name</th>
@@ -583,13 +565,6 @@ function productPriceCalculate() {
 	                              <th></th>
 	                          </tr>
 	                      </thead>
-	                      <tfoot>
-	                          <tr>
-	                              <th>psu name</th>
-	                              <th>psu price</th>
-	                              <th></th>
-	                          </tr>
-	                      </tfoot>
 	                      <tbody>
 							<c:forEach var="item" items="${psuList}">
 								<tr>
@@ -618,7 +593,7 @@ function productPriceCalculate() {
 		      </div>
 		      <div class="modal-body">
 	              <div class="card-body">
-	                  <table id="datatablesSimple_06">
+	                  <table id="datatablesSimple_06" class="table">
 	                      <thead>
 	                          <tr>
 	                              <th>case name</th>
@@ -626,13 +601,6 @@ function productPriceCalculate() {
 	                              <th></th>
 	                          </tr>
 	                      </thead>
-	                      <tfoot>
-	                          <tr>
-	                              <th>case name</th>
-	                              <th>case price</th>
-	                              <th></th>
-	                          </tr>
-	                      </tfoot>
 	                      <tbody>
 							<c:forEach var="item" items="${caseList}">
 								<tr>
@@ -661,7 +629,7 @@ function productPriceCalculate() {
 		      </div>
 		      <div class="modal-body">
 	              <div class="card-body">
-	                  <table id="datatablesSimple_07">
+	                  <table id="datatablesSimple_07" class="table">
 	                      <thead>
 	                          <tr>
 	                              <th>cooler name</th>
@@ -669,13 +637,6 @@ function productPriceCalculate() {
 	                              <th></th>
 	                          </tr>
 	                      </thead>
-	                      <tfoot>
-	                          <tr>
-	                              <th>cooler name</th>
-	                              <th>cooler price</th>
-	                              <th></th>
-	                          </tr>
-	                      </tfoot>
 	                      <tbody>
 							<c:forEach var="item" items="${coolerList}">
 								<tr>
@@ -704,7 +665,7 @@ function productPriceCalculate() {
 		      </div>
 		      <div class="modal-body">
 	              <div class="card-body">
-	                  <table id="datatablesSimple_08">
+	                  <table id="datatablesSimple_08" class="table">
 	                      <thead>
 	                          <tr>
 	                              <th>hdd name</th>
@@ -712,13 +673,6 @@ function productPriceCalculate() {
 	                              <th></th>
 	                          </tr>
 	                      </thead>
-	                      <tfoot>
-	                          <tr>
-	                              <th>hdd name</th>
-	                              <th>hdd price</th>
-	                              <th></th>
-	                          </tr>
-	                      </tfoot>
 	                      <tbody>
 							<c:forEach var="item" items="${hddList}">
 								<tr>
@@ -747,7 +701,7 @@ function productPriceCalculate() {
 		      </div>
 		      <div class="modal-body">
 	              <div class="card-body">
-	                  <table id="datatablesSimple_09">
+	                  <table id="datatablesSimple_09" class="table">
 	                      <thead>
 	                          <tr>
 	                              <th>ssd name</th>
@@ -755,13 +709,6 @@ function productPriceCalculate() {
 	                              <th></th>
 	                          </tr>
 	                      </thead>
-	                      <tfoot>
-	                          <tr>
-	                              <th>ssd name</th>
-	                              <th>ssd price</th>
-	                              <th></th>
-	                          </tr>
-	                      </tfoot>
 	                      <tbody>
 							<c:forEach var="item" items="${ssdList}">
 								<tr>
@@ -790,7 +737,7 @@ function productPriceCalculate() {
 		      </div>
 		      <div class="modal-body">
 	              <div class="card-body">
-	                  <table id="datatablesSimple_10">
+	                  <table id="datatablesSimple_10" class="table">
 	                      <thead>
 	                          <tr>
 	                              <th>sf name</th>
@@ -798,13 +745,6 @@ function productPriceCalculate() {
 	                              <th></th>
 	                          </tr>
 	                      </thead>
-	                      <tfoot>
-	                          <tr>
-	                              <th>sf name</th>
-	                              <th>sf price</th>
-	                              <th></th>
-	                          </tr>
-	                      </tfoot>
 	                      <tbody>
 							<c:forEach var="item" items="${sfList}">
 								<tr>
@@ -822,10 +762,7 @@ function productPriceCalculate() {
 		    </div>
 		  </div>
 		</div>
-		
-		
-        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-        <script src="/resources/js/datatables-simple-demo.js"></script>
-        <script src="/resources/js/scripts.js"></script>
+        
+        <script src="/resources/js/sbAdmin-sidebar-script.js"></script>
     </body>
 </html>

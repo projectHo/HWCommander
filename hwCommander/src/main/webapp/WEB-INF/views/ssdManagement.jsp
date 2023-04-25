@@ -14,15 +14,23 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
 <meta name="author" content="" />
-<link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
-<link href="/resources/css/styles.css" rel="stylesheet" />
+
+<link href="/resources/css/sbAdmin-styles.css" rel="stylesheet" />
 <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+
+<!-- dataTables CDN -->
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+<link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet"/>
         
 <script>
 
 var targetId = null;
 
     $(function(){
+    	
+    	$("#ssdListTable").DataTable();
+    	
         $('#btn_signUp').on("click", function () {
         	if(!validationCheck()) {
         		return false;
@@ -245,7 +253,7 @@ function idDupliChk(id) {
 								</div>
                             </div>
                             <div class="card-body">
-                                <table id="datatablesSimple">
+                                <table id="ssdListTable" class="table">
                                     <thead>
                                         <tr>
                                             <th>parts name</th>
@@ -253,13 +261,6 @@ function idDupliChk(id) {
                                             <th>SCS</th>
                                         </tr>
                                     </thead>
-                                    <tfoot>
-                                        <tr>
-                                            <th>parts name</th>
-                                            <th>parts price</th>
-                                            <th>SCS</th>
-                                        </tr>
-                                    </tfoot>
                                     <tbody>
 										<c:forEach var="item" items="${ssdList}">
 											<tr>
@@ -288,8 +289,8 @@ function idDupliChk(id) {
                 </footer>
             </div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-        <script src="/resources/js/datatables-simple-demo.js"></script>
-        <script src="/resources/js/scripts.js"></script>
+        
+        
+        <script src="/resources/js/sbAdmin-sidebar-script.js"></script>
     </body>
 </html>

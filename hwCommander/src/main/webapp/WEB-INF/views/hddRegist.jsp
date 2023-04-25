@@ -14,8 +14,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
 <meta name="author" content="" />
-<link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" />
-<link href="/resources/css/styles.css" rel="stylesheet" />
+
+<link href="/resources/css/sbAdmin-styles.css" rel="stylesheet" />
 <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
         
 <script>
@@ -299,8 +299,8 @@ function idDupliChk(id) {
                 </footer>
             </div>
         </div>
-        <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
-        <script src="/resources/js/datatables-simple-demo.js"></script>
-        <script src="/resources/js/scripts.js"></script>
+        
+        
+        <script src="/resources/js/sbAdmin-sidebar-script.js"></script>
     </body>
 </html>

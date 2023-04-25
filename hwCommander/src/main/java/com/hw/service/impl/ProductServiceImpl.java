@@ -59,4 +59,8 @@ public class ProductServiceImpl implements ProductService {
 		return productDAO.getProductDetailAllList(productMasterVO);
 	}
 	
+	@Override
+	public List<ProductMasterVO> getEventMallList() {
+		return productDAO.getEventMallList();
+	}	
 }

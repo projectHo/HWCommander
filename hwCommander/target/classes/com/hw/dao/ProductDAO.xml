@@ -96,4 +96,24 @@
 			a.id = #{id}
 	</select>
 	
+	<select id="getEventMallList" resultType="productMasterVO">
+		SELECT 
+			a.id                                                                             	AS id                
+			, a.product_name                                                                    AS productName       
+			, a.product_price                                                                   AS productPrice
+			, a.product_qty                                                                     AS productQty      
+			, a.product_description                                                             AS productDescription
+			, a.product_image                                                                   AS productImage      
+			, a.reg_dtm                                                                         AS regDtm            
+			, a.updt_dtm                                                                        AS updtDtm
+			<!-- , CONCAT(a.product_name, '&lt;br&gt;', FORMAT(a.product_price, 0), '원&lt;br&gt;', REPLACE(a.product_description, '\n', '&lt;br&gt;')) AS eventMallInfo -->
+			<![CDATA[
+			, CONCAT('<b>', a.product_name, '</b><br><br>', FORMAT(a.product_price, 0), '원<br><br>', REPLACE(a.product_description, '\n', '<br>')) AS eventMallInfo
+			]]>
+		FROM
+			product_master a
+		WHERE
+			a.product_qty > 1
+	</select>
+	
 </mapper>

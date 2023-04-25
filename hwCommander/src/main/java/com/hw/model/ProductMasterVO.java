@@ -14,4 +14,7 @@ public class ProductMasterVO {
 	private String productImage;
 	private Date regDtm;
 	private Date updtDtm;
+	
+	//necessity column
+	private String eventMallInfo;
 }
