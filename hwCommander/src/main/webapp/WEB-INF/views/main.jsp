@@ -22,7 +22,7 @@
 				<div class="w-100 row align-items-center mt-4 mb-4">
 					<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
 					    <div class="hovereffect">
-					        <img class="img-responsive img-fluid" src="/resources/img/pc-1-800x1407.png" alt="">
+					        <img class="img-fluid" src="/resources/img/pc-1-800x1407.png" alt="">
 					        <div class="overlay">
 					           <h2>공식 유튜브</h2>
 					           <a class="info" href="javascript:alert('준비중')">link here</a>
@@ -31,7 +31,7 @@
 					</div>
 					<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
 					    <div class="hovereffect">
-					        <img class="img-responsive img-fluid" src="/resources/img/laptop-1-400x704.png" alt="">
+					        <img class="img-fluid" src="/resources/img/laptop-1-400x704.png" alt="">
 					        <div class="overlay">
 					           <h2>견적산출</h2>
 					           <a class="info" href="javascript:alert('준비중')">link here</a>
@@ -40,7 +40,7 @@
 					</div>
 					<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
 					    <div class="hovereffect">
-					        <img class="img-responsive img-fluid" src="/resources/img/headset-400x704.png" alt="">
+					        <img class="img-fluid" src="/resources/img/headset-400x704.png" alt="">
 					        <div class="overlay">
 					           <h2>기획상품</h2>
 					           <a class="info" href="javascript:alert('준비중')">link here</a>
@@ -49,7 +49,7 @@
 					</div>
 					<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
 					    <div class="hovereffect">
-					        <img class="img-responsive img-fluid" src="/resources/img/mouse-400x704.png" alt="">
+					        <img class="img-fluid" src="/resources/img/mouse-400x704.png" alt="">
 					        <div class="overlay">
 					           <h2>MOUSE</h2>
 					           <a class="info" href="javascript:alert('준비중')">link here</a>

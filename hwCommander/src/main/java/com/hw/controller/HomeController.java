@@ -52,8 +52,10 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/eventMallDetail.do", method = RequestMethod.GET)
-	public String goEventMallDetail(Model model, @RequestParam(value = "productId", required = true) String productId) {
-		model.addAttribute("eventMallList", productService.getEventMallList());
+	public String goEventMallDetail(Model model, @RequestParam(value = "productId", required = true) String productId, @SessionAttribute(name = "loginUser", required = false)UserInfoVO userInfoVO) {
+		model.addAttribute("loginUser", userInfoVO);
+		model.addAttribute("productMaster", productService.getProductMasterById(productId));
+		model.addAttribute("productDetail", productService.getProductDetailById(productId));
 		return "eventMallDetail";
 	}
 	

@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class ProductMasterVO {
+	// model
 	private String id;
 	private String productName;
 	private int productPrice;
@@ -17,4 +18,6 @@ public class ProductMasterVO {
 	
 	//necessity column
 	private String eventMallInfo;
+	private String productPriceStr;
+	private String productDescriptionStr;
 }

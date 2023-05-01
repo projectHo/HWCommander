@@ -11,6 +11,7 @@ public class ProductDetailVO {
 	private String partsTypeCd;
 	private String partsTypeCdNm;
 	private String partsId;
+	private String partsName;
 	private int partsQty;
 	private int partsPrice;
 	private int partsTotalPrice;

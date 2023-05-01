@@ -55,12 +55,17 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
-	public List<ProductDetailVO> getProductDetailAllList(ProductMasterVO productMasterVO) {
-		return productDAO.getProductDetailAllList(productMasterVO);
+	public List<ProductMasterVO> getEventMallList() {
+		return productDAO.getEventMallList();
 	}
 	
 	@Override
-	public List<ProductMasterVO> getEventMallList() {
-		return productDAO.getEventMallList();
-	}	
+	public ProductMasterVO getProductMasterById(String id) {
+		return productDAO.getProductMasterById(id);
+	}
+	
+	@Override
+	public List<ProductDetailVO> getProductDetailById(String id) {
+		return productDAO.getProductDetailById(id);
+	}
 }

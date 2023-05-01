@@ -35,10 +35,12 @@ function login() {
         		alert("아이디 혹은 비밀번호가 잘못되었습니다.");
         	}else if("Y" == result) {
         		// 로그인 성공
-        		location.href = "/";
+        		//location.href = "/";
+        		location.href = document.referrer;
         	}else {
         		alert("메일인증을 완료 후 시도해주세요.");
-        		location.href = "/";
+        		//location.href = "/";
+        		location.href = document.referrer;
         	}
         }
     });

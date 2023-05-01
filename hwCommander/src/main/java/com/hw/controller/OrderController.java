@@ -23,10 +23,11 @@ public class OrderController {
 	@Autowired
     private OrderService orderService;
 	
-	@RequestMapping(value = "/main.do", method = RequestMethod.GET)
-	public String goAdminPageMain(HttpServletRequest request, Model model) {
+	@RequestMapping(value = "/information.do", method = RequestMethod.GET)
+	public String goInformationPage(HttpServletRequest request, Model model) {
+		//direct 접근, cart 접근 구분해야함.
 		
-		return "";
+		return "orderInformation";
 		
 	}
 	

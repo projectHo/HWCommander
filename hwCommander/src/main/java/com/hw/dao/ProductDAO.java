@@ -10,6 +10,7 @@ public interface ProductDAO {
 	public Integer insertProductMasterVO(ProductMasterVO productMasterVO);
 	public List<ProductMasterVO> getProductMasterAllList();
 	public Integer insertProductDetailVO(ProductDetailVO productDetailVO);
-	public List<ProductDetailVO> getProductDetailAllList(ProductMasterVO productMasterVO);
 	public List<ProductMasterVO> getEventMallList();
+	public ProductMasterVO getProductMasterById(String id);
+	public List<ProductDetailVO> getProductDetailById(String id);
 }

@@ -50,6 +50,7 @@ function goProductRegist() {
 		if(0 != index) {
 			var item = {
 				partsId : $(this).find('input[name=partsId]').val(),
+				partsName : $(this).find('input[name=partsName]').val(),
 				partsTypeCd : $(this).find('select[name=partsTypeCd]').val(),
 				partsQty : $(this).find('input[name=partsQty]').val(),
 				partsPrice : $(this).find('input[name=partsPrice]').val(),
@@ -130,7 +131,7 @@ function partsAdd() {
 	innerHtml += '	</td>';
 	innerHtml +='	<td>';
 	innerHtml +='		<div class="input-group">';
-	innerHtml +='			<input type="text" class="form-control form-control-sm" id="partsName_'+addIndex+'" disabled>';
+	innerHtml +='			<input type="text" class="form-control form-control-sm" name="partsName" id="partsName_'+addIndex+'" disabled>';
 	innerHtml +='			<a class="btn btn-outline-secondary btn-sm" type="button" href="javascript:partsSelect('+addIndex+')">선택</a>';
 	innerHtml +='			<input name="partsId" id="partsId_'+addIndex+'" type="hidden"/>';
 	innerHtml +='			<input name="partsTotalPrice" type="hidden"/>';

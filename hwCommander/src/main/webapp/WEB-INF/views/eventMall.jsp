@@ -89,7 +89,7 @@
 									<c:forEach var="item" items="${eventMallList}">
 										<tr>
                                             <td>
-                                            	<img class="img-responsive img-fluid" src="/resources/img/tempImage_200x200.png" alt="" style="cursor:pointer;" name="${item.id}">
+                                            	<img class="img-fluid rounded mx-auto d-block" src="/resources/img/tempImage_200x200.png" alt="" style="cursor:pointer;" name="${item.id}">
                                             </td>
                                             <td>${item.eventMallInfo}</td>
                                        	</tr>

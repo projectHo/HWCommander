@@ -48,13 +48,14 @@
 			product_master a
 	</select>
 	
-	<insert id="insertProductDetailVO" parameterType="productMasterVO">
+	<insert id="insertProductDetailVO" parameterType="productDetailVO">
 		INSERT INTO product_detail
 		(
 			id
 			, seq
 			, parts_type_cd
 			, parts_id
+			, parts_name
 			, parts_qty
 			, parts_price
 			, parts_total_price
@@ -68,6 +69,7 @@
 			, #{seq}
 			, #{partsTypeCd}
 			, #{partsId}
+			, #{partsName}
 			, #{partsQty}
 			, #{partsPrice}
 			, #{partsTotalPrice}
@@ -76,25 +78,6 @@
 			, #{updtDtm}
 		)
 	</insert>
-	
-	<select id="getProductDetailAllList" parameterType="productMasterVO" resultType="productDetailVO">
-		SELECT 
-			a.id                                                                              AS id             
-			, a.seq                                                                           AS seq            
-			, a.parts_type_cd                                                                 AS partsTypeCd    
-			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'COM003' AND cd = a.parts_type_cd )     AS partsTypeCdNm    
-			, a.parts_id                                                                      AS partsId        
-			, a.parts_qty                                                                     AS partsQty            
-			, a.parts_price                                                                   AS partsPrice     
-			, a.parts_total_price                                                             AS partsTotalPrice
-			, a.parts_image                                                                   AS partsImage     
-			, a.reg_dtm                                                                       AS regDtm         
-			, a.updt_dtm                                                                      AS updtDtm        
-		FROM
-			product_detail a 
-		WHERE
-			a.id = #{id}
-	</select>
 	
 	<select id="getEventMallList" resultType="productMasterVO">
 		SELECT 
@@ -114,6 +97,46 @@
 			product_master a
 		WHERE
 			a.product_qty > 1
+	</select>
+	
+	<select id="getProductMasterById" parameterType="String" resultType="productMasterVO">
+		SELECT 
+			a.id                                                                             	AS id                
+			, a.product_name                                                                    AS productName       
+			, a.product_price                                                                   AS productPrice
+			, CONCAT(FORMAT(a.product_price, 0), '원')                                           AS productPriceStr
+			, a.product_qty                                                                     AS productQty      
+			, a.product_description                                                             AS productDescription
+			<![CDATA[
+			, REPLACE(a.product_description, '\n', '<br>')                                      AS productDescriptionStr
+			]]>
+			, a.product_image                                                                   AS productImage      
+			, a.reg_dtm                                                                         AS regDtm            
+			, a.updt_dtm                                                                        AS updtDtm
+		FROM
+			product_master a
+		WHERE
+			a.id = #{id}
+	</select>
+	
+	<select id="getProductDetailById" parameterType="String" resultType="productDetailVO">
+		SELECT 
+			a.id                                                                              AS id             
+			, a.seq                                                                           AS seq            
+			, a.parts_type_cd                                                                 AS partsTypeCd    
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'COM003' AND cd = a.parts_type_cd )     AS partsTypeCdNm    
+			, a.parts_id                                                                      AS partsId
+			, a.parts_name                                                                    AS partsName        
+			, a.parts_qty                                                                     AS partsQty            
+			, a.parts_price                                                                   AS partsPrice     
+			, a.parts_total_price                                                             AS partsTotalPrice
+			, a.parts_image                                                                   AS partsImage     
+			, a.reg_dtm                                                                       AS regDtm         
+			, a.updt_dtm                                                                      AS updtDtm        
+		FROM
+			product_detail a 
+		WHERE
+			a.id = #{id}
 	</select>
 	
 </mapper>
