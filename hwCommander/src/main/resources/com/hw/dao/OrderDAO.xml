@@ -4,5 +4,127 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
    
 <mapper namespace="com.hw.dao.OrderDAO">
+	<insert id="insertOrderMasterVO" parameterType="orderMasterVO">
+		INSERT INTO order_master
+		(
+			id
+			, order_date
+			, order_name
+			, tot_order_price
+			, order_state_cd
+			, orderer_name
+			, orderer_hp_number
+			, orderer_mail
+			, recipient_name
+			, recipient_hp_number
+			, recipient_hp_number2
+			, recipient_addr
+			, order_request
+			, delivery_request
+			, payment_method
+			, waybill_number
+			, reg_dtm
+			, updt_dtm
+		)
+		VALUES
+		(
+			#{id}
+			, #{partsName}
+			, #{partsPrice}
+			, #{gledCd}
+			, #{gn}
+			, #{gmcCd}
+			, #{gscCd}
+			, #{gsv}
+			, #{gpuasCd}
+			, #{qc}
+			, #{tdp}
+			, #{bn}
+			, #{il}
+			, #{gpl}
+			, #{twelvePin}
+			, #{partsImage}
+			, NOW()
+			, #{updtDtm}
+		)
+	</insert>
 	
+	<insert id="insertOrderMasterHistoryVO" parameterType="orderMasterHistoryVO">
+		INSERT INTO order_master_history
+		(
+			id
+			, seq
+			, order_date
+			, order_name
+			, tot_order_price
+			, order_state_cd
+			, orderer_name
+			, orderer_hp_number
+			, orderer_mail
+			, recipient_name
+			, recipient_hp_number
+			, recipient_hp_number2
+			, recipient_addr
+			, order_request
+			, delivery_request
+			, payment_method
+			, waybill_number
+			, reg_dtm
+		)
+		VALUES
+		(
+			#{id}
+			, #{partsName}
+			, #{partsPrice}
+			, #{gledCd}
+			, #{gn}
+			, #{gmcCd}
+			, #{gscCd}
+			, #{gsv}
+			, #{gpuasCd}
+			, #{qc}
+			, #{tdp}
+			, #{bn}
+			, #{il}
+			, #{gpl}
+			, #{twelvePin}
+			, #{partsImage}
+			, NOW()
+			, #{updtDtm}
+		)
+	</insert>
+	
+	<insert id="insertOrderDetailVO" parameterType="orderDetailVO">
+		INSERT INTO order_detail
+		(
+			id
+			, seq
+			, product_id
+			, product_order_qty
+			, order_price
+			, reg_dtm
+			, updt_dtm
+		)
+		VALUES
+		(
+			#{id}
+			, #{partsName}
+			, #{partsPrice}
+			, #{gledCd}
+			, #{gn}
+			, #{gmcCd}
+			, #{gscCd}
+			, #{gsv}
+			, #{gpuasCd}
+			, #{qc}
+			, #{tdp}
+			, #{bn}
+			, #{il}
+			, #{gpl}
+			, #{twelvePin}
+			, #{partsImage}
+			, NOW()
+			, #{updtDtm}
+		)
+	</insert>
 </mapper>

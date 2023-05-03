@@ -26,10 +26,8 @@ function goCart() {
 }
 
 function goDirectOrder() {
-	
 	if(loginCheck()) {
-		alert("Go Direct Order Page!");
-		//location.href = "/admin/main.do";
+		location.href = "/order/sheet.do?accessRoute=direct&productIds="+"${productMaster.id}";
 	}
 }
 

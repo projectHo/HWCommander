@@ -28,7 +28,7 @@
     	    columnDefs: [
     	    { width: "30%", targets : 0 },
     	    { width: "70%", targets: 1 }
-    	    ],
+    	    ]
     	 });
     	
     	/* 
