@@ -227,3 +227,8 @@
 .clearfix{
 	clear: both;
 }
+
+/* bootstrap과 이니시스 modal fade 충돌문제로 하드코딩 */
+#inicisModalDiv {
+	opacity : 1 !important;
+}

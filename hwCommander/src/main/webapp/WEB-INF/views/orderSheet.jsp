@@ -1,5 +1,8 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="com.inicis.std.util.SignatureUtil"%>
+<%@page import="java.util.*"%>
 <html>
 <head>
 <title>현우의 컴퓨터 공방 - 이벤트 몰</title>
@@ -20,6 +23,35 @@
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet"/>
 
+<!-- 이니시스js -->
+<!--테스트 JS-->
+<script language="javascript" type="text/javascript" src="https://stgstdpay.inicis.com/stdjs/INIStdPay.js" charset="UTF-8"></script>
+<!--운영 JS -->
+<!-- 
+<script language="javascript" type="text/javascript" src="https://stdpay.inicis.com/stdjs/INIStdPay.js" charset="UTF-8"></script>
+ -->
+
+<%
+
+	String mid					= "INIpayTest";		                    // 상점아이디					
+	String signKey			    = "SU5JTElURV9UUklQTEVERVNfS0VZU1RS";	// 웹 결제 signkey
+	
+	String mKey = SignatureUtil.hash(signKey, "SHA-256");
+
+	String timestamp			= SignatureUtil.getTimestamp();			// util에 의해서 자동생성
+	String oid			= "TESTORD0000001";	// 가맹점 주문번호(가맹점에서 직접 설정)
+	String price				= "1000";								// 상품가격(특수기호 제외, 가맹점에서 직접 설정)
+
+
+	Map<String, String> signParam = new HashMap<String, String>();
+
+	signParam.put("oid", oid);
+	signParam.put("price", price);
+	signParam.put("timestamp", timestamp);
+
+	String signature = SignatureUtil.makeSignature(signParam);
+	
+%>
 
 <script>
 
@@ -64,7 +96,21 @@
     });
     
 function btnCheckOutClick() {
-	alert("나! 결제한다!!!");
+	//alert("나! 결제한다!!!");
+	
+	// 주문번호 생성하는 ajax 태운 뒤 성공 시 이니시스 호출해야함.
+	
+	// 상품합계금액 세팅 임시로 10원
+	//$("#inicis_price").val("10");
+	
+	$("#inicis_goodname").val("테스트상품 외 1건");
+	$("#inicis_buyername").val($("#ordererName").val());
+	$("#inicis_buyertel").val($("#ordererHpNumber").val());
+	$("#inicis_buyeremail").val($("#ordererMail").val());
+	
+	alert($("#inicis_price").val());
+	
+	INIStdPay.pay('inicisSendForm');
 	
 }
 
@@ -188,6 +234,25 @@ function btnCheckOutClick() {
 			</div>
 		</div>
 	</form>
+	
+	
+<form id="inicisSendForm" method="post">
+	<input type="hidden" name="version" value="1.0">
+	<input type="hidden" name="gopaymethod" value="Card">
+	<input type="hidden" name="mid" value="<%=mid%>">
+	<input type="hidden" name="oid" value="<%=oid%>">
+	<input type="hidden" id="inicis_price" name="price" value="<%=price%>">
+	<input type="hidden" name="timestamp" value="<%=timestamp%>">
+	<input type="hidden" name="signature" value="<%=signature%>">
+	<input type="hidden" name="mKey" value="<%=mKey%>">
+	<input type="hidden" name="currency" value="WON">
+	<input type="hidden" id="inicis_goodname" name="goodname">
+	<input type="hidden" id="inicis_buyername" name="buyername">
+	<input type="hidden" id="inicis_buyertel" name="buyertel">
+	<input type="hidden" id="inicis_buyeremail" name="buyeremail">
+	<input type="hidden" name="returnUrl" value="http://localhost:8080/order/inicisPayReturn.do">
+	<input type="hidden" name="closeUrl" value="http://localhost:8080/order/inicisPayClose.do">
+</form>
 
 </body>
 </html>
