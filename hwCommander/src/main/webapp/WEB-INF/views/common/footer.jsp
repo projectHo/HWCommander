@@ -62,7 +62,7 @@
 					</div>
 					<div class="col">
 						<nav class="nav flex-column">
-						  <h4><b>빛드시스템</b></h4>
+						  <h4><b>현우의 컴퓨터 공방</b></h4>
 						  <a class="nav-link disabled text-dark" href="#">대표 : 이해창 | tel. 010-2484-4603 |</a>
 						  <a class="nav-link disabled text-dark" href="#">사업자등록번호: 829-36-00813 |</a>
 						  <a class="nav-link disabled text-dark" href="#">대전시 동구 동대전로 112,102호 |</a>

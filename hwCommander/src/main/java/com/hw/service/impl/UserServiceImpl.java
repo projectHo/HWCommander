@@ -84,8 +84,7 @@ public class UserServiceImpl implements UserService {
 				+ "<br>"
 				+ "<br>" + userInfoVO.getId() + "님, 환영합니다!"
 				+ "<br>아래 [이메일 인증]을 눌러주세요."
-				//todo wonho 나중에 운영서버 주소로 바꿔야함.
-				+ "<br><a href='http://localhost:8080/user/mailConfirmLogic.do?mail="+userInfoVO.getMail()
+				+ "<br><a href='http://hwcommander.com/user/mailConfirmLogic.do?mail="+userInfoVO.getMail()
 				+ "&mailKey="+userInfoVO.getMailKey()
 				+ "' target='_blank'>이메일 인증</a>";
 		

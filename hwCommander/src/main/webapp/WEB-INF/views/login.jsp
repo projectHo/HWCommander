@@ -12,15 +12,15 @@
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script>
     $(function(){
-        $('#btn_login').on("click",function () {
-        	if(!validationCheck()) {
-        		return false;
-        	}
-        	login();
-        });
+
     });
     
 function login() {
+	
+	if(!validationCheck()) {
+		return false;
+	}
+	
     var form = $("#login_form").serialize();
     
     $.ajax({
@@ -58,6 +58,13 @@ function validationCheck() {
 	}
 	return true;
 }
+
+function comnOnKeyUp() {
+	if (window.event.keyCode == 13) {
+		login();
+    }
+}
+
 </script>
 </head>
 <body>
@@ -71,15 +78,15 @@ function validationCheck() {
 				<form id="login_form">
 					<h4 class="text-light mt-3 mb-5 px-5"><b>아이디/비밀번호를 입력하여 로그인해 주시기 바랍니다.</b></h4>
 					<div class="form-floating mb-3 col-6 mx-auto">
-					  <input type="text" class="form-control" id="id" name="id">
+					  <input type="text" class="form-control" id="id" name="id" onkeyup="javascript:comnOnKeyUp()">
 					  <label for="floatingInput">ID</label>
 					</div>
 					<div class="form-floating mb-5 col-6 mx-auto">
-					  <input type="password" class="form-control" id="pw" name="pw">
+					  <input type="password" class="form-control" id="pw" name="pw" onkeyup="javascript:comnOnKeyUp()">
 					  <label for="floatingPassword">Password</label>
 					</div>
 					<div class="d-grid gap-2 mb-3 col-6 mx-auto">
-					  <button class="btn btn-outline-light btn-lg" type="button" id="btn_login">Login</button>
+					  <button class="btn btn-outline-light btn-lg" type="button" onclick="javascript:login()">Login</button>
 					</div>
 					<div class="d-flex justify-content-center mb-5">
 						<nav class="navbar navbar-expand-md">

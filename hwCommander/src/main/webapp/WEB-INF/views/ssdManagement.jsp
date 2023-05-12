@@ -22,150 +22,22 @@
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet"/>
-        
+
+<!-- cookie js -->
+<script src="/resources/js/getSetCookie.js"></script>
+
 <script>
-
-var targetId = null;
-
     $(function(){
+    	$("#ssdListTable").DataTable({
+    		displayLength : setDisplayLength()
+    	});
     	
-    	$("#ssdListTable").DataTable();
-    	
-        $('#btn_signUp').on("click", function () {
-        	if(!validationCheck()) {
-        		return false;
-        	}
-        	goSignUp();
-        });
-        
-        // id 중복확인
-        $('#btn_id_dupli_chk').on("click", function () {
-        	idDupliChk($('#id').val().trim());
-        });
-        
-        // 이메일인증
-        /*
-        $('#btn_email_chk').on("click", function () {
-        	alert("이메일인증해~");
-        	return false;
-        	
-        });
-        */
-        
-        // 주소찾기
-        $('#btn_addr_search').on("click", function () {
-        	alert("주소찾아~");
-        	return false;
-        	
-        });
-        
-        // 핸드폰인증
-        $('#btn_hpNumber_chk').on("click", function () {
-        	alert("핸드폰인증해");
-        	return false;
-        	
-        });
+        window.addEventListener('unload', function() {
+        	setCookie('displayLength', $("select[name=ssdListTable_length]").val(), {'max-age': 1800});
+       	});
     });
-    
-function goSignUp() {
-    var form = $("#signUp_form").serialize();
-    
-    $.ajax({
-        type: "post",
-        url: "/user/signUpLogic.do",
-        data: form,
-        dataType: 'json',
-        success: function (data) {
-        	if(data == 1) {
-        		alert("회원가입이 완료되었습니다.\n이메일 인증 후 이용해주세요.");
-        	}else {
-        		alert("회원가입이 정상적으로 처리되지 않았습니다.\n고객센터로 문의해주세요.");
-        	}
-        	window.location = "/";
-            console.log(data);
-        }
-    });
-}
-
-function validationCheck() {
-	if($('#id').val().trim() == "") {
-		alert("아이디를 입력하세요");
-		return false;
-	}
-	
-	if(targetId == null || targetId != $('#id').val().trim()) {
-		alert("아이디 중복확인이 되지 않았습니다.");
-		return false;
-	}
-	
-	if($('#pw').val() == "" || $('#pw').val() == null) {
-		alert("비밀번호를 입력하세요.");
-		return false;
-	}
-	
-	if($('#pw').val() != $('#pwConfirm').val()) {
-		alert("비밀번호가 일치하지 않습니다.");
-		return false;
-	}
-	
-	if($('#name').val().trim() == "" || $('#name').val().trim() == null) {
-		alert("이름을 입력하세요.");
-		return false;
-	}
-	
-	if($('#birth').val() == "" || $('#birth').val() == null) {
-		alert("생년월일을 입력하세요.");
-		return false;
-	}
-	
-	if($('#hpNumber').val().trim() == "" || $('#hpNumber').val().trim() == null) {
-		alert("휴대폰번호를 입력하세요.");
-		return false;
-	}
-	
-	if($('#addr').val().trim() == "" || $('#addr').val().trim() == null) {
-		alert("주소를 입력하세요.");
-		return false;
-	}
-	
-	if($('#mail').val().trim() == "" || $('#mail').val().trim() == null) {
-		alert("이메일을 입력하세요.");
-		return false;
-	}
-	
-	//todo wonho validation check 추가해야함. maxlength 라던가 생년월일, 이메일, 주소 등 정규식코드라던가..
-	
-	return true;
-}
-
-function idDupliChk(id) {
-	
-	if(id == "") {
-		alert("아이디를 입력하세요.");
-		return false;
-	}
-	
-	$.ajax({
-        type: "post",
-        url: "/user/idDupliChk.do",
-        data: {
-        	"id" : id
-        },
-        dataType: 'json',
-        success: function (data) {
-        	if(data == 0) {
-        		targetId = id;
-        		alert("사용가능한 ID 입니다.");
-        		$("#id").removeClass("is-invalid");
-        	}else {
-        		targetId = null;
-        		$("#id").addClass("is-invalid");
-        		alert("중복된 ID 입니다.");
-        	}
-        }
-    });
-}
 </script>
+
 </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">

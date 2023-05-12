@@ -108,7 +108,7 @@ function btnCheckOutClick() {
 	$("#inicis_buyertel").val($("#ordererHpNumber").val());
 	$("#inicis_buyeremail").val($("#ordererMail").val());
 	
-	alert($("#inicis_price").val());
+	console.log("테스트금액 : "+$("#inicis_price").val());
 	
 	INIStdPay.pay('inicisSendForm');
 	
@@ -250,8 +250,15 @@ function btnCheckOutClick() {
 	<input type="hidden" id="inicis_buyername" name="buyername">
 	<input type="hidden" id="inicis_buyertel" name="buyertel">
 	<input type="hidden" id="inicis_buyeremail" name="buyeremail">
+	
+	<!-- todo wonho 로컬테스트 -->
 	<input type="hidden" name="returnUrl" value="http://localhost:8080/order/inicisPayReturn.do">
 	<input type="hidden" name="closeUrl" value="http://localhost:8080/order/inicisPayClose.do">
+	<!-- todo wonho 운영 -->
+	<!-- 
+	<input type="hidden" name="returnUrl" value="http://hwcommander.com/order/inicisPayReturn.do">
+	<input type="hidden" name="closeUrl" value="http://hwcommander.com/order/inicisPayClose.do">
+	 -->
 </form>
 
 </body>
