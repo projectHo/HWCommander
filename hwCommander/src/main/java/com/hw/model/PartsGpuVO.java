@@ -9,6 +9,7 @@ public class PartsGpuVO {
 	private String id;
 	private String partsName;
 	private int partsPrice;
+	private String partsPriceStr;
 	private String gledCd;
 	private String gledCdNm;
 	private float gn;
@@ -28,4 +29,5 @@ public class PartsGpuVO {
 	private String partsImage;
 	private Date regDtm;
 	private Date updtDtm;
+	private String multiBulk;
 }

@@ -30,6 +30,13 @@
     $(function(){
     	$("#productListTable").DataTable({
     		displayLength : setDisplayLength()
+    	    , bAutoWidth : false
+    	    , columnDefs : [
+	    	    {targets : 0, width : "30%"}
+	    	    , {targets : 1, width : "5%"}
+	    	    , {targets : 2, width : "65%"}
+	    	    , {targets : 3, visible : false}
+    	    ]
     	});
     	
         window.addEventListener('unload', function() {
@@ -131,6 +138,10 @@
                                             <th>product name</th>
                                             <th>product price</th>
                                             <th>product description</th>
+                                            
+                                            <!-- 안보이는부분 -->
+                                            <th>productDetailListStr</th>
+                                            
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -139,6 +150,9 @@
 	                                            <td>${item.productName}</td>
 	                                            <td>${item.productPrice}</td>
 	                                            <td>${item.productDescription}</td>
+	                                            
+	                                            <!-- 안보이는부분 -->
+	                                            <td>${item.productDetailListStr}</td>
                                         	</tr>
 										</c:forEach>
                                     </tbody>

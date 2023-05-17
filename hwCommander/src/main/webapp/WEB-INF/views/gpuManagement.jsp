@@ -29,6 +29,16 @@
     $(function(){
     	$("#gpuListTable").DataTable({
     		displayLength : setDisplayLength()
+    	    , bAutoWidth : false
+    	    , columnDefs : [
+	    	    {targets : 0, width : "50%"}
+	    	    , {targets : 1, width : "10%"}
+	    	    , {targets : 2, width : "10%"}
+	    	    , {targets : 3, width : "10%"}
+	    	    , {targets : 4, width : "10%"}
+	    	    , {targets : 5, width : "10%"}
+	    	    , {targets : 6, visible : false}
+    	    ]
     	});
     	
         window.addEventListener('unload', function() {
@@ -132,6 +142,9 @@
                                             <th>GMC</th>
                                             <th>GSC</th>
                                             <th>GPUAS</th>
+                                            
+                                            <!-- 안보이는부분 -->
+                                            <th>GPL</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -143,6 +156,9 @@
 	                                            <td>${item.gmcCdNm}</td>
 	                                            <td>${item.gscCdNm}</td>
 	                                            <td>${item.gpuasCdNm}</td>
+	                                            
+	                                            <!-- 안보이는부분 -->
+	                                            <td>${item.gpl}</td>
                                         	</tr>
 										</c:forEach>
                                     </tbody>

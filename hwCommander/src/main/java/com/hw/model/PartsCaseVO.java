@@ -9,6 +9,7 @@ public class PartsCaseVO {
 	private String id;
 	private String partsName;
 	private int partsPrice;
+	private String partsPriceStr;
 	private String cledCd;
 	private String cledCdNm;
 	private String cmCd;
@@ -35,4 +36,5 @@ public class PartsCaseVO {
 	private String partsImage;
 	private Date regDtm;
 	private Date updtDtm;
+	private String multiBulk;
 }

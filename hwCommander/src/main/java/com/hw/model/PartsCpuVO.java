@@ -9,6 +9,7 @@ public class PartsCpuVO {
 	private String id;
 	private String partsName;
 	private int partsPrice;
+	private String partsPriceStr;
 	private int csv;
 	private String makerCd;
 	private String makerCdNm;
@@ -22,4 +23,6 @@ public class PartsCpuVO {
 	private String partsImage;
 	private Date regDtm;
 	private Date updtDtm;
+	private String multiBulk;
+	private String apu;
 }

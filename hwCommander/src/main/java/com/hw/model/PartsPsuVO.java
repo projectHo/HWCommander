@@ -9,6 +9,7 @@ public class PartsPsuVO {
 	private String id;
 	private String partsName;
 	private int partsPrice;
+	private String partsPriceStr;
 	private String pmcCd;
 	private String pmcCdNm;
 	private String pscCd;
@@ -24,4 +25,5 @@ public class PartsPsuVO {
 	private String partsImage;
 	private Date regDtm;
 	private Date updtDtm;
+	private String multiBulk;
 }

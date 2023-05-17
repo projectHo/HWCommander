@@ -25,7 +25,10 @@
         	if(!validationCheck()) {
         		return false;
         	}
-        	goCaseRegist();
+        	
+        	if(confirm("등록 하시겠습니까?")) {
+        		goCaseRegist();
+        	}
         });
     });
     
@@ -364,6 +367,12 @@ function idDupliChk(id) {
                                            <div class="form-floating mb-3 mb-md-0">
                                                <input class="form-control" id="strThreeDotFive" name="strThreeDotFive" type="text" placeholder="Enter strThreeDotFive" />
                                                <label for="strThreeDotFive">STR 3.5</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+                                               <input class="form-control" id="multiBulk" name="multiBulk" type="text" placeholder="Enter multiBulk" />
+                                               <label for="multiBulk">멀티팩 벌크</label>
                                            </div>
                                        </div>
                                    </div>

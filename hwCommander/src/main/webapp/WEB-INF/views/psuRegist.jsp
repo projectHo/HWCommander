@@ -25,7 +25,10 @@
         	if(!validationCheck()) {
         		return false;
         	}
-        	goPsuRegist();
+        	
+        	if(confirm("등록 하시겠습니까?")) {
+        		goPsuRegist();
+        	}
         });
     });
     
@@ -295,6 +298,12 @@ function idDupliChk(id) {
                                            <div class="form-floating mb-3 mb-md-0">
                                                <input class="form-control" id="twelvePin" name="twelvePin" type="text" placeholder="Enter twelvePin" />
                                                <label for="twelvePin">12PIN</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+                                               <input class="form-control" id="multiBulk" name="multiBulk" type="text" placeholder="Enter multiBulk" />
+                                               <label for="multiBulk">멀티팩 벌크</label>
                                            </div>
                                        </div>
                                    </div>

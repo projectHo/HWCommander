@@ -9,6 +9,7 @@ public class PartsRamVO {
 	private String id;
 	private String partsName;
 	private int partsPrice;
+	private String partsPriceStr;
 	private String rledCd;
 	private String rledCdNm;
 	private String rmcCd;
@@ -26,4 +27,6 @@ public class PartsRamVO {
 	private String partsImage;
 	private Date regDtm;
 	private Date updtDtm;
+	private String multiBulk;
+	private int volume;
 }

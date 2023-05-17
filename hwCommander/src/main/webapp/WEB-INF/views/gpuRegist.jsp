@@ -25,7 +25,10 @@
         	if(!validationCheck()) {
         		return false;
         	}
-        	goGpuRegist();
+        	
+        	if(confirm("등록 하시겠습니까?")) {
+        		goGpuRegist();
+        	}
         });
     });
     
@@ -302,22 +305,31 @@ function idDupliChk(id) {
                                                <label for="bn">BN</label>
                                            </div>
                                        </div>
-                                       <div class="col-md-2">
+                                       <div class="col-md-3">
                                            <div class="form-floating">
                                                <input class="form-control" id="il" name="il" type="text" placeholder="Enter il" />
                                                <label for="il">IL</label>
                                            </div>
                                        </div>
-                                       <div class="col-md-2">
+                                       <div class="col-md-3">
                                            <div class="form-floating">
                                                <input class="form-control" id="gpl" name="gpl" type="text" placeholder="Enter gpl" />
                                                <label for="gpl">GPL</label>
                                            </div>
                                        </div>
-                                       <div class="col-md-2">
+                                   </div>
+                                   
+                                   <div class="row mb-3">
+                                       <div class="col-md-3">
                                            <div class="form-floating">
                                                <input class="form-control" id="twelvePin" name="twelvePin" type="text" placeholder="Enter twelvePin" />
                                                <label for="twelvePin">12PIN</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+                                               <input class="form-control" id="multiBulk" name="multiBulk" type="text" placeholder="Enter multiBulk" />
+                                               <label for="multiBulk">멀티팩 벌크</label>
                                            </div>
                                        </div>
                                    </div>

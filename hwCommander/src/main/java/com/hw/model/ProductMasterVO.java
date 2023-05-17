@@ -20,4 +20,5 @@ public class ProductMasterVO {
 	private String eventMallInfo;
 	private String productPriceStr;
 	private String productDescriptionStr;
+	private String productDetailListStr;
 }

@@ -9,6 +9,7 @@ public class PartsSsdVO {
 	private String id;
 	private String partsName;
 	private int partsPrice;
+	private String partsPriceStr;
 	private float basic;
 	private int fnc;
 	private int cmf;
@@ -22,4 +23,6 @@ public class PartsSsdVO {
 	private String partsImage;
 	private Date regDtm;
 	private Date updtDtm;
+	private String multiBulk;
+	private int volume;
 }

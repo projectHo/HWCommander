@@ -30,6 +30,7 @@
 			, parts_image
 			, reg_dtm
 			, updt_dtm
+			, multi_bulk
 		)
 		VALUES
 		(
@@ -51,6 +52,7 @@
 			, #{partsImage}
 			, NOW()
 			, #{updtDtm}
+			, #{multiBulk}
 		)
 	</insert>
 	
@@ -59,6 +61,7 @@
 			a.id                                                                              AS id        
 			, a.parts_name                                                                    AS partsName 
 			, a.parts_price                                                                   AS partsPrice
+			, FORMAT(a.parts_price, 0)                                                        AS partsPriceStr
 			, a.gled_cd                                                                       AS gledCd    
 			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'COM002' AND cd = a.gled_cd)     AS gledCdNm  
 			, a.gn                                                                            AS gn        
@@ -77,7 +80,8 @@
 			, a.twelve_pin                                                                    AS twelvePin 
 			, a.parts_image                                                                   AS partsImage
 			, a.reg_dtm                                                                       AS regDtm    
-			, a.updt_dtm                                                                      AS updtDtm   
+			, a.updt_dtm                                                                      AS updtDtm
+			, a.multi_bulk                                                                    AS multiBulk
 		FROM
 			parts_gpu a;
 	</select>
@@ -103,6 +107,8 @@
 			, parts_image
 			, reg_dtm
 			, updt_dtm
+			, multi_bulk
+			, apu
 		)
 		VALUES
 		(
@@ -120,6 +126,8 @@
 			, #{partsImage}
 			, NOW()
 			, #{updtDtm}
+			, #{multiBulk}
+			, #{apu}
 		)
 	</insert>
 	
@@ -127,7 +135,8 @@
 		SELECT 
 			a.id                                                                               AS id          
 			, a.parts_name                                                                     AS partsName   
-			, a.parts_price                                                                    AS partsPrice  
+			, a.parts_price                                                                    AS partsPrice
+			, FORMAT(a.parts_price, 0)                                                         AS partsPriceStr  
 			, a.csv                                                                            AS csv         
 			, a.maker_cd                                                                       AS makerCd     
 			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT009' AND cd = a.maker_cd)     AS makerCdNm   
@@ -140,7 +149,9 @@
 			, a.ddr5_max_range                                                                 AS ddr5MaxRange
 			, a.parts_image                                                                    AS partsImage  
 			, a.reg_dtm                                                                        AS regDtm      
-			, a.updt_dtm                                                                       AS updtDtm     
+			, a.updt_dtm                                                                       AS updtDtm
+			, a.multi_bulk                                                                     AS multiBulk
+			, a.apu                                                                            AS apu     
 		FROM
 			parts_cpu a;
 	</select>
@@ -172,6 +183,8 @@
 			, parts_image
 			, reg_dtm
 			, updt_dtm
+			, multi_bulk
+			, wifi
 		)
 		VALUES
 		(
@@ -195,6 +208,8 @@
 			, #{partsImage}
 			, NOW()
 			, #{updtDtm}
+			, #{multiBulk}
+			, #{wifi}
 		)
 	</insert>
 	
@@ -203,6 +218,7 @@
 			a.id                                                                             AS id        
 			, a.parts_name                                                                     AS partsName 
 			, a.parts_price                                                                    AS partsPrice
+			, FORMAT(a.parts_price, 0)                                                         AS partsPriceStr
 			, a.mled_cd                                                                        AS mledCd    
 			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'COM002' AND cd = a.mled_cd)      AS mledCdNm  
 			, a.mmc_cd                                                                         AS mmcCd     
@@ -226,7 +242,9 @@
 			, a.sata                                                                           AS sata      
 			, a.parts_image                                                                    AS partsImage
 			, a.reg_dtm                                                                        AS regDtm    
-			, a.updt_dtm                                                                       AS updtDtm        
+			, a.updt_dtm                                                                       AS updtDtm
+			, a.multi_bulk                                                                     AS multiBulk
+			, a.wifi                                                                           AS wifi        
 		FROM
 			parts_mb a;
 	</select>
@@ -253,6 +271,8 @@
 			, parts_image
 			, reg_dtm
 			, updt_dtm
+			, multi_bulk
+			, volume
 		)
 		VALUES
 		(
@@ -271,6 +291,8 @@
 			, #{partsImage}
 			, NOW()
 			, #{updtDtm}
+			, #{multiBulk}
+			, #{volume}
 		)
 	</insert>
 	
@@ -278,7 +300,8 @@
 		SELECT 
 			a.id                                                                               AS id          
 			, a.parts_name                                                                     AS partsName   
-			, a.parts_price                                                                    AS partsPrice  
+			, a.parts_price                                                                    AS partsPrice
+			, FORMAT(a.parts_price, 0)                                                         AS partsPriceStr  
 			, a.rled_cd                                                                        AS rledCd      
 			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'COM002' AND cd = a.rled_cd)      AS rledCdNm    
 			, a.rmc_cd                                                                         AS rmcCd       
@@ -295,7 +318,9 @@
 			, a.ddr5_max_range                                                                 AS ddr5MaxRange
 			, a.parts_image                                                                    AS partsImage  
 			, a.reg_dtm                                                                        AS regDtm      
-			, a.updt_dtm                                                                       AS updtDtm     
+			, a.updt_dtm                                                                       AS updtDtm
+			, a.multi_bulk                                                                     AS multiBulk
+			, a.volume                                                                         AS volume     
 		FROM
 			parts_ram a;
 	</select>
@@ -323,6 +348,7 @@
 			, parts_image
 			, reg_dtm
 			, updt_dtm
+			, multi_bulk
 		)
 		VALUES
 		(
@@ -342,6 +368,7 @@
 			, #{partsImage}
 			, NOW()
 			, #{updtDtm}
+			, #{multiBulk}
 		)
 	</insert>
 	
@@ -350,6 +377,7 @@
 			a.id                                                                               AS id        
 			, a.parts_name                                                                     AS partsName 
 			, a.parts_price                                                                    AS partsPrice
+			, FORMAT(a.parts_price, 0)                                                         AS partsPriceStr
 			, a.pmc_cd                                                                         AS pmcCd     
 			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT013' AND cd = a.pmc_cd)       AS pmcCdNm   
 			, a.psc_cd                                                                         AS pscCd     
@@ -364,7 +392,8 @@
 			, a.twelve_pin                                                                     AS twelvePin 
 			, a.parts_image                                                                    AS partsImage
 			, a.reg_dtm                                                                        AS regDtm    
-			, a.updt_dtm                                                                       AS updtDtm     
+			, a.updt_dtm                                                                       AS updtDtm
+			, a.multi_bulk                                                                     AS multiBulk     
 		FROM
 			parts_psu a;
 	</select>
@@ -400,6 +429,7 @@
 			, parts_image
 			, reg_dtm
 			, updt_dtm
+			, multi_bulk
 		)
 		VALUES
 		(
@@ -427,6 +457,7 @@
 			, #{partsImage}
 			, NOW()
 			, #{updtDtm}
+			, #{multiBulk}
 		)
 	</insert>
 	
@@ -434,7 +465,8 @@
 		SELECT 
 			a.id                                                                               AS id             
 			, a.parts_name                                                                     AS partsName      
-			, a.parts_price                                                                    AS partsPrice     
+			, a.parts_price                                                                    AS partsPrice
+			, FORMAT(a.parts_price, 0)                                                         AS partsPriceStr     
 			, a.cled_cd                                                                        AS cledCd         
 			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'COM002' AND cd = a.cled_cd)      AS cledCdNm
 			, a.cm_cd                                                                          AS cmCd           
@@ -460,7 +492,8 @@
 			, a.str_three_dot_five                                                             AS strThreeDotFive
 			, a.parts_image                                                                    AS partsImage     
 			, a.reg_dtm                                                                        AS regDtm         
-			, a.updt_dtm                                                                       AS updtDtm        
+			, a.updt_dtm                                                                       AS updtDtm
+			, a.multi_bulk                                                                     AS multiBulk        
 		FROM
 			parts_case a;
 	</select>
@@ -491,6 +524,7 @@
 			, parts_image
 			, reg_dtm
 			, updt_dtm
+			, multi_bulk
 		)
 		VALUES
 		(
@@ -513,6 +547,7 @@
 			, #{partsImage}
 			, NOW()
 			, #{updtDtm}
+			, #{multiBulk}
 		)
 	</insert>
 	
@@ -521,6 +556,7 @@
 			a.id                                                                               AS id        
 			, a.parts_name                                                                     AS partsName 
 			, a.parts_price                                                                    AS partsPrice
+			, FORMAT(a.parts_price, 0)                                                         AS partsPriceStr
 			, a.clled_cd                                                                       AS clledCd   
 			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'COM002' AND cd = a.clled_cd)     AS clledCdNm
 			, a.clmc_cd                                                                        AS clmcCd    
@@ -540,7 +576,8 @@
 			, a.it                                                                             AS it        
 			, a.parts_image                                                                    AS partsImage
 			, a.reg_dtm                                                                        AS regDtm    
-			, a.updt_dtm                                                                       AS updtDtm   
+			, a.updt_dtm                                                                       AS updtDtm
+			, a.multi_bulk                                                                     AS multiBulk   
 		FROM
 			parts_cooler a;
 	</select>
@@ -566,6 +603,8 @@
 			, parts_image
 			, reg_dtm
 			, updt_dtm
+			, multi_bulk
+			, volume
 		)
 		VALUES
 		(
@@ -583,6 +622,8 @@
 			, #{partsImage}
 			, NOW()
 			, #{updtDtm}
+			, #{multiBulk}
+			, #{volume}
 		)
 	</insert>
 	
@@ -590,7 +631,8 @@
 		SELECT 
 			a.id                                                                               AS id             
 			, a.parts_name                                                                     AS partsName      
-			, a.parts_price                                                                    AS partsPrice     
+			, a.parts_price                                                                    AS partsPrice
+			, FORMAT(a.parts_price, 0)                                                         AS partsPriceStr     
 			, a.spd                                                                            AS spd            
 			, a.fea                                                                            AS fea            
 			, a.rel                                                                            AS rel            
@@ -601,7 +643,9 @@
 			, a.sata                                                                           AS sata           
 			, a.parts_image                                                                    AS partsImage     
 			, a.reg_dtm                                                                        AS regDtm         
-			, a.updt_dtm                                                                       AS updtDtm             
+			, a.updt_dtm                                                                       AS updtDtm
+			, a.multi_bulk                                                                     AS multiBulk
+			, a.volume                                                                         AS volume
 		FROM
 			parts_hdd a;
 	</select>
@@ -628,6 +672,8 @@
 			, parts_image
 			, reg_dtm
 			, updt_dtm
+			, multi_bulk
+			, volume
 		)
 		VALUES
 		(
@@ -646,6 +692,8 @@
 			, #{partsImage}
 			, NOW()
 			, #{updtDtm}
+			, #{multiBulk}
+			, #{volume}
 		)
 	</insert>
 	
@@ -653,7 +701,8 @@
 		SELECT 
 			a.id                                                                               AS id           
 			, a.parts_name                                                                     AS partsName    
-			, a.parts_price                                                                    AS partsPrice   
+			, a.parts_price                                                                    AS partsPrice
+			, FORMAT(a.parts_price, 0)                                                         AS partsPriceStr   
 			, a.basic                                                                          AS basic        
 			, a.fnc                                                                            AS fnc          
 			, a.cmf                                                                            AS cmf          
@@ -666,7 +715,9 @@
 			, a.sata                                                                           AS sata         
 			, a.parts_image                                                                    AS partsImage   
 			, a.reg_dtm                                                                        AS regDtm       
-			, a.updt_dtm                                                                       AS updtDtm      
+			, a.updt_dtm                                                                       AS updtDtm
+			, a.multi_bulk                                                                     AS multiBulk
+			, a.volume                                                                         AS volume   
 		FROM
 			parts_ssd a;
 	</select>
@@ -691,6 +742,7 @@
 			, parts_image
 			, reg_dtm
 			, updt_dtm
+			, multi_bulk
 		)
 		VALUES
 		(
@@ -707,6 +759,7 @@
 			, #{partsImage}
 			, NOW()
 			, #{updtDtm}
+			, #{multiBulk}
 		)
 	</insert>
 	
@@ -715,6 +768,7 @@
 			a.id                                                                               AS id        
 			, a.parts_name                                                                     AS partsName 
 			, a.parts_price                                                                    AS partsPrice
+			, FORMAT(a.parts_price, 0)                                                         AS partsPriceStr
 			, a.fled_cd                                                                        AS fledCd    
 			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'COM002' AND cd = a.fled_cd)      AS fledCdNm  
 			, a.fmc_cd                                                                         AS fmcCd     
@@ -727,7 +781,8 @@
 			, a.ft                                                                             AS ft        
 			, a.parts_image                                                                    AS partsImage
 			, a.reg_dtm                                                                        AS regDtm    
-			, a.updt_dtm                                                                       AS updtDtm   
+			, a.updt_dtm                                                                       AS updtDtm
+			, a.multi_bulk                                                                     AS multiBulk   
 		FROM
 			parts_sf a;
 	</select>

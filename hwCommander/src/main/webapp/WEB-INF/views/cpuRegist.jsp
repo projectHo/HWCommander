@@ -25,7 +25,10 @@
         	if(!validationCheck()) {
         		return false;
         	}
-        	goCpuRegist();
+        	
+        	if(confirm("등록 하시겠습니까?")) {
+        		goCpuRegist();
+        	}
         });
     });
     
@@ -247,13 +250,13 @@ function idDupliChk(id) {
                                    </div>
                                    
                                    <div class="row mb-3">
-                                       <div class="col-md-2">
+                                       <div class="col-md-3">
                                            <div class="form-floating">
                                                <input class="form-control" id="bn" name="bn" type="text" placeholder="Enter bn" />
                                                <label for="bn">BN</label>
                                            </div>
                                        </div>
-                                       <div class="col-md-2">
+                                       <div class="col-md-3">
                                            <div class="form-floating">
 												<select class="form-select pt-4" id="cpuSocCd" name="cpuSocCd">
 												  <option selected>-선택-</option>
@@ -264,7 +267,7 @@ function idDupliChk(id) {
 												<label for="cpuSocCd">CPU SOC</label>
                                            </div>
                                        </div>
-                                       <div class="col-md-2">
+                                       <div class="col-md-3">
                                            <div class="form-floating">
                                                <input class="form-control" id="vrmRange" name="vrmRange" type="text" placeholder="Enter vrmRange" />
                                                <label for="vrmRange">VRM Range</label>
@@ -276,10 +279,25 @@ function idDupliChk(id) {
                                                <label for="ddr4MaxRange">DDR4 MAX Range</label>
                                            </div>
                                        </div>
+                                   </div>
+                                   
+                                   <div class="row mb-3">
                                        <div class="col-md-3">
                                            <div class="form-floating">
                                                <input class="form-control" id="ddr5MaxRange" name="ddr5MaxRange" type="text" placeholder="Enter ddr5MaxRange" />
                                                <label for="ddr5MaxRange">DDR5 MAX Range</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+                                               <input class="form-control" id="multiBulk" name="multiBulk" type="text" placeholder="Enter multiBulk" />
+                                               <label for="multiBulk">멀티팩 벌크</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+                                               <input class="form-control" id="apu" name="apu" type="text" placeholder="Enter apu" />
+                                               <label for="apu">APU</label>
                                            </div>
                                        </div>
                                    </div>

@@ -60,7 +60,10 @@ function loginCheck() {
 							<div class="container">
 							  <div class="row">
 							    <div class="col-5">
+							    <!-- 임시 몰루이미지
 							      <img class="img-fluid rounded mx-auto d-block" src="/resources/img/tempImage_600x600.png">
+							     -->  
+							      <img class="img-fluid rounded mx-auto d-block" src="${productMaster.productImage}" style="cursor:pointer; width:600px; height:600px; object-fit:contain;">
 							    </div>
 							    <div class="col-7">
 							    	<p class="h1 mb-5">${productMaster.productName}</p>

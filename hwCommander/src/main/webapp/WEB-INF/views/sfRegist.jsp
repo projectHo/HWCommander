@@ -25,7 +25,10 @@
         	if(!validationCheck()) {
         		return false;
         	}
-        	goSfRegist();
+        	
+        	if(confirm("등록 하시겠습니까?")) {
+        		goSfRegist();
+        	}
         });
     });
     
@@ -282,7 +285,16 @@ function idDupliChk(id) {
                                            </div>
                                        </div>
                                    </div>
-
+                                   
+                                   <div class="row mb-3">
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+                                               <input class="form-control" id="multiBulk" name="multiBulk" type="text" placeholder="Enter multiBulk" />
+                                               <label for="multiBulk">멀티팩 벌크</label>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   
                                    <div class="mt-4 mb-0">
                                        <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_sf_regist">Regist</a></div>
                                    </div>

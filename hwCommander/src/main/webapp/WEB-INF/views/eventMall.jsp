@@ -89,7 +89,10 @@
 									<c:forEach var="item" items="${eventMallList}">
 										<tr>
                                             <td>
+                                            	<%-- 임시 몰루이미지 
                                             	<img class="img-fluid rounded mx-auto d-block" src="/resources/img/tempImage_200x200.png" alt="" style="cursor:pointer;" name="${item.id}">
+                                            	 --%>
+                                            	<img class="img-fluid rounded mx-auto d-block" src="${item.productImage}" alt="" style="cursor:pointer; width:350px; height:350px; object-fit:contain;" name="${item.id}">
                                             </td>
                                             <td>${item.eventMallInfo}</td>
                                        	</tr>

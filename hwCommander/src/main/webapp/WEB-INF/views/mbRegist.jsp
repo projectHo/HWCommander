@@ -26,7 +26,10 @@
         	if(!validationCheck()) {
         		return false;
         	}
-        	goMbRegist();
+        	
+        	if(confirm("등록 하시겠습니까?")) {
+        		goMbRegist();
+        	}
         });
     });
     
@@ -348,6 +351,21 @@ function idDupliChk(id) {
                                            <div class="form-floating mb-3 mb-md-0">
                                                <input class="form-control" id="sata" name="sata" type="text" placeholder="Enter sata" />
                                                <label for="sata">SATA</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+                                               <input class="form-control" id="multiBulk" name="multiBulk" type="text" placeholder="Enter multiBulk" />
+                                               <label for="multiBulk">멀티팩 벌크</label>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   
+                                   <div class="row mb-3">
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+                                               <input class="form-control" id="wifi" name="wifi" type="text" placeholder="Enter wifi" />
+                                               <label for="wifi">WIFI</label>
                                            </div>
                                        </div>
                                    </div>

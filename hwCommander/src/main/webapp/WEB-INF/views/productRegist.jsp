@@ -27,7 +27,10 @@
         	if(!validationCheck()) {
         		return false;
         	}
-        	goProductRegist();
+        	
+        	if(confirm("등록 하시겠습니까?")) {
+        		goProductRegist();
+        	}
         });
         
         // dataTable 적용

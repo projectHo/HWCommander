@@ -9,6 +9,7 @@ public class PartsCoolerVO {
 	private String id;
 	private String partsName;
 	private int partsPrice;
+	private String partsPriceStr;
 	private String clledCd;
 	private String clledCdNm;
 	private String clmcCd;
@@ -29,4 +30,5 @@ public class PartsCoolerVO {
 	private String partsImage;
 	private Date regDtm;
 	private Date updtDtm;
+	private String multiBulk;
 }

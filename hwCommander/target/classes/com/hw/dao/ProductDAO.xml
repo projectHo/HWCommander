@@ -39,9 +39,11 @@
 			a.id                                                                             	AS id                
 			, a.product_name                                                                    AS productName       
 			, a.product_price                                                                   AS productPrice
+			, FORMAT(a.product_price, 0)                                                        AS productPriceStr
 			, a.product_qty                                                                     AS productQty      
 			, a.product_description                                                             AS productDescription
-			, a.product_image                                                                   AS productImage      
+			, a.product_image                                                                   AS productImage
+			, (SELECT GROUP_CONCAT(parts_name SEPARATOR '|') FROM product_detail WHERE id = a.id) AS productDetailListStr
 			, a.reg_dtm                                                                         AS regDtm            
 			, a.updt_dtm                                                                        AS updtDtm            
 		FROM
@@ -96,7 +98,7 @@
 		FROM
 			product_master a
 		WHERE
-			a.product_qty > 1
+			a.product_qty >= 1
 	</select>
 	
 	<select id="getProductMasterById" parameterType="String" resultType="productMasterVO">

@@ -9,6 +9,7 @@ public class PartsHddVO {
 	private String id;
 	private String partsName;
 	private int partsPrice;
+	private String partsPriceStr;
 	private int spd;
 	private float fea;
 	private float rel;
@@ -20,4 +21,6 @@ public class PartsHddVO {
 	private String partsImage;
 	private Date regDtm;
 	private Date updtDtm;
+	private String multiBulk;
+	private int volume;
 }

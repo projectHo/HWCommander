@@ -9,6 +9,7 @@ public class PartsSfVO {
 	private String id;
 	private String partsName;
 	private int partsPrice;
+	private String partsPriceStr;
 	private String fledCd;
 	private String fledCdNm;
 	private String fmcCd;
@@ -22,4 +23,5 @@ public class PartsSfVO {
 	private String partsImage;
 	private Date regDtm;
 	private Date updtDtm;
+	private String multiBulk;
 }

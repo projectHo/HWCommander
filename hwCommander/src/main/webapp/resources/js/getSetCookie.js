@@ -35,5 +35,5 @@ function setDisplayLength() {
 		displayLength = 10;
 	}
 	
-	return displayLength;
+	return parseInt(displayLength);
 }

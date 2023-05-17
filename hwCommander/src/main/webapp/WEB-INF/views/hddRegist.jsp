@@ -25,7 +25,10 @@
         	if(!validationCheck()) {
         		return false;
         	}
-        	goHddRegist();
+        	
+        	if(confirm("등록 하시겠습니까?")) {
+        		goHddRegist();
+        	}
         });
     });
     
@@ -273,6 +276,18 @@ function idDupliChk(id) {
                                            <div class="form-floating mb-3 mb-md-0">
                                                <input class="form-control" id="sata" name="sata" type="text" placeholder="Enter sata" />
                                                <label for="sata">SATA</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+                                               <input class="form-control" id="multiBulk" name="multiBulk" type="text" placeholder="Enter multiBulk" />
+                                               <label for="multiBulk">멀티팩 벌크</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0">
+                                               <input class="form-control" id="volume" name="volume" type="text" placeholder="Enter volume" />
+                                               <label for="volume">VOLUME</label>
                                            </div>
                                        </div>
                                    </div>
