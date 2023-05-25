@@ -141,7 +141,10 @@ function btnCheckOutClick() {
 							<c:forEach var="item" items="${productList}">
 								<tr>
 									<td>
-										<img class="img-fluid rounded mx-auto d-block" src="/resources/img/tempImage_200x200.png">
+                                      	<%-- 임시 몰루이미지 
+                                      	<img class="img-fluid rounded mx-auto d-block" src="/resources/img/tempImage_200x200.png">
+                                      	 --%>
+                                      	<img class="img-fluid rounded mx-auto d-block" src="${item.productImage}" alt="" style="cursor:pointer; width:200px; height:200px; object-fit:contain;">
 									</td>
 									<td class="align-middle">${item.productName}</td>
 									<td class="align-middle">${item.productPriceStr}</td>

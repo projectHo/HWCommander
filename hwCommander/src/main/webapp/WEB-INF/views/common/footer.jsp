@@ -56,7 +56,7 @@
 							<!-- 2023.05.20 로고수정
 								<img width="300" height="167" src="/resources/img/cropped-cpLogo-300x167.png">
 								 -->
-								<img width="300" height="167" src="/resources/img/comlogo09-300x167.png">
+								<img width="274" height="190" src="/resources/img/comlogo09-821x569.png">
 							</a>
 						</div>
 						<div class="d-flex justify-content-center">
@@ -68,7 +68,7 @@
 						  <h4><b>현우의 컴퓨터 공방</b></h4>
 						  <a class="nav-link disabled text-dark" href="#">대표 : 이해창 | tel. 010-2484-4603 |</a>
 						  <a class="nav-link disabled text-dark" href="#">사업자등록번호: 829-36-00813 |</a>
-						  <a class="nav-link disabled text-dark" href="#">대전시 동구 동대전로 112,102호 |</a>
+						  <a class="nav-link disabled text-dark" href="#">서울시 용산구 보광로 110, 2층 현우의 컴퓨터 공방 |</a>
 						  <a class="nav-link disabled text-dark" href="#">E-mail : pcvirusson@hanmail.net |</a>
 						  <a class="nav-link disabled text-dark" href="#">호스팅 제공자 : (주)카페24 |</a>
 						  <a class="nav-link disabled text-dark" href="#">통신판매업 신고번호 : 2022-대전-0000호 |</a>

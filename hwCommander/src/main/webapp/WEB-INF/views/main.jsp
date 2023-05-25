@@ -22,7 +22,7 @@
 				<div class="w-100 row align-items-center mt-4 mb-4">
 					<div class="col-lg-3 col-md-4 col-sm-6 col-xs-12">
 					    <div class="hovereffect">
-					        <img class="img-fluid" src="/resources/img/pc-1-800x1407.png" alt="">
+					        <img class="img-fluid" src="/resources/img/pc-1-400x704.png" alt="">
 					        <div class="overlay">
 					           <h2>공식 유튜브</h2>
 					           <a class="info" href="javascript:alert('준비중')">link here</a>

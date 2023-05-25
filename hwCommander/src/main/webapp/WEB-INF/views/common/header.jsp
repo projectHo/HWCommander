@@ -77,7 +77,7 @@ function loginCheck() {
 							<!-- 2023.05.20 로고수정
 								<img width="300" height="167" src="/resources/img/cropped-cpLogo-300x167.png">
 							 -->	
-								<img width="300" height="167" src="/resources/img/comlogo09-300x167.png">
+								<img width="274" height="190" src="/resources/img/comlogo09-821x569.png">
 							</a>
 						</div>
 					</div>
