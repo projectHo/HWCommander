@@ -66,6 +66,9 @@ public class AdminController {
 		}
 	}
 	
+	/*--------------------------------------------------
+	 - GPU
+	*--------------------------------------------------*/
 	@RequestMapping(value = "/gpuManagement.do", method = RequestMethod.GET)
 	public String goGpuManagement(Model model) {
 		model.addAttribute("gpuList", partsService.getGpuAllList());
@@ -87,6 +90,27 @@ public class AdminController {
 		return partsService.gpuRegistLogic(partsGpuVO);
 	}
 	
+	@RequestMapping(value = "/gpuUpdate.do", method = RequestMethod.GET)
+	public String goGpuUpdate(Model model, @RequestParam(value = "partsId", required = true) String partsId) {
+		model.addAttribute("gled_cd", adminService.getComnCdDetailList("COM002"));
+		model.addAttribute("gmc_cd", adminService.getComnCdDetailList("PRT001"));
+		model.addAttribute("gsc_cd", adminService.getComnCdDetailList("PRT002"));
+		model.addAttribute("gpuas_cd", adminService.getComnCdDetailList("PRT003"));
+		
+		model.addAttribute("selectData", partsService.getPartsGpuVOById(partsId));
+		return "gpuUpdate";
+	}
+	
+	@RequestMapping(value = "/gpuUpdateLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer gpuUpdateLogic(PartsGpuVO partsGpuVO) {
+		return partsService.gpuUpdateLogic(partsGpuVO);
+	}
+	
+	
+	/*--------------------------------------------------
+	 - CPU
+	*--------------------------------------------------*/
 	@RequestMapping(value = "/cpuManagement.do", method = RequestMethod.GET)
 	public String goCpuManagement(Model model) {
 		model.addAttribute("cpuList", partsService.getCpuAllList());
@@ -106,6 +130,24 @@ public class AdminController {
 		return partsService.cpuRegistLogic(partsCpuVO);
 	}
 	
+	@RequestMapping(value = "/cpuUpdate.do", method = RequestMethod.GET)
+	public String goCpuUpdate(Model model, @RequestParam(value = "partsId", required = true) String partsId) {
+		model.addAttribute("maker_cd", adminService.getComnCdDetailList("PRT009"));
+		model.addAttribute("cpu_soc_cd", adminService.getComnCdDetailList("PRT007"));
+		
+		model.addAttribute("selectData", partsService.getPartsCpuVOById(partsId));
+		return "cpuUpdate";
+	}
+	
+	@RequestMapping(value = "/cpuUpdateLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer cpuUpdateLogic(PartsCpuVO partsCpuVO) {
+		return partsService.cpuUpdateLogic(partsCpuVO);
+	}
+	
+	/*--------------------------------------------------
+	 - MB
+	*--------------------------------------------------*/	
 	@RequestMapping(value = "/mbManagement.do", method = RequestMethod.GET)
 	public String goMbManagement(Model model) {
 		model.addAttribute("mbList", partsService.getMbAllList());
@@ -130,6 +172,21 @@ public class AdminController {
 		return partsService.mbRegistLogic(partsMbVO);
 	}
 	
+	@RequestMapping(value = "/mbUpdate.do", method = RequestMethod.GET)
+	public String goMbUpdate(Model model, @RequestParam(value = "partsId", required = true) String partsId) {
+		model.addAttribute("mled_cd", adminService.getComnCdDetailList("COM002"));
+		model.addAttribute("mmc_cd", adminService.getComnCdDetailList("PRT004"));
+		model.addAttribute("msc_cd", adminService.getComnCdDetailList("PRT005"));
+		model.addAttribute("mbas_cd", adminService.getComnCdDetailList("PRT006"));
+		model.addAttribute("cpu_soc_cd", adminService.getComnCdDetailList("PRT007"));
+		model.addAttribute("mem_soc_cd", adminService.getComnCdDetailList("PRT024"));
+		model.addAttribute("scs_cd", adminService.getComnCdDetailList("PRT008"));
+		return "mbUpdate";
+	}
+	
+	/*--------------------------------------------------
+	 - RAM
+	*--------------------------------------------------*/
 	@RequestMapping(value = "/ramManagement.do", method = RequestMethod.GET)
 	public String goRamManagement(Model model) {
 		model.addAttribute("ramList", partsService.getRamAllList());
@@ -152,6 +209,19 @@ public class AdminController {
 		return partsService.ramRegistLogic(partsRamVO);
 	}
 	
+	@RequestMapping(value = "/ramUpdate.do", method = RequestMethod.GET)
+	public String goRamUpdate(Model model, @RequestParam(value = "partsId", required = true) String partsId) {
+		model.addAttribute("rled_cd", adminService.getComnCdDetailList("COM002"));
+		model.addAttribute("rmc_cd", adminService.getComnCdDetailList("PRT010"));
+		model.addAttribute("rsc_cd", adminService.getComnCdDetailList("PRT011"));
+		model.addAttribute("pr_cd", adminService.getComnCdDetailList("PRT012"));
+		model.addAttribute("mem_soc_cd", adminService.getComnCdDetailList("PRT024"));
+		return "ramUpdate";
+	}
+	
+	/*--------------------------------------------------
+	 - PSU
+	*--------------------------------------------------*/
 	@RequestMapping(value = "/psuManagement.do", method = RequestMethod.GET)
 	public String goPsuManagement(Model model) {
 		model.addAttribute("psuList", partsService.getPsuAllList());
@@ -170,7 +240,17 @@ public class AdminController {
 	public Integer psuRegistLogic(PartsPsuVO partsPsuVO) {
 		return partsService.psuRegistLogic(partsPsuVO);
 	}
+	
+	@RequestMapping(value = "/psuUpdate.do", method = RequestMethod.GET)
+	public String goPsuUpdate(Model model, @RequestParam(value = "partsId", required = true) String partsId) {
+		model.addAttribute("pmc_cd", adminService.getComnCdDetailList("PRT013"));
+		model.addAttribute("psc_cd", adminService.getComnCdDetailList("PRT014"));
+		return "psuUpdate";
+	}
 
+	/*--------------------------------------------------
+	 - CASE
+	*--------------------------------------------------*/
 	@RequestMapping(value = "/caseManagement.do", method = RequestMethod.GET)
 	public String goCaseManagement(Model model) {
 		model.addAttribute("caseList", partsService.getCaseAllList());
@@ -193,6 +273,19 @@ public class AdminController {
 		return partsService.caseRegistLogic(partsCaseVO);
 	}
 	
+	@RequestMapping(value = "/caseUpdate.do", method = RequestMethod.GET)
+	public String goCaseUpdate(Model model, @RequestParam(value = "partsId", required = true) String partsId) {
+		model.addAttribute("cled_cd", adminService.getComnCdDetailList("COM002"));
+		model.addAttribute("cm_cd", adminService.getComnCdDetailList("PRT023"));
+		model.addAttribute("cmc_cd", adminService.getComnCdDetailList("PRT015"));
+		model.addAttribute("csc_cd", adminService.getComnCdDetailList("PRT016"));
+		model.addAttribute("caseas_cd", adminService.getComnCdDetailList("PRT017"));
+		return "caseUpdate";
+	}
+	
+	/*--------------------------------------------------
+	 - COOLER
+	*--------------------------------------------------*/
 	@RequestMapping(value = "/coolerManagement.do", method = RequestMethod.GET)
 	public String goCoolerManagement(Model model) {
 		model.addAttribute("coolerList", partsService.getCoolerAllList());
@@ -214,6 +307,18 @@ public class AdminController {
 		return partsService.coolerRegistLogic(partsCoolerVO);
 	}
 	
+	@RequestMapping(value = "/coolerUpdate.do", method = RequestMethod.GET)
+	public String goCoolerUpdate(Model model, @RequestParam(value = "partsId", required = true) String partsId) {
+		model.addAttribute("clled_cd", adminService.getComnCdDetailList("COM002"));
+		model.addAttribute("clmc_cd", adminService.getComnCdDetailList("PRT018"));
+		model.addAttribute("clsc_cd", adminService.getComnCdDetailList("PRT019"));
+		model.addAttribute("formula_cd", adminService.getComnCdDetailList("PRT020"));
+		return "coolerUpdate";
+	}
+	
+	/*--------------------------------------------------
+	 - HDD
+	*--------------------------------------------------*/
 	@RequestMapping(value = "/hddManagement.do", method = RequestMethod.GET)
 	public String goHddManagement(Model model) {
 		model.addAttribute("hddList", partsService.getHddAllList());
@@ -231,6 +336,14 @@ public class AdminController {
 		return partsService.hddRegistLogic(partsHddVO);
 	}
 	
+	@RequestMapping(value = "/hddUpdate.do", method = RequestMethod.GET)
+	public String goHddUpdate(Model model, @RequestParam(value = "partsId", required = true) String partsId) {
+		return "hddUpdate";
+	}
+	
+	/*--------------------------------------------------
+	 - SSD
+	*--------------------------------------------------*/
 	@RequestMapping(value = "/ssdManagement.do", method = RequestMethod.GET)
 	public String goSsdManagement(Model model) {
 		model.addAttribute("ssdList", partsService.getSsdAllList());
@@ -249,6 +362,16 @@ public class AdminController {
 		return partsService.ssdRegistLogic(partsSsdVO);
 	}
 	
+	@RequestMapping(value = "/ssdUpdate.do", method = RequestMethod.GET)
+	public String goSsdUpdate(Model model, @RequestParam(value = "partsId", required = true) String partsId) {
+		model.addAttribute("scs_cd", adminService.getComnCdDetailList("PRT008"));
+		return "ssdUpdate";
+	}
+	
+	
+	/*--------------------------------------------------
+	 - SF
+	*--------------------------------------------------*/
 	@RequestMapping(value = "/sfManagement.do", method = RequestMethod.GET)
 	public String goSfManagement(Model model) {
 		model.addAttribute("sfList", partsService.getSfAllList());
@@ -269,6 +392,18 @@ public class AdminController {
 		return partsService.sfRegistLogic(partsSfVO);
 	}
 	
+	@RequestMapping(value = "/sfUpdate.do", method = RequestMethod.GET)
+	public String goSfUpdate(Model model, @RequestParam(value = "partsId", required = true) String partsId) {
+		model.addAttribute("fled_cd", adminService.getComnCdDetailList("COM002"));
+		model.addAttribute("fmc_cd", adminService.getComnCdDetailList("PRT021"));
+		model.addAttribute("fsc_cd", adminService.getComnCdDetailList("PRT022"));
+		return "sfUpdate";
+	}
+	
+	
+	/*--------------------------------------------------
+	 - PRODUCT
+	*--------------------------------------------------*/
 	@RequestMapping(value = "/productManagement.do", method = RequestMethod.GET)
 	public String goProductManagement(Model model) {
 		model.addAttribute("productList", productService.getProductMasterAllList());
@@ -306,5 +441,21 @@ public class AdminController {
 		productDetailVOList = objectMapper.readValue(productDetailVOListString, new TypeReference<List<ProductDetailVO>>() {});
 		
 		return productService.productRegistLogic(productMasterVO, productDetailVOList);
+	}
+	
+	@RequestMapping(value = "/productUpdate.do", method = RequestMethod.GET)
+	public String goProductUpdate(Model model, @RequestParam(value = "productId", required = true) String productId) {
+		model.addAttribute("parts_type_cd", adminService.getComnCdDetailList("COM003"));
+		model.addAttribute("gpuList", partsService.getGpuAllList());
+		model.addAttribute("cpuList", partsService.getCpuAllList());
+		model.addAttribute("mbList", partsService.getMbAllList());
+		model.addAttribute("ramList", partsService.getRamAllList());
+		model.addAttribute("psuList", partsService.getPsuAllList());
+		model.addAttribute("caseList", partsService.getCaseAllList());
+		model.addAttribute("coolerList", partsService.getCoolerAllList());
+		model.addAttribute("hddList", partsService.getHddAllList());
+		model.addAttribute("ssdList", partsService.getSsdAllList());
+		model.addAttribute("sfList", partsService.getSfAllList());
+		return "productUpdate";
 	}
 }

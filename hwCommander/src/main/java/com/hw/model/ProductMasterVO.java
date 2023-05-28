@@ -13,8 +13,8 @@ public class ProductMasterVO {
 	private int productQty;
 	private String productDescription;
 	private String productImage;
-	private Date regDtm;
-	private Date updtDtm;
+	private String regDtm;
+	private String updtDtm;
 	
 	//necessity column
 	private String eventMallInfo;

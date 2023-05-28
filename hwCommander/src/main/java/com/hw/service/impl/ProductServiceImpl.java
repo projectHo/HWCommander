@@ -43,9 +43,8 @@ public class ProductServiceImpl implements ProductService {
 		}
 		
 		productMasterVO.setId(maxId);
-		productDAO.insertProductMasterVO(productMasterVO);
 
-		result = 1;
+		result = productDAO.insertProductMasterVO(productMasterVO);
 		return result;
 	}
 	

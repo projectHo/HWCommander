@@ -23,5 +23,5 @@ public class OrderMasterHistoryVO {
 	private String deliveryRequest;
 	private String paymentMethod;
 	private String waybillNumber;
-	private Date regDtm;
+	private String regDtm;
 }

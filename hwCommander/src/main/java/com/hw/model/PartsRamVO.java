@@ -25,8 +25,8 @@ public class PartsRamVO {
 	private int ddr4MaxRange;
 	private int ddr5MaxRange;
 	private String partsImage;
-	private Date regDtm;
-	private Date updtDtm;
+	private String regDtm;
+	private String updtDtm;
 	private String multiBulk;
 	private int volume;
 }

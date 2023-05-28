@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - CPU Regist</title>
+<title>현우의 컴퓨터 공방 - CPU Update</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <!-- Bootstrap CSS -->
@@ -21,30 +21,49 @@
 <script>
 
     $(function(){
-        $('#btn_cpu_regist').on("click", function () {
+    	dataSetting();
+        $('#btn_cpu_update').on("click", function () {
         	if(!validationCheck()) {
         		return false;
         	}
         	
-        	if(confirm("등록 하시겠습니까?")) {
-        		goCpuRegist();
+        	if(confirm("수정 하시겠습니까?")) {
+        		goCpuUpdate();
         	}
         });
     });
     
-function goCpuRegist() {
-    var form = $("#cpu_regist_form").serialize();
+    function dataSetting() {
+    	$("#partsName").val("${selectData.partsName}");
+    	$("#partsPrice").val("${selectData.partsPrice}");
+    	$("#csv").val("${selectData.csv}");
+    	$("#makerCd").val("${selectData.makerCd}");
+    	$("#thermal").val("${selectData.thermal}");
+    	$("#bn").val("${selectData.bn}");
+    	$("#cpuSocCd").val("${selectData.cpuSocCd}");
+    	$("#vrmRange").val("${selectData.vrmRange}");
+    	$("#ddr4MaxRange").val("${selectData.ddr4MaxRange}");
+    	$("#ddr5MaxRange").val("${selectData.ddr5MaxRange}");
+    	$("#multiBulk").val("${selectData.multiBulk}");
+    	$("#apu").val("${selectData.apu}");
+    	
+    	$("#id").val("${selectData.id}");
+    	$("#partsImage").val("${selectData.partsImage}");
+    }
+    
+function goCpuUpdate() {
+    var form = $("#cpu_update_form").serialize();
     
     $.ajax({
         type: "post",
-        url: "/admin/cpuRegistLogic.do",
+        url: "/admin/cpuUpdateLogic.do",
         data: form,
         dataType: 'json',
         success: function (data) {
         	if(data == 1) {
-        		alert("등록완료");
+        		alert("수정완료");
         	}else {
-        		alert("등록실패");
+        		alert("수정실패");
         	}
         	window.location = "cpuManagement.do";
             console.log(data);
@@ -198,20 +217,22 @@ function idDupliChk(id) {
             <div id="layoutSidenav_content">
 				<main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">CPU Regist</h1>
+                        <h1 class="mt-4">CPU Update</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="main.do">Admin Page</a></li>
                             <li class="breadcrumb-item"><a href="cpuManagement.do">CPU</a></li>
-                            <li class="breadcrumb-item active">CPU Regist</li>
+                            <li class="breadcrumb-item active">CPU Update</li>
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                                CPU를  등록합니다.
+                                CPU를  수정합니다.
                             </div>
                         </div>
                         <div class="card mb-4">
 							<div class="card-body">
-                               <form id="cpu_regist_form">
+                               <form id="cpu_update_form">
+                                   <input type="hidden" id="id" name="id">
+                                   <input type="hidden" id="partsImage" name="partsImage">
                                    <div class="form-floating mb-3">
                                        <input class="form-control" id="partsName" name="partsName" type="text" placeholder="Enter partsName"/>
                                        <label for="partsName">parts Name</label>
@@ -303,7 +324,7 @@ function idDupliChk(id) {
                                    </div>
 
                                    <div class="mt-4 mb-0">
-                                       <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_cpu_regist">Regist</a></div>
+                                       <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_cpu_update">Update</a></div>
                                    </div>
                                </form>
                            </div>

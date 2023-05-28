@@ -23,7 +23,7 @@ public class PartsPsuVO {
 	private int gpl;
 	private int twelvePin;
 	private String partsImage;
-	private Date regDtm;
-	private Date updtDtm;
+	private String regDtm;
+	private String updtDtm;
 	private String multiBulk;
 }

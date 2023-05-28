@@ -29,6 +29,20 @@
     $(function(){
     	$("#cpuListTable").DataTable({
     		displayLength : setDisplayLength()
+    	    , bAutoWidth : false
+    	    , columnDefs : [
+	    	    {targets : 0, width : "50%"}
+	    	    , {targets : 1, width : "15%"}
+	    	    , {targets : 2, width : "15%"}
+	    	    , {targets : 3, width : "20%"}
+	    	    , {targets : 4, visible : false} // id
+    	    ]
+    	});
+    	
+    	$("#cpuListTable").on('click', 'tbody tr', function () {
+    		var row = $("#cpuListTable").DataTable().row($(this)).data();
+    		var partsId = row[4];
+    		location.href = "cpuUpdate.do?partsId="+partsId;
     	});
     	
         window.addEventListener('unload', function() {
@@ -96,8 +110,8 @@
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        Start Bootstrap
+                        <div class="small">With Bootstrap5</div>
+                        Made from WonHo
                     </div>
                 </nav>
             </div>
@@ -131,6 +145,9 @@
                                             <th>parts price</th>
                                             <th>I/A</th>
                                             <th>CPU SOC</th>
+                                            
+                                            <!-- 안보이는부분 -->
+                                            <th>ID</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -140,6 +157,9 @@
 	                                            <td>${item.partsPrice}</td>
 	                                            <td>${item.makerCdNm}</td>
 	                                            <td>${item.cpuSocCdNm}</td>
+	                                            
+	                                            <!-- 안보이는부분 -->
+	                                            <td>${item.id}</td>
                                         	</tr>
 										</c:forEach>
                                     </tbody>
@@ -153,9 +173,9 @@
                         <div class="d-flex align-items-center justify-content-between small">
                             <div class="text-muted">Copyright &copy; HW Commander 2023</div>
                             <div>
-                                <a href="#">Privacy Policy</a>
+                                <a>Dream</a>
                                 &middot;
-                                <a href="#">Terms &amp; Conditions</a>
+                                <a>Desire</a>
                             </div>
                         </div>
                     </div>

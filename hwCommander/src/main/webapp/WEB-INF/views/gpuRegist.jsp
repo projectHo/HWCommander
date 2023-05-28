@@ -103,33 +103,6 @@ function validationCheck() {
 	return true;
 }
 
-function idDupliChk(id) {
-	
-	if(id == "") {
-		alert("아이디를 입력하세요.");
-		return false;
-	}
-	
-	$.ajax({
-        type: "post",
-        url: "/user/idDupliChk.do",
-        data: {
-        	"id" : id
-        },
-        dataType: 'json',
-        success: function (data) {
-        	if(data == 0) {
-        		targetId = id;
-        		alert("사용가능한 ID 입니다.");
-        		$("#id").removeClass("is-invalid");
-        	}else {
-        		targetId = null;
-        		$("#id").addClass("is-invalid");
-        		alert("중복된 ID 입니다.");
-        	}
-        }
-    });
-}
 </script>
 </head>
     <body class="sb-nav-fixed">
@@ -190,8 +163,8 @@ function idDupliChk(id) {
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        Start Bootstrap
+                        <div class="small">With Bootstrap5</div>
+                        Made from WonHo
                     </div>
                 </nav>
             </div>
@@ -347,9 +320,9 @@ function idDupliChk(id) {
                         <div class="d-flex align-items-center justify-content-between small">
                             <div class="text-muted">Copyright &copy; HW Commander 2023</div>
                             <div>
-                                <a href="#">Privacy Policy</a>
+                                <a>Dream</a>
                                 &middot;
-                                <a href="#">Terms &amp; Conditions</a>
+                                <a>Desire</a>
                             </div>
                         </div>
                     </div>

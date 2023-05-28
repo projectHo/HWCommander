@@ -28,7 +28,7 @@ public class PartsCoolerVO {
 	private int ih;
 	private int it;
 	private String partsImage;
-	private Date regDtm;
-	private Date updtDtm;
+	private String regDtm;
+	private String updtDtm;
 	private String multiBulk;
 }

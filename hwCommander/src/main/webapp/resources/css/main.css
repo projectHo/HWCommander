@@ -17,7 +17,7 @@
 /* 푸터 백그라운드 */
 .footer_background {
 	background-image: url('/resources/img/layer-8-copy-7-300x40.png');
-	background-position: center center;
+	background-position: center;
 	background-repeat: no-repeat;
 	background-size:cover;
 }
@@ -31,8 +31,7 @@
 /* termsOfService 백그라운드 */
 .termsOfService_background {
 	background-image: url('/resources/img/123123-e1666373939848.png');
-	background-repeat: repeat-y;
-	background-size: auto;
+	background-size: cover;
 }
 
 /* content border line white */

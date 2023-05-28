@@ -22,6 +22,6 @@ public class OrderMasterVO {
 	private String deliveryRequest;
 	private String paymentMethod;
 	private String waybillNumber;
-	private Date regDtm;
-	private Date updtDtm;
+	private String regDtm;
+	private String updtDtm;
 }

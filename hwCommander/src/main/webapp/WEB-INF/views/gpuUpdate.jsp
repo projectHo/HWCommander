@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - CPU Regist</title>
+<title>현우의 컴퓨터 공방 - GPU Update</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <!-- Bootstrap CSS -->
@@ -21,32 +21,54 @@
 <script>
 
     $(function(){
-        $('#btn_cpu_regist').on("click", function () {
+    	dataSetting();
+        $('#btn_gpu_update').on("click", function () {
         	if(!validationCheck()) {
         		return false;
         	}
         	
-        	if(confirm("등록 하시겠습니까?")) {
-        		goCpuRegist();
+        	if(confirm("수정 하시겠습니까?")) {
+        		goGpuUpdate();
         	}
         });
     });
     
-function goCpuRegist() {
-    var form = $("#cpu_regist_form").serialize();
+function dataSetting() {
+	$("#partsName").val("${selectData.partsName}");
+	$("#partsPrice").val("${selectData.partsPrice}");
+	$("#gledCd").val("${selectData.gledCd}");
+	$("#gn").val("${selectData.gn}");
+	$("#gmcCd").val("${selectData.gmcCd}");
+	$("#gscCd").val("${selectData.gscCd}");
+	$("#gsv").val("${selectData.gsv}");
+	$("#gpuasCd").val("${selectData.gpuasCd}");
+	$("#qc").val("${selectData.qc}");
+	$("#tdp").val("${selectData.tdp}");
+	$("#bn").val("${selectData.bn}");
+	$("#il").val("${selectData.il}");
+	$("#gpl").val("${selectData.gpl}");
+	$("#twelvePin").val("${selectData.twelvePin}");
+	$("#multiBulk").val("${selectData.multiBulk}");
+	
+	$("#id").val("${selectData.id}");
+	$("#partsImage").val("${selectData.partsImage}");
+}
+    
+function goGpuUpdate() {
+    var form = $("#gpu_update_form").serialize();
     
     $.ajax({
         type: "post",
-        url: "/admin/cpuRegistLogic.do",
+        url: "/admin/gpuUpdateLogic.do",
         data: form,
         dataType: 'json',
         success: function (data) {
         	if(data == 1) {
-        		alert("등록완료");
+        		alert("수정완료");
         	}else {
-        		alert("등록실패");
+        		alert("수정실패");
         	}
-        	window.location = "cpuManagement.do";
+        	window.location = "gpuManagement.do";
             console.log(data);
         }
     });
@@ -103,33 +125,6 @@ function validationCheck() {
 	return true;
 }
 
-function idDupliChk(id) {
-	
-	if(id == "") {
-		alert("아이디를 입력하세요.");
-		return false;
-	}
-	
-	$.ajax({
-        type: "post",
-        url: "/user/idDupliChk.do",
-        data: {
-        	"id" : id
-        },
-        dataType: 'json',
-        success: function (data) {
-        	if(data == 0) {
-        		targetId = id;
-        		alert("사용가능한 ID 입니다.");
-        		$("#id").removeClass("is-invalid");
-        	}else {
-        		targetId = null;
-        		$("#id").addClass("is-invalid");
-        		alert("중복된 ID 입니다.");
-        	}
-        }
-    });
-}
 </script>
 </head>
     <body class="sb-nav-fixed">
@@ -198,20 +193,22 @@ function idDupliChk(id) {
             <div id="layoutSidenav_content">
 				<main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">CPU Regist</h1>
+                        <h1 class="mt-4">GPU Update</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="main.do">Admin Page</a></li>
-                            <li class="breadcrumb-item"><a href="cpuManagement.do">CPU</a></li>
-                            <li class="breadcrumb-item active">CPU Regist</li>
+                            <li class="breadcrumb-item"><a href="gpuManagement.do">GPU</a></li>
+                            <li class="breadcrumb-item active">GPU Update</li>
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                                CPU를  등록합니다.
+                                GPU를  수정합니다.
                             </div>
                         </div>
                         <div class="card mb-4">
 							<div class="card-body">
-                               <form id="cpu_regist_form">
+                               <form id="gpu_update_form">
+                                   <input type="hidden" id="id" name="id">
+                                   <input type="hidden" id="partsImage" name="partsImage">
                                    <div class="form-floating mb-3">
                                        <input class="form-control" id="partsName" name="partsName" type="text" placeholder="Enter partsName"/>
                                        <label for="partsName">parts Name</label>
@@ -226,25 +223,68 @@ function idDupliChk(id) {
                                        </div>
                                        <div class="col-md-3">
                                            <div class="form-floating">
-		                                       <input class="form-control" id="csv" name="csv" type="text" placeholder="Enter csv"/>
-		                                       <label for="csv">CSV</label>
-                                           </div>
-                                       </div>
-                                       <div class="col-md-3">
-                                           <div class="form-floating">
-												<select class="form-select pt-4" id="makerCd" name="makerCd">
+												<select class="form-select pt-4" id="gledCd" name="gledCd">
 												  <option selected>-선택-</option>
-												  <c:forEach var="item" items="${maker_cd}">
+												  <c:forEach var="item" items="${gled_cd}">
 													  <option value="${item.cd}">${item.nm}</option>
 												  </c:forEach>
 												</select>
-												<label for="makerCd">I/A</label>
+												<label for="gledCd">GLED</label>
                                            </div>
                                        </div>
                                        <div class="col-md-3">
                                            <div class="form-floating">
-		                                       <input class="form-control" id="thermal" name="thermal" type="text" placeholder="Enter thermal"/>
-		                                       <label for="thermal">Thermal</label>
+		                                       <input class="form-control" id="gn" name="gn" type="text" placeholder="Enter gn"/>
+		                                       <label for="gn">GN</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+												<select class="form-select pt-4" id="gmcCd" name="gmcCd">
+												  <option selected>-선택-</option>
+												  <c:forEach var="item" items="${gmc_cd}">
+													  <option value="${item.cd}">${item.nm}</option>
+												  </c:forEach>
+												</select>
+												<label for="gmcCd">GMC</label>
+                                           </div>
+                                       </div>
+
+                                   </div>
+                                   
+                                   <div class="row mb-3">
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+												<select class="form-select pt-4" id="gscCd" name="gscCd">
+												  <option selected>-선택-</option>
+												  <c:forEach var="item" items="${gsc_cd}">
+													  <option value="${item.cd}">${item.nm}</option>
+												  </c:forEach>
+												</select>
+												<label for="gscCd">GSC</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0">
+                                               <input class="form-control" id="gsv" name="gsv" type="text" placeholder="Enter gsv" />
+                                               <label for="gsv">GSV</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+												<select class="form-select pt-4" id="gpuasCd" name="gpuasCd">
+												  <option selected>-선택-</option>
+												  <c:forEach var="item" items="${gpuas_cd}">
+													  <option value="${item.cd}">${item.nm}</option>
+												  </c:forEach>
+												</select>
+												<label for="gpuasCd">GPUAS</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+                                               <input class="form-control" id="qc" name="qc" type="text" placeholder="Enter qc" />
+                                               <label for="qc">QC</label>
                                            </div>
                                        </div>
                                    </div>
@@ -252,31 +292,26 @@ function idDupliChk(id) {
                                    <div class="row mb-3">
                                        <div class="col-md-3">
                                            <div class="form-floating">
+                                               <input class="form-control" id="tdp" name="tdp" type="text" placeholder="Enter tdp" />
+                                               <label for="tdp">TDP</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0">
                                                <input class="form-control" id="bn" name="bn" type="text" placeholder="Enter bn" />
                                                <label for="bn">BN</label>
                                            </div>
                                        </div>
                                        <div class="col-md-3">
                                            <div class="form-floating">
-												<select class="form-select pt-4" id="cpuSocCd" name="cpuSocCd">
-												  <option selected>-선택-</option>
-												  <c:forEach var="item" items="${cpu_soc_cd}">
-													  <option value="${item.cd}">${item.nm}</option>
-												  </c:forEach>
-												</select>
-												<label for="cpuSocCd">CPU SOC</label>
+                                               <input class="form-control" id="il" name="il" type="text" placeholder="Enter il" />
+                                               <label for="il">IL</label>
                                            </div>
                                        </div>
                                        <div class="col-md-3">
                                            <div class="form-floating">
-                                               <input class="form-control" id="vrmRange" name="vrmRange" type="text" placeholder="Enter vrmRange" />
-                                               <label for="vrmRange">VRM Range</label>
-                                           </div>
-                                       </div>
-                                       <div class="col-md-3">
-                                           <div class="form-floating">
-                                               <input class="form-control" id="ddr4MaxRange" name="ddr4MaxRange" type="text" placeholder="Enter ddr4MaxRange" />
-                                               <label for="ddr4MaxRange">DDR4 MAX Range</label>
+                                               <input class="form-control" id="gpl" name="gpl" type="text" placeholder="Enter gpl" />
+                                               <label for="gpl">GPL</label>
                                            </div>
                                        </div>
                                    </div>
@@ -284,8 +319,8 @@ function idDupliChk(id) {
                                    <div class="row mb-3">
                                        <div class="col-md-3">
                                            <div class="form-floating">
-                                               <input class="form-control" id="ddr5MaxRange" name="ddr5MaxRange" type="text" placeholder="Enter ddr5MaxRange" />
-                                               <label for="ddr5MaxRange">DDR5 MAX Range</label>
+                                               <input class="form-control" id="twelvePin" name="twelvePin" type="text" placeholder="Enter twelvePin" />
+                                               <label for="twelvePin">12PIN</label>
                                            </div>
                                        </div>
                                        <div class="col-md-3">
@@ -294,16 +329,10 @@ function idDupliChk(id) {
                                                <label for="multiBulk">멀티팩 벌크</label>
                                            </div>
                                        </div>
-                                       <div class="col-md-3">
-                                           <div class="form-floating">
-                                               <input class="form-control" id="apu" name="apu" type="text" placeholder="Enter apu" />
-                                               <label for="apu">APU</label>
-                                           </div>
-                                       </div>
                                    </div>
 
                                    <div class="mt-4 mb-0">
-                                       <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_cpu_regist">Regist</a></div>
+                                       <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_gpu_update">Update</a></div>
                                    </div>
                                </form>
                            </div>

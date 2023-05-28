@@ -32,8 +32,8 @@ public class PartsMbVO {
 	private int pl;
 	private int sata;
 	private String partsImage;
-	private Date regDtm;
-	private Date updtDtm;
+	private String regDtm;
+	private String updtDtm;
 	private String multiBulk;
 	private int wifi;
 }

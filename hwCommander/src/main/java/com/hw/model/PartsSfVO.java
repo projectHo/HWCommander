@@ -21,7 +21,7 @@ public class PartsSfVO {
 	private int fh;
 	private int ft;
 	private String partsImage;
-	private Date regDtm;
-	private Date updtDtm;
+	private String regDtm;
+	private String updtDtm;
 	private String multiBulk;
 }

@@ -38,7 +38,14 @@
 	    	    , {targets : 4, width : "10%"}
 	    	    , {targets : 5, width : "10%"}
 	    	    , {targets : 6, visible : false}
+	    	    , {targets : 7, visible : false} // id
     	    ]
+    	});
+    	
+    	$("#gpuListTable").on('click', 'tbody tr', function () {
+    		var row = $("#gpuListTable").DataTable().row($(this)).data();
+    		var partsId = row[7];
+    		location.href = "gpuUpdate.do?partsId="+partsId;
     	});
     	
         window.addEventListener('unload', function() {
@@ -105,8 +112,8 @@
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        Start Bootstrap
+                        <div class="small">With Bootstrap5</div>
+                        Made from WonHo
                     </div>
                 </nav>
             </div>
@@ -145,6 +152,7 @@
                                             
                                             <!-- 안보이는부분 -->
                                             <th>GPL</th>
+                                            <th>ID</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -159,6 +167,7 @@
 	                                            
 	                                            <!-- 안보이는부분 -->
 	                                            <td>${item.gpl}</td>
+	                                            <td>${item.id}</td>
                                         	</tr>
 										</c:forEach>
                                     </tbody>
@@ -184,9 +193,9 @@
                         <div class="d-flex align-items-center justify-content-between small">
                             <div class="text-muted">Copyright &copy; HW Commander 2023</div>
                             <div>
-                                <a href="#">Privacy Policy</a>
+                                <a>Dream</a>
                                 &middot;
-                                <a href="#">Terms &amp; Conditions</a>
+                                <a>Desire</a>
                             </div>
                         </div>
                     </div>

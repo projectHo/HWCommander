@@ -16,6 +16,6 @@ public class ProductDetailVO {
 	private int partsPrice;
 	private int partsTotalPrice;
 	private String partsImage;
-	private Date regDtm;
-	private Date updtDtm;
+	private String regDtm;
+	private String updtDtm;
 }

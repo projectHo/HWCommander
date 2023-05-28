@@ -97,8 +97,8 @@
                         </div>
                     </div>
                     <div class="sb-sidenav-footer">
-                        <div class="small">Logged in as:</div>
-                        Start Bootstrap
+                        <div class="small">With Bootstrap5</div>
+                        Made from WonHo
                     </div>
                 </nav>
             </div>
@@ -152,9 +152,9 @@
                         <div class="d-flex align-items-center justify-content-between small">
                             <div class="text-muted">Copyright &copy; HW Commander 2023</div>
                             <div>
-                                <a href="#">Privacy Policy</a>
+                                <a>Dream</a>
                                 &middot;
-                                <a href="#">Terms &amp; Conditions</a>
+                                <a>Desire</a>
                             </div>
                         </div>
                     </div>

@@ -56,7 +56,7 @@
 		)
 	</insert>
 	
-	<select id="getGpuAllList" resultType="partsGpuVO">
+	<select id="getGpuAllList" resultType="partsGpuVO" parameterType="partsGpuVO">
 		SELECT 
 			a.id                                                                              AS id        
 			, a.parts_name                                                                    AS partsName 
@@ -83,8 +83,38 @@
 			, a.updt_dtm                                                                      AS updtDtm
 			, a.multi_bulk                                                                    AS multiBulk
 		FROM
-			parts_gpu a;
+			parts_gpu a
+		<where>
+		    <if test="id != null and id != ''">
+		    	AND a.id = #{id} 
+		    </if>
+		</where>
 	</select>
+	
+	<update id="updatePartsGpuVO" parameterType="partsGpuVO">
+		UPDATE
+			parts_gpu
+		SET
+			parts_name            = #{partsName} 
+			, parts_price         = #{partsPrice}
+			, gled_cd             = #{gledCd}    
+			, gn                  = #{gn}        
+			, gmc_cd              = #{gmcCd}     
+			, gsc_cd              = #{gscCd}     
+			, gsv                 = #{gsv}       
+			, gpuas_cd            = #{gpuasCd}   
+			, qc                  = #{qc}        
+			, tdp                 = #{tdp}       
+			, bn                  = #{bn}        
+			, il                  = #{il}        
+			, gpl                 = #{gpl}       
+			, twelve_pin          = #{twelvePin} 
+			, parts_image         = #{partsImage}
+			, updt_dtm            = NOW()        
+			, multi_bulk          = #{multiBulk} 
+		WHERE
+			id = #{id}
+	</update>
 	
 	<select id="getPartsCpuVOMaxId" resultType="String">
 		SELECT CONCAT('CPU', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 4)), 0)+1, 6, '0') FROM parts_cpu)) AS id FROM DUAL
@@ -131,7 +161,7 @@
 		)
 	</insert>
 	
-	<select id="getCpuAllList" resultType="partsCpuVO">
+	<select id="getCpuAllList" resultType="partsCpuVO" parameterType="partsCpuVO">
 		SELECT 
 			a.id                                                                               AS id          
 			, a.parts_name                                                                     AS partsName   
@@ -153,8 +183,35 @@
 			, a.multi_bulk                                                                     AS multiBulk
 			, a.apu                                                                            AS apu     
 		FROM
-			parts_cpu a;
+			parts_cpu a
+		<where>
+		    <if test="id != null and id != ''">
+		    	AND a.id = #{id} 
+		    </if>
+		</where>
 	</select>
+	
+	<update id="updatePartsCpuVO" parameterType="partsCpuVO">
+		UPDATE
+			parts_cpu
+		SET
+			parts_name            = #{partsName}  
+			, parts_price         = #{partsPrice} 
+			, csv                 = #{csv}        
+			, maker_cd            = #{makerCd}    
+			, thermal             = #{thermal}    
+			, bn                  = #{bn}         
+			, cpu_soc_cd          = #{cpuSocCd}   
+			, vrm_range           = #{vrmRange}   
+			, ddr4_max_range      = #{ddr4MaxRange}
+			, ddr5_max_range      = #{ddr5MaxRange}
+			, parts_image         = #{partsImage} 
+			, updt_dtm            = NOW()         
+			, multi_bulk          = #{multiBulk}  
+			, apu                 = #{apu}        
+		WHERE
+			id = #{id}
+	</update>
 	
 	<select id="getPartsMbVOMaxId" resultType="String">
 		SELECT CONCAT('MB', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 3)), 0)+1, 6, '0') FROM parts_mb)) AS id FROM DUAL
@@ -213,7 +270,7 @@
 		)
 	</insert>
 	
-	<select id="getMbAllList" resultType="partsMbVO">
+	<select id="getMbAllList" resultType="partsMbVO" parameterType="partsMbVO">
 		SELECT 
 			a.id                                                                             AS id        
 			, a.parts_name                                                                     AS partsName 
@@ -246,8 +303,41 @@
 			, a.multi_bulk                                                                     AS multiBulk
 			, a.wifi                                                                           AS wifi        
 		FROM
-			parts_mb a;
+			parts_mb a
+		<where>
+		    <if test="id != null and id != ''">
+		    	AND a.id = #{id} 
+		    </if>
+		</where>
 	</select>
+	
+	<update id="updatePartsMbVO" parameterType="partsMbVO">
+		UPDATE
+			parts_mb
+		SET
+			parts_name          = #{partsName} 
+			, parts_price         = #{partsPrice}
+			, mled_cd             = #{mledCd}    
+			, mmc_cd              = #{mmcCd}     
+			, msc_cd              = #{mscCd}     
+			, mbas_cd             = #{mbasCd}    
+			, port                = #{port}      
+			, scal                = #{scal}      
+			, bios                = #{bios}      
+			, cpu_soc_cd          = #{cpuSocCd}  
+			, vrm_range           = #{vrmRange}  
+			, mem_soc_cd          = #{memSocCd}  
+			, scs_cd              = #{scsCd}     
+			, ff                  = #{ff}        
+			, pl                  = #{pl}        
+			, sata                = #{sata}      
+			, parts_image         = #{partsImage}
+			, updt_dtm            = NOW()        
+			, multi_bulk          = #{multiBulk} 
+			, wifi                = #{wifi}      
+		WHERE
+			id = #{id}
+	</update>
 	
 	<select id="getPartsRamVOMaxId" resultType="String">
 		SELECT CONCAT('RAM', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 4)), 0)+1, 6, '0') FROM parts_ram)) AS id FROM DUAL
@@ -296,7 +386,7 @@
 		)
 	</insert>
 	
-	<select id="getRamAllList" resultType="partsRamVO">
+	<select id="getRamAllList" resultType="partsRamVO" parameterType="partsRamVO">
 		SELECT 
 			a.id                                                                               AS id          
 			, a.parts_name                                                                     AS partsName   
@@ -322,8 +412,36 @@
 			, a.multi_bulk                                                                     AS multiBulk
 			, a.volume                                                                         AS volume     
 		FROM
-			parts_ram a;
+			parts_ram a
+		<where>
+		    <if test="id != null and id != ''">
+		    	AND a.id = #{id} 
+		    </if>
+		</where>
 	</select>
+	
+	<update id="updatePartsRamVO" parameterType="partsRamVO">
+		UPDATE
+			parts_ram
+		SET
+			parts_name          = #{partsName}   
+			, parts_price         = #{partsPrice}  
+			, rled_cd             = #{rledCd}      
+			, rmc_cd              = #{rmcCd}       
+			, rsc_cd              = #{rscCd}       
+			, cl                  = #{cl}          
+			, lt                  = #{lt}          
+			, pr_cd               = #{prCd}        
+			, mem_soc_cd          = #{memSocCd}    
+			, ddr4_max_range      = #{ddr4MaxRange}
+			, ddr5_max_range      = #{ddr5MaxRange}
+			, parts_image         = #{partsImage}  
+			, updt_dtm            = NOW()          
+			, multi_bulk          = #{multiBulk}   
+			, volume              = #{volume}      
+		WHERE
+			id = #{id}
+	</update>
 	
 	<select id="getPartsPsuVOMaxId" resultType="String">
 		SELECT CONCAT('PSU', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 4)), 0)+1, 6, '0') FROM parts_psu)) AS id FROM DUAL
@@ -372,7 +490,7 @@
 		)
 	</insert>
 	
-	<select id="getPsuAllList" resultType="partsPsuVO">
+	<select id="getPsuAllList" resultType="partsPsuVO" parameterType="partsPsuVO">
 		SELECT 
 			a.id                                                                               AS id        
 			, a.parts_name                                                                     AS partsName 
@@ -395,8 +513,16 @@
 			, a.updt_dtm                                                                       AS updtDtm
 			, a.multi_bulk                                                                     AS multiBulk     
 		FROM
-			parts_psu a;
+			parts_psu a
+		<where>
+		    <if test="id != null and id != ''">
+		    	AND a.id = #{id} 
+		    </if>
+		</where>
 	</select>
+	
+	<update id="updatePartsPsuVO" parameterType="partsPsuVO">
+	</update>
 	
 	<select id="getPartsCaseVOMaxId" resultType="String">
 		SELECT CONCAT('CASE', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 5)), 0)+1, 6, '0') FROM parts_case)) AS id FROM DUAL
@@ -461,7 +587,7 @@
 		)
 	</insert>
 	
-	<select id="getCaseAllList" resultType="partsCaseVO">
+	<select id="getCaseAllList" resultType="partsCaseVO" parameterType="partsCaseVO">
 		SELECT 
 			a.id                                                                               AS id             
 			, a.parts_name                                                                     AS partsName      
@@ -495,8 +621,16 @@
 			, a.updt_dtm                                                                       AS updtDtm
 			, a.multi_bulk                                                                     AS multiBulk        
 		FROM
-			parts_case a;
+			parts_case a
+		<where>
+		    <if test="id != null and id != ''">
+		    	AND a.id = #{id} 
+		    </if>
+		</where>
 	</select>
+	
+	<update id="updatePartsCaseVO" parameterType="partsCaseVO">
+	</update>
 	
 	<select id="getPartsCoolerVOMaxId" resultType="String">
 		SELECT CONCAT('COOLER', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 7)), 0)+1, 6, '0') FROM parts_cooler)) AS id FROM DUAL
@@ -551,7 +685,7 @@
 		)
 	</insert>
 	
-	<select id="getCoolerAllList" resultType="partsCoolerVO">
+	<select id="getCoolerAllList" resultType="partsCoolerVO" parameterType="partsCoolerVO">
 		SELECT 
 			a.id                                                                               AS id        
 			, a.parts_name                                                                     AS partsName 
@@ -579,8 +713,16 @@
 			, a.updt_dtm                                                                       AS updtDtm
 			, a.multi_bulk                                                                     AS multiBulk   
 		FROM
-			parts_cooler a;
+			parts_cooler a
+		<where>
+		    <if test="id != null and id != ''">
+		    	AND a.id = #{id} 
+		    </if>
+		</where>
 	</select>
+	
+	<update id="updatePartsCoolerVO" parameterType="partsCoolerVO">
+	</update>
 	
 	<select id="getPartsHddVOMaxId" resultType="String">
 		SELECT CONCAT('HDD', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 4)), 0)+1, 6, '0') FROM parts_hdd)) AS id FROM DUAL
@@ -627,7 +769,7 @@
 		)
 	</insert>
 	
-	<select id="getHddAllList" resultType="partsHddVO">
+	<select id="getHddAllList" resultType="partsHddVO" parameterType="partsHddVO">
 		SELECT 
 			a.id                                                                               AS id             
 			, a.parts_name                                                                     AS partsName      
@@ -647,8 +789,16 @@
 			, a.multi_bulk                                                                     AS multiBulk
 			, a.volume                                                                         AS volume
 		FROM
-			parts_hdd a;
+			parts_hdd a
+		<where>
+		    <if test="id != null and id != ''">
+		    	AND a.id = #{id} 
+		    </if>
+		</where>
 	</select>
+	
+	<update id="updatePartsHddVO" parameterType="partsHddVO">
+	</update>
 	
 	<select id="getPartsSsdVOMaxId" resultType="String">
 		SELECT CONCAT('SSD', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 4)), 0)+1, 6, '0') FROM parts_ssd)) AS id FROM DUAL
@@ -697,7 +847,7 @@
 		)
 	</insert>
 	
-	<select id="getSsdAllList" resultType="partsSsdVO">
+	<select id="getSsdAllList" resultType="partsSsdVO" parameterType="partsSsdVO">
 		SELECT 
 			a.id                                                                               AS id           
 			, a.parts_name                                                                     AS partsName    
@@ -719,8 +869,16 @@
 			, a.multi_bulk                                                                     AS multiBulk
 			, a.volume                                                                         AS volume   
 		FROM
-			parts_ssd a;
+			parts_ssd a
+		<where>
+		    <if test="id != null and id != ''">
+		    	AND a.id = #{id} 
+		    </if>
+		</where>
 	</select>
+	
+	<update id="updatePartsSsdVO" parameterType="partsSsdVO">
+	</update>
 	
 	<select id="getPartsSfVOMaxId" resultType="String">
 		SELECT CONCAT('SF', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 3)), 0)+1, 6, '0') FROM parts_sf)) AS id FROM DUAL
@@ -763,7 +921,7 @@
 		)
 	</insert>
 	
-	<select id="getSfAllList" resultType="partsSfVO">
+	<select id="getSfAllList" resultType="partsSfVO" parameterType="partsSfVO">
 		SELECT
 			a.id                                                                               AS id        
 			, a.parts_name                                                                     AS partsName 
@@ -784,7 +942,15 @@
 			, a.updt_dtm                                                                       AS updtDtm
 			, a.multi_bulk                                                                     AS multiBulk   
 		FROM
-			parts_sf a;
+			parts_sf a
+		<where>
+		    <if test="id != null and id != ''">
+		    	AND a.id = #{id} 
+		    </if>
+		</where>
 	</select>
+	
+	<update id="updatePartsSfVO" parameterType="partsSfVO">
+	</update>
 	
 </mapper>

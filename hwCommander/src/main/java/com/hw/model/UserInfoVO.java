@@ -17,6 +17,6 @@ public class UserInfoVO {
 	private String mail;
 	private String mailKey;
 	private String mailConfirm;
-	private Date regDtm;
-	private Date updtDtm;
+	private String regDtm;
+	private String updtDtm;
 }

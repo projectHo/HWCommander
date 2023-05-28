@@ -21,8 +21,8 @@ public class PartsSsdVO {
 	private String scsCdNm;
 	private int sata;
 	private String partsImage;
-	private Date regDtm;
-	private Date updtDtm;
+	private String regDtm;
+	private String updtDtm;
 	private String multiBulk;
 	private int volume;
 }

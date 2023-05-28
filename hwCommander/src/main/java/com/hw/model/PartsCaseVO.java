@@ -34,7 +34,7 @@ public class PartsCaseVO {
 	private int strTwoDotFive;
 	private int strThreeDotFive;
 	private String partsImage;
-	private Date regDtm;
-	private Date updtDtm;
+	private String regDtm;
+	private String updtDtm;
 	private String multiBulk;
 }

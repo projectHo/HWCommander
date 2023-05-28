@@ -11,7 +11,7 @@ public class OrderDetailVO {
 	private String productId;
 	private int productOrderQty;
 	private int orderPrice;
-	private Date regDtm;
-	private Date updtDtm;
+	private String regDtm;
+	private String updtDtm;
 	
 }
