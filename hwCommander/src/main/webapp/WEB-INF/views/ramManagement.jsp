@@ -29,6 +29,22 @@
     $(function(){
     	$("#ramListTable").DataTable({
     		displayLength : setDisplayLength()
+    	    , bAutoWidth : false
+    	    , columnDefs : [
+	    	    {targets : 0, width : "50%"}
+	    	    , {targets : 1, width : "10%"}
+	    	    , {targets : 2, width : "10%"}
+	    	    , {targets : 3, width : "10%"}
+	    	    , {targets : 4, width : "10%"}
+	    	    , {targets : 5, width : "10%"}
+	    	    , {targets : 6, visible : false} // id
+    	    ]
+    	});
+    	
+    	$("#ramListTable").on('click', 'tbody tr', function () {
+    		var row = $("#ramListTable").DataTable().row($(this)).data();
+    		var partsId = row[6];
+    		location.href = "ramUpdate.do?partsId="+partsId;
     	});
     	
         window.addEventListener('unload', function() {
@@ -133,6 +149,9 @@
                                             <th>RMC</th>
                                             <th>RSC</th>
                                             <th>PR</th>
+                                            
+                                            <!-- 안보이는부분 -->
+                                            <th>ID</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -144,6 +163,9 @@
 	                                            <td>${item.rmcCdNm}</td>
 	                                            <td>${item.rscCdNm}</td>
 	                                            <td>${item.prCdNm}</td>
+	                                            
+	                                            <!-- 안보이는부분 -->
+	                                            <td>${item.id}</td>
                                         	</tr>
 										</c:forEach>
                                     </tbody>

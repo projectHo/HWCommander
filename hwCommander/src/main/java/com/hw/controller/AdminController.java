@@ -181,7 +181,15 @@ public class AdminController {
 		model.addAttribute("cpu_soc_cd", adminService.getComnCdDetailList("PRT007"));
 		model.addAttribute("mem_soc_cd", adminService.getComnCdDetailList("PRT024"));
 		model.addAttribute("scs_cd", adminService.getComnCdDetailList("PRT008"));
+		
+		model.addAttribute("selectData", partsService.getPartsMbVOById(partsId));
 		return "mbUpdate";
+	}
+	
+	@RequestMapping(value = "/mbUpdateLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer mbUpdateLogic(PartsMbVO partsMbVO) {
+		return partsService.mbUpdateLogic(partsMbVO);
 	}
 	
 	/*--------------------------------------------------
@@ -216,7 +224,15 @@ public class AdminController {
 		model.addAttribute("rsc_cd", adminService.getComnCdDetailList("PRT011"));
 		model.addAttribute("pr_cd", adminService.getComnCdDetailList("PRT012"));
 		model.addAttribute("mem_soc_cd", adminService.getComnCdDetailList("PRT024"));
+		
+		model.addAttribute("selectData", partsService.getPartsRamVOById(partsId));
 		return "ramUpdate";
+	}
+	
+	@RequestMapping(value = "/ramUpdateLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer ramUpdateLogic(PartsRamVO partsRamVO) {
+		return partsService.ramUpdateLogic(partsRamVO);
 	}
 	
 	/*--------------------------------------------------
@@ -245,7 +261,15 @@ public class AdminController {
 	public String goPsuUpdate(Model model, @RequestParam(value = "partsId", required = true) String partsId) {
 		model.addAttribute("pmc_cd", adminService.getComnCdDetailList("PRT013"));
 		model.addAttribute("psc_cd", adminService.getComnCdDetailList("PRT014"));
+		
+		model.addAttribute("selectData", partsService.getPartsPsuVOById(partsId));
 		return "psuUpdate";
+	}
+	
+	@RequestMapping(value = "/psuUpdateLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer psuUpdateLogic(PartsPsuVO partsPsuVO) {
+		return partsService.psuUpdateLogic(partsPsuVO);
 	}
 
 	/*--------------------------------------------------
@@ -280,7 +304,15 @@ public class AdminController {
 		model.addAttribute("cmc_cd", adminService.getComnCdDetailList("PRT015"));
 		model.addAttribute("csc_cd", adminService.getComnCdDetailList("PRT016"));
 		model.addAttribute("caseas_cd", adminService.getComnCdDetailList("PRT017"));
+		
+		model.addAttribute("selectData", partsService.getPartsCaseVOById(partsId));
 		return "caseUpdate";
+	}
+	
+	@RequestMapping(value = "/caseUpdateLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer caseUpdateLogic(PartsCaseVO partsCaseVO) {
+		return partsService.caseUpdateLogic(partsCaseVO);
 	}
 	
 	/*--------------------------------------------------
@@ -313,7 +345,15 @@ public class AdminController {
 		model.addAttribute("clmc_cd", adminService.getComnCdDetailList("PRT018"));
 		model.addAttribute("clsc_cd", adminService.getComnCdDetailList("PRT019"));
 		model.addAttribute("formula_cd", adminService.getComnCdDetailList("PRT020"));
+		
+		model.addAttribute("selectData", partsService.getPartsCoolerVOById(partsId));
 		return "coolerUpdate";
+	}
+	
+	@RequestMapping(value = "/coolerUpdateLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer coolerUpdateLogic(PartsCoolerVO partsCoolerVO) {
+		return partsService.coolerUpdateLogic(partsCoolerVO);
 	}
 	
 	/*--------------------------------------------------
@@ -338,7 +378,14 @@ public class AdminController {
 	
 	@RequestMapping(value = "/hddUpdate.do", method = RequestMethod.GET)
 	public String goHddUpdate(Model model, @RequestParam(value = "partsId", required = true) String partsId) {
+		model.addAttribute("selectData", partsService.getPartsHddVOById(partsId));
 		return "hddUpdate";
+	}
+	
+	@RequestMapping(value = "/hddUpdateLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer hddUpdateLogic(PartsHddVO partsHddVO) {
+		return partsService.hddUpdateLogic(partsHddVO);
 	}
 	
 	/*--------------------------------------------------
@@ -365,7 +412,15 @@ public class AdminController {
 	@RequestMapping(value = "/ssdUpdate.do", method = RequestMethod.GET)
 	public String goSsdUpdate(Model model, @RequestParam(value = "partsId", required = true) String partsId) {
 		model.addAttribute("scs_cd", adminService.getComnCdDetailList("PRT008"));
+		
+		model.addAttribute("selectData", partsService.getPartsSsdVOById(partsId));
 		return "ssdUpdate";
+	}
+	
+	@RequestMapping(value = "/ssdUpdateLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer ssdUpdateLogic(PartsSsdVO partsSsdVO) {
+		return partsService.ssdUpdateLogic(partsSsdVO);
 	}
 	
 	
@@ -397,7 +452,15 @@ public class AdminController {
 		model.addAttribute("fled_cd", adminService.getComnCdDetailList("COM002"));
 		model.addAttribute("fmc_cd", adminService.getComnCdDetailList("PRT021"));
 		model.addAttribute("fsc_cd", adminService.getComnCdDetailList("PRT022"));
+		
+		model.addAttribute("selectData", partsService.getPartsSfVOById(partsId));
 		return "sfUpdate";
+	}
+	
+	@RequestMapping(value = "/sfUpdateLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer sfUpdateLogic(PartsSfVO partsSfVO) {
+		return partsService.sfUpdateLogic(partsSfVO);
 	}
 	
 	
@@ -456,6 +519,15 @@ public class AdminController {
 		model.addAttribute("hddList", partsService.getHddAllList());
 		model.addAttribute("ssdList", partsService.getSsdAllList());
 		model.addAttribute("sfList", partsService.getSfAllList());
+		
+		// todo wonho master, detail 각각 조회
 		return "productUpdate";
 	}
+	/*
+	 * @RequestMapping(value = "/productUpdateLogic.do", method =
+	 * RequestMethod.POST)
+	 * 
+	 * @ResponseBody public Integer productUpdateLogic(PartsProductVO partsMbVO) {
+	 * return partsService.mbUpdateLogic(partsMbVO); }
+	 */
 }

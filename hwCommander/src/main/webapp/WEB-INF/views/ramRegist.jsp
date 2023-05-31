@@ -269,8 +269,8 @@ function idDupliChk(id) {
                                        </div>
                                        <div class="col-md-3">
                                            <div class="form-floating mb-3 mb-md-0">
-                                               <input class="form-control" id="lt" name="lt" type="text" placeholder="Enter lt" />
-                                               <label for="lt">LT</label>
+                                               <input class="form-control" id="latency" name="latency" type="text" placeholder="Enter latency" />
+                                               <label for="latency">Latency</label>
                                            </div>
                                        </div>
                                        <div class="col-md-3">

@@ -29,6 +29,22 @@
     $(function(){
     	$("#mbListTable").DataTable({
     		displayLength : setDisplayLength()
+    	    , bAutoWidth : false
+    	    , columnDefs : [
+	    	    {targets : 0, width : "50%"}
+	    	    , {targets : 1, width : "10%"}
+	    	    , {targets : 2, width : "10%"}
+	    	    , {targets : 3, width : "10%"}
+	    	    , {targets : 4, width : "10%"}
+	    	    , {targets : 5, width : "10%"}
+	    	    , {targets : 6, visible : false} // id
+    	    ]
+    	});
+    	
+    	$("#mbListTable").on('click', 'tbody tr', function () {
+    		var row = $("#mbListTable").DataTable().row($(this)).data();
+    		var partsId = row[6];
+    		location.href = "mbUpdate.do?partsId="+partsId;
     	});
     	
         window.addEventListener('unload', function() {
@@ -133,6 +149,9 @@
                                             <th>MMC</th>
                                             <th>MSC</th>
                                             <th>MBAS</th>
+                                            
+                                            <!-- 안보이는부분 -->
+                                            <th>ID</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -144,6 +163,9 @@
 	                                            <td>${item.mmcCdNm}</td>
 	                                            <td>${item.mscCdNm}</td>
 	                                            <td>${item.mbasCdNm}</td>
+	                                            
+	                                            <!-- 안보이는부분 -->
+	                                            <td>${item.id}</td>
                                         	</tr>
 										</c:forEach>
                                     </tbody>

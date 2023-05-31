@@ -3,7 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - MB Regist</title>
+<title>현우의 컴퓨터 공방 - MB Update</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <!-- Bootstrap CSS -->
@@ -22,30 +22,55 @@
 <script>
 
     $(function(){
-        $('#btn_mb_regist').on("click", function () {
+    	dataSetting();
+        $('#btn_mb_update').on("click", function () {
         	if(!validationCheck()) {
         		return false;
         	}
         	
-        	if(confirm("등록 하시겠습니까?")) {
-        		goMbRegist();
+        	if(confirm("수정 하시겠습니까?")) {
+        		goMbUpdate();
         	}
         });
     });
     
-function goMbRegist() {
-    var form = $("#mb_regist_form").serialize();
+function dataSetting() {
+	$("#partsName").val("${selectData.partsName}");
+	$("#partsPrice").val("${selectData.partsPrice}");
+	$("#mledCd").val("${selectData.mledCd}");
+	$("#mmcCd").val("${selectData.mmcCd}");
+	$("#mscCd").val("${selectData.mscCd}");
+	$("#mbasCd").val("${selectData.mbasCd}");
+	$("#port").val("${selectData.port}");
+	$("#scal").val("${selectData.scal}");
+	$("#bios").val("${selectData.bios}");
+	$("#cpuSocCd").val("${selectData.cpuSocCd}");
+	$("#vrmRange").val("${selectData.vrmRange}");
+	$("#memSocCd").val("${selectData.memSocCd}");
+	$("#scsCd").val("${selectData.scsCd}");
+	$("#ff").val("${selectData.ff}");
+	$("#pl").val("${selectData.pl}");
+	$("#sata").val("${selectData.sata}");
+	$("#multiBulk").val("${selectData.multiBulk}");
+	$("#wifi").val("${selectData.wifi}");
+	
+	$("#id").val("${selectData.id}");
+	$("#partsImage").val("${selectData.partsImage}");
+}
+
+function goMbUpdate() {
+    var form = $("#mb_update_form").serialize();
     
     $.ajax({
         type: "post",
-        url: "/admin/mbRegistLogic.do",
+        url: "/admin/mbUpdateLogic.do",
         data: form,
         dataType: 'json',
         success: function (data) {
         	if(data == 1) {
-        		alert("등록완료");
+        		alert("수정완료");
         	}else {
-        		alert("등록실패");
+        		alert("수정실패");
         	}
         	window.location = "mbManagement.do";
             console.log(data);
@@ -199,20 +224,22 @@ function idDupliChk(id) {
             <div id="layoutSidenav_content">
 				<main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">MB Regist</h1>
+                        <h1 class="mt-4">MB Update</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="main.do">Admin Page</a></li>
                             <li class="breadcrumb-item"><a href="mbManagement.do">MB</a></li>
-                            <li class="breadcrumb-item active">MB Regist</li>
+                            <li class="breadcrumb-item active">MB Update</li>
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                                MB를  등록합니다.
+                                MB를  수정합니다.
                             </div>
                         </div>
                         <div class="card mb-4">
 							<div class="card-body">
-                               <form id="mb_regist_form">
+                               <form id="mb_update_form">
+                                   <input type="hidden" id="id" name="id">
+                                   <input type="hidden" id="partsImage" name="partsImage">
                                    <div class="form-floating mb-3">
                                        <input class="form-control" id="partsName" name="partsName" type="text" placeholder="Enter partsName"/>
                                        <label for="partsName">parts Name</label>
@@ -371,7 +398,7 @@ function idDupliChk(id) {
                                    </div>
                                    
                                    <div class="mt-4 mb-0">
-                                       <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_mb_regist">Regist</a></div>
+                                       <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_mb_update">Update</a></div>
                                    </div>
                                </form>
                            </div>

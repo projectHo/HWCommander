@@ -33,23 +33,23 @@
         });
     });
     
-    function dataSetting() {
-    	$("#partsName").val("${selectData.partsName}");
-    	$("#partsPrice").val("${selectData.partsPrice}");
-    	$("#csv").val("${selectData.csv}");
-    	$("#makerCd").val("${selectData.makerCd}");
-    	$("#thermal").val("${selectData.thermal}");
-    	$("#bn").val("${selectData.bn}");
-    	$("#cpuSocCd").val("${selectData.cpuSocCd}");
-    	$("#vrmRange").val("${selectData.vrmRange}");
-    	$("#ddr4MaxRange").val("${selectData.ddr4MaxRange}");
-    	$("#ddr5MaxRange").val("${selectData.ddr5MaxRange}");
-    	$("#multiBulk").val("${selectData.multiBulk}");
-    	$("#apu").val("${selectData.apu}");
-    	
-    	$("#id").val("${selectData.id}");
-    	$("#partsImage").val("${selectData.partsImage}");
-    }
+function dataSetting() {
+	$("#partsName").val("${selectData.partsName}");
+	$("#partsPrice").val("${selectData.partsPrice}");
+	$("#csv").val("${selectData.csv}");
+	$("#makerCd").val("${selectData.makerCd}");
+	$("#thermal").val("${selectData.thermal}");
+	$("#bn").val("${selectData.bn}");
+	$("#cpuSocCd").val("${selectData.cpuSocCd}");
+	$("#vrmRange").val("${selectData.vrmRange}");
+	$("#ddr4MaxRange").val("${selectData.ddr4MaxRange}");
+	$("#ddr5MaxRange").val("${selectData.ddr5MaxRange}");
+	$("#multiBulk").val("${selectData.multiBulk}");
+	$("#apu").val("${selectData.apu}");
+	
+	$("#id").val("${selectData.id}");
+	$("#partsImage").val("${selectData.partsImage}");
+}
     
 function goCpuUpdate() {
     var form = $("#cpu_update_form").serialize();

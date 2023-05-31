@@ -353,7 +353,7 @@
 			, rmc_cd
 			, rsc_cd
 			, cl
-			, lt
+			, latency
 			, pr_cd
 			, mem_soc_cd
 			, ddr4_max_range
@@ -373,7 +373,7 @@
 			, #{rmcCd}
 			, #{rscCd}
 			, #{cl}
-			, #{lt}
+			, #{latency}
 			, #{prCd}
 			, #{memSocCd}
 			, #{ddr4MaxRange}
@@ -399,7 +399,7 @@
 			, a.rsc_cd                                                                         AS rscCd       
 			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT011' AND cd = a.rsc_cd)       AS rscCdNm     
 			, a.cl                                                                             AS cl          
-			, a.lt                                                                             AS lt          
+			, a.latency                                                                             AS latency          
 			, a.pr_cd                                                                          AS prCd        
 			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT012' AND cd = a.pr_cd)        AS prCdNm      
 			, a.mem_soc_cd                                                                     AS memSocCd    
@@ -430,7 +430,7 @@
 			, rmc_cd              = #{rmcCd}       
 			, rsc_cd              = #{rscCd}       
 			, cl                  = #{cl}          
-			, lt                  = #{lt}          
+			, latency                  = #{latency}          
 			, pr_cd               = #{prCd}        
 			, mem_soc_cd          = #{memSocCd}    
 			, ddr4_max_range      = #{ddr4MaxRange}

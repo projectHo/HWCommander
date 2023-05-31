@@ -48,10 +48,16 @@ public class OrderController {
 		
 		UserInfoVO loginUser = (UserInfoVO) httpSession.getAttribute("loginUser");
 		
+		//todo wonho oid 채번해서 줘야함.
+		
 		if("direct".equals(accessRoute)) {
 			List<ProductMasterVO> productMasterVOList = new ArrayList<>();
 			productMasterVOList.add(productService.getProductMasterById(productIds));
+			
 			model.addAttribute("productList", productMasterVOList);
+			model.addAttribute("productName", productMasterVOList.get(0).getProductName());
+			
+			request.setAttribute("productPrice", productMasterVOList.get(0).getProductPrice());
 		}else {
 			// Cart
 			// jsp idlist.join(", ")

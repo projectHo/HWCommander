@@ -40,9 +40,8 @@
 
 	String timestamp			= SignatureUtil.getTimestamp();			// util에 의해서 자동생성
 	String oid			= "TESTORD0000001";	// 가맹점 주문번호(가맹점에서 직접 설정)
-	String price				= "1000";								// 상품가격(특수기호 제외, 가맹점에서 직접 설정)
-
-
+	String price				= String.valueOf(request.getAttribute("productPrice")); // 상품가격(특수기호 제외, 가맹점에서 직접 설정)
+	
 	Map<String, String> signParam = new HashMap<String, String>();
 
 	signParam.put("oid", oid);
@@ -99,11 +98,9 @@ function btnCheckOutClick() {
 	//alert("나! 결제한다!!!");
 	
 	// 주문번호 생성하는 ajax 태운 뒤 성공 시 이니시스 호출해야함.
+
+	$("#inicis_goodname").val("${productName}");
 	
-	// 상품합계금액 세팅 임시로 10원
-	//$("#inicis_price").val("10");
-	
-	$("#inicis_goodname").val("테스트상품 외 1건");
 	$("#inicis_buyername").val($("#ordererName").val());
 	$("#inicis_buyertel").val($("#ordererHpNumber").val());
 	$("#inicis_buyeremail").val($("#ordererMail").val());

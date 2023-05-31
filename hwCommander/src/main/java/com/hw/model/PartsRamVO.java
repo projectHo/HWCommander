@@ -17,7 +17,7 @@ public class PartsRamVO {
 	private String rscCd;
 	private String rscCdNm;
 	private int cl;
-	private float lt;
+	private float latency;
 	private String prCd;
 	private String prCdNm;
 	private String memSocCd;

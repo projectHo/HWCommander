@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - RAM Regist</title>
+<title>현우의 컴퓨터 공방 - RAM Update</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <!-- Bootstrap CSS -->
@@ -21,30 +21,50 @@
 <script>
 
     $(function(){
-        $('#btn_ram_regist').on("click", function () {
+    	dataSetting();
+        $('#btn_ram_update').on("click", function () {
         	if(!validationCheck()) {
         		return false;
         	}
         	
-        	if(confirm("등록 하시겠습니까?")) {
-        		goRamRegist();
+        	if(confirm("수정 하시겠습니까?")) {
+        		goRamUpdate();
         	}
         });
     });
     
-function goRamRegist() {
-    var form = $("#ram_regist_form").serialize();
+function dataSetting() {
+	$("#partsName").val("${selectData.partsName}");
+	$("#partsPrice").val("${selectData.partsPrice}");
+	$("#rledCd").val("${selectData.rledCd}");
+	$("#rmcCd").val("${selectData.rmcCd}");
+	$("#rscCd").val("${selectData.rscCd}");
+	$("#cl").val("${selectData.cl}");
+	$("#latency").val("${selectData.latency}");
+	$("#prCd").val("${selectData.prCd}");
+	$("#memSocCd").val("${selectData.memSocCd}");
+	$("#ddr4MaxRange").val("${selectData.ddr4MaxRange}");
+	$("#ddr5MaxRange").val("${selectData.ddr5MaxRange}");
+	$("#multiBulk").val("${selectData.multiBulk}");
+	$("#volume").val("${selectData.volume}");
+	
+	$("#id").val("${selectData.id}");
+	$("#partsImage").val("${selectData.partsImage}");
+}
+    
+function goRamUpdate() {
+    var form = $("#ram_update_form").serialize();
     
     $.ajax({
         type: "post",
-        url: "/admin/ramRegistLogic.do",
+        url: "/admin/ramUpdateLogic.do",
         data: form,
         dataType: 'json',
         success: function (data) {
         	if(data == 1) {
-        		alert("등록완료");
+        		alert("수정완료");
         	}else {
-        		alert("등록실패");
+        		alert("수정실패");
         	}
         	window.location = "ramManagement.do";
             console.log(data);
@@ -198,20 +218,22 @@ function idDupliChk(id) {
             <div id="layoutSidenav_content">
 				<main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">RAM Regist</h1>
+                        <h1 class="mt-4">RAM Update</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="main.do">Admin Page</a></li>
                             <li class="breadcrumb-item"><a href="ramManagement.do">RAM</a></li>
-                            <li class="breadcrumb-item active">RAM Regist</li>
+                            <li class="breadcrumb-item active">RAM Update</li>
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                                RAM를  등록합니다.
+                                RAM를  수정합니다.
                             </div>
                         </div>
                         <div class="card mb-4">
 							<div class="card-body">
-                               <form id="ram_regist_form">
+                               <form id="ram_update_form">
+                                   <input type="hidden" id="id" name="id">
+                                   <input type="hidden" id="partsImage" name="partsImage">
                                    <div class="form-floating mb-3">
                                        <input class="form-control" id="partsName" name="partsName" type="text" placeholder="Enter partsName"/>
                                        <label for="partsName">parts Name</label>
@@ -269,8 +291,8 @@ function idDupliChk(id) {
                                        </div>
                                        <div class="col-md-3">
                                            <div class="form-floating mb-3 mb-md-0">
-                                               <input class="form-control" id="lt" name="lt" type="text" placeholder="Enter lt" />
-                                               <label for="lt">LT</label>
+                                               <input class="form-control" id="latency" name="latency" type="text" placeholder="Enter latency" />
+                                               <label for="latency">Latency</label>
                                            </div>
                                        </div>
                                        <div class="col-md-3">
@@ -327,7 +349,7 @@ function idDupliChk(id) {
                                    
 
                                    <div class="mt-4 mb-0">
-                                       <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_ram_regist">Regist</a></div>
+                                       <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_ram_update">Update</a></div>
                                    </div>
                                </form>
                            </div>
