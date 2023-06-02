@@ -141,7 +141,7 @@ function loginCheck() {
 						        <h3><a class="nav-link mx-5" href="/eventMall.do">이벤트 몰</a></h3>
 						        <h3><a class="nav-link mx-5" href="javascript:alert('준비중')">모니터추천</a></h3>
 						        <h3><a class="nav-link mx-5" href="javascript:alert('준비중')">게시판</a></h3>
-						        <h3><a class="nav-link mx-5" href="javascript:alert('준비중')">견적산출</a></h3>
+						        <h3><a class="nav-link mx-5" href="/estimateCalculationOne.do">견적산출</a></h3>
 						      </div>
 						    </div>
 						  </div>

@@ -59,4 +59,9 @@ public class HomeController {
 		return "eventMallDetail";
 	}
 	
+	@RequestMapping(value = "/estimateCalculationOne.do", method = RequestMethod.GET)
+	public String goEstimateCalculationOne(Model model) {
+		return "estimateCalculationOne";
+	}
+	
 }
