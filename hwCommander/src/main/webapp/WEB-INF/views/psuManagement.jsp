@@ -27,8 +27,23 @@
 
 <script>
     $(function(){
+    	
     	$("#psuListTable").DataTable({
     		displayLength : setDisplayLength()
+    	    , bAutoWidth : false
+    	    , columnDefs : [
+	    	    {targets : 0, width : "50%"}
+	    	    , {targets : 1, width : "20%"}
+	    	    , {targets : 2, width : "15%"}
+	    	    , {targets : 3, width : "15%"}
+	    	    , {targets : 4, visible : false} // id
+    	    ]
+    	});
+    	
+    	$("#psuListTable").on('click', 'tbody tr', function () {
+    		var row = $("#psuListTable").DataTable().row($(this)).data();
+    		var partsId = row[4];
+    		location.href = "psuUpdate.do?partsId="+partsId;
     	});
     	
         window.addEventListener('unload', function() {
@@ -131,6 +146,9 @@
                                             <th>parts price</th>
                                             <th>PMC</th>
                                             <th>PSC</th>
+                                            
+                                            <!-- 안보이는부분 -->
+                                            <th>ID</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -140,6 +158,9 @@
 	                                            <td>${item.partsPrice}</td>
 	                                            <td>${item.pmcCdNm}</td>
 	                                            <td>${item.pscCdNm}</td>
+	                                            
+	                                            <!-- 안보이는부분 -->
+	                                            <td>${item.id}</td>
                                         	</tr>
 										</c:forEach>
                                     </tbody>

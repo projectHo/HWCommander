@@ -522,6 +522,26 @@
 	</select>
 	
 	<update id="updatePartsPsuVO" parameterType="partsPsuVO">
+		UPDATE
+			parts_psu
+		SET
+			parts_name            = #{partsName} 
+			, parts_price         = #{partsPrice}
+			, pmc_cd              = #{pmcCd}     
+			, psc_cd              = #{pscCd}     
+			, std                 = #{std}       
+			, psuas               = #{psuas}     
+			, pfm                 = #{pfm}       
+			, sft                 = #{sft}       
+			, tdp                 = #{tdp}       
+			, pl                  = #{pl}        
+			, gpl                 = #{gpl}       
+			, twelve_pin          = #{twelvePin} 
+			, parts_image         = #{partsImage}
+			, updt_dtm            = NOW()        
+			, multi_bulk          = #{multiBulk} 
+		WHERE
+			id = #{id}
 	</update>
 	
 	<select id="getPartsCaseVOMaxId" resultType="String">
@@ -630,6 +650,34 @@
 	</select>
 	
 	<update id="updatePartsCaseVO" parameterType="partsCaseVO">
+		UPDATE
+			parts_case
+		SET
+			parts_name            = #{partsName}      
+			, parts_price         = #{partsPrice}     
+			, cled_cd             = #{cledCd}         
+			, cm_cd               = #{cmCd}           
+			, cmc_cd              = #{cmcCd}          
+			, csc_cd              = #{cscCd}          
+			, caseas_cd           = #{caseasCd}       
+			, adap                = #{adap}           
+			, cool                = #{cool}           
+			, end                 = #{end}            
+			, conv                = #{conv}           
+			, ff                  = #{ff}             
+			, iw                  = #{iw}             
+			, il                  = #{il}             
+			, ih                  = #{ih}             
+			, it                  = #{it}             
+			, fh                  = #{fh}             
+			, ft                  = #{ft}             
+			, str_two_dot_five    = #{strTwoDotFive}  
+			, str_three_dot_five  = #{strThreeDotFive}
+			, parts_image         = #{partsImage}     
+			, updt_dtm            = NOW()             
+			, multi_bulk          = #{multiBulk}      
+		WHERE
+			id = #{id}
 	</update>
 	
 	<select id="getPartsCoolerVOMaxId" resultType="String">
@@ -722,6 +770,29 @@
 	</select>
 	
 	<update id="updatePartsCoolerVO" parameterType="partsCoolerVO">
+		UPDATE
+			parts_cooler
+		SET
+			parts_name            = #{partsName} 
+			, parts_price         = #{partsPrice}
+			, clled_cd            = #{clledCd}   
+			, clmc_cd             = #{clmcCd}    
+			, clsc_cd             = #{clscCd}    
+			, formula_cd          = #{formulaCd} 
+			, sta                 = #{sta}       
+			, wcas                = #{wcas}      
+			, acas                = #{acas}      
+			, noi                 = #{noi}       
+			, cnv                 = #{cnv}       
+			, thermal             = #{thermal}   
+			, iw                  = #{iw}        
+			, ih                  = #{ih}        
+			, it                  = #{it}        
+			, parts_image         = #{partsImage}
+			, updt_dtm            = NOW()        
+			, multi_bulk          = #{multiBulk} 
+		WHERE
+			id = #{id}
 	</update>
 	
 	<select id="getPartsHddVOMaxId" resultType="String">
@@ -798,6 +869,25 @@
 	</select>
 	
 	<update id="updatePartsHddVO" parameterType="partsHddVO">
+		UPDATE
+			parts_hdd
+		SET
+			parts_name            = #{partsName}      
+			, parts_price         = #{partsPrice}     
+			, spd                 = #{spd}            
+			, fea                 = #{fea}            
+			, rel                 = #{rel}            
+			, noice               = #{noice}          
+			, mttf                = #{mttf}           
+			, gur                 = #{gur}            
+			, str_three_dot_five  = #{strThreeDotFive}
+			, sata                = #{sata}           
+			, parts_image         = #{partsImage}     
+			, updt_dtm            = NOW()             
+			, multi_bulk          = #{multiBulk}      
+			, volume              = #{volume}         
+		WHERE
+			id = #{id}
 	</update>
 	
 	<select id="getPartsSsdVOMaxId" resultType="String">
@@ -878,6 +968,26 @@
 	</select>
 	
 	<update id="updatePartsSsdVO" parameterType="partsSsdVO">
+		UPDATE
+			parts_ssd
+		SET
+			parts_name            = #{partsName}    
+			, parts_price         = #{partsPrice}   
+			, basic               = #{basic}        
+			, fnc                 = #{fnc}          
+			, cmf                 = #{cmf}          
+			, war                 = #{war}          
+			, thr                 = #{thr}          
+			, rlb                 = #{rlb}          
+			, str_two_dot_five    = #{strTwoDotFive}
+			, scs_cd              = #{scsCd}        
+			, sata                = #{sata}         
+			, parts_image         = #{partsImage}   
+			, updt_dtm            = NOW()           
+			, multi_bulk          = #{multiBulk}    
+			, volume              = #{volume}       
+		WHERE
+			id = #{id}
 	</update>
 	
 	<select id="getPartsSfVOMaxId" resultType="String">
@@ -951,6 +1061,23 @@
 	</select>
 	
 	<update id="updatePartsSfVO" parameterType="partsSfVO">
+		UPDATE
+			parts_sf
+		SET
+			parts_name            = #{partsName} 
+			, parts_price         = #{partsPrice}
+			, fled_cd             = #{fledCd}    
+			, fmc_cd              = #{fmcCd}     
+			, fsc_cd              = #{fscCd}     
+			, fnoi                = #{fnoi}      
+			, ffm                 = #{ffm}       
+			, fh                  = #{fh}        
+			, ft                  = #{ft}        
+			, parts_image         = #{partsImage}
+			, updt_dtm            = NOW()        
+			, multi_bulk          = #{multiBulk} 
+		WHERE
+			id = #{id}
 	</update>
 	
 </mapper>

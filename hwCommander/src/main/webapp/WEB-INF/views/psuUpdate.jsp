@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - PSU Regist</title>
+<title>현우의 컴퓨터 공방 - PSU Update</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <!-- Bootstrap CSS -->
@@ -21,30 +21,50 @@
 <script>
 
     $(function(){
-        $('#btn_psu_regist').on("click", function () {
+    	dataSetting();
+        $('#btn_psu_update').on("click", function () {
         	if(!validationCheck()) {
         		return false;
         	}
         	
-        	if(confirm("등록 하시겠습니까?")) {
-        		goPsuRegist();
+        	if(confirm("수정 하시겠습니까?")) {
+        		goPsuUpdate();
         	}
         });
     });
     
-function goPsuRegist() {
-    var form = $("#psu_regist_form").serialize();
+function dataSetting() {
+	$("#partsName").val("${selectData.partsName}");
+	$("#partsPrice").val("${selectData.partsPrice}");
+	$("#pmcCd").val("${selectData.pmcCd}");
+	$("#pscCd").val("${selectData.pscCd}");
+	$("#std").val("${selectData.std}");
+	$("#psuas").val("${selectData.psuas}");
+	$("#pfm").val("${selectData.pfm}");
+	$("#sft").val("${selectData.sft}");
+	$("#tdp").val("${selectData.tdp}");
+	$("#pl").val("${selectData.pl}");
+	$("#gpl").val("${selectData.gpl}");
+	$("#twelvePin").val("${selectData.twelvePin}");
+	$("#multiBulk").val("${selectData.multiBulk}");
+	
+	$("#id").val("${selectData.id}");
+	$("#partsImage").val("${selectData.partsImage}");
+}
+    
+function goPsuUpdate() {
+    var form = $("#psu_update_form").serialize();
     
     $.ajax({
         type: "post",
-        url: "/admin/psuRegistLogic.do",
+        url: "/admin/psuUpdateLogic.do",
         data: form,
         dataType: 'json',
         success: function (data) {
         	if(data == 1) {
-        		alert("등록완료");
+        		alert("수정완료");
         	}else {
-        		alert("등록실패");
+        		alert("수정실패");
         	}
         	window.location = "psuManagement.do";
             console.log(data);
@@ -198,20 +218,22 @@ function idDupliChk(id) {
             <div id="layoutSidenav_content">
 				<main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">PSU Regist</h1>
+                        <h1 class="mt-4">PSU Update</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="main.do">Admin Page</a></li>
                             <li class="breadcrumb-item"><a href="psuManagement.do">PSU</a></li>
-                            <li class="breadcrumb-item active">PSU Regist</li>
+                            <li class="breadcrumb-item active">PSU Update</li>
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                                PSU를  등록합니다.
+                                PSU를  수정합니다.
                             </div>
                         </div>
                         <div class="card mb-4">
 							<div class="card-body">
-                               <form id="psu_regist_form">
+                               <form id="psu_update_form">
+                                   <input type="hidden" id="id" name="id">
+                                   <input type="hidden" id="partsImage" name="partsImage">
                                    <div class="form-floating mb-3">
                                        <input class="form-control" id="partsName" name="partsName" type="text" placeholder="Enter partsName"/>
                                        <label for="partsName">parts Name</label>
@@ -310,7 +332,7 @@ function idDupliChk(id) {
                                    
 
                                    <div class="mt-4 mb-0">
-                                       <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_psu_regist">Regist</a></div>
+                                       <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_psu_update">Update</a></div>
                                    </div>
                                </form>
                            </div>

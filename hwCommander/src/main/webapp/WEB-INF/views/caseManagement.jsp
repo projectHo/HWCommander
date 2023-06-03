@@ -27,8 +27,26 @@
 
 <script>
     $(function(){
+    	
     	$("#caseListTable").DataTable({
     		displayLength : setDisplayLength()
+    	    , bAutoWidth : false
+    	    , columnDefs : [
+	    	    {targets : 0, width : "40%"}
+	    	    , {targets : 1, width : "10%"}
+	    	    , {targets : 2, width : "10%"}
+	    	    , {targets : 3, width : "10%"}
+	    	    , {targets : 4, width : "10%"}
+	    	    , {targets : 5, width : "10%"}
+	    	    , {targets : 6, width : "10%"}
+	    	    , {targets : 7, visible : false} // id
+    	    ]
+    	});
+    	
+    	$("#caseListTable").on('click', 'tbody tr', function () {
+    		var row = $("#caseListTable").DataTable().row($(this)).data();
+    		var partsId = row[7];
+    		location.href = "caseUpdate.do?partsId="+partsId;
     	});
     	
         window.addEventListener('unload', function() {
@@ -134,6 +152,9 @@
                                             <th>CMC</th>
                                             <th>CSC</th>
                                             <th>CASEAS</th>
+                                            
+                                            <!-- 안보이는부분 -->
+                                            <th>ID</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -146,6 +167,9 @@
 	                                            <td>${item.cmcCdNm}</td>
 	                                            <td>${item.cscCdNm}</td>
 	                                            <td>${item.caseasCdNm}</td>
+	                                            
+	                                            <!-- 안보이는부분 -->
+	                                            <td>${item.id}</td>
                                         	</tr>
 										</c:forEach>
                                     </tbody>

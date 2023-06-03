@@ -28,8 +28,21 @@
 
 <script>
     $(function(){
+    	
     	$("#hddListTable").DataTable({
     		displayLength : setDisplayLength()
+    	    , bAutoWidth : false
+    	    , columnDefs : [
+	    	    {targets : 0, width : "70%"}
+	    	    , {targets : 1, width : "30%"}
+	    	    , {targets : 2, visible : false} // id
+    	    ]
+    	});
+    	
+    	$("#hddListTable").on('click', 'tbody tr', function () {
+    		var row = $("#hddListTable").DataTable().row($(this)).data();
+    		var partsId = row[2];
+    		location.href = "hddUpdate.do?partsId="+partsId;
     	});
     	
         window.addEventListener('unload', function() {
@@ -130,6 +143,9 @@
                                         <tr>
                                             <th>parts name</th>
                                             <th>parts price</th>
+                                            
+                                            <!-- 안보이는부분 -->
+                                            <th>ID</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -137,6 +153,9 @@
 											<tr>
 	                                            <td>${item.partsName}</td>
 	                                            <td>${item.partsPrice}</td>
+	                                            
+	                                            <!-- 안보이는부분 -->
+	                                            <td>${item.id}</td>
                                         	</tr>
 										</c:forEach>
                                     </tbody>

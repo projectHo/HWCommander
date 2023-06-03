@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - HDD Regist</title>
+<title>현우의 컴퓨터 공방 - HDD Update</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <!-- Bootstrap CSS -->
@@ -20,31 +20,50 @@
         
 <script>
 
-    $(function(){
-        $('#btn_hdd_regist').on("click", function () {
+    $(function() {
+    	dataSetting();
+        $('#btn_hdd_update').on("click", function () {
         	if(!validationCheck()) {
         		return false;
         	}
         	
-        	if(confirm("등록 하시겠습니까?")) {
-        		goHddRegist();
+        	if(confirm("수정 하시겠습니까?")) {
+        		goHddUpdate();
         	}
         });
     });
     
-function goHddRegist() {
-    var form = $("#hdd_regist_form").serialize();
+function dataSetting() {
+	$("#partsName").val("${selectData.partsName}");
+	$("#partsPrice").val("${selectData.partsPrice}");
+	$("#spd").val("${selectData.spd}");
+	$("#fea").val("${selectData.fea}");
+	$("#rel").val("${selectData.rel}");
+	$("#noice").val("${selectData.noice}");
+	$("#mttf").val("${selectData.mttf}");
+	$("#gur").val("${selectData.gur}");
+	$("#strThreeDotFive").val("${selectData.strThreeDotFive}");
+	$("#sata").val("${selectData.sata}");
+	$("#multiBulk").val("${selectData.multiBulk}");
+	$("#volume").val("${selectData.volume}");
+	
+	$("#id").val("${selectData.id}");
+	$("#partsImage").val("${selectData.partsImage}");
+}
+    
+function goHddUpdate() {
+    var form = $("#hdd_update_form").serialize();
     
     $.ajax({
         type: "post",
-        url: "/admin/hddRegistLogic.do",
+        url: "/admin/hddUpdateLogic.do",
         data: form,
         dataType: 'json',
         success: function (data) {
         	if(data == 1) {
-        		alert("등록완료");
+        		alert("수정완료");
         	}else {
-        		alert("등록실패");
+        		alert("수정실패");
         	}
         	window.location = "hddManagement.do";
             console.log(data);
@@ -198,20 +217,22 @@ function idDupliChk(id) {
             <div id="layoutSidenav_content">
 				<main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">HDD Regist</h1>
+                        <h1 class="mt-4">HDD Update</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="main.do">Admin Page</a></li>
                             <li class="breadcrumb-item"><a href="hddManagement.do">HDD</a></li>
-                            <li class="breadcrumb-item active">HDD Regist</li>
+                            <li class="breadcrumb-item active">HDD Update</li>
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                                HDD를  등록합니다.
+                                HDD를  수정합니다.
                             </div>
                         </div>
                         <div class="card mb-4">
 							<div class="card-body">
-                               <form id="hdd_regist_form">
+                               <form id="hdd_update_form">
+                                   <input type="hidden" id="id" name="id">
+                                   <input type="hidden" id="partsImage" name="partsImage">
                                    <div class="form-floating mb-3">
                                        <input class="form-control" id="partsName" name="partsName" type="text" placeholder="Enter partsName"/>
                                        <label for="partsName">parts Name</label>
@@ -293,7 +314,7 @@ function idDupliChk(id) {
                                    </div>
                                    
                                    <div class="mt-4 mb-0">
-                                       <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_hdd_regist">Regist</a></div>
+                                       <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_hdd_update">Update</a></div>
                                    </div>
                                </form>
                            </div>

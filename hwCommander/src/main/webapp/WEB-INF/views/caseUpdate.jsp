@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - CASE Regist</title>
+<title>현우의 컴퓨터 공방 - CASE Update</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <!-- Bootstrap CSS -->
@@ -21,30 +21,58 @@
 <script>
 
     $(function(){
-        $('#btn_case_regist').on("click", function () {
+    	dataSetting();
+        $('#btn_case_update').on("click", function () {
         	if(!validationCheck()) {
         		return false;
         	}
         	
-        	if(confirm("등록 하시겠습니까?")) {
-        		goCaseRegist();
+        	if(confirm("수정 하시겠습니까?")) {
+        		goCaseUpdate();
         	}
         });
     });
     
-function goCaseRegist() {
-    var form = $("#case_regist_form").serialize();
+function dataSetting() {
+	$("#partsName").val("${selectData.partsName}");
+	$("#partsPrice").val("${selectData.partsPrice}");
+	$("#cledCd").val("${selectData.cledCd}");
+	$("#cmCd").val("${selectData.cmCd}");
+	$("#cmcCd").val("${selectData.cmcCd}");
+	$("#cscCd").val("${selectData.cscCd}");
+	$("#caseasCd").val("${selectData.caseasCd}");
+	$("#adap").val("${selectData.adap}");
+	$("#cool").val("${selectData.cool}");
+	$("#end").val("${selectData.end}");
+	$("#conv").val("${selectData.conv}");
+	$("#ff").val("${selectData.ff}");
+	$("#iw").val("${selectData.iw}");
+	$("#il").val("${selectData.il}");
+	$("#ih").val("${selectData.ih}");
+	$("#it").val("${selectData.it}");
+	$("#fh").val("${selectData.fh}");
+	$("#ft").val("${selectData.ft}");
+	$("#strTwoDotFive").val("${selectData.strTwoDotFive}");
+	$("#strThreeDotFive").val("${selectData.strThreeDotFive}");
+	$("#multiBulk").val("${selectData.multiBulk}");
+	
+	$("#id").val("${selectData.id}");
+	$("#partsImage").val("${selectData.partsImage}");
+}
+    
+function goCaseUpdate() {
+    var form = $("#case_update_form").serialize();
     
     $.ajax({
         type: "post",
-        url: "/admin/caseRegistLogic.do",
+        url: "/admin/caseUpdateLogic.do",
         data: form,
         dataType: 'json',
         success: function (data) {
         	if(data == 1) {
-        		alert("등록완료");
+        		alert("수정완료");
         	}else {
-        		alert("등록실패");
+        		alert("수정실패");
         	}
         	window.location = "caseManagement.do";
             console.log(data);
@@ -198,20 +226,22 @@ function idDupliChk(id) {
             <div id="layoutSidenav_content">
 				<main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">CASE Regist</h1>
+                        <h1 class="mt-4">CASE Update</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="main.do">Admin Page</a></li>
                             <li class="breadcrumb-item"><a href="caseManagement.do">CASE</a></li>
-                            <li class="breadcrumb-item active">CASE Regist</li>
+                            <li class="breadcrumb-item active">CASE Update</li>
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                                CASE를  등록합니다.
+                                CASE를  수정합니다.
                             </div>
                         </div>
                         <div class="card mb-4">
 							<div class="card-body">
-                               <form id="case_regist_form">
+                               <form id="case_update_form">
+                                   <input type="hidden" id="id" name="id">
+                                   <input type="hidden" id="partsImage" name="partsImage">
                                    <div class="form-floating mb-3">
                                        <input class="form-control" id="partsName" name="partsName" type="text" placeholder="Enter partsName"/>
                                        <label for="partsName">parts Name</label>
@@ -379,7 +409,7 @@ function idDupliChk(id) {
                                    
 
                                    <div class="mt-4 mb-0">
-                                       <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_case_regist">Regist</a></div>
+                                       <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_case_update">Update</a></div>
                                    </div>
                                </form>
                            </div>
