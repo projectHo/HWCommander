@@ -23,8 +23,10 @@
 
 <script>
     $(function() {
+    	
     });
 </script>
+ <script src="/resources/js/estimateCalculationOne.js"></script>
 </head>
 <body>
 	<%@ include file="./common/header.jsp" %>
@@ -37,7 +39,9 @@
 			<!-- 작업영역 -->
 			<div class="" style="width: 70%!important;">
 				<div class="d-flex">
-					<h5>도넛</h5>
+					<div class="donut-container">
+      <div class="donut-fill">1</div>
+    </div>
 					<button style="background-color:transparent; border: none;" type="button" class="btn btn-secondary" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="0원으로 표기 시 요구사항의 최소 견적으로 자동 산출됩니다.">
 					  <svg width="40px" height="40px" viewBox="0 -0.5 21 21" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 					    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -57,16 +61,16 @@
 							</div>
 						<div class="combined-input text-end d-flex flex-end justify-content-end margin-center mb-5">
 							<div class="w-50"></div>
-							<div class="w-25 form-control">
-							  <input type="text" class="input-field text-end" placeholder="ex) 300">
-							  <span class="fixed-text">만원</span>
+							<div class="form-control w-50">
+							  <input type="text" class="input-field text-end w-75" placeholder="ex) 300">
+							  <span class="fixed-text w-25">만원</span>
 							</div>
 						</div>
 						<div class="d-flex flex-end justify-content-end">
 							<button type="button" class="form-control mb-3 next-btn">다음 질문</button>
 						</div>
 						<div class="d-flex flex-end justify-content-center submit-btn">
-							<button type="button" class="form-control w-25">견적 보기</button>
+							<button type="button" class="form-control w-50">견적 보기</button>
 						</div>
 						
 					</div>
