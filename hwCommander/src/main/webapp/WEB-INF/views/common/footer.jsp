@@ -62,6 +62,15 @@
 						<div class="d-flex justify-content-center">
 							<p class="fs-6 text-white">@ Copyright HW Commander 2019 - 2023</p>
 						</div>
+						<div class="d-flex justify-content-center">
+							<p class="fs-6" style="margin-bottom:0;important;">현우의 컴퓨터 공방에서 운영하는 사이트에서 판매되는</p>
+						</div>
+						<div class="d-flex justify-content-center">
+							<p class="fs-6" style="margin-bottom:0;important;">모든 상품은 현우의 컴퓨터 공방에서 책임지고 있습니다.</p>
+						</div>
+						<div class="d-flex justify-content-center">
+							<p class="fs-6" style="margin-bottom:0;important;">*민원 담당자 강현우 / 연락처 010-7625-0478</p>
+						</div>
 					</div>
 					<div class="col">
 						<nav class="nav flex-column">
