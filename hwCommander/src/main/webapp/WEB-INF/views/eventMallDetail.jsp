@@ -21,6 +21,10 @@
     	
     });
     
+function goTermsOfService() {
+	location.href = "/termsOfService.do";
+}
+    
 function goCart() {
 	alert("준비중");
 }
@@ -72,7 +76,8 @@ function loginCheck() {
 							    	<p class="h4 mb">배송 기간 : 영업일 기준 약 2일 소요</p>
 							    	<p class="h4 mb">택배사 : 우체국 택배</p>
 							    	<p class="h4 mb-5">배송비 : 무료</p>
-							    	<p class="h4 mb">도서산간 지역의 경우 배송이 제한되거나 추가요금이 발생할 수 있습니다.</p>
+							    	<p class="h4 mb-5">도서산간 지역의 경우 배송이 제한되거나 추가요금이 발생할 수 있습니다.</p>
+							    	<p class="h4 mb">﻿AS 기준은 각 부품의 유통사 규정에 따르며 해당 쇼핑몰에서 1년간 무상 AS를 지원해드립니다.</p>
 							    </div>
 							  </div>
 							  <div class="row">
@@ -94,6 +99,7 @@ function loginCheck() {
 							    </div>
 							    <div class="col-7 mb-3">
 									<div class="d-grid gap-2 d-md-flex justify-content-md-end">
+										<button class="btn btn-primary btn-lg me-md-2" type="button" onclick="javascript:goTermsOfService()">이용약관</button>
 										<button class="btn btn-primary btn-lg me-md-2" type="button" onclick="javascript:goCart()">장바구니</button>
 										<button class="btn btn-primary btn-lg" type="button" onclick="javascript:goDirectOrder()">주문하기</button>
 									</div>
