@@ -22,8 +22,41 @@
 }
 
 .next-btn {
-	width: 15%!important;
+	width: 20%!important;
 }
 .submit-btn {
 	height: 20%!important;
 }
+
+/* 도넛 스타일링 */
+.donut-container {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  position: relative;
+  text-align: center;
+  transition: background 0.3s ease-in-out;
+  background: conic-gradient(#df22ee 0% 0%, #f2f2f2 100% 0%);
+}
+.donut-fill {
+  position: absolute;
+  left: calc(50% - 14px);
+  top: calc(50% - 36px);
+  font-size: 50px;
+  color: #fff;
+}
+.donut-container::before {
+  color: #fff;
+  width: 70%;
+  background: #25b4dc;
+  border-radius: 50%;
+  position: absolute;
+  left: 15%;
+  top: 15%;
+  display: block;
+  content: "";
+  transform: skew(-0.03deg);
+  margin: auto;
+  padding-bottom: 70%;
+}
+

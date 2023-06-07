@@ -64,4 +64,9 @@ public class HomeController {
 		return "estimateCalculationOne";
 	}
 	
+	@RequestMapping(value = "/estimateCalculationTwo.do", method = RequestMethod.GET)
+	public String goEstimateCalculationTwo(Model model) {
+		return "estimateCalculationTwo";
+	}
+	
 }
