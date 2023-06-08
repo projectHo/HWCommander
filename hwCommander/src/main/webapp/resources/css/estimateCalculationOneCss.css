@@ -18,20 +18,20 @@
 }
 
 .margin-center {
-	margin: 0 auto;
+  margin: 0 auto;
 }
 
 .next-btn {
-	width: 20%!important;
+  width: 20% !important;
 }
 .submit-btn {
-	height: 20%!important;
+  height: 20% !important;
 }
 
-/* 도넛 스타일링 */
+/* donut style */
 .donut-container {
-  width: 200px;
-  height: 200px;
+  width: 140px;
+  height: 140px;
   border-radius: 50%;
   position: relative;
   text-align: center;
@@ -42,7 +42,7 @@
   position: absolute;
   left: calc(50% - 14px);
   top: calc(50% - 36px);
-  font-size: 50px;
+  font-size: 46px;
   color: #fff;
 }
 .donut-container::before {
@@ -60,3 +60,64 @@
   padding-bottom: 70%;
 }
 
+.important-img {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+
+.tooltip-inner {
+	word-break: keep-all;
+}
+
+/* stick img style */
+.animated-img {
+  opacity: 0;
+  transform: translateX(100%);
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.animated-img.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+.calc-first-img {
+	padding-left: 104px;
+}
+.calc-second-img {
+	padding-left: 52px;
+}
+/* calc main style */
+
+.calcQuestion {
+	width: 70%;
+}
+
+.invalid-feedback{
+	font-size: 12px;
+}
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+.calc-input-element,.calc-one-final,.next-btn-element {
+	transform: translateX(100%);
+  opacity: 0;
+}
+
+.show-element {
+  animation: slideInRight 0.5s forwards;
+  opacity: 1;
+}

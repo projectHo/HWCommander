@@ -28,8 +28,23 @@
 
 <script>
     $(function(){
+    	
+
     	$("#ssdListTable").DataTable({
     		displayLength : setDisplayLength()
+    	    , bAutoWidth : false
+    	    , columnDefs : [
+	    	    {targets : 0, width : "60%"}
+	    	    , {targets : 1, width : "20%"}
+	    	    , {targets : 2, width : "20%"}
+	    	    , {targets : 3, visible : false} // id
+    	    ]
+    	});
+    	
+    	$("#ssdListTable").on('click', 'tbody tr', function () {
+    		var row = $("#ssdListTable").DataTable().row($(this)).data();
+    		var partsId = row[3];
+    		location.href = "ssdUpdate.do?partsId="+partsId;
     	});
     	
         window.addEventListener('unload', function() {
@@ -131,6 +146,9 @@
                                             <th>parts name</th>
                                             <th>parts price</th>
                                             <th>SCS</th>
+                                            
+                                            <!-- 안보이는부분 -->
+                                            <th>ID</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -139,6 +157,9 @@
 	                                            <td>${item.partsName}</td>
 	                                            <td>${item.partsPrice}</td>
 	                                            <td>${item.scsCdNm}</td>
+	                                            
+	                                            <!-- 안보이는부분 -->
+	                                            <td>${item.id}</td>
                                         	</tr>
 										</c:forEach>
                                     </tbody>

@@ -62,11 +62,20 @@
 						<div class="d-flex justify-content-center">
 							<p class="fs-6 text-white">@ Copyright HW Commander 2019 - 2023</p>
 						</div>
+						<div class="d-flex justify-content-center">
+							<p class="fs-6" style="margin-bottom:0;important;">현우의 컴퓨터 공방에서 운영하는 사이트에서 판매되는</p>
+						</div>
+						<div class="d-flex justify-content-center">
+							<p class="fs-6" style="margin-bottom:0;important;">모든 상품은 현우의 컴퓨터 공방에서 책임지고 있습니다.</p>
+						</div>
+						<div class="d-flex justify-content-center">
+							<p class="fs-6" style="margin-bottom:0;important;">*민원 담당자 강현우 / 연락처 010-7625-0478</p>
+						</div>
 					</div>
 					<div class="col">
 						<nav class="nav flex-column">
 						  <h4><b>현우의 컴퓨터 공방</b></h4>
-						  <a class="nav-link disabled text-dark" href="#">대표 : 이해창 | tel. 010-2484-4603 |</a>
+						  <a class="nav-link disabled text-dark" href="#">대표 : 이해창 | tel. 010-7625-0475 |</a>
 						  <a class="nav-link disabled text-dark" href="#">사업자등록번호: 829-36-00813 |</a>
 						  <a class="nav-link disabled text-dark" href="#">서울시 용산구 보광로 110, 2층 현우의 컴퓨터 공방 |</a>
 						  <a class="nav-link disabled text-dark" href="#">E-mail : pcvirusson@hanmail.net |</a>
