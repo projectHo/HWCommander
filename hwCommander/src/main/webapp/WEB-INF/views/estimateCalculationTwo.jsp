@@ -8,6 +8,7 @@
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 <link rel="stylesheet" href="/resources/css/main.css">
+<link rel="stylesheet" href="/resources/css/estimateCalculationOneCss.css" />
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -15,15 +16,42 @@
 <meta name="description" content="" />
 <meta name="author" content="" />
 <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet"/>
 
 <script>
-    $(function() {
-    	
-    });
+	var progress = 0;
+	
+	$(function () {
+	  animateBackgroundColor();
+	});
+	
+	function animateBackgroundColor() {
+	  $(".donut-container").css(
+	    "background",
+	    "conic-gradient(#df22ee 0% " + progress + "%, #f2f2f2 100% 0%)"
+	  );
+	
+	  if (progress < 100) {
+	    progress += 5;
+	    setTimeout(animateBackgroundColor, 20);
+	  } else {
+	  	$(".donut-fill").html("2");
+	    goToZero();
+	  }
+	}
+	
+	function goToZero() {
+	  $(".donut-container").css(
+	    "background",
+	    "conic-gradient(#df22ee 0% " + progress + "%, #f2f2f2 100% 0%)"
+	  );
+	  progress -= 3;
+	  if (progress > 0) {
+	    setTimeout(goToZero, 20);
+	  }
+	}
 </script>
 </head>
 <body>
@@ -34,11 +62,74 @@
 			<!-- 빈 영역 -->
 			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
 			<!-- 작업영역 -->
-			<div class="" style="width: 70%!important;">
+			<div class="estimateCalc_background p-2" style="width: 70% !important">
+	 			<div class="w-75 container">
+			 		<div class="row mt-2 pb-4">
+			 			<div class="col-2 text-center">
+			 				<div class="donut-container margin-center">
+		                  		<div class="donut-fill">1</div>
+		                  </div>
+			 			</div>
+			 			<div class="col-8 d-flex p-2">
+			 				<input id="typingInput" class="form-control text-center" type="text" readonly aria-label="사용 용도" value="주 사용 용도는 어떤용도 입니까? (다중선택 가능)" disabled />
+			 			</div>
+						<div class="col-2 d-flex flex-column-reverse">
+			 				<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="기타 선택시 일반적인 PC로 구성됩니다!" style="cursor:pointer">
+			 			</div>
+			
+			 		</div>
+			 		<form class="needs-validation" action="#" novalidate>
+				 		<div class="row pb-2">
+				 			<div class="col">
+				 				<div class="list-group mb-1 w-75 text-center">
+								  <button type="button" class="list-group-item list-group-item-action text center mb-3 bgc-disabled" disabled aria-current="true">게임</button>
+							    </div>
+				 				<div class="list-group mb-3 w-75 text-center">
+								  <button type="button" class="list-group-item list-group-item-action">FPS</button>
+								  <button type="button" class="list-group-item list-group-item-action">AOS</button>
+								  <button type="button" class="list-group-item list-group-item-action">RPG</button>
+								  <button type="button" class="list-group-item list-group-item-action">RTS</button>
+								  <button type="button" class="list-group-item list-group-item-action">레이싱</button>
+								</div>
+				 			</div>
+				 			<div class="col">
+				 				<div class="list-group mb-1 w-75 text-center margin-center">
+								  <button type="button" class="list-group-item list-group-item-action text center mb-3 bgc-disabled" disabled aria-current="true">작업</button>
+							    </div>
+				 				<div class="list-group mb-3 w-75 text-center margin-center">
+								  <button type="button" class="list-group-item list-group-item-action">2D 그래픽</button>
+								  <button type="button" class="list-group-item list-group-item-action">3D 그래픽</button>
+								  <button type="button" class="list-group-item list-group-item-action">코딩</button>
+								  <button type="button" class="list-group-item list-group-item-action">영상편집</button>
+								  <button type="button" class="list-group-item list-group-item-action">문서작업</button>
+								</div>
+				 			</div>
+				 			<div class="col d-flex justify-content-end">
+				 				<div class="list-group mb-1 w-75 text-center">
+								  <button type="button" class="btn btn-outline-success list-group-item list-group-item-action text center mb-3 bgc-disabled" aria-current="true">서핑</button>
+							    </div>
+				 			</div>
+				 		</div>
+				 		<div class="row mb-3">
+			 			 	<div class="col">
+				 				<button type="submit" class="form-control marin-center w-50">이전 질문</button>
+				 			</div>
+				 			<div class="col">
+				 				<button type="button" class="form-control calc-one-final margin-center">견적 보기</button>
+		                		<div class="invalid-feedback fs-5 calc-one-final-text text-center" style="display: none; font-weight: bold;">2페이지 까지는 필수 질문입니다!</div>
+				 			</div>
+				 			<div class="col d-flex justify-content-end">
+				 				<button type="submit" class="form-control w-50">다음 질문</button>
+				 			</div>
+				 		</div>
+			 		</form>
+			 	</div>
+	 		</div>
+			
 			</div>
 			<!-- 빈 영역 -->
 			<div class="justify-content-end" style="width: 15%!important;"></div>
-		</div>
+		
 		
 		<!-- 2022.11.16 디자인이미지 추가 -->
 		<div class="mt-5 mx-5" style="height: 15%!important;">
@@ -50,6 +141,50 @@
 	</div>
 	
 	<%@ include file="./common/footer.jsp" %>
+	<script>
+		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+	    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+	    
+	    
+	    (() => {
+	        "use strict";
+	        const forms = document.querySelectorAll(".needs-validation");
+	        Array.from(forms).forEach((form) => {
+	          form.addEventListener(
+	            "submit",
+	            (event) => {
+	              if (!form.checkValidity()) {
+	                event.preventDefault();
+	                event.stopPropagation();
+	              }
+	              form.classList.add("was-validated");
+	            },
+	            false
+	          );
+	        });
+	      })();
+	    
+	    
+	    const calcOneSubmit = document.querySelector(".calc-one-final");
+	    const calcOneText = document.querySelector(".calc-one-final-text");
+	    calcOneSubmit.addEventListener("click", () =>{
+	    	calcOneText.style.display = "block";
+	    })
 	
+	  /*  const inputElement = document.getElementById('typingInput');
+		const text = "주 사용 용도는 어떤용도 입니까? (다중선택 가능)";
+		let index = 0;
+	
+		function typeText() {
+			if (index < text.length) {
+				inputElement.value += text.charAt(index);
+				index++;
+				setTimeout(typeText, 50);
+			}
+		}
+	
+		typeText();
+		*/
+	</script>
 </body>
 </html>

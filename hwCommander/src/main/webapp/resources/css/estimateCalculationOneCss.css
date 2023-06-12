@@ -2,7 +2,12 @@
   display: inline-flex;
   align-items: center;
 }
-
+.estimateCalc_background {
+	background-image: url(/resources/img/layer-8-copy-7-450x60.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
 .input-field {
   border: none;
   font-size: 16px;
@@ -30,8 +35,8 @@
 
 /* donut style */
 .donut-container {
-  width: 140px;
-  height: 140px;
+  width: 80px;
+  height: 80px;
   border-radius: 50%;
   position: relative;
   text-align: center;
@@ -40,9 +45,9 @@
 }
 .donut-fill {
   position: absolute;
-  left: calc(50% - 14px);
-  top: calc(50% - 36px);
-  font-size: 46px;
+  left: calc(50% - 10px);
+  top: calc(50% - 30px);
+  font-size: 36px;
   color: #fff;
 }
 .donut-container::before {
@@ -51,8 +56,8 @@
   background: #25b4dc;
   border-radius: 50%;
   position: absolute;
-  left: 15%;
-  top: 15%;
+  left: 16%;
+  top: 16%;
   display: block;
   content: "";
   transform: skew(-0.03deg);
@@ -103,21 +108,8 @@ input[type="number"]::-webkit-inner-spin-button {
     margin: 0;
 }
 
-@keyframes slideInRight {
-  from {
-    transform: translateX(100%);
-  }
-  to {
-    transform: translateX(0);
-  }
-}
 
-.calc-input-element,.calc-one-final,.next-btn-element {
-	transform: translateX(100%);
-  opacity: 0;
-}
-
-.show-element {
-  animation: slideInRight 0.5s forwards;
-  opacity: 1;
+/* calculation Two style */
+.bgc-disabled{
+	background-color: #e9ecef!important;
 }
