@@ -34,7 +34,7 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
         );
 
         if (progress < 100) {
-          progress += 1;
+          progress += 3;
           setTimeout(animateBackgroundColor, 20);
         } else {
         	$(".donut-fill").html("1");
@@ -63,59 +63,49 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
         <div class="h-25 justify-content-start" style="width: 15% !important"></div>
 
         <!-- 작업영역 -->
-        <div class="container" style="width: 70% !important">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="row">
-                <div class="col-md d-flex justify-content-center">
-              	  <div class="donut-container">
-                  	<div class="donut-fill">0</div>
-                  </div>
-                  <img src="resources/img/important-message.svg" class="important-img ms-3" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="0원으로 입력시 요구사항의 최소 견적으로 자동 산출됩니다.">
-                </div>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="row pt-5">
-                <div class="col text-end p-0 d-flex justify-content-center">
-                  <img class="animated-img calc-first-img" src="resources/img/purple-stick.png" />
-                </div>
-              </div>
-              <div class="row">
-                <div class="col text-end p-0 d-flex justify-content-center">
-                  <img class="animated-img calc-second-img" src="resources/img/blue-stick.png" />
-                </div>
-              </div>
-              <div class="row">
-                 <div class="col text-end p-0 d-flex justify-content-center">
-                  <img class="animated-img" src="resources/img/white-stick.png" data-bs-toggle="tooltip" data-bs-title="0원이면 뭐요" />
-                 </div>
-              </div>
-            </div>
-          </div>
-          <div class="container mt-3">
-            <div class="w-75 margin-center">
-              <div class="d-flex justify-content-end mb-3 margin-center calcQuestion">
-                <input id="typingInput" class="form-control text-center" type="text" readonly aria-label="본체 예상 한도" disabled />
-              </div>
-             <form class="needs-validation" novalidate>
-              <div class="input-group has-validation text-end d-flex flex-end justify-content-center margin-center mb-5 w-50 calc-input-element">
-			    <input type="number" class="form-control input-field text-end w-50" min="0" max="500" placeholder="ex) 300" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required/>
-			    <span class="input-group-text" id="inputGroupPrepend">만원</span>
-			    <div class="invalid-feedback fs-4">정확한 금액을 입력해 주세요!</div>
-			  </div>
-              <div class="d-flex flex-end justify-content-end">
-			    <button type="submit" class="form-control mb-3 next-btn next-btn-element">다음 질문</button>
-              </div>
-              <div class="d-flex flex-end justify-content-center submit-btn flex-column align-items-center">
-			    <button type="button" class="form-control w-50 calc-one-final p-4 fs-3">견적 보기</button>
-                <div class="invalid-feedback fs-4 calc-one-final-text text-center" style="display: none;">2페이지 까지는 필수 질문입니다!</div>
-              </div>
-             </form>
-            </div>
-          </div>
-        </div>
-
+     
+ 		<div class="estimateCalc_background p-2" style="width: 70% !important">
+ 			<div class="w-75 container">
+		 		<div class="row mt-2 pb-4">
+		 			<div class="col-2 text-center">
+		 				<div class="donut-container margin-center">
+	                  		<div class="donut-fill">0</div>
+	                  </div>
+		 			</div>
+		 			<div class="col-8 d-flex p-2">
+		 				<input id="typingInput" class="form-control text-center" type="text" readonly aria-label="본체 예상 한도" disabled />
+		 			</div>
+		 			<div class="col-2 d-flex flex-column-reverse">
+		 				<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="0원으로 입력시 요구사항의 최소 견적으로 자동 산출됩니다." style="cursor:pointer">
+		 			</div>
+		 		</div>
+		 		<form class="needs-validation" action="/estimateCalculationTwo.do" novalidate>
+			 		<div class="row pb-2">
+			 			<div class="col">
+			 				<div class="input-group has-validation text-end d-flex flex-end justify-content-center margin-center mb-5 w-50 calc-input-element">
+							  <input type="number" class="form-control input-field text-end w-50" min="0" max="500" placeholder="ex) 300" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required/>
+							  <span class="input-group-text" id="inputGroupPrepend">만원</span>
+							  <div class="invalid-feedback fs-5" style="font-weight: bold;">정확한 금액을 입력해 주세요!</div>
+							</div>
+			 			</div>
+			 		</div>
+			 		<div class="row pb-2">
+		 		<!-- 	<div class="col">
+			 				<button type="submit" class="form-control marin-center w-50">이전 질문</button>
+			 			</div>
+	 			 -->
+	 			 		<div class="col"></div>
+			 			<div class="col">
+			 				<button type="button" class="form-control calc-one-final margin-center">견적 보기</button>
+	                		<div class="invalid-feedback fs-5 calc-one-final-text text-center" style="display: none; font-weight: bold;">2페이지 까지는 필수 질문입니다!</div>
+			 			</div>
+			 			<div class="col">
+			 				<button type="submit" class="form-control margin-center w-50">다음 질문</button>
+			 			</div>
+			 		</div>
+		 		</form>
+		 	</div>
+ 		</div>
         <!-- 빈 영역 -->
         <div class="justify-content-end" style="width: 15% !important"></div>
       </div>
@@ -135,13 +125,10 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
     <%@ include file="./common/footer.jsp" %>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
     <script>
-    const animatedImages = document.querySelectorAll('.animated-img');
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
     
-    animatedImages.forEach(function(img, index) {
-      setTimeout(function() {
-        img.classList.add('show');
-      }, index * 500);
-    });
+    
     (() => {
         "use strict";
         const forms = document.querySelectorAll(".needs-validation");
@@ -159,37 +146,24 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
           );
         });
       })();
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+    
     
     const calcOneSubmit = document.querySelector(".calc-one-final");
     const calcOneText = document.querySelector(".calc-one-final-text");
     calcOneSubmit.addEventListener("click", () =>{
     	calcOneText.style.display = "block";
     })
-    
-	const inputElement = document.getElementById('typingInput');
-	const text = "1.본체의 가용 예산 한도는 얼마입니까? (최대 500만원)";
+
+    const inputElement = document.getElementById('typingInput');
+	const text = "본체의 가용 예산 한도는 얼마입니까? (최대 500만원)";
 	let index = 0;
 
 	function typeText() {
 		if (index < text.length) {
 			inputElement.value += text.charAt(index);
 			index++;
-			setTimeout(typeText, 100);
-		} else {
-	    	const calcInputElement = document.querySelector('.calc-input-element');
-	    	const nextButton = document.querySelector('.next-btn-element');
-	    	const calcButton = document.querySelector('.calc-one-final');
-	
-	
-	    	const showElements = [calcInputElement, nextButton, calcButton];
-	    	showElements.forEach((element, index) => {
-	      	setTimeout(function () {
-	        element.classList.add('show-element');
-      		}, (index + 1) * 300);
-    		});
-  		}
+			setTimeout(typeText, 50);
+		}
 	}
 
 	typeText();

@@ -8,7 +8,7 @@ window.addEventListener("load", ()=>{
         donut.style.background = gradient;
 
         if (progress < 100) {
-          progress += 2;
+          progress += 3;
           setTimeout(animateBackgroundColor, 20);
         } else {
           goToZero();
