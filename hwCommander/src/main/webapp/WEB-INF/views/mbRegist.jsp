@@ -368,6 +368,12 @@ function idDupliChk(id) {
                                                <label for="wifi">WIFI</label>
                                            </div>
                                        </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+                                               <input class="form-control" id="mc" name="mc" type="text" placeholder="Enter mc" />
+                                               <label for="mc">MC</label>
+                                           </div>
+                                       </div>
                                    </div>
                                    
                                    <div class="mt-4 mb-0">

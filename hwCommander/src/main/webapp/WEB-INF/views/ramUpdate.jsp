@@ -47,6 +47,7 @@ function dataSetting() {
 	$("#ddr5MaxRange").val("${selectData.ddr5MaxRange}");
 	$("#multiBulk").val("${selectData.multiBulk}");
 	$("#volume").val("${selectData.volume}");
+	$("#sd").val("${selectData.sd}");
 	
 	$("#id").val("${selectData.id}");
 	$("#partsImage").val("${selectData.partsImage}");
@@ -343,6 +344,16 @@ function idDupliChk(id) {
                                            <div class="form-floating mb-3 mb-md-0">
                                                <input class="form-control" id="volume" name="volume" type="text" placeholder="Enter volume" />
                                                <label for="volume">VOLUME</label>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   
+                                   <!-- 4 -->
+                                   <div class="row mb-3">
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0">
+                                               <input class="form-control" id="sd" name="sd" type="text" placeholder="Enter sd" />
+                                               <label for="sd">SD</label>
                                            </div>
                                        </div>
                                    </div>

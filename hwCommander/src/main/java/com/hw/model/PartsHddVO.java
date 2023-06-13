@@ -1,6 +1,6 @@
 package com.hw.model;
 
-import java.util.Date;
+import java.math.BigDecimal;
 
 import lombok.Data;
 
@@ -11,10 +11,10 @@ public class PartsHddVO {
 	private int partsPrice;
 	private String partsPriceStr;
 	private int spd;
-	private float fea;
-	private float rel;
-	private float noice;
-	private int mttf;
+	private BigDecimal fea;
+	private BigDecimal rel;
+	private BigDecimal noice;
+	private BigDecimal mttf;
 	private int gur;
 	private int strThreeDotFive;
 	private int sata;

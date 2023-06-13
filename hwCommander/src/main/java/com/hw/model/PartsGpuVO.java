@@ -1,5 +1,7 @@
 package com.hw.model;
 
+import java.math.BigDecimal;
+
 import lombok.Data;
 
 @Data
@@ -10,15 +12,15 @@ public class PartsGpuVO {
 	private String partsPriceStr;
 	private String gledCd;
 	private String gledCdNm;
-	private float gn;
+	private BigDecimal gn;
 	private String gmcCd;
 	private String gmcCdNm;
 	private String gscCd;
 	private String gscCdNm;
-	private float gsv;
+	private BigDecimal gsv;
 	private String gpuasCd;
 	private String gpuasCdNm;
-	private float qc;
+	private BigDecimal qc;
 	private int tdp;
 	private int bn;
 	private int il;

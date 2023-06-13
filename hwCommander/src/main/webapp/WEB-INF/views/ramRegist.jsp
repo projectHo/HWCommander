@@ -325,6 +325,16 @@ function idDupliChk(id) {
                                        </div>
                                    </div>
                                    
+                                   <!-- 4 -->
+                                   <div class="row mb-3">
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0">
+                                               <input class="form-control" id="sd" name="sd" type="text" placeholder="Enter sd" />
+                                               <label for="sd">SD</label>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   
 
                                    <div class="mt-4 mb-0">
                                        <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_ram_regist">Regist</a></div>

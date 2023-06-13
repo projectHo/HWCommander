@@ -1,6 +1,6 @@
 package com.hw.model;
 
-import java.util.Date;
+import java.math.BigDecimal;
 
 import lombok.Data;
 
@@ -20,10 +20,10 @@ public class PartsCaseVO {
 	private String cscCdNm;
 	private String caseasCd;
 	private String caseasCdNm;
-	private float adap;
-	private float cool;
-	private float end;
-	private float conv;
+	private BigDecimal adap;
+	private BigDecimal cool;
+	private BigDecimal end;
+	private BigDecimal conv;
 	private int ff;
 	private int iw;
 	private int il;
