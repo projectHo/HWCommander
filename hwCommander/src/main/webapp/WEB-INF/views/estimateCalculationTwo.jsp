@@ -22,227 +22,284 @@
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
-	let progress = 0;
-	
 	$(function () {
-	  animateBackgroundColor();
+		animateBackgroundColor();
 	});
-	
+
+	let progress = 0;
 	function animateBackgroundColor() {
-	  $(".donut-container").css(
-	    "background",
-	    "conic-gradient(#df22ee 0% " + progress + "%, #f2f2f2 100% 0%)"
-	  );
-	
-	  if (progress < 100) {
-	    progress += 5;
-	    setTimeout(animateBackgroundColor, 20);
-	  } else {
-	  	$(".donut-fill").html("2");
-	    goToZero();
-	  }
+		$(".donut-container").css(
+			"background",
+			"conic-gradient(#df22ee 0% " + progress + "%, #f2f2f2 100% 0%)"
+		);
+		
+		if (progress < 100) {
+			progress += 5;
+			setTimeout(animateBackgroundColor, 20);
+		} else {
+			$(".donut-fill").html("2");
+			goToZero();
+		}
 	}
 	
 	function goToZero() {
-	  $(".donut-container").css(
-	    "background",
-	    "conic-gradient(#df22ee 0% " + progress + "%, #f2f2f2 100% 0%)"
-	  );
-	  progress -= 3;
-	  if (progress > 0) {
-	    setTimeout(goToZero, 20);
-	  }
+		$(".donut-container").css(
+			"background",
+			"conic-gradient(#df22ee 0% " + progress + "%, #f2f2f2 100% 0%)"
+		);
+		progress -= 3;
+		if (progress > 0) {
+			setTimeout(goToZero, 20);
+		}
 	}
-	
+	// function makeTableEle(selectedKey) {
+	// 	$(".table-container").css("display", "block");
+	// 	const tableBody = $(".table-body");
+
+	// 	const trTag = $("<tr></tr>");
+	// 	const thTag = $("<th></th>").attr("scope", "row").addClass("ps-3").html(selectedKey);
+	// 	const tdSubTag = $("<td></td>").addClass("t-submit");
+	// 	const tdBtnTag = $("<td></td>");
+	// 	const tableBtnTag = $("<button></button>").addClass("btn btn-danger delete-button").text("삭제");
+	// 	tableBtnTag.on("click", () => {
+	// 		trTag.remove();
+	// 		if ($(".table-body").find("tr").length === 0) {
+	// 			$(".table-container").css("display", "none");
+	// 		}
+	// 	});
+	// 	tableBody.append(trTag);
+	// 	trTag.append(thTag);
+	// 	trTag.append(tdSubTag);
+	// 	trTag.append(tdBtnTag);
+	// 	tdBtnTag.append(tableBtnTag);
+
+	// }
 	$(document).ready(function() {
-  	  const tooltipTriggerList = $('[data-bs-toggle="tooltip"]');
-  	  const tooltipList = tooltipTriggerList.map(function() {
-  	    return new bootstrap.Tooltip($(this)[0]);
-  	  }).get();
-  	  
-  	  (() => {
-  	    "use strict";
-  	    const forms = $(".needs-validation");
-  	    forms.each(function() {
-  	      $(this).on("submit", function(event) {
-  	        if (!this.checkValidity()) {
-  	          event.preventDefault();
-  	          event.stopPropagation();
-  	        }
-  	        $(this).addClass("was-validated");
-  	      });
-  	    });
-  	  })();
-  	  
-  	  const calcOneSubmit = $(".calc-one-final");
-  	  const calcOneText = $(".calc-one-final-text");
-  	  calcOneSubmit.on("click", function() {
-  	    calcOneText.css("display", "block");
-  	  });
-  	  
-  	  const inputElement = $("#typingInput");
-  	  const text = "본체의 가용 예산 한도는 얼마입니까? (최대 500만원)";
-  	  let index = 0;
-  	  
-  	  function typeText() {
-  	    if (index < text.length) {
-  	      inputElement.val(function(i, val) {
-  	        return val + text.charAt(index);
-  	      });
-  	      index++;
-  	      setTimeout(typeText, 50);
-  	    }
-  	  }
-  	  
-  	  typeText();
-  	});
-	
-	$(document).ready(function() {
-		  const collectorName = $(".collector-name");
-		  const tNameFirst = $(".t-name-first");
-		  const tNameSecond = $(".t-name-second");
-		  const tNameThird = $(".t-name-third");
-
-		  $(".list-game").on("click", function(e) {
-		    const games = {
-		      FPS: ["PlayerUnknown's Battlegrounds", "Apex Legend", "Valorant"],
-		      AOS: ["League of Legends", "Dota 2", "Heros of the Storm"],
-		      RPG: ["Lost Ark", "Diablo IV", "Dungeon and Fighter"],
-		      RTS: ["FIFA Online 4", "Starcraft Remastered", "Warcraft III Reforged"],
-		      레이싱: ["Forza Horizon 5", "Assetto Corsa", "Grand Theft Auto V"]
-		    };
-
-		    const HTMLs = $(e.target).html();
-		    collectorName.html(HTMLs);
-
-		    if (games.hasOwnProperty(HTMLs)) {
-		      [tNameFirst, tNameSecond, tNameThird].forEach((elem, index) => {
-		        elem.html(games[HTMLs][index]);
-		      });
-		    }
-		  });
-
-		  $(".list-work").on("click", function(e) {
-		    const works = {
-		      "2D 그래픽": ["CAD", "Illustrator", "PhotoShop"],
-		      "3D 그래픽": ["Cinema 4D", "Blender", "3DS MAX"],
-		      코딩: ["Web Publicing", "Embedded", "VSC"],
-		      영상편집: ["Premiere pro", "DaVinci Resolve", "PowerDirector"],
-		      문서작업: ["Excel", "CAPS CCTV", "SAP ERP"]
-		    };
-
-		    const HTMLs = $(e.target).html();
-		    collectorName.html(HTMLs);
-
-		    if (works.hasOwnProperty(HTMLs)) {
-		      [tNameFirst, tNameSecond, tNameThird].forEach((elem, index) => {
-		        elem.html(works[HTMLs][index]);
-		      });
-		    }
-		  });
-
-		  [tNameFirst, tNameSecond, tNameThird].forEach(elem => {
-		    elem.on("click", function() {
-		      $(this).css("color", "red");
-		    });
-		  });
-
-		  $(".modal-btn").on("click", function() {
-		    [tNameFirst, tNameSecond, tNameThird].forEach(elem => {
-		      elem.css("color", "black");
-		    });
-		  });
+		const tooltipTriggerList = $('[data-bs-toggle="tooltip"]');
+		const tooltipList = tooltipTriggerList.map(function() {
+			return new bootstrap.Tooltip($(this)[0]);
+		}).get();
+		
+		(() => {
+			"use strict";
+			const forms = $(".needs-validation");
+			forms.each(function() {
+			$(this).on("submit", function(event) {
+				if (!this.checkValidity()) {
+				event.preventDefault();
+				event.stopPropagation();
+				}
+				$(this).addClass("was-validated");
+			});
+			});
+		})();
+		
+		const calcOneSubmit = $(".calc-one-final");
+		const calcOneText = $(".calc-one-final-text");
+		calcOneSubmit.on("click", function() {
+			calcOneText.css("display", "block");
 		});
+		
+		const inputElement = $("#typingInput");
+		const text = "주 사용 목적은 무엇입니까? (다중선택 가능)";
+		let index = 0;
+		
+		function typeText() {
+			if (index < text.length) {
+			inputElement.val(function(i, val) {
+				return val + text.charAt(index);
+			});
+			index++;
+			setTimeout(typeText, 50);
+			}
+		}
+		
+		typeText();
 
-	$(document).ready(function() {
-		  const labelTable = $("#label-table");
-		  const labels = labelTable.find("label");
-		  const noResultRow = $("<tr>");
-		  const noResultCell = $("<td>");
-		  const noResultText = document.createTextNode("일치하는 결과가 없습니다.");
+		const modal = new bootstrap.Modal($("#use-collecter"));
+		let selectValue
+	    $(".list-game").on("click", function(e) {
+			const games = {
+				FPS: ["PlayerUnknown's Battlegrounds", "Apex Legend", "Valorant","기타"],
+				AOS: ["League of Legends", "Dota 2", "Heros of the Storm","기타"],
+				RPG: ["Lost Ark", "Diablo IV", "Dungeon and Fighter","기타"],
+				RTS: ["FIFA Online 4", "Starcraft Remastered", "Warcraft III Reforged","기타"],
+				레이싱: ["Forza Horizon 5", "Assetto Corsa", "Grand Theft Auto V","기타"]
+			};
+			const HTMLs = $(e.target).html();
+			$(".collector-name").html(HTMLs);
 
-		  function searchLabel() {
-		    const searchInput = $("#search-input").val().toLowerCase();
-		    const matchedLabels = [];
+			if (games.hasOwnProperty(HTMLs)) {
+				[$(".t-name-first"), $(".t-name-second"), $(".t-name-third"), $(".t-name-fourth")].forEach((elem, index) => {
+				elem.html(games[HTMLs][index]);
+				});
+			}
+			
+			const modalSubBtn = $(".modal-submit-btn");
+			modalSubBtn.off("click").on("click", () => {
+				$(".table-container").css("display", "block");
 
-		    labels.each(function() {
-		      const label = $(this);
-		      const labelName = label.text().toLowerCase();
-
-		      if (labelName.includes(searchInput)) {
-		        matchedLabels.push(label);
-		      }
-		    });
-
-		    if (matchedLabels.length > 0) {
-		      matchedLabels.sort(function(a, b) {
-		        const aIndex = a.text().toLowerCase().indexOf(searchInput);
-		        const bIndex = b.text().toLowerCase().indexOf(searchInput);
-
-		        if (aIndex === bIndex) {
-		          return a.text().toLowerCase().localeCompare(b.text().toLowerCase());
-		        }
-
-		        return aIndex - bIndex;
-		      });
-		      
-		      hideAllRows();
-		      
-		      matchedLabels.forEach(function(matchedLabel) {
-		        const row = matchedLabel.closest("tr");
-		        row.css("display", "table-row");
-		      });
-		    } else {
-		      hideAllRows();
-
-		      noResultCell.attr("colspan", "2");
-		      noResultCell.append(noResultText);
-		      noResultRow.append(noResultCell);
-		      labelTable.append(noResultRow);
-		    }
-		  }
-
-		  function hideAllRows() {
-		    labelTable.find("tr").css("display", "none");
-
-		    if (noResultRow.parent().is(labelTable)) {
-		      noResultRow.remove();
-		    }
-		  }
-
-		  $("#search-input").on("input", function() {
-		    searchLabel();
-		  });
-
-			const modalSubmitBtn = $(".modal-submit-btn");
-			const modalElement = $("#use-collecter");
-			const modal = new bootstrap.Modal(modalElement);
-			const tableContainer = $(".table-container");
-			const tableBody = $(".table-body");
-
-			modalSubmitBtn.on("click", () => {
-				tableContainer.css("display", "block");
-
+				const selectedKey = $(".collector-name").text();
+				
 				const newRow = $("<tr></tr>");
 
-				const thElement = $("<th></th>").attr("scope", "row").addClass("ps-3");
+				const thElement = $("<th></th>").attr("scope", "row").addClass("ps-3 text-center").html(selectedKey);
 				newRow.append(thElement);
 
-				const tdElement1 = $("<td></td>").addClass("t-submit-first");
+				const tdElement1 = $("<td></td>").addClass("t-submit ps-4 fw-bold").html(selectValue);
 				newRow.append(tdElement1);
 
 				const tdElement2 = $("<td></td>");
 				const deleteButton = $("<button></button>").addClass("btn btn-danger").text("삭제");
 				deleteButton.on("click", () => {
 					newRow.remove();
+					if ($(".table-body").find("tr").length === 0) {
+						$(".table-container").css("display", "none");
+					}
 				});
 				tdElement2.append(deleteButton);
 				newRow.append(tdElement2);
 
-				tableBody.append(newRow);
+				const tableBody = $(".table-body");
+				const lastRow = tableBody.find("tr:last");
+				if (lastRow.length > 0) {
+					lastRow.after(newRow);
+				} else {
+					tableBody.append(newRow);
+				}
 				modal.hide();
+				[$(".t-name-first"), $(".t-name-second"), $(".t-name-third"), $(".t-name-fourth")].forEach(elem => {
+				elem.css("color", "black");
+				});
 			});
 		});
+
+		$(".list-work").on("click", function(e) {
+			const works = {
+				"2D 그래픽": ["CAD", "Illustrator", "PhotoShop","기타"],
+				"3D 그래픽": ["Cinema 4D", "Blender", "3DS MAX","기타"],
+				코딩: ["Web Publicing", "Embedded", "VSC","기타"],
+				영상편집: ["Premiere pro", "DaVinci Resolve", "PowerDirector","기타"],
+				문서작업: ["Excel", "CAPS CCTV", "SAP ERP","기타"]
+			};
+
+			const HTMLs = $(e.target).html();
+			$(".collector-name").html(HTMLs);
+
+			if (works.hasOwnProperty(HTMLs)) {
+				[$(".t-name-first"), $(".t-name-second"), $(".t-name-third"), $(".t-name-fourth")].forEach((elem, index) => {
+				elem.html(works[HTMLs][index]);
+				});
+			}
+
+			const modalSubBtn = $(".modal-submit-btn");
+			modalSubBtn.off("click").on("click", () => {
+				$(".table-container").css("display", "block");
+
+				const selectedKey = $(".collector-name").text();
+				
+				const newRow = $("<tr></tr>");
+
+				const thElement = $("<th></th>").attr("scope", "row").addClass("ps-3 text-center").html(selectedKey);
+				newRow.append(thElement);
+
+				const tdElement1 = $("<td></td>").addClass("t-submit ps-4 fw-bold").html(selectValue);
+				newRow.append(tdElement1);
+
+				const tdElement2 = $("<td></td>");
+				const deleteButton = $("<button></button>").addClass("btn btn-danger").text("삭제");
+				deleteButton.on("click", () => {
+					newRow.remove();
+					if ($(".table-body").find("tr").length === 0) {
+						$(".table-container").css("display", "none");
+					}
+				});
+				tdElement2.append(deleteButton);
+				newRow.append(tdElement2);
+
+				const tableBody = $(".table-body");
+				const lastRow = tableBody.find("tr:last");
+				if (lastRow.length > 0) {
+					lastRow.after(newRow);
+				} else {
+					tableBody.append(newRow);
+				}
+				modal.hide();
+				[$(".t-name-first"), $(".t-name-second"), $(".t-name-third"), $(".t-name-fourth")].forEach(elem => {
+				elem.css("color", "black");
+				});
+			});
+		});
+		
+		[$(".t-name-first"), $(".t-name-second"), $(".t-name-third"), $(".t-name-fourth")].forEach(elem => {
+			elem.on("click", function() {
+				$(this).css("color", "red");
+				selectValue = $(this).text();
+			});
+		});
+
+
+	
+		const labelTable = $("#label-table");
+		const labels = labelTable.find("label");
+		const noResultRow = $("<tr>");
+		const noResultCell = $("<td>");
+		const noResultText = document.createTextNode("일치하는 결과가 없습니다.");
+
+		function searchLabel() {
+			const searchInput = $("#search-input").val().toLowerCase();
+			const matchedLabels = [];
+
+			labels.each(function() {
+				const label = $(this);
+				const labelName = label.text().toLowerCase();
+
+				if (labelName.includes(searchInput)) {
+				matchedLabels.push(label);
+				}
+			});
+
+			if (matchedLabels.length > 0) {
+				matchedLabels.sort(function(a, b) {
+				const aIndex = a.text().toLowerCase().indexOf(searchInput);
+				const bIndex = b.text().toLowerCase().indexOf(searchInput);
+
+				if (aIndex === bIndex) {
+					return a.text().toLowerCase().localeCompare(b.text().toLowerCase());
+				}
+
+				return aIndex - bIndex;
+				});
+				
+				hideAllRows();
+				
+				matchedLabels.forEach(function(matchedLabel) {
+				const row = matchedLabel.closest("tr");
+				row.css("display", "table-row");
+				});
+			} else {
+				hideAllRows();
+
+				noResultCell.attr("colspan", "2");
+				noResultCell.append(noResultText);
+				noResultRow.append(noResultCell);
+				labelTable.append(noResultRow);
+			}
+		}
+
+		function hideAllRows() {
+			labelTable.find("tr").css("display", "none");
+
+			if (noResultRow.parent().is(labelTable)) {
+				noResultRow.remove();
+			}
+		}
+
+		$("#search-input").on("input", function() {
+			  searchLabel();
+		});
+
+	});
 
 		
 
@@ -312,9 +369,9 @@
 									<table class="table table-submit">
 										<thead>
 											<tr>
-											<th scope="col">장르</th>
-											<th scope="col" class="submit-name">목록</th>
-											<th scope="col"></th>
+											<th scope="col" class="text-center" style="width: 15%;">장르</th>
+											<th scope="col" class="submit-name text-center">목록</th>
+											<th scope="col" style="width:10%"></th>
 											</tr>
 										</thead>
 										<tbody class="table-body">
@@ -386,7 +443,7 @@
 									  <tr>
 										<td>
 											<input type="checkbox" class="btn-check" id="btn-check" autocomplete="off">
-											<label class="t-name-fourth" for="btn-check">기타</label>
+											<label class="t-name-fourth" for="btn-check"></label>
 										</td>
 										<!-- <td class="rating"></td> -->
 									  </tr>
