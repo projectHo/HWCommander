@@ -33,10 +33,17 @@
     	    , bAutoWidth : false
     	    , columnDefs : [
 	    	    {targets : 0, width : "30%"}
-	    	    , {targets : 1, width : "5%"}
-	    	    , {targets : 2, width : "65%"}
-	    	    , {targets : 3, visible : false}
+	    	    , {targets : 1, width : "10%"}
+	    	    , {targets : 2, width : "60%"}
+	    	    , {targets : 3, visible : false} // productDetailListStr
+	    	    , {targets : 4, visible : false} // id
     	    ]
+    	});
+    	
+    	$("#productListTable").on('click', 'tbody tr', function () {
+    		var row = $("#productListTable").DataTable().row($(this)).data();
+    		var productId = row[4];
+    		location.href = "productUpdate.do?productId="+productId;
     	});
     	
         window.addEventListener('unload', function() {
@@ -141,7 +148,7 @@
                                             
                                             <!-- 안보이는부분 -->
                                             <th>productDetailListStr</th>
-                                            
+                                            <th>ID</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -153,6 +160,7 @@
 	                                            
 	                                            <!-- 안보이는부분 -->
 	                                            <td>${item.productDetailListStr}</td>
+	                                            <td>${item.id}</td>
                                         	</tr>
 										</c:forEach>
                                     </tbody>

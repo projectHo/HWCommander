@@ -113,3 +113,17 @@ input[type="number"]::-webkit-inner-spin-button {
 .bgc-disabled{
 	background-color: #e9ecef!important;
 }
+
+.margin-left-auto {
+	margin-left: auto;
+}
+
+.table-style {
+	background-color: #fff;
+	border-radius: 12px;
+	border: 1px solid rgba(0,0,0,0.125);
+}
+
+.modal #label-table label {
+  cursor: pointer;
+}

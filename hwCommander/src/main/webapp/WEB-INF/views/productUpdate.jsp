@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - Product Regist</title>
+<title>현우의 컴퓨터 공방 - Product Update</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 
@@ -23,13 +23,15 @@
 <script type="text/javascript">
 
     $(function(){
-        $('#btn_product_regist').on("click", function () {
+    	dataSetting();
+    	
+        $('#btn_product_update').on("click", function () {
         	if(!validationCheck()) {
         		return false;
         	}
         	
-        	if(confirm("등록 하시겠습니까?")) {
-        		goProductRegist();
+        	if(confirm("수정 하시겠습니까?")) {
+        		goProductUpdate();
         	}
         });
         
@@ -46,10 +48,39 @@
         $("#datatablesSimple_10").DataTable();
     });
     
-function goProductRegist() {
-    var partsRegistFormArray = [];
+function dataSetting() {
+	$("#productName").val("${selectMasterData.productName}");
 	
-	$('#parts_regist_table tr').each(function (index) {
+	var productDescriptionStr = "${selectMasterData.productDescriptionStr}";
+	var replace_result = productDescriptionStr.replace(/(<br>|<br\/>|<br \/>)/g, '\r\n');
+	$("#productDescription").val(replace_result);
+	
+	$("#productPrice").val("${selectMasterData.productPrice}");
+	$("#productQty").val("${selectMasterData.productQty}");
+	
+	$("#id").val("${selectMasterData.id}");
+	$("#productImage").val("${selectMasterData.productImage}");
+	
+	var selectDetailDataList = ${selectDetailDataJson};
+	 
+	 for(var i = 0; i < selectDetailDataList.length; i++) {
+		 partsAdd();
+		 
+		 var inputIndex = i+1;
+		 
+		 $("#partsId_"+inputIndex).val(selectDetailDataList[i].partsId);
+		 $("#partsName_"+inputIndex).val(selectDetailDataList[i].partsName);
+		 $("#partsTypeCd_"+inputIndex).val(selectDetailDataList[i].partsTypeCd);
+		 $("#partsQty_"+inputIndex).val(selectDetailDataList[i].partsQty);
+		 $("#partsPrice_"+inputIndex).val(selectDetailDataList[i].partsPrice);
+		 $("#partsTotalPrice_"+inputIndex).val(selectDetailDataList[i].partsTotalPrice);
+	 }
+}
+
+function goProductUpdate() {
+    var partsUpdateFormArray = [];
+	
+	$('#parts_update_table tr').each(function (index) {
 		if(0 != index) {
 			var item = {
 				partsId : $(this).find('input[name=partsId]').val(),
@@ -59,11 +90,12 @@ function goProductRegist() {
 				partsPrice : $(this).find('input[name=partsPrice]').val(),
 				partsTotalPrice : $(this).find('input[name=partsTotalPrice]').val(),
 			};
-			partsRegistFormArray.push(item);
+			partsUpdateFormArray.push(item);
 		}
 	});
 	
 	var productMasterVO = {
+		id : $("#id").val(),
 		productName : $("#productName").val(),
 		productDescription : $("#productDescription").val(),
 		productPrice : $("#productPrice").val(),
@@ -72,19 +104,19 @@ function goProductRegist() {
 	
 	var ajaxData = {
 			productMasterVO : JSON.stringify(productMasterVO),
-			productDetailVOList : JSON.stringify(partsRegistFormArray)
+			productDetailVOList : JSON.stringify(partsUpdateFormArray)
 	};
 		 
     $.ajax({
         type: "post",
-        url: "/admin/productRegistLogic.do",
+        url: "/admin/productUpdateLogic.do",
         data: ajaxData,
         dataType: 'json',
         success: function (data) {
         	if(data == 1) {
-        		alert("등록완료");
+        		alert("수정완료");
         	}else {
-        		alert("등록실패");
+        		alert("수정실패");
         	}
         	window.location = "productManagement.do";
             console.log(data);
@@ -104,7 +136,7 @@ function validationCheck() {
 		return false;
 	}
 	
-	if(1 == $('#parts_regist_table tr').length) {
+	if(1 == $('#parts_update_table tr').length) {
 		alert("추가 된 부품이 없습니다");
 		return false;
 	}
@@ -115,12 +147,12 @@ function validationCheck() {
 
 var index = 0;
 function partsAdd() {
-	//var addIndex = $('#parts_regist_table tr').length;
+	//var addIndex = $('#parts_update_table tr').length;
 	++index;
 	var addIndex = index;
 	
 	var innerHtml = "";
-	innerHtml += '<tr id="parts_regist_table_tr_'+addIndex+'">';
+	innerHtml += '<tr id="parts_update_table_tr_'+addIndex+'">';
 	innerHtml += '	<td>';
 	innerHtml += '		<input class="form-check-input" type="checkbox" value="" name="rowCheck" id="rowCheck_'+addIndex+'">';
 	innerHtml += '	</td>';
@@ -148,11 +180,11 @@ function partsAdd() {
 	innerHtml += '	</td>';
 	innerHtml += '</tr>';
 	
-	$('#parts_regist_table > tbody:last').append(innerHtml);
+	$('#parts_update_table > tbody:last').append(innerHtml);
 }
 
 function partsDel() {
-	if(1 == $('#parts_regist_table tr').length) {
+	if(1 == $('#parts_update_table tr').length) {
 		alert("추가 된 부품이 없습니다");
 		return false;
 	}
@@ -175,7 +207,7 @@ function partsDel() {
 var targetIndex = 0;
 var targetModelId = "";
 function partsSelect(rowNum) {
-	var trId = "parts_regist_table_tr_"+rowNum;
+	var trId = "parts_update_table_tr_"+rowNum;
 	targetIndex = rowNum;
 	
 	if("null" == $('#'+trId+' select').val()) {
@@ -203,7 +235,7 @@ function modalPartsSelect(id, partsName, partsPrice) {
 }
 
 function partsTypeCdOnchange(rowNum) {
-	var trId = "parts_regist_table_tr_"+rowNum;
+	var trId = "parts_update_table_tr_"+rowNum;
 	$('#partsQty_'+rowNum).val(1);
 	
 	if("04" == $('#'+trId+' select').val()
@@ -222,7 +254,7 @@ function partsTypeCdOnchange(rowNum) {
 function productPriceCalculate() {
 	var productPrice = 0;
 	
-	$('#parts_regist_table tr').each(function (index) {
+	$('#parts_update_table tr').each(function (index) {
 		var partsQty = 0;
 		var partsPrice = 0;
 		var partsTotalPrice = 0;
@@ -309,20 +341,22 @@ function productPriceCalculate() {
             <div id="layoutSidenav_content">
 				<main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Product Regist</h1>
+                        <h1 class="mt-4">Product Update</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="main.do">Admin Page</a></li>
                             <li class="breadcrumb-item"><a href="productManagement.do">Product</a></li>
-                            <li class="breadcrumb-item active">Product Regist</li>
+                            <li class="breadcrumb-item active">Product Update</li>
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                                Product를  등록합니다.
+                                Product를  수정합니다.
                             </div>
                         </div>
                         <div class="card mb-4">
 							<div class="card-body">
-                               <form id="product_regist_form">
+                               <form id="product_update_form">
+                                   <input type="hidden" id="id" name="id">
+                                   <input type="hidden" id="productImage" name="productImage">
                                    <div class="form-floating mb-3">
                                        <input class="form-control" id="productName" name="productName" type="text" placeholder="Enter productName"/>
                                        <label for="productName">product Name</label>
@@ -365,8 +399,8 @@ function productPriceCalculate() {
 								</div>
                             </div>
                             <div class="card-body">
-                            	<form id="parts_regist_form">
-									<table class="table" id="parts_regist_table">
+                            	<form id="parts_update_form">
+									<table class="table" id="parts_update_table">
 									  <thead>
 									    <tr>
 									      <th scope="col">Row</th>
@@ -376,13 +410,13 @@ function productPriceCalculate() {
 									      <th scope="col">부품가격</th>
 									    </tr>
 									  </thead>
-									  <tbody id="parts_regist_table_tbody">
+									  <tbody id="parts_update_table_tbody">
 									  </tbody>
 									</table>
                                 </form>
                                 
 	                            <div class="mt-4 mb-0">
-	                                <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_product_regist">Regist</a></div>
+	                                <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_product_update">Update</a></div>
 	                            </div>
                             
                             </div>

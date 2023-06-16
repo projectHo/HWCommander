@@ -511,17 +511,40 @@ public class AdminController {
 		model.addAttribute("ssdList", partsService.getSsdAllList());
 		model.addAttribute("sfList", partsService.getSfAllList());
 		
-		// todo wonho master, detail 각각 조회
+		model.addAttribute("selectMasterData", productService.getProductMasterById(productId));
+		
+		List<ProductDetailVO> productDetailVOList = productService.getProductDetailById(productId);
+		
+		ObjectMapper mapper = new ObjectMapper();
+		String productDetailVOListJson = "";
+		try {
+			productDetailVOListJson = mapper.writeValueAsString(productDetailVOList);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		model.addAttribute("selectDetailDataJson", productDetailVOListJson);
+		
 		return adminLoginCheck(request, model, "productUpdate");
 	}
-	/*
-	 * @RequestMapping(value = "/productUpdateLogic.do", method =
-	 * RequestMethod.POST)
-	 * 
-	 * @ResponseBody public Integer productUpdateLogic(PartsProductVO partsMbVO) {
-	 * return partsService.mbUpdateLogic(partsMbVO); }
-	 */
 	
+	@RequestMapping(value = "/productUpdateLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer productUpdateLogic(
+			@RequestParam(value = "productMasterVO", required = true) String productMasterVOString
+			, @RequestParam(value = "productDetailVOList", required = true) String productDetailVOListString) throws JsonMappingException, JsonProcessingException {
+		
+		ProductMasterVO productMasterVO = new ProductMasterVO();
+		List<ProductDetailVO> productDetailVOList = new ArrayList<>();
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		
+		productMasterVO = objectMapper.readValue(productMasterVOString, ProductMasterVO.class);
+		productDetailVOList = objectMapper.readValue(productDetailVOListString, new TypeReference<List<ProductDetailVO>>() {});
+		
+		return productService.productUpdateLogic(productMasterVO, productDetailVOList);
+	}
+
 	private String adminLoginCheck(HttpServletRequest request, Model model, String url) {
 		HttpSession httpSession = request.getSession();
 		

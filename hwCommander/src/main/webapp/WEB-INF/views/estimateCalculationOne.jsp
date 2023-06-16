@@ -17,7 +17,8 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
     <meta name="author" content="" />
     <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+	<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
     <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
 
     <script>
@@ -52,6 +53,50 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
           setTimeout(goToZero, 20);
         }
       }
+      
+      $(document).ready(function() {
+    	  const tooltipTriggerList = $('[data-bs-toggle="tooltip"]');
+    	  const tooltipList = tooltipTriggerList.map(function() {
+    	    return new bootstrap.Tooltip($(this)[0]);
+    	  }).get();
+    	  
+    	  (() => {
+    	    "use strict";
+    	    const forms = $(".needs-validation");
+    	    forms.each(function() {
+    	      $(this).on("submit", function(event) {
+    	        if (!this.checkValidity()) {
+    	          event.preventDefault();
+    	          event.stopPropagation();
+    	        }
+    	        $(this).addClass("was-validated");
+    	      });
+    	    });
+    	  })();
+    	  
+    	  const calcOneSubmit = $(".calc-one-final");
+    	  const calcOneText = $(".calc-one-final-text");
+    	  calcOneSubmit.on("click", function() {
+    	    calcOneText.css("display", "block");
+    	  });
+    	  
+    	  const inputElement = $("#typingInput");
+    	  const text = "본체의 가용 예산 한도는 얼마입니까? (최대 500만원)";
+    	  let index = 0;
+    	  
+    	  function typeText() {
+    	    if (index < text.length) {
+    	      inputElement.val(function(i, val) {
+    	        return val + text.charAt(index);
+    	      });
+    	      index++;
+    	      setTimeout(typeText, 50);
+    	    }
+    	  }
+    	  
+    	  typeText();
+    	});
+
     </script>
   </head>
   <body>
@@ -123,52 +168,5 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
     </div>
 
     <%@ include file="./common/footer.jsp" %>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-    <script>
-    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-    const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
-    
-    
-    (() => {
-        "use strict";
-        const forms = document.querySelectorAll(".needs-validation");
-        Array.from(forms).forEach((form) => {
-          form.addEventListener(
-            "submit",
-            (event) => {
-              if (!form.checkValidity()) {
-                event.preventDefault();
-                event.stopPropagation();
-              }
-              form.classList.add("was-validated");
-            },
-            false
-          );
-        });
-      })();
-    
-    
-    const calcOneSubmit = document.querySelector(".calc-one-final");
-    const calcOneText = document.querySelector(".calc-one-final-text");
-    calcOneSubmit.addEventListener("click", () =>{
-    	calcOneText.style.display = "block";
-    })
-
-    const inputElement = document.getElementById('typingInput');
-	const text = "본체의 가용 예산 한도는 얼마입니까? (최대 500만원)";
-	let index = 0;
-
-	function typeText() {
-		if (index < text.length) {
-			inputElement.value += text.charAt(index);
-			index++;
-			setTimeout(typeText, 50);
-		}
-	}
-
-	typeText();
-
-
-    </script>
   </body>
 </html>
