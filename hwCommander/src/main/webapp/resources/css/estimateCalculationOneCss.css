@@ -127,3 +127,8 @@ input[type="number"]::-webkit-inner-spin-button {
 .modal #label-table label {
   cursor: pointer;
 }
+
+.disabled-input {
+  pointer-events: none;
+  background-color: #fff;
+}
