@@ -1,5 +1,8 @@
 package com.hw.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,13 +63,27 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/estimateCalculationOne.do", method = RequestMethod.GET)
-	public String goEstimateCalculationOne(Model model) {
-		return "estimateCalculationOne";
+	public String goEstimateCalculationOne(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "estimateCalculationOne");
 	}
 	
 	@RequestMapping(value = "/estimateCalculationTwo.do", method = RequestMethod.GET)
-	public String goEstimateCalculationTwo(Model model) {
-		return "estimateCalculationTwo";
+	public String goEstimateCalculationTwo(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "estimateCalculationTwo");
+	}
+	
+	private String userLoginCheck(HttpServletRequest request, Model model, String url) {
+		HttpSession httpSession = request.getSession();
+		
+		UserInfoVO user = (UserInfoVO) httpSession.getAttribute("loginUser");
+		
+		if(null == user) {
+			model.addAttribute("msg", "로그인 후에 견적산출이 가능합니다.");
+			model.addAttribute("url", "/");
+			return "redirect";
+		}else {
+			return url;
+		}
 	}
 	
 }

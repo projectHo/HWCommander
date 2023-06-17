@@ -1,6 +1,6 @@
 package com.hw.model;
 
-import java.util.Date;
+import java.math.BigDecimal;
 
 import lombok.Data;
 
@@ -17,7 +17,7 @@ public class PartsCpuVO {
 	private int bn;
 	private String cpuSocCd;
 	private String cpuSocCdNm;
-	private float vrmRange;
+	private BigDecimal vrmRange;
 	private int ddr4MaxRange;
 	private int ddr5MaxRange;
 	private String partsImage;

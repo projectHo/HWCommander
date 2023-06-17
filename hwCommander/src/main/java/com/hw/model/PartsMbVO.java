@@ -1,6 +1,6 @@
 package com.hw.model;
 
-import java.util.Date;
+import java.math.BigDecimal;
 
 import lombok.Data;
 
@@ -23,7 +23,7 @@ public class PartsMbVO {
 	private int bios;
 	private String cpuSocCd;
 	private String cpuSocCdNm;
-	private float vrmRange;
+	private BigDecimal vrmRange;
 	private String memSocCd;
 	private String memSocCdNm;
 	private String scsCd;
@@ -36,4 +36,5 @@ public class PartsMbVO {
 	private String updtDtm;
 	private String multiBulk;
 	private int wifi;
+	private int mc;
 }

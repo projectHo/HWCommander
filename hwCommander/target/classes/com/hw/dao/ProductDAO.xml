@@ -121,6 +121,21 @@
 			a.id = #{id}
 	</select>
 	
+	<update id="updateProductMasterVO" parameterType="productMasterVO">
+		UPDATE
+			product_master
+		SET
+			id                    			= #{id}                
+			, product_name        			= #{productName}       
+			, product_price       			= #{productPrice}      
+			, product_qty         			= #{productQty}        
+			, product_description 			= #{productDescription}
+			, product_image       			= #{productImage}      
+			, updt_dtm            			= NOW()                
+		WHERE
+			id = #{id}
+	</update>
+	
 	<select id="getProductDetailById" parameterType="String" resultType="productDetailVO">
 		SELECT 
 			a.id                                                                              AS id             
@@ -140,5 +155,13 @@
 		WHERE
 			a.id = #{id}
 	</select>
+	
+	<delete id="deleteProductDetailVO" parameterType="productDetailVO">
+		DELETE
+		FROM
+			product_detail
+		WHERE
+			id = #{id}
+	</delete>
 	
 </mapper>

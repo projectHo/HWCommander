@@ -242,6 +242,7 @@
 			, updt_dtm
 			, multi_bulk
 			, wifi
+			, mc
 		)
 		VALUES
 		(
@@ -267,6 +268,7 @@
 			, #{updtDtm}
 			, #{multiBulk}
 			, #{wifi}
+			, #{mc}
 		)
 	</insert>
 	
@@ -301,7 +303,8 @@
 			, a.reg_dtm                                                                        AS regDtm    
 			, a.updt_dtm                                                                       AS updtDtm
 			, a.multi_bulk                                                                     AS multiBulk
-			, a.wifi                                                                           AS wifi        
+			, a.wifi                                                                           AS wifi
+			, a.mc                                                                             AS mc        
 		FROM
 			parts_mb a
 		<where>
@@ -334,7 +337,8 @@
 			, parts_image         = #{partsImage}
 			, updt_dtm            = NOW()        
 			, multi_bulk          = #{multiBulk} 
-			, wifi                = #{wifi}      
+			, wifi                = #{wifi}
+			, mc                  = #{mc}            
 		WHERE
 			id = #{id}
 	</update>
@@ -363,6 +367,7 @@
 			, updt_dtm
 			, multi_bulk
 			, volume
+			, sd
 		)
 		VALUES
 		(
@@ -383,6 +388,7 @@
 			, #{updtDtm}
 			, #{multiBulk}
 			, #{volume}
+			, #{sd}
 		)
 	</insert>
 	
@@ -410,7 +416,8 @@
 			, a.reg_dtm                                                                        AS regDtm      
 			, a.updt_dtm                                                                       AS updtDtm
 			, a.multi_bulk                                                                     AS multiBulk
-			, a.volume                                                                         AS volume     
+			, a.volume                                                                         AS volume
+			, a.sd                                                                             AS sd     
 		FROM
 			parts_ram a
 		<where>
@@ -438,7 +445,8 @@
 			, parts_image         = #{partsImage}  
 			, updt_dtm            = NOW()          
 			, multi_bulk          = #{multiBulk}   
-			, volume              = #{volume}      
+			, volume              = #{volume}
+			, sd                  = #{sd}            
 		WHERE
 			id = #{id}
 	</update>

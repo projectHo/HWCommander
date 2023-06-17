@@ -1,6 +1,6 @@
 package com.hw.model;
 
-import java.util.Date;
+import java.math.BigDecimal;
 
 import lombok.Data;
 
@@ -16,8 +16,8 @@ public class PartsSfVO {
 	private String fmcCdNm;
 	private String fscCd;
 	private String fscCdNm;
-	private float fnoi;
-	private float ffm;
+	private BigDecimal fnoi;
+	private BigDecimal ffm;
 	private int fh;
 	private int ft;
 	private String partsImage;

@@ -1,6 +1,6 @@
 package com.hw.model;
 
-import java.util.Date;
+import java.math.BigDecimal;
 
 import lombok.Data;
 
@@ -14,10 +14,10 @@ public class PartsPsuVO {
 	private String pmcCdNm;
 	private String pscCd;
 	private String pscCdNm;
-	private float std;
-	private float psuas;
-	private float pfm;
-	private float sft;
+	private BigDecimal std;
+	private BigDecimal psuas;
+	private BigDecimal pfm;
+	private BigDecimal sft;
 	private int tdp;
 	private int pl;
 	private int gpl;

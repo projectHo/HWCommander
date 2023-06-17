@@ -30,7 +30,7 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Override
 	public Integer productRegistLogic(ProductMasterVO productMasterVO, List<ProductDetailVO> productDetailVOList) {
-		int result = 0;
+		int insertResult = 0;
 		String maxId = productDAO.getProductMasterVOMaxId();
 		
 		for(int i = 0; i < productDetailVOList.size(); i++) {
@@ -44,8 +44,8 @@ public class ProductServiceImpl implements ProductService {
 		
 		productMasterVO.setId(maxId);
 
-		result = productDAO.insertProductMasterVO(productMasterVO);
-		return result;
+		insertResult = productDAO.insertProductMasterVO(productMasterVO);
+		return insertResult;
 	}
 	
 	@Override
@@ -66,5 +66,28 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public List<ProductDetailVO> getProductDetailById(String id) {
 		return productDAO.getProductDetailById(id);
+	}
+	
+	@Override
+	public Integer productUpdateLogic(ProductMasterVO productMasterVO, List<ProductDetailVO> productDetailVOList) {
+		int updateResult = 0;
+		String targetId = productMasterVO.getId();
+		
+		ProductDetailVO deleteVO = new ProductDetailVO();
+		deleteVO.setId(targetId);
+		
+		int delete = productDAO.deleteProductDetailVO(deleteVO);
+		
+		for(int i = 0; i < productDetailVOList.size(); i++) {
+			ProductDetailVO productDetailVO = new ProductDetailVO();
+			productDetailVO = productDetailVOList.get(i); 
+			productDetailVO.setId(targetId);
+			productDetailVO.setSeq(i+1);
+			
+			productDAO.insertProductDetailVO(productDetailVO);
+		}
+
+		updateResult = productDAO.updateProductMasterVO(productMasterVO);
+		return updateResult;
 	}
 }

@@ -53,6 +53,7 @@ function dataSetting() {
 	$("#sata").val("${selectData.sata}");
 	$("#multiBulk").val("${selectData.multiBulk}");
 	$("#wifi").val("${selectData.wifi}");
+	$("#mc").val("${selectData.mc}");
 	
 	$("#id").val("${selectData.id}");
 	$("#partsImage").val("${selectData.partsImage}");
@@ -393,6 +394,12 @@ function idDupliChk(id) {
                                            <div class="form-floating">
                                                <input class="form-control" id="wifi" name="wifi" type="text" placeholder="Enter wifi" />
                                                <label for="wifi">WIFI</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+                                               <input class="form-control" id="mc" name="mc" type="text" placeholder="Enter mc" />
+                                               <label for="mc">MC</label>
                                            </div>
                                        </div>
                                    </div>

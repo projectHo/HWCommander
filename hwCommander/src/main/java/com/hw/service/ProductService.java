@@ -11,4 +11,5 @@ public interface ProductService {
 	public List<ProductMasterVO> getEventMallList();
 	public ProductMasterVO getProductMasterById(String id);
 	public List<ProductDetailVO> getProductDetailById(String id);
+	public Integer productUpdateLogic(ProductMasterVO productMasterVO, List<ProductDetailVO> productDetailVOList);
 }

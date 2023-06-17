@@ -1,6 +1,6 @@
 package com.hw.model;
 
-import java.util.Date;
+import java.math.BigDecimal;
 
 import lombok.Data;
 
@@ -17,7 +17,7 @@ public class PartsRamVO {
 	private String rscCd;
 	private String rscCdNm;
 	private int cl;
-	private float latency;
+	private BigDecimal latency;
 	private String prCd;
 	private String prCdNm;
 	private String memSocCd;
@@ -29,4 +29,5 @@ public class PartsRamVO {
 	private String updtDtm;
 	private String multiBulk;
 	private int volume;
+	private int sd;
 }

@@ -1,6 +1,6 @@
 package com.hw.model;
 
-import java.util.Date;
+import java.math.BigDecimal;
 
 import lombok.Data;
 
@@ -18,10 +18,10 @@ public class PartsCoolerVO {
 	private String clscCdNm;
 	private String formulaCd;
 	private String formulaCdNm;
-	private float sta;
+	private BigDecimal sta;
 	private int wcas;
 	private int acas;
-	private float noi;
+	private BigDecimal noi;
 	private int cnv;
 	private int thermal;
 	private int iw;
