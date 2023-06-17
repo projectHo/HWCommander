@@ -79,7 +79,7 @@ public class HomeController {
 		
 		if(null == user) {
 			model.addAttribute("msg", "로그인 후에 견적산출이 가능합니다.");
-			model.addAttribute("url", "/");
+			model.addAttribute("url", "/user/login.do");
 			return "redirect";
 		}else {
 			return url;

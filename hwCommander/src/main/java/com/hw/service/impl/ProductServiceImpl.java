@@ -5,21 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.hw.dao.PartsDAO;
 import com.hw.dao.ProductDAO;
-import com.hw.model.PartsCaseVO;
-import com.hw.model.PartsCoolerVO;
-import com.hw.model.PartsCpuVO;
-import com.hw.model.PartsGpuVO;
-import com.hw.model.PartsHddVO;
-import com.hw.model.PartsMbVO;
-import com.hw.model.PartsPsuVO;
-import com.hw.model.PartsRamVO;
-import com.hw.model.PartsSfVO;
-import com.hw.model.PartsSsdVO;
 import com.hw.model.ProductDetailVO;
 import com.hw.model.ProductMasterVO;
-import com.hw.service.PartsService;
 import com.hw.service.ProductService;
 
 @Service
