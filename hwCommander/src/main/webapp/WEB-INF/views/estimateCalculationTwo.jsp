@@ -59,6 +59,7 @@
 		style: "display:none;"
 	});
 	$(document).ready(function() {
+
 		const tooltipTriggerList = $('[data-bs-toggle="tooltip"]');
 		const tooltipList = tooltipTriggerList.map(function() {
 			return new bootstrap.Tooltip($(this)[0]);
@@ -100,7 +101,7 @@
 		typeText();
 
 		const modal = new bootstrap.Modal($("#use-collecter"));
-		let selectValue
+		
 	    $(".list-game").on("click", function(e) {
 			const games = {
 				FPS: ["PlayerUnknown's Battlegrounds", "Apex Legend", "Valorant","기타"],
@@ -117,48 +118,92 @@
 				elem.html(games[HTMLs][index]);
 				});
 			}
-			
-			const modalSubBtn = $(".modal-submit-btn");
-			modalSubBtn.off("click").on("click", () => {
-				$(".table-container").css("display", "block");
-
-				const selectedKey = $(".collector-name").text();
-				
-				const newRow = $("<tr></tr>");
-
-				const thElement = $("<th></th>").attr("scope", "row").addClass("ps-3 text-center align-middle").html(selectedKey);
-				newRow.append(thElement);
-
-				const tdElement1 = $("<td></td>").addClass("t-submit ps-4 fw-bold align-middle").html(selectValue);
-				newRow.append(tdElement1);
-				const tdElement2 = $("<td></td>").text();
-				newRow.append(tdElement2);
-				const tdElement3 = $("<td></td>");
-				const deleteButton = $("<button></button>").addClass("btn btn-danger").text("삭제");
-				deleteButton.on("click", () => {
-					newRow.remove();
-					if ($(".table-body").find("tr").length === 0) {
-						$(".table-container").css("display", "none");
-						forms.append(delInput);
-						forms.removeClass("was-validated");
+			const ratings = $(".rating");
+			[$(".t-name-first"), $(".t-name-second"), $(".t-name-third"), $(".t-name-fourth")].forEach((elem, index) => {
+				elem.off("click").on("click", () => {
+					if(elem.css("color") === "rgb(255, 0, 0)"){
+						elem.css("color","black");
+					}else {
+						elem.css("color","red");
 					}
-				});
-				tdElement3.append(deleteButton);
-				newRow.append(tdElement3);
+					if(ratings.eq(index).css("display") === "none"){
+						ratings.eq(index).css("display","block");
+					}else if (ratings.eq(index).css("display") === "block"){
+						ratings.eq(index).css("display","none");
+					}
+					
+					const selectedKey = $(".collector-name").text();
+					const selectValue = elem.text();
+					const newRow = $("<tr></tr>").css("display","none").addClass("table-list-names");
 
-				const tableBody = $(".table-body");
-				const lastRow = tableBody.find("tr:last");
-				if (lastRow.length > 0) {
-					lastRow.after(newRow);
-				} else {
-					tableBody.append(newRow);
-				}
-				modal.hide();
-				[$(".t-name-first"), $(".t-name-second"), $(".t-name-third"), $(".t-name-fourth")].forEach(elem => {
-				elem.css("color", "black");
-				});
-				$(".delete-input").remove();
+					const thElement = $("<th></th>").attr("scope", "row").addClass("ps-3 align-middle");
+					const input1 = $("<input>").attr("type", "text").attr("readonly", true).attr("disabled", true).attr("value", selectedKey).css("border","none").css("text-align","center").css("font-weight","bold").addClass("use-list-genre");
+					thElement.append(input1);
+					newRow.append(thElement);
+
+					const tdElement1 = $("<td></td>").addClass("t-submit ps-4 align-middle");
+					const input2 = $("<input>").attr("type", "text").attr("readonly", true).attr("disabled", true).attr("value", selectValue).css("border","none").css("font-weight","bold").addClass("use-list-name");
+					tdElement1.append(input2);
+					newRow.append(tdElement1);
+					const tdElement2 = $("<td></td>").addClass("align-middle");
+					const input3 = $("<input>").attr("type", "number").attr("required", true).attr("placeholder", "0~100").attr("max", "100").attr("min", "0").css("border", "none").css("font-weight", "bold").addClass("use-list-rating");
+					tdElement2.append(input3);
+					newRow.append(tdElement2);
+					const tdElement3 = $("<td></td>");
+					const deleteButton = $("<button></button>").addClass("btn btn-danger").text("삭제");
+					deleteButton.on("click", () => {
+						newRow.remove();
+						if ($(".table-body").find("tr").length === 0) {
+							$(".table-container").css("display", "none");
+							forms.append(delInput);
+							forms.removeClass("was-validated");
+						}
+					});
+					tdElement3.append(deleteButton);
+					newRow.append(tdElement3);
+					$('.use-list-rating').on('input', () => {
+						const value = parseInt($(this).val()) || 0;
+
+						if (value >= 100) {
+							alert('100 이하로 입력해주세요!');
+							$(this).val('');
+						}
+
+						let total = 0;
+						$('.use-list-rating').each(() => {
+							total += parseInt($(this).val()) || 0;
+						});
+
+						if (total >= 100) {
+							alert('100 이하로 입력해주세요!!');
+							$('.use-list-rating').val('');
+						}
+					});
+					
+
+					const tableBody = $(".table-body");
+						const lastRow = tableBody.find("tr:last");
+						if (lastRow.length > 0) {
+							lastRow.after(newRow);
+						} else {
+							tableBody.append(newRow);
+						}
+					const modalSubBtn = $(".modal-submit-btn");
+					modalSubBtn.off("click").on("click", () => {
+						$(".table-container").css("display", "block");
+						$(".table-list-names").css("display","table-row");
+						
+						modal.hide();
+						[$(".t-name-first"), $(".t-name-second"), $(".t-name-third"), $(".t-name-fourth")].forEach(elem => {
+							elem.css("color", "black");
+						});
+						$(".delete-input").remove();
+						tdElement2.eq(index).html(ratings.eq(index).val())
+						ratings.css("display","none").val("");
+					});	
+				})
 			});
+			
 		});
 
 		$(".list-work").on("click", function(e) {
@@ -221,13 +266,7 @@
 			});
 		});
 		
-		[$(".t-name-first"), $(".t-name-second"), $(".t-name-third"), $(".t-name-fourth")].forEach(elem => {
-			elem.on("click", function() {
-				$(this).css("color", "red");
-				selectValue = $(this).text();
-			});
-		});
-
+		
 		$(".surf-btn").on("click",()=>{
 			$(".table-container").css("display", "block");
 				
@@ -243,6 +282,7 @@
 				const deleteButton = $("<button></button>").addClass("btn btn-danger").text("삭제");
 				deleteButton.on("click", () => {
 					newRow.remove();
+					$("#work-surf").prop('checked',false);
 					if ($(".table-body").find("tr").length === 0) {
 						$(".table-container").css("display", "none");
 						forms.append(delInput);
@@ -262,7 +302,7 @@
 		
 				$(".delete-input").remove();
 		})
-	
+		
 		const labelTable = $("#label-table");
 		const labels = labelTable.find("label");
 		const noResultRow = $("<tr>");
@@ -386,7 +426,7 @@
 				 			</div>
 						</div>
 						<form class="needs-validation" action="#" novalidate>
-							<input type="text" class="delete-input" required style="display:none;">
+							<!-- <input type="text" class="delete-input" required style="display:none;"> -->
 							<div class="row table-style p-1 mb-3 table-container" style="display: none;">
 								<div class="container">
 									<table class="table table-submit">
@@ -446,7 +486,6 @@
 									  </tr>
 									  <tr>
 										<th scope="col">이름</th>
-										<!-- <th scope="col">비중</th> -->
 									  </tr>
 									</thead>
 									<tbody id="label-table">
@@ -455,28 +494,24 @@
 											<input type="checkbox" class="btn-check" id="btn-check" autocomplete="off">
 											<label class="t-name-first" for="btn-check"></label>
 										</td>
-										<!-- <td class="rating"></td> -->
 									  </tr>
 									  <tr>
 										<td>
 											<input type="checkbox" class="btn-check" id="btn-check" autocomplete="off">
 											<label class="t-name-second" for="btn-check"></label>
 										</td>
-										<!-- <td class="rating"></td> -->
 									  </tr>
 									  <tr>
 										<td>
 											<input type="checkbox" class="btn-check" id="btn-check" autocomplete="off">
 											<label class="t-name-third" for="btn-check"></label>
 										</td>
-										<!-- <td class="rating"></td> -->
 									  </tr>
 									  <tr>
 										<td>
 											<input type="checkbox" class="btn-check" id="btn-check" autocomplete="off">
 											<label class="t-name-fourth" for="btn-check"></label>
 										</td>
-										<!-- <td class="rating"></td> -->
 									  </tr>
 									</tbody>
 								  </table>
