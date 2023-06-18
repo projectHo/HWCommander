@@ -18,7 +18,10 @@
 			, name
 			, birth
 			, hp_number
-			, addr
+			, jibun_addr
+			, road_addr
+			, detail_addr
+			, zipcode
 			, mail
 			, mail_key
 			, mail_confirm
@@ -34,7 +37,10 @@
 			, #{name}
 			, #{birth}
 			, #{hpNumber}
-			, #{addr}
+			, #{jibunAddr}
+			, #{roadAddr}
+			, #{detailAddr}
+			, #{zipcode}
 			, #{mail}
 			, #{mailKey}
 			, #{mailConfirm}
@@ -74,7 +80,10 @@
 			, name                    AS name       
 			, birth                   AS birth      
 			, hp_number               AS hpNumber   
-			, addr                    AS addr       
+			, jibun_addr              AS jibunAddr
+			, road_addr               AS roadAddr       
+			, detail_addr             AS detailAddr       
+			, zipcode                 AS zipcode   
 			, mail                    AS mail       
 			, mail_key                AS mailKey    
 			, mail_confirm            AS mailConfirm

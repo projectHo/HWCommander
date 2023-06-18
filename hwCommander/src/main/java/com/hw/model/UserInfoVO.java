@@ -1,6 +1,5 @@
 package com.hw.model;
 
-import java.util.Date;
 
 import lombok.Data;
 
@@ -13,7 +12,10 @@ public class UserInfoVO {
 	private String name;
 	private String birth;
 	private String hpNumber;
-	private String addr;
+	private String jibunAddr;
+	private String roadAddr;
+	private String detailAddr;
+	private String zipcode;
 	private String mail;
 	private String mailKey;
 	private String mailConfirm;
