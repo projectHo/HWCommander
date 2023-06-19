@@ -132,3 +132,13 @@ input[type="number"]::-webkit-inner-spin-button {
   pointer-events: none;
   background-color: #fff;
 }
+
+.rating-first,.rating-second,.rating-third {
+  border: none;
+  display: none;
+}
+
+.surf-btn:hover {
+  background-color: #6c757d!important;
+  color: #fff!important;
+}
