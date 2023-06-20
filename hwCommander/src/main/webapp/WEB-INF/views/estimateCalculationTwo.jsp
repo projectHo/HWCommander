@@ -149,6 +149,7 @@
 									alert('100 이하로 입력해주세요!');
 									$(e.target).val('');
 								}else if (value < 1){
+									$(e.target).val('');
 									alert("1 이상입니다~")
 								}
 
@@ -255,6 +256,7 @@
 									alert('100 이하로 입력해주세요!');
 									$(e.target).val('');
 								} else if (value < 1){
+									$(e.target).val('');
 									alert("1 이상입니다~")
 								}
 
@@ -356,6 +358,7 @@
 					alert('100 이하로 입력해주세요!');
 					$(e.target).val('');
 				} else if (value < 1) {
+					$(e.target).val('');
 					alert("1 이상입니다~!")
 				}
 
