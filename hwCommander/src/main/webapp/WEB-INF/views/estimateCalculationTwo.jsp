@@ -189,181 +189,181 @@
 	typeText();
 	// list
 	
-	$(".list-game").off("click").on("click", function(e) {
-		const games = {
-			FPS: ["PlayerUnknown's Battlegrounds", "Apex Legend", "Valorant","FPS 기타"],
-			AOS: ["League of Legends", "Dota 2", "Heros of the Storm"," AOS기타"],
-			RPG: ["Lost Ark", "Diablo IV", "Dungeon and Fighter","RPG 기타"],
-			RTS: ["FIFA Online 4", "Starcraft Remastered", "Warcraft III Reforged","RTS 기타"],
-			레이싱: ["Forza Horizon 5", "Assetto Corsa", "Grand Theft Auto V","레이싱 기타"]
-		};
-		const HTMLs = $(e.target).html();
-		$(".collector-name").html(HTMLs);
+	// $(".list-game").off("click").on("click", function(e) {
+	// 	const games = {
+	// 		FPS: ["PlayerUnknown's Battlegrounds", "Apex Legend", "Valorant","FPS 기타"],
+	// 		AOS: ["League of Legends", "Dota 2", "Heros of the Storm"," AOS기타"],
+	// 		RPG: ["Lost Ark", "Diablo IV", "Dungeon and Fighter","RPG 기타"],
+	// 		RTS: ["FIFA Online 4", "Starcraft Remastered", "Warcraft III Reforged","RTS 기타"],
+	// 		레이싱: ["Forza Horizon 5", "Assetto Corsa", "Grand Theft Auto V","레이싱 기타"]
+	// 	};
+	// 	const HTMLs = $(e.target).html();
+	// 	$(".collector-name").html(HTMLs);
 
-		if (games.hasOwnProperty(HTMLs)) {
-			[$(".t-name-first"), $(".t-name-second"), $(".t-name-third"), $(".t-name-fourth")].forEach((elem, index) => {
-			elem.html(games[HTMLs][index]);
-			});
-		}
+	// 	if (games.hasOwnProperty(HTMLs)) {
+	// 		[$(".t-name-first"), $(".t-name-second"), $(".t-name-third"), $(".t-name-fourth")].forEach((elem, index) => {
+	// 		elem.html(games[HTMLs][index]);
+	// 		});
+	// 	}
 		
-		[$(".t-name-first"), $(".t-name-second"), $(".t-name-third"), $(".t-name-fourth")].forEach((elem, index) => {
-			elem.off("click").on("click", () => {
-				const selectedKey = $(".collector-name").text();
-				const selectValue = elem.text();
-				if(elem.css("color") === "rgb(33, 37, 41)"){
-					const isDuplicate = $(".use-list-name").toArray().some(element => $(element).val() === selectValue);
-					if (isDuplicate && !elem.data("duplicateChecked")) {
-						elem.data("duplicateChecked", true);
-						alert("중복된 요소입니다. 다른 값을 선택해주세요.");
-					}else if(!isDuplicate){
-						elem.data("duplicateChecked", false);
-						const newRow = $("<tr></tr>").css("display","none").addClass("table-list-names");
+	// 	[$(".t-name-first"), $(".t-name-second"), $(".t-name-third"), $(".t-name-fourth")].forEach((elem, index) => {
+	// 		elem.off("click").on("click", () => {
+	// 			const selectedKey = $(".collector-name").text();
+	// 			const selectValue = elem.text();
+	// 			if(elem.css("color") === "rgb(33, 37, 41)"){
+	// 				const isDuplicate = $(".use-list-name").toArray().some(element => $(element).val() === selectValue);
+	// 				if (isDuplicate && !elem.data("duplicateChecked")) {
+	// 					elem.data("duplicateChecked", true);
+	// 					alert("중복된 요소입니다. 다른 값을 선택해주세요.");
+	// 				}else if(!isDuplicate){
+	// 					elem.data("duplicateChecked", false);
+	// 					const newRow = $("<tr></tr>").css("display","none").addClass("table-list-names");
 
-						const thElement = $("<th></th>").attr("scope", "row").addClass("ps-3 align-middle");
-						const input1 = $("<input>").attr("type", "text").attr("readonly", true).attr("disabled", true).attr("value", selectedKey).css("border","none").css("text-align","center").css("font-weight","bold").css("background-color", "inherit").addClass("use-list-genre");
-						thElement.append(input1);
-						newRow.append(thElement);
+	// 					const thElement = $("<th></th>").attr("scope", "row").addClass("ps-3 align-middle");
+	// 					const input1 = $("<input>").attr("type", "text").attr("readonly", true).attr("disabled", true).attr("value", selectedKey).css("border","none").css("text-align","center").css("font-weight","bold").css("background-color", "inherit").addClass("use-list-genre");
+	// 					thElement.append(input1);
+	// 					newRow.append(thElement);
 
-						const tdElement1 = $("<td></td>").addClass("t-submit ps-4 align-middle");
-						const input2 = $("<input>").attr("type", "text").attr("readonly", true).attr("disabled", true).attr("value", selectValue).css("border","none").css("font-weight","bold").css("background-color", "inherit").addClass("use-list-name");
-						tdElement1.append(input2);
-						newRow.append(tdElement1);
-						const tdElement2 = $("<td></td>").addClass("align-middle");
-						const input3 = $("<input>").attr("type", "number").attr("required", true).attr("placeholder", "0~100").attr("max", "100").attr("min", "0").css("border", "none").css("font-weight", "bold").css("outline","none").addClass("use-list-rating");
-						tdElement2.append(input3);
-						newRow.append(tdElement2);
-						const tdElement3 = $("<td></td>");
-						const deleteButton = $("<button></button>").addClass("btn btn-danger").text("삭제").attr("onclick","javascript:deleteButton()").attr("type","button");
+	// 					const tdElement1 = $("<td></td>").addClass("t-submit ps-4 align-middle");
+	// 					const input2 = $("<input>").attr("type", "text").attr("readonly", true).attr("disabled", true).attr("value", selectValue).css("border","none").css("font-weight","bold").css("background-color", "inherit").addClass("use-list-name");
+	// 					tdElement1.append(input2);
+	// 					newRow.append(tdElement1);
+	// 					const tdElement2 = $("<td></td>").addClass("align-middle");
+	// 					const input3 = $("<input>").attr("type", "number").attr("required", true).attr("placeholder", "0~100").attr("max", "100").attr("min", "0").css("border", "none").css("font-weight", "bold").css("outline","none").addClass("use-list-rating");
+	// 					tdElement2.append(input3);
+	// 					newRow.append(tdElement2);
+	// 					const tdElement3 = $("<td></td>");
+	// 					const deleteButton = $("<button></button>").addClass("btn btn-danger").text("삭제").attr("onclick","javascript:deleteButton()").attr("type","button");
 						
-						tdElement3.append(deleteButton);
-						newRow.append(tdElement3);
-						// $(document).on("input",".use-list-rating",listRating(e))
+	// 					tdElement3.append(deleteButton);
+	// 					newRow.append(tdElement3);
+	// 					// $(document).on("input",".use-list-rating",listRating(e))
 						
 						
 
-						const tableBody = $(".table-body");
-							const lastRow = tableBody.find("tr:last");
-							if (lastRow.length > 0) {
-								lastRow.after(newRow);
-							} else {
-								tableBody.append(newRow);
-							}
+	// 					const tableBody = $(".table-body");
+	// 						const lastRow = tableBody.find("tr:last");
+	// 						if (lastRow.length > 0) {
+	// 							lastRow.after(newRow);
+	// 						} else {
+	// 							tableBody.append(newRow);
+	// 						}
 						
 						
-						elem.css("color","red");
-					}
-				}else{
-					const removeTr = $(".table-list-names").filter(function() {
-						return $(this).find(".use-list-name").val() === selectValue;
-					});
-					removeTr.remove();		
-					elem.css("color","rgb(33,37,41)");
-				}
+	// 					elem.css("color","red");
+	// 				}
+	// 			}else{
+	// 				const removeTr = $(".table-list-names").filter(function() {
+	// 					return $(this).find(".use-list-name").val() === selectValue;
+	// 				});
+	// 				removeTr.remove();		
+	// 				elem.css("color","rgb(33,37,41)");
+	// 			}
 			
-			})
-		});
+	// 		})
+	// 	});
 		
-	});
+	// });
 	
-	$(".list-work").on("click", function(e) {
-		const works = {
-			"2D 그래픽": ["CAD", "Illustrator", "PhotoShop","2D그래픽 기타"],
-			"3D 그래픽": ["Cinema 4D", "Blender", "3DS MAX","3D그래픽 기타"],
-			코딩: ["Web Publicing", "Embedded", "VSC","코딩 기타"],
-			영상편집: ["Premiere pro", "DaVinci Resolve", "PowerDirector","영상편집 기타"],
-			문서작업: ["Excel", "CAPS CCTV", "SAP ERP","문서작업 기타"]
-		};
+	// $(".list-work").on("click", function(e) {
+	// 	const works = {
+	// 		"2D 그래픽": ["CAD", "Illustrator", "PhotoShop","2D그래픽 기타"],
+	// 		"3D 그래픽": ["Cinema 4D", "Blender", "3DS MAX","3D그래픽 기타"],
+	// 		코딩: ["Web Publicing", "Embedded", "VSC","코딩 기타"],
+	// 		영상편집: ["Premiere pro", "DaVinci Resolve", "PowerDirector","영상편집 기타"],
+	// 		문서작업: ["Excel", "CAPS CCTV", "SAP ERP","문서작업 기타"]
+	// 	};
 
-		const HTMLs = $(e.target).html();
-		$(".collector-name").html(HTMLs);
+	// 	const HTMLs = $(e.target).html();
+	// 	$(".collector-name").html(HTMLs);
 
-		if (works.hasOwnProperty(HTMLs)) {
-			[$(".t-name-first"), $(".t-name-second"), $(".t-name-third"), $(".t-name-fourth")].forEach((elem, index) => {
-			elem.html(works[HTMLs][index]);
-			});
-		}
+	// 	if (works.hasOwnProperty(HTMLs)) {
+	// 		[$(".t-name-first"), $(".t-name-second"), $(".t-name-third"), $(".t-name-fourth")].forEach((elem, index) => {
+	// 		elem.html(works[HTMLs][index]);
+	// 		});
+	// 	}
 
-		[$(".t-name-first"), $(".t-name-second"), $(".t-name-third"), $(".t-name-fourth")].forEach((elem, index) => {
-			elem.off("click").on("click", () => {
-				const selectedKey = $(".collector-name").text();
-				const selectValue = elem.text();
-				if(elem.css("color") === "rgb(33, 37, 41)"){
-					const isDuplicate = $(".use-list-name").toArray().some(element => $(element).val() === selectValue);
-					if (isDuplicate && !elem.data("duplicateChecked")) {
-						elem.data("duplicateChecked", true);
-						alert("중복된 요소입니다. 다른 값을 선택해주세요.");
-					}else if(!isDuplicate){
-						elem.data("duplicateChecked", false);
-						const newRow = $("<tr></tr>").css("display","none").addClass("table-list-names");
+	// 	[$(".t-name-first"), $(".t-name-second"), $(".t-name-third"), $(".t-name-fourth")].forEach((elem, index) => {
+	// 		elem.off("click").on("click", () => {
+	// 			const selectedKey = $(".collector-name").text();
+	// 			const selectValue = elem.text();
+	// 			if(elem.css("color") === "rgb(33, 37, 41)"){
+	// 				const isDuplicate = $(".use-list-name").toArray().some(element => $(element).val() === selectValue);
+	// 				if (isDuplicate && !elem.data("duplicateChecked")) {
+	// 					elem.data("duplicateChecked", true);
+	// 					alert("중복된 요소입니다. 다른 값을 선택해주세요.");
+	// 				}else if(!isDuplicate){
+	// 					elem.data("duplicateChecked", false);
+	// 					const newRow = $("<tr></tr>").css("display","none").addClass("table-list-names");
 
-						const thElement = $("<th></th>").attr("scope", "row").addClass("ps-3 align-middle");
-						const input1 = $("<input>").attr("type", "text").attr("readonly", true).attr("disabled", true).attr("value", selectedKey).css("border","none").css("text-align","center").css("font-weight","bold").css("background-color", "inherit").addClass("use-list-genre");
-						thElement.append(input1);
-						newRow.append(thElement);
+	// 					const thElement = $("<th></th>").attr("scope", "row").addClass("ps-3 align-middle");
+	// 					const input1 = $("<input>").attr("type", "text").attr("readonly", true).attr("disabled", true).attr("value", selectedKey).css("border","none").css("text-align","center").css("font-weight","bold").css("background-color", "inherit").addClass("use-list-genre");
+	// 					thElement.append(input1);
+	// 					newRow.append(thElement);
 
-						const tdElement1 = $("<td></td>").addClass("t-submit ps-4 align-middle");
-						const input2 = $("<input>").attr("type", "text").attr("readonly", true).attr("disabled", true).attr("value", selectValue).css("border","none").css("font-weight","bold").css("background-color", "inherit").addClass("use-list-name");
-						tdElement1.append(input2);
-						newRow.append(tdElement1);
-						const tdElement2 = $("<td></td>").addClass("align-middle");
-						const input3 = $("<input>").attr("type", "number").attr("required", true).attr("placeholder", "0~100").attr("max", "100").attr("min", "0").css("border", "none").css("font-weight", "bold").css("outline","none").addClass("use-list-rating");
-						tdElement2.append(input3);
-						newRow.append(tdElement2);
-						const tdElement3 = $("<td></td>");
-						const deleteButton = $("<button></button>").addClass("btn btn-danger").text("삭제");
-						deleteButton.on("click", () => {
-							newRow.remove();
-							if ($(".table-body").find("tr").length === 0) {
-								$(".table-container").css("display", "none");
-								forms.append(delInput);
-								forms.removeClass("was-validated");
-							}
-						});
-						tdElement3.append(deleteButton);
-						newRow.append(tdElement3);
-						$(document).on('input',".use-list-rating",function(e) {
-							const value = parseInt($(e.target).val(), 10) || 0;
-							if (value > 100) {
-								alert('100 이하로 입력해주세요!');
-								$(e.target).val('');
-							} else if (value < 1){
-								$(e.target).val('');
-								alert("1 이상입니다~")
-							}
+	// 					const tdElement1 = $("<td></td>").addClass("t-submit ps-4 align-middle");
+	// 					const input2 = $("<input>").attr("type", "text").attr("readonly", true).attr("disabled", true).attr("value", selectValue).css("border","none").css("font-weight","bold").css("background-color", "inherit").addClass("use-list-name");
+	// 					tdElement1.append(input2);
+	// 					newRow.append(tdElement1);
+	// 					const tdElement2 = $("<td></td>").addClass("align-middle");
+	// 					const input3 = $("<input>").attr("type", "number").attr("required", true).attr("placeholder", "0~100").attr("max", "100").attr("min", "0").css("border", "none").css("font-weight", "bold").css("outline","none").addClass("use-list-rating");
+	// 					tdElement2.append(input3);
+	// 					newRow.append(tdElement2);
+	// 					const tdElement3 = $("<td></td>");
+	// 					const deleteButton = $("<button></button>").addClass("btn btn-danger").text("삭제");
+	// 					deleteButton.on("click", () => {
+	// 						newRow.remove();
+	// 						if ($(".table-body").find("tr").length === 0) {
+	// 							$(".table-container").css("display", "none");
+	// 							forms.append(delInput);
+	// 							forms.removeClass("was-validated");
+	// 						}
+	// 					});
+	// 					tdElement3.append(deleteButton);
+	// 					newRow.append(tdElement3);
+	// 					$(document).on('input',".use-list-rating",function(e) {
+	// 						const value = parseInt($(e.target).val(), 10) || 0;
+	// 						if (value > 100) {
+	// 							alert('100 이하로 입력해주세요!');
+	// 							$(e.target).val('');
+	// 						} else if (value < 1){
+	// 							$(e.target).val('');
+	// 							alert("1 이상입니다~")
+	// 						}
 
-							let total = 0; 
-							$('.use-list-rating').each(function() {
-								total += parseInt($(this).val(), 10) || 0;
-							});
+	// 						let total = 0; 
+	// 						$('.use-list-rating').each(function() {
+	// 							total += parseInt($(this).val(), 10) || 0;
+	// 						});
 
-							if (total > 100) {
-								alert('100 이하로 입력해주세요!!');
-								$('.use-list-rating').val('');
-							}
-						});
+	// 						if (total > 100) {
+	// 							alert('100 이하로 입력해주세요!!');
+	// 							$('.use-list-rating').val('');
+	// 						}
+	// 					});
 						
 
-						const tableBody = $(".table-body");
-							const lastRow = tableBody.find("tr:last");
-							if (lastRow.length > 0) {
-								lastRow.after(newRow);
-							} else {
-								tableBody.append(newRow);
-							}
+	// 					const tableBody = $(".table-body");
+	// 						const lastRow = tableBody.find("tr:last");
+	// 						if (lastRow.length > 0) {
+	// 							lastRow.after(newRow);
+	// 						} else {
+	// 							tableBody.append(newRow);
+	// 						}
 						
-						elem.css("color","red");
-					}
-				}else{
-					const removeTr = $(".table-list-names").filter(function() {
-						return $(this).find(".use-list-name").val() === selectValue;
-					});
-					removeTr.remove();		
-					elem.css("color","rgb(33,37,41)");
-				}
+	// 					elem.css("color","red");
+	// 				}
+	// 			}else{
+	// 				const removeTr = $(".table-list-names").filter(function() {
+	// 					return $(this).find(".use-list-name").val() === selectValue;
+	// 				});
+	// 				removeTr.remove();		
+	// 				elem.css("color","rgb(33,37,41)");
+	// 			}
 				
-			})
-		});
-	});
+	// 		})
+	// 	});
+	// });
 	
 	
 	
@@ -610,13 +610,21 @@
 									  </tr>
 									</thead>
 									<tbody id="label-table">
-									  <tr>
-										<td>
-											<input type="checkbox" class="btn-check" id="btn-check" autocomplete="off">
-											<label class="t-name-first" for="btn-check"></label>
-										</td>
-									  </tr>
-									  <tr>
+										<c:forEach var="processResourceMasterVO" items="${processResourceMasterVOList}">
+    <p>ID: ${processResourceMasterVO.id}</p>
+    <p>Process LG CD: ${processResourceMasterVO.processLgCd}</p>
+    <p>Process Type Exclusive CD: ${processResourceMasterVO.processTypeExclusiveCd}</p>
+    <p>Process Name: ${processResourceMasterVO.processName}</p>
+</c:forEach>
+										<!-- <c:forEach var="processResourceMasterVO" items="${processResourceMasterVOList}">
+											<tr>
+												<td>
+													<input type="checkbox" class="btn-check" id="btn-check" autocomplete="off">
+													<label class="t-name" for="btn-check">${processResourceMasterVO.processName}</label>
+												</td>
+											  </tr>
+										</c:forEach> -->
+									  <!-- <tr>
 										<td>
 											<input type="checkbox" class="btn-check" id="btn-check" autocomplete="off">
 											<label class="t-name-second" for="btn-check"></label>
@@ -633,7 +641,7 @@
 											<input type="checkbox" class="btn-check" id="btn-check" autocomplete="off">
 											<label class="t-name-fourth" for="btn-check"></label>
 										</td>
-									  </tr>
+									  </tr> -->
 									</tbody>
 								  </table>
 								</div>
