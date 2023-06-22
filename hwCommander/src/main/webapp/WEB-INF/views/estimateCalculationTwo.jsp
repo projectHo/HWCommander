@@ -22,6 +22,11 @@
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
+	   var test = ${processResourceMasterVOList};
+    
+    for(var i = 0; i < test.length; i++) {
+      console.log(test[i].processName);
+    }
 	const labelTable = $("#label-table");
 	const labels = labelTable.find("label");
 	const noResultRow = $("<tr>");
@@ -610,17 +615,11 @@
 									  </tr>
 									</thead>
 									<tbody id="label-table">
-										<c:forEach var="processResourceMasterVO" items="${processResourceMasterVOList}">
-    <p>ID: ${processResourceMasterVO.id}</p>
-    <p>Process LG CD: ${processResourceMasterVO.processLgCd}</p>
-    <p>Process Type Exclusive CD: ${processResourceMasterVO.processTypeExclusiveCd}</p>
-    <p>Process Name: ${processResourceMasterVO.processName}</p>
-</c:forEach>
 										<!-- <c:forEach var="processResourceMasterVO" items="${processResourceMasterVOList}">
 											<tr>
 												<td>
 													<input type="checkbox" class="btn-check" id="btn-check" autocomplete="off">
-													<label class="t-name" for="btn-check">${processResourceMasterVO.processName}</label>
+													<label class="t-name" for="btn-check"></label>
 												</td>
 											  </tr>
 										</c:forEach> -->
