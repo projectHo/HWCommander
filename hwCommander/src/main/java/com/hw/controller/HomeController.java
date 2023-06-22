@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hw.model.ProcessResourceMasterVO;
+import com.hw.model.ProcessResourceTypeCodeInfoVO;
 import com.hw.model.UserInfoVO;
 import com.hw.service.ProductService;
 
@@ -422,10 +423,6 @@ public class HomeController {
 		
 		processResourceMasterVOList.add(processResourceMasterVO41);
 		
-		
-		
-		
-		
 		ObjectMapper mapper = new ObjectMapper();
 		String tempJson = "";
 		try {
@@ -434,7 +431,87 @@ public class HomeController {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		
+		List<ProcessResourceTypeCodeInfoVO> processResourceTypeCodeInfoVOList = new ArrayList<>();
+		
+		ProcessResourceTypeCodeInfoVO processResourceTypeCodeInfoVO = new ProcessResourceTypeCodeInfoVO();
+		processResourceTypeCodeInfoVO.setProcessTypeExclusiveCd("PT01");
+		processResourceTypeCodeInfoVO.setProcessTypeExclusiveCdNm("FPS");
+		processResourceTypeCodeInfoVO.setProcessLgCd("01");
+		
+		processResourceTypeCodeInfoVOList.add(processResourceTypeCodeInfoVO);
+		
+		ProcessResourceTypeCodeInfoVO processResourceTypeCodeInfoVO2 = new ProcessResourceTypeCodeInfoVO();
+		processResourceTypeCodeInfoVO2.setProcessTypeExclusiveCd("PT02");
+		processResourceTypeCodeInfoVO2.setProcessTypeExclusiveCdNm("AOS");
+		processResourceTypeCodeInfoVO2.setProcessLgCd("01");
+		
+		processResourceTypeCodeInfoVOList.add(processResourceTypeCodeInfoVO2);
+		
+		ProcessResourceTypeCodeInfoVO processResourceTypeCodeInfoVO3 = new ProcessResourceTypeCodeInfoVO();
+		processResourceTypeCodeInfoVO3.setProcessTypeExclusiveCd("PT03");
+		processResourceTypeCodeInfoVO3.setProcessTypeExclusiveCdNm("RPG");
+		processResourceTypeCodeInfoVO3.setProcessLgCd("01");
+		
+		processResourceTypeCodeInfoVOList.add(processResourceTypeCodeInfoVO3);
+		
+		ProcessResourceTypeCodeInfoVO processResourceTypeCodeInfoVO4 = new ProcessResourceTypeCodeInfoVO();
+		processResourceTypeCodeInfoVO4.setProcessTypeExclusiveCd("PT04");
+		processResourceTypeCodeInfoVO4.setProcessTypeExclusiveCdNm("RTS");
+		processResourceTypeCodeInfoVO4.setProcessLgCd("01");
+		
+		processResourceTypeCodeInfoVOList.add(processResourceTypeCodeInfoVO4);
+		
+		ProcessResourceTypeCodeInfoVO processResourceTypeCodeInfoVO5 = new ProcessResourceTypeCodeInfoVO();
+		processResourceTypeCodeInfoVO5.setProcessTypeExclusiveCd("PT05");
+		processResourceTypeCodeInfoVO5.setProcessTypeExclusiveCdNm("레이싱");
+		processResourceTypeCodeInfoVO5.setProcessLgCd("01");
+		
+		processResourceTypeCodeInfoVOList.add(processResourceTypeCodeInfoVO5);
+		
+		ProcessResourceTypeCodeInfoVO processResourceTypeCodeInfoVO6 = new ProcessResourceTypeCodeInfoVO();
+		processResourceTypeCodeInfoVO6.setProcessTypeExclusiveCd("PT06");
+		processResourceTypeCodeInfoVO6.setProcessTypeExclusiveCdNm("2D그래픽");
+		processResourceTypeCodeInfoVO6.setProcessLgCd("02");
+		
+		processResourceTypeCodeInfoVOList.add(processResourceTypeCodeInfoVO6);
+		
+		ProcessResourceTypeCodeInfoVO processResourceTypeCodeInfoVO7 = new ProcessResourceTypeCodeInfoVO();
+		processResourceTypeCodeInfoVO7.setProcessTypeExclusiveCd("PT07");
+		processResourceTypeCodeInfoVO7.setProcessTypeExclusiveCdNm("3D그래픽");
+		processResourceTypeCodeInfoVO7.setProcessLgCd("02");
+		
+		processResourceTypeCodeInfoVOList.add(processResourceTypeCodeInfoVO7);
+		
+		ProcessResourceTypeCodeInfoVO processResourceTypeCodeInfoVO8 = new ProcessResourceTypeCodeInfoVO();
+		processResourceTypeCodeInfoVO8.setProcessTypeExclusiveCd("PT08");
+		processResourceTypeCodeInfoVO8.setProcessTypeExclusiveCdNm("코딩");
+		processResourceTypeCodeInfoVO8.setProcessLgCd("02");
+		
+		processResourceTypeCodeInfoVOList.add(processResourceTypeCodeInfoVO8);
+		
+		ProcessResourceTypeCodeInfoVO processResourceTypeCodeInfoVO9 = new ProcessResourceTypeCodeInfoVO();
+		processResourceTypeCodeInfoVO9.setProcessTypeExclusiveCd("PT09");
+		processResourceTypeCodeInfoVO9.setProcessTypeExclusiveCdNm("영상편짐");
+		processResourceTypeCodeInfoVO9.setProcessLgCd("02");
+		
+		processResourceTypeCodeInfoVOList.add(processResourceTypeCodeInfoVO9);
+		
+		ProcessResourceTypeCodeInfoVO processResourceTypeCodeInfoVO10 = new ProcessResourceTypeCodeInfoVO();
+		processResourceTypeCodeInfoVO10.setProcessTypeExclusiveCd("PT10");
+		processResourceTypeCodeInfoVO10.setProcessTypeExclusiveCdNm("문서작업");
+		processResourceTypeCodeInfoVO10.setProcessLgCd("02");
+		
+		processResourceTypeCodeInfoVOList.add(processResourceTypeCodeInfoVO10);
+		
+		
 		model.addAttribute("processResourceMasterVOList", tempJson);
+		
+		
+		model.addAttribute("processResourceTypeCodeInfoVOList", processResourceTypeCodeInfoVOList);
+		
+		
 		
 		return userLoginCheck(request, model, "estimateCalculationTwo");
 	}

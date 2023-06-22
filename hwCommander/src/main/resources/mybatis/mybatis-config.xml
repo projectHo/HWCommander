@@ -27,6 +27,7 @@
 		
 		<!-- Process Resource -->
 		<typeAlias alias="processResourceMasterVO" type="com.hw.model.ProcessResourceMasterVO"></typeAlias>
+		<typeAlias alias="processResourceTypeCodeInfoVO" type="com.hw.model.ProcessResourceTypeCodeInfoVO"></typeAlias>
 		
 		<!-- 완본체 -->
 		<typeAlias alias="productDetailVO" type="com.hw.model.ProductDetailVO"></typeAlias>
