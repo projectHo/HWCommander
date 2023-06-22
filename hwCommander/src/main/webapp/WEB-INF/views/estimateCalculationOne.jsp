@@ -22,80 +22,90 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
     <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
 
     <script>
-      var progress = 0;
-      
-      $(function () {
-        animateBackgroundColor();
-      });
+		var progress = 0;
+		function nextBtn() {
+			
+		}
+		function viewBtn() {
+			$(".calc-one-final").next().css("display","block");
+		}
+		function isValidate(event){
+			"use strict"
+			if (!$("#can-pay-val").val()) {
+				event.preventDefault();
+				event.stopPropagation();
+				console.log("false")
+			}else {
+				console.log("true")
+				event.preventDefault();
+				$(this).addClass("was-validated");
+				// let formData = { price: $("#can-pay-val").val()};
+				sessionStorage.setItem("formData",$("#can-pay-val").val());
+				window.location.href = "estimateCalculationTwo.do";
+				return true;
+			}
+		};
+			
+		function animateBackgroundColor() {
+			$(".donut-container").css(
+			"background",
+			"conic-gradient(#df22ee 0% " + progress + "%, #f2f2f2 100% 0%)"
+			);
 
-      function animateBackgroundColor() {
-        $(".donut-container").css(
-          "background",
-          "conic-gradient(#df22ee 0% " + progress + "%, #f2f2f2 100% 0%)"
-        );
+			if (progress < 100) {
+			progress += 3;
+			setTimeout(animateBackgroundColor, 20);
+			} else {
+				$(".donut-fill").html("1");
+			goToZero();
+			}
+		}
 
-        if (progress < 100) {
-          progress += 3;
-          setTimeout(animateBackgroundColor, 20);
-        } else {
-        	$(".donut-fill").html("1");
-          goToZero();
-        }
-      }
+		function goToZero() {
+			$(".donut-container").css(
+			"background",
+			"conic-gradient(#df22ee 0% " + progress + "%, #f2f2f2 100% 0%)"
+			);
+			progress -= 3;
+			if (progress > 0) {
+			setTimeout(goToZero, 20);
+			}
+		}
 
-      function goToZero() {
-        $(".donut-container").css(
-          "background",
-          "conic-gradient(#df22ee 0% " + progress + "%, #f2f2f2 100% 0%)"
-        );
-        progress -= 3;
-        if (progress > 0) {
-          setTimeout(goToZero, 20);
-        }
-      }
-      
-      $(document).ready(function() {
-    	  const tooltipTriggerList = $('[data-bs-toggle="tooltip"]');
-    	  const tooltipList = tooltipTriggerList.map(function() {
-    	    return new bootstrap.Tooltip($(this)[0]);
-    	  }).get();
-    	  
-    	  (() => {
-    	    "use strict";
-    	    const forms = $(".needs-validation");
-    	    forms.each(function() {
-    	      $(this).on("submit", function(event) {
-    	        if (!this.checkValidity()) {
-    	          event.preventDefault();
-    	          event.stopPropagation();
-    	        }
-    	        $(this).addClass("was-validated");
-    	      });
-    	    });
-    	  })();
-    	  
-    	  const calcOneSubmit = $(".calc-one-final");
-    	  const calcOneText = $(".calc-one-final-text");
-    	  calcOneSubmit.on("click", function() {
-    	    calcOneText.css("display", "block");
-    	  });
-    	  
-    	  const inputElement = $("#typingInput");
-    	  const text = "본체의 가용 예산 한도는 얼마입니까? (최대 500만원)";
-    	  let index = 0;
-    	  
-    	  function typeText() {
-    	    if (index < text.length) {
-    	      inputElement.val(function(i, val) {
-    	        return val + text.charAt(index);
-    	      });
-    	      index++;
-    	      setTimeout(typeText, 50);
-    	    }
-    	  }
-    	  
-    	  typeText();
-    	});
+		$(function () {
+
+			animateBackgroundColor();
+
+			const tooltipTriggerList = $('[data-bs-toggle="tooltip"]');
+			const tooltipList = tooltipTriggerList.map(function() {
+			return new bootstrap.Tooltip($(this)[0]);
+			}).get();
+			
+			const inputElement = $("#typingInput");
+			const text = "본체의 가용 예산 한도는 얼마입니까? (최대 500만원)";
+			let index = 0;
+			
+			function typeText() {
+				if (index < text.length) {
+					inputElement.val(function(i, val) {
+					return val + text.charAt(index);
+					});
+					index++;
+					setTimeout(typeText, 50);
+				}
+			}
+			
+			typeText();
+
+			if(sessionStorage.getItem("formData")){
+				$('#can-pay-val').val(sessionStorage.getItem("formData"));
+			}
+		});
+
+		
+		
+	  
+   
 
     </script>
   </head>
@@ -124,13 +134,13 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 		 				<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="0원으로 입력시 요구사항의 최소 견적으로 자동 산출됩니다." style="cursor:pointer">
 		 			</div>
 		 		</div>
-		 		<form class="needs-validation" action="/estimateCalculationTwo.do" novalidate>
+		 		<form class="needs-validation" onsubmit="return isValidate(event)" novalidate>
 			 		<div class="row pb-2">
 			 			<div class="col">
 			 				<div class="input-group has-validation text-end d-flex flex-end justify-content-center margin-center mb-5 w-50 calc-input-element">
-							  <input type="number" class="form-control input-field text-end w-50" min="0" max="500" placeholder="ex) 300" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required/>
+							  <input type="number" class="form-control input-field text-end w-50" min="0" max="500" placeholder="ex) 300" id="can-pay-val" aria-describedby="inputGroupPrepend" required/>
 							  <span class="input-group-text" id="inputGroupPrepend">만원</span>
-							  <div class="invalid-feedback fs-5" style="font-weight: bold;">정확한 금액을 입력해 주세요!</div>
+							  <div class="invalid-feedback fs-5 one-correct-price-text" style="font-weight: bold;">정확한 금액을 입력해 주세요!</div>
 							</div>
 			 			</div>
 			 		</div>
@@ -141,8 +151,8 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 	 			 -->
 	 			 		<div class="col"></div>
 			 			<div class="col">
-			 				<button type="button" class="form-control calc-one-final margin-center">견적 보기</button>
-	                		<div class="invalid-feedback fs-5 calc-one-final-text text-center" style="display: none; font-weight: bold;">2페이지 까지는 필수 질문입니다!</div>
+			 				<button type="button" class="form-control calc-one-final margin-center" onclick="javascript:viewBtn()">견적 보기</button>
+	                		<div class="invalid-feedback fs-5 calc-one-final-text text-center" style="display: none; font-weight: bold;">3페이지 까지는 필수 질문입니다!</div>
 			 			</div>
 			 			<div class="col">
 			 				<button type="submit" class="form-control margin-center w-50">다음 질문</button>
