@@ -505,11 +505,18 @@ public class HomeController {
 		
 		processResourceTypeCodeInfoVOList.add(processResourceTypeCodeInfoVO10);
 		
+		String tempInfoJson = "";
+		try {
+			tempInfoJson = mapper.writeValueAsString(processResourceTypeCodeInfoVOList);
+		} catch (JsonProcessingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		model.addAttribute("processResourceMasterVOList", tempJson);
 		
 		
-		model.addAttribute("processResourceTypeCodeInfoVOList", processResourceTypeCodeInfoVOList);
+		model.addAttribute("processResourceTypeCodeInfoVOList", tempInfoJson);
 		
 		
 		
