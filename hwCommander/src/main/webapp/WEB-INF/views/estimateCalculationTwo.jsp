@@ -22,9 +22,6 @@
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
-	
-	
-
 	function deleteButton(elem) {
 		var forms = $(".needs-validation");
 		const delInput = $("<input>").addClass("delete-input").attr("required",true).css("display","none");
@@ -104,7 +101,6 @@
 	};
 
 	function returnOnePage(){
-		var formData = JSON.parse(sessionStorage.getItem("formdata"));
 		window.location.href = "estimateCalculationOne.do";
 	}
 
