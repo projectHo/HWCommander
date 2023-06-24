@@ -64,9 +64,9 @@
 		if (value > 100) {
 			alert("100 이하로 입력해주세요!");
 			$(e.target).val('');
-		}else if (value < 1){
+		}else if (value < 0){
 			$(e.target).val('');
-			alert("1 이상입니다~")
+			alert("0 이상입니다~")
 		}
 
 		let total = 0; 
@@ -97,14 +97,10 @@
 
 
 
-		// const removableTr = $(".table-list-names").filter(function(){
-		// 	return $(this).css("display")==="none";
-		// });
-		// removableTr.remove();
-		// [$(".t-name-first"), $(".t-name-second"), $(".t-name-third"), $(".t-name-fourth")].forEach((elem)=>{
-		// 		elem.css("color","rgb(33,37,41)");
-		// 		elem.html("");
-		// })
+		const removableTr = $(".table-list-names").filter(function(){
+			return $(this).css("display")==="none";
+		});
+		removableTr.remove();
 	};
 
 	function returnOnePage(){
@@ -117,7 +113,7 @@
 		var modalList = ${processResourceMasterVOList};
 		
 		const clickedTab = id;
-		$(".collector-name").html($(elem).html());
+		$(".collector-name").html($(elem).html()).attr("id",$(elem).attr("id"));
 		for(let i = 0; i<=modalList.length;i++){
 			let paddingI = String(i+1).padStart(2,'0');
 			let checkData = dataBtn[i];
@@ -147,7 +143,6 @@
 		if($(elem).css("color") === "rgb(33, 37, 41)"){
 			tableIds.each(function () {
 				const elementId = $(this).attr("id");
-				console.log(isDuplicate)
 				if(elementId === clickedItemId){
 					isDuplicate = true;
 				}else{
@@ -161,8 +156,8 @@
 				$(elem).data("duplicateChecked", false);
 				const newRow = $("<tr></tr>").css("display","none").addClass("table-list-names");
 
-				const thElement = $("<th></th>").attr("scope", "row").addClass("ps-3 align-middle");
-				const input1 = $("<input>").attr("type", "text").attr("readonly", true).attr("disabled", true).attr("value", modalName).css("border","none").css("text-align","center").css("font-weight","bold").css("background-color", "inherit").addClass("use-list-genre");
+				const thElement = $("<th></th>").attr("scope", "row").addClass("text-center align-middle");
+				const input1 = $("<input>").attr("type", "text").attr("readonly", true).attr("disabled", true).attr("value", modalName).css("border","none").css("text-align","center").css("font-weight","bold").css("background-color", "inherit").addClass("use-list-genre").attr("id",$(".collector-name").attr("id"));
 				thElement.append(input1);
 				newRow.append(thElement);
 
@@ -171,7 +166,7 @@
 				tdElement1.append(input2);
 				newRow.append(tdElement1);
 				const tdElement2 = $("<td></td>").addClass("align-middle");
-				const input3 = $("<input>").attr("type", "number").attr("required", true).attr("placeholder", "0~100").attr("max", "100").attr("min", "0").css("border", "none").css("font-weight", "bold").css("outline","none").addClass("use-list-rating");
+				const input3 = $("<input>").attr("type", "number").attr("required", true).attr("placeholder", "0~100").attr("max", "100").attr("min", "0").css("border", "none").css("font-weight", "bold").css("outline","none").addClass("use-list-rating").attr("oninput","javascript:listRating(event)");
 				tdElement2.append(input3);
 				newRow.append(tdElement2);
 				const tdElement3 = $("<td></td>");
@@ -179,9 +174,6 @@
 				
 				tdElement3.append(deleteButton);
 				newRow.append(tdElement3);
-				// $(document).on("input",".use-list-rating",listRating(e))
-				
-				
 
 				const tableBody = $(".table-body");
 					const lastRow = tableBody.find("tr:last");
@@ -191,7 +183,6 @@
 						tableBody.append(newRow);
 					}
 				
-				
 				$(elem).css("color","red");
 			}
 		}else{
@@ -200,13 +191,86 @@
 			});
 			removeTr.remove();		
 			$(this).css("color","rgb(33,37,41)");
-			console.log("start4")
 		}
 	}
-	$(function () {
-		
-	animateDonutGauge();
 
+	function viewBtn() {
+		$(".calc-two-final-text").css("display","block");
+		setTimeout(() => {
+			$(".calc-two-final-text").css("display","none");
+		}, 3000);
+	}
+	$(function () {
+	// donut
+	animateDonutGauge();
+	// modal esc delete
+	$('#use-collector').off('keydown.dismiss.bs.modal');
+	// session set
+	if(sessionStorage.getItem("second-Data")){
+		$(".delete-input").remove();
+		const storedValues = JSON.parse(sessionStorage.getItem("second-Data"));
+		var dataBtn = ${processResourceTypeCodeInfoVOList};
+		var modalList = ${processResourceMasterVOList};
+		storedValues.forEach(val => {
+				
+			let itemHtml = "";
+			for (let i = 0 ; i<modalList.length; i++){
+				if(modalList[i].id === val[0]){
+					itemHtml = modalList[i].processName;
+				}
+			}
+			const itemId = val[0];
+
+			let genreName = "서핑";
+			for (let i = 0 ; i<dataBtn.length; i++){
+				if(dataBtn[i].processTypeExclusiveCd === val[2]){
+					genreName = dataBtn[i].processTypeExclusiveCdNm;
+				}
+			}
+
+			const newRow = $("<tr></tr>").css("display","none").addClass("table-list-names");
+
+			const thElement = $("<th></th>").attr("scope", "row").addClass("text-center align-middle");
+			const input1 = $("<input>").attr("type", "text").attr("readonly", true).attr("disabled", true).attr("value", genreName).css("border","none").css("text-align","center").css("font-weight","bold").css("background-color", "inherit").addClass("use-list-genre").attr("id",val[2]);
+			thElement.append(input1);
+			newRow.append(thElement);
+
+			const tdElement1 = $("<td></td>").addClass("t-submit ps-4 align-middle");
+			const input2 = $("<input>").attr("type", "text").attr("readonly", true).attr("disabled", true).attr("value", itemHtml).css("border","none").css("font-weight","bold").css("background-color", "inherit").addClass("use-list-name").attr("id",itemId);
+			tdElement1.append(input2);
+			newRow.append(tdElement1);
+			const tdElement2 = $("<td></td>").addClass("align-middle");
+			const input3 = $("<input>").attr("type", "number").attr("required", true).attr("placeholder", "0~100").attr("max", "100").attr("min", "0").css("border", "none").css("font-weight", "bold").css("outline","none").addClass("use-list-rating").attr("oninput","javascript:listRating(event)").attr("value",val[1]);
+			tdElement2.append(input3);
+			newRow.append(tdElement2);
+			const tdElement3 = $("<td></td>");
+			const deleteButton = $("<button></button>").addClass("btn btn-danger").text("삭제").attr("onclick","javascript:deleteButton(this)").attr("type","button");
+			
+			tdElement3.append(deleteButton);
+			newRow.append(tdElement3);
+
+			const tableBody = $(".table-body");
+			const lastRow = tableBody.find("tr:last");
+			if (lastRow.length > 0) {
+				lastRow.after(newRow);
+			} else {
+				tableBody.append(newRow);
+			}
+
+			const surfStateManage = $(".table-list-names").find("input");
+			for(let i = 0 ; i<surfStateManage.length; i++){
+				if(surfStateManage[i].value==="서핑"){
+					$("#work-surf").prop('checked', true);	
+				}
+			}
+		})
+		$("#use-collector").modal('hide');
+		$(".table-container").css("display", "block");
+		$(".table-list-names").css("display","table-row");
+		$(".delete-input").remove();
+		$("input#search-input").val('');
+		$("#label-table").find("tr").remove();
+	}
 	// search input
 	
 	const noResultText = document.createTextNode("일치하는 결과가 없습니다.");
@@ -217,7 +281,6 @@
 		const labels = labelTable.find("label");
 		const searchInput = $("#search-input").val().toLowerCase();
 		const matchedLabels = [];
-		console.log(labels);
 		labels.each(function() {
 			const label = $(this);
 			const labelName = label.text().toLowerCase();
@@ -227,7 +290,6 @@
 			}
 		});
 		for(let i = 0 ; i < labels.length; i++){
-			console.log(labels[i]);
 		}
 		const searchInputValue = $("#search-input").val().trim();
 		if (matchedLabels.length > 0) {
@@ -275,7 +337,7 @@
 	}).get();
 	
 	// add base input
-	$(".needs-validation").append($("<input>").attr({type: "text",class: "delete-input",required: true,style: "display:none;"}));
+	// $(".needs-validation").append($("<input>").attr({type: "text",class: "delete-input",required: true,style: "display:none;"}));
 	// typing question text
 	let index = 0;
 	function typeText() {
@@ -322,24 +384,24 @@
 			
 		const newRow = $("<tr></tr>");
 
-		const thElement = $("<th></th>").attr("scope", "row").addClass("ps-3 align-middle");
-		const input1 = $("<input>").attr("type", "text").attr("readonly", true).attr("disabled", true).attr("value", "서핑").css("border","none").css("text-align","center").css("font-weight","bold").css("background-color", "inherit").addClass("use-list-surf").attr("id","PR999999");
+		const thElement = $("<th></th>").attr("scope", "row").addClass("text-center align-middle");
+		const input1 = $("<input>").attr("type", "text").attr("readonly", true).attr("disabled", true).attr("value", "서핑").css("border","none").css("text-align","center").css("font-weight","bold").css("background-color", "inherit").addClass("use-list-genre");
 		thElement.append(input1);
 		newRow.append(thElement);
 
 		const tdElement1 = $("<td></td>").addClass("t-submit ps-4 align-middle");
-		const input2 = $("<input>").attr("type", "text").attr("readonly", true).attr("disabled", true).css("border","none").css("font-weight","bold").css("background-color", "inherit").addClass("use-list-name");
+		const input2 = $("<input>").attr("type", "text").attr("readonly", true).attr("disabled", true).css("border","none").css("font-weight","bold").css("background-color", "inherit").addClass("use-list-name").attr("id","PR999999");
 		tdElement1.append(input2);
 		newRow.append(tdElement1);
 
 		const tdElement2 = $("<td></td>").addClass("align-middle");
-		const input3 = $("<input>").attr("type", "number").attr("required", true).attr("placeholder", "0~100").attr("max", "100").attr("min", "0").css("border", "none").css("font-weight", "bold").css("outline","none").addClass("use-list-rating").attr("value","100");
+		const input3 = $("<input>").attr("type", "number").attr("required", true).attr("placeholder", "0~100").attr("max", "100").attr("min", "0").css("border", "none").css("font-weight", "bold").css("outline","none").addClass("use-list-rating");
 		$(document).on('input',".use-list-rating",function(e) {
 			const value = parseInt($(e.target).val(), 10) || 0;
 			if (value > 100) {
 				alert('100 이하로 입력해주세요!');
 				$(e.target).val('');
-			} else if (value < 1) {
+			} else if (value < 0) {
 				$(e.target).val('');
 				alert("1 이상입니다~!")
 			}
@@ -397,7 +459,6 @@
 					totalRating += parseInt($(this).val(), 10) || 0;
 				});
 				if ($(".table-container").css("display")==="block" && totalRating !== 100){
-					console.log(totalRating);
 					event.preventDefault();
 					calcTwoTextRating.css("display", "block");
 					setTimeout(() => {
@@ -411,6 +472,16 @@
 					}, 3000);
 				} else if (this.checkValidity() && totalRating === 100){
 					$(this).addClass("was-validated");
+					let value = [];
+					for(let i = 0 ; i<$(".use-list-name").length; i++){
+						let paddingI = String(i+1).padStart(2,'0');
+						let storageValue = [$(".use-list-name")[i].id,$(".use-list-rating")[i].value,$(".use-list-genre")[i].id];
+						value.push(storageValue);
+					}
+					if(sessionStorage.getItem("second-Data")){
+						sessionStorage.removeItem("second-Data");
+					}
+					sessionStorage.setItem("second-Data",JSON.stringify(value))
 				}
 			});
 		});
@@ -448,25 +519,13 @@
 				 				<div class="list-group mb-1 w-75 text-center">
 								  <button type="button" class="list-group-item list-group-item-action mb-3 bgc-disabled" disabled aria-current="true">게임</button>
 							    </div>
-				 				<div class="list-group mb-3 w-75 text-center list-game">
-								  <!-- <button type="button" class="list-group-item list-group-item-action list-game" data-bs-toggle="modal" data-bs-target="#use-collector"></button>
-								  <button type="button" class="list-group-item list-group-item-action list-game" data-bs-toggle="modal" data-bs-target="#use-collector"></button>
-								  <button type="button" class="list-group-item list-group-item-action list-game" data-bs-toggle="modal" data-bs-target="#use-collector"></button>
-								  <button type="button" class="list-group-item list-group-item-action list-game" data-bs-toggle="modal" data-bs-target="#use-collector"></button>
-								  <button type="button" class="list-group-item list-group-item-action list-game" data-bs-toggle="modal" data-bs-target="#use-collector"></button> -->
-								</div>
+				 				<div class="list-group mb-3 w-75 text-center list-game"></div>
 				 			</div>
 				 			<div class="col">
 				 				<div class="list-group mb-1 w-75 text-center margin-center">
 								  <button type="button" class="list-group-item list-group-item-action mb-3 bgc-disabled" disabled aria-current="true">작업</button>
 							    </div>
-				 				<div class="list-group mb-3 w-75 text-center margin-center list-work">
-								  <!-- <button type="button" class="list-group-item list-group-item-action list-work" data-bs-toggle="modal" data-bs-target="#use-collector"></button>
-								  <button type="button" class="list-group-item list-group-item-action list-work" data-bs-toggle="modal" data-bs-target="#use-collector"></button>
-								  <button type="button" class="list-group-item list-group-item-action list-work" data-bs-toggle="modal" data-bs-target="#use-collector"></button>
-								  <button type="button" class="list-group-item list-group-item-action list-work" data-bs-toggle="modal" data-bs-target="#use-collector"></button>
-								  <button type="button" class="list-group-item list-group-item-action list-work" data-bs-toggle="modal" data-bs-target="#use-collector"></button> -->
-								</div>
+				 				<div class="list-group mb-3 w-75 text-center margin-center list-work"></div>
 				 			</div>
 				 			<div class="col d-flex justify-content-end">
 				 				<div class="list-group mb-1 w-75 text-center">
@@ -475,8 +534,7 @@
 							    </div>
 				 			</div>
 						</div>
-						<form class="needs-validation" action="#" novalidate>
-							<!-- <input type="text" class="delete-input" required style="display:none;"> -->
+						<form class="needs-validation" action="estimateCalculationThree.do" novalidate>
 							<div class="row table-style p-1 mb-3 table-container" style="display: none;">
 								<div class="container">
 									<table class="table table-submit">
@@ -488,36 +546,7 @@
 												<th scope="col" style="width:10%"></th>
 											</tr>
 										</thead>
-										<tbody class="table-body">
-											<!-- <c:forEach var="item" items="">
-												<tr class="table-list-names" style="display: none;">
-													<th scope="row" class="ps-3 align-middle">
-														<input type="text" class="use-list-genre" style="border:none; text-align:center;font-weight:bold;background-color:inherit;" disabled readpm;u>
-													</th>
-													<td class="t-submit ps-4 align-middle">
-														<input type="text" class="use-list-name" style="border: none; font-weight: bold; background-color: inherit; readonly disabled">
-													</td>
-													<td class="align-middle">
-														<input type="number" placeholder="0~100" max="100" min="0" class="use-list-rating" style="border: none; font-weight: bold; outline: none;" required>
-													</td>
-													<td>
-														<button class="btn btn-danger">삭제</button>
-													</td>
-												</tr>
-											</c:forEach> -->
-											<!-- <tr>
-												<th scope="row" class="ps-3">
-													<input type="text" required>
-												</th>
-												<td class="t-submit-first">
-													<input type="text" required>
-												</td>
-												<td class="t-submit">
-													<input type="number" required>
-												</td>
-												<td><button class="btn btn-danger delete-button">삭제</button></td>
-											</tr> -->
-										</tbody>
+										<tbody class="table-body"></tbody>
 									</table>
 								</div>
 							</div>
@@ -526,16 +555,18 @@
 									<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:returnOnePage()">이전 질문</button>
 								</div>
 								<div class="col">
-									<button type="submit" class="form-control calc-two-final margin-center">견적 보기</button>
+									<button type="button" class="form-control calc-two-final margin-center" onclick="javascript:viewBtn()">견적 보기</button>
+									<div class="invalid-feedback fs-5 calc-two-final-text text-center" style="display: none; font-weight: bold;">3페이지 까지는 필수 질문입니다!</div>
 									<div class="invalid-feedback fs-5 calc-two-final-text-use text-center" style="display: none; font-weight: bold;">사용 용도를 선택해주세요!</div>
-									<div class="invalid-feedback fs-5 calc-two-final-text-rating text-center" style="display: none; font-weight: bold;">비중을 정확하게 입력해주세요!(100%)</div>
+									<div class="invalid-feedback fs-5 calc-two-final-text-rating text-center" style="display: none; font-weight: bold;">비중을 100%로 맞춰주세요!</div>
 								</div>
 								<div class="col">
 									<button type="submit" class="form-control w-50 margin-left-auto">다음 질문</button>
 								</div>
 							</div>
+							<input type="text" class="delete-input" required style="display:none;">
 						</form>
-				 		<div class="modal fade" id="use-collector" tabindex="-1" aria-labelledby="collecter" aria-hidden="true" data-bs-backdrop="static">
+				 		<div class="modal fade" id="use-collector" tabindex="-1" aria-labelledby="collecter" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
 						  <div class="modal-dialog">
 						    <div class="modal-content">
 						      <div class="modal-header">
@@ -555,26 +586,7 @@
 										<th scope="col">이름</th>
 									  </tr>
 									</thead>
-									<tbody id="label-table">
-									  <!-- <tr>
-										<td>
-											<input type="checkbox" class="btn-check" id="btn-check" autocomplete="off">
-											<label class="t-name-second" for="btn-check"></label>
-										</td>
-									  </tr>
-									  <tr>
-										<td>
-											<input type="checkbox" class="btn-check" id="btn-check" autocomplete="off">
-											<label class="t-name-third" for="btn-check"></label>
-										</td>
-									  </tr>
-									  <tr>
-										<td>
-											<input type="checkbox" class="btn-check" id="btn-check" autocomplete="off">
-											<label class="t-name-fourth" for="btn-check"></label>
-										</td>
-									  </tr> -->
-									</tbody>
+									<tbody id="label-table"></tbody>
 								  </table>
 								</div>
 						      </div>

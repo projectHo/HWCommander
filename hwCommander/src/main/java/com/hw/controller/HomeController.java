@@ -493,7 +493,7 @@ public class HomeController {
 		
 		ProcessResourceTypeCodeInfoVO processResourceTypeCodeInfoVO9 = new ProcessResourceTypeCodeInfoVO();
 		processResourceTypeCodeInfoVO9.setProcessTypeExclusiveCd("PT09");
-		processResourceTypeCodeInfoVO9.setProcessTypeExclusiveCdNm("영상편짐");
+		processResourceTypeCodeInfoVO9.setProcessTypeExclusiveCdNm("영상편집");
 		processResourceTypeCodeInfoVO9.setProcessLgCd("02");
 		
 		processResourceTypeCodeInfoVOList.add(processResourceTypeCodeInfoVO9);
