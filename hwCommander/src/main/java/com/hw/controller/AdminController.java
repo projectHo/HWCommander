@@ -35,6 +35,7 @@ import com.hw.model.ProductMasterVO;
 import com.hw.model.UserInfoVO;
 import com.hw.service.AdminService;
 import com.hw.service.PartsService;
+import com.hw.service.ProcessResourceService;
 import com.hw.service.ProductService;
 
 @Controller
@@ -51,6 +52,9 @@ public class AdminController {
 	
 	@Autowired
     private ProductService productService;
+	
+	@Autowired
+    private ProcessResourceService processResourceService;
 	
 	@RequestMapping(value = "/main.do", method = RequestMethod.GET)
 	public String goAdminPageMain(HttpServletRequest request, Model model) {
@@ -543,6 +547,20 @@ public class AdminController {
 		productDetailVOList = objectMapper.readValue(productDetailVOListString, new TypeReference<List<ProductDetailVO>>() {});
 		
 		return productService.productUpdateLogic(productMasterVO, productDetailVOList);
+	}
+	
+	
+	/*--------------------------------------------------
+	 - PROCESS RESOURCE
+	*--------------------------------------------------*/
+	@RequestMapping(value = "/resourceTypeCodeManagement.do", method = RequestMethod.GET)
+	public String goResourceTypeCodeManagement(HttpServletRequest request, Model model) {
+		
+		
+		model.addAttribute("resourceTypeCodeList", processResourceService.getProcessResourceTypeCodeInfoAllList());
+		
+		
+		return adminLoginCheck(request, model, "resourceTypeCodeManagement");
 	}
 
 	private String adminLoginCheck(HttpServletRequest request, Model model, String url) {
