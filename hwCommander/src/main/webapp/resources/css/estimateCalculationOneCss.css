@@ -142,3 +142,106 @@ input[type="number"]::-webkit-inner-spin-button {
   background-color: #6c757d!important;
   color: #fff!important;
 }
+
+/* claculation Three style */
+
+.hex-progress{
+	width: 400px;
+	height: 480px;
+}
+
+.hex {
+  position: relative;
+}
+.hex::before{
+  content: "";
+  position: absolute;
+  top: 52%;
+  left: 46%;
+  transform: translate(-50%, -50%);
+  width: 4px;
+  height: 4px;
+  background-color: black;
+  border-radius: 50%;
+}
+.hex-progress .track, .hex-progress .fill,
+.small-hex-progress .track, .small-hex-progress .fill{
+	fill: rgba(0, 0, 0, 0);
+	stroke-width: 8;
+	transform: translate(290px, 800px)rotate(-120deg);
+}
+.hex-progress .track,.small-hex-progress .track{
+	stroke: rgb(56, 71, 83);
+}
+
+.hex-text{
+  position: absolute;
+}
+
+.hex-text1{ font-weight: bold; top: 40px; left: 56px;}
+.hex-text2{ font-weight: bold; top: 40px; right: 88px;}
+.hex-text3{ font-weight: bold; top: calc(50% - 11px); left: -32px;}
+.hex-text4{ font-weight: bold; top: calc(50% - 11px); right: -20px;}
+.hex-text5{ font-weight: bold; bottom: 28px; left: 52px;}
+.hex-text6{ font-weight: bold; bottom: 28px; right: 104px;}
+
+.small-hex-progress {
+  width: 200px;
+  height: 240px;
+  position: absolute;
+  top: calc(50% - 116px);
+  left: calc(50% - 116px);
+  cursor: pointer;
+}
+
+.hexagon-point {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background-color: #ff0000;
+  border-radius: 50%;
+  cursor: move;
+}
+#hexagon {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  margin: 0 auto;
+  border: 2px solid #000000;
+  overflow: hidden;
+}
+
+#hexFever{
+  transform: rotate(240deg);
+  top: 156px;
+  left: 60px;
+}
+#hexMaterial{
+  transform: rotate(-60deg);
+  top: 156px;
+  right: 88px;
+}
+#hexAs{
+  transform: rotate(180deg);
+  top: 236px;
+  left: 12px;
+}
+#hexNoise{
+  top: 236px;
+  right: 42px;
+}
+#hexStability{
+  transform: rotate(-60deg);
+  top: 315px;
+  left: 60px;
+}
+#hexQc{
+  transform: rotate(60deg);
+  top: 315px;
+  right: 88px;
+}
+
+.hex input {
+  position: absolute;
+  width: 43%;
+}

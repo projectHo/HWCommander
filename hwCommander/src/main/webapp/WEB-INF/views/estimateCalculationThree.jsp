@@ -8,9 +8,11 @@
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
 <link rel="stylesheet" href="/resources/css/main.css">
 <link rel="stylesheet" href="/resources/css/estimateCalculationOneCss.css">
-<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -65,57 +67,69 @@
 		window.location.href = "estimateCalculationTwo.do";
 	}
 	$(function () {
-	// bootstrap tooltip
-	const tooltipList = $('[data-bs-toggle="tooltip"]').map(function() {
-		return new bootstrap.Tooltip($(this)[0]);
-	}).get();
-	// donut
-	animateDonutGauge();
-	// modal esc delete
-	$('#use-collector').off('keydown.dismiss.bs.modal');
-	// submit
-	var forms = $(".needs-validation");
-	(function() {
-		"use strict";
-		const calcTwoTextUse = $(".calc-two-final-text-use");
-		const calcTwoTextRating = $(".calc-two-final-text-rating");
+		// bootstrap tooltip
+		const tooltipList = $('[data-bs-toggle="tooltip"]').map(function() {
+			return new bootstrap.Tooltip($(this)[0]);
+		}).get();
+		// donut
+		animateDonutGauge();
+		// modal esc delete
+		$('#use-collector').off('keydown.dismiss.bs.modal');
+		// submit
+		var forms = $(".needs-validation");
+		(function() {
+			"use strict";
+			const calcTwoTextUse = $(".calc-two-final-text-use");
+			const calcTwoTextRating = $(".calc-two-final-text-rating");
+
+			
+			forms.each(function() {
+				$(this).on("submit", function(event) {
+					const countRating = $('.use-list-rating').length;
+					let totalRating = 0;
+					$('.use-list-rating').each(function() {
+						totalRating += parseInt($(this).val(), 10) || 0;
+					});
+					if ($(".table-container").css("display")==="block" && totalRating !== 100){
+						event.preventDefault();
+						calcTwoTextRating.css("display", "block");
+						setTimeout(() => {
+							calcTwoTextRating.css("display", "none");
+						}, 3000);
+					}else if (!this.checkValidity()) {
+						event.preventDefault();
+						calcTwoTextUse.css("display", "block");
+						setTimeout(() => {
+							calcTwoTextUse.css("display", "none");
+						}, 3000);
+					} else if (this.checkValidity() && totalRating === 100){
+						$(this).addClass("was-validated");
+						let value = [];
+						for(let i = 0 ; i<$(".use-list-name").length; i++){
+							let paddingI = String(i+1).padStart(2,'0');
+							let storageValue = [$(".use-list-name")[i].id,$(".use-list-rating")[i].value,$(".use-list-genre")[i].id];
+							value.push(storageValue);
+						}
+						if(sessionStorage.getItem("second-Data")){
+							sessionStorage.removeItem("second-Data");
+						}
+						sessionStorage.setItem("second-Data",JSON.stringify(value))
+					}
+				});
+			});
+		})();
+		
+		// hex-process
+		const hex = $(".hex");
+
+		const hexFever = { x:641, y:727};
+		const hexMaterial = { x:732, y:727};
+		const hexAs = { x:778, y:807};
+		const hexNoise = { x:733, y:887};
+		const hexStability = { x:641, y:887};
+		const hexOc = { x:592, y:807};
 
 		
-		forms.each(function() {
-			$(this).on("submit", function(event) {
-				const countRating = $('.use-list-rating').length;
-				let totalRating = 0;
-				$('.use-list-rating').each(function() {
-					totalRating += parseInt($(this).val(), 10) || 0;
-				});
-				if ($(".table-container").css("display")==="block" && totalRating !== 100){
-					event.preventDefault();
-					calcTwoTextRating.css("display", "block");
-					setTimeout(() => {
-						calcTwoTextRating.css("display", "none");
-					}, 3000);
-				}else if (!this.checkValidity()) {
-					event.preventDefault();
-					calcTwoTextUse.css("display", "block");
-					setTimeout(() => {
-						calcTwoTextUse.css("display", "none");
-					}, 3000);
-				} else if (this.checkValidity() && totalRating === 100){
-					$(this).addClass("was-validated");
-					let value = [];
-					for(let i = 0 ; i<$(".use-list-name").length; i++){
-						let paddingI = String(i+1).padStart(2,'0');
-						let storageValue = [$(".use-list-name")[i].id,$(".use-list-rating")[i].value,$(".use-list-genre")[i].id];
-						value.push(storageValue);
-					}
-					if(sessionStorage.getItem("second-Data")){
-						sessionStorage.removeItem("second-Data");
-					}
-					sessionStorage.setItem("second-Data",JSON.stringify(value))
-				}
-			});
-		});
-	})();
 	})
 </script>
 </head>
@@ -145,7 +159,37 @@
 					</div>
 					<form class="needs-validation" action="#" novalidate>
 						<div class="row pb-2">
-							
+							<div class="col-6">
+								<div class="row">
+									<div class="hex-container">
+										<div class="hex m-4">
+											<svg class="hex-progress" viewBox="0 0 776 628">
+												<path class="track" d="M723 314L543 625.77 183 625.77 3 314 183 2.23 543 2.23 723 314z" ></path>
+												<path class="fill" d="M723 314L543 625.77 183 625.77 3 314 183 2.23 543 2.23 723 314z" stroke="url(#cl1)"></path>
+											</svg>
+											<div class="hex-text hex-text1 fs-4">발열</div>
+											<div class="hex-text hex-text2 fs-4">소재</div>
+											<div class="hex-text hex-text3 fs-4">AS</div>
+											<div class="hex-text hex-text4 fs-4">소음</div>
+											<div class="hex-text hex-text5 fs-4">안정성</div>
+											<div class="hex-text hex-text6 fs-4">QC</div>
+											<input type="range" class="form-range" min="0" max="2" step="0.01" id="hexFever">	
+											<input type="range" class="form-range" min="0" max="2" step="0.01" id="hexMaterial">	
+											<input type="range" class="form-range" min="0" max="2" step="0.01" id="hexAs">	
+											<input type="range" class="form-range" min="0" max="2" step="0.01" id="hexNoise">	
+											<input type="range" class="form-range" min="0" max="2" step="0.01" id="hexStability">	
+											<input type="range" class="form-range" min="0" max="2" step="0.01" id="hexQc">	
+										</div>
+									</div>
+								</div>
+								<div class="row justify-content-center" style="padding-right: 2.1rem;">
+									<input type="range" class="form-range w-50" min="0" max="2" step="0.01" id="customRange3">
+									<label for="customRange3" class="form-label text-center ms-2">가성비 <- 메인스트림 -> 프리미엄</label>
+								</div>
+							</div>
+							<div class="col-6">
+
+							</div>
 						</div>
 						<div class="row mb-4">
 							<div class="col">
