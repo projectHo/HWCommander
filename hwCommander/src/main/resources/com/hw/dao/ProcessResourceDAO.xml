@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="com.hw.dao.ProcessResourceDAO">
+
+	<insert id="insertProcessResourceTypeCodeInfoVO" parameterType="processResourceTypeCodeInfoVO">
+		INSERT INTO process_resource_type_cd_info
+		(
+			process_type_exclusive_cd
+			, process_type_exclusive_cd_nm
+			, process_lg_cd
+			, use_yn
+			, reg_dtm
+			, updt_dtm
+		)
+		VALUES
+		(
+			#{processTypeExclusiveCd}
+			, #{processTypeExclusiveCdNm}
+			, #{processLgCd}
+			, #{useYn}
+			, NOW()
+			, #{updtDtm}
+		)
+	</insert>
+	
+	<select id="getProcessResourceTypeCodeInfoAllList" resultType="processResourceTypeCodeInfoVO">
+		SELECT 
+			a.process_type_exclusive_cd                                                         AS processTypeExclusiveCd                
+			, a.process_type_exclusive_cd_nm                                                    AS processTypeExclusiveCdNm       
+			, a.process_lg_cd                                                                   AS processLgCd
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'COM004' AND cd = a.process_lg_cd) AS processLgCdNm
+			, a.use_yn                                                                          AS useYn      
+			, a.reg_dtm                                                                         AS regDtm            
+			, a.updt_dtm                                                                        AS updtDtm            
+		FROM
+			process_resource_type_cd_info a
+	</select>
+	
+	<select id="getProcessResourceTypeCodeInfoByProcessTypeExclusiveCd" parameterType="String" resultType="processResourceTypeCodeInfoVO">
+		SELECT 
+			a.process_type_exclusive_cd                                                         AS processTypeExclusiveCd                
+			, a.process_type_exclusive_cd_nm                                                    AS processTypeExclusiveCdNm       
+			, a.process_lg_cd                                                                   AS processLgCd
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'COM004' AND cd = a.process_lg_cd) AS processLgCdNm
+			, a.use_yn                                                                          AS useYn      
+			, a.reg_dtm                                                                         AS regDtm            
+			, a.updt_dtm                                                                        AS updtDtm     
+		FROM
+			process_resource_type_cd_info a
+		WHERE
+			a.process_type_exclusive_cd = #{processTypeExclusiveCd}
+	</select>
+	
+</mapper>
