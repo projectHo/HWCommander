@@ -66,6 +66,127 @@
 	function returnTwoPage() {
 		window.location.href = "estimateCalculationTwo.do";
 	}
+	
+	function hexagonDrag(){
+		const hexInputs = $(".hex input")
+		$("#hex-val-01").val(parseFloat($("#hexFever").val()).toFixed(2));
+		$("#hex-val-02").val(parseFloat($("#hexMaterial").val()).toFixed(2));
+		$("#hex-val-03").val(parseFloat($("#hexAs").val()).toFixed(2));
+		$("#hex-val-04").val(parseFloat($("#hexNoise").val()).toFixed(2));
+		$("#hex-val-05").val(parseFloat($("#hexStability").val()).toFixed(2));
+		$("#hex-val-06").val(parseFloat($("#hexQc").val()).toFixed(2));
+
+		$("#hex-val-total").val(parseFloat((Number($("#hex-val-01").val())+Number($("#hex-val-02").val())+Number($("#hex-val-03").val())+Number($("#hex-val-04").val())+Number($("#hex-val-05").val())+Number($("#hex-val-06").val()))/6).toFixed(2));
+	}
+	
+	function hexagonType(){
+		const hexInputs = $(".hex input");
+		const labelInputs = $("#hex-label").find("input");
+
+		for(let i = 0 ; i<labelInputs.length; i++){
+			if(labelInputs[i].value < 0 || labelInputs[i].value>2){
+				alert("0이상 2미만으로 입력해주세요!");
+				labelInputs[i].value = "1.00"
+			}
+		}
+		$("#hexFever").val(parseFloat($("#hex-val-01").val()).toFixed(2));
+		$("#hexMaterial").val(parseFloat($("#hex-val-02").val()).toFixed(2));
+		$("#hexAs").val(parseFloat($("#hex-val-03").val()).toFixed(2));
+		$("#hexNoise").val(parseFloat($("#hex-val-04").val()).toFixed(2));
+		$("#hexStability").val(parseFloat($("#hex-val-05").val()).toFixed(2));
+		$("#hexQc").val(parseFloat($("#hex-val-06").val()).toFixed(2));
+
+		
+		$("#hex-val-total").val(parseFloat((Number($("#hex-val-01").val())+Number($("#hex-val-02").val())+Number($("#hex-val-03").val())+Number($("#hex-val-04").val())+Number($("#hex-val-05").val())+Number($("#hex-val-06").val()))/(6)).toFixed(2));
+	}
+	let prevTotalVal = 1;
+	function totalValue(){
+		
+		let count = 6;
+		const hexInputs = $(".hex input");
+		const labelInputs = $("#hex-label").find("input");
+		
+		const totalVal = Number(parseFloat($("#hex-val-total").val()).toFixed(2));
+		const allInputs = (Number($("#hex-val-01").val())+Number($("#hex-val-02").val())+Number($("#hex-val-03").val())+Number($("#hex-val-04").val())+Number($("#hex-val-05").val())+Number($("#hex-val-06").val()))/6;
+
+		if($("#hex-val-total").val() ==="0"){
+			for(let i = 0 ; i<hexInputs.length; i++){
+				hexInputs[i].value = "0.00"
+				labelInputs[i].value = "0.00"
+			}
+		}else if($("#hex-val-total").val() ==="2"){
+			for(let i = 0 ; i<hexInputs.length; i++){
+				hexInputs[i].value = "2.00"
+				labelInputs[i].value = "2.00"
+			}
+		}else {
+			if(totalVal<allInputs){
+				for(let i = 0 ; i<hexInputs.length; i++){
+					if(hexInputs[i].value === "0"){
+						count--;
+					}
+				}
+				
+				for(let i = 0 ; i<hexInputs.length; i++){
+					let inputVal = labelInputs[i].value;
+					if(Number(inputVal) > 0){
+						let hexVal = Number(hexInputs[i].value) - (Math.abs(prevTotalVal - totalVal))
+						let inputVal = Number(labelInputs[i].value) - Number(parseFloat(Math.abs(prevTotalVal - totalVal)).toFixed(2))
+						hexInputs[i].value = String(hexVal);
+						labelInputs[i].value = String(parseFloat(inputVal).toFixed(2));
+						if(Number(inputVal) < 0){
+							labelInputs[i].value = "0.00";
+						}else if(Number(inputVal)>2){
+							labelInputs[i].value = "2.00"
+						}
+					}
+				}
+			}else if(totalVal>allInputs){
+				for(let i = 0 ; i<hexInputs.length; i++){
+					if(hexInputs[i].value === "2"){
+						count--;
+					}
+				}
+				for(let i = 0 ; i<hexInputs.length; i++){
+					let inputVal = labelInputs[i].value;
+					if(Number(inputVal) < 2){
+						let hexVal = Number(hexInputs[i].value) + Number((Math.abs(prevTotalVal - totalVal)))
+						let inputVal = Number(labelInputs[i].value)+Number(parseFloat(Math.abs(prevTotalVal - totalVal)).toFixed(2))
+						hexInputs[i].value = String(hexVal);
+						labelInputs[i].value = String(parseFloat(inputVal).toFixed(2));
+						if(Number(inputVal) < 0){
+							labelInputs[i].value = "0.00";
+						}else if(Number(inputVal)>2){
+							labelInputs[i].value = "2.00"
+						}
+					}
+				}
+			
+			}
+			prevTotalVal = totalVal;
+		}
+		
+	}
+	// explane-area
+	function mouseEnter(elem){
+		const elemHtml = $(elem).html();
+		if(elemHtml === "발열"){
+			$("#explane-area").html("발열 : 제품을 낮은 온도로 유지해줄 발열제어능력을 의미합니다.0일 때 온전한 성능을 발휘할 수 있는 최소한의 쿨러만 설치되며, 2일 때 예산을 초과편성하지 않는 선에서의 최고의 쿨링성능을 제공합니다.")
+		}else if(elemHtml ==="소재"){
+			$("#explane-area").html("소재 : 하드웨어적 제품 가치를 의미합니다.강판의 종류, 두께, 강도, 열전도율, 베어링 방식, 방열판 구조, 쿨링솔루션 등을 의미합니다.0일 때 소재를 전혀 고려하지 않고 호환성만 검토하며, 2일 때 하드웨어적으로 완성에 가까운 제품을 선정하게 됩니다.")
+		}else if(elemHtml === "소음"){
+			$("#explane-area").html("소음 : 제품의 상세설명 상 표기 데시벨을 점수화하여 기록된 자료입니다.Beta버전으로, 실측 테스트가 진행되지 않아 알고리즘 연산식에서 배제됩니다.수치 변동에 따라 제품 선정 변경점이 존재하지 않습니다.")
+		}else if(elemHtml === "QC"){
+			$("#explane-area").html("QC : 제품의 결함율을 나타냅니다.\n단순한 출고 결함율만이 아닌 최근 해당 제품 혹은 제품의 제조사, 제품군의 라인업/칩셋 등의 이슈를 다룹니다.\n0일 때 당장의 리콜/판매금지 제품을 제외하곤 모든 가능성을 열어두며, 2일 때 이름값을 다소 지불하더라도 입증된 메이저 제품군만을 취급합니다.")
+		}else if(elemHtml === "안정성"){
+			$("#explane-area").html("안정성 : 제품의 성능을 온전하게 유지하고 수명을 올려줄 모든 수단을 의미합니다.\n0일 때 가격대비 퍼포먼스 표기 성능이 가장 높은 제품을 선택하고, 2일 때 제품의 체급을 낮춰서라도 프리미엄 라인업을 선정합니다.")
+		}else if(elemHtml === "AS"){
+			$("#explane-area").html("AS : 제품들의 사후처리 가능성을 나타냅니다.\n수리규정, 유통사 평판 등이 이에 해당합니다.\n0일 때 AS를 전혀 감안하지 않으며, 2일 때 AS의 가격가치를 제품 성능보다도 우선시합니다.")
+		}else {
+			$("#explane-area").html("가성비 : (깡통 독3사) 최소한의 기준치를 충족한 제품군들 중 성능만을 위해 예산을 소요합니다. 가격대 성능비가 가장 좋지만 체급에 비해 종합 안정성이 떨어집니다.\n\n메인스트림 : (필수옵션 소나타)해당 예산대의 평균적인 제품군을 선정합니다. 예산 내의 이상적인 견적을 받을 수 있습니다.\n\n프리미엄 : (풀옵 경차)예산에 비해 과한 제품 종합 안정성을 보장합니다. 각 라인업별 최고의 제품들만 선별하여 활용하겠지만, 성능은 돈값을 못한다는 이야기를 듣기 쉽습니다.");
+		}
+	}
+
 	$(function () {
 		// bootstrap tooltip
 		const tooltipList = $('[data-bs-toggle="tooltip"]').map(function() {
@@ -120,16 +241,39 @@
 		})();
 		
 		// hex-process
-		const hex = $(".hex");
+		// const hex = $(".hex");
 
-		const hexFever = { x:641, y:727};
-		const hexMaterial = { x:732, y:727};
-		const hexAs = { x:778, y:807};
-		const hexNoise = { x:733, y:887};
-		const hexStability = { x:641, y:887};
-		const hexOc = { x:592, y:807};
+		// const hexFever = { x:641, y:727};
+		// const hexMaterial = { x:732, y:727};
+		// const hexAs = { x:778, y:807};
+		// const hexNoise = { x:733, y:887};
+		// const hexStability = { x:641, y:887};
+		// const hexOc = { x:592, y:807};
+		function getThumbPosition() {
+			var feverThumb = $("#hexFever::-webkit-slider-thumb");
+			var thumbPosition = $("#hexFever").val();
+			var rangeWidth = $("#hexFever").width();
+			var thumbWidth = feverThumb.width();
+			var thumbOffset = (thumbPosition * (rangeWidth - thumbWidth)) / 100;
+			console.log(thumbOffset)
+			return thumbOffset;
+		}
 
-		
+		// thumb 위치에 선 그리기
+		function drawLine() {
+
+			var startPoint =  $("#hexFever").offset().left + ($("#hexFever").width() / 2);
+			var endPoint =  $("#hexMaterial").offset().left + ($("#hexMaterial").width() / 2);
+			
+			$("#line").css("left", startPoint).css("width", endPoint - startPoint).css("border","1px solid black");
+			console.log(startPoint)
+			console.log(endPoint)
+		}
+
+		// range 요소 변경 시 선 그리기 호출
+		$('.hex-range').on('input', function() {
+			drawLine();
+		});
 	})
 </script>
 </head>
@@ -167,28 +311,90 @@
 												<path class="track" d="M723 314L543 625.77 183 625.77 3 314 183 2.23 543 2.23 723 314z" ></path>
 												<path class="fill" d="M723 314L543 625.77 183 625.77 3 314 183 2.23 543 2.23 723 314z" stroke="url(#cl1)"></path>
 											</svg>
-											<div class="hex-text hex-text1 fs-4">발열</div>
-											<div class="hex-text hex-text2 fs-4">소재</div>
-											<div class="hex-text hex-text3 fs-4">AS</div>
-											<div class="hex-text hex-text4 fs-4">소음</div>
-											<div class="hex-text hex-text5 fs-4">안정성</div>
-											<div class="hex-text hex-text6 fs-4">QC</div>
-											<input type="range" class="form-range" min="0" max="2" step="0.01" id="hexFever">	
-											<input type="range" class="form-range" min="0" max="2" step="0.01" id="hexMaterial">	
-											<input type="range" class="form-range" min="0" max="2" step="0.01" id="hexAs">	
-											<input type="range" class="form-range" min="0" max="2" step="0.01" id="hexNoise">	
-											<input type="range" class="form-range" min="0" max="2" step="0.01" id="hexStability">	
-											<input type="range" class="form-range" min="0" max="2" step="0.01" id="hexQc">	
+											<div class="hex-text hex-text1 fs-4" onmouseenter="javascript:mouseEnter(this)">발열</div>
+											<div class="hex-text hex-text2 fs-4" onmouseenter="javascript:mouseEnter(this)">소재</div>
+											<div class="hex-text hex-text3 fs-4" onmouseenter="javascript:mouseEnter(this)">AS</div>
+											<div class="hex-text hex-text4 fs-4" onmouseenter="javascript:mouseEnter(this)">소음</div>
+											<div class="hex-text hex-text5 fs-4" onmouseenter="javascript:mouseEnter(this)">안정성</div>
+											<div class="hex-text hex-text6 fs-4" onmouseenter="javascript:mouseEnter(this)">QC</div>
+											<input type="range" class="form-range hex-range" min="0" max="2" step="0.01" value="1.00" id="hexFever" oninput="javascript:hexagonDrag()">	
+											<input type="range" class="form-range hex-range" min="0" max="2" step="0.01" value="1.00" id="hexMaterial" oninput="javascript:hexagonDrag()">	
+											<input type="range" class="form-range hex-range" min="0" max="2" step="0.01" value="1.00" id="hexAs" oninput="javascript:hexagonDrag()">	
+											<input type="range" class="form-range hex-range" min="0" max="2" step="0.01" value="1.00" id="hexNoise" oninput="javascript:hexagonDrag()">	
+											<input type="range" class="form-range hex-range" min="0" max="2" step="0.01" value="1.00" id="hexStability" oninput="javascript:hexagonDrag()">	
+											<input type="range" class="form-range hex-range" min="0" max="2" step="0.01" value="1.00" id="hexQc" oninput="javascript:hexagonDrag()">
+											<div id="line"></div>
 										</div>
 									</div>
 								</div>
 								<div class="row justify-content-center" style="padding-right: 2.1rem;">
-									<input type="range" class="form-range w-50" min="0" max="2" step="0.01" id="customRange3">
-									<label for="customRange3" class="form-label text-center ms-2">가성비 <- 메인스트림 -> 프리미엄</label>
+									<input type="range" class="form-range w-50" min="0" max="2" step="0.01" id="hex-val-total" oninput="javascript:totalValue()">
+									<label for="hex-val-total" class="form-label text-center ms-2" onmouseenter="javascript:mouseEnter(this)">가성비 <- 메인스트림 -> 프리미엄</label>
 								</div>
 							</div>
-							<div class="col-6">
-
+							<div class="col-6" id="hex-label">
+								<div class="m-4">
+									<div class="row">
+										<div class="mb-3">
+											<label for="explane-area" class="form-label">단어에 마우스를 올리면 이곳에 설명이 나옵니다!</label>
+											<textarea class="form-control" id="explane-area" rows="15" disabled></textarea>
+										</div>
+									</div>
+									<div class="row hex-input-type">
+										<div class="col-6">
+											<label for="hexFever" class="form-label w-100">
+												<div class="input-group input-group-lg">
+													<span class="input-group-text w-50 justify-content-center" id="hex-form-01" onmouseenter="javascript:mouseEnter(this)">발열</span>
+													<input type="number" class="form-control text-center" aria-label="발열" aria-describedby="hex-form-01" id="hex-val-01" min="0.00" max="2.00" value="1.00" oninput="javascript:hexagonType()">
+												</div>
+											</label>
+										</div>
+										<div class="col-6">
+											<label for="hexMaterial" class="form-label w-100">
+												<div class="input-group input-group-lg">
+													<span class="input-group-text w-50 justify-content-center" id="hex-form-02" onmouseenter="javascript:mouseEnter(this)">소재</span>
+													<input type="number" class="form-control text-center" aria-label="소재" aria-describedby="hex-form-02" id="hex-val-02" min="0.00" max="2.00" value="1.00" oninput="javascript:hexagonType()">
+												</div>
+											</label>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-6">
+											<label for="hexAs" class="form-label w-100">
+												<div class="input-group input-group-lg">
+													<span class="input-group-text w-50 justify-content-center" id="hex-form-03" onmouseenter="javascript:mouseEnter(this)">AS</span>
+													<input type="number" class="form-control text-center" aria-label="AS" aria-describedby="hex-form-03" id="hex-val-03" min="0.00" max="2.00" value="1.00" oninput="javascript:hexagonType()">
+												</div>
+											</label>
+										</div>
+										<div class="col-6">
+											<label for="hexNoise" class="form-label w-100">
+												<div class="input-group input-group-lg">
+													<span class="input-group-text w-50 justify-content-center" id="hex-form-04" onmouseenter="javascript:mouseEnter(this)">소음</span>
+													<input type="number" class="form-control text-center" aria-label="소음" aria-describedby="hex-form-04" id="hex-val-04" min="0.00" max="2.00" value="1.00" oninput="javascript:hexagonType()">
+												</div>
+											</label>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-6">
+											<label for="hexStability" class="form-label w-100">
+												<div class="input-group input-group-lg">
+													<span class="input-group-text w-50 justify-content-center" id="hex-form-05" onmouseenter="javascript:mouseEnter(this)">안정성</span>
+													<input type="number" class="form-control text-center" aria-label="안정성" aria-describedby="hex-form-05" id="hex-val-05" min="0.00" max="2.00" value="1.00" oninput="javascript:hexagonType()">
+												</div>
+											</label>
+										</div>
+										<div class="col-6">
+											<label for="hexQc" class="form-label w-100">
+												<div class="input-group input-group-lg">
+													<span class="input-group-text w-50 justify-content-center" id="hex-form-06" onmouseenter="javascript:mouseEnter(this)">QC</span>
+													<input type="number" class="form-control text-center" aria-label="QC" aria-describedby="hex-form-06" id="hex-val-06" min="0.00" max="2.00" value="1.00" oninput="javascript:hexagonType()">
+												</div>
+											</label>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 						<div class="row mb-4">
