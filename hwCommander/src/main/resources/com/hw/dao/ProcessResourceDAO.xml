@@ -41,6 +41,8 @@
 			, a.updt_dtm                                                                        AS updtDtm            
 		FROM
 			process_resource_type_cd_info a
+		WHERE
+			a.use_yn = 'Y'
 	</select>
 	
 	<select id="getProcessResourceTypeCodeInfoByProcessTypeExclusiveCd" parameterType="String" resultType="processResourceTypeCodeInfoVO">
