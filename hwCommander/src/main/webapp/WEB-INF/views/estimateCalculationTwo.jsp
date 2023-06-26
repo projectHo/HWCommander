@@ -4,7 +4,7 @@
 <head>
 <title>현우의 컴퓨터 공방 - 견적산출</title>
 <!-- Required meta tags -->
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 <link rel="stylesheet" href="/resources/css/main.css">
@@ -22,23 +22,271 @@
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
+	function deleteButton(elem) {
+		var forms = $(".needs-validation");
+		const delInput = $("<input>").addClass("delete-input").attr("required",true).css("display","none");
+		$(elem).parent().parent().remove();
+		if ($(".table-body").find("tr").length === 0) {
+			$(".table-container").css("display", "none");
+			forms.append(delInput);
+			forms.removeClass("was-validated");
+		}
+	};
+	let progress = 0;
+	function animateDonutGauge() {
+		$(".donut-container").css(
+			"background",
+			"conic-gradient(#df22ee 0% " + progress + "%, #f2f2f2 100% 0%)"
+		);
+		if (progress < 100) {
+			progress += 5;
+			setTimeout(animateDonutGauge, 20);
+		} else {
+			$(".donut-fill").html("2");
+			goToZero();
+		}
+	};
+	function goToZero() {
+		$(".donut-container").css(
+			"background",
+			"conic-gradient(#df22ee 0% " + progress + "%, #f2f2f2 100% 0%)"
+		);
+		progress -= 3;
+		if (progress > 0) {
+			setTimeout(goToZero, 20);
+		}
+	};
+	function listRating(e) {
+		const value = parseInt($(e.target).val(), 10) || 0;
+		if (value > 100) {
+			alert("100 이하로 입력해주세요!");
+			$(e.target).val('');
+		}else if (value < 0){
+			$(e.target).val('');
+			alert("0 이상입니다~")
+		}
+
+		let total = 0; 
+		$(".use-list-rating").each(function() {
+			total += parseInt($(this).val(), 10) || 0;
+		});
+
+		if (total > 100) {
+			alert("100 이하로 입력해주세요!!");
+			$('.use-list-rating').val('');
+		}
+	};
+	function modalSubmit() {
+		if ($(".table-body").find("tr").length > 0) {
+			$("#use-collector").modal('hide');
+			$(".table-container").css("display", "block");
+			$(".table-list-names").css("display","table-row");
+			$(".delete-input").remove();
+			$("input#search-input").val('');
+			$("#label-table").find("tr").remove();
+		}else{
+			alert("목록을 선택하시거나 취소버튼을 눌러주세요!")
+		}
+	};
+	function modalCancel() {
+		$("input#search-input").val('');
+		$("#label-table").find("tr").remove();
+
+
+
+		const removableTr = $(".table-list-names").filter(function(){
+			return $(this).css("display")==="none";
+		});
+		removableTr.remove();
+	};
+
+	function returnOnePage(){
+		window.location.href = "estimateCalculationOne.do";
+	}
+
+	function makeModalList(id, elem) {
+		var dataBtn = ${processResourceTypeCodeInfoVOList};
+		var modalList = ${processResourceMasterVOList};
+		
+		const clickedTab = id;
+		$(".collector-name").html($(elem).html()).attr("id",$(elem).attr("id"));
+		for(let i = 0; i<=modalList.length;i++){
+			let paddingI = String(i+1).padStart(2,'0');
+			let checkData = dataBtn[i];
+			
+			if(modalList[i].processTypeExclusiveCd===clickedTab){
+				const tableBody = $("#label-table");
+				const trTag = $("<tr></tr>");
+				const tdTag = $("<td></td>");
+
+				const inputTag = $("<input>").attr("type","checkbox").attr("autocomplete","off").addClass("btn-check").attr("id",modalList[i].id);
+				const inputLabel = $("<label></label>").attr("for",modalList[i].id).html(modalList[i].processName).attr("onclick","javascript:selectModalList(this)");
+				tableBody.append(trTag);
+				trTag.append(tdTag);
+				tdTag.append(inputTag);
+				tdTag.append(inputLabel);
+			}
+		}
+	}
+	
+	function selectModalList(elem){
+		const clickedItemHtml = $(elem).html();
+		const clickedItemId = $(elem).prev().attr("id");
+		const modalName = $(".collector-name").html();
+
+		const tableIds = $(".table-body").find("input[id]");
+		let isDuplicate = $(".use-list-name").toArray().some(elem => $(elem).attr("id") === clickedItemId);
+		if($(elem).css("color") === "rgb(33, 37, 41)"){
+			tableIds.each(function () {
+				const elementId = $(this).attr("id");
+				if(elementId === clickedItemId){
+					isDuplicate = true;
+				}else{
+					return false;
+				}
+			})
+			if (isDuplicate && !$(elem).data("duplicateChecked")) {
+				$(elem).data("duplicateChecked", true);
+				alert("중복된 요소입니다. 다른 값을 선택해주세요.");
+			}else if(!isDuplicate){
+				$(elem).data("duplicateChecked", false);
+				const newRow = $("<tr></tr>").css("display","none").addClass("table-list-names");
+
+				const thElement = $("<th></th>").attr("scope", "row").addClass("text-center align-middle");
+				const input1 = $("<input>").attr("type", "text").attr("readonly", true).attr("disabled", true).attr("value", modalName).css("border","none").css("text-align","center").css("font-weight","bold").css("background-color", "inherit").addClass("use-list-genre").attr("id",$(".collector-name").attr("id"));
+				thElement.append(input1);
+				newRow.append(thElement);
+
+				const tdElement1 = $("<td></td>").addClass("t-submit ps-4 align-middle");
+				const input2 = $("<input>").attr("type", "text").attr("readonly", true).attr("disabled", true).attr("value", clickedItemHtml).css("border","none").css("font-weight","bold").css("background-color", "inherit").addClass("use-list-name").attr("id",clickedItemId);
+				tdElement1.append(input2);
+				newRow.append(tdElement1);
+				const tdElement2 = $("<td></td>").addClass("align-middle");
+				const input3 = $("<input>").attr("type", "number").attr("required", true).attr("placeholder", "0~100").attr("max", "100").attr("min", "0").css("border", "none").css("font-weight", "bold").css("outline","none").addClass("use-list-rating").attr("oninput","javascript:listRating(event)");
+				tdElement2.append(input3);
+				newRow.append(tdElement2);
+				const tdElement3 = $("<td></td>");
+				const deleteButton = $("<button></button>").addClass("btn btn-danger").text("삭제").attr("onclick","javascript:deleteButton(this)").attr("type","button");
+				
+				tdElement3.append(deleteButton);
+				newRow.append(tdElement3);
+
+				const tableBody = $(".table-body");
+					const lastRow = tableBody.find("tr:last");
+					if (lastRow.length > 0) {
+						lastRow.after(newRow);
+					} else {
+						tableBody.append(newRow);
+					}
+				
+				$(elem).css("color","red");
+			}
+		}else{
+			const removeTr = $(".table-list-names").filter(function() {
+				return $(this).find(".use-list-name").val() === selectValue;
+			});
+			removeTr.remove();		
+			$(this).css("color","rgb(33,37,41)");
+		}
+	}
+
+	function viewBtn() {
+		$(".calc-two-final-text").css("display","block");
+		setTimeout(() => {
+			$(".calc-two-final-text").css("display","none");
+		}, 3000);
+	}
+	$(function () {
+	// donut
+	animateDonutGauge();
+	// modal esc delete
+	$('#use-collector').off('keydown.dismiss.bs.modal');
+	// session set
+	if(sessionStorage.getItem("second-Data")){
+		$(".delete-input").remove();
+		const storedValues = JSON.parse(sessionStorage.getItem("second-Data"));
+		var dataBtn = ${processResourceTypeCodeInfoVOList};
+		var modalList = ${processResourceMasterVOList};
+		storedValues.forEach(val => {
+				
+			let itemHtml = "";
+			for (let i = 0 ; i<modalList.length; i++){
+				if(modalList[i].id === val[0]){
+					itemHtml = modalList[i].processName;
+				}
+			}
+			const itemId = val[0];
+
+			let genreName = "서핑";
+			for (let i = 0 ; i<dataBtn.length; i++){
+				if(dataBtn[i].processTypeExclusiveCd === val[2]){
+					genreName = dataBtn[i].processTypeExclusiveCdNm;
+				}
+			}
+
+			const newRow = $("<tr></tr>").css("display","none").addClass("table-list-names");
+
+			const thElement = $("<th></th>").attr("scope", "row").addClass("text-center align-middle");
+			const input1 = $("<input>").attr("type", "text").attr("readonly", true).attr("disabled", true).attr("value", genreName).css("border","none").css("text-align","center").css("font-weight","bold").css("background-color", "inherit").addClass("use-list-genre").attr("id",val[2]);
+			thElement.append(input1);
+			newRow.append(thElement);
+
+			const tdElement1 = $("<td></td>").addClass("t-submit ps-4 align-middle");
+			const input2 = $("<input>").attr("type", "text").attr("readonly", true).attr("disabled", true).attr("value", itemHtml).css("border","none").css("font-weight","bold").css("background-color", "inherit").addClass("use-list-name").attr("id",itemId);
+			tdElement1.append(input2);
+			newRow.append(tdElement1);
+			const tdElement2 = $("<td></td>").addClass("align-middle");
+			const input3 = $("<input>").attr("type", "number").attr("required", true).attr("placeholder", "0~100").attr("max", "100").attr("min", "0").css("border", "none").css("font-weight", "bold").css("outline","none").addClass("use-list-rating").attr("oninput","javascript:listRating(event)").attr("value",val[1]);
+			tdElement2.append(input3);
+			newRow.append(tdElement2);
+			const tdElement3 = $("<td></td>");
+			const deleteButton = $("<button></button>").addClass("btn btn-danger").text("삭제").attr("onclick","javascript:deleteButton(this)").attr("type","button");
+			
+			tdElement3.append(deleteButton);
+			newRow.append(tdElement3);
+
+			const tableBody = $(".table-body");
+			const lastRow = tableBody.find("tr:last");
+			if (lastRow.length > 0) {
+				lastRow.after(newRow);
+			} else {
+				tableBody.append(newRow);
+			}
+
+			const surfStateManage = $(".table-list-names").find("input");
+			for(let i = 0 ; i<surfStateManage.length; i++){
+				if(surfStateManage[i].value==="서핑"){
+					$("#work-surf").prop('checked', true);	
+				}
+			}
+		})
+		$("#use-collector").modal('hide');
+		$(".table-container").css("display", "block");
+		$(".table-list-names").css("display","table-row");
+		$(".delete-input").remove();
+		$("input#search-input").val('');
+		$("#label-table").find("tr").remove();
+	}
+	// search input
+	
+	const noResultText = document.createTextNode("일치하는 결과가 없습니다.");
 	const labelTable = $("#label-table");
-	const labels = labelTable.find("label");
 	const noResultRow = $("<tr>");
 	const noResultCell = $("<td>");
-	const noResultText = document.createTextNode("일치하는 결과가 없습니다.");
 	function searchLabel() {
+		const labels = labelTable.find("label");
 		const searchInput = $("#search-input").val().toLowerCase();
 		const matchedLabels = [];
-
 		labels.each(function() {
 			const label = $(this);
 			const labelName = label.text().toLowerCase();
 
 			if (labelName.includes(searchInput)) {
-			matchedLabels.push(label);
+				matchedLabels.push(label);
 			}
 		});
+		for(let i = 0 ; i < labels.length; i++){
+		}
 		const searchInputValue = $("#search-input").val().trim();
 		if (matchedLabels.length > 0) {
 			matchedLabels.sort(function(a, b) {
@@ -76,96 +324,8 @@
 	}
 
 	$("#search-input").on("input", function() {
-			searchLabel();
-	});
-	function deleteButton() {
-		$(this).parent().parent().remove();
-		if ($(".table-body").find("tr").length === 0) {
-			$(".table-container").css("display", "none");
-			forms.append(delInput);
-			forms.removeClass("was-validated");
-		}
-	};
-	let progress = 0;
-	function animateDonutGauge() {
-		$(".donut-container").css(
-			"background",
-			"conic-gradient(#df22ee 0% " + progress + "%, #f2f2f2 100% 0%)"
-		);
-		if (progress < 100) {
-			progress += 5;
-			setTimeout(animateDonutGauge, 20);
-		} else {
-			$(".donut-fill").html("2");
-			goToZero();
-		}
-	};
-	function goToZero() {
-		$(".donut-container").css(
-			"background",
-			"conic-gradient(#df22ee 0% " + progress + "%, #f2f2f2 100% 0%)"
-		);
-		progress -= 3;
-		if (progress > 0) {
-			setTimeout(goToZero, 20);
-		}
-	};
-	function listRating(e) {
-		const value = parseInt($(e.target).val(), 10) || 0;
-		if (value > 100) {
-			alert("100 이하로 입력해주세요!");
-			$(e.target).val('');
-		}else if (value < 1){
-			$(e.target).val('');
-			alert("1 이상입니다~")
-		}
-
-		let total = 0; 
-		$(".use-list-rating").each(function() {
-			total += parseInt($(this).val(), 10) || 0;
-		});
-
-		if (total > 100) {
-			alert("100 이하로 입력해주세요!!");
-			$('.use-list-rating').val('');
-		}
-	};
-	function modalSubmit() {
-		if ($(".table-body").find("tr").length > 0) {
-			$("#use-collector").modal('hide');
-			$(".table-container").css("display", "block");
-			$(".table-list-names").css("display","table-row");
-			[$(".t-name-first"), $(".t-name-second"), $(".t-name-third"), $(".t-name-fourth")].forEach(elem => {
-				elem.css("color","rgb(33,37,41)");
-				elem.html("");
-			});
-			$(".delete-input").remove();
-			$("input#search-input").val('');
-			searchLabel();
-		}else{
-			alert("목록을 선택하시거나 취소버튼을 눌러주세요!")
-		}
-	};
-	function modalCancel() {
-		$("input#search-input").val('');
-		const removableTr = $(".table-list-names").filter(function(){
-			return $(this).css("display")==="none";
-		});
-		removableTr.remove();
-		[$(".t-name-first"), $(".t-name-second"), $(".t-name-third"), $(".t-name-fourth")].forEach((elem)=>{
-				elem.css("color","rgb(33,37,41)");
-				elem.html("");
-		})
 		searchLabel();
-	};
-
-	function returnOnePage(){
-		var formData = JSON.parse(sessionStorage.getItem("formdata"));
-		window.location.href = "estimateCalculationOne.do";
-	}
-	$(function () {
-
-	animateDonutGauge();
+	});
 
 	// bootstrap tooltip
 	const tooltipList = $('[data-bs-toggle="tooltip"]').map(function() {
@@ -173,7 +333,7 @@
 	}).get();
 	
 	// add base input
-	$(".needs-validation").append($("<input>").attr({type: "text",class: "delete-input",required: true,style: "display:none;"}));
+	// $(".needs-validation").append($("<input>").attr({type: "text",class: "delete-input",required: true,style: "display:none;"}));
 	// typing question text
 	let index = 0;
 	function typeText() {
@@ -189,183 +349,25 @@
 	typeText();
 	// list
 	
-	$(".list-game").off("click").on("click", function(e) {
-		const games = {
-			FPS: ["PlayerUnknown's Battlegrounds", "Apex Legend", "Valorant","FPS 기타"],
-			AOS: ["League of Legends", "Dota 2", "Heros of the Storm"," AOS기타"],
-			RPG: ["Lost Ark", "Diablo IV", "Dungeon and Fighter","RPG 기타"],
-			RTS: ["FIFA Online 4", "Starcraft Remastered", "Warcraft III Reforged","RTS 기타"],
-			레이싱: ["Forza Horizon 5", "Assetto Corsa", "Grand Theft Auto V","레이싱 기타"]
-		};
-		const HTMLs = $(e.target).html();
-		$(".collector-name").html(HTMLs);
-
-		if (games.hasOwnProperty(HTMLs)) {
-			[$(".t-name-first"), $(".t-name-second"), $(".t-name-third"), $(".t-name-fourth")].forEach((elem, index) => {
-			elem.html(games[HTMLs][index]);
-			});
+	var modalList = ${processResourceMasterVOList};
+	var dataBtn = ${processResourceTypeCodeInfoVOList};
+	function makeGameList() {	
+		const gameList = $(".list-game");
+		const gameBtn = $("<button></button>").attr("type","button").attr("data-bs-toggle","modal").attr("data-bs-target","#use-collector").addClass("list-group-item list-group-item-action").html(dataBtn[i].processTypeExclusiveCdNm).attr("onclick","javascript:makeModalList(this.id,this)").attr("id",dataBtn[i].processTypeExclusiveCd);
+		gameList.append(gameBtn);
+	}
+	function makeWorkList() {		
+		const gameList = $(".list-work");
+		const gameBtn = $("<button></button>").attr("type","button").attr("data-bs-toggle","modal").attr("data-bs-target","#use-collector").addClass("list-group-item list-group-item-action").html(dataBtn[i].processTypeExclusiveCdNm).attr("id",dataBtn[i].processTypeExclusiveCd).attr("onclick","javascript:makeModalList(this.id,this)");
+		gameList.append(gameBtn);
+	}
+	for (var i = 0; i<dataBtn.length; i++){
+		if(i<5){
+			makeGameList();
+		}else {
+			makeWorkList();
 		}
-		
-		[$(".t-name-first"), $(".t-name-second"), $(".t-name-third"), $(".t-name-fourth")].forEach((elem, index) => {
-			elem.off("click").on("click", () => {
-				const selectedKey = $(".collector-name").text();
-				const selectValue = elem.text();
-				if(elem.css("color") === "rgb(33, 37, 41)"){
-					const isDuplicate = $(".use-list-name").toArray().some(element => $(element).val() === selectValue);
-					if (isDuplicate && !elem.data("duplicateChecked")) {
-						elem.data("duplicateChecked", true);
-						alert("중복된 요소입니다. 다른 값을 선택해주세요.");
-					}else if(!isDuplicate){
-						elem.data("duplicateChecked", false);
-						const newRow = $("<tr></tr>").css("display","none").addClass("table-list-names");
-
-						const thElement = $("<th></th>").attr("scope", "row").addClass("ps-3 align-middle");
-						const input1 = $("<input>").attr("type", "text").attr("readonly", true).attr("disabled", true).attr("value", selectedKey).css("border","none").css("text-align","center").css("font-weight","bold").css("background-color", "inherit").addClass("use-list-genre");
-						thElement.append(input1);
-						newRow.append(thElement);
-
-						const tdElement1 = $("<td></td>").addClass("t-submit ps-4 align-middle");
-						const input2 = $("<input>").attr("type", "text").attr("readonly", true).attr("disabled", true).attr("value", selectValue).css("border","none").css("font-weight","bold").css("background-color", "inherit").addClass("use-list-name");
-						tdElement1.append(input2);
-						newRow.append(tdElement1);
-						const tdElement2 = $("<td></td>").addClass("align-middle");
-						const input3 = $("<input>").attr("type", "number").attr("required", true).attr("placeholder", "0~100").attr("max", "100").attr("min", "0").css("border", "none").css("font-weight", "bold").css("outline","none").addClass("use-list-rating");
-						tdElement2.append(input3);
-						newRow.append(tdElement2);
-						const tdElement3 = $("<td></td>");
-						const deleteButton = $("<button></button>").addClass("btn btn-danger").text("삭제").attr("onclick","javascript:deleteButton()").attr("type","button");
-						
-						tdElement3.append(deleteButton);
-						newRow.append(tdElement3);
-						// $(document).on("input",".use-list-rating",listRating(e))
-						
-						
-
-						const tableBody = $(".table-body");
-							const lastRow = tableBody.find("tr:last");
-							if (lastRow.length > 0) {
-								lastRow.after(newRow);
-							} else {
-								tableBody.append(newRow);
-							}
-						
-						
-						elem.css("color","red");
-					}
-				}else{
-					const removeTr = $(".table-list-names").filter(function() {
-						return $(this).find(".use-list-name").val() === selectValue;
-					});
-					removeTr.remove();		
-					elem.css("color","rgb(33,37,41)");
-				}
-			
-			})
-		});
-		
-	});
-	
-	$(".list-work").on("click", function(e) {
-		const works = {
-			"2D 그래픽": ["CAD", "Illustrator", "PhotoShop","2D그래픽 기타"],
-			"3D 그래픽": ["Cinema 4D", "Blender", "3DS MAX","3D그래픽 기타"],
-			코딩: ["Web Publicing", "Embedded", "VSC","코딩 기타"],
-			영상편집: ["Premiere pro", "DaVinci Resolve", "PowerDirector","영상편집 기타"],
-			문서작업: ["Excel", "CAPS CCTV", "SAP ERP","문서작업 기타"]
-		};
-
-		const HTMLs = $(e.target).html();
-		$(".collector-name").html(HTMLs);
-
-		if (works.hasOwnProperty(HTMLs)) {
-			[$(".t-name-first"), $(".t-name-second"), $(".t-name-third"), $(".t-name-fourth")].forEach((elem, index) => {
-			elem.html(works[HTMLs][index]);
-			});
-		}
-
-		[$(".t-name-first"), $(".t-name-second"), $(".t-name-third"), $(".t-name-fourth")].forEach((elem, index) => {
-			elem.off("click").on("click", () => {
-				const selectedKey = $(".collector-name").text();
-				const selectValue = elem.text();
-				if(elem.css("color") === "rgb(33, 37, 41)"){
-					const isDuplicate = $(".use-list-name").toArray().some(element => $(element).val() === selectValue);
-					if (isDuplicate && !elem.data("duplicateChecked")) {
-						elem.data("duplicateChecked", true);
-						alert("중복된 요소입니다. 다른 값을 선택해주세요.");
-					}else if(!isDuplicate){
-						elem.data("duplicateChecked", false);
-						const newRow = $("<tr></tr>").css("display","none").addClass("table-list-names");
-
-						const thElement = $("<th></th>").attr("scope", "row").addClass("ps-3 align-middle");
-						const input1 = $("<input>").attr("type", "text").attr("readonly", true).attr("disabled", true).attr("value", selectedKey).css("border","none").css("text-align","center").css("font-weight","bold").css("background-color", "inherit").addClass("use-list-genre");
-						thElement.append(input1);
-						newRow.append(thElement);
-
-						const tdElement1 = $("<td></td>").addClass("t-submit ps-4 align-middle");
-						const input2 = $("<input>").attr("type", "text").attr("readonly", true).attr("disabled", true).attr("value", selectValue).css("border","none").css("font-weight","bold").css("background-color", "inherit").addClass("use-list-name");
-						tdElement1.append(input2);
-						newRow.append(tdElement1);
-						const tdElement2 = $("<td></td>").addClass("align-middle");
-						const input3 = $("<input>").attr("type", "number").attr("required", true).attr("placeholder", "0~100").attr("max", "100").attr("min", "0").css("border", "none").css("font-weight", "bold").css("outline","none").addClass("use-list-rating");
-						tdElement2.append(input3);
-						newRow.append(tdElement2);
-						const tdElement3 = $("<td></td>");
-						const deleteButton = $("<button></button>").addClass("btn btn-danger").text("삭제");
-						deleteButton.on("click", () => {
-							newRow.remove();
-							if ($(".table-body").find("tr").length === 0) {
-								$(".table-container").css("display", "none");
-								forms.append(delInput);
-								forms.removeClass("was-validated");
-							}
-						});
-						tdElement3.append(deleteButton);
-						newRow.append(tdElement3);
-						$(document).on('input',".use-list-rating",function(e) {
-							const value = parseInt($(e.target).val(), 10) || 0;
-							if (value > 100) {
-								alert('100 이하로 입력해주세요!');
-								$(e.target).val('');
-							} else if (value < 1){
-								$(e.target).val('');
-								alert("1 이상입니다~")
-							}
-
-							let total = 0; 
-							$('.use-list-rating').each(function() {
-								total += parseInt($(this).val(), 10) || 0;
-							});
-
-							if (total > 100) {
-								alert('100 이하로 입력해주세요!!');
-								$('.use-list-rating').val('');
-							}
-						});
-						
-
-						const tableBody = $(".table-body");
-							const lastRow = tableBody.find("tr:last");
-							if (lastRow.length > 0) {
-								lastRow.after(newRow);
-							} else {
-								tableBody.append(newRow);
-							}
-						
-						elem.css("color","red");
-					}
-				}else{
-					const removeTr = $(".table-list-names").filter(function() {
-						return $(this).find(".use-list-name").val() === selectValue;
-					});
-					removeTr.remove();		
-					elem.css("color","rgb(33,37,41)");
-				}
-				
-			})
-		});
-	});
-	
-	
+	}
 	
 	$(".surf-btn").on("click",()=>{
 		if ($("#work-surf").prop('checked')===true){
@@ -378,13 +380,13 @@
 			
 		const newRow = $("<tr></tr>");
 
-		const thElement = $("<th></th>").attr("scope", "row").addClass("ps-3 align-middle");
-		const input1 = $("<input>").attr("type", "text").attr("readonly", true).attr("disabled", true).attr("value", "서핑").css("border","none").css("text-align","center").css("font-weight","bold").css("background-color", "inherit").addClass("use-list-surf");
+		const thElement = $("<th></th>").attr("scope", "row").addClass("text-center align-middle");
+		const input1 = $("<input>").attr("type", "text").attr("readonly", true).attr("disabled", true).attr("value", "서핑").css("border","none").css("text-align","center").css("font-weight","bold").css("background-color", "inherit").addClass("use-list-genre");
 		thElement.append(input1);
 		newRow.append(thElement);
 
 		const tdElement1 = $("<td></td>").addClass("t-submit ps-4 align-middle");
-		const input2 = $("<input>").attr("type", "text").attr("readonly", true).attr("disabled", true).css("border","none").css("font-weight","bold").css("background-color", "inherit").addClass("use-list-name");
+		const input2 = $("<input>").attr("type", "text").attr("readonly", true).attr("disabled", true).css("border","none").css("font-weight","bold").css("background-color", "inherit").addClass("use-list-name").attr("id","PR999999");
 		tdElement1.append(input2);
 		newRow.append(tdElement1);
 
@@ -395,7 +397,7 @@
 			if (value > 100) {
 				alert('100 이하로 입력해주세요!');
 				$(e.target).val('');
-			} else if (value < 1) {
+			} else if (value < 0) {
 				$(e.target).val('');
 				alert("1 이상입니다~!")
 			}
@@ -415,6 +417,7 @@
 		const tdElement3 = $("<td></td>");
 		const deleteButton = $("<button></button>").addClass("btn btn-danger").text("삭제");
 		deleteButton.on("click", () => {
+			let delInput = $(".delete-input");
 			newRow.remove();
 			$("#work-surf").prop('checked',false);
 			if ($(".table-body").find("tr").length === 0) {
@@ -437,38 +440,48 @@
 		$(".delete-input").remove();
 		}
 	});
-	// (function() {
-	// 	"use strict";
-	// 	const calcTwoTextUse = $(".calc-two-final-text-use");
-	// 	const calcTwoTextRating = $(".calc-two-final-text-rating");
+	var forms = $(".needs-validation");
+	(function() {
+		"use strict";
+		const calcTwoTextUse = $(".calc-two-final-text-use");
+		const calcTwoTextRating = $(".calc-two-final-text-rating");
 
 		
-	// 	forms.each(function() {
-	// 		$(this).on("submit", function(event) {
-	// 			const countRating = $('.use-list-rating').length;
-	// 			let totalRating = 0;
-	// 			$('.use-list-rating').each(function() {
-	// 				totalRating += parseInt($(this).val(), 10) || 0;
-	// 			});
-	// 			if ($(".table-container").css("display")==="block" && totalRating !== 100){
-	// 				console.log(totalRating);
-	// 				event.preventDefault();
-	// 				calcTwoTextRating.css("display", "block");
-	// 				setTimeout(() => {
-	// 					calcTwoTextRating.css("display", "none");
-	// 				}, 3000);
-	// 			}else if (!this.checkValidity()) {
-	// 				event.preventDefault();
-	// 				calcTwoTextUse.css("display", "block");
-	// 				setTimeout(() => {
-	// 					calcTwoTextUse.css("display", "none");
-	// 				}, 3000);
-	// 			} else if (this.checkValidity() && totalRating === 100){
-	// 				$(this).addClass("was-validated");
-	// 			}
-	// 		});
-	// 	});
-	// })();
+		forms.each(function() {
+			$(this).on("submit", function(event) {
+				const countRating = $('.use-list-rating').length;
+				let totalRating = 0;
+				$('.use-list-rating').each(function() {
+					totalRating += parseInt($(this).val(), 10) || 0;
+				});
+				if ($(".table-container").css("display")==="block" && totalRating !== 100){
+					event.preventDefault();
+					calcTwoTextRating.css("display", "block");
+					setTimeout(() => {
+						calcTwoTextRating.css("display", "none");
+					}, 3000);
+				}else if (!this.checkValidity()) {
+					event.preventDefault();
+					calcTwoTextUse.css("display", "block");
+					setTimeout(() => {
+						calcTwoTextUse.css("display", "none");
+					}, 3000);
+				} else if (this.checkValidity() && totalRating === 100){
+					$(this).addClass("was-validated");
+					let value = [];
+					for(let i = 0 ; i<$(".use-list-name").length; i++){
+						let paddingI = String(i+1).padStart(2,'0');
+						let storageValue = [$(".use-list-name")[i].id,$(".use-list-rating")[i].value,$(".use-list-genre")[i].id];
+						value.push(storageValue);
+					}
+					if(sessionStorage.getItem("second-Data")){
+						sessionStorage.removeItem("second-Data");
+					}
+					sessionStorage.setItem("second-Data",JSON.stringify(value))
+				}
+			});
+		});
+	})();
 });
 </script>
 </head>
@@ -502,25 +515,13 @@
 				 				<div class="list-group mb-1 w-75 text-center">
 								  <button type="button" class="list-group-item list-group-item-action mb-3 bgc-disabled" disabled aria-current="true">게임</button>
 							    </div>
-				 				<div class="list-group mb-3 w-75 text-center">
-								  <button type="button" class="list-group-item list-group-item-action list-game" data-bs-toggle="modal" data-bs-target="#use-collector">FPS</button>
-								  <button type="button" class="list-group-item list-group-item-action list-game" data-bs-toggle="modal" data-bs-target="#use-collector">AOS</button>
-								  <button type="button" class="list-group-item list-group-item-action list-game" data-bs-toggle="modal" data-bs-target="#use-collector">RPG</button>
-								  <button type="button" class="list-group-item list-group-item-action list-game" data-bs-toggle="modal" data-bs-target="#use-collector">RTS</button>
-								  <button type="button" class="list-group-item list-group-item-action list-game" data-bs-toggle="modal" data-bs-target="#use-collector">레이싱</button>
-								</div>
+				 				<div class="list-group mb-3 w-75 text-center list-game"></div>
 				 			</div>
 				 			<div class="col">
 				 				<div class="list-group mb-1 w-75 text-center margin-center">
 								  <button type="button" class="list-group-item list-group-item-action mb-3 bgc-disabled" disabled aria-current="true">작업</button>
 							    </div>
-				 				<div class="list-group mb-3 w-75 text-center margin-center">
-								  <button type="button" class="list-group-item list-group-item-action list-work" data-bs-toggle="modal" data-bs-target="#use-collector">2D 그래픽</button>
-								  <button type="button" class="list-group-item list-group-item-action list-work" data-bs-toggle="modal" data-bs-target="#use-collector">3D 그래픽</button>
-								  <button type="button" class="list-group-item list-group-item-action list-work" data-bs-toggle="modal" data-bs-target="#use-collector">코딩</button>
-								  <button type="button" class="list-group-item list-group-item-action list-work" data-bs-toggle="modal" data-bs-target="#use-collector">영상편집</button>
-								  <button type="button" class="list-group-item list-group-item-action list-work" data-bs-toggle="modal" data-bs-target="#use-collector">문서작업</button>
-								</div>
+				 				<div class="list-group mb-3 w-75 text-center margin-center list-work"></div>
 				 			</div>
 				 			<div class="col d-flex justify-content-end">
 				 				<div class="list-group mb-1 w-75 text-center">
@@ -529,8 +530,7 @@
 							    </div>
 				 			</div>
 						</div>
-						<form class="needs-validation" action="#" novalidate>
-							<!-- <input type="text" class="delete-input" required style="display:none;"> -->
+						<form class="needs-validation" action="estimateCalculationThree.do" novalidate>
 							<div class="row table-style p-1 mb-3 table-container" style="display: none;">
 								<div class="container">
 									<table class="table table-submit">
@@ -542,36 +542,7 @@
 												<th scope="col" style="width:10%"></th>
 											</tr>
 										</thead>
-										<tbody class="table-body">
-											<!-- <c:forEach var="item" items="">
-												<tr class="table-list-names" style="display: none;">
-													<th scope="row" class="ps-3 align-middle">
-														<input type="text" class="use-list-genre" style="border:none; text-align:center;font-weight:bold;background-color:inherit;" disabled readpm;u>
-													</th>
-													<td class="t-submit ps-4 align-middle">
-														<input type="text" class="use-list-name" style="border: none; font-weight: bold; background-color: inherit; readonly disabled">
-													</td>
-													<td class="align-middle">
-														<input type="number" placeholder="0~100" max="100" min="0" class="use-list-rating" style="border: none; font-weight: bold; outline: none;" required>
-													</td>
-													<td>
-														<button class="btn btn-danger">삭제</button>
-													</td>
-												</tr>
-											</c:forEach> -->
-											<!-- <tr>
-												<th scope="row" class="ps-3">
-													<input type="text" required>
-												</th>
-												<td class="t-submit-first">
-													<input type="text" required>
-												</td>
-												<td class="t-submit">
-													<input type="number" required>
-												</td>
-												<td><button class="btn btn-danger delete-button">삭제</button></td>
-											</tr> -->
-										</tbody>
+										<tbody class="table-body"></tbody>
 									</table>
 								</div>
 							</div>
@@ -580,16 +551,18 @@
 									<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:returnOnePage()">이전 질문</button>
 								</div>
 								<div class="col">
-									<button type="submit" class="form-control calc-two-final margin-center">견적 보기</button>
+									<button type="button" class="form-control calc-two-final margin-center" onclick="javascript:viewBtn()">견적 보기</button>
+									<div class="invalid-feedback fs-5 calc-two-final-text text-center" style="display: none; font-weight: bold;">3페이지 까지는 필수 질문입니다!</div>
 									<div class="invalid-feedback fs-5 calc-two-final-text-use text-center" style="display: none; font-weight: bold;">사용 용도를 선택해주세요!</div>
-									<div class="invalid-feedback fs-5 calc-two-final-text-rating text-center" style="display: none; font-weight: bold;">비중을 정확하게 입력해주세요!(100%)</div>
+									<div class="invalid-feedback fs-5 calc-two-final-text-rating text-center" style="display: none; font-weight: bold;">비중을 100%로 맞춰주세요!</div>
 								</div>
 								<div class="col">
 									<button type="submit" class="form-control w-50 margin-left-auto">다음 질문</button>
 								</div>
 							</div>
+							<input type="text" class="delete-input" required style="display:none;">
 						</form>
-				 		<div class="modal fade" id="use-collector" tabindex="-1" aria-labelledby="collecter" aria-hidden="true" data-bs-backdrop="static">
+				 		<div class="modal fade" id="use-collector" tabindex="-1" aria-labelledby="collecter" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
 						  <div class="modal-dialog">
 						    <div class="modal-content">
 						      <div class="modal-header">
@@ -609,32 +582,7 @@
 										<th scope="col">이름</th>
 									  </tr>
 									</thead>
-									<tbody id="label-table">
-									  <tr>
-										<td>
-											<input type="checkbox" class="btn-check" id="btn-check" autocomplete="off">
-											<label class="t-name-first" for="btn-check"></label>
-										</td>
-									  </tr>
-									  <tr>
-										<td>
-											<input type="checkbox" class="btn-check" id="btn-check" autocomplete="off">
-											<label class="t-name-second" for="btn-check"></label>
-										</td>
-									  </tr>
-									  <tr>
-										<td>
-											<input type="checkbox" class="btn-check" id="btn-check" autocomplete="off">
-											<label class="t-name-third" for="btn-check"></label>
-										</td>
-									  </tr>
-									  <tr>
-										<td>
-											<input type="checkbox" class="btn-check" id="btn-check" autocomplete="off">
-											<label class="t-name-fourth" for="btn-check"></label>
-										</td>
-									  </tr>
-									</tbody>
+									<tbody id="label-table"></tbody>
 								  </table>
 								</div>
 						      </div>

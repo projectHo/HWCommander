@@ -30,17 +30,17 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 			$(".calc-one-final").next().css("display","block");
 		}
 		function isValidate(event){
-			"use strict"
-			if (!$("#can-pay-val").val()) {
+			if (this.valid()===false) {
 				event.preventDefault();
 				event.stopPropagation();
-				console.log("false")
+				sessionStorage.clear();
+				return false;
 			}else {
 				console.log("true")
 				event.preventDefault();
 				$(this).addClass("was-validated");
 				// let formData = { price: $("#can-pay-val").val()};
-				sessionStorage.setItem("formData",$("#can-pay-val").val());
+				sessionStorage.setItem("first-Data",$("#can-pay-val").val());
 				window.location.href = "estimateCalculationTwo.do";
 				return true;
 			}
@@ -97,9 +97,30 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 			
 			typeText();
 
-			if(sessionStorage.getItem("formData")){
-				$('#can-pay-val').val(sessionStorage.getItem("formData"));
+			if(sessionStorage.getItem("first-Data")){
+				$('#can-pay-val').val(sessionStorage.getItem("first-Data"));
 			}
+
+			$(() => {
+				'use strict';
+
+				const forms = $('.needs-validation');
+
+				forms.on('submit', event => {
+					const form = event.target;
+
+					if (!form.checkValidity()) {
+						event.preventDefault();
+						event.stopPropagation();
+						sessionStorage.clear();
+						form.classList.add('was-validated');
+						$("#can-pay-val").focus();
+					}else {
+						sessionStorage.setItem("first-Data",$("#can-pay-val").val());
+						form.classList.add('was-validated');
+					}
+				});
+			});
 		});
 
 		
@@ -134,7 +155,7 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 		 				<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="0원으로 입력시 요구사항의 최소 견적으로 자동 산출됩니다." style="cursor:pointer">
 		 			</div>
 		 		</div>
-		 		<form class="needs-validation" onsubmit="return isValidate(event)" novalidate>
+		 		<form class="needs-validation" action="estimateCalculationTwo.do" novalidate>
 			 		<div class="row pb-2">
 			 			<div class="col">
 			 				<div class="input-group has-validation text-end d-flex flex-end justify-content-center margin-center mb-5 w-50 calc-input-element">
