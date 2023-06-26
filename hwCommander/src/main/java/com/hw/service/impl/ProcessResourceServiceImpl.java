@@ -18,7 +18,14 @@ public class ProcessResourceServiceImpl implements ProcessResourceService {
 	@Override
 	public Integer processResourceTypeCodeInfoRegistLogic(ProcessResourceTypeCodeInfoVO processResourceTypeCodeInfoVO) {
 		int insertResult = 0;
-		insertResult = processResourceDAO.insertProcessResourceTypeCodeInfoVO(processResourceTypeCodeInfoVO);
+		int checkCodeCnt = processResourceDAO.getCheckDupliChkCount(processResourceTypeCodeInfoVO.getProcessTypeExclusiveCd());
+		
+		if(checkCodeCnt == 0) {
+			insertResult = processResourceDAO.insertProcessResourceTypeCodeInfoVO(processResourceTypeCodeInfoVO);
+		}else {
+			insertResult = -2;
+		}
+		
 		return insertResult;
 	}
 	

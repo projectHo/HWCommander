@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - TYPE CODE</title>
+<title>현우의 컴퓨터 공방 - Type Code Regist</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <!-- Bootstrap CSS -->
@@ -17,43 +17,77 @@
 
 <link href="/resources/css/sbAdmin-styles.css" rel="stylesheet" />
 <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-
-<!-- dataTables CDN -->
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
-<link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet"/>
-
-<!-- cookie js -->
-<script src="/resources/js/getSetCookie.js"></script>
-
+        
 <script>
-    $(function(){
-    	$("#typeCodeListTable").DataTable({
-    		displayLength : setDisplayLength()
-    	    , bAutoWidth : false
-    	    , columnDefs : [
-	    	    {targets : 0, width : "25%"}
-	    	    , {targets : 1, width : "25%"}
-	    	    , {targets : 2, width : "25%"}
-	    	    , {targets : 3, width : "25%"}
-	    	    /* 
-	    	    , {targets : 5, visible : false} // id
-	    	     */
-    	    ]
-    	});
-    	/* 
-    	$("#typeCodeListTable").on('click', 'tbody tr', function () {
-    		var row = $("#typeCodeListTable").DataTable().row($(this)).data();
-    		var partsId = row[5];
-    		location.href = "typeCodeUpdate.do?partsId="+partsId;
-    	});
-    	 */
-        window.addEventListener('unload', function() {
-        	setCookie('displayLength', $("select[name=typeCodeListTable_length]").val(), {'max-age': 1800});
-       	});
-    });
-</script>
 
+    $(function(){
+        $('#btn_type_code_regist').on("click", function () {
+        	if(!validationCheck()) {
+        		return false;
+        	}
+        	
+        	if(confirm("등록 하시겠습니까?")) {
+        		goTypeCodeRegist();
+        	}
+        });
+    });
+    
+function goTypeCodeRegist() {
+	$("#useYn").val("Y");
+	
+    var form = $("#type_code_regist_form").serialize();
+    
+    $.ajax({
+        type: "post",
+        url: "/admin/resourceTypeCodeRegistLogic.do",
+        data: form,
+        dataType: 'json',
+        success: function (data) {
+        	if(data == 1) {
+        		alert("등록완료");
+        	}else if(data == -2) {
+        		alert("이미 등록된 Process Type Exclusive Code입니다.");
+        		return false;
+        	}else {
+        		alert("등록실패");
+        	}
+        	window.location = "resourceTypeCodeManagement.do";
+            console.log(data);
+        }
+    });
+}
+
+function validationCheck() {
+	if("" == $('#processTypeExclusiveCd').val().trim() || null == $('#processTypeExclusiveCd').val().trim()) {
+		alert("Process Type Exclusive Code를 입력하세요.");
+		return false;
+	}
+	
+	if("PRTEC" != $('#processTypeExclusiveCd').val().trim().substr(0, 5)) {
+		alert("Process Type Exclusive Code의 형식을 확인해주세요.");
+		return false;
+	}
+	
+	var codeIndex = parseInt($('#processTypeExclusiveCd').val().trim().substr(5, 2));
+	if(isNaN(codeIndex)) {
+		alert("Process Type Exclusive Code의 형식을 확인해주세요.");
+		return false;
+	}
+	
+	if("" == $('#processTypeExclusiveCdNm').val().trim() || null == $('#processTypeExclusiveCdNm').val().trim()) {
+		alert("Process Type Exclusive Code Name을 입력하세요.");
+		return false;
+	}
+	
+	if("00" == $('#processLgCd').val()) {
+		alert("Process Large Code를 선택하세요.");
+		return false;
+	}
+	
+	return true;
+}
+
+</script>
 </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -131,47 +165,59 @@
             <div id="layoutSidenav_content">
 				<main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">TYPE CODE</h1>
+                        <h1 class="mt-4">Type Code Regist</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="main.do">Admin Page</a></li>
-                            <li class="breadcrumb-item active">TYPE CODE</li>
+                            <li class="breadcrumb-item"><a href="resourceTypeCodeManagement.do">Type Code</a></li>
+                            <li class="breadcrumb-item active">Type Code Regist</li>
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                                TYPE CODE를 관리합니다. 조회, 추가 작업을 할 수 있습니다.
+                                Type Code를  등록합니다.
                             </div>
                         </div>
                         <div class="card mb-4">
-                            <div class="card-header">
-								<div class="d-flex">
-								  <div class="me-auto d-flex align-items-center">Search Type Code</div>
-								  <div>
-								  	<a class="btn btn-secondary btn-sm" href="resourceTypeCodeRegist.do">등록</a>
-								  </div>
-								</div>
-                            </div>
                             <div class="card-body">
-                                <table id="typeCodeListTable" class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>Type Code</th>
-                                            <th>Type Code Name</th>
-                                            <th>대분류코드명</th>
-                                            <th>사용여부</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-										<c:forEach var="item" items="${resourceTypeCodeList}">
-											<tr>
-	                                            <td>${item.processTypeExclusiveCd}</td>
-	                                            <td>${item.processTypeExclusiveCdNm}</td>
-	                                            <td>${item.processLgCdNm}</td>
-	                                            <td>${item.useYn}</td>
-                                        	</tr>
-										</c:forEach>
-                                    </tbody>
-                                </table>
+                                <p class="mb-0">Process Type Exclusive Code는 "PRTEC"의 접두사를 가지며 01~99의 숫자를 지정하여 등록합니다.</p>
+                                <p class="mb-0">Process Type Exclusive Code는 고유한 값이어야 하며 따라서 중복등록은 불가능합니다.</p>
+                                <p class="mb-0">ex) PRTEC01</p>
                             </div>
+                        </div>
+                        <div class="card mb-4">
+							<div class="card-body">
+                               <form id="type_code_regist_form">
+                                   <input type="hidden" id="useYn" name="useYn">
+                                   <div class="row mb-3">
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0">
+                                               <input class="form-control" id="processTypeExclusiveCd" name="processTypeExclusiveCd" type="text" placeholder="Enter processTypeExclusiveCd" maxlength="7" />
+                                               <label for="processTypeExclusiveCd">Process Type Exclusive Code</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0">
+                                               <input class="form-control" id="processTypeExclusiveCdNm" name="processTypeExclusiveCdNm" type="text" placeholder="Enter processTypeExclusiveCdNm" maxlength="25"/>
+                                               <label for="processTypeExclusiveCdNm">Process Type Exclusive Code Name</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+												<select class="form-select pt-4" id="processLgCd" name="processLgCd">
+												  <option value="00" selected>-선택-</option>
+												  <c:forEach var="item" items="${process_lg_cd}">
+													  <option value="${item.cd}">${item.nm}</option>
+												  </c:forEach>
+												</select>
+												<label for="processLgCd">Process Large Code</label>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   
+                                   <div class="mt-4 mb-0">
+                                       <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_type_code_regist">Regist</a></div>
+                                   </div>
+                               </form>
+                           </div>
                         </div>
                     </div>
                 </main>

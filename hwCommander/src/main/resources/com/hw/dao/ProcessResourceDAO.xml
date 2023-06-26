@@ -5,6 +5,10 @@
    
 <mapper namespace="com.hw.dao.ProcessResourceDAO">
 
+	<select id="getCheckDupliChkCount" resultType="Integer" parameterType="String">
+		SELECT COUNT(1) AS code_cnt FROM process_resource_type_cd_info WHERE process_type_exclusive_cd = #{checkCode}
+	</select>
+
 	<insert id="insertProcessResourceTypeCodeInfoVO" parameterType="processResourceTypeCodeInfoVO">
 		INSERT INTO process_resource_type_cd_info
 		(
