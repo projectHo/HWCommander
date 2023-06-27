@@ -437,13 +437,6 @@ public class HomeController {
 		}
 		
 		
-		String tempInfoJson = "";
-		try {
-			tempInfoJson = mapper.writeValueAsString(processResourceTypeCodeInfoVOList);
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
 		model.addAttribute("processResourceMasterVOList", tempJson);
 		
