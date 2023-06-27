@@ -75,12 +75,12 @@
 					<div class="col">
 						<nav class="nav flex-column">
 						  <h4><b>현우의 컴퓨터 공방</b></h4>
-						  <a class="nav-link disabled text-dark" href="#">대표 : 이해창 | tel. 010-7625-0475 |</a>
-						  <a class="nav-link disabled text-dark" href="#">사업자등록번호: 829-36-00813 |</a>
-						  <a class="nav-link disabled text-dark" href="#">서울시 용산구 보광로 110, 2층 현우의 컴퓨터 공방 |</a>
-						  <a class="nav-link disabled text-dark" href="#">E-mail : pcvirusson@hanmail.net |</a>
-						  <a class="nav-link disabled text-dark" href="#">호스팅 제공자 : (주)카페24 |</a>
-						  <a class="nav-link disabled text-dark" href="#">통신판매업 신고번호 : 2022-대전-0000호 |</a>
+						  <a class="nav-link disabled text-dark" href="#">대표 : 이해창 | tel. 010-7625-0475</a>
+						  <a class="nav-link disabled text-dark" href="#">사업자등록번호: 829-36-00813</a>
+						  <a class="nav-link disabled text-dark" href="#">서울시 용산구 보광로 110, 2층 현우의 컴퓨터 공방</a>
+						  <a class="nav-link disabled text-dark" href="#">E-mail : pcvirusson@hanmail.net</a>
+						  <a class="nav-link disabled text-dark" href="#">호스팅 제공자 : (주)카페24</a>
+						  <a class="nav-link disabled text-dark" href="#">통신판매업 신고번호 : 2023-서울용산-1054 호</a>
 						</nav>
 					</div>
 				</div>
