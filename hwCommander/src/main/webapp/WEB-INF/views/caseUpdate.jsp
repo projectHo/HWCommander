@@ -215,11 +215,11 @@ function idDupliChk(id) {
                             <a class="nav-link" href="resourceTypeCodeManagement.do">
 								Type Code
                             </a>
-                            <a class="nav-link" href="resourceCategoryManagement.do">
-								Category
+                            <a class="nav-link" href="resourceMasterManagement.do">
+								Category(Master)
                             </a>
-                            <a class="nav-link" href="resourceDetailDataManagement.do">
-								Detail Data
+                            <a class="nav-link" href="resourceDetailManagement.do">
+								Resource Data(Detail)
                             </a>
                             <div class="sb-sidenav-menu-heading">주문관리</div>
                             <a class="nav-link" href="orderManagement.do">
@@ -267,7 +267,7 @@ function idDupliChk(id) {
                                        <div class="col-md-3">
                                            <div class="form-floating">
 												<select class="form-select pt-4" id="cledCd" name="cledCd">
-												  <option selected>-선택-</option>
+												  <option value="00" selected>-선택-</option>
 												  <c:forEach var="item" items="${cled_cd}">
 													  <option value="${item.cd}">${item.nm}</option>
 												  </c:forEach>
@@ -278,7 +278,7 @@ function idDupliChk(id) {
                                        <div class="col-md-3">
                                            <div class="form-floating">
 												<select class="form-select pt-4" id="cmCd" name="cmCd">
-												  <option selected>-선택-</option>
+												  <option value="00" selected>-선택-</option>
 												  <c:forEach var="item" items="${cm_cd}">
 													  <option value="${item.cd}">${item.nm}</option>
 												  </c:forEach>
@@ -289,7 +289,7 @@ function idDupliChk(id) {
                                        <div class="col-md-3">
                                            <div class="form-floating">
 												<select class="form-select pt-4" id="cmcCd" name="cmcCd">
-												  <option selected>-선택-</option>
+												  <option value="00" selected>-선택-</option>
 												  <c:forEach var="item" items="${cmc_cd}">
 													  <option value="${item.cd}">${item.nm}</option>
 												  </c:forEach>
@@ -303,7 +303,7 @@ function idDupliChk(id) {
                                        <div class="col-md-3">
                                            <div class="form-floating">
 												<select class="form-select pt-4" id="cscCd" name="cscCd">
-												  <option selected>-선택-</option>
+												  <option value="00" selected>-선택-</option>
 												  <c:forEach var="item" items="${csc_cd}">
 													  <option value="${item.cd}">${item.nm}</option>
 												  </c:forEach>
@@ -314,7 +314,7 @@ function idDupliChk(id) {
                                        <div class="col-md-3">
                                            <div class="form-floating">
 												<select class="form-select pt-4" id="caseasCd" name="caseasCd">
-												  <option selected>-선택-</option>
+												  <option value="00" selected>-선택-</option>
 												  <c:forEach var="item" items="${caseas_cd}">
 													  <option value="${item.cd}">${item.nm}</option>
 												  </c:forEach>
