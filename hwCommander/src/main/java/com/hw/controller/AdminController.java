@@ -30,11 +30,13 @@ import com.hw.model.PartsPsuVO;
 import com.hw.model.PartsRamVO;
 import com.hw.model.PartsSfVO;
 import com.hw.model.PartsSsdVO;
+import com.hw.model.ProcessResourceTypeCodeInfoVO;
 import com.hw.model.ProductDetailVO;
 import com.hw.model.ProductMasterVO;
 import com.hw.model.UserInfoVO;
 import com.hw.service.AdminService;
 import com.hw.service.PartsService;
+import com.hw.service.ProcessResourceService;
 import com.hw.service.ProductService;
 
 @Controller
@@ -51,6 +53,9 @@ public class AdminController {
 	
 	@Autowired
     private ProductService productService;
+	
+	@Autowired
+    private ProcessResourceService processResourceService;
 	
 	@RequestMapping(value = "/main.do", method = RequestMethod.GET)
 	public String goAdminPageMain(HttpServletRequest request, Model model) {
@@ -544,7 +549,29 @@ public class AdminController {
 		
 		return productService.productUpdateLogic(productMasterVO, productDetailVOList);
 	}
-
+	
+	
+	/*--------------------------------------------------
+	 - PROCESS RESOURCE
+	*--------------------------------------------------*/
+	@RequestMapping(value = "/resourceTypeCodeManagement.do", method = RequestMethod.GET)
+	public String goResourceTypeCodeManagement(HttpServletRequest request, Model model) {
+		model.addAttribute("resourceTypeCodeList", processResourceService.getProcessResourceTypeCodeInfoAllList());
+		return adminLoginCheck(request, model, "resourceTypeCodeManagement");
+	}
+	
+	@RequestMapping(value = "/resourceTypeCodeRegist.do", method = RequestMethod.GET)
+	public String goResourceTypeCodeRegist(HttpServletRequest request, Model model) {
+		model.addAttribute("process_lg_cd", adminService.getComnCdDetailList("COM004"));
+		return adminLoginCheck(request, model, "resourceTypeCodeRegist");
+	}
+	
+	@RequestMapping(value = "/resourceTypeCodeRegistLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer resourceTypeCodeRegistLogic(ProcessResourceTypeCodeInfoVO processResourceTypeCodeInfoVO) {
+		return processResourceService.processResourceTypeCodeInfoRegistLogic(processResourceTypeCodeInfoVO);
+	}
+	
 	private String adminLoginCheck(HttpServletRequest request, Model model, String url) {
 		HttpSession httpSession = request.getSession();
 		

@@ -104,6 +104,16 @@
                             <a class="nav-link" href="productManagement.do">
 								Product
                             </a>
+                            <div class="sb-sidenav-menu-heading">Process Resource</div>
+                            <a class="nav-link" href="resourceTypeCodeManagement.do">
+								Type Code
+                            </a>
+                            <a class="nav-link" href="resourceCategoryManagement.do">
+								Category
+                            </a>
+                            <a class="nav-link" href="resourceDetailDataManagement.do">
+								Detail Data
+                            </a>
                             <div class="sb-sidenav-menu-heading">주문관리</div>
                             <a class="nav-link" href="orderManagement.do">
 								Order

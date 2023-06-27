@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - CASE</title>
+<title>현우의 컴퓨터 공방 - TYPE CODE</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <!-- Bootstrap CSS -->
@@ -14,6 +14,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
 <meta name="author" content="" />
+
 <link href="/resources/css/sbAdmin-styles.css" rel="stylesheet" />
 <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 
@@ -27,30 +28,28 @@
 
 <script>
     $(function(){
-    	
-    	$("#caseListTable").DataTable({
+    	$("#typeCodeListTable").DataTable({
     		displayLength : setDisplayLength()
     	    , bAutoWidth : false
     	    , columnDefs : [
-	    	    {targets : 0, width : "40%"}
-	    	    , {targets : 1, width : "10%"}
-	    	    , {targets : 2, width : "10%"}
-	    	    , {targets : 3, width : "10%"}
-	    	    , {targets : 4, width : "10%"}
-	    	    , {targets : 5, width : "10%"}
-	    	    , {targets : 6, width : "10%"}
-	    	    , {targets : 7, visible : false} // id
+	    	    {targets : 0, width : "25%"}
+	    	    , {targets : 1, width : "25%"}
+	    	    , {targets : 2, width : "25%"}
+	    	    , {targets : 3, width : "25%"}
+	    	    /* 
+	    	    , {targets : 5, visible : false} // id
+	    	     */
     	    ]
     	});
-    	
-    	$("#caseListTable").on('click', 'tbody tr', function () {
-    		var row = $("#caseListTable").DataTable().row($(this)).data();
-    		var partsId = row[7];
-    		location.href = "caseUpdate.do?partsId="+partsId;
+    	/* 
+    	$("#typeCodeListTable").on('click', 'tbody tr', function () {
+    		var row = $("#typeCodeListTable").DataTable().row($(this)).data();
+    		var partsId = row[5];
+    		location.href = "typeCodeUpdate.do?partsId="+partsId;
     	});
-    	
+    	 */
         window.addEventListener('unload', function() {
-        	setCookie('displayLength', $("select[name=caseListTable_length]").val(), {'max-age': 1800});
+        	setCookie('displayLength', $("select[name=typeCodeListTable_length]").val(), {'max-age': 1800});
        	});
     });
 </script>
@@ -132,54 +131,42 @@
             <div id="layoutSidenav_content">
 				<main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">CASE</h1>
+                        <h1 class="mt-4">TYPE CODE</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="main.do">Admin Page</a></li>
-                            <li class="breadcrumb-item active">CASE</li>
+                            <li class="breadcrumb-item active">TYPE CODE</li>
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                                CASE를 관리합니다. 조회, 추가, 수정 작업을 할 수 있습니다.
+                                TYPE CODE를 관리합니다. 조회, 추가 작업을 할 수 있습니다.
                             </div>
                         </div>
                         <div class="card mb-4">
                             <div class="card-header">
 								<div class="d-flex">
-								  <div class="me-auto d-flex align-items-center">Search CASE</div>
+								  <div class="me-auto d-flex align-items-center">Search Type Code</div>
 								  <div>
-								  	<a class="btn btn-secondary btn-sm" href="caseRegist.do">등록</a>
+								  	<a class="btn btn-secondary btn-sm" href="resourceTypeCodeRegist.do">등록</a>
 								  </div>
 								</div>
                             </div>
                             <div class="card-body">
-                                <table id="caseListTable" class="table">
+                                <table id="typeCodeListTable" class="table">
                                     <thead>
                                         <tr>
-                                            <th>parts name</th>
-                                            <th>parts price</th>
-                                            <th>CLED</th>
-                                            <th>CM</th>
-                                            <th>CMC</th>
-                                            <th>CSC</th>
-                                            <th>CASEAS</th>
-                                            
-                                            <!-- 안보이는부분 -->
-                                            <th>ID</th>
+                                            <th>Type Code</th>
+                                            <th>Type Code Name</th>
+                                            <th>대분류코드명</th>
+                                            <th>사용여부</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-										<c:forEach var="item" items="${caseList}">
+										<c:forEach var="item" items="${resourceTypeCodeList}">
 											<tr>
-	                                            <td>${item.partsName}</td>
-	                                            <td>${item.partsPrice}</td>
-	                                            <td>${item.cledCdNm}</td>
-	                                            <td>${item.cmCdNm}</td>
-	                                            <td>${item.cmcCdNm}</td>
-	                                            <td>${item.cscCdNm}</td>
-	                                            <td>${item.caseasCdNm}</td>
-	                                            
-	                                            <!-- 안보이는부분 -->
-	                                            <td>${item.id}</td>
+	                                            <td>${item.processTypeExclusiveCd}</td>
+	                                            <td>${item.processTypeExclusiveCdNm}</td>
+	                                            <td>${item.processLgCdNm}</td>
+	                                            <td>${item.useYn}</td>
                                         	</tr>
 										</c:forEach>
                                     </tbody>
@@ -202,6 +189,8 @@
                 </footer>
             </div>
         </div>
+        
+        
         <script src="/resources/js/sbAdmin-sidebar-script.js"></script>
     </body>
 </html>

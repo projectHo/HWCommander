@@ -19,6 +19,10 @@ var targetId = null;
 
     $(function(){
         $('#btn_signUp').on("click", function () {
+        	// todo wonho
+        	alert("현재는 회원가입이 불가능합니다.");
+        	return false;
+        	
         	if(!validationCheck()) {
         		return false;
         	}
