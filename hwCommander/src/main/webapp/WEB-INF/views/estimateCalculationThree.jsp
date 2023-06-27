@@ -1,6 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
-<>
 <head>
 <title>현우의 컴퓨터 공방 - 견적산출</title>
 <!-- Required meta tags -->
@@ -165,7 +164,6 @@
 			}
 			prevTotalVal = totalVal;
 		}
-		
 	}
 	// explane-area
 	function mouseEnter(elem){
@@ -186,9 +184,63 @@
 			$("#explane-area").html("가성비 : (깡통 독3사) 최소한의 기준치를 충족한 제품군들 중 성능만을 위해 예산을 소요합니다. 가격대 성능비가 가장 좋지만 체급에 비해 종합 안정성이 떨어집니다.\n\n메인스트림 : (필수옵션 소나타)해당 예산대의 평균적인 제품군을 선정합니다. 예산 내의 이상적인 견적을 받을 수 있습니다.\n\n프리미엄 : (풀옵 경차)예산에 비해 과한 제품 종합 안정성을 보장합니다. 각 라인업별 최고의 제품들만 선별하여 활용하겠지만, 성능은 돈값을 못한다는 이야기를 듣기 쉽습니다.");
 		}
 	}
+	
 
+	
 	$(function () {
 		// bootstrap tooltip
+		// const canvas = $('<canvas></canvas>').attr("id","hexCanvas").html("");
+		// $(".hex").append(canvas);
+		// const ctx = canvas[0].getContext('2d');
+		// const centerX = canvas.width() / 2;
+		// const centerY = canvas.height() / 2;
+		// const vertices = [
+		// 	{ x: 110 , y: 35 },
+		// 	{ x: 185 , y: 35 },
+		// 	{ x: 225 , y: 75 },
+		// 	{ x: 185 , y: 113 },
+		// 	{ x: 110 , y: 113 },
+		// 	{ x: 70 , y: 75 }
+		// ];
+		
+		// function drawCanvas() {
+		// 	ctx.clearRect(0, 0, canvas.width(), canvas.height());
+
+		// 	ctx.beginPath();
+		// 	ctx.moveTo(vertices[0].x, vertices[0].y);
+		// 	for (let i = 1; i < vertices.length; i++) {
+		// 		ctx.lineTo(vertices[i].x, vertices[i].y);
+		// 	}
+		// 	ctx.closePath();
+		// 	ctx.fillStyle = 'lightgray';
+		// 	ctx.fill();
+		// }	
+		// let x;
+		// let y;
+		// const inputs = $(".hex-range");
+		// for(let i = 0 ; i< inputs.length; i++){
+		// 	inputs[i].addEventListener("input", function(){
+		// 		vertices[i].x = x;
+		// 		vertices[i].y = y;
+		// 		drawCanvas();
+		// 	})
+		// }
+		
+		// let selectedVertexIndex = -1;
+		// $(".hex").mousedown(function(e) {
+		// 	x = e.pageX - $(canvas).offset().left -60;
+		// 	y = e.pageY - $(canvas).offset().top;
+			
+		// });
+
+		// 	// 마우스 이동 이벤트 핸들러
+		// $(".hex").mousemove(function(e) {
+		// 	x = e.pageX - $(canvas).offset().left - 60;
+		// 	y = e.pageY - $(canvas).offset().top;
+		// 	console.log(e.pageX + "," + $("canvas").offset().left + "move" + x)
+		// });
+		// drawCanvas()
+	
 		const tooltipList = $('[data-bs-toggle="tooltip"]').map(function() {
 			return new bootstrap.Tooltip($(this)[0]);
 		}).get();
@@ -239,41 +291,8 @@
 				});
 			});
 		})();
+
 		
-		// hex-process
-		// const hex = $(".hex");
-
-		// const hexFever = { x:641, y:727};
-		// const hexMaterial = { x:732, y:727};
-		// const hexAs = { x:778, y:807};
-		// const hexNoise = { x:733, y:887};
-		// const hexStability = { x:641, y:887};
-		// const hexOc = { x:592, y:807};
-		function getThumbPosition() {
-			var feverThumb = $("#hexFever::-webkit-slider-thumb");
-			var thumbPosition = $("#hexFever").val();
-			var rangeWidth = $("#hexFever").width();
-			var thumbWidth = feverThumb.width();
-			var thumbOffset = (thumbPosition * (rangeWidth - thumbWidth)) / 100;
-			console.log(thumbOffset)
-			return thumbOffset;
-		}
-
-		// thumb 위치에 선 그리기
-		function drawLine() {
-
-			var startPoint =  $("#hexFever").offset().left + ($("#hexFever").width() / 2);
-			var endPoint =  $("#hexMaterial").offset().left + ($("#hexMaterial").width() / 2);
-			
-			$("#line").css("left", startPoint).css("width", endPoint - startPoint).css("border","1px solid black");
-			console.log(startPoint)
-			console.log(endPoint)
-		}
-
-		// range 요소 변경 시 선 그리기 호출
-		$('.hex-range').on('input', function() {
-			drawLine();
-		});
 	})
 </script>
 </head>
@@ -323,7 +342,6 @@
 											<input type="range" class="form-range hex-range" min="0" max="2" step="0.01" value="1.00" id="hexNoise" oninput="javascript:hexagonDrag()">	
 											<input type="range" class="form-range hex-range" min="0" max="2" step="0.01" value="1.00" id="hexStability" oninput="javascript:hexagonDrag()">	
 											<input type="range" class="form-range hex-range" min="0" max="2" step="0.01" value="1.00" id="hexQc" oninput="javascript:hexagonDrag()">
-											<div id="line"></div>
 										</div>
 									</div>
 								</div>
