@@ -30,11 +30,12 @@ import com.hw.model.PartsPsuVO;
 import com.hw.model.PartsRamVO;
 import com.hw.model.PartsSfVO;
 import com.hw.model.PartsSsdVO;
+import com.hw.model.ProcessResourceMasterVO;
 import com.hw.model.ProcessResourceTypeCodeInfoVO;
 import com.hw.model.ProductDetailVO;
 import com.hw.model.ProductMasterVO;
 import com.hw.model.UserInfoVO;
-import com.hw.service.AdminService;
+import com.hw.service.CommonService;
 import com.hw.service.PartsService;
 import com.hw.service.ProcessResourceService;
 import com.hw.service.ProductService;
@@ -46,7 +47,7 @@ public class AdminController {
 	private static final Logger LOGGER = LogManager.getLogger(AdminController.class);
 	
 	@Autowired
-    private AdminService adminService;
+    private CommonService commonService;
 	
 	@Autowired
     private PartsService partsService;
@@ -73,10 +74,10 @@ public class AdminController {
 	
 	@RequestMapping(value = "/gpuRegist.do", method = RequestMethod.GET)
 	public String goGpuRegist(HttpServletRequest request, Model model) {
-		model.addAttribute("gled_cd", adminService.getComnCdDetailList("COM002"));
-		model.addAttribute("gmc_cd", adminService.getComnCdDetailList("PRT001"));
-		model.addAttribute("gsc_cd", adminService.getComnCdDetailList("PRT002"));
-		model.addAttribute("gpuas_cd", adminService.getComnCdDetailList("PRT003"));
+		model.addAttribute("gled_cd", commonService.getComnCdDetailList("COM002"));
+		model.addAttribute("gmc_cd", commonService.getComnCdDetailList("PRT001"));
+		model.addAttribute("gsc_cd", commonService.getComnCdDetailList("PRT002"));
+		model.addAttribute("gpuas_cd", commonService.getComnCdDetailList("PRT003"));
 		return adminLoginCheck(request, model, "gpuRegist");
 	}
 	
@@ -88,10 +89,10 @@ public class AdminController {
 	
 	@RequestMapping(value = "/gpuUpdate.do", method = RequestMethod.GET)
 	public String goGpuUpdate(HttpServletRequest request, Model model, @RequestParam(value = "partsId", required = true) String partsId) {
-		model.addAttribute("gled_cd", adminService.getComnCdDetailList("COM002"));
-		model.addAttribute("gmc_cd", adminService.getComnCdDetailList("PRT001"));
-		model.addAttribute("gsc_cd", adminService.getComnCdDetailList("PRT002"));
-		model.addAttribute("gpuas_cd", adminService.getComnCdDetailList("PRT003"));
+		model.addAttribute("gled_cd", commonService.getComnCdDetailList("COM002"));
+		model.addAttribute("gmc_cd", commonService.getComnCdDetailList("PRT001"));
+		model.addAttribute("gsc_cd", commonService.getComnCdDetailList("PRT002"));
+		model.addAttribute("gpuas_cd", commonService.getComnCdDetailList("PRT003"));
 		
 		model.addAttribute("selectData", partsService.getPartsGpuVOById(partsId));
 		return adminLoginCheck(request, model, "gpuUpdate");
@@ -115,8 +116,8 @@ public class AdminController {
 	
 	@RequestMapping(value = "/cpuRegist.do", method = RequestMethod.GET)
 	public String goCpuRegist(HttpServletRequest request, Model model) {
-		model.addAttribute("maker_cd", adminService.getComnCdDetailList("PRT009"));
-		model.addAttribute("cpu_soc_cd", adminService.getComnCdDetailList("PRT007"));
+		model.addAttribute("maker_cd", commonService.getComnCdDetailList("PRT009"));
+		model.addAttribute("cpu_soc_cd", commonService.getComnCdDetailList("PRT007"));
 		return adminLoginCheck(request, model, "cpuRegist");
 	}
 	
@@ -128,8 +129,8 @@ public class AdminController {
 	
 	@RequestMapping(value = "/cpuUpdate.do", method = RequestMethod.GET)
 	public String goCpuUpdate(HttpServletRequest request, Model model, @RequestParam(value = "partsId", required = true) String partsId) {
-		model.addAttribute("maker_cd", adminService.getComnCdDetailList("PRT009"));
-		model.addAttribute("cpu_soc_cd", adminService.getComnCdDetailList("PRT007"));
+		model.addAttribute("maker_cd", commonService.getComnCdDetailList("PRT009"));
+		model.addAttribute("cpu_soc_cd", commonService.getComnCdDetailList("PRT007"));
 		
 		model.addAttribute("selectData", partsService.getPartsCpuVOById(partsId));
 		return adminLoginCheck(request, model, "cpuUpdate");
@@ -152,13 +153,13 @@ public class AdminController {
 	
 	@RequestMapping(value = "/mbRegist.do", method = RequestMethod.GET)
 	public String goMbRegist(HttpServletRequest request, Model model) {
-		model.addAttribute("mled_cd", adminService.getComnCdDetailList("COM002"));
-		model.addAttribute("mmc_cd", adminService.getComnCdDetailList("PRT004"));
-		model.addAttribute("msc_cd", adminService.getComnCdDetailList("PRT005"));
-		model.addAttribute("mbas_cd", adminService.getComnCdDetailList("PRT006"));
-		model.addAttribute("cpu_soc_cd", adminService.getComnCdDetailList("PRT007"));
-		model.addAttribute("mem_soc_cd", adminService.getComnCdDetailList("PRT024"));
-		model.addAttribute("scs_cd", adminService.getComnCdDetailList("PRT008"));
+		model.addAttribute("mled_cd", commonService.getComnCdDetailList("COM002"));
+		model.addAttribute("mmc_cd", commonService.getComnCdDetailList("PRT004"));
+		model.addAttribute("msc_cd", commonService.getComnCdDetailList("PRT005"));
+		model.addAttribute("mbas_cd", commonService.getComnCdDetailList("PRT006"));
+		model.addAttribute("cpu_soc_cd", commonService.getComnCdDetailList("PRT007"));
+		model.addAttribute("mem_soc_cd", commonService.getComnCdDetailList("PRT024"));
+		model.addAttribute("scs_cd", commonService.getComnCdDetailList("PRT008"));
 		return adminLoginCheck(request, model, "mbRegist");
 	}
 	
@@ -170,13 +171,13 @@ public class AdminController {
 	
 	@RequestMapping(value = "/mbUpdate.do", method = RequestMethod.GET)
 	public String goMbUpdate(HttpServletRequest request, Model model, @RequestParam(value = "partsId", required = true) String partsId) {
-		model.addAttribute("mled_cd", adminService.getComnCdDetailList("COM002"));
-		model.addAttribute("mmc_cd", adminService.getComnCdDetailList("PRT004"));
-		model.addAttribute("msc_cd", adminService.getComnCdDetailList("PRT005"));
-		model.addAttribute("mbas_cd", adminService.getComnCdDetailList("PRT006"));
-		model.addAttribute("cpu_soc_cd", adminService.getComnCdDetailList("PRT007"));
-		model.addAttribute("mem_soc_cd", adminService.getComnCdDetailList("PRT024"));
-		model.addAttribute("scs_cd", adminService.getComnCdDetailList("PRT008"));
+		model.addAttribute("mled_cd", commonService.getComnCdDetailList("COM002"));
+		model.addAttribute("mmc_cd", commonService.getComnCdDetailList("PRT004"));
+		model.addAttribute("msc_cd", commonService.getComnCdDetailList("PRT005"));
+		model.addAttribute("mbas_cd", commonService.getComnCdDetailList("PRT006"));
+		model.addAttribute("cpu_soc_cd", commonService.getComnCdDetailList("PRT007"));
+		model.addAttribute("mem_soc_cd", commonService.getComnCdDetailList("PRT024"));
+		model.addAttribute("scs_cd", commonService.getComnCdDetailList("PRT008"));
 		
 		model.addAttribute("selectData", partsService.getPartsMbVOById(partsId));
 		return adminLoginCheck(request, model, "mbUpdate");
@@ -199,11 +200,11 @@ public class AdminController {
 	
 	@RequestMapping(value = "/ramRegist.do", method = RequestMethod.GET)
 	public String goRamRegist(HttpServletRequest request, Model model) {
-		model.addAttribute("rled_cd", adminService.getComnCdDetailList("COM002"));
-		model.addAttribute("rmc_cd", adminService.getComnCdDetailList("PRT010"));
-		model.addAttribute("rsc_cd", adminService.getComnCdDetailList("PRT011"));
-		model.addAttribute("pr_cd", adminService.getComnCdDetailList("PRT012"));
-		model.addAttribute("mem_soc_cd", adminService.getComnCdDetailList("PRT024"));
+		model.addAttribute("rled_cd", commonService.getComnCdDetailList("COM002"));
+		model.addAttribute("rmc_cd", commonService.getComnCdDetailList("PRT010"));
+		model.addAttribute("rsc_cd", commonService.getComnCdDetailList("PRT011"));
+		model.addAttribute("pr_cd", commonService.getComnCdDetailList("PRT012"));
+		model.addAttribute("mem_soc_cd", commonService.getComnCdDetailList("PRT024"));
 		return adminLoginCheck(request, model, "ramRegist");
 	}
 	
@@ -215,11 +216,11 @@ public class AdminController {
 	
 	@RequestMapping(value = "/ramUpdate.do", method = RequestMethod.GET)
 	public String goRamUpdate(HttpServletRequest request, Model model, @RequestParam(value = "partsId", required = true) String partsId) {
-		model.addAttribute("rled_cd", adminService.getComnCdDetailList("COM002"));
-		model.addAttribute("rmc_cd", adminService.getComnCdDetailList("PRT010"));
-		model.addAttribute("rsc_cd", adminService.getComnCdDetailList("PRT011"));
-		model.addAttribute("pr_cd", adminService.getComnCdDetailList("PRT012"));
-		model.addAttribute("mem_soc_cd", adminService.getComnCdDetailList("PRT024"));
+		model.addAttribute("rled_cd", commonService.getComnCdDetailList("COM002"));
+		model.addAttribute("rmc_cd", commonService.getComnCdDetailList("PRT010"));
+		model.addAttribute("rsc_cd", commonService.getComnCdDetailList("PRT011"));
+		model.addAttribute("pr_cd", commonService.getComnCdDetailList("PRT012"));
+		model.addAttribute("mem_soc_cd", commonService.getComnCdDetailList("PRT024"));
 		
 		model.addAttribute("selectData", partsService.getPartsRamVOById(partsId));
 		return adminLoginCheck(request, model, "ramUpdate");
@@ -242,8 +243,8 @@ public class AdminController {
 	
 	@RequestMapping(value = "/psuRegist.do", method = RequestMethod.GET)
 	public String goPsuRegist(HttpServletRequest request, Model model) {
-		model.addAttribute("pmc_cd", adminService.getComnCdDetailList("PRT013"));
-		model.addAttribute("psc_cd", adminService.getComnCdDetailList("PRT014"));
+		model.addAttribute("pmc_cd", commonService.getComnCdDetailList("PRT013"));
+		model.addAttribute("psc_cd", commonService.getComnCdDetailList("PRT014"));
 		return adminLoginCheck(request, model, "psuRegist");
 	}
 	
@@ -255,8 +256,8 @@ public class AdminController {
 	
 	@RequestMapping(value = "/psuUpdate.do", method = RequestMethod.GET)
 	public String goPsuUpdate(HttpServletRequest request, Model model, @RequestParam(value = "partsId", required = true) String partsId) {
-		model.addAttribute("pmc_cd", adminService.getComnCdDetailList("PRT013"));
-		model.addAttribute("psc_cd", adminService.getComnCdDetailList("PRT014"));
+		model.addAttribute("pmc_cd", commonService.getComnCdDetailList("PRT013"));
+		model.addAttribute("psc_cd", commonService.getComnCdDetailList("PRT014"));
 		
 		model.addAttribute("selectData", partsService.getPartsPsuVOById(partsId));
 		return adminLoginCheck(request, model, "psuUpdate");
@@ -279,11 +280,11 @@ public class AdminController {
 	
 	@RequestMapping(value = "/caseRegist.do", method = RequestMethod.GET)
 	public String goCaseRegist(HttpServletRequest request, Model model) {
-		model.addAttribute("cled_cd", adminService.getComnCdDetailList("COM002"));
-		model.addAttribute("cm_cd", adminService.getComnCdDetailList("PRT023"));
-		model.addAttribute("cmc_cd", adminService.getComnCdDetailList("PRT015"));
-		model.addAttribute("csc_cd", adminService.getComnCdDetailList("PRT016"));
-		model.addAttribute("caseas_cd", adminService.getComnCdDetailList("PRT017"));
+		model.addAttribute("cled_cd", commonService.getComnCdDetailList("COM002"));
+		model.addAttribute("cm_cd", commonService.getComnCdDetailList("PRT023"));
+		model.addAttribute("cmc_cd", commonService.getComnCdDetailList("PRT015"));
+		model.addAttribute("csc_cd", commonService.getComnCdDetailList("PRT016"));
+		model.addAttribute("caseas_cd", commonService.getComnCdDetailList("PRT017"));
 		return adminLoginCheck(request, model, "caseRegist");
 	}
 	
@@ -295,11 +296,11 @@ public class AdminController {
 	
 	@RequestMapping(value = "/caseUpdate.do", method = RequestMethod.GET)
 	public String goCaseUpdate(HttpServletRequest request, Model model, @RequestParam(value = "partsId", required = true) String partsId) {
-		model.addAttribute("cled_cd", adminService.getComnCdDetailList("COM002"));
-		model.addAttribute("cm_cd", adminService.getComnCdDetailList("PRT023"));
-		model.addAttribute("cmc_cd", adminService.getComnCdDetailList("PRT015"));
-		model.addAttribute("csc_cd", adminService.getComnCdDetailList("PRT016"));
-		model.addAttribute("caseas_cd", adminService.getComnCdDetailList("PRT017"));
+		model.addAttribute("cled_cd", commonService.getComnCdDetailList("COM002"));
+		model.addAttribute("cm_cd", commonService.getComnCdDetailList("PRT023"));
+		model.addAttribute("cmc_cd", commonService.getComnCdDetailList("PRT015"));
+		model.addAttribute("csc_cd", commonService.getComnCdDetailList("PRT016"));
+		model.addAttribute("caseas_cd", commonService.getComnCdDetailList("PRT017"));
 		
 		model.addAttribute("selectData", partsService.getPartsCaseVOById(partsId));
 		return adminLoginCheck(request, model, "caseUpdate");
@@ -322,10 +323,10 @@ public class AdminController {
 	
 	@RequestMapping(value = "/coolerRegist.do", method = RequestMethod.GET)
 	public String goCoolerRegist(HttpServletRequest request, Model model) {
-		model.addAttribute("clled_cd", adminService.getComnCdDetailList("COM002"));
-		model.addAttribute("clmc_cd", adminService.getComnCdDetailList("PRT018"));
-		model.addAttribute("clsc_cd", adminService.getComnCdDetailList("PRT019"));
-		model.addAttribute("formula_cd", adminService.getComnCdDetailList("PRT020"));
+		model.addAttribute("clled_cd", commonService.getComnCdDetailList("COM002"));
+		model.addAttribute("clmc_cd", commonService.getComnCdDetailList("PRT018"));
+		model.addAttribute("clsc_cd", commonService.getComnCdDetailList("PRT019"));
+		model.addAttribute("formula_cd", commonService.getComnCdDetailList("PRT020"));
 		return adminLoginCheck(request, model, "coolerRegist");
 	}
 	
@@ -337,10 +338,10 @@ public class AdminController {
 	
 	@RequestMapping(value = "/coolerUpdate.do", method = RequestMethod.GET)
 	public String goCoolerUpdate(HttpServletRequest request, Model model, @RequestParam(value = "partsId", required = true) String partsId) {
-		model.addAttribute("clled_cd", adminService.getComnCdDetailList("COM002"));
-		model.addAttribute("clmc_cd", adminService.getComnCdDetailList("PRT018"));
-		model.addAttribute("clsc_cd", adminService.getComnCdDetailList("PRT019"));
-		model.addAttribute("formula_cd", adminService.getComnCdDetailList("PRT020"));
+		model.addAttribute("clled_cd", commonService.getComnCdDetailList("COM002"));
+		model.addAttribute("clmc_cd", commonService.getComnCdDetailList("PRT018"));
+		model.addAttribute("clsc_cd", commonService.getComnCdDetailList("PRT019"));
+		model.addAttribute("formula_cd", commonService.getComnCdDetailList("PRT020"));
 		
 		model.addAttribute("selectData", partsService.getPartsCoolerVOById(partsId));
 		return adminLoginCheck(request, model, "coolerUpdate");
@@ -395,7 +396,7 @@ public class AdminController {
 	
 	@RequestMapping(value = "/ssdRegist.do", method = RequestMethod.GET)
 	public String goSsdRegist(HttpServletRequest request, Model model) {
-		model.addAttribute("scs_cd", adminService.getComnCdDetailList("PRT008"));
+		model.addAttribute("scs_cd", commonService.getComnCdDetailList("PRT008"));
 		return adminLoginCheck(request, model, "ssdRegist");
 	}
 	
@@ -407,7 +408,7 @@ public class AdminController {
 	
 	@RequestMapping(value = "/ssdUpdate.do", method = RequestMethod.GET)
 	public String goSsdUpdate(HttpServletRequest request, Model model, @RequestParam(value = "partsId", required = true) String partsId) {
-		model.addAttribute("scs_cd", adminService.getComnCdDetailList("PRT008"));
+		model.addAttribute("scs_cd", commonService.getComnCdDetailList("PRT008"));
 		
 		model.addAttribute("selectData", partsService.getPartsSsdVOById(partsId));
 		return adminLoginCheck(request, model, "ssdUpdate");
@@ -431,9 +432,9 @@ public class AdminController {
 	
 	@RequestMapping(value = "/sfRegist.do", method = RequestMethod.GET)
 	public String goSfRegist(HttpServletRequest request, Model model) {
-		model.addAttribute("fled_cd", adminService.getComnCdDetailList("COM002"));
-		model.addAttribute("fmc_cd", adminService.getComnCdDetailList("PRT021"));
-		model.addAttribute("fsc_cd", adminService.getComnCdDetailList("PRT022"));
+		model.addAttribute("fled_cd", commonService.getComnCdDetailList("COM002"));
+		model.addAttribute("fmc_cd", commonService.getComnCdDetailList("PRT021"));
+		model.addAttribute("fsc_cd", commonService.getComnCdDetailList("PRT022"));
 		return adminLoginCheck(request, model, "sfRegist");
 	}
 	
@@ -445,9 +446,9 @@ public class AdminController {
 	
 	@RequestMapping(value = "/sfUpdate.do", method = RequestMethod.GET)
 	public String goSfUpdate(HttpServletRequest request, Model model, @RequestParam(value = "partsId", required = true) String partsId) {
-		model.addAttribute("fled_cd", adminService.getComnCdDetailList("COM002"));
-		model.addAttribute("fmc_cd", adminService.getComnCdDetailList("PRT021"));
-		model.addAttribute("fsc_cd", adminService.getComnCdDetailList("PRT022"));
+		model.addAttribute("fled_cd", commonService.getComnCdDetailList("COM002"));
+		model.addAttribute("fmc_cd", commonService.getComnCdDetailList("PRT021"));
+		model.addAttribute("fsc_cd", commonService.getComnCdDetailList("PRT022"));
 		
 		model.addAttribute("selectData", partsService.getPartsSfVOById(partsId));
 		return adminLoginCheck(request, model, "sfUpdate");
@@ -471,7 +472,7 @@ public class AdminController {
 	
 	@RequestMapping(value = "/productRegist.do", method = RequestMethod.GET)
 	public String goProductRegist(HttpServletRequest request, Model model) {
-		model.addAttribute("parts_type_cd", adminService.getComnCdDetailList("COM003"));
+		model.addAttribute("parts_type_cd", commonService.getComnCdDetailList("COM003"));
 		model.addAttribute("gpuList", partsService.getGpuAllList());
 		model.addAttribute("cpuList", partsService.getCpuAllList());
 		model.addAttribute("mbList", partsService.getMbAllList());
@@ -504,7 +505,7 @@ public class AdminController {
 	
 	@RequestMapping(value = "/productUpdate.do", method = RequestMethod.GET)
 	public String goProductUpdate(HttpServletRequest request, Model model, @RequestParam(value = "productId", required = true) String productId) {
-		model.addAttribute("parts_type_cd", adminService.getComnCdDetailList("COM003"));
+		model.addAttribute("parts_type_cd", commonService.getComnCdDetailList("COM003"));
 		model.addAttribute("gpuList", partsService.getGpuAllList());
 		model.addAttribute("cpuList", partsService.getCpuAllList());
 		model.addAttribute("mbList", partsService.getMbAllList());
@@ -552,7 +553,7 @@ public class AdminController {
 	
 	
 	/*--------------------------------------------------
-	 - PROCESS RESOURCE
+	 - PROCESS RESOURCE(Type Code)
 	*--------------------------------------------------*/
 	@RequestMapping(value = "/resourceTypeCodeManagement.do", method = RequestMethod.GET)
 	public String goResourceTypeCodeManagement(HttpServletRequest request, Model model) {
@@ -562,7 +563,7 @@ public class AdminController {
 	
 	@RequestMapping(value = "/resourceTypeCodeRegist.do", method = RequestMethod.GET)
 	public String goResourceTypeCodeRegist(HttpServletRequest request, Model model) {
-		model.addAttribute("process_lg_cd", adminService.getComnCdDetailList("COM004"));
+		model.addAttribute("process_lg_cd", commonService.getComnCdDetailList("COM004"));
 		return adminLoginCheck(request, model, "resourceTypeCodeRegist");
 	}
 	
@@ -570,6 +571,28 @@ public class AdminController {
 	@ResponseBody
 	public Integer resourceTypeCodeRegistLogic(ProcessResourceTypeCodeInfoVO processResourceTypeCodeInfoVO) {
 		return processResourceService.processResourceTypeCodeInfoRegistLogic(processResourceTypeCodeInfoVO);
+	}
+	
+	/*--------------------------------------------------
+	 - PROCESS RESOURCE(Category - Master)
+	*--------------------------------------------------*/
+	@RequestMapping(value = "/resourceMasterManagement.do", method = RequestMethod.GET)
+	public String goResourceMasterManagement(HttpServletRequest request, Model model) {
+		model.addAttribute("resourceMasterList", processResourceService.getProcessResourceMasterAllList());
+		return adminLoginCheck(request, model, "resourceMasterManagement");
+	}
+	
+	@RequestMapping(value = "/resourceMasterRegist.do", method = RequestMethod.GET)
+	public String goResourceMasterRegist(HttpServletRequest request, Model model) {
+		model.addAttribute("process_lg_cd", commonService.getComnCdDetailList("COM004"));
+		model.addAttribute("resourceTypeCodeList", processResourceService.getProcessResourceTypeCodeInfoAllList());
+		return adminLoginCheck(request, model, "resourceMasterRegist");
+	}
+	
+	@RequestMapping(value = "/resourceMasterRegistLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer resourceMasterRegistLogic(ProcessResourceMasterVO processResourceMasterVO) {
+		return processResourceService.processResourceMasterRegistLogic(processResourceMasterVO);
 	}
 	
 	private String adminLoginCheck(HttpServletRequest request, Model model, String url) {

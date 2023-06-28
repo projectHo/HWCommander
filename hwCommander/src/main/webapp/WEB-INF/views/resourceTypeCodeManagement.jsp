@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - TYPE CODE</title>
+<title>현우의 컴퓨터 공방 - Type Code</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <!-- Bootstrap CSS -->
@@ -33,9 +33,9 @@
     	    , bAutoWidth : false
     	    , columnDefs : [
 	    	    {targets : 0, width : "25%"}
-	    	    , {targets : 1, width : "25%"}
-	    	    , {targets : 2, width : "25%"}
-	    	    , {targets : 3, width : "25%"}
+	    	    , {targets : 1, width : "40%"}
+	    	    , {targets : 2, width : "20%"}
+	    	    , {targets : 3, width : "15%"}
 	    	    /* 
 	    	    , {targets : 5, visible : false} // id
 	    	     */
@@ -110,11 +110,11 @@
                             <a class="nav-link" href="resourceTypeCodeManagement.do">
 								Type Code
                             </a>
-                            <a class="nav-link" href="resourceCategoryManagement.do">
-								Category
+                            <a class="nav-link" href="resourceMasterManagement.do">
+								Category(Master)
                             </a>
-                            <a class="nav-link" href="resourceDetailDataManagement.do">
-								Detail Data
+                            <a class="nav-link" href="resourceDetailManagement.do">
+								Resource Data(Detail)
                             </a>
                             <div class="sb-sidenav-menu-heading">주문관리</div>
                             <a class="nav-link" href="orderManagement.do">
@@ -131,14 +131,14 @@
             <div id="layoutSidenav_content">
 				<main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">TYPE CODE</h1>
+                        <h1 class="mt-4">Type Code</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="main.do">Admin Page</a></li>
-                            <li class="breadcrumb-item active">TYPE CODE</li>
+                            <li class="breadcrumb-item active">Type Code</li>
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                                TYPE CODE를 관리합니다. 조회, 추가 작업을 할 수 있습니다.
+                                Type Code를 관리합니다. 조회, 추가 작업을 할 수 있습니다.
                             </div>
                         </div>
                         <div class="card mb-4">

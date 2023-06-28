@@ -87,7 +87,10 @@
     	private String recipientName;
     	private String recipientHpNumber;
     	private String recipientHpNumber2;
-    	private String recipientAddr;
+    	private String recipientZipcode;
+    	recipientJibunAddr
+    	recipientRoadAddr
+    	recipientDetailAddr
     	private String orderRequest;
     	private String deliveryRequest;
     	private String paymentMethod;
@@ -209,9 +212,27 @@ function btnCheckOutClick() {
 						</div>
 					</div>
 					<div class="mb-3 row">
-						<label for="recipientAddr" class="col-sm-2 col-form-label">주소</label>
+						<label for="recipientZipcode" class="col-sm-2 col-form-label">우편번호</label>
 						<div class="col-sm-7">
-							<input type="text" class="form-control" id="recipientAddr" name="recipientAddr" required>
+							<input type="text" class="form-control" id=recipientZipcode name="recipientZipcode" required>
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="recipientJibunAddr" class="col-sm-2 col-form-label">지번주소</label>
+						<div class="col-sm-7">
+							<input type="text" class="form-control" id=recipientJibunAddr name="recipientJibunAddr" required>
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="recipientRoadAddr" class="col-sm-2 col-form-label">도로명주소</label>
+						<div class="col-sm-7">
+							<input type="text" class="form-control" id=recipientRoadAddr name="recipientRoadAddr" required>
+						</div>
+					</div>
+					<div class="mb-3 row">
+						<label for="recipientDetailAddr" class="col-sm-2 col-form-label">상세주소</label>
+						<div class="col-sm-7">
+							<input type="text" class="form-control" id=recipientDetailAddr name="recipientDetailAddr" required>
 						</div>
 					</div>
 					<div class="mb-3 row">

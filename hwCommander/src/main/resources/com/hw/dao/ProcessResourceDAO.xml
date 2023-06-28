@@ -60,4 +60,59 @@
 			a.process_type_exclusive_cd = #{processTypeExclusiveCd}
 	</select>
 	
+	<select id="getProcessResourceMasterVOMaxId" resultType="String">
+		SELECT CONCAT('PR', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 3)), 0)+1, 6, '0') FROM process_resource_master)) AS id FROM DUAL
+	</select>
+	
+	<insert id="insertProcessResourceMasterVO" parameterType="processResourceMasterVO">
+		INSERT INTO process_resource_master
+		(
+			id
+			, process_lg_cd
+			, process_type_exclusive_cd
+			, process_name
+			, reg_dtm
+			, updt_dtm
+		)
+		VALUES
+		(
+			#{id}
+			, #{processLgCd}
+			, #{processTypeExclusiveCd}
+			, #{processName}
+			, NOW()
+			, #{updtDtm}
+		)
+	</insert>
+	
+	<select id="getProcessResourceMasterAllList" resultType="processResourceMasterVO">
+		SELECT 
+			a.id                                                                                AS id                
+			, a.process_lg_cd                                                                   AS processLgCd       
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'COM004' AND cd = a.process_lg_cd) AS processLgCdNm
+			, a.process_type_exclusive_cd                                                       AS processTypeExclusiveCd
+			-- 공통코드가 아님. 사용자가 변경할 수 있는 process_resource_type_cd_info table 참조함.
+			, (SELECT process_type_exclusive_cd_nm FROM process_resource_type_cd_info WHERE process_type_exclusive_cd = a.process_type_exclusive_cd) AS processTypeExclusiveCdNm
+			, a.reg_dtm                                                                         AS regDtm            
+			, a.updt_dtm                                                                        AS updtDtm            
+		FROM
+			process_resource_master a
+	</select>
+	
+	<select id="getProcessResourceMasterById" parameterType="String" resultType="processResourceMasterVO">
+		SELECT 
+			a.id                                                                                AS id                
+			, a.process_lg_cd                                                                   AS processLgCd       
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'COM004' AND cd = a.process_lg_cd) AS processLgCdNm
+			, a.process_type_exclusive_cd                                                       AS processTypeExclusiveCd
+			-- 공통코드가 아님. 사용자가 변경할 수 있는 process_resource_type_cd_info table 참조함.
+			, (SELECT process_type_exclusive_cd_nm FROM process_resource_type_cd_info WHERE process_type_exclusive_cd = a.process_type_exclusive_cd) AS processTypeExclusiveCdNm
+			, a.reg_dtm                                                                         AS regDtm            
+			, a.updt_dtm                                                                        AS updtDtm            
+		FROM
+			process_resource_master a
+		WHERE
+			a.id = #{id}
+	</select>
+	
 </mapper>
