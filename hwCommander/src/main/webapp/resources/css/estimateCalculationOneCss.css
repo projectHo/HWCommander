@@ -164,8 +164,7 @@ input[type="number"]::-webkit-inner-spin-button {
   background-color: black;
   border-radius: 50%;
 } */
-.hex-progress .track, .hex-progress .fill,
-.small-hex-progress .track, .small-hex-progress .fill{
+.hex-progress .track, .hex-progress .fill{
 	fill: rgba(0, 0, 0, 0);
 	stroke-width: 8;
 	transform: translate(290px, 800px)rotate(-120deg);
@@ -178,12 +177,12 @@ input[type="number"]::-webkit-inner-spin-button {
   position: absolute;
 }
 
-.hex-text1{ font-weight: bold; top: 40px; left: 56px;}
-.hex-text2{ font-weight: bold; top: 40px; right: 88px;}
-.hex-text3{ font-weight: bold; top: calc(50% - 11px); left: -32px;}
-.hex-text4{ font-weight: bold; top: calc(50% - 11px); right: -20px;}
-.hex-text5{ font-weight: bold; bottom: 28px; left: 52px;}
-.hex-text6{ font-weight: bold; bottom: 28px; right: 104px;}
+.hex-text1{ font-weight: bold; top: -4%; left: 42%;}
+.hex-text2{ font-weight: bold; top: 22%; right: 2%;}
+.hex-text3{ font-weight: bold; top: 22%;}
+.hex-text4{ font-weight: bold; top: 72%; right: 0%;}
+.hex-text5{ font-weight: bold; bottom: 18%; left: -10%;}
+.hex-text6{ font-weight: bold; bottom: -10%; right: 49%;}
 
 .small-hex-progress {
   width: 200px;
@@ -212,38 +211,39 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 
 #hexFever{
-  transform: rotate(240deg);
-  top: 156px;
-  left: 60px;
+  transform: rotate(270deg);
+  top: 30%;
+  left: 29%;
 }
 #hexMaterial{
-  transform: rotate(-60deg);
-  top: 156px;
-  right: 88px;
+  transform: rotate(-30deg);
+  top: 41%;
+  right: 18%;
 }
 #hexAs{
-  transform: rotate(180deg);
-  top: 236px;
-  left: 12px;
+  transform: rotate(210deg);
+  top: 41%;
+  left: 13%;
 }
 #hexNoise{
-  top: 236px;
-  right: 42px;
+  transform: rotate(30deg);
+  top: 60%;
+  right: 18%;
 }
 #hexStability{
-  transform: rotate(120deg);
-  top: 315px;
-  left: 60px;
+  transform: rotate(150deg);
+  top: 60%;
+  left: 13%;
 }
 #hexQc{
-  transform: rotate(60deg);
-  top: 315px;
-  right: 88px;
+  transform: rotate(90deg);
+  top: 70%;
+  right: 34%;
 }
 
 .hex input {
   position: absolute;
-  width: 43%;
+  width: 37%;
   z-index: 1;
 }
 
@@ -261,11 +261,11 @@ input[type="number"]::-webkit-inner-spin-button {
   background-color: #fff!important;
 }
 
-#hexCanvas{
+/* #hexCanvas{
   width: 366px;
   height: 317px;
   position: absolute;
   top: 18.7%;
   left: 3%;
-}
+} */
 

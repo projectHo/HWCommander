@@ -188,7 +188,7 @@
 
 	
 	$(function () {
-		// bootstrap tooltip
+	
 		// const canvas = $('<canvas></canvas>').attr("id","hexCanvas").html("");
 		// $(".hex").append(canvas);
 		// const ctx = canvas[0].getContext('2d');
@@ -240,7 +240,8 @@
 		// 	console.log(e.pageX + "," + $("canvas").offset().left + "move" + x)
 		// });
 		// drawCanvas()
-	
+
+		// bootstrap tooltip
 		const tooltipList = $('[data-bs-toggle="tooltip"]').map(function() {
 			return new bootstrap.Tooltip($(this)[0]);
 		}).get();
@@ -324,11 +325,10 @@
 						<div class="row pb-2">
 							<div class="col-6">
 								<div class="row">
-									<div class="hex-container">
+									<div class="hex-container mb-5">
 										<div class="hex m-4">
-											<svg class="hex-progress" viewBox="0 0 776 628">
-												<path class="track" d="M723 314L543 625.77 183 625.77 3 314 183 2.23 543 2.23 723 314z" ></path>
-												<path class="fill" d="M723 314L543 625.77 183 625.77 3 314 183 2.23 543 2.23 723 314z" stroke="url(#cl1)"></path>
+											<svg xmlns="http://www.w3.org/2000/svg" width="400" height="360" fill="currentColor" class="bi bi-hexagon mt-4" viewBox="0 0 16 16">
+												<path d="M14 4.577v6.846L8 15l-6-3.577V4.577L8 1l6 3.577zM8.5.134a1 1 0 0 0-1 0l-6 3.577a1 1 0 0 0-.5.866v6.846a1 1 0 0 0 .5.866l6 3.577a1 1 0 0 0 1 0l6-3.577a1 1 0 0 0 .5-.866V4.577a1 1 0 0 0-.5-.866L8.5.134z"/>
 											</svg>
 											<div class="hex-text hex-text1 fs-4" onmouseenter="javascript:mouseEnter(this)">발열</div>
 											<div class="hex-text hex-text2 fs-4" onmouseenter="javascript:mouseEnter(this)">소재</div>
@@ -345,7 +345,7 @@
 										</div>
 									</div>
 								</div>
-								<div class="row justify-content-center" style="padding-right: 2.1rem;">
+								<div class="row justify-content-center mt-5" style="padding-right: 2.1rem;">
 									<input type="range" class="form-range w-50" min="0" max="2" step="0.01" id="hex-val-total" oninput="javascript:totalValue()">
 									<label for="hex-val-total" class="form-label text-center ms-2" onmouseenter="javascript:mouseEnter(this)">가성비 <- 메인스트림 -> 프리미엄</label>
 								</div>
