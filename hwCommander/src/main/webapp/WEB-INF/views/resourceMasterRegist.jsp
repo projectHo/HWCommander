@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - PSU</title>
+<title>현우의 컴퓨터 공방 - Category(Master) Regist</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <!-- Bootstrap CSS -->
@@ -14,44 +14,113 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
 <meta name="author" content="" />
+
 <link href="/resources/css/sbAdmin-styles.css" rel="stylesheet" />
 <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-
-<!-- dataTables CDN -->
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
-<link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet"/>
-
-<!-- cookie js -->
-<script src="/resources/js/getSetCookie.js"></script>
-
+        
 <script>
-    $(function(){
-    	
-    	$("#psuListTable").DataTable({
-    		displayLength : setDisplayLength()
-    	    , bAutoWidth : false
-    	    , columnDefs : [
-	    	    {targets : 0, width : "50%"}
-	    	    , {targets : 1, width : "20%"}
-	    	    , {targets : 2, width : "15%"}
-	    	    , {targets : 3, width : "15%"}
-	    	    , {targets : 4, visible : false} // id
-    	    ]
-    	});
-    	
-    	$("#psuListTable").on('click', 'tbody tr', function () {
-    		var row = $("#psuListTable").DataTable().row($(this)).data();
-    		var partsId = row[4];
-    		location.href = "psuUpdate.do?partsId="+partsId;
-    	});
-    	
-        window.addEventListener('unload', function() {
-        	setCookie('displayLength', $("select[name=psuListTable_length]").val(), {'max-age': 1800});
-       	});
-    });
-</script>
 
+    $(function(){
+        $('#btn_master_regist').on("click", function () {
+        	if(!validationCheck()) {
+        		return false;
+        	}
+        	
+        	if(confirm("등록 하시겠습니까?")) {
+        		goMasterRegist();
+        	}
+        });
+        
+        // 서핑 제거
+		$('#processLgCd').find('option').each(function() {
+			if("03" == $(this).val()) {
+				$(this).hide();
+			}
+  	    });
+        
+		processTypeExclusiveCodeInit();
+        
+		$('#processLgCd').change(function() {
+			processLgCdChange();
+		});
+    });
+    
+function goMasterRegist() {
+	$("#useYn").val("Y");
+	
+    var form = $("#master_regist_form").serialize();
+    
+    $.ajax({
+        type: "post",
+        url: "/admin/resourceMasterRegistLogic.do",
+        data: form,
+        dataType: 'json',
+        success: function (data) {
+        	if(data == 1) {
+        		alert("등록완료");
+        	}else if(data == -2) {
+        		alert("이미 등록된 Process Type Exclusive Code입니다.");
+        		return false;
+        	}else {
+        		alert("등록실패");
+        	}
+        	window.location = "resourceMasterManagement.do";
+            console.log(data);
+        }
+    });
+}
+
+function validationCheck() {
+	if("00" == $('#processLgCd').val()) {
+		alert("Process Large Code를 선택하세요.");
+		return false;
+	}
+	
+	if("00" == $('#processTypeExclusiveCd').val()) {
+		alert("Process Type Exclusive Code를 선택하세요.");
+		return false;
+	}
+	
+	if("" == $('#processName').val().trim() || null == $('#processName').val().trim()) {
+		alert("Process Name을 입력하세요.");
+		return false;
+	}
+	
+	return true;
+}
+
+function processTypeExclusiveCodeInit() {
+    // 화면 로드시 초기화 Process Large Code 선택시에만 나오도록
+	$('#processTypeExclusiveCd').find('option').each(function() {
+		if("00" == $(this).val()) {
+			$(this).show();
+		}else {
+			$(this).hide();
+		}
+    });
+}
+
+function processLgCdChange() {
+	processTypeExclusiveCodeInit();
+	$('#processTypeExclusiveCd').val("00");
+	
+	    var filter = $('#processLgCd').val();
+	  	var $options = $('#processTypeExclusiveCd').find('option');
+	  	
+	$options.each(function() {
+		if("00" == filter) {
+			$(this).show();
+		}
+		
+		if($(this).attr("plgcd") == filter) {
+			$(this).show();
+		}else {
+			$(this).hide();
+		}
+    });
+}
+
+</script>
 </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -129,53 +198,57 @@
             <div id="layoutSidenav_content">
 				<main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">PSU</h1>
+                        <h1 class="mt-4">Category(Master) Regist</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="main.do">Admin Page</a></li>
-                            <li class="breadcrumb-item active">PSU</li>
+                            <li class="breadcrumb-item"><a href="resourceMasterManagement.do">Category(Master)</a></li>
+                            <li class="breadcrumb-item active">Category(Master) Regist</li>
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                                PSU를 관리합니다. 조회, 추가, 수정 작업을 할 수 있습니다.
+                                Category(Master)를  등록합니다.
                             </div>
                         </div>
                         <div class="card mb-4">
-                            <div class="card-header">
-								<div class="d-flex">
-								  <div class="me-auto d-flex align-items-center">Search PSU</div>
-								  <div>
-								  	<a class="btn btn-secondary btn-sm" href="psuRegist.do">등록</a>
-								  </div>
-								</div>
-                            </div>
-                            <div class="card-body">
-                                <table id="psuListTable" class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>parts name</th>
-                                            <th>parts price</th>
-                                            <th>PMC</th>
-                                            <th>PSC</th>
-                                            
-                                            <!-- 안보이는부분 -->
-                                            <th>ID</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-										<c:forEach var="item" items="${psuList}">
-											<tr>
-	                                            <td>${item.partsName}</td>
-	                                            <td>${item.partsPrice}</td>
-	                                            <td>${item.pmcCdNm}</td>
-	                                            <td>${item.pscCdNm}</td>
-	                                            
-	                                            <!-- 안보이는부분 -->
-	                                            <td>${item.id}</td>
-                                        	</tr>
-										</c:forEach>
-                                    </tbody>
-                                </table>
-                            </div>
+							<div class="card-body">
+                               <form id="master_regist_form">
+                                   <input type="hidden" id="useYn" name="useYn">
+                                   <div class="row mb-3">
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+												<select class="form-select pt-4" id="processLgCd" name="processLgCd">
+												  <option value="00" selected>-선택-</option>
+												  <c:forEach var="item" items="${process_lg_cd}">
+													  <option value="${item.cd}">${item.nm}</option>
+												  </c:forEach>
+												</select>
+												<label for="processLgCd">Process Large Code</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+												<select class="form-select pt-4" id="processTypeExclusiveCd" name="processTypeExclusiveCd">
+												  <option value="00" selected>-선택-</option>
+												  <c:forEach var="item" items="${resourceTypeCodeList}">
+													  <option plgcd="${item.processLgCd}" value="${item.processTypeExclusiveCd}">${item.processTypeExclusiveCdNm}</option>
+												  </c:forEach>
+												</select>
+												<label for="processTypeExclusiveCd">Process Type Exclusive Code</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0">
+                                               <input class="form-control" id="processName" name="processName" type="text" placeholder="Enter processName" maxlength="25"/>
+                                               <label for="processName">Process Name</label>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   
+                                   <div class="mt-4 mb-0">
+                                       <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_master_regist">Regist</a></div>
+                                   </div>
+                               </form>
+                           </div>
                         </div>
                     </div>
                 </main>
@@ -193,6 +266,8 @@
                 </footer>
             </div>
         </div>
+        
+        
         <script src="/resources/js/sbAdmin-sidebar-script.js"></script>
     </body>
 </html>

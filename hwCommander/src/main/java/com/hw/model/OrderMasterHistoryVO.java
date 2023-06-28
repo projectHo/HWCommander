@@ -18,7 +18,10 @@ public class OrderMasterHistoryVO {
 	private String recipientName;
 	private String recipientHpNumber;
 	private String recipientHpNumber2;
-	private String recipientAddr;
+	private String recipientJibunAddr;
+	private String recipientRoadAddr;
+	private String recipientDetailAddr;
+	private String recipientZipcode;
 	private String orderRequest;
 	private String deliveryRequest;
 	private String paymentMethod;

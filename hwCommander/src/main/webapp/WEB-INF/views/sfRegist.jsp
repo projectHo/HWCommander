@@ -187,11 +187,11 @@ function idDupliChk(id) {
                             <a class="nav-link" href="resourceTypeCodeManagement.do">
 								Type Code
                             </a>
-                            <a class="nav-link" href="resourceCategoryManagement.do">
-								Category
+                            <a class="nav-link" href="resourceMasterManagement.do">
+								Category(Master)
                             </a>
-                            <a class="nav-link" href="resourceDetailDataManagement.do">
-								Detail Data
+                            <a class="nav-link" href="resourceDetailManagement.do">
+								Resource Data(Detail)
                             </a>
                             <div class="sb-sidenav-menu-heading">주문관리</div>
                             <a class="nav-link" href="orderManagement.do">
@@ -237,7 +237,7 @@ function idDupliChk(id) {
                                        <div class="col-md-3">
                                            <div class="form-floating">
 												<select class="form-select pt-4" id="fledCd" name="fledCd">
-												  <option selected>-선택-</option>
+												  <option value="00" selected>-선택-</option>
 												  <c:forEach var="item" items="${fled_cd}">
 													  <option value="${item.cd}">${item.nm}</option>
 												  </c:forEach>
@@ -248,7 +248,7 @@ function idDupliChk(id) {
                                        <div class="col-md-3">
                                            <div class="form-floating">
 												<select class="form-select pt-4" id="fmcCd" name="fmcCd">
-												  <option selected>-선택-</option>
+												  <option value="00" selected>-선택-</option>
 												  <c:forEach var="item" items="${fmc_cd}">
 													  <option value="${item.cd}">${item.nm}</option>
 												  </c:forEach>
@@ -259,7 +259,7 @@ function idDupliChk(id) {
                                        <div class="col-md-3">
                                            <div class="form-floating">
 												<select class="form-select pt-4" id="fscCd" name="fscCd">
-												  <option selected>-선택-</option>
+												  <option value="00" selected>-선택-</option>
 												  <c:forEach var="item" items="${fsc_cd}">
 													  <option value="${item.cd}">${item.nm}</option>
 												  </c:forEach>

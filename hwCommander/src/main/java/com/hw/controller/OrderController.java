@@ -81,6 +81,7 @@ public class OrderController {
 	
 	@RequestMapping(value = "/inicisPayClose.do", method = RequestMethod.GET)
 	public String inicisPayClose(Model model) {
+		// no logic
 		return "INIstdpay/close";
 	}
 	

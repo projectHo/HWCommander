@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - PSU</title>
+<title>현우의 컴퓨터 공방 - Category(Master)</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <!-- Bootstrap CSS -->
@@ -14,6 +14,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
 <meta name="author" content="" />
+
 <link href="/resources/css/sbAdmin-styles.css" rel="stylesheet" />
 <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 
@@ -27,27 +28,26 @@
 
 <script>
     $(function(){
-    	
-    	$("#psuListTable").DataTable({
+    	$("#masterListTable").DataTable({
     		displayLength : setDisplayLength()
     	    , bAutoWidth : false
     	    , columnDefs : [
-	    	    {targets : 0, width : "50%"}
+	    	    {targets : 0, width : "20%"}
 	    	    , {targets : 1, width : "20%"}
-	    	    , {targets : 2, width : "15%"}
-	    	    , {targets : 3, width : "15%"}
-	    	    , {targets : 4, visible : false} // id
+	    	    , {targets : 2, width : "20%"}
+	    	    , {targets : 3, width : "20%"}
+	    	    , {targets : 4, width : "20%"}
     	    ]
     	});
-    	
-    	$("#psuListTable").on('click', 'tbody tr', function () {
-    		var row = $("#psuListTable").DataTable().row($(this)).data();
-    		var partsId = row[4];
-    		location.href = "psuUpdate.do?partsId="+partsId;
+    	/* 
+    	$("#masterListTable").on('click', 'tbody tr', function () {
+    		var row = $("#masterListTable").DataTable().row($(this)).data();
+    		var partsId = row[5];
+    		location.href = "masterUpdate.do?partsId="+partsId;
     	});
-    	
+    	 */
         window.addEventListener('unload', function() {
-        	setCookie('displayLength', $("select[name=psuListTable_length]").val(), {'max-age': 1800});
+        	setCookie('displayLength', $("select[name=masterListTable_length]").val(), {'max-age': 1800});
        	});
     });
 </script>
@@ -129,48 +129,44 @@
             <div id="layoutSidenav_content">
 				<main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">PSU</h1>
+                        <h1 class="mt-4">Category(Master)</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="main.do">Admin Page</a></li>
-                            <li class="breadcrumb-item active">PSU</li>
+                            <li class="breadcrumb-item active">Category(Master)</li>
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                                PSU를 관리합니다. 조회, 추가, 수정 작업을 할 수 있습니다.
+                                Category(Master)를 관리합니다. 조회, 추가 작업을 할 수 있습니다.
                             </div>
                         </div>
                         <div class="card mb-4">
                             <div class="card-header">
 								<div class="d-flex">
-								  <div class="me-auto d-flex align-items-center">Search PSU</div>
+								  <div class="me-auto d-flex align-items-center">Search Category(Master)</div>
 								  <div>
-								  	<a class="btn btn-secondary btn-sm" href="psuRegist.do">등록</a>
+								  	<a class="btn btn-secondary btn-sm" href="resourceMasterRegist.do">등록</a>
 								  </div>
 								</div>
                             </div>
                             <div class="card-body">
-                                <table id="psuListTable" class="table">
+                                <table id="masterListTable" class="table">
                                     <thead>
                                         <tr>
-                                            <th>parts name</th>
-                                            <th>parts price</th>
-                                            <th>PMC</th>
-                                            <th>PSC</th>
-                                            
-                                            <!-- 안보이는부분 -->
-                                            <th>ID</th>
+                                            <th>Id</th>
+                                            <th>대분류코드명</th>
+                                            <th>Type Code</th>
+                                            <th>Type Code Name</th>
+                                            <th>Category(Master) Name</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-										<c:forEach var="item" items="${psuList}">
+										<c:forEach var="item" items="${resourceMasterList}">
 											<tr>
-	                                            <td>${item.partsName}</td>
-	                                            <td>${item.partsPrice}</td>
-	                                            <td>${item.pmcCdNm}</td>
-	                                            <td>${item.pscCdNm}</td>
-	                                            
-	                                            <!-- 안보이는부분 -->
 	                                            <td>${item.id}</td>
+	                                            <td>${item.processLgCdNm}</td>
+	                                            <td>${item.processTypeExclusiveCd}</td>
+	                                            <td>${item.processTypeExclusiveCdNm}</td>
+	                                            <td>${item.processName}</td>
                                         	</tr>
 										</c:forEach>
                                     </tbody>
@@ -193,6 +189,8 @@
                 </footer>
             </div>
         </div>
+        
+        
         <script src="/resources/js/sbAdmin-sidebar-script.js"></script>
     </body>
 </html>

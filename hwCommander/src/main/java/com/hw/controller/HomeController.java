@@ -427,23 +427,21 @@ public class HomeController {
 		
 		processResourceMasterVOList.add(processResourceMasterVO41);
 		
+		List<ProcessResourceTypeCodeInfoVO> processResourceTypeCodeInfoVOList = processResourceService.getProcessResourceTypeCodeInfoAllList();
+		
 		ObjectMapper mapper = new ObjectMapper();
-		String tempJson = "";
+		String processResourceMasterVOListJSON = "";
+		String processResourceTypeCodeInfoVOListJSON = "";
 		try {
-			tempJson = mapper.writeValueAsString(processResourceMasterVOList);
+			processResourceTypeCodeInfoVOListJSON = mapper.writeValueAsString(processResourceTypeCodeInfoVOList);
+			processResourceMasterVOListJSON = mapper.writeValueAsString(processResourceMasterVOList);
 		} catch (JsonProcessingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		
-		
-		model.addAttribute("processResourceMasterVOList", tempJson);
-		
-		List<ProcessResourceTypeCodeInfoVO> processResourceTypeCodeInfoVOList = processResourceService.getProcessResourceTypeCodeInfoAllList();
-		model.addAttribute("processResourceTypeCodeInfoVOList", processResourceTypeCodeInfoVOList);
-		
-		
+		model.addAttribute("processResourceMasterVOList", processResourceMasterVOListJSON);
+		model.addAttribute("processResourceTypeCodeInfoVOList", processResourceTypeCodeInfoVOListJSON);
 		
 		return userLoginCheck(request, model, "estimateCalculationTwo");
 	}
