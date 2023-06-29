@@ -22,6 +22,20 @@
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
+	function clickOrderBtn() {
+		alert("미구현");
+	}
+	function clickCaptureBtn(){
+		alert("미구현");
+	}
+	function clickSaveBtn(){
+		alert("미구현");
+	}
+	$(function() {
+		const tooltipList = $('[data-bs-toggle="tooltip"]').map(function() {
+			return new bootstrap.Tooltip($(this)[0]);
+		}).get();
+	})
 </script>
 </head>
 <body>
@@ -32,7 +46,30 @@
 			<!-- 빈 영역 -->
 			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
 			<!-- 작업영역 -->
-			<div class="estimateCalc_background p-2" style="width: 70% !important">
+			<div class="estimateCalc_background" style="width: 70% !important">
+				<div class="row p-5">
+					<div class="row w-25">
+						<div class="input-group mb-3 w-50">
+							<input type="text" class="form-control" aria-label="Text input with checkbox" value="ID : example" style="background-color: #fff;" disabled>
+						</div>
+					</div>
+					<div class="row" style="height: 800px;"></div>
+				</div>
+				<div class="row pb-5 pe-5">
+					<div class="col-4"></div>
+					<div class="col">
+						<button type="button" class="form-control" onclick="javascript:clickOrderBtn()">주문하기</button>
+					</div>
+					<div class="col">
+						<button type="button" class="form-control" onclick="javascript:clickOrderBtn()">주문하기</button>
+					</div>
+					<div class="col">
+						<button type="button" class="form-control" onclick="javascript:clickCaptureBtn()">캡쳐하기</button>
+					</div>
+					<div class="col">
+						<button type="submit" class="form-control" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="질문에 대한 답변들을 저장합니다. 추후 견적 산출시 현재 견적과 다를 수 있으니 참고 부탁드립니다!!" onclick="javascript:clickSaveBtn()">질문저장</button>
+					</div>
+				</div>
 	 		</div>
 			
 			<!-- 빈 영역 -->
