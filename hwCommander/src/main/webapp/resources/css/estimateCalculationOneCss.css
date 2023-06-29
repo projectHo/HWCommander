@@ -217,18 +217,18 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 #hexMaterial{
   transform: rotate(-30deg);
-  top: 41%;
-  right: 18%;
+  top: 40.5%;
+  right: 18.5%;
 }
 #hexAs{
   transform: rotate(210deg);
-  top: 41%;
-  left: 13%;
+  top: 40%;
+  left: 13.5%;
 }
 #hexNoise{
   transform: rotate(30deg);
-  top: 60%;
-  right: 18%;
+  top: 59.5%;
+  right: 18.5%;
 }
 #hexStability{
   transform: rotate(150deg);
@@ -237,7 +237,7 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 #hexQc{
   transform: rotate(90deg);
-  top: 70%;
+  top: 70.5%;
   right: 34%;
 }
 

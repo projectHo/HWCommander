@@ -205,7 +205,7 @@
 	if(sessionStorage.getItem("second-Data")){
 		$(".delete-input").remove();
 		const storedValues = JSON.parse(sessionStorage.getItem("second-Data"));
-		var dataBtn = `${processResourceTypeCodeInfoVOList}`;
+		var dataBtn = ${processResourceTypeCodeInfoVOList};
 		var modalList = ${processResourceMasterVOList};
 		storedValues.forEach(val => {
 				

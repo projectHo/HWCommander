@@ -169,79 +169,36 @@
 	function mouseEnter(elem){
 		const elemHtml = $(elem).html();
 		if(elemHtml === "발열"){
-			$("#explane-area").html("발열 : 제품을 낮은 온도로 유지해줄 발열제어능력을 의미합니다.0일 때 온전한 성능을 발휘할 수 있는 최소한의 쿨러만 설치되며, 2일 때 예산을 초과편성하지 않는 선에서의 최고의 쿨링성능을 제공합니다.")
+			$("#explane-area").html("발열 : 제품을 낮은 온도로 유지해줄 발열제어능력을 의미합니다.\n\n0일 때 온전한 성능을 발휘할 수 있는 최소한의 쿨러만 설치되며, 2일 때 예산을 초과편성하지 않는 선에서의 최고의 쿨링성능을 제공합니다.")
 		}else if(elemHtml ==="소재"){
-			$("#explane-area").html("소재 : 하드웨어적 제품 가치를 의미합니다.강판의 종류, 두께, 강도, 열전도율, 베어링 방식, 방열판 구조, 쿨링솔루션 등을 의미합니다.0일 때 소재를 전혀 고려하지 않고 호환성만 검토하며, 2일 때 하드웨어적으로 완성에 가까운 제품을 선정하게 됩니다.")
+			$("#explane-area").html("소재 : 하드웨어적 제품 가치를 의미합니다.\n\n강판의 종류, 두께, 강도, 열전도율, 베어링 방식, 방열판 구조, 쿨링솔루션 등을 의미합니다.\n\n0일 때 소재를 전혀 고려하지 않고 호환성만 검토하며\n\n2일 때 하드웨어적으로 완성에 가까운 제품을 선정하게 됩니다.")
 		}else if(elemHtml === "소음"){
-			$("#explane-area").html("소음 : 제품의 상세설명 상 표기 데시벨을 점수화하여 기록된 자료입니다.Beta버전으로, 실측 테스트가 진행되지 않아 알고리즘 연산식에서 배제됩니다.수치 변동에 따라 제품 선정 변경점이 존재하지 않습니다.")
+			$("#explane-area").html("소음 : 제품의 상세설명 상 표기 데시벨을 점수화하여 기록된 자료입니다.\n\nBeta버전으로, 실측 테스트가 진행되지 않아 알고리즘 연산식에서 배제됩니다.\n\n수치 변동에 따라 제품 선정 변경점이 존재하지 않습니다.")
 		}else if(elemHtml === "QC"){
-			$("#explane-area").html("QC : 제품의 결함율을 나타냅니다.\n단순한 출고 결함율만이 아닌 최근 해당 제품 혹은 제품의 제조사, 제품군의 라인업/칩셋 등의 이슈를 다룹니다.\n0일 때 당장의 리콜/판매금지 제품을 제외하곤 모든 가능성을 열어두며, 2일 때 이름값을 다소 지불하더라도 입증된 메이저 제품군만을 취급합니다.")
+			$("#explane-area").html("QC : 제품의 결함율을 나타냅니다.\n\n단순한 출고 결함율만이 아닌 최근 해당 제품 혹은 제품의 제조사, 제품군의 라인업/칩셋 등의 이슈를 다룹니다.\n\n0일 때 당장의 리콜/판매금지 제품을 제외하곤 모든 가능성을 열어두며, 2일 때 이름값을 다소 지불하더라도 입증된 메이저 제품군만을 취급합니다.")
 		}else if(elemHtml === "안정성"){
-			$("#explane-area").html("안정성 : 제품의 성능을 온전하게 유지하고 수명을 올려줄 모든 수단을 의미합니다.\n0일 때 가격대비 퍼포먼스 표기 성능이 가장 높은 제품을 선택하고, 2일 때 제품의 체급을 낮춰서라도 프리미엄 라인업을 선정합니다.")
+			$("#explane-area").html("안정성 : 제품의 성능을 온전하게 유지하고 수명을 올려줄 모든 수단을 의미합니다.\n\n0일 때 가격대비 퍼포먼스 표기 성능이 가장 높은 제품을 선택하고, 2일 때 제품의 체급을 낮춰서라도 프리미엄 라인업을 선정합니다.")
 		}else if(elemHtml === "AS"){
-			$("#explane-area").html("AS : 제품들의 사후처리 가능성을 나타냅니다.\n수리규정, 유통사 평판 등이 이에 해당합니다.\n0일 때 AS를 전혀 감안하지 않으며, 2일 때 AS의 가격가치를 제품 성능보다도 우선시합니다.")
+			$("#explane-area").html("AS : 제품들의 사후처리 가능성을 나타냅니다.\n\n수리규정, 유통사 평판 등이 이에 해당합니다.\n0일 때 AS를 전혀 감안하지 않으며, 2일 때 AS의 가격가치를 제품 성능보다도 우선시합니다.")
 		}else {
-			$("#explane-area").html("가성비 : (깡통 독3사) 최소한의 기준치를 충족한 제품군들 중 성능만을 위해 예산을 소요합니다. 가격대 성능비가 가장 좋지만 체급에 비해 종합 안정성이 떨어집니다.\n\n메인스트림 : (필수옵션 소나타)해당 예산대의 평균적인 제품군을 선정합니다. 예산 내의 이상적인 견적을 받을 수 있습니다.\n\n프리미엄 : (풀옵 경차)예산에 비해 과한 제품 종합 안정성을 보장합니다. 각 라인업별 최고의 제품들만 선별하여 활용하겠지만, 성능은 돈값을 못한다는 이야기를 듣기 쉽습니다.");
+			$("#explane-area").html("가성비 : (깡통 독3사) 최소한의 기준치를 충족한 제품군들 중 성능만을 위해 예산을 소요합니다.\n가격대 성능비가 가장 좋지만 체급에 비해 종합 안정성이 떨어집니다.\n\n메인스트림 : (필수옵션 소나타)해당 예산대의 평균적인 제품군을 선정합니다. 예산 내의 이상적인 견적을 받을 수 있습니다.\n\n프리미엄 : (풀옵 경차)예산에 비해 과한 제품 종합 안정성을 보장합니다.\n각 라인업별 최고의 제품들만 선별하여 활용하겠지만, 성능은 돈값을 못한다는 이야기를 듣기 쉽습니다.");
 		}
 	}
 	
 
 	
 	$(function () {
-	
-		// const canvas = $('<canvas></canvas>').attr("id","hexCanvas").html("");
-		// $(".hex").append(canvas);
-		// const ctx = canvas[0].getContext('2d');
-		// const centerX = canvas.width() / 2;
-		// const centerY = canvas.height() / 2;
-		// const vertices = [
-		// 	{ x: 110 , y: 35 },
-		// 	{ x: 185 , y: 35 },
-		// 	{ x: 225 , y: 75 },
-		// 	{ x: 185 , y: 113 },
-		// 	{ x: 110 , y: 113 },
-		// 	{ x: 70 , y: 75 }
-		// ];
 		
-		// function drawCanvas() {
-		// 	ctx.clearRect(0, 0, canvas.width(), canvas.height());
-
-		// 	ctx.beginPath();
-		// 	ctx.moveTo(vertices[0].x, vertices[0].y);
-		// 	for (let i = 1; i < vertices.length; i++) {
-		// 		ctx.lineTo(vertices[i].x, vertices[i].y);
-		// 	}
-		// 	ctx.closePath();
-		// 	ctx.fillStyle = 'lightgray';
-		// 	ctx.fill();
-		// }	
-		// let x;
-		// let y;
-		// const inputs = $(".hex-range");
-		// for(let i = 0 ; i< inputs.length; i++){
-		// 	inputs[i].addEventListener("input", function(){
-		// 		vertices[i].x = x;
-		// 		vertices[i].y = y;
-		// 		drawCanvas();
-		// 	})
-		// }
-		
-		// let selectedVertexIndex = -1;
-		// $(".hex").mousedown(function(e) {
-		// 	x = e.pageX - $(canvas).offset().left -60;
-		// 	y = e.pageY - $(canvas).offset().top;
+		if(sessionStorage.getItem("third-Data")){
+			const storedValues =JSON.parse(sessionStorage.getItem("third-Data"));
 			
-		// });
+			const ranges = $(".hex-input");
+			for(let i = 0 ; i<ranges.length ; i++){
+				ranges[i].value = storedValues[i];
+			}
+			hexagonType()
+		}
 
-		// 	// 마우스 이동 이벤트 핸들러
-		// $(".hex").mousemove(function(e) {
-		// 	x = e.pageX - $(canvas).offset().left - 60;
-		// 	y = e.pageY - $(canvas).offset().top;
-		// 	console.log(e.pageX + "," + $("canvas").offset().left + "move" + x)
-		// });
-		// drawCanvas()
-
-		// bootstrap tooltip
 		const tooltipList = $('[data-bs-toggle="tooltip"]').map(function() {
 			return new bootstrap.Tooltip($(this)[0]);
 		}).get();
@@ -253,42 +210,19 @@
 		var forms = $(".needs-validation");
 		(function() {
 			"use strict";
-			const calcTwoTextUse = $(".calc-two-final-text-use");
-			const calcTwoTextRating = $(".calc-two-final-text-rating");
-
 			
 			forms.each(function() {
-				$(this).on("submit", function(event) {
-					const countRating = $('.use-list-rating').length;
-					let totalRating = 0;
-					$('.use-list-rating').each(function() {
-						totalRating += parseInt($(this).val(), 10) || 0;
-					});
-					if ($(".table-container").css("display")==="block" && totalRating !== 100){
-						event.preventDefault();
-						calcTwoTextRating.css("display", "block");
-						setTimeout(() => {
-							calcTwoTextRating.css("display", "none");
-						}, 3000);
-					}else if (!this.checkValidity()) {
-						event.preventDefault();
-						calcTwoTextUse.css("display", "block");
-						setTimeout(() => {
-							calcTwoTextUse.css("display", "none");
-						}, 3000);
-					} else if (this.checkValidity() && totalRating === 100){
-						$(this).addClass("was-validated");
-						let value = [];
-						for(let i = 0 ; i<$(".use-list-name").length; i++){
-							let paddingI = String(i+1).padStart(2,'0');
-							let storageValue = [$(".use-list-name")[i].id,$(".use-list-rating")[i].value,$(".use-list-genre")[i].id];
-							value.push(storageValue);
-						}
-						if(sessionStorage.getItem("second-Data")){
-							sessionStorage.removeItem("second-Data");
-						}
-						sessionStorage.setItem("second-Data",JSON.stringify(value))
+				$(this).on("submit", function(event) {					
+					let value = [];
+					for(let i = 0 ; i<$(".hex-range").length; i++){
+						let storageValue = [parseFloat($(".hex-range")[i].value).toFixed(2)];
+						value.push(storageValue);
 					}
+					if(sessionStorage.getItem("third-Data")){
+						sessionStorage.removeItem("third-Data");
+					}
+					sessionStorage.setItem("third-Data",JSON.stringify(value))
+				
 				});
 			});
 		})();
@@ -321,14 +255,20 @@
 						</div>
 		   
 					</div>
-					<form class="needs-validation" action="#" novalidate>
+					<form class="needs-validation" action="estimateCalculationResult.do" novalidate>
 						<div class="row pb-2">
 							<div class="col-6">
 								<div class="row">
 									<div class="hex-container mb-5">
 										<div class="hex m-4">
-											<svg xmlns="http://www.w3.org/2000/svg" width="400" height="360" fill="currentColor" class="bi bi-hexagon mt-4" viewBox="0 0 16 16">
-												<path d="M14 4.577v6.846L8 15l-6-3.577V4.577L8 1l6 3.577zM8.5.134a1 1 0 0 0-1 0l-6 3.577a1 1 0 0 0-.5.866v6.846a1 1 0 0 0 .5.866l6 3.577a1 1 0 0 0 1 0l6-3.577a1 1 0 0 0 .5-.866V4.577a1 1 0 0 0-.5-.866L8.5.134z"/>
+											<svg xmlns="http://www.w3.org/2000/svg" width="400" height="360" class="bi bi-hexagon mt-4" viewBox="0 0 16 16">
+												<defs>
+													<linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+													<stop offset="0%" style="stop-color: #df22ee;" />
+													<stop offset="100%" style="stop-color: #25b4dc;" />
+													</linearGradient>
+												</defs>
+												<path d="M14 4.577v6.846L8 15l-6-3.577V4.577L8 1l6 3.577zM8.5.134a1 1 0 0 0-1 0l-6 3.577a1 1 0 0 0-.5.866v6.846a1 1 0 0 0 .5.866l6 3.577a1 1 0 0 0 1 0l6-3.577a1 1 0 0 0 .5-.866V4.577a1 1 0 0 0-.5-.866L8.5.134z" fill="url(#gradient)" />
 											</svg>
 											<div class="hex-text hex-text1 fs-4" onmouseenter="javascript:mouseEnter(this)">발열</div>
 											<div class="hex-text hex-text2 fs-4" onmouseenter="javascript:mouseEnter(this)">소재</div>
@@ -363,7 +303,7 @@
 											<label for="hexFever" class="form-label w-100">
 												<div class="input-group input-group-lg">
 													<span class="input-group-text w-50 justify-content-center" id="hex-form-01" onmouseenter="javascript:mouseEnter(this)">발열</span>
-													<input type="number" class="form-control text-center" aria-label="발열" aria-describedby="hex-form-01" id="hex-val-01" min="0.00" max="2.00" value="1.00" oninput="javascript:hexagonType()">
+													<input type="number" class="form-control text-center hex-input" aria-label="발열" aria-describedby="hex-form-01" id="hex-val-01" min="0.00" max="2.00" value="1.00" oninput="javascript:hexagonType()">
 												</div>
 											</label>
 										</div>
@@ -371,7 +311,7 @@
 											<label for="hexMaterial" class="form-label w-100">
 												<div class="input-group input-group-lg">
 													<span class="input-group-text w-50 justify-content-center" id="hex-form-02" onmouseenter="javascript:mouseEnter(this)">소재</span>
-													<input type="number" class="form-control text-center" aria-label="소재" aria-describedby="hex-form-02" id="hex-val-02" min="0.00" max="2.00" value="1.00" oninput="javascript:hexagonType()">
+													<input type="number" class="form-control text-center hex-input" aria-label="소재" aria-describedby="hex-form-02" id="hex-val-02" min="0.00" max="2.00" value="1.00" oninput="javascript:hexagonType()">
 												</div>
 											</label>
 										</div>
@@ -381,7 +321,7 @@
 											<label for="hexAs" class="form-label w-100">
 												<div class="input-group input-group-lg">
 													<span class="input-group-text w-50 justify-content-center" id="hex-form-03" onmouseenter="javascript:mouseEnter(this)">AS</span>
-													<input type="number" class="form-control text-center" aria-label="AS" aria-describedby="hex-form-03" id="hex-val-03" min="0.00" max="2.00" value="1.00" oninput="javascript:hexagonType()">
+													<input type="number" class="form-control text-center hex-input" aria-label="AS" aria-describedby="hex-form-03" id="hex-val-03" min="0.00" max="2.00" value="1.00" oninput="javascript:hexagonType()">
 												</div>
 											</label>
 										</div>
@@ -389,7 +329,7 @@
 											<label for="hexNoise" class="form-label w-100">
 												<div class="input-group input-group-lg">
 													<span class="input-group-text w-50 justify-content-center" id="hex-form-04" onmouseenter="javascript:mouseEnter(this)">소음</span>
-													<input type="number" class="form-control text-center" aria-label="소음" aria-describedby="hex-form-04" id="hex-val-04" min="0.00" max="2.00" value="1.00" oninput="javascript:hexagonType()">
+													<input type="number" class="form-control text-center hex-input" aria-label="소음" aria-describedby="hex-form-04" id="hex-val-04" min="0.00" max="2.00" value="1.00" oninput="javascript:hexagonType()">
 												</div>
 											</label>
 										</div>
@@ -399,7 +339,7 @@
 											<label for="hexStability" class="form-label w-100">
 												<div class="input-group input-group-lg">
 													<span class="input-group-text w-50 justify-content-center" id="hex-form-05" onmouseenter="javascript:mouseEnter(this)">안정성</span>
-													<input type="number" class="form-control text-center" aria-label="안정성" aria-describedby="hex-form-05" id="hex-val-05" min="0.00" max="2.00" value="1.00" oninput="javascript:hexagonType()">
+													<input type="number" class="form-control text-center hex-input" aria-label="안정성" aria-describedby="hex-form-05" id="hex-val-05" min="0.00" max="2.00" value="1.00" oninput="javascript:hexagonType()">
 												</div>
 											</label>
 										</div>
@@ -407,7 +347,7 @@
 											<label for="hexQc" class="form-label w-100">
 												<div class="input-group input-group-lg">
 													<span class="input-group-text w-50 justify-content-center" id="hex-form-06" onmouseenter="javascript:mouseEnter(this)">QC</span>
-													<input type="number" class="form-control text-center" aria-label="QC" aria-describedby="hex-form-06" id="hex-val-06" min="0.00" max="2.00" value="1.00" oninput="javascript:hexagonType()">
+													<input type="number" class="form-control text-center hex-input" aria-label="QC" aria-describedby="hex-form-06" id="hex-val-06" min="0.00" max="2.00" value="1.00" oninput="javascript:hexagonType()">
 												</div>
 											</label>
 										</div>
