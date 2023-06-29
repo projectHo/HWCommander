@@ -73,6 +73,10 @@ public class HomeController {
 		return "eventMallDetail";
 	}
 	
+	
+	/*--------------------------------------------------
+	 - 견적산출
+	*--------------------------------------------------*/
 	@RequestMapping(value = "/estimateCalculationOne.do", method = RequestMethod.GET)
 	public String goEstimateCalculationOne(HttpServletRequest request, Model model) {
 		return userLoginCheck(request, model, "estimateCalculationOne");
@@ -105,6 +109,14 @@ public class HomeController {
 		return userLoginCheck(request, model, "estimateCalculationThree");
 	}
 	
+	@RequestMapping(value = "/estimateCalculationResult.do", method = RequestMethod.GET)
+	public String goEstimateCalculationResult(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "estimateCalculationResult");
+	}
+	
+	/*--------------------------------------------------
+	 - private method
+	*--------------------------------------------------*/
 	private String userLoginCheck(HttpServletRequest request, Model model, String url) {
 		HttpSession httpSession = request.getSession();
 		
