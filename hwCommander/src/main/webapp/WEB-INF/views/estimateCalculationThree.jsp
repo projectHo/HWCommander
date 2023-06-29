@@ -23,6 +23,12 @@
 <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet"/>
 
 <script>
+	function clickEstimateBtn(){
+		window.location.replace("estimateCalculationResult.do");
+	}
+	function clickNextBtn(){
+		alert("네번째 질문 페이지")
+	}
 	// donut
 	let progress = 0;
 	function animateDonutGauge() {
@@ -206,8 +212,7 @@
 		animateDonutGauge();
 		// modal esc delete
 		$('#use-collector').off('keydown.dismiss.bs.modal');
-		// submit
-		var forms = $(".needs-validation");
+		// session save
 		(function() {
 			"use strict";
 			
@@ -360,10 +365,10 @@
 								<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:returnTwoPage()">이전 질문</button>
 							</div>
 							<div class="col">
-								<button type="button" class="form-control calc-two-final margin-center">견적 보기</button>
+								<button type="button" class="form-control calc-two-final margin-center" onclick="javascript:clickEstimateBtn()">견적 보기</button>
 							</div>
 							<div class="col">
-								<button type="submit" class="form-control w-50 margin-left-auto">다음 질문</button>
+								<button type="button" class="form-control w-50 margin-left-auto" onclick="javascript:clickNextBtn()">다음 질문</button>
 							</div>
 						</div>
 					</form>

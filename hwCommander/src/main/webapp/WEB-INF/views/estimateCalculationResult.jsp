@@ -22,6 +22,9 @@
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
+	function clickReturnBtn () {
+		window.location.replace("estimateCalculationThree.do");
+	}
 	function clickOrderBtn() {
 		alert("미구현");
 	}
@@ -46,20 +49,56 @@
 			<!-- 빈 영역 -->
 			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
 			<!-- 작업영역 -->
-			<div class="estimateCalc_background" style="width: 70% !important">
-				<div class="row p-5">
+			<div class="estimateCalc_background p-5" style="width: 70% !important">
+				<div class="row">
 					<div class="row w-25">
 						<div class="input-group mb-3 w-50">
 							<input type="text" class="form-control" aria-label="Text input with checkbox" value="ID : example" style="background-color: #fff;" disabled>
 						</div>
 					</div>
-					<div class="row" style="height: 800px;"></div>
-				</div>
-				<div class="row pb-5 pe-5">
-					<div class="col-4"></div>
-					<div class="col">
-						<button type="button" class="form-control" onclick="javascript:clickOrderBtn()">주문하기</button>
+					<div class="row">
+						<div class="card mb-3">
+							<div class="row g-0">
+							  <div class="col-md-4 pt-3 ps-2">
+								<img src="..." class="img-fluid rounded-start" style="box-shadow: 1px 1px gray;"alt="...">
+							  </div>
+							  <div class="col-md-8">
+								<div class="card-body">
+									<h2 class="card-title mb-3 fw-bold">컴퓨터 이름</h2>
+									<h4 class="card-title">제품 상세 정보</h4>
+									<div class="container mb-3">
+										<p class="card-text mb-0 fw-bold">CPU : <span class="fw-normal cpu-text">111</span></p>
+										<p class="card-text mb-0 fw-bold">Cooler : <span class="fw-normal cooler-text">111</span></p>
+										<p class="card-text mb-0 fw-bold">MB : <span class="fw-normal mb-text">111</span></p>
+										<p class="card-text mb-0 fw-bold">RAM : <span class="fw-normal ram-text">111</span></p>
+										<p class="card-text mb-0 fw-bold">GPU : <span class="fw-normal gpu-text">111</span></p>
+										<p class="card-text mb-0 fw-bold">SSD : <span class="fw-normal ssd-text">111</span></p>
+										<p class="card-text mb-0 fw-bold">CASE : <span class="fw-normal case-text">111</span></p>
+										<p class="card-text mb-0 fw-bold">PSU : <span class="fw-normal psu-text">111</span></p>
+									</div>
+									<h4 class="card-title">제품 설명</h4>
+									<div class="container mb-3">
+										<p class="card-text fw-bold">제품설명블라블라</p>
+									</div>
+									<h4 class="card-title">배송 정보</h4>
+									<div class="container mb-3">
+										<p class="card-text mb-0 fw-bold">배송기간 : <span class="fw-normal delivery-period">1달</span></p>
+										<p class="card-text mb-0 fw-bold">택배사 : <span class="fw-normal delivery-period">로젠통운</span></p>
+										<p class="card-text mb-0 fw-bold">배송비 : <span class="fw-normal delivery-period">30,000원</span></p>
+										<p class="card-text mb-0 fw-bold"><small class="text-muted">도서산간 지역의 경우 배송이 제한되거나 추가요금이 발생할 수 있습니다.</small></p>
+										<p class="card-text"><small class="text-muted">AS 기준은 각 부품의 유통사 규정에 따르며 해당 쇼핑몰에서 1년간 무상 AS를 지원해드립니다.</small></p>
+									</div>
+								</div>
+							  </div>
+							</div>
+						  </div>
 					</div>
+				</div>
+				<div class="row">
+					<div class="col">
+						<button type="button" class="form-control" onclick="javascript:clickReturnBtn()">돌아가기</button>
+					</div>
+					<div class="col-3"></div>
 					<div class="col">
 						<button type="button" class="form-control" onclick="javascript:clickOrderBtn()">주문하기</button>
 					</div>
@@ -67,7 +106,7 @@
 						<button type="button" class="form-control" onclick="javascript:clickCaptureBtn()">캡쳐하기</button>
 					</div>
 					<div class="col">
-						<button type="submit" class="form-control" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="질문에 대한 답변들을 저장합니다. 추후 견적 산출시 현재 견적과 다를 수 있으니 참고 부탁드립니다!!" onclick="javascript:clickSaveBtn()">질문저장</button>
+						<button type="submit" class="form-control" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="질문에 대한 답변들을 저장합니다. 추후 견적 산출시 현재 견적과 다를 수 있으니 참고 부탁드립니다!!" onclick="javascript:clickSaveBtn()">질문저장</button>
 					</div>
 				</div>
 	 		</div>
