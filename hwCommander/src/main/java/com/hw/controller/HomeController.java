@@ -109,6 +109,41 @@ public class HomeController {
 		return userLoginCheck(request, model, "estimateCalculationThree");
 	}
 	
+	@RequestMapping(value = "/estimateCalculationFour.do", method = RequestMethod.GET)
+	public String goEstimateCalculationFour(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "estimateCalculationFour");
+	}
+	
+	@RequestMapping(value = "/estimateCalculationFive.do", method = RequestMethod.GET)
+	public String goEstimateCalculationFive(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "estimateCalculationFive");
+	}
+	
+	@RequestMapping(value = "/estimateCalculationSix.do", method = RequestMethod.GET)
+	public String goEstimateCalculationSix(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "estimateCalculationSix");
+	}
+	
+	@RequestMapping(value = "/estimateCalculationSeven.do", method = RequestMethod.GET)
+	public String goEstimateCalculationSeven(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "estimateCalculationSeven");
+	}
+	
+	@RequestMapping(value = "/estimateCalculationEight.do", method = RequestMethod.GET)
+	public String goEstimateCalculationEight(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "estimateCalculationEight");
+	}
+	
+	@RequestMapping(value = "/estimateCalculationNine.do", method = RequestMethod.GET)
+	public String goEstimateCalculationNine(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "estimateCalculationNine");
+	}
+	
+	@RequestMapping(value = "/estimateCalculationTen.do", method = RequestMethod.GET)
+	public String goEstimateCalculationTen(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "estimateCalculationTen");
+	}
+	
 	@RequestMapping(value = "/estimateCalculationResult.do", method = RequestMethod.GET)
 	public String goEstimateCalculationResult(HttpServletRequest request, Model model) {
 		return userLoginCheck(request, model, "estimateCalculationResult");
