@@ -21,10 +21,21 @@
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet"/>
-
+<!-- chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-dragdata"></script>
 <script>
 	function clickEstimateBtn(){
 		window.location.replace("estimateCalculationResult.do");
+		let value = [];
+		for(let i = 0 ; i<$(".hex-input").length; i++){
+			let storageValue = [$(".hex-input")[i].value];
+			value.push(storageValue);
+		}
+		if(sessionStorage.getItem("third-Data")){
+			sessionStorage.removeItem("third-Data");
+		}
+		sessionStorage.setItem("third-Data",JSON.stringify(value))
 	}
 	function clickNextBtn(){
 		alert("네번째 질문 페이지")
@@ -69,47 +80,108 @@
 	typeText();
 	
 	function returnTwoPage() {
-		window.location.href = "estimateCalculationTwo.do";
+		window.location.replace("estimateCalculationTwo.do");
 	}
-	
-	function hexagonDrag(){
-		const hexInputs = $(".hex input")
-		$("#hex-val-01").val(parseFloat($("#hexFever").val()).toFixed(2));
-		$("#hex-val-02").val(parseFloat($("#hexMaterial").val()).toFixed(2));
-		$("#hex-val-03").val(parseFloat($("#hexAs").val()).toFixed(2));
-		$("#hex-val-04").val(parseFloat($("#hexNoise").val()).toFixed(2));
-		$("#hex-val-05").val(parseFloat($("#hexStability").val()).toFixed(2));
-		$("#hex-val-06").val(parseFloat($("#hexQc").val()).toFixed(2));
+	var myChart ;
+	// hex chart.js
+	function createChart(){
+		var minDataValue = 0; // 데이터의 최소값
 
-		$("#hex-val-total").val(parseFloat((Number($("#hex-val-01").val())+Number($("#hex-val-02").val())+Number($("#hex-val-03").val())+Number($("#hex-val-04").val())+Number($("#hex-val-05").val())+Number($("#hex-val-06").val()))/6).toFixed(2));
+		// 데이터 레이더 차트 생성
+		var ctx = $('#myChart')[0].getContext('2d');
+		var gradient = ctx.createLinearGradient(0, 0, 0, 300);
+		gradient.addColorStop(0, '#925DE7'); // 상단 색상
+		gradient.addColorStop(1, '#2EADDD'); // 하단 색상
+
+		myChart = new Chart(ctx, {
+			type: 'radar',
+			data: {
+				labels: ['발열', '소재', 'AS', '소음', '안정성', 'QC'],
+				datasets: [{
+				label: '',
+				data: [1, 1, 1, 1, 1, 1],
+				backgroundColor: gradient, // 그라디언트 색상
+				}]
+			},
+			options: {
+				maintainAspectRatio: false,
+				responsive: false,
+				scales: {
+				r: {
+					display: false,
+					min: minDataValue,
+					max: 2,
+					ticks: {
+					display: false,
+					stepSize: 0.01
+					}
+				}
+				},
+				plugins: {
+					legend: {
+						display: false
+					},
+					dragData: {
+						round: 2,
+						showTooltip: true,
+						onDragStart: function (event, datasetIndex, index, value) {
+						if (value < minDataValue) {
+							return false;
+						}
+						},
+						onDrag: function (event, datasetIndex, index, value) {
+							const hexInputs = $(".hex-input");
+							
+							hexInputs[index].value = parseFloat(myChart.data.datasets[datasetIndex].data[index]).toFixed(2);
+							hexagonType();
+						if (value < minDataValue) {
+							myChart.data.datasets[datasetIndex].data[index] = minDataValue;
+							myChart.update();
+						}
+						}
+					}
+				},
+				// afterDraw 콜백을 사용하여 추가 라인 그리기
+				afterDraw: function(chart) {
+					var ctx = chart.ctx;
+					var scale = chart.scales.r;
+					
+					if (scale.max === 2) {
+						ctx.save();
+						ctx.beginPath();
+						ctx.strokeStyle = '#000000'; // 라인 색상
+						ctx.lineWidth = 2; // 라인 두께
+						ctx.setLineDash([5, 5]); // 점선 스타일
+						ctx.moveTo(scale.xCenter, scale.yCenter);
+						ctx.lineTo(scale.xCenter + scale.radius, scale.yCenter);
+						ctx.stroke();
+						ctx.restore();
+					}
+				}
+			}
+		});
 	}
 	
 	function hexagonType(){
-		const hexInputs = $(".hex input");
-		const labelInputs = $("#hex-label").find("input");
+		const hexInputs = $(".hex-input");
 
-		for(let i = 0 ; i<labelInputs.length; i++){
-			if(labelInputs[i].value < 0 || labelInputs[i].value>2){
+		for(let i = 0 ; i<hexInputs.length; i++){
+			const inputValue = parseFloat(hexInputs[i].value);
+			if(hexInputs[i].value < 0 || hexInputs[i].value>2){
 				alert("0이상 2미만으로 입력해주세요!");
-				labelInputs[i].value = "1.00"
+				hexInputs[i].value = "1.00";
+				myChart.data.datasets[i].data[i] = 1.00;
 			}
+			myChart.data.datasets[0].data[i] = inputValue;
 		}
-		$("#hexFever").val(parseFloat($("#hex-val-01").val()).toFixed(2));
-		$("#hexMaterial").val(parseFloat($("#hex-val-02").val()).toFixed(2));
-		$("#hexAs").val(parseFloat($("#hex-val-03").val()).toFixed(2));
-		$("#hexNoise").val(parseFloat($("#hex-val-04").val()).toFixed(2));
-		$("#hexStability").val(parseFloat($("#hex-val-05").val()).toFixed(2));
-		$("#hexQc").val(parseFloat($("#hex-val-06").val()).toFixed(2));
-
-		
+		myChart.update();
 		$("#hex-val-total").val(parseFloat((Number($("#hex-val-01").val())+Number($("#hex-val-02").val())+Number($("#hex-val-03").val())+Number($("#hex-val-04").val())+Number($("#hex-val-05").val())+Number($("#hex-val-06").val()))/(6)).toFixed(2));
 	}
 	let prevTotalVal = 1;
 	function totalValue(){
 		
 		let count = 6;
-		const hexInputs = $(".hex input");
-		const labelInputs = $("#hex-label").find("input");
+		const hexInputs = $(".hex-input");
 		
 		const totalVal = Number(parseFloat($("#hex-val-total").val()).toFixed(2));
 		const allInputs = (Number($("#hex-val-01").val())+Number($("#hex-val-02").val())+Number($("#hex-val-03").val())+Number($("#hex-val-04").val())+Number($("#hex-val-05").val())+Number($("#hex-val-06").val()))/6;
@@ -117,12 +189,12 @@
 		if($("#hex-val-total").val() ==="0"){
 			for(let i = 0 ; i<hexInputs.length; i++){
 				hexInputs[i].value = "0.00"
-				labelInputs[i].value = "0.00"
+				myChart.data.datasets[0].data[i] = "0";
 			}
 		}else if($("#hex-val-total").val() ==="2"){
 			for(let i = 0 ; i<hexInputs.length; i++){
 				hexInputs[i].value = "2.00"
-				labelInputs[i].value = "2.00"
+				myChart.data.datasets[0].data[i] = "2";
 			}
 		}else {
 			if(totalVal<allInputs){
@@ -133,16 +205,16 @@
 				}
 				
 				for(let i = 0 ; i<hexInputs.length; i++){
-					let inputVal = labelInputs[i].value;
+					let inputVal = hexInputs[i].value;
 					if(Number(inputVal) > 0){
-						let hexVal = Number(hexInputs[i].value) - (Math.abs(prevTotalVal - totalVal))
-						let inputVal = Number(labelInputs[i].value) - Number(parseFloat(Math.abs(prevTotalVal - totalVal)).toFixed(2))
-						hexInputs[i].value = String(hexVal);
-						labelInputs[i].value = String(parseFloat(inputVal).toFixed(2));
+						let inputVal = Number(hexInputs[i].value) - Number(parseFloat(Math.abs(prevTotalVal - totalVal)).toFixed(2))
+						hexInputs[i].value = String(parseFloat(inputVal).toFixed(2));
+						myChart.data.datasets[0].data[i] = inputVal;
 						if(Number(inputVal) < 0){
-							labelInputs[i].value = "0.00";
+							hexInputs[i].value = "0.00";
+							
 						}else if(Number(inputVal)>2){
-							labelInputs[i].value = "2.00"
+							hexInputs[i].value = "2.00";
 						}
 					}
 				}
@@ -153,16 +225,15 @@
 					}
 				}
 				for(let i = 0 ; i<hexInputs.length; i++){
-					let inputVal = labelInputs[i].value;
+					let inputVal = hexInputs[i].value;
 					if(Number(inputVal) < 2){
-						let hexVal = Number(hexInputs[i].value) + Number((Math.abs(prevTotalVal - totalVal)))
-						let inputVal = Number(labelInputs[i].value)+Number(parseFloat(Math.abs(prevTotalVal - totalVal)).toFixed(2))
-						hexInputs[i].value = String(hexVal);
-						labelInputs[i].value = String(parseFloat(inputVal).toFixed(2));
+						let inputVal = Number(hexInputs[i].value)+Number(parseFloat(Math.abs(prevTotalVal - totalVal)).toFixed(2))
+						hexInputs[i].value = String(parseFloat(inputVal).toFixed(2));
+						myChart.data.datasets[0].data[i] = inputVal;
 						if(Number(inputVal) < 0){
-							labelInputs[i].value = "0.00";
+							hexInputs[i].value = "0.00";
 						}else if(Number(inputVal)>2){
-							labelInputs[i].value = "2.00"
+							hexInputs[i].value = "2.00"
 						}
 					}
 				}
@@ -170,6 +241,7 @@
 			}
 			prevTotalVal = totalVal;
 		}
+		myChart.update();
 	}
 	// explane-area
 	function mouseEnter(elem){
@@ -191,10 +263,16 @@
 		}
 	}
 	
-
+	function clickReset() {
+		const hexInputs = $(".hex-input");
+		for(let i = 0 ; i<hexInputs.length; i++){
+			hexInputs[i].value = "1.00";
+		}
+		hexagonType();
+	}
 	
 	$(function () {
-		
+		createChart();
 		if(sessionStorage.getItem("third-Data")){
 			const storedValues =JSON.parse(sessionStorage.getItem("third-Data"));
 			
@@ -215,24 +293,20 @@
 		// session save
 		(function() {
 			"use strict";
-			
+			const forms = $(".needs-validation");
 			forms.each(function() {
 				$(this).on("submit", function(event) {					
-					let value = [];
-					for(let i = 0 ; i<$(".hex-range").length; i++){
-						let storageValue = [parseFloat($(".hex-range")[i].value).toFixed(2)];
-						value.push(storageValue);
-					}
-					if(sessionStorage.getItem("third-Data")){
-						sessionStorage.removeItem("third-Data");
-					}
-					sessionStorage.setItem("third-Data",JSON.stringify(value))
+					
 				
 				});
 			});
 		})();
-
-		
+		$(".reset-svg").mouseover(()=>{
+			$(".reset-svg").addClass("mouse-in");
+			setTimeout(() => {
+				$(".reset-svg").removeClass("mouse-in");
+			}, 2000);
+		})
 	})
 </script>
 </head>
@@ -269,24 +343,20 @@
 											<svg xmlns="http://www.w3.org/2000/svg" width="400" height="360" class="bi bi-hexagon mt-4" viewBox="0 0 16 16">
 												<defs>
 													<linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
-													<stop offset="0%" style="stop-color: #df22ee;" />
-													<stop offset="100%" style="stop-color: #25b4dc;" />
+													<stop offset="0%" style="stop-color: #C635ED;" />
+													<stop offset="100%" style="stop-color: #955CE7;" />
 													</linearGradient>
 												</defs>
 												<path d="M14 4.577v6.846L8 15l-6-3.577V4.577L8 1l6 3.577zM8.5.134a1 1 0 0 0-1 0l-6 3.577a1 1 0 0 0-.5.866v6.846a1 1 0 0 0 .5.866l6 3.577a1 1 0 0 0 1 0l6-3.577a1 1 0 0 0 .5-.866V4.577a1 1 0 0 0-.5-.866L8.5.134z" fill="url(#gradient)" />
 											</svg>
 											<div class="hex-text hex-text1 fs-4" onmouseenter="javascript:mouseEnter(this)">발열</div>
 											<div class="hex-text hex-text2 fs-4" onmouseenter="javascript:mouseEnter(this)">소재</div>
-											<div class="hex-text hex-text3 fs-4" onmouseenter="javascript:mouseEnter(this)">AS</div>
-											<div class="hex-text hex-text4 fs-4" onmouseenter="javascript:mouseEnter(this)">소음</div>
+											<div class="hex-text hex-text3 fs-4" onmouseenter="javascript:mouseEnter(this)">QC</div>
+											<div class="hex-text hex-text4 fs-4" onmouseenter="javascript:mouseEnter(this)">AS</div>
 											<div class="hex-text hex-text5 fs-4" onmouseenter="javascript:mouseEnter(this)">안정성</div>
-											<div class="hex-text hex-text6 fs-4" onmouseenter="javascript:mouseEnter(this)">QC</div>
-											<input type="range" class="form-range hex-range" min="0" max="2" step="0.01" value="1.00" id="hexFever" oninput="javascript:hexagonDrag()">	
-											<input type="range" class="form-range hex-range" min="0" max="2" step="0.01" value="1.00" id="hexMaterial" oninput="javascript:hexagonDrag()">	
-											<input type="range" class="form-range hex-range" min="0" max="2" step="0.01" value="1.00" id="hexAs" oninput="javascript:hexagonDrag()">	
-											<input type="range" class="form-range hex-range" min="0" max="2" step="0.01" value="1.00" id="hexNoise" oninput="javascript:hexagonDrag()">	
-											<input type="range" class="form-range hex-range" min="0" max="2" step="0.01" value="1.00" id="hexStability" oninput="javascript:hexagonDrag()">	
-											<input type="range" class="form-range hex-range" min="0" max="2" step="0.01" value="1.00" id="hexQc" oninput="javascript:hexagonDrag()">
+											<div class="hex-text hex-text6 fs-4" onmouseenter="javascript:mouseEnter(this)">소음</div>
+											<canvas id="myChart"></canvas>
+											<svg onclick="javascript:clickReset()" class="reset-svg" fill="#000000" width="40px" height="40px" viewBox="-652.8 -652.8 3225.60 3225.60" xmlns="http://www.w3.org/2000/svg" stroke="#000000" stroke-width="65.28" transform="matrix(-1, 0, 0, -1, 0, 0)rotate(0)"><g id="SVGRepo_bgCarrier" stroke-width="0" transform="translate(0,0), scale(1)"><path transform="translate(-652.8, -652.8), scale(201.6)" fill="url(#gradient)" d="M9.166.33a2.25 2.25 0 00-2.332 0l-5.25 3.182A2.25 2.25 0 00.5 5.436v5.128a2.25 2.25 0 001.084 1.924l5.25 3.182a2.25 2.25 0 002.332 0l5.25-3.182a2.25 2.25 0 001.084-1.924V5.436a2.25 2.25 0 00-1.084-1.924L9.166.33z" strokewidth="0"></path></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#25b4dc " stroke-width="280.32"> <path d="M960 0v213.333c411.627 0 746.667 334.934 746.667 746.667S1371.627 1706.667 960 1706.667 213.333 1371.733 213.333 960c0-197.013 78.4-382.507 213.334-520.747v254.08H640V106.667H53.333V320h191.04C88.64 494.08 0 720.96 0 960c0 529.28 430.613 960 960 960s960-430.72 960-960S1489.387 0 960 0" fill-rule="evenodd"></path> </g><g id="SVGRepo_iconCarrier"> <path d="M960 0v213.333c411.627 0 746.667 334.934 746.667 746.667S1371.627 1706.667 960 1706.667 213.333 1371.733 213.333 960c0-197.013 78.4-382.507 213.334-520.747v254.08H640V106.667H53.333V320h191.04C88.64 494.08 0 720.96 0 960c0 529.28 430.613 960 960 960s960-430.72 960-960S1489.387 0 960 0" fill-rule="evenodd"></path> </g></svg>
 										</div>
 									</div>
 								</div>

@@ -34,10 +34,17 @@
 	function clickSaveBtn(){
 		alert("미구현");
 	}
+	function clickChangeRam(e){
+		const ramHtml = $(e).html();
+		$(".ram-text").html(ramHtml);
+		$(".change-ram-btn").html(ramHtml);
+	}
 	$(function() {
 		const tooltipList = $('[data-bs-toggle="tooltip"]').map(function() {
 			return new bootstrap.Tooltip($(this)[0]);
 		}).get();
+
+		
 	})
 </script>
 </head>
@@ -67,14 +74,31 @@
 									<h2 class="card-title mb-3 fw-bold">컴퓨터 이름</h2>
 									<h4 class="card-title">제품 상세 정보</h4>
 									<div class="container mb-3">
+										<p class="card-text mb-0 fw-bold">가격 : <span class="fw-normal price-text">111</span></p>
 										<p class="card-text mb-0 fw-bold">CPU : <span class="fw-normal cpu-text">111</span></p>
 										<p class="card-text mb-0 fw-bold">Cooler : <span class="fw-normal cooler-text">111</span></p>
 										<p class="card-text mb-0 fw-bold">MB : <span class="fw-normal mb-text">111</span></p>
-										<p class="card-text mb-0 fw-bold">RAM : <span class="fw-normal ram-text">111</span></p>
 										<p class="card-text mb-0 fw-bold">GPU : <span class="fw-normal gpu-text">111</span></p>
 										<p class="card-text mb-0 fw-bold">SSD : <span class="fw-normal ssd-text">111</span></p>
 										<p class="card-text mb-0 fw-bold">CASE : <span class="fw-normal case-text">111</span></p>
 										<p class="card-text mb-0 fw-bold">PSU : <span class="fw-normal psu-text">111</span></p>
+										<div class="row">
+											<div class="col">
+												<p class="card-text mb-0 fw-bold">RAM : <span class="fw-normal ram-text">기본 종류</span></p>
+											</div>
+											<div class="col">
+												<div class="dropdown">
+													<button class="btn btn-secondary dropdown-toggle change-ram-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+														Ram 바꾸기
+													</button>
+													<ul class="dropdown-menu">
+													<li><button class="dropdown-item" type="button" onclick="javascript:clickChangeRam(this)">램종류1</button></li>
+													<li><button class="dropdown-item" type="button" onclick="javascript:clickChangeRam(this)">램종류2</button></li>
+													<li><button class="dropdown-item" type="button" onclick="javascript:clickChangeRam(this)">램종류3</button></li>
+													</ul>
+												</div>
+											</div>
+										</div>
 									</div>
 									<h4 class="card-title">제품 설명</h4>
 									<div class="container mb-3">

@@ -252,20 +252,37 @@ input[type="number"]::-webkit-inner-spin-button {
   height:12px!important;
 	width:12px!important;
 }
-/* .hex-range::-webkit-slider-runnable-track {
-
-} */
 
 #explane-area {
   resize: none;
   background-color: #fff!important;
 }
 
-/* #hexCanvas{
-  width: 366px;
-  height: 317px;
+.reset-svg{
   position: absolute;
-  top: 18.7%;
-  left: 3%;
-} */
+  bottom: -8%;
+  right: 1%;
+  cursor: pointer;
+}
 
+.reset-svg.mouse-in{
+  animation-duration: 1s;
+  animation-name: rotate;
+}
+
+@keyframes rotate {
+  from{
+    transform: rotate(180deg);
+  }
+  to{
+    transform: rotate(540deg);
+  }
+}
+
+canvas{
+	position: absolute;
+    top: 11%;
+    left: 9.5%;
+    width: 320px!important;
+    height: 320px!important;
+}
