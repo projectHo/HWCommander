@@ -84,7 +84,7 @@ public class HomeController {
 	
 	@RequestMapping(value = "/estimateCalculationTwo.do", method = RequestMethod.GET)
 	public String goEstimateCalculationTwo(HttpServletRequest request, Model model) {
-		List<ProcessResourceTypeCodeInfoVO> processResourceTypeCodeInfoVOList = processResourceService.getProcessResourceTypeCodeInfoAllList();
+		List<ProcessResourceTypeCodeInfoVO> processResourceTypeCodeInfoVOList = processResourceService.getProcessResourceTypeCodeInfoByUseYn("Y");
 		List<ProcessResourceMasterVO> processResourceMasterVOList = processResourceService.getProcessResourceMasterAllList();
 		
 		ObjectMapper mapper = new ObjectMapper();

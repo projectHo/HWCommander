@@ -101,6 +101,7 @@
                             <a class="nav-link" href="sfManagement.do">
                                 SF
                             </a>
+                            <a class="nav-link" href="makerManagement.do">MAKER</a>
                             <div class="sb-sidenav-menu-heading">완본체관리</div>
                             <a class="nav-link" href="productManagement.do">
 								Product
@@ -158,7 +159,7 @@
                                             <th>LED</th>
                                             <th>GMC</th>
                                             <th>GSC</th>
-                                            <th>GPUAS</th>
+                                            <th>MAKER</th>
                                             
                                             <!-- 안보이는부분 -->
                                             <th>GPL</th>
@@ -173,7 +174,8 @@
 	                                            <td>${item.gledCdNm}</td>
 	                                            <td>${item.gmcCdNm}</td>
 	                                            <td>${item.gscCdNm}</td>
-	                                            <td>${item.gpuasCdNm}</td>
+	                                            <%-- <td>${item.gpuasCdNm}</td> --%>
+	                                            <td>${item.makerNm}</td>
 	                                            
 	                                            <!-- 안보이는부분 -->
 	                                            <td>${item.gpl}</td>

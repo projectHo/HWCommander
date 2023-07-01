@@ -18,8 +18,10 @@ public class PartsCaseVO {
 	private String cmcCdNm;
 	private String cscCd;
 	private String cscCdNm;
-	private String caseasCd;
-	private String caseasCdNm;
+//	private String caseasCd;
+//	private String caseasCdNm;
+	private String makerId;
+	private String makerNm;
 	private BigDecimal adap;
 	private BigDecimal cool;
 	private BigDecimal end;

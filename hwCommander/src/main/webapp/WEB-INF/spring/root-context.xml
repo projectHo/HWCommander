@@ -14,18 +14,18 @@
     <!-- todo wonho temp local setting -->
         
         <!-- 운영  -->
+        <!-- 
         <property name="driverClass" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
         <property name="url" value="jdbc:log4jdbc:mariadb://hwcommander.com:3306/hwcommander"></property>
         <property name="username" value="hwcommander"></property>
         <property name="password" value="hw17171771!"></property>
-        
+         -->
+         
         <!-- 개발 -->
-        <!-- 
         <property name="driverClass" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
         <property name="url" value="jdbc:log4jdbc:mariadb://127.0.0.1:3306/hwcommander"></property>
         <property name="username" value="root"></property>
         <property name="password" value="hw17171771!"></property>
-         -->
     </bean>
  
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">

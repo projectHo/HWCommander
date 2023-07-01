@@ -103,6 +103,7 @@
                             <a class="nav-link" href="sfManagement.do">
                                 SF
                             </a>
+                            <a class="nav-link" href="makerManagement.do">MAKER</a>
                             <div class="sb-sidenav-menu-heading">완본체관리</div>
                             <a class="nav-link" href="productManagement.do">
 								Product
@@ -161,7 +162,7 @@
                                             <th>CM</th>
                                             <th>CMC</th>
                                             <th>CSC</th>
-                                            <th>CASEAS</th>
+                                            <th>MAKER</th>
                                             
                                             <!-- 안보이는부분 -->
                                             <th>ID</th>
@@ -176,7 +177,7 @@
 	                                            <td>${item.cmCdNm}</td>
 	                                            <td>${item.cmcCdNm}</td>
 	                                            <td>${item.cscCdNm}</td>
-	                                            <td>${item.caseasCdNm}</td>
+	                                            <td>${item.makerNm}</td>
 	                                            
 	                                            <!-- 안보이는부분 -->
 	                                            <td>${item.id}</td>

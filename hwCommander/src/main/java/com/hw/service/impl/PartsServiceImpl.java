@@ -11,6 +11,8 @@ import com.hw.model.PartsCoolerVO;
 import com.hw.model.PartsCpuVO;
 import com.hw.model.PartsGpuVO;
 import com.hw.model.PartsHddVO;
+import com.hw.model.PartsMakerHistoryVO;
+import com.hw.model.PartsMakerVO;
 import com.hw.model.PartsMbVO;
 import com.hw.model.PartsPsuVO;
 import com.hw.model.PartsRamVO;
@@ -421,6 +423,69 @@ public class PartsServiceImpl implements PartsService {
 	public Integer sfUpdateLogic(PartsSfVO partsSfVO) {
 		int result = 0;
 		result = partsDAO.updatePartsSfVO(partsSfVO);
+		return result;
+	}
+	
+	/*--------------------------------------------------
+	 - MAKER
+	*--------------------------------------------------*/
+	@Override
+	public Integer makerRegistLogic(PartsMakerVO partsMakerVO) {
+		int result = 0;
+		partsMakerVO.setId(partsDAO.getPartsMakerVOMaxId());
+		result = partsDAO.insertPartsMakerVO(partsMakerVO);
+		
+		// 최초 insert 시 이력 등록
+		if(1 == result) {
+			PartsMakerHistoryVO partsMakerHistoryVO = new PartsMakerHistoryVO();
+			partsMakerHistoryVO.setId(partsMakerVO.getId());
+			partsMakerHistoryVO.setHistorySeq(1);
+			partsMakerHistoryVO.setMakerName(partsMakerVO.getMakerName());
+			partsMakerHistoryVO.setAsScore(partsMakerVO.getAsScore());
+			result += partsDAO.insertPartsMakerHistoryVO(partsMakerHistoryVO);
+		}
+		
+		return result;
+	}
+	
+	@Override
+	public List<PartsMakerVO> getMakerAllList() {
+		PartsMakerVO searchVO = new PartsMakerVO();
+		searchVO.setId(null);
+		return partsDAO.getMakerAllList(searchVO);
+	}
+	
+	@Override
+	public PartsMakerVO getPartsMakerVOById(String id) {
+		PartsMakerVO resultVO = new PartsMakerVO();
+		PartsMakerVO searchVO = new PartsMakerVO();
+		
+		searchVO.setId(id);
+		List<PartsMakerVO> resultList = partsDAO.getMakerAllList(searchVO);
+		
+		if(resultList.size() != 0) {
+			resultVO = resultList.get(0);
+		}
+		
+		return resultVO;
+	}
+	
+	@Override
+	public Integer makerUpdateLogic(PartsMakerVO partsMakerVO) {
+		int result = 0;
+		result = partsDAO.updatePartsMakerVO(partsMakerVO);
+		
+		// update 시 이력 등록
+		if(1 == result) {
+			PartsMakerHistoryVO partsMakerHistoryVO = new PartsMakerHistoryVO();
+			partsMakerHistoryVO.setId(partsMakerVO.getId());
+			
+			int maxSeq = partsDAO.getPartsMakerHistoryVOMaxHistorySeq(partsMakerVO.getId());
+			partsMakerHistoryVO.setHistorySeq(maxSeq);
+			partsMakerHistoryVO.setMakerName(partsMakerVO.getMakerName());
+			partsMakerHistoryVO.setAsScore(partsMakerVO.getAsScore());
+			result += partsDAO.insertPartsMakerHistoryVO(partsMakerHistoryVO);
+		}
 		return result;
 	}
 }

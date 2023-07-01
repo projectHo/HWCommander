@@ -15,7 +15,8 @@ public class PartsPsuVO {
 	private String pscCd;
 	private String pscCdNm;
 	private BigDecimal std;
-	private BigDecimal psuas;
+//	private BigDecimal psuas;
+	private String makerId;
 	private BigDecimal pfm;
 	private BigDecimal sft;
 	private int tdp;

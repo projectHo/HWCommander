@@ -18,8 +18,10 @@ public class PartsGpuVO {
 	private String gscCd;
 	private String gscCdNm;
 	private BigDecimal gsv;
-	private String gpuasCd;
-	private String gpuasCdNm;
+//	private String gpuasCd;
+//	private String gpuasCdNm;
+	private String makerId;
+	private String makerNm;
 	private BigDecimal qc;
 	private int tdp;
 	private int bn;

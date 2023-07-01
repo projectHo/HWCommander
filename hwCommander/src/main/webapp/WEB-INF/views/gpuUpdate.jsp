@@ -41,7 +41,7 @@ function dataSetting() {
 	$("#gmcCd").val("${selectData.gmcCd}");
 	$("#gscCd").val("${selectData.gscCd}");
 	$("#gsv").val("${selectData.gsv}");
-	$("#gpuasCd").val("${selectData.gpuasCd}");
+	$("#makerId").val("${selectData.makerId}");
 	$("#qc").val("${selectData.qc}");
 	$("#tdp").val("${selectData.tdp}");
 	$("#bn").val("${selectData.bn}");
@@ -174,6 +174,7 @@ function validationCheck() {
                             <a class="nav-link" href="sfManagement.do">
                                 SF
                             </a>
+                            <a class="nav-link" href="makerManagement.do">MAKER</a>
                             <div class="sb-sidenav-menu-heading">완본체관리</div>
                             <a class="nav-link" href="productManagement.do">
 								Product
@@ -282,13 +283,13 @@ function validationCheck() {
                                        </div>
                                        <div class="col-md-3">
                                            <div class="form-floating">
-												<select class="form-select pt-4" id="gpuasCd" name="gpuasCd">
+												<select class="form-select pt-4" id="makerId" name="makerId">
 												  <option value="00" selected>-선택-</option>
-												  <c:forEach var="item" items="${gpuas_cd}">
-													  <option value="${item.cd}">${item.nm}</option>
+												  <c:forEach var="item" items="${makerList}">
+													  <option value="${item.id}">${item.makerName}</option>
 												  </c:forEach>
 												</select>
-												<label for="gpuasCd">GPUAS</label>
+												<label for="makerId">MAKER</label>
                                            </div>
                                        </div>
                                        <div class="col-md-3">

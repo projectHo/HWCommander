@@ -39,13 +39,14 @@
 	    	    , {targets : 4, width : "20%"}
     	    ]
     	});
-    	/* 
     	$("#masterListTable").on('click', 'tbody tr', function () {
     		var row = $("#masterListTable").DataTable().row($(this)).data();
-    		var partsId = row[5];
-    		location.href = "masterUpdate.do?partsId="+partsId;
+    		var id = row[0];
+    		/* todo wonho 07.01 */
+    		alert("준비중");
+    		return false;
+    		location.href = "resourceMasterUpdate.do?id="+id;
     	});
-    	 */
         window.addEventListener('unload', function() {
         	setCookie('displayLength', $("select[name=masterListTable_length]").val(), {'max-age': 1800});
        	});
@@ -100,6 +101,7 @@
                             <a class="nav-link" href="sfManagement.do">
                                 SF
                             </a>
+                            <a class="nav-link" href="makerManagement.do">MAKER</a>
                             <div class="sb-sidenav-menu-heading">완본체관리</div>
                             <a class="nav-link" href="productManagement.do">
 								Product
@@ -156,7 +158,7 @@
                                             <th>대분류코드명</th>
                                             <th>Type Code</th>
                                             <th>Type Code Name</th>
-                                            <th>Category(Master) Name</th>
+                                            <th>Process Name</th>
                                         </tr>
                                     </thead>
                                     <tbody>

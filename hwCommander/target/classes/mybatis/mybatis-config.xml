@@ -19,6 +19,8 @@
 		<typeAlias alias="partsCpuVO" type="com.hw.model.PartsCpuVO"></typeAlias>
 		<typeAlias alias="partsGpuVO" type="com.hw.model.PartsGpuVO"></typeAlias>
 		<typeAlias alias="partsHddVO" type="com.hw.model.PartsHddVO"></typeAlias>
+		<typeAlias alias="partsMakerHistoryVO" type="com.hw.model.PartsMakerHistoryVO"></typeAlias>
+		<typeAlias alias="partsMakerVO" type="com.hw.model.PartsMakerVO"></typeAlias>
 		<typeAlias alias="partsMbVO" type="com.hw.model.PartsMbVO"></typeAlias>
 		<typeAlias alias="partsPsuVO" type="com.hw.model.PartsPsuVO"></typeAlias>
 		<typeAlias alias="partsRamVO" type="com.hw.model.PartsRamVO"></typeAlias>
@@ -26,6 +28,8 @@
 		<typeAlias alias="partsSsdVO" type="com.hw.model.PartsSsdVO"></typeAlias>
 		
 		<!-- Process Resource -->
+		<typeAlias alias="processResourceDetailHistoryVO" type="com.hw.model.ProcessResourceDetailHistoryVO"></typeAlias>
+		<typeAlias alias="processResourceDetailVO" type="com.hw.model.ProcessResourceDetailVO"></typeAlias>
 		<typeAlias alias="processResourceMasterVO" type="com.hw.model.ProcessResourceMasterVO"></typeAlias>
 		<typeAlias alias="processResourceTypeCodeInfoVO" type="com.hw.model.ProcessResourceTypeCodeInfoVO"></typeAlias>
 		

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hw.dao.ProcessResourceDAO;
+import com.hw.model.PartsGpuVO;
+import com.hw.model.ProcessResourceDetailVO;
 import com.hw.model.ProcessResourceMasterVO;
 import com.hw.model.ProcessResourceTypeCodeInfoVO;
 import com.hw.service.ProcessResourceService;
@@ -32,15 +34,38 @@ public class ProcessResourceServiceImpl implements ProcessResourceService {
 	
 	@Override
 	public List<ProcessResourceTypeCodeInfoVO> getProcessResourceTypeCodeInfoAllList() {
-		return processResourceDAO.getProcessResourceTypeCodeInfoAllList();
+		ProcessResourceTypeCodeInfoVO searchVO = new ProcessResourceTypeCodeInfoVO();
+		searchVO.setProcessTypeExclusiveCd(null);
+		searchVO.setUseYn(null);
+		return processResourceDAO.getProcessResourceTypeCodeInfoAllList(searchVO);
 	}
-	
 	
 	@Override
 	public ProcessResourceTypeCodeInfoVO getProcessResourceTypeCodeInfoByProcessTypeExclusiveCd(String processTypeExclusiveCd) {
-		return processResourceDAO.getProcessResourceTypeCodeInfoByProcessTypeExclusiveCd(processTypeExclusiveCd);
+		ProcessResourceTypeCodeInfoVO resultVO = new ProcessResourceTypeCodeInfoVO();
+		ProcessResourceTypeCodeInfoVO searchVO = new ProcessResourceTypeCodeInfoVO();
+		
+		searchVO.setProcessTypeExclusiveCd(processTypeExclusiveCd);
+		List<ProcessResourceTypeCodeInfoVO> resultList = processResourceDAO.getProcessResourceTypeCodeInfoAllList(searchVO);
+		
+		if(resultList.size() != 0) {
+			resultVO = resultList.get(0);
+		}
+		
+		return resultVO;
 	}
 	
+	@Override
+	public List<ProcessResourceTypeCodeInfoVO> getProcessResourceTypeCodeInfoByUseYn(String useYn) {
+		ProcessResourceTypeCodeInfoVO searchVO = new ProcessResourceTypeCodeInfoVO();
+		searchVO.setUseYn(useYn);
+		return processResourceDAO.getProcessResourceTypeCodeInfoAllList(searchVO);
+	}
+	
+	@Override
+	public Integer processResourceTypeCodeInfoUpdateLogic(ProcessResourceTypeCodeInfoVO processResourceTypeCodeInfoVO) {
+		return processResourceDAO.updateProcessResourceTypeCodeInfoVO(processResourceTypeCodeInfoVO);
+	}
 	
 	@Override
 	public Integer processResourceMasterRegistLogic(ProcessResourceMasterVO processResourceMasterVO) {
@@ -52,12 +77,56 @@ public class ProcessResourceServiceImpl implements ProcessResourceService {
 	
 	@Override
 	public List<ProcessResourceMasterVO> getProcessResourceMasterAllList() {
-		return processResourceDAO.getProcessResourceMasterAllList();
+		ProcessResourceMasterVO searchVO = new ProcessResourceMasterVO();
+		searchVO.setId(null);
+		return processResourceDAO.getProcessResourceMasterAllList(searchVO);
 	}
 	
 	@Override
 	public ProcessResourceMasterVO getProcessResourceMasterById(String id) {
-		return processResourceDAO.getProcessResourceMasterById(id);
+		ProcessResourceMasterVO resultVO = new ProcessResourceMasterVO();
+		ProcessResourceMasterVO searchVO = new ProcessResourceMasterVO();
+		
+		searchVO.setId(id);
+		List<ProcessResourceMasterVO> resultList = processResourceDAO.getProcessResourceMasterAllList(searchVO);
+		
+		if(resultList.size() != 0) {
+			resultVO = resultList.get(0);
+		}
+		
+		return resultVO;
+	}
+	
+	@Override
+	public Integer processResourceMasterUpdateLogic(ProcessResourceMasterVO processResourceMasterVO) {
+		return processResourceDAO.updateProcessResourceMasterVO(processResourceMasterVO);
+	}
+	
+	@Override
+	public Integer processResourceDetailRegistLogic(ProcessResourceDetailVO processResourceDetailVO) {
+		int insertResult = 0;
+		insertResult = processResourceDAO.insertProcessResourceDetailVO(processResourceDetailVO);
+		return insertResult;
+	}
+	
+	@Override
+	public List<ProcessResourceDetailVO> getProcessResourceDetailAllList() {
+		ProcessResourceDetailVO searchVO = new ProcessResourceDetailVO();
+		searchVO.setId(null);
+		searchVO.setSeq(0);
+		return processResourceDAO.getProcessResourceDetailAllList(searchVO);
+	}
+	
+	@Override
+	public ProcessResourceDetailVO getProcessResourceDetailByIdAndSeq(ProcessResourceDetailVO processResourceDetailVO) {
+		ProcessResourceDetailVO resultVO = new ProcessResourceDetailVO();
+		
+		List<ProcessResourceDetailVO> resultList = processResourceDAO.getProcessResourceDetailAllList(processResourceDetailVO);
+		
+		if(resultList.size() != 0) {
+			resultVO = resultList.get(0);
+		}
+		return resultVO;
 	}
 	
 }

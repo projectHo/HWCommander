@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - SF Regist</title>
+<title>현우의 컴퓨터 공방 - Resource Data(Detail) Regist</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <!-- Bootstrap CSS -->
@@ -21,115 +21,68 @@
 <script>
 
     $(function(){
-        $('#btn_sf_regist').on("click", function () {
+        $('#btn_detail_regist').on("click", function () {
         	if(!validationCheck()) {
         		return false;
         	}
         	
         	if(confirm("등록 하시겠습니까?")) {
-        		goSfRegist();
+        		goResourceDataRegist();
         	}
         });
     });
     
-function goSfRegist() {
-    var form = $("#sf_regist_form").serialize();
+function goResourceDataRegist() {
+    var form = $("#detail_regist_form").serialize();
     
     $.ajax({
         type: "post",
-        url: "/admin/sfRegistLogic.do",
+        url: "/admin/resourceDetailRegistLogic.do",
         data: form,
         dataType: 'json',
         success: function (data) {
-        	if(data == 1) {
+        	if(data == 2) {
         		alert("등록완료");
         	}else {
         		alert("등록실패");
         	}
-        	window.location = "sfManagement.do";
+        	window.location = "resourceDetailManagement.do";
             console.log(data);
         }
     });
 }
 
 function validationCheck() {
-	/*
-	if($('#id').val().trim() == "") {
-		alert("아이디를 입력하세요");
+	if("" == $('#makerName').val().trim() || null == $('#makerName').val().trim()) {
+		alert("Maker Name을 입력하세요.");
 		return false;
 	}
 	
-	if(targetId == null || targetId != $('#id').val().trim()) {
-		alert("아이디 중복확인이 되지 않았습니다.");
+	if("" == $('#asScore').val().trim() || null == $('#asScore').val().trim()) {
+		alert("AS Score를 입력하세요.");
 		return false;
 	}
 	
-	if($('#pw').val() == "" || $('#pw').val() == null) {
-		alert("비밀번호를 입력하세요.");
+	
+	var asScore = parseInt($('#asScore').val().trim());
+	if(isNaN(asScore)) {
+		alert("AS Score는 문자열을 포함할 수 없습니다.");
 		return false;
 	}
 	
-	if($('#pw').val() != $('#pwConfirm').val()) {
-		alert("비밀번호가 일치하지 않습니다.");
+	if(asScore > 999) {
+		alert("AS Score는 999 미만의 수여야 합니다.");
 		return false;
 	}
 	
-	if($('#name').val().trim() == "" || $('#name').val().trim() == null) {
-		alert("이름을 입력하세요.");
+	if(asScore != parseFloat($('#asScore').val().trim())) {
+		alert("AS Score는 정수여야 합니다.");
 		return false;
 	}
-	
-	if($('#birth').val() == "" || $('#birth').val() == null) {
-		alert("생년월일을 입력하세요.");
-		return false;
-	}
-	
-	if($('#hpNumber').val().trim() == "" || $('#hpNumber').val().trim() == null) {
-		alert("휴대폰번호를 입력하세요.");
-		return false;
-	}
-	
-	if($('#addr').val().trim() == "" || $('#addr').val().trim() == null) {
-		alert("주소를 입력하세요.");
-		return false;
-	}
-	
-	if($('#mail').val().trim() == "" || $('#mail').val().trim() == null) {
-		alert("이메일을 입력하세요.");
-		return false;
-	}
-	*/
-	
+
 	return true;
 }
 
-function idDupliChk(id) {
-	
-	if(id == "") {
-		alert("아이디를 입력하세요.");
-		return false;
-	}
-	
-	$.ajax({
-        type: "post",
-        url: "/user/idDupliChk.do",
-        data: {
-        	"id" : id
-        },
-        dataType: 'json',
-        success: function (data) {
-        	if(data == 0) {
-        		targetId = id;
-        		alert("사용가능한 ID 입니다.");
-        		$("#id").removeClass("is-invalid");
-        	}else {
-        		targetId = null;
-        		$("#id").addClass("is-invalid");
-        		alert("중복된 ID 입니다.");
-        	}
-        }
-    });
-}
 </script>
 </head>
     <body class="sb-nav-fixed">
@@ -209,105 +162,36 @@ function idDupliChk(id) {
             <div id="layoutSidenav_content">
 				<main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">SF Regist</h1>
+                        <h1 class="mt-4">Resource Data(Detail) Regist</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="main.do">Admin Page</a></li>
-                            <li class="breadcrumb-item"><a href="sfManagement.do">SF</a></li>
-                            <li class="breadcrumb-item active">SF Regist</li>
+                            <li class="breadcrumb-item"><a href="resourceDetailManagement.do">Resource Data(Detail)</a></li>
+                            <li class="breadcrumb-item active">Resource Data(Detail) Regist</li>
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                                SF를  등록합니다.
+                                Resource Data(Detail)를  등록합니다.
                             </div>
                         </div>
                         <div class="card mb-4">
 							<div class="card-body">
-                               <form id="sf_regist_form">
-                                   <div class="form-floating mb-3">
-                                       <input class="form-control" id="partsName" name="partsName" type="text" placeholder="Enter partsName"/>
-                                       <label for="partsName">parts Name</label>
-                                   </div>
-                                   
+                               <form id="maker_regist_form">
                                    <div class="row mb-3">
                                        <div class="col-md-3">
                                            <div class="form-floating mb-3 mb-md-0">
-                                               <input class="form-control" id="partsPrice" name="partsPrice" type="text" placeholder="Enter partsPrice" />
-                                               <label for="partsPrice">parts Price</label>
+                                               <input class="form-control" id="makerName" name="makerName" type="text" placeholder="Enter makerName" />
+                                               <label for="makerName">Maker Name</label>
                                            </div>
                                        </div>
                                        <div class="col-md-3">
-                                           <div class="form-floating">
-												<select class="form-select pt-4" id="fledCd" name="fledCd">
-												  <option value="00" selected>-선택-</option>
-												  <c:forEach var="item" items="${fled_cd}">
-													  <option value="${item.cd}">${item.nm}</option>
-												  </c:forEach>
-												</select>
-												<label for="fledCd">FLED</label>
-                                           </div>
-                                       </div>
-                                       <div class="col-md-3">
-                                           <div class="form-floating">
-												<select class="form-select pt-4" id="fmcCd" name="fmcCd">
-												  <option value="00" selected>-선택-</option>
-												  <c:forEach var="item" items="${fmc_cd}">
-													  <option value="${item.cd}">${item.nm}</option>
-												  </c:forEach>
-												</select>
-												<label for="fmcCd">FMC</label>
-                                           </div>
-                                       </div>
-                                       <div class="col-md-3">
-                                           <div class="form-floating">
-												<select class="form-select pt-4" id="fscCd" name="fscCd">
-												  <option value="00" selected>-선택-</option>
-												  <c:forEach var="item" items="${fsc_cd}">
-													  <option value="${item.cd}">${item.nm}</option>
-												  </c:forEach>
-												</select>
-												<label for="fscCd">FSC</label>
+                                           <div class="form-floating mb-3 mb-md-0">
+                                               <input class="form-control" id="asScore" name="asScore" type="text" placeholder="Enter asScore" />
+                                               <label for="asScore">AS Score</label>
                                            </div>
                                        </div>
                                    </div>
-                                   
-                                   <div class="row mb-3">
-                                       <div class="col-md-3">
-                                           <div class="form-floating mb-3 mb-md-0">
-                                               <input class="form-control" id="fnoi" name="fnoi" type="text" placeholder="Enter fnoi" />
-                                               <label for="fnoi">FNOI</label>
-                                           </div>
-                                       </div>
-                                       <div class="col-md-3">
-                                           <div class="form-floating mb-3 mb-md-0">
-                                               <input class="form-control" id="ffm" name="ffm" type="text" placeholder="Enter ffm" />
-                                               <label for="ffm">FFM</label>
-                                           </div>
-                                       </div>
-                                       <div class="col-md-3">
-                                           <div class="form-floating mb-3 mb-md-0">
-                                               <input class="form-control" id="fh" name="fh" type="text" placeholder="Enter fh" />
-                                               <label for="fh">FH</label>
-                                           </div>
-                                       </div>
-                                       <div class="col-md-3">
-                                           <div class="form-floating mb-3 mb-md-0">
-                                               <input class="form-control" id="ft" name="ft" type="text" placeholder="Enter ft" />
-                                               <label for="ft">FT</label>
-                                           </div>
-                                       </div>
-                                   </div>
-                                   
-                                   <div class="row mb-3">
-                                       <div class="col-md-3">
-                                           <div class="form-floating">
-                                               <input class="form-control" id="multiBulk" name="multiBulk" type="text" placeholder="Enter multiBulk" />
-                                               <label for="multiBulk">멀티팩 벌크</label>
-                                           </div>
-                                       </div>
-                                   </div>
-                                   
                                    <div class="mt-4 mb-0">
-                                       <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_sf_regist">Regist</a></div>
+                                       <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_maker_regist">Regist</a></div>
                                    </div>
                                </form>
                            </div>
