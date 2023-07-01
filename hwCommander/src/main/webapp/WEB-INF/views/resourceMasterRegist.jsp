@@ -169,6 +169,7 @@ function processLgCdChange() {
                             <a class="nav-link" href="sfManagement.do">
                                 SF
                             </a>
+                            <a class="nav-link" href="makerManagement.do">MAKER</a>
                             <div class="sb-sidenav-menu-heading">완본체관리</div>
                             <a class="nav-link" href="productManagement.do">
 								Product

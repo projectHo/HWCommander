@@ -20,7 +20,7 @@
 			, gmc_cd
 			, gsc_cd
 			, gsv
-			, gpuas_cd
+			, maker_id
 			, qc
 			, tdp
 			, bn
@@ -42,7 +42,7 @@
 			, #{gmcCd}
 			, #{gscCd}
 			, #{gsv}
-			, #{gpuasCd}
+			, #{makerId}
 			, #{qc}
 			, #{tdp}
 			, #{bn}
@@ -70,8 +70,8 @@
 			, a.gsc_cd                                                                        AS gscCd     
 			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT002' AND cd = a.gsc_cd)      AS gscCdNm   
 			, a.gsv                                                                           AS gsv       
-			, a.gpuas_cd                                                                      AS gpuasCd   
-			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT003' AND cd = a.gpuas_cd)    AS gpuasCdNm 
+			, a.maker_id                                                                      AS makerId   
+			, (SELECT maker_name FROM parts_maker WHERE id = a.maker_id)                      AS makerNm 
 			, a.qc                                                                            AS qc        
 			, a.tdp                                                                           AS tdp       
 			, a.bn                                                                            AS bn        
@@ -102,7 +102,7 @@
 			, gmc_cd              = #{gmcCd}     
 			, gsc_cd              = #{gscCd}     
 			, gsv                 = #{gsv}       
-			, gpuas_cd            = #{gpuasCd}   
+			, maker_id            = #{makerId}   
 			, qc                  = #{qc}        
 			, tdp                 = #{tdp}       
 			, bn                  = #{bn}        
@@ -127,7 +127,7 @@
 			, parts_name
 			, parts_price
 			, csv
-			, maker_cd
+			, ia_cd
 			, thermal
 			, bn
 			, cpu_soc_cd
@@ -146,7 +146,7 @@
 			, #{partsName}
 			, #{partsPrice}
 			, #{csv}
-			, #{makerCd}
+			, #{iaCd}
 			, #{thermal}
 			, #{bn}
 			, #{cpuSocCd}
@@ -168,8 +168,8 @@
 			, a.parts_price                                                                    AS partsPrice
 			, FORMAT(a.parts_price, 0)                                                         AS partsPriceStr  
 			, a.csv                                                                            AS csv         
-			, a.maker_cd                                                                       AS makerCd     
-			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT009' AND cd = a.maker_cd)     AS makerCdNm   
+			, a.ia_cd                                                                       AS iaCd     
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT009' AND cd = a.ia_cd)     AS iaCdNm   
 			, a.thermal                                                                        AS thermal     
 			, a.bn                                                                             AS bn          
 			, a.cpu_soc_cd                                                                     AS cpuSocCd    
@@ -198,7 +198,7 @@
 			parts_name            = #{partsName}  
 			, parts_price         = #{partsPrice} 
 			, csv                 = #{csv}        
-			, maker_cd            = #{makerCd}    
+			, ia_cd            = #{iaCd}    
 			, thermal             = #{thermal}    
 			, bn                  = #{bn}         
 			, cpu_soc_cd          = #{cpuSocCd}   
@@ -226,7 +226,7 @@
 			, mled_cd
 			, mmc_cd
 			, msc_cd
-			, mbas_cd
+			, maker_id
 			, port
 			, scal
 			, bios
@@ -252,7 +252,7 @@
 			, #{mledCd}
 			, #{mmcCd}
 			, #{mscCd}
-			, #{mbasCd}
+			, #{makerId}
 			, #{port}
 			, #{scal}
 			, #{bios}
@@ -284,8 +284,8 @@
 			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT004' AND cd = a.mmc_cd)       AS mmcCdNm   
 			, a.msc_cd                                                                         AS mscCd     
 			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT005' AND cd = a.msc_cd)       AS mscCdNm   
-			, a.mbas_cd                                                                        AS mbasCd    
-			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT006' AND cd = a.mbas_cd)      AS mbasCdNm  
+			, a.maker_id                                                                       AS makerId    
+			, (SELECT maker_name FROM parts_maker WHERE id = a.maker_id)                       AS makerNm   
 			, a.port                                                                           AS port      
 			, a.scal                                                                           AS scal      
 			, a.bios                                                                           AS bios      
@@ -323,7 +323,7 @@
 			, mled_cd             = #{mledCd}    
 			, mmc_cd              = #{mmcCd}     
 			, msc_cd              = #{mscCd}     
-			, mbas_cd             = #{mbasCd}    
+			, maker_id            = #{makerId}    
 			, port                = #{port}      
 			, scal                = #{scal}      
 			, bios                = #{bios}      
@@ -464,7 +464,7 @@
 			, pmc_cd
 			, psc_cd
 			, std
-			, psuas
+			, maker_id
 			, pfm
 			, sft
 			, tdp
@@ -484,7 +484,7 @@
 			, #{pmcCd}
 			, #{pscCd}
 			, #{std}
-			, #{psuas}
+			, #{makerId}
 			, #{pfm}
 			, #{sft}
 			, #{tdp}
@@ -509,7 +509,7 @@
 			, a.psc_cd                                                                         AS pscCd     
 			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT014' AND cd = a.psc_cd)       AS pscCdNm   
 			, a.std                                                                            AS std       
-			, a.psuas                                                                          AS psuas     
+			, a.maker_id                                                                       AS makerId     
 			, a.pfm                                                                            AS pfm       
 			, a.sft                                                                            AS sft       
 			, a.tdp                                                                            AS tdp       
@@ -538,7 +538,7 @@
 			, pmc_cd              = #{pmcCd}     
 			, psc_cd              = #{pscCd}     
 			, std                 = #{std}       
-			, psuas               = #{psuas}     
+			, maker_id            = #{makerId}     
 			, pfm                 = #{pfm}       
 			, sft                 = #{sft}       
 			, tdp                 = #{tdp}       
@@ -566,7 +566,7 @@
 			, cm_cd
 			, cmc_cd
 			, csc_cd
-			, caseas_cd
+			, maker_id
 			, adap
 			, cool
 			, end
@@ -594,7 +594,7 @@
 			, #{cmCd}
 			, #{cmcCd}
 			, #{cscCd}
-			, #{caseasCd}
+			, #{makerId}
 			, #{adap}
 			, #{cool}
 			, #{end}
@@ -629,8 +629,8 @@
 			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT015' AND cd = a.cmc_cd)       AS cmcCdNm
 			, a.csc_cd                                                                         AS cscCd          
 			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT016' AND cd = a.csc_cd)       AS cscCdNm
-			, a.caseas_cd                                                                      AS caseasCd       
-			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT017' AND cd = a.caseas_cd)    AS caseasCdNm
+			, a.maker_id                                                                       AS makerId       
+			, (SELECT maker_name FROM parts_maker WHERE id = a.maker_id)                       AS makerNm 
 			, a.adap                                                                           AS adap           
 			, a.cool                                                                           AS cool           
 			, a.end                                                                            AS end            
@@ -667,7 +667,7 @@
 			, cm_cd               = #{cmCd}           
 			, cmc_cd              = #{cmcCd}          
 			, csc_cd              = #{cscCd}          
-			, caseas_cd           = #{caseasCd}       
+			, maker_id            = #{makerId}       
 			, adap                = #{adap}           
 			, cool                = #{cool}           
 			, end                 = #{end}            
@@ -1087,5 +1087,80 @@
 		WHERE
 			id = #{id}
 	</update>
+	
+	
+	<select id="getPartsMakerVOMaxId" resultType="String">
+		SELECT CONCAT('MAKER', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 6)), 0)+1, 6, '0') FROM parts_maker)) AS id FROM DUAL
+	</select>
+	
+	<insert id="insertPartsMakerVO" parameterType="partsMakerVO">
+		INSERT INTO parts_maker
+		(
+			id
+			, maker_name
+			, as_score
+			, reg_dtm
+			, updt_dtm
+		)
+		VALUES
+		(
+			#{id}
+			, #{makerName}
+			, #{asScore}
+			, NOW()
+			, #{updtDtm}
+		)
+	</insert>
+	
+	<select id="getMakerAllList" resultType="partsMakerVO" parameterType="partsMakerVO">
+		SELECT
+			a.id                                                                               AS id        
+			, a.maker_name                                                                     AS makerName 
+			, a.as_score                                                                       AS asScore
+			, a.reg_dtm                                                                        AS regDtm    
+			, a.updt_dtm                                                                       AS updtDtm
+		FROM
+			parts_maker a
+		<where>
+		    <if test="id != null and id != ''">
+		    	AND a.id = #{id} 
+		    </if>
+		</where>
+		ORDER BY a.maker_name
+	</select>
+	
+	<update id="updatePartsMakerVO" parameterType="partsMakerVO">
+		UPDATE
+			parts_maker
+		SET
+			maker_name            = #{makerName} 
+			, as_score            = #{asScore}
+			, updt_dtm            = NOW()        
+		WHERE
+			id = #{id}
+	</update>
+	
+	<insert id="insertPartsMakerHistoryVO" parameterType="partsMakerHistoryVO">
+		INSERT INTO parts_maker_history
+		(
+			id
+			, history_seq
+			, maker_name
+			, as_score
+			, reg_dtm
+		)
+		VALUES
+		(
+			#{id}
+			, #{historySeq}
+			, #{makerName}
+			, #{asScore}
+			, NOW()
+		)
+	</insert>
+	
+	<select id="getPartsMakerHistoryVOMaxHistorySeq" resultType="Integer" parameterType="String">
+		SELECT IFNULL(MAX(history_seq), 0)+1 AS history_seq FROM parts_maker_history WHERE id = #{id} 
+	</select>
 	
 </mapper>

@@ -36,18 +36,13 @@
 	    	    , {targets : 1, width : "40%"}
 	    	    , {targets : 2, width : "20%"}
 	    	    , {targets : 3, width : "15%"}
-	    	    /* 
-	    	    , {targets : 5, visible : false} // id
-	    	     */
     	    ]
     	});
-    	/* 
     	$("#typeCodeListTable").on('click', 'tbody tr', function () {
     		var row = $("#typeCodeListTable").DataTable().row($(this)).data();
-    		var partsId = row[5];
-    		location.href = "typeCodeUpdate.do?partsId="+partsId;
+    		var processTypeExclusiveCd = row[0];
+    		location.href = "resourceTypeCodeUpdate.do?processTypeExclusiveCd="+processTypeExclusiveCd;
     	});
-    	 */
         window.addEventListener('unload', function() {
         	setCookie('displayLength', $("select[name=typeCodeListTable_length]").val(), {'max-age': 1800});
        	});
@@ -102,6 +97,7 @@
                             <a class="nav-link" href="sfManagement.do">
                                 SF
                             </a>
+                            <a class="nav-link" href="makerManagement.do">MAKER</a>
                             <div class="sb-sidenav-menu-heading">완본체관리</div>
                             <a class="nav-link" href="productManagement.do">
 								Product
@@ -138,7 +134,7 @@
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                                Type Code를 관리합니다. 조회, 추가 작업을 할 수 있습니다.
+                                Type Code를 관리합니다. 조회, 추가, 수정 작업을 할 수 있습니다.
                             </div>
                         </div>
                         <div class="card mb-4">

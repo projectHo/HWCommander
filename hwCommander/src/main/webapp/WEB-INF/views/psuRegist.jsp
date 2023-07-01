@@ -179,6 +179,7 @@ function idDupliChk(id) {
                             <a class="nav-link" href="sfManagement.do">
                                 SF
                             </a>
+                            <a class="nav-link" href="makerManagement.do">MAKER</a>
                             <div class="sb-sidenav-menu-heading">완본체관리</div>
                             <a class="nav-link" href="productManagement.do">
 								Product
@@ -266,9 +267,14 @@ function idDupliChk(id) {
                                    
                                    <div class="row mb-3">
                                        <div class="col-md-3">
-                                           <div class="form-floating mb-3 mb-md-0">
-                                               <input class="form-control" id="psuas" name="psuas" type="text" placeholder="Enter psuas" />
-                                               <label for="psuas">PSUAS</label>
+                                           <div class="form-floating">
+												<select class="form-select pt-4" id="makerId" name="makerId">
+												  <option value="00" selected>-선택-</option>
+												  <c:forEach var="item" items="${makerList}">
+													  <option value="${item.id}">${item.makerName}</option>
+												  </c:forEach>
+												</select>
+												<label for="makerId">MAKER</label>
                                            </div>
                                        </div>
                                        <div class="col-md-3">

@@ -16,8 +16,10 @@ public class PartsMbVO {
 	private String mmcCdNm;
 	private String mscCd;
 	private String mscCdNm;
-	private String mbasCd;
-	private String mbasCdNm;
+//	private String mbasCd;
+//	private String mbasCdNm;
+	private String makerId;
+	private String makerNm;
 	private int port;
 	private int scal;
 	private int bios;

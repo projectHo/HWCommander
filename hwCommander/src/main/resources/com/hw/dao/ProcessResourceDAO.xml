@@ -30,7 +30,7 @@
 		)
 	</insert>
 	
-	<select id="getProcessResourceTypeCodeInfoAllList" resultType="processResourceTypeCodeInfoVO">
+	<select id="getProcessResourceTypeCodeInfoAllList" resultType="processResourceTypeCodeInfoVO"  parameterType="processResourceTypeCodeInfoVO">
 		SELECT 
 			a.process_type_exclusive_cd                                                         AS processTypeExclusiveCd                
 			, a.process_type_exclusive_cd_nm                                                    AS processTypeExclusiveCdNm       
@@ -41,24 +41,26 @@
 			, a.updt_dtm                                                                        AS updtDtm            
 		FROM
 			process_resource_type_cd_info a
-		WHERE
-			a.use_yn = 'Y'
+		<where>
+		    <if test="processTypeExclusiveCd != null and processTypeExclusiveCd != ''">
+		    	AND a.process_type_exclusive_cd = #{processTypeExclusiveCd}
+		    </if>
+		    <if test="useYn != null and useYn != ''">
+		    	AND a.use_yn = 'Y'
+		    </if>
+		</where>
 	</select>
 	
-	<select id="getProcessResourceTypeCodeInfoByProcessTypeExclusiveCd" parameterType="String" resultType="processResourceTypeCodeInfoVO">
-		SELECT 
-			a.process_type_exclusive_cd                                                         AS processTypeExclusiveCd                
-			, a.process_type_exclusive_cd_nm                                                    AS processTypeExclusiveCdNm       
-			, a.process_lg_cd                                                                   AS processLgCd
-			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'COM004' AND cd = a.process_lg_cd) AS processLgCdNm
-			, a.use_yn                                                                          AS useYn      
-			, a.reg_dtm                                                                         AS regDtm            
-			, a.updt_dtm                                                                        AS updtDtm     
-		FROM
-			process_resource_type_cd_info a
+	<update id="updateProcessResourceTypeCodeInfoVO" parameterType="processResourceTypeCodeInfoVO">
+		UPDATE
+			process_resource_type_cd_info
+		SET
+			process_type_exclusive_cd_nm            = #{processTypeExclusiveCdNm} 
+			, use_yn              = #{useYn}    
+			, updt_dtm            = NOW()        
 		WHERE
-			a.process_type_exclusive_cd = #{processTypeExclusiveCd}
-	</select>
+			process_type_exclusive_cd = #{processTypeExclusiveCd}
+	</update>
 	
 	<select id="getProcessResourceMasterVOMaxId" resultType="String">
 		SELECT CONCAT('PR', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 3)), 0)+1, 6, '0') FROM process_resource_master)) AS id FROM DUAL
@@ -85,7 +87,7 @@
 		)
 	</insert>
 	
-	<select id="getProcessResourceMasterAllList" resultType="processResourceMasterVO">
+	<select id="getProcessResourceMasterAllList" resultType="processResourceMasterVO" parameterType="processResourceMasterVO">
 		SELECT 
 			a.id                                                                                AS id                
 			, a.process_lg_cd                                                                   AS processLgCd       
@@ -93,26 +95,81 @@
 			, a.process_type_exclusive_cd                                                       AS processTypeExclusiveCd
 			-- 공통코드가 아님. 사용자가 변경할 수 있는 process_resource_type_cd_info table 참조함.
 			, (SELECT process_type_exclusive_cd_nm FROM process_resource_type_cd_info WHERE process_type_exclusive_cd = a.process_type_exclusive_cd) AS processTypeExclusiveCdNm
+			, a.process_name                                                                    AS processName
 			, a.reg_dtm                                                                         AS regDtm            
 			, a.updt_dtm                                                                        AS updtDtm            
 		FROM
 			process_resource_master a
+		<where>
+		    <if test="id != null and id != ''">
+		    	AND a.id = #{id}
+		    </if>
+		</where>
 	</select>
 	
-	<select id="getProcessResourceMasterById" parameterType="String" resultType="processResourceMasterVO">
+	<update id="updateProcessResourceMasterVO" parameterType="processResourceMasterVO">
+		UPDATE
+			process_resource_master
+		SET
+			process_name        = #{processName}    
+			, updt_dtm            = NOW()        
+		WHERE
+			id = #{id}
+	</update>
+	
+	<insert id="insertProcessResourceDetailVO" parameterType="processResourceDetailVO">
+		INSERT INTO process_resource_detail
+		(
+			id
+			, seq
+			, process_type_exclusive_cd
+			, process_name
+			, variable_chk
+			, resource_name
+			, resource_mapping_value
+			, resource_score
+			, reg_dtm
+			, updt_dtm
+		)
+		VALUES
+		(
+			#{id}
+			, #{seq}
+			, #{processTypeExclusiveCd}
+			, #{processName}
+			, #{variableChk}
+			, #{resourceName}
+			, #{resourceMappingValue}
+			, #{resourceScore}
+			, NOW()
+			, #{updtDtm}
+		)
+	</insert>
+	
+	<select id="getProcessResourceDetailAllList" resultType="processResourceDetailVO" parameterType="processResourceDetailVO">
 		SELECT 
 			a.id                                                                                AS id                
-			, a.process_lg_cd                                                                   AS processLgCd       
-			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'COM004' AND cd = a.process_lg_cd) AS processLgCdNm
+			, a.seq                                                                             AS seq       
 			, a.process_type_exclusive_cd                                                       AS processTypeExclusiveCd
 			-- 공통코드가 아님. 사용자가 변경할 수 있는 process_resource_type_cd_info table 참조함.
 			, (SELECT process_type_exclusive_cd_nm FROM process_resource_type_cd_info WHERE process_type_exclusive_cd = a.process_type_exclusive_cd) AS processTypeExclusiveCdNm
+			, a.process_name                                                                    AS processName
+			, a.variable_chk                                                                    AS variableChk
+			, a.resource_name                                                                   AS resourceName
+			, a.resource_mapping_value                                                          AS resourceMappingValue
+			, a.resource_score                                                                  AS resourceScore 
 			, a.reg_dtm                                                                         AS regDtm            
-			, a.updt_dtm                                                                        AS updtDtm            
+			, a.updt_dtm                                                                        AS updtDtm
 		FROM
-			process_resource_master a
-		WHERE
-			a.id = #{id}
+			process_resource_detail a
+		<where>
+		    <if test="id != null and id != ''">
+		    	AND a.id = #{id}
+		    </if>
+		    <if test="seq != null and seq != '' and seq != 0">
+		    	AND a.seq = #{seq}
+		    </if>
+		</where>
 	</select>
 	
 </mapper>

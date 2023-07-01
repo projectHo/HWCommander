@@ -11,8 +11,8 @@ public class PartsCpuVO {
 	private int partsPrice;
 	private String partsPriceStr;
 	private int csv;
-	private String makerCd;
-	private String makerCdNm;
+	private String iaCd;
+	private String iaCdNm;
 	private int thermal;
 	private int bn;
 	private String cpuSocCd;

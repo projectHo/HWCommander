@@ -7,6 +7,8 @@ import com.hw.model.PartsCoolerVO;
 import com.hw.model.PartsCpuVO;
 import com.hw.model.PartsGpuVO;
 import com.hw.model.PartsHddVO;
+import com.hw.model.PartsMakerHistoryVO;
+import com.hw.model.PartsMakerVO;
 import com.hw.model.PartsMbVO;
 import com.hw.model.PartsPsuVO;
 import com.hw.model.PartsRamVO;
@@ -63,4 +65,12 @@ public interface PartsDAO {
 	public Integer insertPartsSfVO(PartsSfVO partsSfVO);
 	public List<PartsSfVO> getSfAllList(PartsSfVO partsSfVO);
 	public Integer updatePartsSfVO(PartsSfVO partsSfVO);
+	
+	public String getPartsMakerVOMaxId();
+	public Integer insertPartsMakerVO(PartsMakerVO partsMakerVO);
+	public List<PartsMakerVO> getMakerAllList(PartsMakerVO partsMakerVO);
+	public Integer updatePartsMakerVO(PartsMakerVO partsMakerVO);
+	
+	public Integer insertPartsMakerHistoryVO(PartsMakerHistoryVO partsMakerHistoryVO);
+	public Integer getPartsMakerHistoryVOMaxHistorySeq(String id);
 }

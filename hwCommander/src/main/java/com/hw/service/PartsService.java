@@ -7,6 +7,7 @@ import com.hw.model.PartsCoolerVO;
 import com.hw.model.PartsCpuVO;
 import com.hw.model.PartsGpuVO;
 import com.hw.model.PartsHddVO;
+import com.hw.model.PartsMakerVO;
 import com.hw.model.PartsMbVO;
 import com.hw.model.PartsPsuVO;
 import com.hw.model.PartsRamVO;
@@ -63,4 +64,9 @@ public interface PartsService {
 	public List<PartsSfVO> getSfAllList();
 	public PartsSfVO getPartsSfVOById(String id);
 	public Integer sfUpdateLogic(PartsSfVO partsSfVO);
+	
+	public Integer makerRegistLogic(PartsMakerVO partsMakerVO);
+	public List<PartsMakerVO> getMakerAllList();
+	public PartsMakerVO getPartsMakerVOById(String id);
+	public Integer makerUpdateLogic(PartsMakerVO partsMakerVO);
 }

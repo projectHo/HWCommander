@@ -25,11 +25,13 @@ import com.hw.model.PartsCoolerVO;
 import com.hw.model.PartsCpuVO;
 import com.hw.model.PartsGpuVO;
 import com.hw.model.PartsHddVO;
+import com.hw.model.PartsMakerVO;
 import com.hw.model.PartsMbVO;
 import com.hw.model.PartsPsuVO;
 import com.hw.model.PartsRamVO;
 import com.hw.model.PartsSfVO;
 import com.hw.model.PartsSsdVO;
+import com.hw.model.ProcessResourceDetailVO;
 import com.hw.model.ProcessResourceMasterVO;
 import com.hw.model.ProcessResourceTypeCodeInfoVO;
 import com.hw.model.ProductDetailVO;
@@ -77,7 +79,8 @@ public class AdminController {
 		model.addAttribute("gled_cd", commonService.getComnCdDetailList("COM002"));
 		model.addAttribute("gmc_cd", commonService.getComnCdDetailList("PRT001"));
 		model.addAttribute("gsc_cd", commonService.getComnCdDetailList("PRT002"));
-		model.addAttribute("gpuas_cd", commonService.getComnCdDetailList("PRT003"));
+//		model.addAttribute("gpuas_cd", commonService.getComnCdDetailList("PRT003"));
+		model.addAttribute("makerList", partsService.getMakerAllList());
 		return adminLoginCheck(request, model, "gpuRegist");
 	}
 	
@@ -92,7 +95,8 @@ public class AdminController {
 		model.addAttribute("gled_cd", commonService.getComnCdDetailList("COM002"));
 		model.addAttribute("gmc_cd", commonService.getComnCdDetailList("PRT001"));
 		model.addAttribute("gsc_cd", commonService.getComnCdDetailList("PRT002"));
-		model.addAttribute("gpuas_cd", commonService.getComnCdDetailList("PRT003"));
+//		model.addAttribute("gpuas_cd", commonService.getComnCdDetailList("PRT003"));
+		model.addAttribute("makerList", partsService.getMakerAllList());
 		
 		model.addAttribute("selectData", partsService.getPartsGpuVOById(partsId));
 		return adminLoginCheck(request, model, "gpuUpdate");
@@ -116,7 +120,7 @@ public class AdminController {
 	
 	@RequestMapping(value = "/cpuRegist.do", method = RequestMethod.GET)
 	public String goCpuRegist(HttpServletRequest request, Model model) {
-		model.addAttribute("maker_cd", commonService.getComnCdDetailList("PRT009"));
+		model.addAttribute("ia_cd", commonService.getComnCdDetailList("PRT009"));
 		model.addAttribute("cpu_soc_cd", commonService.getComnCdDetailList("PRT007"));
 		return adminLoginCheck(request, model, "cpuRegist");
 	}
@@ -129,7 +133,7 @@ public class AdminController {
 	
 	@RequestMapping(value = "/cpuUpdate.do", method = RequestMethod.GET)
 	public String goCpuUpdate(HttpServletRequest request, Model model, @RequestParam(value = "partsId", required = true) String partsId) {
-		model.addAttribute("maker_cd", commonService.getComnCdDetailList("PRT009"));
+		model.addAttribute("ia_cd", commonService.getComnCdDetailList("PRT009"));
 		model.addAttribute("cpu_soc_cd", commonService.getComnCdDetailList("PRT007"));
 		
 		model.addAttribute("selectData", partsService.getPartsCpuVOById(partsId));
@@ -156,7 +160,8 @@ public class AdminController {
 		model.addAttribute("mled_cd", commonService.getComnCdDetailList("COM002"));
 		model.addAttribute("mmc_cd", commonService.getComnCdDetailList("PRT004"));
 		model.addAttribute("msc_cd", commonService.getComnCdDetailList("PRT005"));
-		model.addAttribute("mbas_cd", commonService.getComnCdDetailList("PRT006"));
+//		model.addAttribute("mbas_cd", commonService.getComnCdDetailList("PRT006"));
+		model.addAttribute("makerList", partsService.getMakerAllList());
 		model.addAttribute("cpu_soc_cd", commonService.getComnCdDetailList("PRT007"));
 		model.addAttribute("mem_soc_cd", commonService.getComnCdDetailList("PRT024"));
 		model.addAttribute("scs_cd", commonService.getComnCdDetailList("PRT008"));
@@ -174,7 +179,8 @@ public class AdminController {
 		model.addAttribute("mled_cd", commonService.getComnCdDetailList("COM002"));
 		model.addAttribute("mmc_cd", commonService.getComnCdDetailList("PRT004"));
 		model.addAttribute("msc_cd", commonService.getComnCdDetailList("PRT005"));
-		model.addAttribute("mbas_cd", commonService.getComnCdDetailList("PRT006"));
+//		model.addAttribute("mbas_cd", commonService.getComnCdDetailList("PRT006"));
+		model.addAttribute("makerList", partsService.getMakerAllList());
 		model.addAttribute("cpu_soc_cd", commonService.getComnCdDetailList("PRT007"));
 		model.addAttribute("mem_soc_cd", commonService.getComnCdDetailList("PRT024"));
 		model.addAttribute("scs_cd", commonService.getComnCdDetailList("PRT008"));
@@ -245,6 +251,7 @@ public class AdminController {
 	public String goPsuRegist(HttpServletRequest request, Model model) {
 		model.addAttribute("pmc_cd", commonService.getComnCdDetailList("PRT013"));
 		model.addAttribute("psc_cd", commonService.getComnCdDetailList("PRT014"));
+		model.addAttribute("makerList", partsService.getMakerAllList());
 		return adminLoginCheck(request, model, "psuRegist");
 	}
 	
@@ -258,6 +265,7 @@ public class AdminController {
 	public String goPsuUpdate(HttpServletRequest request, Model model, @RequestParam(value = "partsId", required = true) String partsId) {
 		model.addAttribute("pmc_cd", commonService.getComnCdDetailList("PRT013"));
 		model.addAttribute("psc_cd", commonService.getComnCdDetailList("PRT014"));
+		model.addAttribute("makerList", partsService.getMakerAllList());
 		
 		model.addAttribute("selectData", partsService.getPartsPsuVOById(partsId));
 		return adminLoginCheck(request, model, "psuUpdate");
@@ -284,7 +292,8 @@ public class AdminController {
 		model.addAttribute("cm_cd", commonService.getComnCdDetailList("PRT023"));
 		model.addAttribute("cmc_cd", commonService.getComnCdDetailList("PRT015"));
 		model.addAttribute("csc_cd", commonService.getComnCdDetailList("PRT016"));
-		model.addAttribute("caseas_cd", commonService.getComnCdDetailList("PRT017"));
+//		model.addAttribute("caseas_cd", commonService.getComnCdDetailList("PRT017"));
+		model.addAttribute("makerList", partsService.getMakerAllList());
 		return adminLoginCheck(request, model, "caseRegist");
 	}
 	
@@ -300,7 +309,8 @@ public class AdminController {
 		model.addAttribute("cm_cd", commonService.getComnCdDetailList("PRT023"));
 		model.addAttribute("cmc_cd", commonService.getComnCdDetailList("PRT015"));
 		model.addAttribute("csc_cd", commonService.getComnCdDetailList("PRT016"));
-		model.addAttribute("caseas_cd", commonService.getComnCdDetailList("PRT017"));
+//		model.addAttribute("caseas_cd", commonService.getComnCdDetailList("PRT017"));
+		model.addAttribute("makerList", partsService.getMakerAllList());
 		
 		model.addAttribute("selectData", partsService.getPartsCaseVOById(partsId));
 		return adminLoginCheck(request, model, "caseUpdate");
@@ -460,6 +470,39 @@ public class AdminController {
 		return partsService.sfUpdateLogic(partsSfVO);
 	}
 	
+	/*--------------------------------------------------
+	 - MAKER
+	*--------------------------------------------------*/
+	@RequestMapping(value = "/makerManagement.do", method = RequestMethod.GET)
+	public String goMakerManagement(HttpServletRequest request, Model model) {
+		model.addAttribute("makerList", partsService.getMakerAllList());
+		return adminLoginCheck(request, model, "makerManagement");
+	}
+	
+	@RequestMapping(value = "/makerRegist.do", method = RequestMethod.GET)
+	public String goMakerRegist(HttpServletRequest request, Model model) {
+		return adminLoginCheck(request, model, "makerRegist");
+	}
+	
+	@RequestMapping(value = "/makerRegistLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer makerRegistLogic(PartsMakerVO partsMakerVO) {
+		return partsService.makerRegistLogic(partsMakerVO);
+	}
+	
+	@RequestMapping(value = "/makerUpdate.do", method = RequestMethod.GET)
+	public String goMakerUpdate(HttpServletRequest request, Model model, @RequestParam(value = "id", required = true) String id) {
+		
+		model.addAttribute("selectData", partsService.getPartsMakerVOById(id));
+		return adminLoginCheck(request, model, "makerUpdate");
+	}
+	
+	@RequestMapping(value = "/makerUpdateLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer makerUpdateLogic(PartsMakerVO partsMakerVO) {
+		return partsService.makerUpdateLogic(partsMakerVO);
+	}
+	
 	
 	/*--------------------------------------------------
 	 - PRODUCT
@@ -573,6 +616,19 @@ public class AdminController {
 		return processResourceService.processResourceTypeCodeInfoRegistLogic(processResourceTypeCodeInfoVO);
 	}
 	
+	@RequestMapping(value = "/resourceTypeCodeUpdate.do", method = RequestMethod.GET)
+	public String goResourceTypeCodeUpdate(HttpServletRequest request, Model model, @RequestParam(value = "processTypeExclusiveCd", required = true) String processTypeExclusiveCd) {
+		model.addAttribute("process_lg_cd", commonService.getComnCdDetailList("COM004"));
+		model.addAttribute("selectData", processResourceService.getProcessResourceTypeCodeInfoByProcessTypeExclusiveCd(processTypeExclusiveCd));
+		return adminLoginCheck(request, model, "resourceTypeCodeUpdate");
+	}
+	
+	@RequestMapping(value = "/resourceTypeCodeUpdateLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer resourceTypeCodeUpdateLogic(ProcessResourceTypeCodeInfoVO processResourceTypeCodeInfoVO) {
+		return processResourceService.processResourceTypeCodeInfoUpdateLogic(processResourceTypeCodeInfoVO);
+	}
+	
 	/*--------------------------------------------------
 	 - PROCESS RESOURCE(Category - Master)
 	*--------------------------------------------------*/
@@ -585,7 +641,7 @@ public class AdminController {
 	@RequestMapping(value = "/resourceMasterRegist.do", method = RequestMethod.GET)
 	public String goResourceMasterRegist(HttpServletRequest request, Model model) {
 		model.addAttribute("process_lg_cd", commonService.getComnCdDetailList("COM004"));
-		model.addAttribute("resourceTypeCodeList", processResourceService.getProcessResourceTypeCodeInfoAllList());
+		model.addAttribute("resourceTypeCodeList", processResourceService.getProcessResourceTypeCodeInfoByUseYn("Y"));
 		return adminLoginCheck(request, model, "resourceMasterRegist");
 	}
 	
@@ -594,6 +650,41 @@ public class AdminController {
 	public Integer resourceMasterRegistLogic(ProcessResourceMasterVO processResourceMasterVO) {
 		return processResourceService.processResourceMasterRegistLogic(processResourceMasterVO);
 	}
+	
+	@RequestMapping(value = "/resourceMasterUpdate.do", method = RequestMethod.GET)
+	public String goResourceMasterUpdate(HttpServletRequest request, Model model, @RequestParam(value = "id", required = true) String id) {
+		model.addAttribute("process_lg_cd", commonService.getComnCdDetailList("COM004"));
+		model.addAttribute("selectData", processResourceService.getProcessResourceMasterById(id));
+		return adminLoginCheck(request, model, "resourceMasterUpdate");
+	}
+	
+	@RequestMapping(value = "/resourceMasterUpdateLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer resourceMasterUpdateLogic(ProcessResourceMasterVO processResourceMasterVO) {
+		return processResourceService.processResourceMasterUpdateLogic(processResourceMasterVO);
+	}
+	
+	/*--------------------------------------------------
+	 - PROCESS RESOURCE(Resource Data - Detail)
+	*--------------------------------------------------*/
+	@RequestMapping(value = "/resourceDetailManagement.do", method = RequestMethod.GET)
+	public String goResourceDetailManagement(HttpServletRequest request, Model model) {
+		model.addAttribute("resourceDetailList", processResourceService.getProcessResourceDetailAllList());
+		return adminLoginCheck(request, model, "resourceDetailManagement");
+	}
+	
+	@RequestMapping(value = "/resourceDetailRegist.do", method = RequestMethod.GET)
+	public String goResourceDetailRegist(HttpServletRequest request, Model model) {
+		model.addAttribute("resourceDetailList", processResourceService.getProcessResourceDetailAllList());
+		return adminLoginCheck(request, model, "resourceDetailRegist");
+	}
+	
+	@RequestMapping(value = "/resourceDetailRegistLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer resourceDetailRegistLogic(ProcessResourceDetailVO processResourceDetailVO) {
+		return processResourceService.processResourceDetailRegistLogic(processResourceDetailVO);
+	}
+	
 	
 	private String adminLoginCheck(HttpServletRequest request, Model model, String url) {
 		HttpSession httpSession = request.getSession();
