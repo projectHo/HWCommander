@@ -26,6 +26,7 @@
 		var forms = $(".needs-validation");
 		const delInput = $("<input>").addClass("delete-input").attr("required",true).css("display","none");
 		$(elem).parent().parent().remove();
+		$("#work-surf").prop('checked',false);
 		if ($(".table-body").find("tr").length === 0) {
 			$(".table-container").css("display", "none");
 			forms.append(delInput);
@@ -191,10 +192,29 @@
 	}
 
 	function viewBtn() {
-		$(".calc-two-final-text").css("display","block");
-		setTimeout(() => {
-			$(".calc-two-final-text").css("display","none");
-		}, 3000);
+		let totalRating = 0;
+		$(".use-list-rating").each(function() {
+			totalRating += parseInt($(this).val(), 10) || 0;
+		});
+		if(totalRating === 100){
+			$(".table-container").addClass("was-validated");
+			let value = [];
+			for(let i = 0 ; i<$(".use-list-name").length; i++){
+				let paddingI = String(i+1).padStart(2,'0');
+				let storageValue = [$(".use-list-name")[i].id,$(".use-list-rating")[i].value,$(".use-list-genre")[i].id];
+				value.push(storageValue);
+			}
+			if(sessionStorage.getItem("second-Data")){
+				sessionStorage.removeItem("second-Data");
+			}
+			sessionStorage.setItem("second-Data",JSON.stringify(value));
+			window.location.replace("estimateCalculationResult.do");
+		}else{
+			$(".calc-two-final-text").css("display","block");
+			setTimeout(() => {
+				$(".calc-two-final-text").css("display","none");
+			}, 3000);
+		}
 	}
 	$(function () {
 	// donut
@@ -505,7 +525,7 @@
 			 				<input id="typingInput" class="form-control text-center" type="text" readonly aria-label="사용 용도" disabled />
 			 			</div>
 						<div class="col-2 d-flex flex-column-reverse">
-			 				<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="기타 선택시 일반적인 PC로 구성됩니다!" style="cursor:pointer">
+			 				<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="목록 중 기타 항목 선택시 장르의 평균적인 PC로 구성됩니다!" style="cursor:pointer">
 			 			</div>
 			
 			 		</div>
@@ -552,7 +572,7 @@
 								</div>
 								<div class="col">
 									<button type="button" class="form-control calc-two-final margin-center" onclick="javascript:viewBtn()">견적 보기</button>
-									<div class="invalid-feedback fs-5 calc-two-final-text text-center" style="display: none; font-weight: bold;">3페이지 까지는 필수 질문입니다!</div>
+									<div class="invalid-feedback fs-5 calc-two-final-text text-center" style="display: none; font-weight: bold;">2페이지 까지는 필수 질문입니다!</div>
 									<div class="invalid-feedback fs-5 calc-two-final-text-use text-center" style="display: none; font-weight: bold;">사용 용도를 선택해주세요!</div>
 									<div class="invalid-feedback fs-5 calc-two-final-text-rating text-center" style="display: none; font-weight: bold;">비중을 100%로 맞춰주세요!</div>
 								</div>

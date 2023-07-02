@@ -177,12 +177,12 @@ input[type="number"]::-webkit-inner-spin-button {
   position: absolute;
 }
 
-.hex-text1{ font-weight: bold; top: -4%; left: 42%;}
-.hex-text2{ font-weight: bold; top: 22%; right: 2%;}
-.hex-text3{ font-weight: bold; top: 22%;}
-.hex-text4{ font-weight: bold; top: 72%; right: 0%;}
-.hex-text5{ font-weight: bold; bottom: 18%; left: -10%;}
-.hex-text6{ font-weight: bold; bottom: -10%; right: 49%;}
+.hex-text1{ font-weight: bold; top: 3%; left: 43%;}
+.hex-text2{ font-weight: bold; top: 27%; right: 0%;}
+.hex-text3{ font-weight: bold; top: 27%;}
+.hex-text4{ font-weight: bold; top: 71%; right: 4%;}
+.hex-text5{ font-weight: bold; bottom: 18%; left: -9%;}
+.hex-text6{ font-weight: bold; bottom: -6%; right: 45.5%;}
 
 .small-hex-progress {
   width: 200px;
@@ -281,8 +281,8 @@ input[type="number"]::-webkit-inner-spin-button {
 
 canvas{
 	position: absolute;
-    top: 11%;
-    left: 9.5%;
-    width: 320px!important;
+    top: 16.3%;
+    left: 10%;
+    width: 327px!important;
     height: 320px!important;
 }

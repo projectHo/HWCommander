@@ -173,7 +173,7 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 	 			 		<div class="col"></div>
 			 			<div class="col">
 			 				<button type="button" class="form-control calc-one-final margin-center" onclick="javascript:viewBtn()">견적 보기</button>
-	                		<div class="invalid-feedback fs-5 calc-one-final-text text-center" style="display: none; font-weight: bold;">3페이지 까지는 필수 질문입니다!</div>
+	                		<div class="invalid-feedback fs-5 calc-one-final-text text-center" style="display: none; font-weight: bold;">2페이지 까지는 필수 질문입니다!</div>
 			 			</div>
 			 			<div class="col">
 			 				<button type="submit" class="form-control margin-center w-50">다음 질문</button>

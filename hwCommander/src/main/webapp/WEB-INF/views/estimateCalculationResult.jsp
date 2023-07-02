@@ -23,7 +23,8 @@
 
 <script>
 	function clickReturnBtn () {
-		window.location.replace("estimateCalculationThree.do");
+		window.location.replace("estimateCalculationOne.do");
+		sessionStorage.clear();
 	}
 	function clickOrderBtn() {
 		alert("미구현");
@@ -120,7 +121,7 @@
 				</div>
 				<div class="row">
 					<div class="col">
-						<button type="button" class="form-control" onclick="javascript:clickReturnBtn()">돌아가기</button>
+						<button type="button" class="form-control" onclick="javascript:clickReturnBtn()">다시하기</button>
 					</div>
 					<div class="col-3"></div>
 					<div class="col">

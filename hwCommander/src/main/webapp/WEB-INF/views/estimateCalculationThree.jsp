@@ -85,13 +85,12 @@
 	var myChart ;
 	// hex chart.js
 	function createChart(){
-		var minDataValue = 0; // 데이터의 최소값
+		var minDataValue = 0; 
 
-		// 데이터 레이더 차트 생성
 		var ctx = $('#myChart')[0].getContext('2d');
 		var gradient = ctx.createLinearGradient(0, 0, 0, 300);
-		gradient.addColorStop(0, '#925DE7'); // 상단 색상
-		gradient.addColorStop(1, '#2EADDD'); // 하단 색상
+		gradient.addColorStop(0, '#9932CC'); 
+		gradient.addColorStop(1, '#25b4dc'); 
 
 		myChart = new Chart(ctx, {
 			type: 'radar',
@@ -100,7 +99,7 @@
 				datasets: [{
 				label: '',
 				data: [1, 1, 1, 1, 1, 1],
-				backgroundColor: gradient, // 그라디언트 색상
+				backgroundColor: gradient,
 				}]
 			},
 			options: {
@@ -141,7 +140,11 @@
 						}
 					}
 				},
-				// afterDraw 콜백을 사용하여 추가 라인 그리기
+				animation: {
+					duration: 500,
+					easing: 'easeOutQuart'
+				},
+
 				afterDraw: function(chart) {
 					var ctx = chart.ctx;
 					var scale = chart.scales.r;
@@ -149,9 +152,9 @@
 					if (scale.max === 2) {
 						ctx.save();
 						ctx.beginPath();
-						ctx.strokeStyle = '#000000'; // 라인 색상
-						ctx.lineWidth = 2; // 라인 두께
-						ctx.setLineDash([5, 5]); // 점선 스타일
+						ctx.strokeStyle = '#000000';
+						ctx.lineWidth = 2;
+						ctx.setLineDash([5, 5]);
 						ctx.moveTo(scale.xCenter, scale.yCenter);
 						ctx.lineTo(scale.xCenter + scale.radius, scale.yCenter);
 						ctx.stroke();
@@ -330,7 +333,7 @@
 							<input id="typingInput" class="form-control text-center" type="text" readonly aria-label="예산 편성" disabled />
 						</div>
 					    <div class="col-2 d-flex flex-column-reverse">
-							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="이 페이지부터 견적 산출이 가능합니다!" style="cursor:pointer">
+							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="이 페이지부터는 선택 사항입니다!" style="cursor:pointer">
 						</div>
 		   
 					</div>
@@ -340,15 +343,29 @@
 								<div class="row">
 									<div class="hex-container mb-5">
 										<div class="hex m-4">
-											<svg xmlns="http://www.w3.org/2000/svg" width="400" height="360" class="bi bi-hexagon mt-4" viewBox="0 0 16 16">
+											<!-- <svg xmlns="http://www.w3.org/2000/svg" width="400" height="360" class="bi bi-hexagon mt-4" viewBox="0 0 16 16">
 												<defs>
 													<linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
 													<stop offset="0%" style="stop-color: #C635ED;" />
 													<stop offset="100%" style="stop-color: #955CE7;" />
 													</linearGradient>
 												</defs>
-												<path d="M14 4.577v6.846L8 15l-6-3.577V4.577L8 1l6 3.577zM8.5.134a1 1 0 0 0-1 0l-6 3.577a1 1 0 0 0-.5.866v6.846a1 1 0 0 0 .5.866l6 3.577a1 1 0 0 0 1 0l6-3.577a1 1 0 0 0 .5-.866V4.577a1 1 0 0 0-.5-.866L8.5.134z" fill="url(#gradient)" />
-											</svg>
+												<path d="M14 4.577v6.846L8 15l-6-3.577V4.577L8 1l6 3.577zM8.5.134a1 1 0 0 0-1 0l-6 3.577a1 1 0 0 0-.5.866v6.846a1 1 0 0 0 .5.866l6 3.577a1 1 0 0 0 1 0l6-3.577a1 1 0 0 0 .5-.866V4.577a1 1 0 0 0-.5-.866L8.5.134z" fill="url(#gradient)" stroke-width="0.5"  />
+											</svg> -->
+											<svg fill="url(#gradient)" class="mt-4" width="400px" height="400px" viewBox="0 0 250 250" id="Flat" xmlns="http://www.w3.org/2000/svg">
+												<defs>
+												  <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+													<stop offset="0%" style="stop-color: #C635ED;" />
+													<stop offset="100%" style="stop-color: #955CE7;" />
+												  </linearGradient>
+												</defs>
+												<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+												<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+												<g id="SVGRepo_iconCarrier">
+												  <path d="M128,234.80127a12.00322,12.00322,0,0,1-5.90466-1.54395l-84-47.47827A12.01881,12.01881,0,0,1,32,175.33228V80.66772A12.019,12.019,0,0,1,38.09521,70.221l84.00013-47.47827a12.06282,12.06282,0,0,1,11.80932,0l84,47.47827A12.01881,12.01881,0,0,1,224,80.66772v94.66456a12.019,12.019,0,0,1-6.09521,10.44677l-84.00013,47.47827A12.00322,12.00322,0,0,1,128,234.80127Zm0-205.60889a4.00152,4.00152,0,0,0-1.96814.51465l-84,47.47827A4.00672,4.00672,0,0,0,40,80.66772v94.66456a4.00658,4.00658,0,0,0,2.032,3.48242L126.03186,226.293a4.0215,4.0215,0,0,0,3.93628,0l84-47.47827A4.00672,4.00672,0,0,0,216,175.33228V80.66772a4.00658,4.00658,0,0,0-2.032-3.48242L129.96814,29.707A4.00152,4.00152,0,0,0,128,29.19238Z"></path>
+												</g>
+											  </svg>
+											  
 											<div class="hex-text hex-text1 fs-4" onmouseenter="javascript:mouseEnter(this)">발열</div>
 											<div class="hex-text hex-text2 fs-4" onmouseenter="javascript:mouseEnter(this)">소재</div>
 											<div class="hex-text hex-text3 fs-4" onmouseenter="javascript:mouseEnter(this)">QC</div>
