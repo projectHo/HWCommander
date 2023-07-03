@@ -118,10 +118,19 @@ public class ProcessResourceServiceImpl implements ProcessResourceService {
 	}
 	
 	@Override
-	public ProcessResourceDetailVO getProcessResourceDetailByIdAndSeq(ProcessResourceDetailVO processResourceDetailVO) {
+	public Integer processResourceDetailUpdateLogic(ProcessResourceDetailVO processResourceDetailVO) {
+		return processResourceDAO.updateProcessResourceDetailVO(processResourceDetailVO);
+	}
+	
+	@Override
+	public ProcessResourceDetailVO getProcessResourceDetailByIdAndSeq(String id, int seq) {
+		ProcessResourceDetailVO searchVO = new ProcessResourceDetailVO();
 		ProcessResourceDetailVO resultVO = new ProcessResourceDetailVO();
 		
-		List<ProcessResourceDetailVO> resultList = processResourceDAO.getProcessResourceDetailAllList(processResourceDetailVO);
+		searchVO.setId(id);
+		searchVO.setSeq(seq);
+		
+		List<ProcessResourceDetailVO> resultList = processResourceDAO.getProcessResourceDetailAllList(searchVO);
 		
 		if(resultList.size() != 0) {
 			resultVO = resultList.get(0);

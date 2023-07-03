@@ -654,6 +654,7 @@ public class AdminController {
 	@RequestMapping(value = "/resourceMasterUpdate.do", method = RequestMethod.GET)
 	public String goResourceMasterUpdate(HttpServletRequest request, Model model, @RequestParam(value = "id", required = true) String id) {
 		model.addAttribute("process_lg_cd", commonService.getComnCdDetailList("COM004"));
+		model.addAttribute("resourceTypeCodeList", processResourceService.getProcessResourceTypeCodeInfoByUseYn("Y"));
 		model.addAttribute("selectData", processResourceService.getProcessResourceMasterById(id));
 		return adminLoginCheck(request, model, "resourceMasterUpdate");
 	}
@@ -685,6 +686,22 @@ public class AdminController {
 		return processResourceService.processResourceDetailRegistLogic(processResourceDetailVO);
 	}
 	
+	@RequestMapping(value = "/resourceDetailUpdate.do", method = RequestMethod.GET)
+	public String goResourceDetailUpdate(HttpServletRequest request
+			, Model model
+			, @RequestParam(value = "id", required = true) String id
+			, @RequestParam(value = "seq", required = true) int seq) {
+		model.addAttribute("process_lg_cd", commonService.getComnCdDetailList("COM004"));
+		model.addAttribute("resourceTypeCodeList", processResourceService.getProcessResourceTypeCodeInfoByUseYn("Y"));
+		model.addAttribute("selectData", processResourceService.getProcessResourceDetailByIdAndSeq(id, seq));
+		return adminLoginCheck(request, model, "resourceDetailUpdate");
+	}
+	
+	@RequestMapping(value = "/resourceDetailUpdateLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer resourceDetailUpdateLogic(ProcessResourceDetailVO processResourceDetailVO) {
+		return processResourceService.processResourceDetailUpdateLogic(processResourceDetailVO);
+	}
 	
 	private String adminLoginCheck(HttpServletRequest request, Model model, String url) {
 		HttpSession httpSession = request.getSession();

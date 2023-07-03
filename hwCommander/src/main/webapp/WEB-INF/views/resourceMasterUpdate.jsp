@@ -23,6 +23,10 @@
     $(function(){
     	dataSetting();
     	
+    	$("#processLgCd").attr("disabled", true);
+    	$("#processTypeExclusiveCd").attr("disabled", true);
+    	
+    	
         $('#btn_master_update').on("click", function () {
         	if(!validationCheck()) {
         		return false;
@@ -48,12 +52,10 @@
     });
     
 function dataSetting() {
-	/* 
 	$("#processTypeExclusiveCd").val("${selectData.processTypeExclusiveCd}");
-	$("#processTypeExclusiveCdView").val("${selectData.processTypeExclusiveCd}");
-	$("#processTypeExclusiveCdNm").val("${selectData.processTypeExclusiveCdNm}");
 	$("#processLgCd").val("${selectData.processLgCd}");
-	 */
+	$("#processName").val("${selectData.processName}");
+
 	$("#id").val("${selectData.id}");
 }
     
@@ -78,16 +80,6 @@ function goMasterUpdate() {
 }
 
 function validationCheck() {
-	if("00" == $('#processLgCd').val()) {
-		alert("Process Large Code를 선택하세요.");
-		return false;
-	}
-	
-	if("00" == $('#processTypeExclusiveCd').val()) {
-		alert("Process Type Exclusive Code를 선택하세요.");
-		return false;
-	}
-	
 	if("" == $('#processName').val().trim() || null == $('#processName').val().trim()) {
 		alert("Process Name을 입력하세요.");
 		return false;

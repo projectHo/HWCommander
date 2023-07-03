@@ -19,4 +19,5 @@ public interface ProcessResourceDAO {
 	
 	public Integer insertProcessResourceDetailVO(ProcessResourceDetailVO processResourceDetailVO);
 	public List<ProcessResourceDetailVO> getProcessResourceDetailAllList(ProcessResourceDetailVO processResourceDetailVO);
+	public Integer updateProcessResourceDetailVO(ProcessResourceDetailVO processResourceDetailVO);
 }

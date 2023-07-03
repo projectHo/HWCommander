@@ -41,7 +41,7 @@ function goResourceDataRegist() {
         data: form,
         dataType: 'json',
         success: function (data) {
-        	if(data == 2) {
+        	if(data == 1) {
         		alert("등록완료");
         	}else {
         		alert("등록실패");
@@ -175,23 +175,42 @@ function validationCheck() {
                         </div>
                         <div class="card mb-4">
 							<div class="card-body">
-                               <form id="maker_regist_form">
+                               <form id="detail_regist_form">
                                    <div class="row mb-3">
                                        <div class="col-md-3">
-                                           <div class="form-floating mb-3 mb-md-0">
-                                               <input class="form-control" id="makerName" name="makerName" type="text" placeholder="Enter makerName" />
-                                               <label for="makerName">Maker Name</label>
+                                           <div class="form-floating">
+												<select class="form-select pt-4" id="variableChk" name="variableChk">
+												  <option value="00" selected>-선택-</option>
+												  <option value="F">고정</option>
+												  <option value="C">CPU</option>
+												  <option value="G">GVA</option>
+												  <option value="RM">RAM(MaxRange)</option>
+												  <option value="RV">RAM(Volume)</option>
+												</select>
+												<label for="variableChk">Process Variable Check</label>
                                            </div>
                                        </div>
                                        <div class="col-md-3">
                                            <div class="form-floating mb-3 mb-md-0">
-                                               <input class="form-control" id="asScore" name="asScore" type="text" placeholder="Enter asScore" />
-                                               <label for="asScore">AS Score</label>
+                                               <input class="form-control" id="resourceName" name="resourceName" type="text" placeholder="Enter resourceName" />
+                                               <label for="resourceName">Resource Name</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0">
+                                               <input class="form-control" id="resourceMappingValue" name="resourceMappingValue" type="text" placeholder="Enter resourceMappingValue" />
+                                               <label for="resourceMappingValue">Resource Mapping Value</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0">
+                                               <input class="form-control" id="resourceScore" name="resourceScore" type="text" placeholder="Enter resourceScore" />
+                                               <label for="resourceScore">Resource Score</label>
                                            </div>
                                        </div>
                                    </div>
                                    <div class="mt-4 mb-0">
-                                       <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_maker_regist">Regist</a></div>
+                                       <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_detail_regist">Regist</a></div>
                                    </div>
                                </form>
                            </div>

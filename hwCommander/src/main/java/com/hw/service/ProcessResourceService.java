@@ -20,5 +20,6 @@ public interface ProcessResourceService {
 	
 	public Integer processResourceDetailRegistLogic(ProcessResourceDetailVO processResourceDetailVO);
 	public List<ProcessResourceDetailVO> getProcessResourceDetailAllList();
-	public ProcessResourceDetailVO getProcessResourceDetailByIdAndSeq(ProcessResourceDetailVO processResourceDetailVO);
+	public ProcessResourceDetailVO getProcessResourceDetailByIdAndSeq(String id, int seq);
+	public Integer processResourceDetailUpdateLogic(ProcessResourceDetailVO processResourceDetailVO);
 }

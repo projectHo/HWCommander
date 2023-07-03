@@ -1,10 +1,7 @@
-/PartsCaseVO.class
-/PartsCpuVO.class
-/PartsGpuVO.class
+/OrderMasterHistoryVO.class
+/OrderMasterVO.class
 /PartsMakerHistoryVO.class
 /PartsMakerVO.class
-/PartsMbVO.class
-/PartsPsuVO.class
 /ProcessResourceDetailHistoryVO.class
 /ProcessResourceDetailVO.class
 /ProcessResourceMasterVO.class

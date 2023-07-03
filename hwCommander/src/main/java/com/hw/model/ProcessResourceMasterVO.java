@@ -13,4 +13,5 @@ public class ProcessResourceMasterVO {
 	private String processName;
 	private String regDtm;
 	private String updtDtm;
+	private int detailHistoryCnt;
 }

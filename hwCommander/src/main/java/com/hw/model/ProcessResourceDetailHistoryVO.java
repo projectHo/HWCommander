@@ -14,6 +14,7 @@ public class ProcessResourceDetailHistoryVO {
 	private String processTypeExclusiveCdNm;
 	private String processName;
 	private String variableChk;
+	private String variableChkNm;
 	private String resourceName;
 	private String resourceMappingValue;
 	private BigDecimal resourceScore;
