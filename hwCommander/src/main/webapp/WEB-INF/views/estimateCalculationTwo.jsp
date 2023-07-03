@@ -102,7 +102,7 @@
 	};
 
 	function returnOnePage(){
-		window.location.href = "estimateCalculationOne.do";
+		window.location.replace = "estimateCalculationOne.do";
 	}
 
 	function makeModalList(id, elem) {

@@ -26,7 +26,6 @@
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-dragdata"></script>
 <script>
 	function clickEstimateBtn(){
-		window.location.replace("estimateCalculationResult.do");
 		let value = [];
 		for(let i = 0 ; i<$(".hex-input").length; i++){
 			let storageValue = [$(".hex-input")[i].value];
@@ -36,9 +35,19 @@
 			sessionStorage.removeItem("third-Data");
 		}
 		sessionStorage.setItem("third-Data",JSON.stringify(value))
+		window.location.replace("estimateCalculationResult.do");
 	}
 	function clickNextBtn(){
-		alert("네번째 질문 페이지")
+		let value = [];
+		for(let i = 0 ; i<$(".hex-input").length; i++){
+			let storageValue = [$(".hex-input")[i].value];
+			value.push(storageValue);
+		}
+		if(sessionStorage.getItem("third-Data")){
+			sessionStorage.removeItem("third-Data");
+		}
+		sessionStorage.setItem("third-Data",JSON.stringify(value))
+		window.location.replace("estimateCalculationFour.do");
 	}
 	// donut
 	let progress = 0;
@@ -89,8 +98,8 @@
 
 		var ctx = $('#myChart')[0].getContext('2d');
 		var gradient = ctx.createLinearGradient(0, 0, 0, 300);
-		gradient.addColorStop(0, '#9932CC'); 
-		gradient.addColorStop(1, '#25b4dc'); 
+		gradient.addColorStop(0, 'rgba(153, 50, 204, 0.9)'); 
+		gradient.addColorStop(1, 'rgba(37, 180, 220, 0.9)'); 
 
 		myChart = new Chart(ctx, {
 			type: 'radar',
@@ -111,7 +120,7 @@
 					min: minDataValue,
 					max: 2,
 					ticks: {
-					display: false,
+					// display: false,
 					stepSize: 0.01
 					}
 				}
@@ -372,6 +381,9 @@
 											<div class="hex-text hex-text4 fs-4" onmouseenter="javascript:mouseEnter(this)">AS</div>
 											<div class="hex-text hex-text5 fs-4" onmouseenter="javascript:mouseEnter(this)">안정성</div>
 											<div class="hex-text hex-text6 fs-4" onmouseenter="javascript:mouseEnter(this)">소음</div>
+											<div class="line"><svg width="416px" height="416px" viewBox="0 0 24.00 24.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#bdbdbd" transform="rotate(0)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Interface / Line_Xl"> <path id="Vector" d="M12 21V3" stroke="#a3a3a3" stroke-width="0.21600000000000003" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg></div>
+											<div class="line" style="rotate: -74deg;"><svg width="416px" height="416px" viewBox="0 0 24.00 24.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#bdbdbd" transform="rotate(-45)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Interface / Line_Xl"> <path id="Vector" d="M12 21V3" stroke="#a3a3a3" stroke-width="0.21600000000000003" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg></div>
+											<div class="line" style="rotate: 74deg;"><svg width="416px" height="416px" viewBox="0 0 24.00 24.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#bdbdbd" transform="rotate(45)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Interface / Line_Xl"> <path id="Vector" d="M12 21V3" stroke="#a3a3a3" stroke-width="0.21600000000000003" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg></div>
 											<canvas id="myChart"></canvas>
 											<svg onclick="javascript:clickReset()" class="reset-svg" fill="#000000" width="40px" height="40px" viewBox="-652.8 -652.8 3225.60 3225.60" xmlns="http://www.w3.org/2000/svg" stroke="#000000" stroke-width="65.28" transform="matrix(-1, 0, 0, -1, 0, 0)rotate(0)"><g id="SVGRepo_bgCarrier" stroke-width="0" transform="translate(0,0), scale(1)"><path transform="translate(-652.8, -652.8), scale(201.6)" fill="url(#gradient)" d="M9.166.33a2.25 2.25 0 00-2.332 0l-5.25 3.182A2.25 2.25 0 00.5 5.436v5.128a2.25 2.25 0 001.084 1.924l5.25 3.182a2.25 2.25 0 002.332 0l5.25-3.182a2.25 2.25 0 001.084-1.924V5.436a2.25 2.25 0 00-1.084-1.924L9.166.33z" strokewidth="0"></path></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#25b4dc " stroke-width="280.32"> <path d="M960 0v213.333c411.627 0 746.667 334.934 746.667 746.667S1371.627 1706.667 960 1706.667 213.333 1371.733 213.333 960c0-197.013 78.4-382.507 213.334-520.747v254.08H640V106.667H53.333V320h191.04C88.64 494.08 0 720.96 0 960c0 529.28 430.613 960 960 960s960-430.72 960-960S1489.387 0 960 0" fill-rule="evenodd"></path> </g><g id="SVGRepo_iconCarrier"> <path d="M960 0v213.333c411.627 0 746.667 334.934 746.667 746.667S1371.627 1706.667 960 1706.667 213.333 1371.733 213.333 960c0-197.013 78.4-382.507 213.334-520.747v254.08H640V106.667H53.333V320h191.04C88.64 494.08 0 720.96 0 960c0 529.28 430.613 960 960 960s960-430.72 960-960S1489.387 0 960 0" fill-rule="evenodd"></path> </g></svg>
 										</div>

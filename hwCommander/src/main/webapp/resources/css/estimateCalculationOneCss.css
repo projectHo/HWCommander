@@ -201,45 +201,6 @@ input[type="number"]::-webkit-inner-spin-button {
   border-radius: 50%;
   cursor: move;
 }
-#hexagon {
-  position: relative;
-  width: 300px;
-  height: 300px;
-  margin: 0 auto;
-  border: 2px solid #000000;
-  overflow: hidden;
-}
-
-#hexFever{
-  transform: rotate(270deg);
-  top: 30%;
-  left: 29%;
-}
-#hexMaterial{
-  transform: rotate(-30deg);
-  top: 40.5%;
-  right: 18.5%;
-}
-#hexAs{
-  transform: rotate(210deg);
-  top: 40%;
-  left: 13.5%;
-}
-#hexNoise{
-  transform: rotate(30deg);
-  top: 59.5%;
-  right: 18.5%;
-}
-#hexStability{
-  transform: rotate(150deg);
-  top: 60%;
-  left: 13%;
-}
-#hexQc{
-  transform: rotate(90deg);
-  top: 70.5%;
-  right: 34%;
-}
 
 .hex input {
   position: absolute;
@@ -285,4 +246,10 @@ canvas{
     left: 10%;
     width: 327px!important;
     height: 320px!important;
+}
+
+.line {
+  position: absolute;
+  top: 5%;
+  left: -0.8%;
 }
