@@ -35,7 +35,7 @@
 			sessionStorage.removeItem("third-Data");
 		}
 		sessionStorage.setItem("third-Data",JSON.stringify(value))
-		window.location.replace("estimateCalculationResult.do");
+		window.location.href = "estimateCalculationResult.do";
 	}
 	function clickNextBtn(){
 		let value = [];
@@ -47,7 +47,7 @@
 			sessionStorage.removeItem("third-Data");
 		}
 		sessionStorage.setItem("third-Data",JSON.stringify(value))
-		window.location.replace("estimateCalculationFour.do");
+		window.location.href = "estimateCalculationFour.do";
 	}
 	// donut
 	let progress = 0;
@@ -89,7 +89,8 @@
 	typeText();
 	
 	function returnTwoPage() {
-		window.location.replace("estimateCalculationTwo.do");
+		sessionStorage.removeItem("three-Data");
+		window.location.href = "estimateCalculationTwo.do";
 	}
 	var myChart ;
 	// hex chart.js
@@ -330,7 +331,7 @@
 			<!-- 빈 영역 -->
 			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
 			<!-- 작업영역 -->
-			<div class="estimateCalc_background p-2" style="width: 70%!important;">
+			<div class="estimateCalc_background p-2 pt-5 pb-5" style="width: 70%!important;">
 				<div class="w-75 container">
 					<div class="row mt-4 pb-4">
 						<div class="col-2 text-center">
@@ -351,7 +352,7 @@
 							<div class="col-6">
 								<div class="row">
 									<div class="hex-container mb-5">
-										<div class="hex m-4">
+										<div class="hex m-4 d-flex justify-content-center">
 											<!-- <svg xmlns="http://www.w3.org/2000/svg" width="400" height="360" class="bi bi-hexagon mt-4" viewBox="0 0 16 16">
 												<defs>
 													<linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
@@ -361,7 +362,7 @@
 												</defs>
 												<path d="M14 4.577v6.846L8 15l-6-3.577V4.577L8 1l6 3.577zM8.5.134a1 1 0 0 0-1 0l-6 3.577a1 1 0 0 0-.5.866v6.846a1 1 0 0 0 .5.866l6 3.577a1 1 0 0 0 1 0l6-3.577a1 1 0 0 0 .5-.866V4.577a1 1 0 0 0-.5-.866L8.5.134z" fill="url(#gradient)" stroke-width="0.5"  />
 											</svg> -->
-											<svg fill="url(#gradient)" class="mt-4" width="400px" height="400px" viewBox="0 0 250 250" id="Flat" xmlns="http://www.w3.org/2000/svg">
+											<svg fill="url(#gradient)" class="mt-4" width="90%" height="90%" viewBox="0 0 250 250" id="Flat" xmlns="http://www.w3.org/2000/svg">
 												<defs>
 												  <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
 													<stop offset="0%" style="stop-color: #C635ED;" />
@@ -373,23 +374,32 @@
 												<g id="SVGRepo_iconCarrier">
 												  <path d="M128,234.80127a12.00322,12.00322,0,0,1-5.90466-1.54395l-84-47.47827A12.01881,12.01881,0,0,1,32,175.33228V80.66772A12.019,12.019,0,0,1,38.09521,70.221l84.00013-47.47827a12.06282,12.06282,0,0,1,11.80932,0l84,47.47827A12.01881,12.01881,0,0,1,224,80.66772v94.66456a12.019,12.019,0,0,1-6.09521,10.44677l-84.00013,47.47827A12.00322,12.00322,0,0,1,128,234.80127Zm0-205.60889a4.00152,4.00152,0,0,0-1.96814.51465l-84,47.47827A4.00672,4.00672,0,0,0,40,80.66772v94.66456a4.00658,4.00658,0,0,0,2.032,3.48242L126.03186,226.293a4.0215,4.0215,0,0,0,3.93628,0l84-47.47827A4.00672,4.00672,0,0,0,216,175.33228V80.66772a4.00658,4.00658,0,0,0-2.032-3.48242L129.96814,29.707A4.00152,4.00152,0,0,0,128,29.19238Z"></path>
 												</g>
-											  </svg>
-											  
-											<div class="hex-text hex-text1 fs-4" onmouseenter="javascript:mouseEnter(this)">발열</div>
-											<div class="hex-text hex-text2 fs-4" onmouseenter="javascript:mouseEnter(this)">소재</div>
-											<div class="hex-text hex-text3 fs-4" onmouseenter="javascript:mouseEnter(this)">QC</div>
-											<div class="hex-text hex-text4 fs-4" onmouseenter="javascript:mouseEnter(this)">AS</div>
-											<div class="hex-text hex-text5 fs-4" onmouseenter="javascript:mouseEnter(this)">안정성</div>
-											<div class="hex-text hex-text6 fs-4" onmouseenter="javascript:mouseEnter(this)">소음</div>
-											<div class="line"><svg width="416px" height="416px" viewBox="0 0 24.00 24.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#bdbdbd" transform="rotate(0)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Interface / Line_Xl"> <path id="Vector" d="M12 21V3" stroke="#a3a3a3" stroke-width="0.21600000000000003" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg></div>
-											<div class="line" style="rotate: -74deg;"><svg width="416px" height="416px" viewBox="0 0 24.00 24.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#bdbdbd" transform="rotate(-45)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Interface / Line_Xl"> <path id="Vector" d="M12 21V3" stroke="#a3a3a3" stroke-width="0.21600000000000003" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg></div>
-											<div class="line" style="rotate: 74deg;"><svg width="416px" height="416px" viewBox="0 0 24.00 24.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#bdbdbd" transform="rotate(45)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Interface / Line_Xl"> <path id="Vector" d="M12 21V3" stroke="#a3a3a3" stroke-width="0.21600000000000003" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg></div>
+											</svg>
+											<div class="lines w-100">
+												<div class="line l-one w-100"><svg width="93%" height="93%" viewBox="0 0 24.00 24.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#bdbdbd" transform="rotate(0)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Interface / Line_Xl"> <path id="Vector" d="M12 21V3" stroke="#a3a3a3" stroke-width="0.21600000000000003" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg></div>
+												<div class="line l-two w-100" style="rotate: -74deg;"><svg width="93%" height="93%" viewBox="0 0 24.00 24.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#bdbdbd" transform="rotate(-45)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Interface / Line_Xl"> <path id="Vector" d="M12 21V3" stroke="#a3a3a3" stroke-width="0.21600000000000003" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg></div>
+												<div class="line l-three w-100" style="rotate: 74deg;"><svg width="93%" height="93%" viewBox="0 0 24.00 24.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#bdbdbd" transform="rotate(45)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Interface / Line_Xl"> <path id="Vector" d="M12 21V3" stroke="#a3a3a3" stroke-width="0.21600000000000003" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg></div>
+											</div>
 											<canvas id="myChart"></canvas>
+											<div class="hex-text first-hex-text w-100 d-flex justify-content-center">
+												<div class="fs-4" onmouseenter="javascript:mouseEnter(this)">발열</div>
+											</div>
+											<div class="hex-text second-hex-text w-100 d-flex justify-content-between p-3">
+												<div class="fs-4" onmouseenter="javascript:mouseEnter(this)">소재</div>
+												<div class="fs-4" onmouseenter="javascript:mouseEnter(this)">QC</div>
+											</div>
+											<div class="hex-text third-hex-text w-100 d-flex justify-content-between ps-3">
+												<div class="fs-4" onmouseenter="javascript:mouseEnter(this)">AS</div>
+												<div class="fs-4" onmouseenter="javascript:mouseEnter(this)">안정성</div>
+											</div>
+											<div class="hex-text fourth-hex-text w-100 d-flex justify-content-center">
+												<div class="fs-4" onmouseenter="javascript:mouseEnter(this)">소음</div>
+											</div>
 											<svg onclick="javascript:clickReset()" class="reset-svg" fill="#000000" width="40px" height="40px" viewBox="-652.8 -652.8 3225.60 3225.60" xmlns="http://www.w3.org/2000/svg" stroke="#000000" stroke-width="65.28" transform="matrix(-1, 0, 0, -1, 0, 0)rotate(0)"><g id="SVGRepo_bgCarrier" stroke-width="0" transform="translate(0,0), scale(1)"><path transform="translate(-652.8, -652.8), scale(201.6)" fill="url(#gradient)" d="M9.166.33a2.25 2.25 0 00-2.332 0l-5.25 3.182A2.25 2.25 0 00.5 5.436v5.128a2.25 2.25 0 001.084 1.924l5.25 3.182a2.25 2.25 0 002.332 0l5.25-3.182a2.25 2.25 0 001.084-1.924V5.436a2.25 2.25 0 00-1.084-1.924L9.166.33z" strokewidth="0"></path></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#25b4dc " stroke-width="280.32"> <path d="M960 0v213.333c411.627 0 746.667 334.934 746.667 746.667S1371.627 1706.667 960 1706.667 213.333 1371.733 213.333 960c0-197.013 78.4-382.507 213.334-520.747v254.08H640V106.667H53.333V320h191.04C88.64 494.08 0 720.96 0 960c0 529.28 430.613 960 960 960s960-430.72 960-960S1489.387 0 960 0" fill-rule="evenodd"></path> </g><g id="SVGRepo_iconCarrier"> <path d="M960 0v213.333c411.627 0 746.667 334.934 746.667 746.667S1371.627 1706.667 960 1706.667 213.333 1371.733 213.333 960c0-197.013 78.4-382.507 213.334-520.747v254.08H640V106.667H53.333V320h191.04C88.64 494.08 0 720.96 0 960c0 529.28 430.613 960 960 960s960-430.72 960-960S1489.387 0 960 0" fill-rule="evenodd"></path> </g></svg>
 										</div>
 									</div>
 								</div>
-								<div class="row justify-content-center mt-5" style="padding-right: 2.1rem;">
+								<div class="row w-100 justify-content-center m-4 mt-5" style="padding-right: 2.1rem;">
 									<input type="range" class="form-range w-50" min="0" max="2" step="0.01" id="hex-val-total" oninput="javascript:totalValue()">
 									<label for="hex-val-total" class="form-label text-center ms-2" onmouseenter="javascript:mouseEnter(this)">가성비 <- 메인스트림 -> 프리미엄</label>
 								</div>

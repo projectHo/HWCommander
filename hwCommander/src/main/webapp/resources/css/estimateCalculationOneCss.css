@@ -145,75 +145,45 @@ input[type="number"]::-webkit-inner-spin-button {
 
 /* claculation Three style */
 
-.hex-progress{
-	width: 400px;
-	height: 480px;
-}
-
 .hex {
   position: relative;
-}
-/* .hex::before{
-  content: "";
-  position: absolute;
-  top: 52%;
-  left: 46%;
-  transform: translate(-50%, -50%);
-  width: 4px;
-  height: 4px;
-  background-color: black;
-  border-radius: 50%;
-} */
-.hex-progress .track, .hex-progress .fill{
-	fill: rgba(0, 0, 0, 0);
-	stroke-width: 8;
-	transform: translate(290px, 800px)rotate(-120deg);
-}
-.hex-progress .track,.small-hex-progress .track{
-	stroke: rgb(56, 71, 83);
 }
 
 .hex-text{
   position: absolute;
 }
+.first-hex-text {
+  top: 2%;
+  left: 2%;
+}
+.second-hex-text {
+  top: 25%;
+}
+.third-hex-text {
+  top: 71%;
+  left: 4%;
+}
+.fourth-hex-text {
+  bottom: -4%;
+  left: 2%;
+}
 
-.hex-text1{ font-weight: bold; top: 3%; left: 43%;}
-.hex-text2{ font-weight: bold; top: 27%; right: 0%;}
-.hex-text3{ font-weight: bold; top: 27%;}
-.hex-text4{ font-weight: bold; top: 71%; right: 4%;}
-.hex-text5{ font-weight: bold; bottom: 18%; left: -9%;}
-.hex-text6{ font-weight: bold; bottom: -6%; right: 45.5%;}
-
-.small-hex-progress {
-  width: 200px;
-  height: 240px;
+.lines{
   position: absolute;
-  top: calc(50% - 116px);
-  left: calc(50% - 116px);
-  cursor: pointer;
+  left: 4.5%;
+  top: 4%;
 }
-
-.hexagon-point {
+.line {
   position: absolute;
-  width: 8px;
-  height: 8px;
-  background-color: #ff0000;
-  border-radius: 50%;
-  cursor: move;
 }
-
-.hex input {
-  position: absolute;
-  width: 37%;
-  z-index: 1;
+.l-two{
+  top: -20px;
+  left: -12px;
 }
-
-.hex-range::-webkit-slider-thumb {
-  background-color: black !important;
-  height:12px!important;
-	width:12px!important;
+.l-three{
+  top: 20px;
+  left: -12px;
 }
-
 #explane-area {
   resize: none;
   background-color: #fff!important;
@@ -221,8 +191,8 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .reset-svg{
   position: absolute;
-  bottom: -8%;
-  right: 1%;
+  bottom: -4%;
+  right: 4%;
   cursor: pointer;
 }
 
@@ -242,14 +212,30 @@ input[type="number"]::-webkit-inner-spin-button {
 
 canvas{
 	position: absolute;
-    top: 16.3%;
-    left: 10%;
-    width: 327px!important;
-    height: 320px!important;
+  top: 15%;
+  left: 14.5%;
+  width: 432px!important;
+  height: 428px!important;
+  z-index: 99;
 }
 
-.line {
-  position: absolute;
-  top: 5%;
-  left: -0.8%;
+@media (max-width: 1920px){
+  canvas{
+    top: 16.6%;
+    left: 14.6%;
+    width: 309px!important;
+    height: 303px!important;
+    z-index: 99;
+  }
+  .l-one{
+    top: 6px;
+  }
+  .l-two{
+    top: -8px;
+    left: -10px;
+  }
+  .l-three{
+    top: 20px;
+    left: -11px;
+  }
 }

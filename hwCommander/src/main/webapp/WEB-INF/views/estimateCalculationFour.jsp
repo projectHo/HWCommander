@@ -68,13 +68,13 @@
 	}
 	function returnPageBtn(){
 		sessionStorage.removeItem("four-Data");
-		window.location.replace("estimateCalculationThree.do");
+		window.location.href = "estimateCalculationThree.do";
 	}
 	function clickEstimateBtn(){
-		window.location.replace("estimateCalculationResult.do");
+		window.location.href = "estimateCalculationResult.do";
 	}
 	function clickNextBtn(){
-		// window.location.replace("estimateCalculationFive.do");
+		// window.location.href = "estimateCalculationFive.do";
 		alert("추후 업데이트")
 	}
 	$(function () {

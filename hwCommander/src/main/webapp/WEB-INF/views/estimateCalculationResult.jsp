@@ -23,7 +23,7 @@
 
 <script>
 	function clickReturnBtn () {
-		window.location.replace("estimateCalculationOne.do");
+		window.location.href = "estimateCalculationOne.do";
 		sessionStorage.clear();
 	}
 	function clickOrderBtn() {
