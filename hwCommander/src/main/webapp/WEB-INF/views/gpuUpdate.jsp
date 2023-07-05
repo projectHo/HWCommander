@@ -20,7 +20,7 @@
         
 <script>
 
-    $(function(){
+    $(function() {
     	dataSetting();
         $('#btn_gpu_update').on("click", function () {
         	if(!validationCheck()) {
@@ -49,6 +49,7 @@ function dataSetting() {
 	$("#gpl").val("${selectData.gpl}");
 	$("#twelvePin").val("${selectData.twelvePin}");
 	$("#multiBulk").val("${selectData.multiBulk}");
+	$("#gc").val("${selectData.gc}");
 	
 	$("#id").val("${selectData.id}");
 	$("#partsImage").val("${selectData.partsImage}");
@@ -124,7 +125,6 @@ function validationCheck() {
 	
 	return true;
 }
-
 </script>
 </head>
     <body class="sb-nav-fixed">
@@ -338,6 +338,12 @@ function validationCheck() {
                                            <div class="form-floating">
                                                <input class="form-control" id="multiBulk" name="multiBulk" type="text" placeholder="Enter multiBulk" />
                                                <label for="multiBulk">멀티팩 벌크</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+                                               <input class="form-control" id="gc" name="gc" type="text" placeholder="Enter gc" />
+                                               <label for="gc">GC</label>
                                            </div>
                                        </div>
                                    </div>

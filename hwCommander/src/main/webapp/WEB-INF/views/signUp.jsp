@@ -17,7 +17,7 @@
 
 var targetId = null;
 
-    $(function(){
+    $(function() {
         $('#btn_signUp').on("click", function () {
         	// todo wonho
         	alert("현재는 회원가입이 불가능합니다.");
@@ -72,16 +72,19 @@ function validationCheck() {
 	
 	if($('#id').val().trim() == "") {
 		alert("아이디를 입력하세요");
+		$('#id').focus();
 		return false;
 	}
 	
 	if(targetId == null || targetId != $('#id').val().trim()) {
 		alert("아이디 중복확인이 되지 않았습니다.");
+		$('#id').focus();
 		return false;
 	}
 	
 	if($('#pw').val() == "" || $('#pw').val() == null) {
 		alert("비밀번호를 입력하세요.");
+		$('#pw').focus();
 		return false;
 	}
 	
@@ -92,61 +95,73 @@ function validationCheck() {
 	
 	if($('#name').val().trim() == "" || $('#name').val().trim() == null) {
 		alert("이름을 입력하세요.");
+		$('#name').focus();
 		return false;
 	}
 	
 	if($('#birth').val() == "" || $('#birth').val() == null) {
 		alert("생년월일을 입력하세요.");
+		$('#birth').focus();
 		return false;
 	}
 	
 	if (!numberCheck.test($('#birth').val())) {
 	    alert("생년월일은 숫자만 입력 가능합니다.");
+	    $('#birth').focus();
 	    return false;
 	}
 	
 	if(8 != $('#birth').val().length) {
 		alert("생년월일은 8자리여야 합니다.");
+		$('#birth').focus();
 		return false;
 	}
 	
 	if($('#hpNumber').val().trim() == "" || $('#hpNumber').val().trim() == null) {
 		alert("휴대폰번호를 입력하세요.");
+		$('#hpNumber').focus();
 		return false;
 	}
 	
 	if (!numberCheck.test($('#hpNumber').val())) {
 	    alert("휴대폰번호는 숫자만 입력 가능합니다.");
+	    $('#hpNumber').focus();
 	    return false;
 	}
 	
 	if(10 != $('#hpNumber').val().length && 11 != $('#hpNumber').val().length) {
 		alert("휴대폰번호는 10자리 또는 11자리여야 합니다.");
+		$('#hpNumber').focus();
 		return false;
 	}
 	
 	if($('#zipcode').val().trim() == "" || $('#zipcode').val().trim() == null) {
 		alert("주소를 입력하세요.");
+		$('#btn_addr_search').focus();
 		return false;
 	}
 	
 	if($('#jibunAddr').val().trim() == "" || $('#jibunAddr').val().trim() == null) {
 		alert("주소를 입력하세요.");
+		$('#btn_addr_search').focus();
 		return false;
 	}
 	
 	if($('#roadAddr').val().trim() == "" || $('#roadAddr').val().trim() == null) {
 		alert("주소를 입력하세요.");
+		$('#btn_addr_search').focus();
 		return false;
 	}
 	
 	if($('#detailAddr').val().trim() == "" || $('#detailAddr').val().trim() == null) {
 		alert("상세주소를 입력하세요.");
+		$('#detailAddr').focus();
 		return false;
 	}
 	
 	if($('#mail').val().trim() == "" || $('#mail').val().trim() == null) {
 		alert("이메일을 입력하세요.");
+		$('#mail').focus();
 		return false;
 	}
 	
@@ -154,6 +169,7 @@ function validationCheck() {
 
 	if (!mailCheckRegExp.test($('#mail').val())) {
 		alert("올바른 이메일을 입력하세요.");
+		$('#mail').focus();
 		return false;
 	}
 	

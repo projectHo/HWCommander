@@ -26,7 +26,7 @@
 <script src="/resources/js/getSetCookie.js"></script>
         
 <script>
-    $(function(){
+    $(function() {
     	$("#gpuListTable").DataTable({
     		displayLength : setDisplayLength()
     	    , bAutoWidth : false

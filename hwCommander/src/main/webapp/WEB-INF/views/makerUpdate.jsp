@@ -19,8 +19,8 @@
 <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
         
 <script>
-
-    $(function(){
+	var firstForm = null;
+    $(function() {
     	dataSetting();
         $('#btn_maker_update').on("click", function () {
         	if(!validationCheck()) {
@@ -38,10 +38,17 @@ function dataSetting() {
 	$("#asScore").val("${selectData.asScore}");
 	
 	$("#id").val("${selectData.id}");
+	
+	firstForm = $("#maker_update_form").serialize();
 }
     
 function goMakerUpdate() {
     var form = $("#maker_update_form").serialize();
+    
+    if(firstForm == form) {
+    	alert("변경된 내용이 없습니다.");
+    	return false;
+    }
     
     $.ajax({
         type: "post",
@@ -63,11 +70,13 @@ function goMakerUpdate() {
 function validationCheck() {
 	if("" == $('#makerName').val().trim() || null == $('#makerName').val().trim()) {
 		alert("Maker Name을 입력하세요.");
+		$('#makerName').focus();
 		return false;
 	}
 	
 	if("" == $('#asScore').val().trim() || null == $('#asScore').val().trim()) {
 		alert("AS Score를 입력하세요.");
+		$('#asScore').focus();
 		return false;
 	}
 	
@@ -75,16 +84,19 @@ function validationCheck() {
 	var asScore = parseInt($('#asScore').val().trim());
 	if(isNaN(asScore)) {
 		alert("AS Score는 문자열을 포함할 수 없습니다.");
+		$('#asScore').focus();
 		return false;
 	}
 	
 	if(asScore > 999) {
 		alert("AS Score는 999 미만의 수여야 합니다.");
+		$('#asScore').focus();
 		return false;
 	}
 	
 	if(asScore != parseFloat($('#asScore').val().trim())) {
 		alert("AS Score는 정수여야 합니다.");
+		$('#asScore').focus();
 		return false;
 	}
 	

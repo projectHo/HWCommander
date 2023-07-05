@@ -22,7 +22,7 @@
 
 <script type="text/javascript">
 
-    $(function(){
+    $(function() {
     	dataSetting();
     	
         $('#btn_product_update').on("click", function () {
@@ -128,11 +128,13 @@ function validationCheck() {
 	
 	if($('#productName').val().trim() == "" || $('#productName').val().trim() == null) {
 		alert("제품명을 입력하세요");
+		$('#productName').focus();
 		return false;
 	}
 	
 	if($('#productDescription').val().trim() == "" || $('#productDescription').val().trim() == "") {
 		alert("제품설명을 입력하세요");
+		$('#productDescription').focus();
 		return false;
 	}
 	

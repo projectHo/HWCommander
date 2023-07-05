@@ -20,7 +20,7 @@
         
 <script>
 
-    $(function(){
+    $(function() {
         $('#btn_type_code_regist').on("click", function () {
         	if(!validationCheck()) {
         		return false;
@@ -68,27 +68,32 @@ function goTypeCodeRegist() {
 function validationCheck() {
 	if("" == $('#processTypeExclusiveCd').val().trim() || null == $('#processTypeExclusiveCd').val().trim()) {
 		alert("Process Type Exclusive Code를 입력하세요.");
+		$('#processTypeExclusiveCd').focus();
 		return false;
 	}
 	
 	if("PRTEC" != $('#processTypeExclusiveCd').val().trim().substr(0, 5)) {
 		alert("Process Type Exclusive Code의 형식을 확인해주세요.");
+		$('#processTypeExclusiveCd').focus();
 		return false;
 	}
 	
 	var codeIndex = parseInt($('#processTypeExclusiveCd').val().trim().substr(5, 2));
 	if(isNaN(codeIndex)) {
 		alert("Process Type Exclusive Code의 형식을 확인해주세요.");
+		$('#processTypeExclusiveCd').focus();
 		return false;
 	}
 	
 	if("" == $('#processTypeExclusiveCdNm').val().trim() || null == $('#processTypeExclusiveCdNm').val().trim()) {
 		alert("Process Type Exclusive Code Name을 입력하세요.");
+		$('#processTypeExclusiveCdNm').focus();
 		return false;
 	}
 	
 	if("00" == $('#processLgCd').val()) {
 		alert("Process Large Code를 선택하세요.");
+		$('#processLgCd').focus();
 		return false;
 	}
 	
@@ -187,6 +192,7 @@ function validationCheck() {
                         </div>
                         <div class="card mb-4">
                             <div class="card-body">
+                            	<p class="mb-0">Process Type Exclusive Code 등록규칙</p>
                                 <p class="mb-0">Process Type Exclusive Code는 "PRTEC"의 접두사를 가지며 01~99의 숫자를 지정하여 등록합니다.</p>
                                 <p class="mb-0">Process Type Exclusive Code는 고유한 값이어야 하며 따라서 중복등록은 불가능합니다.</p>
                                 <p class="mb-0">ex) PRTEC01</p>

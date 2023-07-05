@@ -654,7 +654,7 @@ public class AdminController {
 	@RequestMapping(value = "/resourceMasterUpdate.do", method = RequestMethod.GET)
 	public String goResourceMasterUpdate(HttpServletRequest request, Model model, @RequestParam(value = "id", required = true) String id) {
 		model.addAttribute("process_lg_cd", commonService.getComnCdDetailList("COM004"));
-		model.addAttribute("resourceTypeCodeList", processResourceService.getProcessResourceTypeCodeInfoByUseYn("Y"));
+		model.addAttribute("resourceTypeCodeList", processResourceService.getProcessResourceTypeCodeInfoAllList());
 		model.addAttribute("selectData", processResourceService.getProcessResourceMasterById(id));
 		return adminLoginCheck(request, model, "resourceMasterUpdate");
 	}
@@ -675,8 +675,18 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/resourceDetailRegist.do", method = RequestMethod.GET)
-	public String goResourceDetailRegist(HttpServletRequest request, Model model) {
-		model.addAttribute("resourceDetailList", processResourceService.getProcessResourceDetailAllList());
+	public String goResourceDetailRegist(HttpServletRequest request, Model model, @RequestParam(value = "id", required = true) String id) {
+		ProcessResourceMasterVO processResourceMasterVO = processResourceService.getProcessResourceMasterById(id);
+		
+		if(null == processResourceMasterVO) {
+			model.addAttribute("msg", "입력한 Id에 해당하는 Category(Master)가 없습니다.");
+			model.addAttribute("url", "/admin/resourceDetailManagement.do");
+			return "redirect";
+		}
+		
+		model.addAttribute("process_lg_cd", commonService.getComnCdDetailList("COM004"));
+		model.addAttribute("resourceTypeCodeList", processResourceService.getProcessResourceTypeCodeInfoAllList());
+		model.addAttribute("selectDataMaster", processResourceMasterVO);
 		return adminLoginCheck(request, model, "resourceDetailRegist");
 	}
 	
@@ -692,7 +702,7 @@ public class AdminController {
 			, @RequestParam(value = "id", required = true) String id
 			, @RequestParam(value = "seq", required = true) int seq) {
 		model.addAttribute("process_lg_cd", commonService.getComnCdDetailList("COM004"));
-		model.addAttribute("resourceTypeCodeList", processResourceService.getProcessResourceTypeCodeInfoByUseYn("Y"));
+		model.addAttribute("resourceTypeCodeList", processResourceService.getProcessResourceTypeCodeInfoAllList());
 		model.addAttribute("selectData", processResourceService.getProcessResourceDetailByIdAndSeq(id, seq));
 		return adminLoginCheck(request, model, "resourceDetailUpdate");
 	}

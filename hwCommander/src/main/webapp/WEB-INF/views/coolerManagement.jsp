@@ -26,7 +26,7 @@
 <script src="/resources/js/getSetCookie.js"></script>
 
 <script>
-    $(function(){
+    $(function() {
     	$("#coolerListTable").DataTable({
     		displayLength : setDisplayLength()
     	    , bAutoWidth : false

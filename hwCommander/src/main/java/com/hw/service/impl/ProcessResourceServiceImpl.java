@@ -42,7 +42,7 @@ public class ProcessResourceServiceImpl implements ProcessResourceService {
 	
 	@Override
 	public ProcessResourceTypeCodeInfoVO getProcessResourceTypeCodeInfoByProcessTypeExclusiveCd(String processTypeExclusiveCd) {
-		ProcessResourceTypeCodeInfoVO resultVO = new ProcessResourceTypeCodeInfoVO();
+		ProcessResourceTypeCodeInfoVO resultVO = null;
 		ProcessResourceTypeCodeInfoVO searchVO = new ProcessResourceTypeCodeInfoVO();
 		
 		searchVO.setProcessTypeExclusiveCd(processTypeExclusiveCd);
@@ -84,7 +84,7 @@ public class ProcessResourceServiceImpl implements ProcessResourceService {
 	
 	@Override
 	public ProcessResourceMasterVO getProcessResourceMasterById(String id) {
-		ProcessResourceMasterVO resultVO = new ProcessResourceMasterVO();
+		ProcessResourceMasterVO resultVO = null;
 		ProcessResourceMasterVO searchVO = new ProcessResourceMasterVO();
 		
 		searchVO.setId(id);
@@ -124,8 +124,8 @@ public class ProcessResourceServiceImpl implements ProcessResourceService {
 	
 	@Override
 	public ProcessResourceDetailVO getProcessResourceDetailByIdAndSeq(String id, int seq) {
+		ProcessResourceDetailVO resultVO = null;
 		ProcessResourceDetailVO searchVO = new ProcessResourceDetailVO();
-		ProcessResourceDetailVO resultVO = new ProcessResourceDetailVO();
 		
 		searchVO.setId(id);
 		searchVO.setSeq(seq);

@@ -19,13 +19,11 @@
 <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
         
 <script>
-
-    $(function(){
+    $(function() {
     	dataSetting();
     	
     	$("#processLgCd").attr("disabled", true);
     	$("#processTypeExclusiveCd").attr("disabled", true);
-    	
     	
         $('#btn_master_update').on("click", function () {
         	if(!validationCheck()) {
@@ -37,18 +35,6 @@
         	}
         });
         
-        // 서핑 제거
-		$('#processLgCd').find('option').each(function() {
-			if("03" == $(this).val()) {
-				$(this).hide();
-			}
-  	    });
-        
-		processTypeExclusiveCodeInit();
-        
-		$('#processLgCd').change(function() {
-			processLgCdChange();
-		});
     });
     
 function dataSetting() {
@@ -82,43 +68,12 @@ function goMasterUpdate() {
 function validationCheck() {
 	if("" == $('#processName').val().trim() || null == $('#processName').val().trim()) {
 		alert("Process Name을 입력하세요.");
+		$('#processName').focus();
 		return false;
 	}
 	
 	return true;
 }
-
-function processTypeExclusiveCodeInit() {
-    // 화면 로드시 초기화 Process Large Code 선택시에만 나오도록
-	$('#processTypeExclusiveCd').find('option').each(function() {
-		if("00" == $(this).val()) {
-			$(this).show();
-		}else {
-			$(this).hide();
-		}
-    });
-}
-
-function processLgCdChange() {
-	processTypeExclusiveCodeInit();
-	$('#processTypeExclusiveCd').val("00");
-	
-	    var filter = $('#processLgCd').val();
-	  	var $options = $('#processTypeExclusiveCd').find('option');
-	  	
-	$options.each(function() {
-		if("00" == filter) {
-			$(this).show();
-		}
-		
-		if($(this).attr("plgcd") == filter) {
-			$(this).show();
-		}else {
-			$(this).hide();
-		}
-    });
-}
-
 </script>
 </head>
     <body class="sb-nav-fixed">
@@ -230,7 +185,7 @@ function processLgCdChange() {
 												<select class="form-select pt-4" id="processTypeExclusiveCd" name="processTypeExclusiveCd">
 												  <option value="00" selected>-선택-</option>
 												  <c:forEach var="item" items="${resourceTypeCodeList}">
-													  <option plgcd="${item.processLgCd}" value="${item.processTypeExclusiveCd}">${item.processTypeExclusiveCdNm}</option>
+													  <option value="${item.processTypeExclusiveCd}">${item.processTypeExclusiveCdNm}</option>
 												  </c:forEach>
 												</select>
 												<label for="processTypeExclusiveCd">Process Type Exclusive Code</label>

@@ -32,4 +32,5 @@ public class PartsGpuVO {
 	private String regDtm;
 	private String updtDtm;
 	private String multiBulk;
+	private int gc;
 }

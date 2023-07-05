@@ -27,7 +27,7 @@
 <script src="/resources/js/getSetCookie.js"></script>
 
 <script>
-    $(function(){
+    $(function() {
     	$("#typeCodeListTable").DataTable({
     		displayLength : setDisplayLength()
     	    , bAutoWidth : false

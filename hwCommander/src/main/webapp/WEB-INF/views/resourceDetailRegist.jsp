@@ -19,8 +19,14 @@
 <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
         
 <script>
-
-    $(function(){
+    $(function() {
+    	dataSetting();
+    	
+    	$("#viewId").attr("disabled", true);
+    	$("#processLgCd").attr("disabled", true);
+    	$("#processTypeExclusiveCd").attr("disabled", true);
+    	$("#processName").attr("disabled", true);
+    	
         $('#btn_detail_regist').on("click", function () {
         	if(!validationCheck()) {
         		return false;
@@ -31,6 +37,15 @@
         	}
         });
     });
+    
+function dataSetting() {
+	$("#processTypeExclusiveCd").val("${selectDataMaster.processTypeExclusiveCd}");
+	$("#processLgCd").val("${selectDataMaster.processLgCd}");
+	$("#processName").val("${selectDataMaster.processName}");
+	$("#viewId").val("${selectDataMaster.id}");
+
+	$("#id").val("${selectDataMaster.id}");
+}
     
 function goResourceDataRegist() {
     var form = $("#detail_regist_form").serialize();
@@ -174,8 +189,64 @@ function validationCheck() {
                             </div>
                         </div>
                         <div class="card mb-4">
+                            <div class="card-body">
+                                <p class="mb-0">Resource Mapping Value 등록규칙</p>
+                                <p class="mb-0">Process Variable Check가 "고정"인 경우 Resource Name과 Resource Mapping Value가 동일하게 등록되어야 합니다.</p>
+                                <p class="mb-3">ex) Resource Name = CVU / Resource Mapping Value = CVU</p>
+                                
+                                <p class="mb-0">Process Variable Check가 "CPU"인 경우 Resource Mapping Value는 부품의 Id가 등록되어야 합니다.</p>
+                                <p class="mb-3">ex) Resource Mapping Value = CPU000001</p>
+                                
+                                <p class="mb-0">Process Variable Check가 "GVA"인 경우 정수(GC)로 입력해야합니다.</p>
+                                <p class="mb-3">ex) Resource Mapping Value = 371</p>
+                                
+                                <p class="mb-0">Process Variable Check가 "RAM(MaxRange)"인 경우 정수(ddr4_max_range or ddr5_max_range)로 입력해야 합니다.</p>
+                                <p class="mb-3">ex) Resource Mapping Value = 5600</p>
+                                
+                                <p class="mb-0">Process Variable Check가 "RAM(Volume)"인 경우 정수(volume)로 입력해야 합니다.</p>
+                                <p class="mb-0">ex) Resource Mapping Value = ??</p>
+                            </div>
+                        </div>
+                        <div class="card mb-4">
 							<div class="card-body">
                                <form id="detail_regist_form">
+                                   <input type="hidden" id="id" name="id">
+                                   <div class="row mb-3">
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0">
+                                               <input class="form-control" id="viewId" name="viewId" type="text" placeholder="Enter viewId"/>
+                                               <label for="viewId">Id</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+												<select class="form-select pt-4" id="processLgCd" name="processLgCd">
+												  <option value="00" selected>-선택-</option>
+												  <c:forEach var="item" items="${process_lg_cd}">
+													  <option value="${item.cd}">${item.nm}</option>
+												  </c:forEach>
+												</select>
+												<label for="processLgCd">Process Large Code</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+												<select class="form-select pt-4" id="processTypeExclusiveCd" name="processTypeExclusiveCd">
+												  <option value="00" selected>-선택-</option>
+												  <c:forEach var="item" items="${resourceTypeCodeList}">
+													  <option plgcd="${item.processLgCd}" value="${item.processTypeExclusiveCd}">${item.processTypeExclusiveCdNm}</option>
+												  </c:forEach>
+												</select>
+												<label for="processTypeExclusiveCd">Process Type Exclusive Code</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0">
+                                               <input class="form-control" id="processName" name="processName" type="text" placeholder="Enter processName" maxlength="25"/>
+                                               <label for="processName">Process Name</label>
+                                           </div>
+                                       </div>
+                                   </div>
                                    <div class="row mb-3">
                                        <div class="col-md-3">
                                            <div class="form-floating">

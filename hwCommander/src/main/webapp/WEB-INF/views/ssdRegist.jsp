@@ -19,8 +19,7 @@
 <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
         
 <script>
-
-    $(function(){
+    $(function() {
         $('#btn_ssd_regist').on("click", function () {
         	if(!validationCheck()) {
         		return false;
@@ -101,34 +100,6 @@ function validationCheck() {
 	*/
 	
 	return true;
-}
-
-function idDupliChk(id) {
-	
-	if(id == "") {
-		alert("아이디를 입력하세요.");
-		return false;
-	}
-	
-	$.ajax({
-        type: "post",
-        url: "/user/idDupliChk.do",
-        data: {
-        	"id" : id
-        },
-        dataType: 'json',
-        success: function (data) {
-        	if(data == 0) {
-        		targetId = id;
-        		alert("사용가능한 ID 입니다.");
-        		$("#id").removeClass("is-invalid");
-        	}else {
-        		targetId = null;
-        		$("#id").addClass("is-invalid");
-        		alert("중복된 ID 입니다.");
-        	}
-        }
-    });
 }
 </script>
 </head>

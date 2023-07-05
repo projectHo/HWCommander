@@ -27,9 +27,7 @@
 <script src="/resources/js/getSetCookie.js"></script>
 
 <script>
-    $(function(){
-    	
-
+    $(function() {
     	$("#ssdListTable").DataTable({
     		displayLength : setDisplayLength()
     	    , bAutoWidth : false

@@ -27,7 +27,7 @@
 <script src="/resources/js/getSetCookie.js"></script>
 
 <script>
-    $(function(){
+    $(function() {
     	$("#detailListTable").DataTable({
     		displayLength : setDisplayLength()
     	    , bAutoWidth : false
@@ -46,13 +46,24 @@
     	$("#detailListTable").on('click', 'tbody tr', function () {
     		var row = $("#detailListTable").DataTable().row($(this)).data();
     		var id = row[0];
-    		location.href = "detailUpdate.do?id="+id;
+    		var seq = row[1];
+    		location.href = "resourceDetailUpdate.do?id="+id+"&seq="+seq;
     	});
     	
         window.addEventListener('unload', function() {
         	setCookie('displayLength', $("select[name=detailListTable_length]").val(), {'max-age': 1800});
        	});
     });
+    
+function goRegist() {
+	if("" == $('#registTargetId').val().trim() || null == $('#registTargetId').val().trim()) {
+		alert("Resource Data를 등록할 대상 Id를 입력하세요.");
+		$('#registTargetId').focus();
+		return false;
+	}
+	
+	location.href="resourceDetailRegist.do?id="+$('#registTargetId').val().trim();
+}
 </script>
 
 </head>
@@ -147,8 +158,11 @@
                             <div class="card-header">
 								<div class="d-flex">
 								  <div class="me-auto d-flex align-items-center">Search Resource Data(Detail)</div>
+                                  <div class="me-3">
+	                                  <input class="form-control form-control-sm" id="registTargetId" name="registTargetId" type="text" placeholder="Enter Regist Target Id" />
+                                  </div>
 								  <div>
-								  	<a class="btn btn-secondary btn-sm" href="resourceDetailRegist.do">등록</a>
+								  	<a class="btn btn-secondary btn-sm" href="javascript:goRegist()">등록</a>
 								  </div>
 								</div>
                             </div>

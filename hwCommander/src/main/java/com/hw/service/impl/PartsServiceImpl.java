@@ -46,7 +46,7 @@ public class PartsServiceImpl implements PartsService {
 	
 	@Override
 	public PartsGpuVO getPartsGpuVOById(String id) {
-		PartsGpuVO resultVO = new PartsGpuVO();
+		PartsGpuVO resultVO = null;
 		PartsGpuVO searchVO = new PartsGpuVO();
 		
 		searchVO.setId(id);
@@ -86,7 +86,7 @@ public class PartsServiceImpl implements PartsService {
 	
 	@Override
 	public PartsCpuVO getPartsCpuVOById(String id) {
-		PartsCpuVO resultVO = new PartsCpuVO();
+		PartsCpuVO resultVO = null;
 		PartsCpuVO searchVO = new PartsCpuVO();
 		
 		searchVO.setId(id);
@@ -126,7 +126,7 @@ public class PartsServiceImpl implements PartsService {
 	
 	@Override
 	public PartsMbVO getPartsMbVOById(String id) {
-		PartsMbVO resultVO = new PartsMbVO();
+		PartsMbVO resultVO = null;
 		PartsMbVO searchVO = new PartsMbVO();
 		
 		searchVO.setId(id);
@@ -166,7 +166,7 @@ public class PartsServiceImpl implements PartsService {
 	
 	@Override
 	public PartsRamVO getPartsRamVOById(String id) {
-		PartsRamVO resultVO = new PartsRamVO();
+		PartsRamVO resultVO = null;
 		PartsRamVO searchVO = new PartsRamVO();
 		
 		searchVO.setId(id);
@@ -206,7 +206,7 @@ public class PartsServiceImpl implements PartsService {
 	
 	@Override
 	public PartsPsuVO getPartsPsuVOById(String id) {
-		PartsPsuVO resultVO = new PartsPsuVO();
+		PartsPsuVO resultVO = null;
 		PartsPsuVO searchVO = new PartsPsuVO();
 		
 		searchVO.setId(id);
@@ -246,7 +246,7 @@ public class PartsServiceImpl implements PartsService {
 	
 	@Override
 	public PartsCaseVO getPartsCaseVOById(String id) {
-		PartsCaseVO resultVO = new PartsCaseVO();
+		PartsCaseVO resultVO = null;
 		PartsCaseVO searchVO = new PartsCaseVO();
 		
 		searchVO.setId(id);
@@ -286,7 +286,7 @@ public class PartsServiceImpl implements PartsService {
 	
 	@Override
 	public PartsCoolerVO getPartsCoolerVOById(String id) {
-		PartsCoolerVO resultVO = new PartsCoolerVO();
+		PartsCoolerVO resultVO = null;
 		PartsCoolerVO searchVO = new PartsCoolerVO();
 		
 		searchVO.setId(id);
@@ -326,7 +326,7 @@ public class PartsServiceImpl implements PartsService {
 	
 	@Override
 	public PartsHddVO getPartsHddVOById(String id) {
-		PartsHddVO resultVO = new PartsHddVO();
+		PartsHddVO resultVO = null;
 		PartsHddVO searchVO = new PartsHddVO();
 		
 		searchVO.setId(id);
@@ -366,7 +366,7 @@ public class PartsServiceImpl implements PartsService {
 	
 	@Override
 	public PartsSsdVO getPartsSsdVOById(String id) {
-		PartsSsdVO resultVO = new PartsSsdVO();
+		PartsSsdVO resultVO = null;
 		PartsSsdVO searchVO = new PartsSsdVO();
 		
 		searchVO.setId(id);
@@ -406,7 +406,7 @@ public class PartsServiceImpl implements PartsService {
 	
 	@Override
 	public PartsSfVO getPartsSfVOById(String id) {
-		PartsSfVO resultVO = new PartsSfVO();
+		PartsSfVO resultVO = null;
 		PartsSfVO searchVO = new PartsSfVO();
 		
 		searchVO.setId(id);
@@ -457,7 +457,7 @@ public class PartsServiceImpl implements PartsService {
 	
 	@Override
 	public PartsMakerVO getPartsMakerVOById(String id) {
-		PartsMakerVO resultVO = new PartsMakerVO();
+		PartsMakerVO resultVO = null;
 		PartsMakerVO searchVO = new PartsMakerVO();
 		
 		searchVO.setId(id);

@@ -11,7 +11,8 @@
 <link rel="stylesheet" href="/resources/css/main.css">
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script>
-    $(function(){
+
+    $(function() {
 
     });
     

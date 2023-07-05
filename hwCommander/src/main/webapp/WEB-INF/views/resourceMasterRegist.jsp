@@ -20,7 +20,7 @@
         
 <script>
 
-    $(function(){
+    $(function() {
         $('#btn_master_regist').on("click", function () {
         	if(!validationCheck()) {
         		return false;
@@ -73,16 +73,19 @@ function goMasterRegist() {
 function validationCheck() {
 	if("00" == $('#processLgCd').val()) {
 		alert("Process Large Code를 선택하세요.");
+		$('#processLgCd').focus();
 		return false;
 	}
 	
 	if("00" == $('#processTypeExclusiveCd').val()) {
 		alert("Process Type Exclusive Code를 선택하세요.");
+		$('#processTypeExclusiveCd').focus();
 		return false;
 	}
 	
 	if("" == $('#processName').val().trim() || null == $('#processName').val().trim()) {
 		alert("Process Name을 입력하세요.");
+		$('#processName').focus();
 		return false;
 	}
 	
