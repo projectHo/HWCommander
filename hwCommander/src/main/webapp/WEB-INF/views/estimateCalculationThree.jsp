@@ -25,8 +25,12 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-dragdata"></script>
 <script>
-	function clickEstimateBtn(){
+	function clickEstimateBtn(el){
 		let value = [];
+		$(el).addClass("is-valid");
+		setTimeout(()=>{
+			$(el).removeClass("is-valid");
+		}, 3000);
 		for(let i = 0 ; i<$(".hex-input").length; i++){
 			let storageValue = [$(".hex-input")[i].value];
 			value.push(storageValue);
@@ -37,8 +41,12 @@
 		sessionStorage.setItem("third-Data",JSON.stringify(value))
 		window.location.href = "estimateCalculationResult.do";
 	}
-	function clickNextBtn(){
+	function clickNextBtn(el){
 		let value = [];
+		$(el).addClass("is-valid");
+		setTimeout(()=>{
+			$(el).removeClass("is-valid");
+		}, 3000);
 		for(let i = 0 ; i<$(".hex-input").length; i++){
 			let storageValue = [$(".hex-input")[i].value];
 			value.push(storageValue);
@@ -474,10 +482,10 @@
 								<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:returnTwoPage()">이전 질문</button>
 							</div>
 							<div class="col">
-								<button type="button" class="form-control calc-two-final margin-center" onclick="javascript:clickEstimateBtn()">견적 보기</button>
+								<button type="button" class="form-control calc-two-final margin-center" onclick="javascript:clickEstimateBtn(this)">견적 보기</button>
 							</div>
 							<div class="col">
-								<button type="button" class="form-control w-50 margin-left-auto" onclick="javascript:clickNextBtn()">다음 질문</button>
+								<button type="button" class="form-control w-50 margin-left-auto" onclick="javascript:clickNextBtn(this)">다음 질문</button>
 							</div>
 						</div>
 					</form>

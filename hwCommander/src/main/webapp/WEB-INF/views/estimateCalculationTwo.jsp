@@ -194,7 +194,8 @@
 			totalRating += parseInt($(this).val(), 10) || 0;
 		});
 		if(totalRating === 100){
-			$(".table-container").addClass("was-validated");
+			$(".calc-two-final-text").addClass("is-valid");
+			$(".calc-two-final").addClass("is-valid");
 			let value = [];
 			for(let i = 0 ; i<$(".use-list-name").length; i++){
 				let paddingI = String(i+1).padStart(2,'0');
@@ -208,8 +209,10 @@
 			window.location.href ="estimateCalculationResult.do";
 		}else{
 			$(".calc-two-final-text").css("display","block");
+			$(".calc-two-final").addClass("is-invalid");
 			setTimeout(() => {
 				$(".calc-two-final-text").css("display","none");
+				$(".calc-two-final").removeClass("is-invalid");
 			}, 3000);
 		}
 	}
@@ -219,6 +222,7 @@
 			totalRating += parseInt($(this).val(), 10) || 0;
 		});
 		if(totalRating === 100){
+			$(".next-two-btn").addClass("is-valid");
 			let value = [];
 			for(let i = 0 ; i<$(".use-list-name").length; i++){
 				let paddingI = String(i+1).padStart(2,'0');
@@ -232,13 +236,17 @@
 			window.location.href ="estimateCalculationThree.do";
 		}else if (totalRating !== 100){
 			$(".calc-two-final-text-rating").css("display", "block");
+			$(".next-two-btn").addClass("is-invalid");
 			setTimeout(() => {
 				$(".calc-two-final-text-rating").css("display", "none");
+				$(".next-two-btn").removeClass("is-invalid");
 			}, 3000);
 		}else if ($(".table-container").css("display","none")){
 			$(".calc-two-final-text-use").css("display", "block");
+			$(".next-two-btn").addClass("is-invalid");
 			setTimeout(() => {
 				$(".calc-two-final-text-use").css("display", "none");
+				$(".next-two-btn").removeClass("is-invalid");
 			}, 3000);
 		}
 	}
@@ -556,7 +564,7 @@
 									<div class="invalid-feedback fs-5 calc-two-final-text-rating text-center" style="display: none; font-weight: bold;">비중을 100%로 맞춰주세요!</div>
 								</div>
 								<div class="col">
-									<button type="button" class="form-control w-50 margin-left-auto" onclick="javascript:nextBtn()">다음 질문</button>
+									<button type="button" class="form-control w-50 margin-left-auto next-two-btn" onclick="javascript:nextBtn()">다음 질문</button>
 								</div>
 							</div>
 				 		<div class="modal fade" id="use-collector" tabindex="-1" aria-labelledby="collecter" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">

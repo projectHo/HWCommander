@@ -70,12 +70,35 @@
 		sessionStorage.removeItem("four-Data");
 		window.location.href = "estimateCalculationThree.do";
 	}
-	function clickEstimateBtn(){
-		window.location.href = "estimateCalculationResult.do";
+	function clickEstimateBtn(el){
+		if($("#answer-y").prop("checked") === true || $("#answer-n").prop("checked") === true){
+			$(el).addClass("is-valid");
+			setTimeout(() => {
+				$(el).removeClass("is-valid");
+			}, 2000);
+			window.location.href = "estimateCalculationResult.do";
+		}else {
+			$(el).addClass("is-invalid");
+			alert("둘중에 하나 선택해주세요!")
+			setTimeout(() => {
+				$(el).removeClass("is-invalid");
+			}, 2000);
+		}
 	}
-	function clickNextBtn(){
-		// window.location.href = "estimateCalculationFive.do";
-		alert("추후 업데이트")
+	function clickNextBtn(el){
+		if($("#answer-y").prop("checked") === false && $("#answer-n").prop("checked")===false){
+			$(el).addClass("is-invalid");
+			alert("둘중에 하나 선택해주세요!")
+			setTimeout(() => {
+				$(el).removeClass("is-invalid");
+			}, 2000);
+		}else {
+			$(el).addClass("is-valid");
+			setTimeout(() => {
+				$(el).removeClass("is-valid");
+			}, 2000);
+			window.location.href = "estimateCalculationFive.do";
+		}
 	}
 	$(function () {
 	typeText();
@@ -87,7 +110,6 @@
 
 	if(sessionStorage.getItem("four-Data")){
 		const fourData = sessionStorage.getItem("four-Data");
-		console.log(fourData)
 		const yesBtn = $("#answer-y");
 		const noBtn = $("#answer-n");
 		if(fourData === "1"){
@@ -142,10 +164,10 @@
 							<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:returnPageBtn()">이전 질문</button>
 						</div>
 						<div class="col">
-							<button type="button" class="form-control calc-two-final margin-center" onclick="javascript:clickEstimateBtn()">견적 보기</button>
+							<button type="button" class="form-control calc-two-final margin-center" onclick="javascript:clickEstimateBtn(this)">견적 보기</button>
 						</div>
 						<div class="col">
-							<button type="button" class="form-control w-50 margin-left-auto" onclick="javascript:clickNextBtn()">다음 질문</button>
+							<button type="button" class="form-control w-50 margin-left-auto" onclick="javascript:clickNextBtn(this)">다음 질문</button>
 						</div>
 					</div>
 				</div>
