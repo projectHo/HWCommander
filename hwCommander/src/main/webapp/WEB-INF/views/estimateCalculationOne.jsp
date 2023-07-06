@@ -27,7 +27,7 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 			console.log("1");
 			if($(".first-q-input").val() !== ""){
 				console.log("2");
-				sessionStorage.setItem("first-Data",$("#can-pay-val").val());
+				sessionStorage.setItem("one-Data",$("#can-pay-val").val());
 				$(".next-btn").addClass('is-valid');
 				window.location.href = "estimateCalculationTwo.do";
 			}
@@ -101,9 +101,9 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 				return new bootstrap.Tooltip($(this)[0]);
 			}).get();
 			// session set
-			if(sessionStorage.getItem("first-Data")){
-				$('#can-pay-val').val(sessionStorage.getItem("first-Data"));
-				sessionStorage.removeItem("first-Data");
+			if(sessionStorage.getItem("one-Data")){
+				$('#can-pay-val').val(sessionStorage.getItem("one-Data"));
+				sessionStorage.removeItem("one-Data");
 			}
 			
 			// functions

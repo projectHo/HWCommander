@@ -50,7 +50,7 @@
 	// typing question text
 	let index = 0;
 	function typeText() {
-		const text = " CPU 제조사를 선택 하고싶으신가요?";
+		const text = " 원하시는 CPU 제조사가 있으신가요?";
 		if (index < text.length) {
 		$("#typingInput").val(function(i, val) {
 			return val + text.charAt(index);

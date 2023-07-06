@@ -98,7 +98,7 @@
 	};
 
 	function returnOnePage(){
-		sessionStorage.removeItem("second-Data");
+		sessionStorage.removeItem("two-Data");
 		window.location.href ="estimateCalculationOne.do";
 	}
 
@@ -202,10 +202,10 @@
 				let storageValue = [$(".use-list-name")[i].id,$(".use-list-rating")[i].value,$(".use-list-genre")[i].id];
 				value.push(storageValue);
 			}
-			if(sessionStorage.getItem("second-Data")){
-				sessionStorage.removeItem("second-Data");
+			if(sessionStorage.getItem("two-Data")){
+				sessionStorage.removeItem("two-Data");
 			}
-			sessionStorage.setItem("second-Data",JSON.stringify(value));
+			sessionStorage.setItem("two-Data",JSON.stringify(value));
 			window.location.href ="estimateCalculationResult.do";
 		}else{
 			$(".calc-two-final-text").css("display","block");
@@ -229,10 +229,10 @@
 				let storageValue = [$(".use-list-name")[i].id,$(".use-list-rating")[i].value,$(".use-list-genre")[i].id];
 				value.push(storageValue);
 			}
-			if(sessionStorage.getItem("second-Data")){
-				sessionStorage.removeItem("second-Data");
+			if(sessionStorage.getItem("two-Data")){
+				sessionStorage.removeItem("two-Data");
 			}
-			sessionStorage.setItem("second-Data",JSON.stringify(value))
+			sessionStorage.setItem("two-Data",JSON.stringify(value))
 			window.location.href ="estimateCalculationThree.do";
 		}else if (totalRating !== 100){
 			$(".calc-two-final-text-rating").css("display", "block");
@@ -256,8 +256,8 @@
 	// modal esc delete
 	$('#use-collector').off('keydown.dismiss.bs.modal');
 	// session set
-	if(sessionStorage.getItem("second-Data")){
-		const storedValues = JSON.parse(sessionStorage.getItem("second-Data"));
+	if(sessionStorage.getItem("two-Data")){
+		const storedValues = JSON.parse(sessionStorage.getItem("two-Data"));
 		var dataBtn = ${processResourceTypeCodeInfoVOList};
 		var modalList = ${processResourceMasterVOList};
 		storedValues.forEach(val => {
@@ -318,7 +318,7 @@
 		$(".table-list-names").css("display","table-row");
 		$("input#search-input").val('');
 		$("#label-table").find("tr").remove();
-		sessionStorage.removeItem("second-Data");
+		sessionStorage.removeItem("two-Data");
 	}
 	// search input
 	

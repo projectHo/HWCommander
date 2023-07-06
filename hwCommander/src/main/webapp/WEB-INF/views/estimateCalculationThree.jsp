@@ -35,10 +35,10 @@
 			let storageValue = [$(".hex-input")[i].value];
 			value.push(storageValue);
 		}
-		if(sessionStorage.getItem("third-Data")){
-			sessionStorage.removeItem("third-Data");
+		if(sessionStorage.getItem("three-Data")){
+			sessionStorage.removeItem("three-Data");
 		}
-		sessionStorage.setItem("third-Data",JSON.stringify(value))
+		sessionStorage.setItem("three-Data",JSON.stringify(value))
 		window.location.href = "estimateCalculationResult.do";
 	}
 	function clickNextBtn(el){
@@ -51,10 +51,10 @@
 			let storageValue = [$(".hex-input")[i].value];
 			value.push(storageValue);
 		}
-		if(sessionStorage.getItem("third-Data")){
-			sessionStorage.removeItem("third-Data");
+		if(sessionStorage.getItem("three-Data")){
+			sessionStorage.removeItem("three-Data");
 		}
-		sessionStorage.setItem("third-Data",JSON.stringify(value))
+		sessionStorage.setItem("three-Data",JSON.stringify(value))
 		window.location.href = "estimateCalculationFour.do";
 	}
 	// donut
@@ -294,8 +294,8 @@
 	
 	$(function () {
 		createChart();
-		if(sessionStorage.getItem("third-Data")){
-			const storedValues =JSON.parse(sessionStorage.getItem("third-Data"));
+		if(sessionStorage.getItem("three-Data")){
+			const storedValues =JSON.parse(sessionStorage.getItem("three-Data"));
 			
 			const ranges = $(".hex-input");
 			for(let i = 0 ; i<ranges.length ; i++){

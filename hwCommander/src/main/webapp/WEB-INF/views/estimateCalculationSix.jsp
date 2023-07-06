@@ -132,7 +132,7 @@
 			<!-- 빈 영역 -->
 			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
 			<!-- 작업영역 -->
-			<div class="estimateCalc_background p-2" style="width: 70% !important">
+			<div class="estimateCalc_background p-5" style="width: 70% !important">
 				<div class="w-75 container">
 					<div class="row mt-4 pb-5">
 						<div class="col-2 text-center">
