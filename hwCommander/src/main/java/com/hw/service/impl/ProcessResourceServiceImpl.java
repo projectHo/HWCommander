@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 
 import com.hw.dao.ProcessResourceDAO;
 import com.hw.model.PartsGpuVO;
+import com.hw.model.PartsMakerHistoryVO;
+import com.hw.model.ProcessResourceDetailHistoryVO;
 import com.hw.model.ProcessResourceDetailVO;
 import com.hw.model.ProcessResourceMasterVO;
 import com.hw.model.ProcessResourceTypeCodeInfoVO;
@@ -20,16 +22,16 @@ public class ProcessResourceServiceImpl implements ProcessResourceService {
 	
 	@Override
 	public Integer processResourceTypeCodeInfoRegistLogic(ProcessResourceTypeCodeInfoVO processResourceTypeCodeInfoVO) {
-		int insertResult = 0;
+		int result = 0;
 		int checkCodeCnt = processResourceDAO.getCheckDupliChkCount(processResourceTypeCodeInfoVO.getProcessTypeExclusiveCd());
 		
 		if(checkCodeCnt == 0) {
-			insertResult = processResourceDAO.insertProcessResourceTypeCodeInfoVO(processResourceTypeCodeInfoVO);
+			result = processResourceDAO.insertProcessResourceTypeCodeInfoVO(processResourceTypeCodeInfoVO);
 		}else {
-			insertResult = -2;
+			result = -2;
 		}
 		
-		return insertResult;
+		return result;
 	}
 	
 	@Override
@@ -69,10 +71,10 @@ public class ProcessResourceServiceImpl implements ProcessResourceService {
 	
 	@Override
 	public Integer processResourceMasterRegistLogic(ProcessResourceMasterVO processResourceMasterVO) {
-		int insertResult = 0;
+		int result = 0;
 		processResourceMasterVO.setId(processResourceDAO.getProcessResourceMasterVOMaxId());
-		insertResult = processResourceDAO.insertProcessResourceMasterVO(processResourceMasterVO);
-		return insertResult;
+		result = processResourceDAO.insertProcessResourceMasterVO(processResourceMasterVO);
+		return result;
 	}
 	
 	@Override
@@ -104,9 +106,27 @@ public class ProcessResourceServiceImpl implements ProcessResourceService {
 	
 	@Override
 	public Integer processResourceDetailRegistLogic(ProcessResourceDetailVO processResourceDetailVO) {
-		int insertResult = 0;
-		insertResult = processResourceDAO.insertProcessResourceDetailVO(processResourceDetailVO);
-		return insertResult;
+		int result = 0;
+		
+		int seq = processResourceDAO.getProcessResourceDetailVOMaxSeq(processResourceDetailVO.getId());
+		processResourceDetailVO.setSeq(seq);
+		
+		result = processResourceDAO.insertProcessResourceDetailVO(processResourceDetailVO);
+		
+		// 최초 insert 시 이력 등록
+		if(1 == result) {
+			ProcessResourceDetailHistoryVO processResourceDetailHistoryVO = new ProcessResourceDetailHistoryVO();
+			processResourceDetailHistoryVO.setId(processResourceDetailVO.getId());
+			processResourceDetailHistoryVO.setSeq(processResourceDetailVO.getSeq());
+			processResourceDetailHistoryVO.setHistorySeq(1);
+			processResourceDetailHistoryVO.setVariableChk(processResourceDetailVO.getVariableChk());
+			processResourceDetailHistoryVO.setResourceName(processResourceDetailVO.getResourceName());
+			processResourceDetailHistoryVO.setResourceMappingValue(processResourceDetailVO.getResourceMappingValue());
+			processResourceDetailHistoryVO.setResourceScore(processResourceDetailVO.getResourceScore());
+			result += processResourceDAO.insertProcessResourceDetailHistoryVO(processResourceDetailHistoryVO);
+		}
+		
+		return result;
 	}
 	
 	@Override
@@ -119,7 +139,25 @@ public class ProcessResourceServiceImpl implements ProcessResourceService {
 	
 	@Override
 	public Integer processResourceDetailUpdateLogic(ProcessResourceDetailVO processResourceDetailVO) {
-		return processResourceDAO.updateProcessResourceDetailVO(processResourceDetailVO);
+		int result = 0;
+		result = processResourceDAO.updateProcessResourceDetailVO(processResourceDetailVO);
+		
+		// update 시 이력등록
+		if(1 == result) {
+			ProcessResourceDetailHistoryVO processResourceDetailHistoryVO = new ProcessResourceDetailHistoryVO();
+			processResourceDetailHistoryVO.setId(processResourceDetailVO.getId());
+			processResourceDetailHistoryVO.setSeq(processResourceDetailVO.getSeq());
+			
+			int maxHistorySeq = processResourceDAO.getProcessResourceDetailHistoryVOMaxHistorySeq(processResourceDetailVO);
+			processResourceDetailHistoryVO.setHistorySeq(maxHistorySeq);
+			processResourceDetailHistoryVO.setVariableChk(processResourceDetailVO.getVariableChk());
+			processResourceDetailHistoryVO.setResourceName(processResourceDetailVO.getResourceName());
+			processResourceDetailHistoryVO.setResourceMappingValue(processResourceDetailVO.getResourceMappingValue());
+			processResourceDetailHistoryVO.setResourceScore(processResourceDetailVO.getResourceScore());
+			result += processResourceDAO.insertProcessResourceDetailHistoryVO(processResourceDetailHistoryVO);
+		}
+		
+		return result;
 	}
 	
 	@Override
@@ -138,4 +176,8 @@ public class ProcessResourceServiceImpl implements ProcessResourceService {
 		return resultVO;
 	}
 	
+	@Override
+	public Integer resourceMappingValueDupliChk(ProcessResourceDetailVO processResourceDetailVO) {
+		return processResourceDAO.resourceMappingValueDupliChk(processResourceDetailVO);
+	}
 }

@@ -480,8 +480,8 @@ public class PartsServiceImpl implements PartsService {
 			PartsMakerHistoryVO partsMakerHistoryVO = new PartsMakerHistoryVO();
 			partsMakerHistoryVO.setId(partsMakerVO.getId());
 			
-			int maxSeq = partsDAO.getPartsMakerHistoryVOMaxHistorySeq(partsMakerVO.getId());
-			partsMakerHistoryVO.setHistorySeq(maxSeq);
+			int maxHistorySeq = partsDAO.getPartsMakerHistoryVOMaxHistorySeq(partsMakerVO.getId());
+			partsMakerHistoryVO.setHistorySeq(maxHistorySeq);
 			partsMakerHistoryVO.setMakerName(partsMakerVO.getMakerName());
 			partsMakerHistoryVO.setAsScore(partsMakerVO.getAsScore());
 			result += partsDAO.insertPartsMakerHistoryVO(partsMakerHistoryVO);

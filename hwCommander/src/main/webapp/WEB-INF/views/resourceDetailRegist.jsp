@@ -48,53 +48,84 @@ function dataSetting() {
 }
     
 function goResourceDataRegist() {
-    var form = $("#detail_regist_form").serialize();
-    
-    $.ajax({
+	
+	var processResourceDetailVO = {
+			id : $("#id").val(),
+			resourceMappingValue : $("#resourceMappingValue").val()
+		};
+	
+	$.ajax({
         type: "post",
-        url: "/admin/resourceDetailRegistLogic.do",
-        data: form,
+        url: "/admin/resourceMappingValueDupliChk.do",
+        data: {
+			id : $("#id").val(),
+			resourceMappingValue : $("#resourceMappingValue").val()
+		},
         dataType: 'json',
         success: function (data) {
-        	if(data == 1) {
-        		alert("등록완료");
+        	if(data == 0) {
+        		// cnt == 0 일때 등록
+        	    var form = $("#detail_regist_form").serialize();
+        	    
+        	    $.ajax({
+        	        type: "post",
+        	        url: "/admin/resourceDetailRegistLogic.do",
+        	        data: form,
+        	        dataType: 'json',
+        	        success: function (data) {
+        	        	if(data == 2) {
+        	        		alert("등록완료");
+        	        	}else {
+        	        		alert("등록실패");
+        	        	}
+        	        	window.location = "resourceDetailManagement.do";
+        	            console.log(data);
+        	        }
+        	    });
         	}else {
-        		alert("등록실패");
+        		alert("["+$("#resourceMappingValue").val()+"] 는 이미 등록되어있는 Mapping Value 입니다.");
         	}
-        	window.location = "resourceDetailManagement.do";
-            console.log(data);
         }
     });
 }
 
 function validationCheck() {
-	if("" == $('#makerName').val().trim() || null == $('#makerName').val().trim()) {
-		alert("Maker Name을 입력하세요.");
+	if("00" == $('#variableChk').val()) {
+		alert("Process Variable Check를 선택하세요.");
+		$('#variableChk').focus();
 		return false;
 	}
 	
-	if("" == $('#asScore').val().trim() || null == $('#asScore').val().trim()) {
-		alert("AS Score를 입력하세요.");
+	if("" == $('#resourceName').val().trim() || null == $('#resourceName').val().trim()) {
+		alert("Resource Name을 입력하세요.");
+		$('#resourceName').focus();
 		return false;
 	}
 	
-	
-	var asScore = parseInt($('#asScore').val().trim());
-	if(isNaN(asScore)) {
-		alert("AS Score는 문자열을 포함할 수 없습니다.");
+	if("" == $('#resourceMappingValue').val().trim() || null == $('#resourceMappingValue').val().trim()) {
+		alert("Resource Mapping Value를 입력하세요.");
+		$('#resourceMappingValue').focus();
 		return false;
 	}
 	
-	if(asScore > 999) {
-		alert("AS Score는 999 미만의 수여야 합니다.");
+	if("" == $('#resourceScore').val().trim() || null == $('#resourceScore').val().trim()) {
+		alert("Resource Score를 입력하세요.");
+		$('#resourceScore').focus();
 		return false;
 	}
 	
-	if(asScore != parseFloat($('#asScore').val().trim())) {
-		alert("AS Score는 정수여야 합니다.");
+	var resourceScore = parseFloat($('#resourceScore').val().trim());
+	if(isNaN(resourceScore)) {
+		alert("Resource Score는 문자열을 포함할 수 없습니다.");
+		$('#resourceScore').focus();
 		return false;
 	}
-
+	/* 
+	if(asScore > 65535) {
+		alert("Resource Score는 65535 미만의 수여야 합니다.");
+		return false;
+	}
+	 */
 	return true;
 }
 
@@ -234,7 +265,7 @@ function validationCheck() {
 												<select class="form-select pt-4" id="processTypeExclusiveCd" name="processTypeExclusiveCd">
 												  <option value="00" selected>-선택-</option>
 												  <c:forEach var="item" items="${resourceTypeCodeList}">
-													  <option plgcd="${item.processLgCd}" value="${item.processTypeExclusiveCd}">${item.processTypeExclusiveCdNm}</option>
+													  <option value="${item.processTypeExclusiveCd}">${item.processTypeExclusiveCdNm}</option>
 												  </c:forEach>
 												</select>
 												<label for="processTypeExclusiveCd">Process Type Exclusive Code</label>

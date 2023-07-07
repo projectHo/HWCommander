@@ -43,13 +43,14 @@
     	$("#masterListTable").on('click', 'tbody tr', function () {
     		var row = $("#masterListTable").DataTable().row($(this)).data();
     		var id = row[0];
+    		/* 23.07.06 update쪽에서 구분하기로 함
     		var detailHistoryCnt = row[5];
     		
     		if(detailHistoryCnt > 0) {
     			alert("Resource Data가 등록된 이력이 존재하여 수정할 수 없습니다.");
     			return false;
     		}
-    		
+    		 */
     		location.href = "resourceMasterUpdate.do?id="+id;
     	});
         window.addEventListener('unload', function() {

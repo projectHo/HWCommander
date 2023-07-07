@@ -690,6 +690,12 @@ public class AdminController {
 		return adminLoginCheck(request, model, "resourceDetailRegist");
 	}
 	
+	@RequestMapping(value = "/resourceMappingValueDupliChk.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer resourceMappingValueDupliChk(ProcessResourceDetailVO processResourceDetailVO) {
+		return processResourceService.resourceMappingValueDupliChk(processResourceDetailVO);
+	}
+	
 	@RequestMapping(value = "/resourceDetailRegistLogic.do", method = RequestMethod.POST)
 	@ResponseBody
 	public Integer resourceDetailRegistLogic(ProcessResourceDetailVO processResourceDetailVO) {
@@ -703,7 +709,8 @@ public class AdminController {
 			, @RequestParam(value = "seq", required = true) int seq) {
 		model.addAttribute("process_lg_cd", commonService.getComnCdDetailList("COM004"));
 		model.addAttribute("resourceTypeCodeList", processResourceService.getProcessResourceTypeCodeInfoAllList());
-		model.addAttribute("selectData", processResourceService.getProcessResourceDetailByIdAndSeq(id, seq));
+		model.addAttribute("selectDataMaster", processResourceService.getProcessResourceMasterById(id));
+		model.addAttribute("selectDataDetail", processResourceService.getProcessResourceDetailByIdAndSeq(id, seq));
 		return adminLoginCheck(request, model, "resourceDetailUpdate");
 	}
 	
@@ -712,6 +719,8 @@ public class AdminController {
 	public Integer resourceDetailUpdateLogic(ProcessResourceDetailVO processResourceDetailVO) {
 		return processResourceService.processResourceDetailUpdateLogic(processResourceDetailVO);
 	}
+	
+
 	
 	private String adminLoginCheck(HttpServletRequest request, Model model, String url) {
 		HttpSession httpSession = request.getSession();

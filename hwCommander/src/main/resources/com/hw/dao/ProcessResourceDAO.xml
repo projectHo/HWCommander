@@ -118,6 +118,10 @@
 			id = #{id}
 	</update>
 	
+	<select id="getProcessResourceDetailVOMaxSeq" resultType="Integer" parameterType="String">
+		SELECT IFNULL(MAX(seq), 0)+1 AS seq FROM process_resource_detail WHERE id = #{id}
+	</select>
+	
 	<insert id="insertProcessResourceDetailVO" parameterType="processResourceDetailVO">
 		INSERT INTO process_resource_detail
 		(
@@ -184,11 +188,45 @@
 		UPDATE
 			process_resource_detail
 		SET
-		-- todo wonho
-			process_name        = #{processName}    
+			resource_name        = #{resourceName}
+			, resource_score        = #{resourceScore}    
 			, updt_dtm            = NOW()        
 		WHERE
 			id = #{id}
+			AND seq = #{seq}
 	</update>
+	
+	<select id="resourceMappingValueDupliChk" resultType="Integer" parameterType="processResourceDetailVO">
+		SELECT COUNT(id) AS cnt FROM process_resource_detail WHERE id = #{id} AND resource_mapping_value = #{resourceMappingValue}
+	</select>
+	
+	<insert id="insertProcessResourceDetailHistoryVO" parameterType="processResourceDetailHistoryVO">
+		INSERT INTO process_resource_detail_history
+		(
+			id
+			, seq
+			, history_seq
+			, variable_chk
+			, resource_name
+			, resource_mapping_value
+			, resource_score
+			, reg_dtm
+		)
+		VALUES
+		(
+			#{id}
+			, #{seq}
+			, #{historySeq}
+			, #{variableChk}
+			, #{resourceName}
+			, #{resourceMappingValue}
+			, #{resourceScore}
+			, NOW()
+		)
+	</insert>
+	
+	<select id="getProcessResourceDetailHistoryVOMaxHistorySeq" resultType="Integer" parameterType="processResourceDetailVO">
+		SELECT IFNULL(MAX(history_seq), 0)+1 AS history_seq FROM process_resource_detail_history WHERE id = #{id} AND seq = #{seq}
+	</select>
 	
 </mapper>

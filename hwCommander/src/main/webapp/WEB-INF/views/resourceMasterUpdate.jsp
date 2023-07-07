@@ -24,8 +24,15 @@
     	
     	$("#processLgCd").attr("disabled", true);
     	$("#processTypeExclusiveCd").attr("disabled", true);
+    	$("#viewId").attr("disabled", true);
     	
         $('#btn_master_update').on("click", function () {
+        	
+    		if("${selectData.detailHistoryCnt}" > 0) {
+    			alert("Resource Data가 등록된 이력이 존재하여 수정할 수 없습니다.");
+    			return false;
+    		}
+    		
         	if(!validationCheck()) {
         		return false;
         	}
@@ -41,6 +48,7 @@ function dataSetting() {
 	$("#processTypeExclusiveCd").val("${selectData.processTypeExclusiveCd}");
 	$("#processLgCd").val("${selectData.processLgCd}");
 	$("#processName").val("${selectData.processName}");
+	$("#viewId").val("${selectData.id}");
 
 	$("#id").val("${selectData.id}");
 }
@@ -73,6 +81,10 @@ function validationCheck() {
 	}
 	
 	return true;
+}
+
+function goDetailRegist() {
+	location.href="resourceDetailRegist.do?id="+$('#id').val();
 }
 </script>
 </head>
@@ -165,10 +177,22 @@ function validationCheck() {
                             </div>
                         </div>
                         <div class="card mb-4">
+                            <div class="card-body">
+                                <p class="mb-0">Resource Data(Detail)가 등록된 이력이 존재하면 수정할 수 없습니다.</p>
+                                <p class="mb-0">Id ~~? 를 클릭하여 본 Category(Master)의 Resource Data(Detail) 등록화면으로 이동할 수 있습니다.</p>
+                            </div>
+                        </div>
+                        <div class="card mb-4">
 							<div class="card-body">
                                <form id="master_update_form">
                                    <input type="hidden" id="id" name="id">
                                    <div class="row mb-3">
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0" onclick="javascript:goDetailRegist()">
+                                               <input class="form-control" id="viewId" name="viewId" type="text" placeholder="Enter viewId"/>
+                                               <label for="viewId">Id</label>
+                                           </div>
+                                       </div>
                                        <div class="col-md-3">
                                            <div class="form-floating">
 												<select class="form-select pt-4" id="processLgCd" name="processLgCd">
