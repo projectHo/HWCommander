@@ -50,7 +50,7 @@
 	// typing question text
 	let index = 0;
 	function typeText() {
-		const text = " 선호하는 색상이 있나요?";
+		const text = " 테마 색상을 선택해주세요!(메인컬러 택 1, 서브컬러 택 1)";
 		if (index < text.length) {
 		$("#typingInput").val(function(i, val) {
 			return val + text.charAt(index);
@@ -138,7 +138,88 @@
 						</div>
 					</div>
 					<div class="row pb-5">
-						
+						<div class="col-6">
+							<div class="card" style="width: 18rem;">
+								<div class="card-body">
+									<h5 class="card-title">메인 컬러 : <span class="picked-main-color"></span></h5>
+									<div class="container">
+										<div class="row">
+											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(0,0,0);"></div> Black</span></div>
+											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(0,122,192);"></div> Blue</span></div>
+										</div>
+										<div class="row">
+											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(112,63,58);"></div> Brown</span></div>
+											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(222,182,62);"></div> Gold</span></div>
+										</div>
+										<div class="row">
+											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(94,94,94);"></div> Gray</span></div>
+											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(199,198,116);"></div> Green</span></div>
+										</div>
+										<div class="row">
+											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(212,37,114);"></div> Magenta</span></div>
+											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(143,215,212);"></div> Mint</span></div>
+										</div>
+										<div class="row">
+											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(239,124,31);"></div> Orange</span></div>
+											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(236,180,186);"></div> Pink</span></div>
+										</div>
+										<div class="row">
+											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(173,108,200);"></div> Purple</span></div>
+											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(252,46,70);"></div> Red</span></div>
+										</div>
+										<div class="row">
+											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(220,218,221);"></div> Silver</span></div>
+											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(255,255,255);"></div> White</span></div>
+										</div>
+										<div class="row">
+											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(255,213,33);"></div> Yellow</span></div>
+											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2"></div> 상관없음</span></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="col-6">
+							<div class="card" style="width: 18rem;">
+								<div class="card-body">
+									<h5 class="card-title">서브 컬러 : <span class="picked-sub-color"></span></h5>
+									<div class="container">
+										<div class="row">
+											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(0,0,0);"></div> Black</span></div>
+											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(0,122,192);"></div> Blue</span></div>
+										</div>
+										<div class="row">
+											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(112,63,58);"></div> Brown</span></div>
+											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(222,182,62);"></div> Gold</span></div>
+										</div>
+										<div class="row">
+											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(94,94,94);"></div> Gray</span></div>
+											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(199,198,116);"></div> Green</span></div>
+										</div>
+										<div class="row">
+											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(212,37,114);"></div> Magenta</span></div>
+											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(143,215,212);"></div> Mint</span></div>
+										</div>
+										<div class="row">
+											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(239,124,31);"></div> Orange</span></div>
+											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(236,180,186);"></div> Pink</span></div>
+										</div>
+										<div class="row">
+											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(173,108,200);"></div> Purple</span></div>
+											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(252,46,70);"></div> Red</span></div>
+										</div>
+										<div class="row">
+											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(220,218,221);"></div> Silver</span></div>
+											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(255,255,255);"></div> White</span></div>
+										</div>
+										<div class="row">
+											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(255,213,33);"></div> Yellow</span></div>
+											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2"></div> 상관없음</span></div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
 					<div class="row mb-4">
 						<div class="col">
