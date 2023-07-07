@@ -239,3 +239,12 @@ canvas{
     left: -11px;
   }
 }
+
+/* claculation Eight style */
+
+.color-container{
+  width: 16px;
+  height: 16px;
+  border: 1px solid black;
+  cursor: pointer;
+}
