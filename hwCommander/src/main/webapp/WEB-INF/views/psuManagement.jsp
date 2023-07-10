@@ -26,8 +26,7 @@
 <script src="/resources/js/getSetCookie.js"></script>
 
 <script>
-    $(function(){
-    	
+    $(function() {
     	$("#psuListTable").DataTable({
     		displayLength : setDisplayLength()
     	    , bAutoWidth : false

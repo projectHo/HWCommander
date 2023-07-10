@@ -23,6 +23,9 @@
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet"/>
 
+<!-- 23.07.08 다음 카카오 주소 api 추가 -->
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
 <!-- 이니시스js -->
 <!--테스트 JS-->
 
@@ -35,13 +38,21 @@
 
 <%
 
+/* 
 	String mid					= "INIpayTest";		                    // 상점아이디					
 	String signKey			    = "SU5JTElURV9UUklQTEVERVNfS0VZU1RS";	// 웹 결제 signkey
-	
+	 */
+	 
+	 String mid					= "hwmander66";		                    // 상점아이디					
+	String signKey			    = "dTh3MWdEYUJ6ZFhSbEZ1dnNjbzJYZz09";	// 웹 결제 signkey
+		
 	String mKey = SignatureUtil.hash(signKey, "SHA-256");
 
 	String timestamp			= SignatureUtil.getTimestamp();			// util에 의해서 자동생성
-	String oid			= "TESTORD0000001";	// 가맹점 주문번호(가맹점에서 직접 설정)
+	//String oid			= "TESTORD0000001";	// 가맹점 주문번호(가맹점에서 직접 설정)
+	String oid			= String.valueOf(request.getAttribute("orderId"));	// 가맹점 주문번호(가맹점에서 직접 설정)
+	
+	
 	String price				= String.valueOf(request.getAttribute("productPrice")); // 상품가격(특수기호 제외, 가맹점에서 직접 설정)
 	
 	Map<String, String> signParam = new HashMap<String, String>();
@@ -83,6 +94,14 @@
     	$("#ordererMail").val("${loginUser.mail}");
     	
     	//recipient set
+    	$("#recipientName").val("${loginUser.name}");
+    	$("#recipientHpNumber").val("${loginUser.hpNumber}");
+    	
+    	$("#recipientZipcode").val("${loginUser.zipcode}");
+    	$("#recipientJibunAddr").val("${loginUser.jibunAddr}");
+    	$("#recipientRoadAddr").val("${loginUser.roadAddr}");
+    	$("#recipientDetailAddr").val("${loginUser.detailAddr}");
+    	
     	/* 
     	private String recipientName;
     	private String recipientHpNumber;
@@ -96,16 +115,16 @@
     	private String paymentMethod;
     	private String waybillNumber;
     	 */
+    	 
+        // 주소찾기
+        $('#btn_addr_search').on("click", function () {
+        	findDaumAddr();
+        });
     	
     });
     
 function btnCheckOutClick() {
-	//alert("나! 결제한다!!!");
-	
-	// 주문번호 생성하는 ajax 태운 뒤 성공 시 이니시스 호출해야함.
-
 	$("#inicis_goodname").val("${productName}");
-	
 	$("#inicis_buyername").val($("#ordererName").val());
 	$("#inicis_buyertel").val($("#ordererHpNumber").val());
 	$("#inicis_buyeremail").val($("#ordererMail").val());
@@ -114,6 +133,19 @@ function btnCheckOutClick() {
 	
 	INIStdPay.pay('inicisSendForm');
 	
+}
+
+function findDaumAddr() {
+	new daum.Postcode({
+        oncomplete: function(data) {
+        	console.log(data);
+        	
+            $("#recipientJibunAddr").val(data.zonecode);
+            $("#recipientJibunAddr").val(data.jibunAddress);
+            $("#recipientRoadAddr").val(data.roadAddress);
+            $("#recipientDetailAddr").val("");
+        }
+    }).open();
 }
 
 
@@ -213,8 +245,11 @@ function btnCheckOutClick() {
 					</div>
 					<div class="mb-3 row">
 						<label for="recipientZipcode" class="col-sm-2 col-form-label">우편번호</label>
-						<div class="col-sm-7">
+						<div class="col-sm-2">
 							<input type="text" class="form-control" id=recipientZipcode name="recipientZipcode" required>
+						</div>
+						<div class="col-auto">
+						  <button type="button" class="btn btn-secondary" id="btn_addr_search">주소찾기</button>
 						</div>
 					</div>
 					<div class="mb-3 row">
@@ -273,15 +308,16 @@ function btnCheckOutClick() {
 	<input type="hidden" id="inicis_buyername" name="buyername">
 	<input type="hidden" id="inicis_buyertel" name="buyertel">
 	<input type="hidden" id="inicis_buyeremail" name="buyeremail">
-	
+
+		
 	<!-- todo wonho 로컬테스트 -->
+	<!-- 
 	<input type="hidden" name="returnUrl" value="http://localhost:8080/order/inicisPayReturn.do">
 	<input type="hidden" name="closeUrl" value="http://localhost:8080/order/inicisPayClose.do">
+	 -->
 	<!-- todo wonho 운영 -->
-	<!-- 
 	<input type="hidden" name="returnUrl" value="http://hwcommander.com/order/inicisPayReturn.do">
 	<input type="hidden" name="closeUrl" value="http://hwcommander.com/order/inicisPayClose.do">
-	 -->
 </form>
 
 </body>

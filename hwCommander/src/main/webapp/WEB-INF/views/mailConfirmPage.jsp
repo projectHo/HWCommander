@@ -11,16 +11,14 @@
 <link rel="stylesheet" href="/resources/css/main.css">
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script>
-    $(function(){
+    $(function() {
     	if("${result}" == 1) {
     		alert("이메일 인증이 완료되었습니다.");
     	}else {
     		alert("잘못된 접근입니다.");
     	}
-    	
     	window.close();
     });
-    
 </script>
 </head>
 <body>

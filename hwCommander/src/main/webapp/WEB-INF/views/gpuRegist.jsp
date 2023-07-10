@@ -20,7 +20,7 @@
         
 <script>
 
-    $(function(){
+    $(function() {
         $('#btn_gpu_regist').on("click", function () {
         	if(!validationCheck()) {
         		return false;
@@ -102,7 +102,6 @@ function validationCheck() {
 	
 	return true;
 }
-
 </script>
 </head>
     <body class="sb-nav-fixed">
@@ -314,6 +313,12 @@ function validationCheck() {
                                            <div class="form-floating">
                                                <input class="form-control" id="multiBulk" name="multiBulk" type="text" placeholder="Enter multiBulk" />
                                                <label for="multiBulk">멀티팩 벌크</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+                                               <input class="form-control" id="gc" name="gc" type="text" placeholder="Enter gc" />
+                                               <label for="gc">GC</label>
                                            </div>
                                        </div>
                                    </div>

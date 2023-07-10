@@ -27,7 +27,7 @@
 <script src="/resources/js/getSetCookie.js"></script>
 
 <script>
-    $(function(){
+    $(function() {
     	$("#masterListTable").DataTable({
     		displayLength : setDisplayLength()
     	    , bAutoWidth : false
@@ -37,14 +37,20 @@
 	    	    , {targets : 2, width : "20%"}
 	    	    , {targets : 3, width : "20%"}
 	    	    , {targets : 4, width : "20%"}
+	    	    , {targets : 5, visible : false} // detailHistoryCnt
     	    ]
     	});
     	$("#masterListTable").on('click', 'tbody tr', function () {
     		var row = $("#masterListTable").DataTable().row($(this)).data();
     		var id = row[0];
-    		/* todo wonho 07.01 */
-    		alert("준비중");
-    		return false;
+    		/* 23.07.06 update쪽에서 구분하기로 함
+    		var detailHistoryCnt = row[5];
+    		
+    		if(detailHistoryCnt > 0) {
+    			alert("Resource Data가 등록된 이력이 존재하여 수정할 수 없습니다.");
+    			return false;
+    		}
+    		 */
     		location.href = "resourceMasterUpdate.do?id="+id;
     	});
         window.addEventListener('unload', function() {
@@ -159,6 +165,9 @@
                                             <th>Type Code</th>
                                             <th>Type Code Name</th>
                                             <th>Process Name</th>
+                                            
+                                            <!-- 안보이는부분 -->
+                                            <th>detailHistoryCnt</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -169,6 +178,9 @@
 	                                            <td>${item.processTypeExclusiveCd}</td>
 	                                            <td>${item.processTypeExclusiveCdNm}</td>
 	                                            <td>${item.processName}</td>
+	                                            
+	                                            <!-- 안보이는부분 -->
+	                                            <td>${item.detailHistoryCnt}</td>
                                         	</tr>
 										</c:forEach>
                                     </tbody>

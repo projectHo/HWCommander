@@ -19,11 +19,20 @@
 <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
         
 <script>
-
-    $(function(){
+    $(function() {
     	dataSetting();
     	
+    	$("#processLgCd").attr("disabled", true);
+    	$("#processTypeExclusiveCd").attr("disabled", true);
+    	$("#viewId").attr("disabled", true);
+    	
         $('#btn_master_update').on("click", function () {
+        	
+    		if("${selectData.detailHistoryCnt}" > 0) {
+    			alert("Resource Data가 등록된 이력이 존재하여 수정할 수 없습니다.");
+    			return false;
+    		}
+    		
         	if(!validationCheck()) {
         		return false;
         	}
@@ -33,27 +42,14 @@
         	}
         });
         
-        // 서핑 제거
-		$('#processLgCd').find('option').each(function() {
-			if("03" == $(this).val()) {
-				$(this).hide();
-			}
-  	    });
-        
-		processTypeExclusiveCodeInit();
-        
-		$('#processLgCd').change(function() {
-			processLgCdChange();
-		});
     });
     
 function dataSetting() {
-	/* 
 	$("#processTypeExclusiveCd").val("${selectData.processTypeExclusiveCd}");
-	$("#processTypeExclusiveCdView").val("${selectData.processTypeExclusiveCd}");
-	$("#processTypeExclusiveCdNm").val("${selectData.processTypeExclusiveCdNm}");
 	$("#processLgCd").val("${selectData.processLgCd}");
-	 */
+	$("#processName").val("${selectData.processName}");
+	$("#viewId").val("${selectData.id}");
+
 	$("#id").val("${selectData.id}");
 }
     
@@ -78,55 +74,18 @@ function goMasterUpdate() {
 }
 
 function validationCheck() {
-	if("00" == $('#processLgCd').val()) {
-		alert("Process Large Code를 선택하세요.");
-		return false;
-	}
-	
-	if("00" == $('#processTypeExclusiveCd').val()) {
-		alert("Process Type Exclusive Code를 선택하세요.");
-		return false;
-	}
-	
 	if("" == $('#processName').val().trim() || null == $('#processName').val().trim()) {
 		alert("Process Name을 입력하세요.");
+		$('#processName').focus();
 		return false;
 	}
 	
 	return true;
 }
 
-function processTypeExclusiveCodeInit() {
-    // 화면 로드시 초기화 Process Large Code 선택시에만 나오도록
-	$('#processTypeExclusiveCd').find('option').each(function() {
-		if("00" == $(this).val()) {
-			$(this).show();
-		}else {
-			$(this).hide();
-		}
-    });
+function goDetailRegist() {
+	location.href="resourceDetailRegist.do?id="+$('#id').val();
 }
-
-function processLgCdChange() {
-	processTypeExclusiveCodeInit();
-	$('#processTypeExclusiveCd').val("00");
-	
-	    var filter = $('#processLgCd').val();
-	  	var $options = $('#processTypeExclusiveCd').find('option');
-	  	
-	$options.each(function() {
-		if("00" == filter) {
-			$(this).show();
-		}
-		
-		if($(this).attr("plgcd") == filter) {
-			$(this).show();
-		}else {
-			$(this).hide();
-		}
-    });
-}
-
 </script>
 </head>
     <body class="sb-nav-fixed">
@@ -218,10 +177,22 @@ function processLgCdChange() {
                             </div>
                         </div>
                         <div class="card mb-4">
+                            <div class="card-body">
+                                <p class="mb-0">Resource Data(Detail)가 등록된 이력이 존재하면 수정할 수 없습니다.</p>
+                                <p class="mb-0">Id ~~? 를 클릭하여 본 Category(Master)의 Resource Data(Detail) 등록화면으로 이동할 수 있습니다.</p>
+                            </div>
+                        </div>
+                        <div class="card mb-4">
 							<div class="card-body">
                                <form id="master_update_form">
                                    <input type="hidden" id="id" name="id">
                                    <div class="row mb-3">
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0" onclick="javascript:goDetailRegist()">
+                                               <input class="form-control" id="viewId" name="viewId" type="text" placeholder="Enter viewId"/>
+                                               <label for="viewId">Id</label>
+                                           </div>
+                                       </div>
                                        <div class="col-md-3">
                                            <div class="form-floating">
 												<select class="form-select pt-4" id="processLgCd" name="processLgCd">
@@ -238,7 +209,7 @@ function processLgCdChange() {
 												<select class="form-select pt-4" id="processTypeExclusiveCd" name="processTypeExclusiveCd">
 												  <option value="00" selected>-선택-</option>
 												  <c:forEach var="item" items="${resourceTypeCodeList}">
-													  <option plgcd="${item.processLgCd}" value="${item.processTypeExclusiveCd}">${item.processTypeExclusiveCdNm}</option>
+													  <option value="${item.processTypeExclusiveCd}">${item.processTypeExclusiveCdNm}</option>
 												  </c:forEach>
 												</select>
 												<label for="processTypeExclusiveCd">Process Type Exclusive Code</label>

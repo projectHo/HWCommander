@@ -12,6 +12,7 @@ public class OrderMasterHistoryVO {
 	private String orderName;
 	private int totOrderPrice;
 	private String orderStateCd;
+	private String ordererUserId;
 	private String ordererName;
 	private String ordererHpNumber;
 	private String ordererMail;

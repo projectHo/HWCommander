@@ -2,6 +2,7 @@ package com.hw.dao;
 
 import java.util.List;
 
+import com.hw.model.ProcessResourceDetailHistoryVO;
 import com.hw.model.ProcessResourceDetailVO;
 import com.hw.model.ProcessResourceMasterVO;
 import com.hw.model.ProcessResourceTypeCodeInfoVO;
@@ -17,6 +18,12 @@ public interface ProcessResourceDAO {
 	public List<ProcessResourceMasterVO> getProcessResourceMasterAllList(ProcessResourceMasterVO processResourceMasterVO);
 	public Integer updateProcessResourceMasterVO(ProcessResourceMasterVO processResourceMasterVO);
 	
+	public Integer getProcessResourceDetailVOMaxSeq(String id);
 	public Integer insertProcessResourceDetailVO(ProcessResourceDetailVO processResourceDetailVO);
 	public List<ProcessResourceDetailVO> getProcessResourceDetailAllList(ProcessResourceDetailVO processResourceDetailVO);
+	public Integer updateProcessResourceDetailVO(ProcessResourceDetailVO processResourceDetailVO);
+	public Integer resourceMappingValueDupliChk(ProcessResourceDetailVO processResourceDetailVO);
+	
+	public Integer insertProcessResourceDetailHistoryVO(ProcessResourceDetailHistoryVO processResourceDetailHistoryVO);
+	public Integer getProcessResourceDetailHistoryVOMaxHistorySeq(ProcessResourceDetailVO processResourceDetailVO);
 }

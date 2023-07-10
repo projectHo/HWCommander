@@ -27,32 +27,43 @@
 <script src="/resources/js/getSetCookie.js"></script>
 
 <script>
-    $(function(){
+    $(function() {
     	$("#detailListTable").DataTable({
     		displayLength : setDisplayLength()
     	    , bAutoWidth : false
     	    , columnDefs : [
-	    	    {targets : 0, width : "12.5%"}
-	    	    , {targets : 1, width : "12.5%"}
-	    	    , {targets : 2, width : "12.5%"}
-	    	    , {targets : 3, width : "12.5%"}
-	    	    , {targets : 4, width : "12.5%"}
-	    	    , {targets : 5, width : "12.5%"}
-	    	    , {targets : 6, width : "12.5%"}
-	    	    , {targets : 7, width : "12.5%"}
+	    	    {targets : 0, width : "10%"}
+	    	    , {targets : 1, width : "5%"}
+	    	    , {targets : 2, width : "10%"}
+	    	    , {targets : 3, width : "15%"}
+	    	    , {targets : 4, width : "15%"}
+	    	    , {targets : 5, width : "15%"}
+	    	    , {targets : 6, width : "15%"}
+	    	    , {targets : 7, width : "15%"}
     	    ]
     	});
     	
     	$("#detailListTable").on('click', 'tbody tr', function () {
     		var row = $("#detailListTable").DataTable().row($(this)).data();
     		var id = row[0];
-    		location.href = "detailUpdate.do?id="+id;
+    		var seq = row[1];
+    		location.href = "resourceDetailUpdate.do?id="+id+"&seq="+seq;
     	});
     	
         window.addEventListener('unload', function() {
         	setCookie('displayLength', $("select[name=detailListTable_length]").val(), {'max-age': 1800});
        	});
     });
+    
+function goRegist() {
+	if("" == $('#registTargetId').val().trim() || null == $('#registTargetId').val().trim()) {
+		alert("Resource Data를 등록할 대상 Id를 입력하세요.");
+		$('#registTargetId').focus();
+		return false;
+	}
+	
+	location.href="resourceDetailRegist.do?id="+$('#registTargetId').val().trim();
+}
 </script>
 
 </head>
@@ -147,10 +158,11 @@
                             <div class="card-header">
 								<div class="d-flex">
 								  <div class="me-auto d-flex align-items-center">Search Resource Data(Detail)</div>
+                                  <div class="me-3">
+	                                  <input class="form-control form-control-sm" id="registTargetId" name="registTargetId" type="text" placeholder="Enter Regist Target Id" />
+                                  </div>
 								  <div>
-								  <!-- todo wonho 07.01 -->
-								  	<!-- <a class="btn btn-secondary btn-sm" href="resourceDetailRegist.do">등록</a> -->
-								  	<a class="btn btn-secondary btn-sm" href="javascript:alert('준비중');">등록</a>
+								  	<a class="btn btn-secondary btn-sm" href="javascript:goRegist()">등록</a>
 								  </div>
 								</div>
                             </div>
@@ -162,7 +174,7 @@
                                             <th>Seq</th>
                                             <th>Type Code</th>
                                             <th>Process Name</th>
-                                            <th>Variable Type Name</th>
+                                            <th>Variable Check Name</th>
                                             <th>Resource Name</th>
                                             <th>Resource Mapping Value</th>
                                             <th>Resource Score</th>
@@ -177,6 +189,7 @@
 	                                            <td>${item.processName}</td>
 	                                            <td>${item.variableChkNm}</td>
 	                                            <td>${item.resourceName}</td>
+	                                            <td>${item.resourceMappingValue}</td>
 	                                            <td>${item.resourceScore}</td>
                                         	</tr>
 										</c:forEach>

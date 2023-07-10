@@ -27,8 +27,7 @@
 <script src="/resources/js/getSetCookie.js"></script>
 
 <script>
-    $(function(){
-    	
+    $(function() {
     	$("#hddListTable").DataTable({
     		displayLength : setDisplayLength()
     	    , bAutoWidth : false

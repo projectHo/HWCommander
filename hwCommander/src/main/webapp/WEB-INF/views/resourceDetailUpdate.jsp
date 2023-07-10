@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - MAKER Update</title>
+<title>현우의 컴퓨터 공방 - Resource Data(Detail) Update</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <!-- Bootstrap CSS -->
@@ -19,33 +19,58 @@
 <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
         
 <script>
-
-    $(function(){
+var firstForm = null;
+    $(function() {
+    	
+    	$("#viewId").attr("disabled", true);
+    	$("#processLgCd").attr("disabled", true);
+    	$("#processTypeExclusiveCd").attr("disabled", true);
+    	$("#processName").attr("disabled", true);
+    	
+    	$('#variableChk').attr("disabled", true);
+    	$('#resourceMappingValue').attr("disabled", true);
+    	
     	dataSetting();
-        $('#btn_maker_update').on("click", function () {
+    	
+        $('#btn_detail_update').on("click", function () {
         	if(!validationCheck()) {
         		return false;
         	}
         	
         	if(confirm("수정 하시겠습니까?")) {
-        		goMakerUpdate();
+        		goResourceDataUpdate();
         	}
         });
     });
     
 function dataSetting() {
-	$("#makerName").val("${selectData.makerName}");
-	$("#asScore").val("${selectData.asScore}");
+	$("#processTypeExclusiveCd").val("${selectDataMaster.processTypeExclusiveCd}");
+	$("#processLgCd").val("${selectDataMaster.processLgCd}");
+	$("#processName").val("${selectDataMaster.processName}");
+	$("#viewId").val("${selectDataMaster.id}");
 	
-	$("#id").val("${selectData.id}");
+	$("#variableChk").val("${selectDataDetail.variableChk}");
+	$("#resourceName").val("${selectDataDetail.resourceName}");
+	$("#resourceMappingValue").val("${selectDataDetail.resourceMappingValue}");
+	$("#resourceScore").val("${selectDataDetail.resourceScore}");
+
+	$("#id").val("${selectDataMaster.id}");
+	$("#seq").val("${selectDataDetail.seq}");
+	
+	firstForm = $("#detail_update_form").serialize();
 }
     
-function goMakerUpdate() {
-    var form = $("#maker_update_form").serialize();
+function goResourceDataUpdate() {
+    var form = $("#detail_update_form").serialize();
+    
+    if(firstForm == form) {
+    	alert("변경된 내용이 없습니다.");
+    	return false;
+    }
     
     $.ajax({
         type: "post",
-        url: "/admin/makerUpdateLogic.do",
+        url: "/admin/resourceDetailUpdateLogic.do",
         data: form,
         dataType: 'json',
         success: function (data) {
@@ -54,37 +79,29 @@ function goMakerUpdate() {
         	}else {
         		alert("수정실패");
         	}
-        	window.location = "makerManagement.do";
+        	window.location = "resourceDetailManagement.do";
             console.log(data);
         }
     });
 }
 
 function validationCheck() {
-	if("" == $('#makerName').val().trim() || null == $('#makerName').val().trim()) {
-		alert("Maker Name을 입력하세요.");
+	if("" == $('#resourceName').val().trim() || null == $('#resourceName').val().trim()) {
+		alert("Resource Name을 입력하세요.");
+		$('#resourceName').focus();
 		return false;
 	}
 	
-	if("" == $('#asScore').val().trim() || null == $('#asScore').val().trim()) {
-		alert("AS Score를 입력하세요.");
+	if("" == $('#resourceScore').val().trim() || null == $('#resourceScore').val().trim()) {
+		alert("Resource Score를 입력하세요.");
+		$('#resourceScore').focus();
 		return false;
 	}
 	
-	
-	var asScore = parseInt($('#asScore').val().trim());
-	if(isNaN(asScore)) {
-		alert("AS Score는 문자열을 포함할 수 없습니다.");
-		return false;
-	}
-	
-	if(asScore > 999) {
-		alert("AS Score는 999 미만의 수여야 합니다.");
-		return false;
-	}
-	
-	if(asScore != parseFloat($('#asScore').val().trim())) {
-		alert("AS Score는 정수여야 합니다.");
+	var resourceScore = parseFloat($('#resourceScore').val().trim());
+	if(isNaN(resourceScore)) {
+		alert("Resource Score는 문자열을 포함할 수 없습니다.");
+		$('#resourceScore').focus();
 		return false;
 	}
 	
@@ -170,37 +187,93 @@ function validationCheck() {
             <div id="layoutSidenav_content">
 				<main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">MAKER Update</h1>
+                        <h1 class="mt-4">Resource Data(Detail) Update</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="main.do">Admin Page</a></li>
-                            <li class="breadcrumb-item"><a href="makerManagement.do">MAKER</a></li>
-                            <li class="breadcrumb-item active">MAKER Update</li>
+                            <li class="breadcrumb-item"><a href="resourceDetailManagement.do">Resource Data(Detail)</a></li>
+                            <li class="breadcrumb-item active">Resource Data(Detail) Update</li>
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                                MAKER를  수정합니다.
+                                Resource Data(Detail)를  수정합니다.
                             </div>
                         </div>
                         <div class="card mb-4">
 							<div class="card-body">
-                               <form id="maker_update_form">
+                               <form id="detail_update_form">
                                    <input type="hidden" id="id" name="id">
+                                   <input type="hidden" id="seq" name="seq">
                                    <div class="row mb-3">
                                        <div class="col-md-3">
                                            <div class="form-floating mb-3 mb-md-0">
-                                               <input class="form-control" id="makerName" name="makerName" type="text" placeholder="Enter makerName" />
-                                               <label for="makerName">Maker Name</label>
+                                               <input class="form-control" id="viewId" name="viewId" type="text" placeholder="Enter viewId"/>
+                                               <label for="viewId">Id</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+												<select class="form-select pt-4" id="processLgCd" name="processLgCd">
+												  <option value="00" selected>-선택-</option>
+												  <c:forEach var="item" items="${process_lg_cd}">
+													  <option value="${item.cd}">${item.nm}</option>
+												  </c:forEach>
+												</select>
+												<label for="processLgCd">Process Large Code</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+												<select class="form-select pt-4" id="processTypeExclusiveCd" name="processTypeExclusiveCd">
+												  <option value="00" selected>-선택-</option>
+												  <c:forEach var="item" items="${resourceTypeCodeList}">
+													  <option value="${item.processTypeExclusiveCd}">${item.processTypeExclusiveCdNm}</option>
+												  </c:forEach>
+												</select>
+												<label for="processTypeExclusiveCd">Process Type Exclusive Code</label>
                                            </div>
                                        </div>
                                        <div class="col-md-3">
                                            <div class="form-floating mb-3 mb-md-0">
-                                               <input class="form-control" id="asScore" name="asScore" type="text" placeholder="Enter asScore" />
-                                               <label for="asScore">AS Score</label>
+                                               <input class="form-control" id="processName" name="processName" type="text" placeholder="Enter processName" maxlength="25"/>
+                                               <label for="processName">Process Name</label>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="row mb-3">
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+												<select class="form-select pt-4" id="variableChk" name="variableChk">
+												  <option value="00" selected>-선택-</option>
+												  <option value="F">고정</option>
+												  <option value="C">CPU</option>
+												  <option value="G">GVA</option>
+												  <option value="RM">RAM(MaxRange)</option>
+												  <option value="RV">RAM(Volume)</option>
+												</select>
+												<label for="variableChk">Process Variable Check</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0">
+                                               <input class="form-control" id="resourceName" name="resourceName" type="text" placeholder="Enter resourceName" />
+                                               <label for="resourceName">Resource Name</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0">
+                                               <input class="form-control" id="resourceMappingValue" name="resourceMappingValue" type="text" placeholder="Enter resourceMappingValue" />
+                                               <label for="resourceMappingValue">Resource Mapping Value</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating mb-3 mb-md-0">
+                                               <input class="form-control" id="resourceScore" name="resourceScore" type="text" placeholder="Enter resourceScore" />
+                                               <label for="resourceScore">Resource Score</label>
                                            </div>
                                        </div>
                                    </div>
                                    <div class="mt-4 mb-0">
-                                       <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_maker_update">Update</a></div>
+                                       <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_detail_update">Update</a></div>
                                    </div>
                                </form>
                            </div>

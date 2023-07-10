@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="/resources/css/main.css">
 <script>
 <%-- var loginUser = '<%=(String)session.getAttribute("loginUser")%>'; --%>
-    $(function(){
+    $(function() {
     });
     
 function goCartPage() {

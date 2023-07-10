@@ -26,7 +26,7 @@
 <script src="/resources/js/getSetCookie.js"></script>
 
 <script>
-    $(function(){
+    $(function() {
     	
     	$("#caseListTable").DataTable({
     		displayLength : setDisplayLength()

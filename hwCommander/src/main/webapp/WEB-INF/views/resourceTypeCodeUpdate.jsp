@@ -20,7 +20,7 @@
         
 <script>
 
-    $(function(){
+    $(function() {
     	dataSetting();
     	
     	$("#processTypeExclusiveCdView").attr("disabled", true);
@@ -76,6 +76,7 @@ function goTypeCodeUpdate() {
 function validationCheck() {
 	if("" == $('#processTypeExclusiveCdNm').val().trim() || null == $('#processTypeExclusiveCdNm').val().trim()) {
 		alert("Process Type Exclusive Code Name을 입력하세요.");
+		$('#processTypeExclusiveCdNm').focus();
 		return false;
 	}
 	

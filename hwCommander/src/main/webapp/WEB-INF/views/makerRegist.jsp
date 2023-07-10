@@ -20,7 +20,7 @@
         
 <script>
 
-    $(function(){
+    $(function() {
         $('#btn_maker_regist').on("click", function () {
         	if(!validationCheck()) {
         		return false;
@@ -55,11 +55,13 @@ function goMakerRegist() {
 function validationCheck() {
 	if("" == $('#makerName').val().trim() || null == $('#makerName').val().trim()) {
 		alert("Maker Name을 입력하세요.");
+		$('#makerName').focus();
 		return false;
 	}
 	
 	if("" == $('#asScore').val().trim() || null == $('#asScore').val().trim()) {
 		alert("AS Score를 입력하세요.");
+		$('#asScore').focus();
 		return false;
 	}
 	
@@ -67,22 +69,24 @@ function validationCheck() {
 	var asScore = parseInt($('#asScore').val().trim());
 	if(isNaN(asScore)) {
 		alert("AS Score는 문자열을 포함할 수 없습니다.");
+		$('#asScore').focus();
 		return false;
 	}
 	
 	if(asScore > 999) {
 		alert("AS Score는 999 미만의 수여야 합니다.");
+		$('#asScore').focus();
 		return false;
 	}
 	
 	if(asScore != parseFloat($('#asScore').val().trim())) {
 		alert("AS Score는 정수여야 합니다.");
+		$('#asScore').focus();
 		return false;
 	}
 
 	return true;
 }
-
 </script>
 </head>
     <body class="sb-nav-fixed">
