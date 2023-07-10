@@ -138,9 +138,8 @@
 		
 		<script language="javascript" type="text/javascript" src="https://stdpay.inicis.com/stdjs/INIStdPay.js" charset="UTF-8"></script>
         <script type="text/javascript">
-            function paybtn() {
-                INIStdPay.pay('SendPayForm_id');
-            }
+        
+        
         </script>
     </head>
 

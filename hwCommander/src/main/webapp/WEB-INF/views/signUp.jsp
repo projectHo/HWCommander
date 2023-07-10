@@ -212,6 +212,7 @@ function findDaumAddr() {
             $("#zipcode").val(data.zonecode);
             $("#jibunAddr").val(data.jibunAddress);
             $("#roadAddr").val(data.roadAddress);
+            $("#detailAddr").val("");
         }
     }).open();
 }
@@ -305,7 +306,7 @@ function findDaumAddr() {
 					<div class="mb-3 row">
 					  <label for="detailAddr" class="text-light col-sm-2 col-form-label">상세주소</label>
 					  <div class="col-sm-7">
-					    <input type="text" class="form-control" id="detailAddr" name="detailAddr" maxlength="250" required>
+					    <input type="text" class="form-control" id="detailAddr" name="detailAddr" maxlength="500" required>
 					  </div>
 					</div>
 					<div class="mb-5 row">
