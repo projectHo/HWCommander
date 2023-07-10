@@ -24,27 +24,36 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
     <script>
 		var progress = 0;
 		function nextBtn() {
-			
+			console.log("1");
+			if($(".first-q-input").val() !== ""){
+				console.log("2");
+				sessionStorage.setItem("one-Data",$("#can-pay-val").val());
+				$(".next-btn").addClass('is-valid');
+				window.location.href = "estimateCalculationTwo.do";
+			}
 		}
+
 		function viewBtn() {
 			$(".calc-one-final").next().css("display","block");
+			$(".calc-one-final").addClass("is-invalid");
+			setTimeout(() => {
+				$(".calc-one-final").next().css("display","none");
+				$(".calc-one-final").removeClass("is-invalid");
+			}, 3000);
 		}
-		function isValidate(event){
-			if (this.valid()===false) {
-				event.preventDefault();
-				event.stopPropagation();
-				sessionStorage.clear();
-				return false;
-			}else {
-				console.log("true")
-				event.preventDefault();
-				$(this).addClass("was-validated");
-				// let formData = { price: $("#can-pay-val").val()};
-				sessionStorage.setItem("first-Data",$("#can-pay-val").val());
-				window.location.href = "estimateCalculationTwo.do";
-				return true;
+
+		function priceCheck(){
+			if($(".first-q-input").val() < 0){
+				alert("1만원 이상으로 입력해주세요~");
+				$(".first-q-input").val("");
+			}else if($(".first-q-input").val() > 500){
+				alert("500만원 이하로 입력해주세요!");
+				$(".first-q-input").val("");
+			}else if (isNaN(parseFloat($(".first-q-input").val())) === true){
+				alert("숫자만 입력해주세요!!");
+				$(".first-q-input").val("");
 			}
-		};
+		}
 			
 		function animateBackgroundColor() {
 			$(".donut-container").css(
@@ -71,56 +80,37 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 			setTimeout(goToZero, 20);
 			}
 		}
-
-		$(function () {
-
-			animateBackgroundColor();
-
-			const tooltipTriggerList = $('[data-bs-toggle="tooltip"]');
-			const tooltipList = tooltipTriggerList.map(function() {
-			return new bootstrap.Tooltip($(this)[0]);
-			}).get();
 			
+		let index = 0;
+		function typeText() {
 			const inputElement = $("#typingInput");
 			const text = "본체의 가용 예산 한도는 얼마입니까? (최대 500만원)";
-			let index = 0;
-			
-			function typeText() {
-				if (index < text.length) {
-					inputElement.val(function(i, val) {
-					return val + text.charAt(index);
-					});
-					index++;
-					setTimeout(typeText, 50);
-				}
+			if (index < text.length) {
+				inputElement.val(function(i, val) {
+				return val + text.charAt(index);
+				});
+				index++;
+				setTimeout(typeText, 50);
 			}
+		}
+
+		$(function () {
+			// bootstrap tooltip base
+			const tooltipTriggerList = $('[data-bs-toggle="tooltip"]');
+			const tooltipList = tooltipTriggerList.map(function() {
+				return new bootstrap.Tooltip($(this)[0]);
+			}).get();
+			// session set
+			if(sessionStorage.getItem("one-Data")){
+				$('#can-pay-val').val(sessionStorage.getItem("one-Data"));
+				sessionStorage.removeItem("one-Data");
+			}
+			
+			// functions
+			animateBackgroundColor();
 			
 			typeText();
 
-			if(sessionStorage.getItem("first-Data")){
-				$('#can-pay-val').val(sessionStorage.getItem("first-Data"));
-			}
-
-			$(() => {
-				'use strict';
-
-				const forms = $('.needs-validation');
-
-				forms.on('submit', event => {
-					const form = event.target;
-
-					if (!form.checkValidity()) {
-						event.preventDefault();
-						event.stopPropagation();
-						sessionStorage.clear();
-						form.classList.add('was-validated');
-						$("#can-pay-val").focus();
-					}else {
-						sessionStorage.setItem("first-Data",$("#can-pay-val").val());
-						form.classList.add('was-validated');
-					}
-				});
-			});
 		});
 
 		
@@ -155,31 +145,24 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 		 				<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="0원으로 입력시 요구사항의 최소 견적으로 자동 산출됩니다." style="cursor:pointer">
 		 			</div>
 		 		</div>
-		 		<form class="needs-validation" action="estimateCalculationTwo.do" novalidate>
 			 		<div class="row pb-2">
 			 			<div class="col">
 			 				<div class="input-group has-validation text-end d-flex flex-end justify-content-center margin-center mb-5 w-50 calc-input-element">
-							  <input type="number" class="form-control input-field text-end w-50" min="0" max="500" placeholder="ex) 300" id="can-pay-val" aria-describedby="inputGroupPrepend" required/>
+							  <input type="number" class="form-control input-field text-end w-50 first-q-input" min="0" max="500" placeholder="ex) 300" id="can-pay-val" aria-describedby="inputGroupPrepend" required oninput="javascript:priceCheck()"/>
 							  <span class="input-group-text" id="inputGroupPrepend">만원</span>
-							  <div class="invalid-feedback fs-5 one-correct-price-text" style="font-weight: bold;">정확한 금액을 입력해 주세요!</div>
 							</div>
 			 			</div>
 			 		</div>
 			 		<div class="row pb-2">
-		 		<!-- 	<div class="col">
-			 				<button type="submit" class="form-control marin-center w-50">이전 질문</button>
-			 			</div>
-	 			 -->
 	 			 		<div class="col"></div>
 			 			<div class="col">
 			 				<button type="button" class="form-control calc-one-final margin-center" onclick="javascript:viewBtn()">견적 보기</button>
-	                		<div class="invalid-feedback fs-5 calc-one-final-text text-center" style="display: none; font-weight: bold;">3페이지 까지는 필수 질문입니다!</div>
+	                		<div class="fs-5 calc-one-final-text text-center" style="display: none; font-weight: bold;">2페이지 까지는 필수 질문입니다!</div>
 			 			</div>
 			 			<div class="col">
-			 				<button type="submit" class="form-control margin-center w-50">다음 질문</button>
+			 				<button type="button" class="form-control margin-center w-50 next-btn" onclick="javascript:nextBtn()">다음 질문</button>
 			 			</div>
 			 		</div>
-		 		</form>
 		 	</div>
  		</div>
         <!-- 빈 영역 -->

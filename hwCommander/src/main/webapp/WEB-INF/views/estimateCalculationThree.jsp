@@ -25,20 +25,37 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-dragdata"></script>
 <script>
-	function clickEstimateBtn(){
-		window.location.replace("estimateCalculationResult.do");
+	function clickEstimateBtn(el){
 		let value = [];
+		$(el).addClass("is-valid");
+		setTimeout(()=>{
+			$(el).removeClass("is-valid");
+		}, 3000);
 		for(let i = 0 ; i<$(".hex-input").length; i++){
 			let storageValue = [$(".hex-input")[i].value];
 			value.push(storageValue);
 		}
-		if(sessionStorage.getItem("third-Data")){
-			sessionStorage.removeItem("third-Data");
+		if(sessionStorage.getItem("three-Data")){
+			sessionStorage.removeItem("three-Data");
 		}
-		sessionStorage.setItem("third-Data",JSON.stringify(value))
+		sessionStorage.setItem("three-Data",JSON.stringify(value))
+		window.location.href = "estimateCalculationResult.do";
 	}
-	function clickNextBtn(){
-		alert("네번째 질문 페이지")
+	function clickNextBtn(el){
+		let value = [];
+		$(el).addClass("is-valid");
+		setTimeout(()=>{
+			$(el).removeClass("is-valid");
+		}, 3000);
+		for(let i = 0 ; i<$(".hex-input").length; i++){
+			let storageValue = [$(".hex-input")[i].value];
+			value.push(storageValue);
+		}
+		if(sessionStorage.getItem("three-Data")){
+			sessionStorage.removeItem("three-Data");
+		}
+		sessionStorage.setItem("three-Data",JSON.stringify(value))
+		window.location.href = "estimateCalculationFour.do";
 	}
 	// donut
 	let progress = 0;
@@ -80,18 +97,18 @@
 	typeText();
 	
 	function returnTwoPage() {
-		window.location.replace("estimateCalculationTwo.do");
+		sessionStorage.removeItem("three-Data");
+		window.location.href = "estimateCalculationTwo.do";
 	}
 	var myChart ;
 	// hex chart.js
 	function createChart(){
-		var minDataValue = 0; // 데이터의 최소값
+		var minDataValue = 0; 
 
-		// 데이터 레이더 차트 생성
 		var ctx = $('#myChart')[0].getContext('2d');
 		var gradient = ctx.createLinearGradient(0, 0, 0, 300);
-		gradient.addColorStop(0, '#925DE7'); // 상단 색상
-		gradient.addColorStop(1, '#2EADDD'); // 하단 색상
+		gradient.addColorStop(0, 'rgba(153, 50, 204, 0.9)'); 
+		gradient.addColorStop(1, 'rgba(37, 180, 220, 0.9)'); 
 
 		myChart = new Chart(ctx, {
 			type: 'radar',
@@ -100,7 +117,7 @@
 				datasets: [{
 				label: '',
 				data: [1, 1, 1, 1, 1, 1],
-				backgroundColor: gradient, // 그라디언트 색상
+				backgroundColor: gradient,
 				}]
 			},
 			options: {
@@ -112,7 +129,7 @@
 					min: minDataValue,
 					max: 2,
 					ticks: {
-					display: false,
+					// display: false,
 					stepSize: 0.01
 					}
 				}
@@ -141,7 +158,11 @@
 						}
 					}
 				},
-				// afterDraw 콜백을 사용하여 추가 라인 그리기
+				animation: {
+					duration: 500,
+					easing: 'easeOutQuart'
+				},
+
 				afterDraw: function(chart) {
 					var ctx = chart.ctx;
 					var scale = chart.scales.r;
@@ -149,9 +170,9 @@
 					if (scale.max === 2) {
 						ctx.save();
 						ctx.beginPath();
-						ctx.strokeStyle = '#000000'; // 라인 색상
-						ctx.lineWidth = 2; // 라인 두께
-						ctx.setLineDash([5, 5]); // 점선 스타일
+						ctx.strokeStyle = '#000000';
+						ctx.lineWidth = 2;
+						ctx.setLineDash([5, 5]);
 						ctx.moveTo(scale.xCenter, scale.yCenter);
 						ctx.lineTo(scale.xCenter + scale.radius, scale.yCenter);
 						ctx.stroke();
@@ -273,8 +294,8 @@
 	
 	$(function () {
 		createChart();
-		if(sessionStorage.getItem("third-Data")){
-			const storedValues =JSON.parse(sessionStorage.getItem("third-Data"));
+		if(sessionStorage.getItem("three-Data")){
+			const storedValues =JSON.parse(sessionStorage.getItem("three-Data"));
 			
 			const ranges = $(".hex-input");
 			for(let i = 0 ; i<ranges.length ; i++){
@@ -318,7 +339,7 @@
 			<!-- 빈 영역 -->
 			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
 			<!-- 작업영역 -->
-			<div class="estimateCalc_background p-2" style="width: 70%!important;">
+			<div class="estimateCalc_background p-2 pt-5 pb-5" style="width: 70%!important;">
 				<div class="w-75 container">
 					<div class="row mt-4 pb-4">
 						<div class="col-2 text-center">
@@ -330,7 +351,7 @@
 							<input id="typingInput" class="form-control text-center" type="text" readonly aria-label="예산 편성" disabled />
 						</div>
 					    <div class="col-2 d-flex flex-column-reverse">
-							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="이 페이지부터 견적 산출이 가능합니다!" style="cursor:pointer">
+							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="이 페이지부터는 선택 사항입니다!" style="cursor:pointer">
 						</div>
 		   
 					</div>
@@ -339,28 +360,54 @@
 							<div class="col-6">
 								<div class="row">
 									<div class="hex-container mb-5">
-										<div class="hex m-4">
-											<svg xmlns="http://www.w3.org/2000/svg" width="400" height="360" class="bi bi-hexagon mt-4" viewBox="0 0 16 16">
+										<div class="hex m-4 d-flex justify-content-center">
+											<!-- <svg xmlns="http://www.w3.org/2000/svg" width="400" height="360" class="bi bi-hexagon mt-4" viewBox="0 0 16 16">
 												<defs>
 													<linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
 													<stop offset="0%" style="stop-color: #C635ED;" />
 													<stop offset="100%" style="stop-color: #955CE7;" />
 													</linearGradient>
 												</defs>
-												<path d="M14 4.577v6.846L8 15l-6-3.577V4.577L8 1l6 3.577zM8.5.134a1 1 0 0 0-1 0l-6 3.577a1 1 0 0 0-.5.866v6.846a1 1 0 0 0 .5.866l6 3.577a1 1 0 0 0 1 0l6-3.577a1 1 0 0 0 .5-.866V4.577a1 1 0 0 0-.5-.866L8.5.134z" fill="url(#gradient)" />
+												<path d="M14 4.577v6.846L8 15l-6-3.577V4.577L8 1l6 3.577zM8.5.134a1 1 0 0 0-1 0l-6 3.577a1 1 0 0 0-.5.866v6.846a1 1 0 0 0 .5.866l6 3.577a1 1 0 0 0 1 0l6-3.577a1 1 0 0 0 .5-.866V4.577a1 1 0 0 0-.5-.866L8.5.134z" fill="url(#gradient)" stroke-width="0.5"  />
+											</svg> -->
+											<svg fill="url(#gradient)" class="mt-4" width="90%" height="90%" viewBox="0 0 250 250" id="Flat" xmlns="http://www.w3.org/2000/svg">
+												<defs>
+												  <linearGradient id="gradient" x1="0%" y1="0%" x2="0%" y2="100%">
+													<stop offset="0%" style="stop-color: #C635ED;" />
+													<stop offset="100%" style="stop-color: #955CE7;" />
+												  </linearGradient>
+												</defs>
+												<g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+												<g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+												<g id="SVGRepo_iconCarrier">
+												  <path d="M128,234.80127a12.00322,12.00322,0,0,1-5.90466-1.54395l-84-47.47827A12.01881,12.01881,0,0,1,32,175.33228V80.66772A12.019,12.019,0,0,1,38.09521,70.221l84.00013-47.47827a12.06282,12.06282,0,0,1,11.80932,0l84,47.47827A12.01881,12.01881,0,0,1,224,80.66772v94.66456a12.019,12.019,0,0,1-6.09521,10.44677l-84.00013,47.47827A12.00322,12.00322,0,0,1,128,234.80127Zm0-205.60889a4.00152,4.00152,0,0,0-1.96814.51465l-84,47.47827A4.00672,4.00672,0,0,0,40,80.66772v94.66456a4.00658,4.00658,0,0,0,2.032,3.48242L126.03186,226.293a4.0215,4.0215,0,0,0,3.93628,0l84-47.47827A4.00672,4.00672,0,0,0,216,175.33228V80.66772a4.00658,4.00658,0,0,0-2.032-3.48242L129.96814,29.707A4.00152,4.00152,0,0,0,128,29.19238Z"></path>
+												</g>
 											</svg>
-											<div class="hex-text hex-text1 fs-4" onmouseenter="javascript:mouseEnter(this)">발열</div>
-											<div class="hex-text hex-text2 fs-4" onmouseenter="javascript:mouseEnter(this)">소재</div>
-											<div class="hex-text hex-text3 fs-4" onmouseenter="javascript:mouseEnter(this)">QC</div>
-											<div class="hex-text hex-text4 fs-4" onmouseenter="javascript:mouseEnter(this)">AS</div>
-											<div class="hex-text hex-text5 fs-4" onmouseenter="javascript:mouseEnter(this)">안정성</div>
-											<div class="hex-text hex-text6 fs-4" onmouseenter="javascript:mouseEnter(this)">소음</div>
+											<div class="lines w-100">
+												<div class="line l-one w-100"><svg width="93%" height="93%" viewBox="0 0 24.00 24.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#bdbdbd" transform="rotate(0)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Interface / Line_Xl"> <path id="Vector" d="M12 21V3" stroke="#a3a3a3" stroke-width="0.21600000000000003" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg></div>
+												<div class="line l-two w-100" style="rotate: -74deg;"><svg width="93%" height="93%" viewBox="0 0 24.00 24.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#bdbdbd" transform="rotate(-45)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Interface / Line_Xl"> <path id="Vector" d="M12 21V3" stroke="#a3a3a3" stroke-width="0.21600000000000003" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg></div>
+												<div class="line l-three w-100" style="rotate: 74deg;"><svg width="93%" height="93%" viewBox="0 0 24.00 24.00" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#bdbdbd" transform="rotate(45)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Interface / Line_Xl"> <path id="Vector" d="M12 21V3" stroke="#a3a3a3" stroke-width="0.21600000000000003" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg></div>
+											</div>
 											<canvas id="myChart"></canvas>
+											<div class="hex-text first-hex-text w-100 d-flex justify-content-center">
+												<div class="fs-4" onmouseenter="javascript:mouseEnter(this)">발열</div>
+											</div>
+											<div class="hex-text second-hex-text w-100 d-flex justify-content-between p-3">
+												<div class="fs-4" onmouseenter="javascript:mouseEnter(this)">소재</div>
+												<div class="fs-4" onmouseenter="javascript:mouseEnter(this)">QC</div>
+											</div>
+											<div class="hex-text third-hex-text w-100 d-flex justify-content-between ps-3">
+												<div class="fs-4" onmouseenter="javascript:mouseEnter(this)">AS</div>
+												<div class="fs-4" onmouseenter="javascript:mouseEnter(this)">안정성</div>
+											</div>
+											<div class="hex-text fourth-hex-text w-100 d-flex justify-content-center">
+												<div class="fs-4" onmouseenter="javascript:mouseEnter(this)">소음</div>
+											</div>
 											<svg onclick="javascript:clickReset()" class="reset-svg" fill="#000000" width="40px" height="40px" viewBox="-652.8 -652.8 3225.60 3225.60" xmlns="http://www.w3.org/2000/svg" stroke="#000000" stroke-width="65.28" transform="matrix(-1, 0, 0, -1, 0, 0)rotate(0)"><g id="SVGRepo_bgCarrier" stroke-width="0" transform="translate(0,0), scale(1)"><path transform="translate(-652.8, -652.8), scale(201.6)" fill="url(#gradient)" d="M9.166.33a2.25 2.25 0 00-2.332 0l-5.25 3.182A2.25 2.25 0 00.5 5.436v5.128a2.25 2.25 0 001.084 1.924l5.25 3.182a2.25 2.25 0 002.332 0l5.25-3.182a2.25 2.25 0 001.084-1.924V5.436a2.25 2.25 0 00-1.084-1.924L9.166.33z" strokewidth="0"></path></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#25b4dc " stroke-width="280.32"> <path d="M960 0v213.333c411.627 0 746.667 334.934 746.667 746.667S1371.627 1706.667 960 1706.667 213.333 1371.733 213.333 960c0-197.013 78.4-382.507 213.334-520.747v254.08H640V106.667H53.333V320h191.04C88.64 494.08 0 720.96 0 960c0 529.28 430.613 960 960 960s960-430.72 960-960S1489.387 0 960 0" fill-rule="evenodd"></path> </g><g id="SVGRepo_iconCarrier"> <path d="M960 0v213.333c411.627 0 746.667 334.934 746.667 746.667S1371.627 1706.667 960 1706.667 213.333 1371.733 213.333 960c0-197.013 78.4-382.507 213.334-520.747v254.08H640V106.667H53.333V320h191.04C88.64 494.08 0 720.96 0 960c0 529.28 430.613 960 960 960s960-430.72 960-960S1489.387 0 960 0" fill-rule="evenodd"></path> </g></svg>
 										</div>
 									</div>
 								</div>
-								<div class="row justify-content-center mt-5" style="padding-right: 2.1rem;">
+								<div class="row w-100 justify-content-center m-4 mt-5" style="padding-right: 2.1rem;">
 									<input type="range" class="form-range w-50" min="0" max="2" step="0.01" id="hex-val-total" oninput="javascript:totalValue()">
 									<label for="hex-val-total" class="form-label text-center ms-2" onmouseenter="javascript:mouseEnter(this)">가성비 <- 메인스트림 -> 프리미엄</label>
 								</div>
@@ -435,10 +482,10 @@
 								<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:returnTwoPage()">이전 질문</button>
 							</div>
 							<div class="col">
-								<button type="button" class="form-control calc-two-final margin-center" onclick="javascript:clickEstimateBtn()">견적 보기</button>
+								<button type="button" class="form-control calc-two-final margin-center" onclick="javascript:clickEstimateBtn(this)">견적 보기</button>
 							</div>
 							<div class="col">
-								<button type="button" class="form-control w-50 margin-left-auto" onclick="javascript:clickNextBtn()">다음 질문</button>
+								<button type="button" class="form-control w-50 margin-left-auto" onclick="javascript:clickNextBtn(this)">다음 질문</button>
 							</div>
 						</div>
 					</form>

@@ -24,11 +24,12 @@
 <script>
 	function deleteButton(elem) {
 		var forms = $(".needs-validation");
-		const delInput = $("<input>").addClass("delete-input").attr("required",true).css("display","none");
 		$(elem).parent().parent().remove();
+		if($(elem).parent().siblings("th").find("input").val() === "서핑"){
+			$("#work-surf").prop('checked', false);
+		}
 		if ($(".table-body").find("tr").length === 0) {
 			$(".table-container").css("display", "none");
-			forms.append(delInput);
 			forms.removeClass("was-validated");
 		}
 	};
@@ -81,7 +82,6 @@
 			$("#use-collector").modal('hide');
 			$(".table-container").css("display", "block");
 			$(".table-list-names").css("display","table-row");
-			$(".delete-input").remove();
 			$("input#search-input").val('');
 			$("#label-table").find("tr").remove();
 		}else{
@@ -91,9 +91,6 @@
 	function modalCancel() {
 		$("input#search-input").val('');
 		$("#label-table").find("tr").remove();
-
-
-
 		const removableTr = $(".table-list-names").filter(function(){
 			return $(this).css("display")==="none";
 		});
@@ -101,11 +98,12 @@
 	};
 
 	function returnOnePage(){
-		window.location.href = "estimateCalculationOne.do";
+		sessionStorage.removeItem("two-Data");
+		window.location.href ="estimateCalculationOne.do";
 	}
 
 	function makeModalList(id, elem) {
-		var dataBtn = JSON.stringify(${processResourceTypeCodeInfoVOList});
+		var dataBtn = ${processResourceTypeCodeInfoVOList};
 		var modalList = ${processResourceMasterVOList};
 		
 		const clickedTab = id;
@@ -191,10 +189,66 @@
 	}
 
 	function viewBtn() {
-		$(".calc-two-final-text").css("display","block");
-		setTimeout(() => {
-			$(".calc-two-final-text").css("display","none");
-		}, 3000);
+		let totalRating = 0;
+		$(".use-list-rating").each(function() {
+			totalRating += parseInt($(this).val(), 10) || 0;
+		});
+		if(totalRating === 100){
+			$(".calc-two-final-text").addClass("is-valid");
+			$(".calc-two-final").addClass("is-valid");
+			let value = [];
+			for(let i = 0 ; i<$(".use-list-name").length; i++){
+				let paddingI = String(i+1).padStart(2,'0');
+				let storageValue = [$(".use-list-name")[i].id,$(".use-list-rating")[i].value,$(".use-list-genre")[i].id];
+				value.push(storageValue);
+			}
+			if(sessionStorage.getItem("two-Data")){
+				sessionStorage.removeItem("two-Data");
+			}
+			sessionStorage.setItem("two-Data",JSON.stringify(value));
+			window.location.href ="estimateCalculationResult.do";
+		}else{
+			$(".calc-two-final-text").css("display","block");
+			$(".calc-two-final").addClass("is-invalid");
+			setTimeout(() => {
+				$(".calc-two-final-text").css("display","none");
+				$(".calc-two-final").removeClass("is-invalid");
+			}, 3000);
+		}
+	}
+	function nextBtn(){
+		let totalRating = 0;
+		$(".use-list-rating").each(function() {
+			totalRating += parseInt($(this).val(), 10) || 0;
+		});
+		if(totalRating === 100){
+			$(".next-two-btn").addClass("is-valid");
+			let value = [];
+			for(let i = 0 ; i<$(".use-list-name").length; i++){
+				let paddingI = String(i+1).padStart(2,'0');
+				let storageValue = [$(".use-list-name")[i].id,$(".use-list-rating")[i].value,$(".use-list-genre")[i].id];
+				value.push(storageValue);
+			}
+			if(sessionStorage.getItem("two-Data")){
+				sessionStorage.removeItem("two-Data");
+			}
+			sessionStorage.setItem("two-Data",JSON.stringify(value))
+			window.location.href ="estimateCalculationThree.do";
+		}else if (totalRating !== 100){
+			$(".calc-two-final-text-rating").css("display", "block");
+			$(".next-two-btn").addClass("is-invalid");
+			setTimeout(() => {
+				$(".calc-two-final-text-rating").css("display", "none");
+				$(".next-two-btn").removeClass("is-invalid");
+			}, 3000);
+		}else if ($(".table-container").css("display","none")){
+			$(".calc-two-final-text-use").css("display", "block");
+			$(".next-two-btn").addClass("is-invalid");
+			setTimeout(() => {
+				$(".calc-two-final-text-use").css("display", "none");
+				$(".next-two-btn").removeClass("is-invalid");
+			}, 3000);
+		}
 	}
 	$(function () {
 	// donut
@@ -202,9 +256,8 @@
 	// modal esc delete
 	$('#use-collector').off('keydown.dismiss.bs.modal');
 	// session set
-	if(sessionStorage.getItem("second-Data")){
-		$(".delete-input").remove();
-		const storedValues = JSON.parse(sessionStorage.getItem("second-Data"));
+	if(sessionStorage.getItem("two-Data")){
+		const storedValues = JSON.parse(sessionStorage.getItem("two-Data"));
 		var dataBtn = ${processResourceTypeCodeInfoVOList};
 		var modalList = ${processResourceMasterVOList};
 		storedValues.forEach(val => {
@@ -263,9 +316,9 @@
 		$("#use-collector").modal('hide');
 		$(".table-container").css("display", "block");
 		$(".table-list-names").css("display","table-row");
-		$(".delete-input").remove();
 		$("input#search-input").val('');
 		$("#label-table").find("tr").remove();
+		sessionStorage.removeItem("two-Data");
 	}
 	// search input
 	
@@ -332,8 +385,7 @@
 		return new bootstrap.Tooltip($(this)[0]);
 	}).get();
 	
-	// add base input
-	// $(".needs-validation").append($("<input>").attr({type: "text",class: "delete-input",required: true,style: "display:none;"}));
+	
 	// typing question text
 	let index = 0;
 	function typeText() {
@@ -417,12 +469,10 @@
 		const tdElement3 = $("<td></td>");
 		const deleteButton = $("<button></button>").addClass("btn btn-danger").text("삭제");
 		deleteButton.on("click", () => {
-			let delInput = $(".delete-input");
 			newRow.remove();
 			$("#work-surf").prop('checked',false);
 			if ($(".table-body").find("tr").length === 0) {
 				$(".table-container").css("display", "none");
-				forms.append(delInput);
 				forms.removeClass("was-validated");
 			}
 		});
@@ -437,51 +487,9 @@
 			tableBody.append(newRow);
 		}
 
-		$(".delete-input").remove();
 		}
 	});
-	var forms = $(".needs-validation");
-	(function() {
-		"use strict";
-		const calcTwoTextUse = $(".calc-two-final-text-use");
-		const calcTwoTextRating = $(".calc-two-final-text-rating");
-
-		
-		forms.each(function() {
-			$(this).on("submit", function(event) {
-				const countRating = $('.use-list-rating').length;
-				let totalRating = 0;
-				$('.use-list-rating').each(function() {
-					totalRating += parseInt($(this).val(), 10) || 0;
-				});
-				if ($(".table-container").css("display")==="block" && totalRating !== 100){
-					event.preventDefault();
-					calcTwoTextRating.css("display", "block");
-					setTimeout(() => {
-						calcTwoTextRating.css("display", "none");
-					}, 3000);
-				}else if (!this.checkValidity()) {
-					event.preventDefault();
-					calcTwoTextUse.css("display", "block");
-					setTimeout(() => {
-						calcTwoTextUse.css("display", "none");
-					}, 3000);
-				} else if (this.checkValidity() && totalRating === 100){
-					$(this).addClass("was-validated");
-					let value = [];
-					for(let i = 0 ; i<$(".use-list-name").length; i++){
-						let paddingI = String(i+1).padStart(2,'0');
-						let storageValue = [$(".use-list-name")[i].id,$(".use-list-rating")[i].value,$(".use-list-genre")[i].id];
-						value.push(storageValue);
-					}
-					if(sessionStorage.getItem("second-Data")){
-						sessionStorage.removeItem("second-Data");
-					}
-					sessionStorage.setItem("second-Data",JSON.stringify(value))
-				}
-			});
-		});
-	})();
+	
 });
 </script>
 </head>
@@ -505,7 +513,7 @@
 			 				<input id="typingInput" class="form-control text-center" type="text" readonly aria-label="사용 용도" disabled />
 			 			</div>
 						<div class="col-2 d-flex flex-column-reverse">
-			 				<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="기타 선택시 일반적인 PC로 구성됩니다!" style="cursor:pointer">
+			 				<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="목록 중 기타 항목 선택시 장르의 평균적인 PC로 구성됩니다!" style="cursor:pointer">
 			 			</div>
 			
 			 		</div>
@@ -530,7 +538,6 @@
 							    </div>
 				 			</div>
 						</div>
-						<form class="needs-validation" action="estimateCalculationThree.do" novalidate>
 							<div class="row table-style p-1 mb-3 table-container" style="display: none;">
 								<div class="container">
 									<table class="table table-submit">
@@ -552,16 +559,14 @@
 								</div>
 								<div class="col">
 									<button type="button" class="form-control calc-two-final margin-center" onclick="javascript:viewBtn()">견적 보기</button>
-									<div class="invalid-feedback fs-5 calc-two-final-text text-center" style="display: none; font-weight: bold;">3페이지 까지는 필수 질문입니다!</div>
+									<div class="invalid-feedback fs-5 calc-two-final-text text-center" style="display: none; font-weight: bold;">2페이지 까지는 필수 질문입니다!</div>
 									<div class="invalid-feedback fs-5 calc-two-final-text-use text-center" style="display: none; font-weight: bold;">사용 용도를 선택해주세요!</div>
 									<div class="invalid-feedback fs-5 calc-two-final-text-rating text-center" style="display: none; font-weight: bold;">비중을 100%로 맞춰주세요!</div>
 								</div>
 								<div class="col">
-									<button type="submit" class="form-control w-50 margin-left-auto">다음 질문</button>
+									<button type="button" class="form-control w-50 margin-left-auto next-two-btn" onclick="javascript:nextBtn()">다음 질문</button>
 								</div>
 							</div>
-							<input type="text" class="delete-input" required style="display:none;">
-						</form>
 				 		<div class="modal fade" id="use-collector" tabindex="-1" aria-labelledby="collecter" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
 						  <div class="modal-dialog">
 						    <div class="modal-content">
