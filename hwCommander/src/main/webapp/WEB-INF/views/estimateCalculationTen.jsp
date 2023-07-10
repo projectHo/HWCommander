@@ -72,7 +72,10 @@
 	function clickNoBtn(){
 		sessionStorage.setItem("ten-Data","0");
 	}
-	
+	function returnPageBtn(){
+		sessionStorage.removeItem("ten-Data");
+		window.location.href = "estimateCalculationNine.do";
+	}
 	function clickEstimateBtn(el){
 		if($("#answer-y").prop("checked") === false && $("#answer-n").prop("checked") === false && $("#answer-o").prop("checked") === false && $("#answer-z").prop("checked") === false){
 			alert("선택은 필수에요!");
@@ -156,7 +159,7 @@
 					</div>
 					<div class="row mb-4">
 						<div class="col-4">
-							
+							<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:returnPageBtn()">이전 질문</button>
 						</div>
 						<div class="col-4">
 							<button type="button" class="form-control calc-two-final margin-center" onclick="javascript:clickEstimateBtn(this)">견적 보기</button>
