@@ -11,6 +11,7 @@ public class OrderMasterVO {
 	private String orderName;
 	private int totOrderPrice;
 	private String orderStateCd;
+	private String orderStateCdNm;
 	private String ordererUserId;
 	private String ordererName;
 	private String ordererHpNumber;

@@ -102,20 +102,6 @@
     	$("#recipientRoadAddr").val("${loginUser.roadAddr}");
     	$("#recipientDetailAddr").val("${loginUser.detailAddr}");
     	
-    	/* 
-    	private String recipientName;
-    	private String recipientHpNumber;
-    	private String recipientHpNumber2;
-    	private String recipientZipcode;
-    	recipientJibunAddr
-    	recipientRoadAddr
-    	recipientDetailAddr
-    	private String orderRequest;
-    	private String deliveryRequest;
-    	private String paymentMethod;
-    	private String waybillNumber;
-    	 */
-    	 
         // 주소찾기
         $('#btn_addr_search').on("click", function () {
         	findDaumAddr();
@@ -124,15 +110,82 @@
     });
     
 function btnCheckOutClick() {
-	$("#inicis_goodname").val("${productName}");
-	$("#inicis_buyername").val($("#ordererName").val());
-	$("#inicis_buyertel").val($("#ordererHpNumber").val());
-	$("#inicis_buyeremail").val($("#ordererMail").val());
+	if(!validationCheck()) {
+		return false;
+	}
 	
-	console.log("테스트금액 : "+$("#inicis_price").val());
+    var orderRegistFormArray = [];
+    
+    var totOrderPrice = 0;
+	$('#productListInfoTable tr').each(function (index) {
+		if(0 != index) {
+			// orderDetail Set
+			var item = {
+				id : $(this).find('input[name=id]').val(),
+				productId : $(this).find('input[name=productId]').val(),
+				productPrice : $(this).find('input[name=productPrice]').val(),
+				productOrderQty : $(this).find('input[name=productOrderQty]').val()
+			};
+			orderRegistFormArray.push(item);
+			
+			//totOrderPrice set
+			totOrderPrice += parseInt($(this).find('input[name=productPrice]').val());
+		}
+	});
 	
-	INIStdPay.pay('inicisSendForm');
+	if(2 < $('#productListInfoTable tr').length) {
+		orderName += "외 "+($('#productListInfoTable tr').length-1)+"건";
+	}
 	
+	
+	var orderMasterVO = {
+		id : $('input[name=oid]').val(),
+		orderName : "${orderName}",
+		totOrderPrice : totOrderPrice,
+		orderStateCd : "01",
+		ordererUserId : "${loginUser.id}",
+		ordererName : $("#ordererName").val(),
+		ordererHpNumber : $("#ordererHpNumber").val(),
+		ordererMail : $("#ordererMail").val(),
+		recipientName : $("#recipientName").val(),
+		recipientHpNumber : $("#recipientHpNumber").val(),
+		recipientHpNumber2 : $("#recipientHpNumber2").val(),
+		recipientJibunAddr : $("#recipientJibunAddr").val(),
+		recipientRoadAddr : $("#recipientRoadAddr").val(),
+		recipientDetailAddr : $("#recipientDetailAddr").val(),
+		recipientZipcode : $("#recipientZipcode").val(),
+		orderRequest : $("#orderRequest").val(),
+		deliveryRequest : $("#deliveryRequest").val(),
+		paymentMethod : "Card"
+	};
+	
+	var ajaxData = {
+			orderMasterVO : JSON.stringify(orderMasterVO),
+			orderDetailVOList : JSON.stringify(orderRegistFormArray)
+	};
+		 
+    $.ajax({
+        type: "post",
+        url: "/order/orderRegistLogic.do",
+        data: ajaxData,
+        dataType: 'json',
+        success: function (data) {
+        	
+        	console.log(data);
+        	
+        	if(data == 2) {
+                // ajax success 시 결제모듈 호출
+            	$("#inicis_goodname").val("${orderName}");
+            	$("#inicis_buyername").val($("#ordererName").val());
+            	$("#inicis_buyertel").val($("#ordererHpNumber").val());
+            	$("#inicis_buyeremail").val($("#ordererMail").val());
+            	
+            	INIStdPay.pay('inicisSendForm');
+        	}else {
+        		alert("주문서 작성에 오류가 발생했습니다.\n 관리자에게 문의하세요.");
+        	}
+        }
+    });
 }
 
 function findDaumAddr() {
@@ -140,12 +193,118 @@ function findDaumAddr() {
         oncomplete: function(data) {
         	console.log(data);
         	
-            $("#recipientJibunAddr").val(data.zonecode);
+            $("#recipientZipcode").val(data.zonecode);
             $("#recipientJibunAddr").val(data.jibunAddress);
             $("#recipientRoadAddr").val(data.roadAddress);
             $("#recipientDetailAddr").val("");
         }
     }).open();
+}
+
+function validationCheck() {
+	const numberCheck = /^[0-9]+$/;
+	
+	if($('#ordererName').val().trim() == "" || $('#ordererName').val().trim() == null) {
+		alert("주문자 이름을 입력하세요.");
+		$('#ordererName').focus();
+		return false;
+	}
+	
+	if($('#ordererHpNumber').val() == "" || $('#ordererHpNumber').val() == null) {
+		alert("주문자 휴대폰번호를 입력하세요.");
+		$('#ordererHpNumber').focus();
+		return false;
+	}
+	
+	if (!numberCheck.test($('#ordererHpNumber').val())) {
+	    alert("주문자 휴대폰번호는 숫자만 입력 가능합니다.");
+	    $('#ordererHpNumber').focus();
+	    return false;
+	}
+	
+	if(11 != $('#ordererHpNumber').val().length && 10 != $('#ordererHpNumber').val().length) {
+		alert("주문자 휴대폰번호는 11자리 또는 10자리여야 합니다.");
+		$('#ordererHpNumber').focus();
+		return false;
+	}
+	
+	if($('#ordererMail').val().trim() == "" || $('#ordererMail').val().trim() == null) {
+		alert("주문자 이메일을 입력하세요.");
+		$('#ordererMail').focus();
+		return false;
+	}
+	
+	const mailCheckRegExp = new RegExp("([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\"\(\[\]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\[[\t -Z^-~]*])");
+
+	if (!mailCheckRegExp.test($('#ordererMail').val())) {
+		alert("올바른 주문자 이메일을 입력하세요.");
+		$('#ordererMail').focus();
+		return false;
+	}
+	
+	if($('#recipientName').val().trim() == "" || $('#recipientName').val().trim() == null) {
+		alert("수령인을 입력하세요.");
+		$('#recipientName').focus();
+		return false;
+	}
+	
+	if($('#recipientHpNumber').val() == "" || $('#recipientHpNumber').val() == null) {
+		alert("수령인 휴대폰번호를 입력하세요.");
+		$('#recipientHpNumber').focus();
+		return false;
+	}
+	
+	if (!numberCheck.test($('#recipientHpNumber').val())) {
+	    alert("수령인 휴대폰번호는 숫자만 입력 가능합니다.");
+	    $('#recipientHpNumber').focus();
+	    return false;
+	}
+	
+	if(11 != $('#recipientHpNumber').val().length && 10 != $('#recipientHpNumber').val().length) {
+		alert("수령인 휴대폰번호는 11자리 또는 10자리여야 합니다.");
+		$('#recipientHpNumber').focus();
+		return false;
+	}
+	
+	if($('#recipientHpNumber2').val() != "" && $('#recipientHpNumber2').val() != null) {
+		if (!numberCheck.test($('#recipientHpNumber2').val())) {
+		    alert("수령인 추가 휴대폰번호는 숫자만 입력 가능합니다.");
+		    $('#recipientHpNumber2').focus();
+		    return false;
+		}
+		
+		if(11 != $('#recipientHpNumber2').val().length && 10 != $('#recipientHpNumber2').val().length) {
+			alert("수령인 추가 휴대폰번호는 11자리 또는 10자리여야 합니다.");
+			$('#recipientHpNumber2').focus();
+			return false;
+		}
+	}
+	
+	if($('#recipientZipcode').val().trim() == "" || $('#recipientZipcode').val().trim() == null) {
+		alert("주소를 입력하세요.");
+		$('#btn_addr_search').focus();
+		return false;
+	}
+	
+	if($('#recipientJibunAddr').val().trim() == "" || $('#recipientJibunAddr').val().trim() == null) {
+		alert("주소를 입력하세요.");
+		$('#btn_addr_search').focus();
+		return false;
+	}
+	
+	if($('#recipientRoadAddr').val().trim() == "" || $('#recipientRoadAddr').val().trim() == null) {
+		alert("주소를 입력하세요.");
+		$('#btn_addr_search').focus();
+		return false;
+	}
+	
+	if($('#recipientDetailAddr').val().trim() == "" || $('#recipientDetailAddr').val().trim() == null) {
+		alert("상세주소를 입력하세요.");
+		$('#recipientDetailAddr').focus();
+		return false;
+	}
+	
+	return true;
 }
 
 
@@ -175,6 +334,15 @@ function findDaumAddr() {
 							<c:forEach var="item" items="${productList}">
 								<tr>
 									<td>
+										<input type="hidden" name="id" value="<%=oid%>">
+										<input type="hidden" name="productId" value="${item.id}">
+										<input type="hidden" name="productPrice" value="${item.productPrice}">
+										<!-- todo wonho 지금은 장바구니쪽 로직이 없으므로 수량 1로 고정함. -->
+										<input type="hidden" name="productOrderQty" value="1">
+										
+										<input type="hidden" name="productName" value="${item.productName}">
+										
+										
                                       	<%-- 임시 몰루이미지 
                                       	<img class="img-fluid rounded mx-auto d-block" src="/resources/img/tempImage_200x200.png">
                                       	 --%>
@@ -232,13 +400,13 @@ function findDaumAddr() {
 						</div>
 					</div>
 					<div class="mb-3 row">
-						<label for="recipientName" class="col-sm-2 col-form-label">연락처</label>
+						<label for="recipientName" class="col-sm-2 col-form-label">수령인 휴대폰번호</label>
 						<div class="col-sm-5">
 							<input type="text" class="form-control" id="recipientHpNumber" name="recipientHpNumber" required>
 						</div>
 					</div>
 					<div class="mb-3 row">
-						<label for="recipientHpNumber2" class="col-sm-2 col-form-label">추가 연락처</label>
+						<label for="recipientHpNumber2" class="col-sm-2 col-form-label">수령인 추가 휴대폰번호</label>
 						<div class="col-sm-5">
 							<input type="text" class="form-control" id="recipientHpNumber2" name="recipientHpNumber2" required>
 						</div>
@@ -246,7 +414,7 @@ function findDaumAddr() {
 					<div class="mb-3 row">
 						<label for="recipientZipcode" class="col-sm-2 col-form-label">우편번호</label>
 						<div class="col-sm-2">
-							<input type="text" class="form-control" id=recipientZipcode name="recipientZipcode" required>
+							<input type="text" class="form-control" id=recipientZipcode name="recipientZipcode" readonly="readonly" required>
 						</div>
 						<div class="col-auto">
 						  <button type="button" class="btn btn-secondary" id="btn_addr_search">주소찾기</button>
@@ -255,13 +423,13 @@ function findDaumAddr() {
 					<div class="mb-3 row">
 						<label for="recipientJibunAddr" class="col-sm-2 col-form-label">지번주소</label>
 						<div class="col-sm-7">
-							<input type="text" class="form-control" id=recipientJibunAddr name="recipientJibunAddr" required>
+							<input type="text" class="form-control" id=recipientJibunAddr name="recipientJibunAddr" readonly="readonly" required>
 						</div>
 					</div>
 					<div class="mb-3 row">
 						<label for="recipientRoadAddr" class="col-sm-2 col-form-label">도로명주소</label>
 						<div class="col-sm-7">
-							<input type="text" class="form-control" id=recipientRoadAddr name="recipientRoadAddr" required>
+							<input type="text" class="form-control" id=recipientRoadAddr name="recipientRoadAddr" readonly="readonly" required>
 						</div>
 					</div>
 					<div class="mb-3 row">
@@ -311,13 +479,13 @@ function findDaumAddr() {
 
 		
 	<!-- todo wonho 로컬테스트 -->
-	<!-- 
 	<input type="hidden" name="returnUrl" value="http://localhost:8080/order/inicisPayReturn.do">
-	<input type="hidden" name="closeUrl" value="http://localhost:8080/order/inicisPayClose.do">
-	 -->
+	<input type="hidden" name="closeUrl" value="http://localhost:8080/order/inicisPayClose.do?id=<%=oid%>">
 	<!-- todo wonho 운영 -->
+	<!-- 
 	<input type="hidden" name="returnUrl" value="http://hwcommander.com/order/inicisPayReturn.do">
-	<input type="hidden" name="closeUrl" value="http://hwcommander.com/order/inicisPayClose.do">
+	<input type="hidden" name="closeUrl" value="http://hwcommander.com/order/inicisPayClose.do?id=<%=oid%>">
+	 -->
 </form>
 
 </body>

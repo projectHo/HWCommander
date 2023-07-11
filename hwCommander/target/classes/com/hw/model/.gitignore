@@ -4,3 +4,6 @@
 /ProcessResourceDetailVO.class
 /ProcessResourceMasterVO.class
 /ProcessResourceTypeCodeInfoVO.class
+/OrderDetailVO.class
+/OrderMasterHistoryVO.class
+/OrderMasterVO.class

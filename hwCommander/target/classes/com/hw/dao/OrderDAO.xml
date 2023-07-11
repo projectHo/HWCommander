@@ -10,45 +10,221 @@
 	</select>
 	
 	<select id="getOrderMasterVOIdDupliChkCount" resultType="Integer" parameterType="String">
-		SELECT COUNT(1) AS id_cnt FROM order_master WHERE id = #{id}
+		SELECT COUNT(1) AS id_cnt FROM order_master_history WHERE id = #{id}
 	</select>
 	
 	<insert id="insertOrderMasterVO" parameterType="orderMasterVO">
 		INSERT INTO order_master
 		(
 			id
-			, updt_dtm
+			, order_date
+			, order_name
+			, tot_order_price
+			, order_state_cd
+			, orderer_user_id
+			, orderer_name
+			, orderer_hp_number
+			, orderer_mail
+			, recipient_name
+			, recipient_hp_number
+			, recipient_hp_number2
+			, recipient_jibun_addr
+			, recipient_road_addr
+			, recipient_detail_addr
+			, recipient_zipcode
+			, order_request
+			, delivery_request
+			, payment_method
+			, waybill_number
+			, reg_dtm
 		)
 		VALUES
 		(
 			#{id}
-			, #{updtDtm}
+			, NOW()
+			, #{orderName}
+			, #{totOrderPrice}
+			, #{orderStateCd}
+			, #{ordererUserId}
+			, #{ordererName}
+			, #{ordererHpNumber}
+			, #{ordererMail}
+			, #{recipientName}
+			, #{recipientHpNumber}
+			, #{recipientHpNumber2}
+			, #{recipientJibunAddr}
+			, #{recipientRoadAddr}
+			, #{recipientDetailAddr}
+			, #{recipientZipcode}
+			, #{orderRequest}
+			, #{deliveryRequest}
+			, #{paymentMethod}
+			, #{waybillNumber}
+			, NOW()
 		)
 	</insert>
+	
+	<delete id="deleteOrderMasterVO" parameterType="String">
+		DELETE
+		FROM
+			order_master
+		WHERE
+			id = #{id}
+	</delete>
+	
+	<update id="updateOrderMasterVO" parameterType="orderMasterVO">
+		UPDATE
+			order_master
+		SET
+			order_date               = #{orderDate}          
+			, order_name             = #{orderName}          
+			, tot_order_price        = #{totOrderPrice}      
+			, order_state_cd         = #{orderStateCd}       
+			, orderer_user_id        = #{ordererUserId}      
+			, orderer_name           = #{ordererName}        
+			, orderer_hp_number      = #{ordererHpNumber}    
+			, orderer_mail           = #{ordererMail}        
+			, recipient_name         = #{recipientName}      
+			, recipient_hp_number    = #{recipientHpNumber}  
+			, recipient_hp_number2   = #{recipientHpNumber2} 
+			, recipient_jibun_addr   = #{recipientJibunAddr} 
+			, recipient_road_addr    = #{recipientRoadAddr}  
+			, recipient_detail_addr  = #{recipientDetailAddr}
+			, recipient_zipcode      = #{recipientZipcode}   
+			, order_request          = #{orderRequest}       
+			, delivery_request       = #{deliveryRequest}    
+			, payment_method         = #{paymentMethod}      
+			, waybill_number         = #{waybillNumber}      
+			, updt_dtm               = NOW()
+		WHERE
+			id = #{id}
+	</update>
 	
 	<insert id="insertOrderMasterHistoryVO" parameterType="orderMasterHistoryVO">
 		INSERT INTO order_master_history
 		(
 			id
-			, seq
+			, history_seq
+			, order_date
+			, order_name
+			, tot_order_price
+			, order_state_cd
+			, orderer_user_id
+			, orderer_name
+			, orderer_hp_number
+			, orderer_mail
+			, recipient_name
+			, recipient_hp_number
+			, recipient_hp_number2
+			, recipient_jibun_addr
+			, recipient_road_addr
+			, recipient_detail_addr
+			, recipient_zipcode
+			, order_request
+			, delivery_request
+			, payment_method
+			, waybill_number
+			, reg_dtm
 		)
 		VALUES
 		(
 			#{id}
-			, #{updtDtm}
+			, #{historySeq}
+			, #{orderDate}
+			, #{orderName}
+			, #{totOrderPrice}
+			, #{orderStateCd}
+			, #{ordererUserId}
+			, #{ordererName}
+			, #{ordererHpNumber}
+			, #{ordererMail}
+			, #{recipientName}
+			, #{recipientHpNumber}
+			, #{recipientHpNumber2}
+			, #{recipientJibunAddr}
+			, #{recipientRoadAddr}
+			, #{recipientDetailAddr}
+			, #{recipientZipcode}
+			, #{orderRequest}
+			, #{deliveryRequest}
+			, #{paymentMethod}
+			, #{waybillNumber}
+			, NOW()
 		)
 	</insert>
+	
+	<select id="getOrderMasterHistoryVOMaxHistorySeq" resultType="Integer" parameterType="String">
+		SELECT IFNULL(MAX(history_seq), 0)+1 AS history_seq FROM order_master_history WHERE id = #{id} 
+	</select>
+	
+	<delete id="deleteOrderMasterHistoryVO" parameterType="String">
+		DELETE
+		FROM
+			order_master_history
+		WHERE
+			id = #{id}
+	</delete>
+	
+	<select id="getOrderMasterAllList" resultType="orderMasterVO"  parameterType="orderMasterVO">
+		SELECT 
+			id                                                                                   AS id                 
+			, order_date                                                                         AS orderDate          
+			, order_name                                                                         AS orderName          
+			, tot_order_price                                                                    AS totOrderPrice      
+			, order_state_cd                                                                     AS orderStateCd       
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'ORD001' AND cd = a.order_state_cd) AS orderStateCdNm     
+			, orderer_user_id                                                                    AS ordererUserId      
+			, orderer_name                                                                       AS ordererName        
+			, orderer_hp_number                                                                  AS ordererHpNumber    
+			, orderer_mail                                                                       AS ordererMail        
+			, recipient_name                                                                     AS recipientName      
+			, recipient_hp_number                                                                AS recipientHpNumber  
+			, recipient_hp_number2                                                               AS recipientHpNumber2 
+			, recipient_jibun_addr                                                               AS recipientJibunAddr 
+			, recipient_road_addr                                                                AS recipientRoadAddr  
+			, recipient_detail_addr                                                              AS recipientDetailAddr
+			, recipient_zipcode                                                                  AS recipientZipcode   
+			, order_request                                                                      AS orderRequest       
+			, delivery_request                                                                   AS deliveryRequest    
+			, payment_method                                                                     AS paymentMethod      
+			, waybill_number                                                                     AS waybillNumber      
+			, reg_dtm                                                                            AS regDtm             
+			, updt_dtm                                                                           AS updtDtm            
+		FROM
+			order_master a
+		<where>
+		    <if test="id != null and id != ''">
+		    	AND a.id = #{id}
+		    </if>
+		</where>
+	</select>
 	
 	<insert id="insertOrderDetailVO" parameterType="orderDetailVO">
 		INSERT INTO order_detail
 		(
 			id
-			, updt_dtm
+			, seq
+			, product_id
+			, product_price
+			, product_order_qty
+			, reg_dtm
 		)
 		VALUES
 		(
 			#{id}
-			, #{updtDtm}
+			, #{seq}
+			, #{productId}
+			, #{productPrice}
+			, #{productOrderQty}
+			, NOW()
 		)
 	</insert>
+	
+	<delete id="deleteOrderDetailVO" parameterType="String">
+		DELETE
+		FROM
+			order_detail
+		WHERE
+			id = #{id}
+	</delete>
 </mapper>
