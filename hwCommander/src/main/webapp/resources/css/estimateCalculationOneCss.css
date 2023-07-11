@@ -258,15 +258,12 @@ canvas{
   height: 48px;
   cursor: pointer;
 }
-/* 새로 추가 */
+
 .color-picker-btn{
   background-color: #f7f7f7;
   border-radius: 8px;
 }
 
-/* .card-text{
-  cursor: pointer;
-} */
 .color-card{
   cursor: not-allowed;
   background-color: lightgray;

@@ -162,6 +162,16 @@
 		$(".card-text").css("cursor","not-allowed");
 		$(".picked-color").css("background-color", "rgb(255,255,254)");
 	}
+
+	function mouseInPicker(){
+		$(".color-card").css("opacity","1");
+		$(".color-card").css("background-color","#fff");
+	}
+	function mouseOutPicker(){
+		if($(".save-btn").css("display") !== "block"){
+			$(".color-card").css("opacity","0.3");
+		}
+	}
 	$(function () {
 	typeText();
 	animateDonutGauge();
@@ -221,7 +231,7 @@
 									<div class="col-4">
 										<div class="card h-100">
 											<div class="card-body p-0 color-picker-btn d-flex align-items-center justify-content-center">
-												<div class="picked-color" onclick="javascript:clickColorPick(this)">
+												<div class="picked-color" onclick="javascript:clickColorPick(this)" onmouseover="javascript:mouseInPicker()" onmouseout="javascript:mouseOutPicker()">
 		
 												</div>
 											</div>
@@ -239,7 +249,7 @@
 									<div class="col-4">
 										<div class="card h-100">
 											<div class="card-body p-0 color-picker-btn d-flex align-items-center justify-content-center">
-												<div class="picked-color"  onclick="javascript:clickColorPick(this)">
+												<div class="picked-color"  onclick="javascript:clickColorPick(this)" onmouseover="javascript:mouseInPicker()" onmouseout="javascript:mouseOutPicker()">
 		
 												</div>
 											</div>

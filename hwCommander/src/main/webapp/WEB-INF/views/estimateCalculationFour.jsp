@@ -50,7 +50,7 @@
 	// typing question text
 	let index = 0;
 	function typeText() {
-		const text = " WIFI 혹은 블루투스 옵션이 포함된 PC가 필요합니까?";
+		const text = " WIFI, 블루투스 옵션이 포함된 PC가 필요하신가요?";
 		if (index < text.length) {
 		$("#typingInput").val(function(i, val) {
 			return val + text.charAt(index);
@@ -142,7 +142,7 @@
 							<input id="typingInput" class="form-control text-center" type="text" readonly aria-label="예산 편성" disabled />
 						</div>
 					    <div class="col-2 d-flex flex-column-reverse">
-							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="선택사항 입니다~!" style="cursor:pointer">
+							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="둘 중 택1 해주세요!" style="cursor:pointer">
 						</div>
 					</div>
 					<div class="row pb-5">
