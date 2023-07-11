@@ -50,7 +50,7 @@
 	// typing question text
 	let index = 0;
 	function typeText() {
-		const text = " 원하시는 CPU 제조사가 있으신가요?";
+		const text = " 원하는 CPU 제조사가 있나요?";
 		if (index < text.length) {
 		$("#typingInput").val(function(i, val) {
 			return val + text.charAt(index);
@@ -144,7 +144,7 @@
 							<input id="typingInput" class="form-control text-center" type="text" readonly aria-label="예산 편성" disabled />
 						</div>
 					    <div class="col-2 d-flex flex-column-reverse">
-							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="선택사항 입니다~!" style="cursor:pointer">
+							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="확실한 이유가 없다면 상관없음으로 선택해주세요!" style="cursor:pointer">
 						</div>
 					</div>
 					<div class="row pb-5">
@@ -158,7 +158,7 @@
 						</div>
 						<div class="col-4 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-o">
-							<label class="btn btn-outline-secondary w-75" for="answer-o" onclick="javascript:clickOkBtn()">상관없음</label>
+							<label class="btn btn-outline-secondary w-75" for="answer-o" onclick="javascript:clickOkBtn()">상관없음 혹은 잘 모름</label>
 						</div>
 					</div>
 					<div class="row mb-4">
