@@ -115,6 +115,7 @@
 			, a.product_image                                                                   AS productImage      
 			, a.reg_dtm                                                                         AS regDtm            
 			, a.updt_dtm                                                                        AS updtDtm
+			, (SELECT COUNT(b.id) AS cnt FROM order_detail b WHERE a.id = b.product_id)         AS orderDetailCnt            
 		FROM
 			product_master a
 		WHERE

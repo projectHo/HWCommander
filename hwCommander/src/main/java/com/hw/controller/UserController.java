@@ -32,11 +32,15 @@ public class UserController {
 	@Autowired
     private OrderService orderService;
 	
+	
+	/*--------------------------------------------------
+	 - 회원가입 및 로그인
+	*--------------------------------------------------*/
 	@RequestMapping(value = "/login.do", method = RequestMethod.GET)
 	public String goLogin(Model model) {
 		return "login";
 	}
-	
+
 	@RequestMapping(value = "/loginLogic.do", method = RequestMethod.POST)
 	@ResponseBody
 	public UserInfoVO loginLogic(HttpServletRequest request, UserInfoVO userInfoVO) {
@@ -101,6 +105,9 @@ public class UserController {
 		return "redirect:/";
 	}
 	
+	/*--------------------------------------------------
+	 - 주문내역
+	*--------------------------------------------------*/
 	@RequestMapping(value = "/orderList.do", method = RequestMethod.GET)
 	public String goOrderListPage(HttpServletRequest request, Model model) {
 		HttpSession httpSession = request.getSession();

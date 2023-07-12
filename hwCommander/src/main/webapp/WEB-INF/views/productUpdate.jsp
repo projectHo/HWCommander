@@ -26,11 +26,17 @@
     	dataSetting();
     	
         $('#btn_product_update').on("click", function () {
+    		if("${selectMasterData.orderDetailCnt}" > 0) {
+    			alert("본 제품은 주문된 내역 존재하여 수정할 수 없습니다.");
+    			return false;
+    		}
+    		
         	if(!validationCheck()) {
         		return false;
         	}
         	
         	if(confirm("수정 하시겠습니까?")) {
+
         		goProductUpdate();
         	}
         });
