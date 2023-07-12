@@ -1,10 +1,7 @@
 package com.hw.service.impl;
 
 
-<<<<<<< HEAD
-=======
 import java.util.Date;
->>>>>>> main
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,8 +36,6 @@ public class OrderServiceImpl implements OrderService {
 			return getOrderMasterVOUniqueId();
 		}
 	}
-<<<<<<< HEAD
-=======
 	
 	@Override
 	public Integer orderRegistLogic(OrderMasterVO orderMasterVO, List<OrderDetailVO> orderDetailVOList) {
@@ -127,5 +122,4 @@ public class OrderServiceImpl implements OrderService {
 		
 		return orderMasterHistoryVO;
 	}
->>>>>>> main
 }

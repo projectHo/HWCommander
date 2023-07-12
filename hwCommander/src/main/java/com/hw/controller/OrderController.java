@@ -61,11 +61,7 @@ public class OrderController {
 			// todo wonho Cart
 			// jsp idlist.join(", ")
 			model.addAttribute("productList", null);
-<<<<<<< HEAD
-			model.addAttribute("productName", "~~~외 ~~건");
-=======
 			model.addAttribute("orderName", "~~~외 ~~건");
->>>>>>> main
 		}
 		
 		request.setAttribute("orderId", orderService.getOrderMasterVOUniqueId());

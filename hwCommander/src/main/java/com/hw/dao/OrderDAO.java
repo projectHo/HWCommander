@@ -10,8 +10,6 @@ import com.hw.model.ProcessResourceMasterVO;
 public interface OrderDAO {
 	public String getOrderMasterVOUniqueId();
 	public Integer getOrderMasterVOIdDupliChkCount(String id);
-<<<<<<< HEAD
-=======
 	public Integer insertOrderMasterVO(OrderMasterVO OrderMasterVO);
 	public List<OrderMasterVO> getOrderMasterAllList(OrderMasterVO orderMasterVO);
 	public void deleteOrderMasterVO(String id);
@@ -23,5 +21,4 @@ public interface OrderDAO {
 	
 	public Integer insertOrderDetailVO(OrderDetailVO orderDetailVO);
 	public void deleteOrderDetailVO(String id);
->>>>>>> main
 }

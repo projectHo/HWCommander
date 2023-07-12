@@ -11,10 +11,7 @@ public class OrderMasterVO {
 	private String orderName;
 	private int totOrderPrice;
 	private String orderStateCd;
-<<<<<<< HEAD
-=======
 	private String orderStateCdNm;
->>>>>>> main
 	private String ordererUserId;
 	private String ordererName;
 	private String ordererHpNumber;

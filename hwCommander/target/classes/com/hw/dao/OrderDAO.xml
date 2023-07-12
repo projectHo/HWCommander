@@ -10,20 +10,13 @@
 	</select>
 	
 	<select id="getOrderMasterVOIdDupliChkCount" resultType="Integer" parameterType="String">
-<<<<<<< HEAD
-		SELECT COUNT(1) AS id_cnt FROM order_master WHERE id = #{id}
-=======
 		SELECT COUNT(1) AS id_cnt FROM order_master_history WHERE id = #{id}
->>>>>>> main
 	</select>
 	
 	<insert id="insertOrderMasterVO" parameterType="orderMasterVO">
 		INSERT INTO order_master
 		(
 			id
-<<<<<<< HEAD
-			, updt_dtm
-=======
 			, order_date
 			, order_name
 			, tot_order_price
@@ -44,14 +37,10 @@
 			, payment_method
 			, waybill_number
 			, reg_dtm
->>>>>>> main
 		)
 		VALUES
 		(
 			#{id}
-<<<<<<< HEAD
-			, #{updtDtm}
-=======
 			, NOW()
 			, #{orderName}
 			, #{totOrderPrice}
@@ -72,7 +61,6 @@
 			, #{paymentMethod}
 			, #{waybillNumber}
 			, NOW()
->>>>>>> main
 		)
 	</insert>
 	
@@ -116,9 +104,6 @@
 		INSERT INTO order_master_history
 		(
 			id
-<<<<<<< HEAD
-			, seq
-=======
 			, history_seq
 			, order_date
 			, order_name
@@ -140,14 +125,10 @@
 			, payment_method
 			, waybill_number
 			, reg_dtm
->>>>>>> main
 		)
 		VALUES
 		(
 			#{id}
-<<<<<<< HEAD
-			, #{updtDtm}
-=======
 			, #{historySeq}
 			, #{orderDate}
 			, #{orderName}
@@ -169,7 +150,6 @@
 			, #{paymentMethod}
 			, #{waybillNumber}
 			, NOW()
->>>>>>> main
 		)
 	</insert>
 	
@@ -226,28 +206,20 @@
 		INSERT INTO order_detail
 		(
 			id
-<<<<<<< HEAD
-			, updt_dtm
-=======
 			, seq
 			, product_id
 			, product_price
 			, product_order_qty
 			, reg_dtm
->>>>>>> main
 		)
 		VALUES
 		(
 			#{id}
-<<<<<<< HEAD
-			, #{updtDtm}
-=======
 			, #{seq}
 			, #{productId}
 			, #{productPrice}
 			, #{productOrderQty}
 			, NOW()
->>>>>>> main
 		)
 	</insert>
 	

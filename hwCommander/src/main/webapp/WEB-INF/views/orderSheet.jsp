@@ -102,23 +102,6 @@
     	$("#recipientRoadAddr").val("${loginUser.roadAddr}");
     	$("#recipientDetailAddr").val("${loginUser.detailAddr}");
     	
-<<<<<<< HEAD
-    	/* 
-    	private String recipientName;
-    	private String recipientHpNumber;
-    	private String recipientHpNumber2;
-    	private String recipientZipcode;
-    	recipientJibunAddr
-    	recipientRoadAddr
-    	recipientDetailAddr
-    	private String orderRequest;
-    	private String deliveryRequest;
-    	private String paymentMethod;
-    	private String waybillNumber;
-    	 */
-    	 
-=======
->>>>>>> main
         // 주소찾기
         $('#btn_addr_search').on("click", function () {
         	findDaumAddr();
@@ -127,12 +110,6 @@
     });
     
 function btnCheckOutClick() {
-<<<<<<< HEAD
-	$("#inicis_goodname").val("${productName}");
-	$("#inicis_buyername").val($("#ordererName").val());
-	$("#inicis_buyertel").val($("#ordererHpNumber").val());
-	$("#inicis_buyeremail").val($("#ordererMail").val());
-=======
 	if(!validationCheck()) {
 		return false;
 	}
@@ -232,7 +209,6 @@ function validationCheck() {
 		$('#ordererName').focus();
 		return false;
 	}
->>>>>>> main
 	
 	if($('#ordererHpNumber').val() == "" || $('#ordererHpNumber').val() == null) {
 		alert("주문자 휴대폰번호를 입력하세요.");
@@ -329,19 +305,6 @@ function validationCheck() {
 	}
 	
 	return true;
-}
-
-function findDaumAddr() {
-	new daum.Postcode({
-        oncomplete: function(data) {
-        	console.log(data);
-        	
-            $("#recipientJibunAddr").val(data.zonecode);
-            $("#recipientJibunAddr").val(data.jibunAddress);
-            $("#recipientRoadAddr").val(data.roadAddress);
-            $("#recipientDetailAddr").val("");
-        }
-    }).open();
 }
 
 
@@ -451,14 +414,7 @@ function findDaumAddr() {
 					<div class="mb-3 row">
 						<label for="recipientZipcode" class="col-sm-2 col-form-label">우편번호</label>
 						<div class="col-sm-2">
-<<<<<<< HEAD
-							<input type="text" class="form-control" id=recipientZipcode name="recipientZipcode" required>
-=======
 							<input type="text" class="form-control" id=recipientZipcode name="recipientZipcode" readonly="readonly" required>
-						</div>
-						<div class="col-auto">
-						  <button type="button" class="btn btn-secondary" id="btn_addr_search">주소찾기</button>
->>>>>>> main
 						</div>
 						<div class="col-auto">
 						  <button type="button" class="btn btn-secondary" id="btn_addr_search">주소찾기</button>
@@ -523,22 +479,13 @@ function findDaumAddr() {
 
 		
 	<!-- todo wonho 로컬테스트 -->
-	<!-- 
 	<input type="hidden" name="returnUrl" value="http://localhost:8080/order/inicisPayReturn.do">
-<<<<<<< HEAD
-	<input type="hidden" name="closeUrl" value="http://localhost:8080/order/inicisPayClose.do">
-	 -->
-=======
 	<input type="hidden" name="closeUrl" value="http://localhost:8080/order/inicisPayClose.do?id=<%=oid%>">
->>>>>>> main
 	<!-- todo wonho 운영 -->
+	<!-- 
 	<input type="hidden" name="returnUrl" value="http://hwcommander.com/order/inicisPayReturn.do">
-<<<<<<< HEAD
-	<input type="hidden" name="closeUrl" value="http://hwcommander.com/order/inicisPayClose.do">
-=======
 	<input type="hidden" name="closeUrl" value="http://hwcommander.com/order/inicisPayClose.do?id=<%=oid%>">
 	 -->
->>>>>>> main
 </form>
 
 </body>

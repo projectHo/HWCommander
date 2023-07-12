@@ -21,4 +21,5 @@ public class ProductMasterVO {
 	private String productPriceStr;
 	private String productDescriptionStr;
 	private String productDetailListStr;
+	private int orderDetailCnt;
 }
