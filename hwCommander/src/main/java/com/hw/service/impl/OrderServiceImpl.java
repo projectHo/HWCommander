@@ -87,6 +87,11 @@ public class OrderServiceImpl implements OrderService {
 		return result;
 	}
 	
+	@Override
+	public List<OrderMasterVO> getOrderMasterAllList(OrderMasterVO orderMasterVO) {
+		return orderDAO.getOrderMasterAllList(orderMasterVO);
+	}
+	
 	private OrderMasterHistoryVO orderMasterVOToOrderMasterHistoryVO(OrderMasterVO orderMasterVO) {
 		OrderMasterHistoryVO orderMasterHistoryVO = new OrderMasterHistoryVO();
 		

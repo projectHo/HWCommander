@@ -196,6 +196,9 @@
 		    <if test="id != null and id != ''">
 		    	AND a.id = #{id}
 		    </if>
+		    <if test="ordererUserId != null and ordererUserId != ''">
+		    	AND a.orderer_user_id = #{ordererUserId}
+		    </if>
 		</where>
 	</select>
 	

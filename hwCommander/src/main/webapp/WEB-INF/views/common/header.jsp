@@ -15,19 +15,19 @@
     
 function goCartPage() {
 	if(loginCheck()) {
-		alert("장바구니로 이동");
+		alert("준비중");
 	}
 }
 
 function goOrderListPage() {
 	if(loginCheck()) {
-		alert("주문내역으로 이동");
+		location.href = "/user/orderList.do";
 	}
 }
 
 function goServiceCenterPage() {
 	if(loginCheck()) {
-		alert("고객센터로 이동");
+		alert("준비중");
 	}
 }
 
@@ -39,13 +39,12 @@ function logout() {
 
 function goMyPage() {
 	if(loginCheck()) {
-		alert("마이페이지로 이동");
+		alert("준비중");
 	}
 }
 
 function goAdminPage() {
 	if(loginCheck()) {
-		//alert("관리자페이지로 이동");
 		location.href = "/admin/main.do";
 	}
 }
@@ -137,7 +136,7 @@ function loginCheck() {
 						  <div class="container-fluid">
 						    <div class="collapse navbar-collapse justify-content-around">
 						      <div class="navbar-nav">
-						        <h3><a class="nav-link mx-5" href="javascript:alert('준비중')">회사소개</a></h3>
+						        <h3><a class="nav-link mx-5" href="/aboutUs.do">회사소개</a></h3>
 						        <h3><a class="nav-link mx-5" href="/eventMall.do">이벤트 몰</a></h3>
 						        <h3><a class="nav-link mx-5" href="javascript:alert('준비중')">모니터추천</a></h3>
 						        <h3><a class="nav-link mx-5" href="javascript:alert('준비중')">게시판</a></h3>
