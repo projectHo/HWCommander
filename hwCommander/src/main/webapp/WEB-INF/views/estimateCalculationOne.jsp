@@ -26,7 +26,7 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 		function nextBtn() {
 			console.log("1");
 			if($(".first-q-input").val() !== ""){
-				console.log("2");
+				// 견적산출 데이터처리부(송신)
 				sessionStorage.setItem("one-Data",$("#can-pay-val").val());
 				$(".next-btn").addClass('is-valid');
 				window.location.href = "estimateCalculationTwo.do";
@@ -100,7 +100,7 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 			const tooltipList = tooltipTriggerList.map(function() {
 				return new bootstrap.Tooltip($(this)[0]);
 			}).get();
-			// session set
+			// 견적산출 데이터처리부(수신)
 			if(sessionStorage.getItem("one-Data")){
 				$('#can-pay-val').val(sessionStorage.getItem("one-Data"));
 				sessionStorage.removeItem("one-Data");

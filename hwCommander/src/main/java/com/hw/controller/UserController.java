@@ -1,6 +1,8 @@
 package com.hw.controller;
 
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -13,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hw.model.OrderMasterVO;
 import com.hw.model.UserInfoVO;
+import com.hw.service.OrderService;
 import com.hw.service.UserService;
 
 @Controller
@@ -24,6 +28,9 @@ public class UserController {
 	
 	@Autowired
     private UserService userService;
+	
+	@Autowired
+    private OrderService orderService;
 	
 	@RequestMapping(value = "/login.do", method = RequestMethod.GET)
 	public String goLogin(Model model) {
@@ -92,6 +99,39 @@ public class UserController {
 		}
 		model.addAttribute("loginUser", null);
 		return "redirect:/";
+	}
+	
+	@RequestMapping(value = "/orderList.do", method = RequestMethod.GET)
+	public String goOrderListPage(HttpServletRequest request, Model model) {
+		HttpSession httpSession = request.getSession();
+		
+		UserInfoVO user = (UserInfoVO) httpSession.getAttribute("loginUser");
+		
+		OrderMasterVO searchVO = new OrderMasterVO();
+		searchVO.setOrdererUserId(user.getId());
+		
+		List<OrderMasterVO> orderMasterVOList = orderService.getOrderMasterAllList(searchVO);
+		
+		model.addAttribute("orderMasterVOList", orderMasterVOList);
+		
+		return userLoginCheck(request, model, "userOrderList");
+	}
+	
+	/*--------------------------------------------------
+	 - private method
+	*--------------------------------------------------*/
+	private String userLoginCheck(HttpServletRequest request, Model model, String url) {
+		HttpSession httpSession = request.getSession();
+		
+		UserInfoVO user = (UserInfoVO) httpSession.getAttribute("loginUser");
+		
+		if(null == user) {
+			model.addAttribute("msg", "로그인 후에 이용 가능합니다.");
+			model.addAttribute("url", "/user/login.do");
+			return "redirect";
+		}else {
+			return url;
+		}
 	}
 	
 }

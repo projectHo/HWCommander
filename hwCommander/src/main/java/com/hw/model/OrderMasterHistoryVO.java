@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class OrderMasterHistoryVO {
 	private String id;
-	private int seq;
+	private int historySeq;
 	private Date orderDate;
 	private String orderName;
 	private int totOrderPrice;

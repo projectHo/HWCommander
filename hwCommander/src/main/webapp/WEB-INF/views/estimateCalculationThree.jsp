@@ -35,9 +35,7 @@
 			let storageValue = [$(".hex-input")[i].value];
 			value.push(storageValue);
 		}
-		if(sessionStorage.getItem("three-Data")){
-			sessionStorage.removeItem("three-Data");
-		}
+		// 견적산출 데이터처리부(송신)
 		sessionStorage.setItem("three-Data",JSON.stringify(value))
 		window.location.href = "estimateCalculationResult.do";
 	}
@@ -51,9 +49,7 @@
 			let storageValue = [$(".hex-input")[i].value];
 			value.push(storageValue);
 		}
-		if(sessionStorage.getItem("three-Data")){
-			sessionStorage.removeItem("three-Data");
-		}
+		// 견적산출 데이터처리부(송신)
 		sessionStorage.setItem("three-Data",JSON.stringify(value))
 		window.location.href = "estimateCalculationFour.do";
 	}
@@ -294,6 +290,7 @@
 	
 	$(function () {
 		createChart();
+		// 견적산출 데이터처리부(수신)
 		if(sessionStorage.getItem("three-Data")){
 			const storedValues =JSON.parse(sessionStorage.getItem("three-Data"));
 			
@@ -311,17 +308,7 @@
 		animateDonutGauge();
 		// modal esc delete
 		$('#use-collector').off('keydown.dismiss.bs.modal');
-		// session save
-		(function() {
-			"use strict";
-			const forms = $(".needs-validation");
-			forms.each(function() {
-				$(this).on("submit", function(event) {					
-					
-				
-				});
-			});
-		})();
+		// reset btn function control
 		$(".reset-svg").mouseover(()=>{
 			$(".reset-svg").addClass("mouse-in");
 			setTimeout(() => {

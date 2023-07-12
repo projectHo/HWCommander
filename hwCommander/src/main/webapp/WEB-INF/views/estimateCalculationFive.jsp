@@ -61,12 +61,15 @@
 	}
 
 	function clickIntelBtn(){
+		// 견적산출 데이터처리부(송신)
 		sessionStorage.setItem("five-Data","Intel");
 	}	
 	function clickAmdBtn(){
+		// 견적산출 데이터처리부(송신)
 		sessionStorage.setItem("five-Data","Amd");
 	}
 	function clickOkBtn(){
+		// 견적산출 데이터처리부(송신)
 		sessionStorage.setItem("five-Data","0");
 	}
 	function returnPageBtn(){
@@ -110,7 +113,7 @@
 	const tooltipList = $('[data-bs-toggle="tooltip"]').map(function() {
 		return new bootstrap.Tooltip($(this)[0]);
 	}).get();
-
+	// 견적산출 데이터처리부(수신)
 	if(sessionStorage.getItem("five-Data")){
 		const storedData = sessionStorage.getItem("five-Data");
 		if(storedData === "Intel"){

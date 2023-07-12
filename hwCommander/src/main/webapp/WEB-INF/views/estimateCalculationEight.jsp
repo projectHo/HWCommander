@@ -95,6 +95,7 @@
 			setTimeout(() => {
 				$(el).removeClass("is-valid");
 			}, 2000);
+			// 견적산출 데이터처리부(송신)
 			sessionStorage.setItem("eight-Data",JSON.stringify(value))
 			window.location.href = "estimateCalculationResult.do";
 		}
@@ -180,7 +181,7 @@
 		return new bootstrap.Tooltip($(this)[0]);
 	}).get();
 
-	// session set
+	// 견적산출 데이터처리부(수신)
 	if(sessionStorage.getItem("eight-Data")){
 		const data = sessionStorage.getItem("eight-Data");
 		if(data.length>3){

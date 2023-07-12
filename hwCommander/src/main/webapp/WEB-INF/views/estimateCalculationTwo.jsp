@@ -202,9 +202,7 @@
 				let storageValue = [$(".use-list-name")[i].id,$(".use-list-rating")[i].value,$(".use-list-genre")[i].id];
 				value.push(storageValue);
 			}
-			if(sessionStorage.getItem("two-Data")){
-				sessionStorage.removeItem("two-Data");
-			}
+			// 견적산출 데이터처리부(송신)
 			sessionStorage.setItem("two-Data",JSON.stringify(value));
 			window.location.href ="estimateCalculationResult.do";
 		}else{
@@ -229,9 +227,7 @@
 				let storageValue = [$(".use-list-name")[i].id,$(".use-list-rating")[i].value,$(".use-list-genre")[i].id];
 				value.push(storageValue);
 			}
-			if(sessionStorage.getItem("two-Data")){
-				sessionStorage.removeItem("two-Data");
-			}
+			// 견적산출 데이터처리부(송신)
 			sessionStorage.setItem("two-Data",JSON.stringify(value))
 			window.location.href ="estimateCalculationThree.do";
 		}else if (totalRating !== 100){
@@ -255,7 +251,7 @@
 	animateDonutGauge();
 	// modal esc delete
 	$('#use-collector').off('keydown.dismiss.bs.modal');
-	// session set
+	// 견적산출 데이터처리부(수신)
 	if(sessionStorage.getItem("two-Data")){
 		const storedValues = JSON.parse(sessionStorage.getItem("two-Data"));
 		var dataBtn = ${processResourceTypeCodeInfoVOList};

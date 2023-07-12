@@ -61,12 +61,15 @@
 	}
 
 	function clickDdr4Btn(){
+		// 견적산출 데이터처리부(송신)
 		sessionStorage.setItem("nine-Data","DDR4");
 	}	
 	function clickDdr5Btn(){
+		// 견적산출 데이터처리부(송신)
 		sessionStorage.setItem("nine-Data","DDR5");
 	}
 	function clickOkBtn(){
+		// 견적산출 데이터처리부(송신)
 		sessionStorage.setItem("nine-Data","0");
 	}
 	function returnPageBtn(){
@@ -110,7 +113,7 @@
 	const tooltipList = $('[data-bs-toggle="tooltip"]').map(function() {
 		return new bootstrap.Tooltip($(this)[0]);
 	}).get();
-	// session set
+	// 견적산출 데이터처리부(수신)
 	if(sessionStorage.getItem("nine-Data")){
 		const storedData = sessionStorage.getItem("nine-Data");
 		if(storedData === "DDR4"){
