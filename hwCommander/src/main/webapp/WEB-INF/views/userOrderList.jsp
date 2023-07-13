@@ -22,6 +22,11 @@
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
+	$(function(){
+		const data = JSON.stringify("${orderMasterVOList}");
+		console.log(JSON.parse(data).length);
+		$(".order-id").html(data.id);
+	})
 </script>
 </head>
 <body>
@@ -32,7 +37,32 @@
 			<!-- 빈 영역 -->
 			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
 			<!-- 작업영역 -->
-			<div class="estimateCalc_background p-2" style="width: 70% !important">
+			<div class="estimateCalc_background p-5" style="width: 70% !important">
+				<h2 class="mb-3"><span class="order-id"></span><b>님의 주문내역</b></h2>
+				<div class="container">
+					<table id="userOrderListTable" class="table" style="border-collapse: separate; border-spacing: 0; border: 1px solid black; border-radius: 14px 0 14px 0;">
+						<thead>
+							<tr>
+								<th scope="col">주문일시</th>
+								<th scope="col">상품명</th>
+								<th scope="col">주문번호</th>
+								<th scope="col">주문금액</th>
+								<th scope="col">상태</th>
+							</tr>
+						</thead>
+						<tbody class="table-group-divider">
+							<c:forEach var="item" items="${orderMasterVOList}">
+								<tr style="border-color: transparent;">
+									<td scope="row">${item.orderDate}</td>
+									<td>${item.orderName}</td>
+									<td>${item.id}</td>
+									<td>${item.totOrderPrice}</td>
+									<td>${item.orderStateCdNm}</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+					</table>
+				</div>
 	 		</div>
 			
 			<!-- 빈 영역 -->
