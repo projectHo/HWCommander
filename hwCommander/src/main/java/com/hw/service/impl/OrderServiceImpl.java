@@ -11,6 +11,7 @@ import com.hw.dao.OrderDAO;
 import com.hw.model.OrderDetailVO;
 import com.hw.model.OrderMasterHistoryVO;
 import com.hw.model.OrderMasterVO;
+import com.hw.model.PartsGpuVO;
 import com.hw.model.PartsMakerHistoryVO;
 import com.hw.model.ProductDetailVO;
 import com.hw.model.ProductMasterVO;
@@ -92,6 +93,45 @@ public class OrderServiceImpl implements OrderService {
 		return orderDAO.getOrderMasterAllList(orderMasterVO);
 	}
 	
+	@Override
+	public OrderMasterVO getOrderMasterById(String id) {
+		OrderMasterVO resultVO = null;
+		OrderMasterVO searchVO = new OrderMasterVO();
+		
+		searchVO.setId(id);
+		List<OrderMasterVO> resultList = orderDAO.getOrderMasterAllList(searchVO);
+		
+		if(resultList.size() != 0) {
+			resultVO = resultList.get(0);
+		}
+		
+		return resultVO;
+	}
+	
+	@Override
+	public Integer orderVideoRequestToAdmin(String id) {
+		int result = 0;
+		OrderMasterVO searchVO = new OrderMasterVO();
+		searchVO.setId(id);
+		
+		OrderMasterVO orderMasterVO = orderDAO.getOrderMasterAllList(searchVO).get(0);
+		
+		// 요청
+		orderMasterVO.setVideoRequestCd("02");
+		result = orderDAO.updateOrderMasterVO(orderMasterVO);
+		
+		if(1 == result) {
+			result += orderDAO.insertOrderMasterHistoryVO(orderMasterVOToOrderMasterHistoryVO(orderMasterVO));
+		}
+		
+		return result;
+	}
+	
+	@Override
+	public List<OrderDetailVO> getOrderDetailAllList(OrderDetailVO orderDetailVO) {
+		return orderDAO.getOrderDetailAllList(orderDetailVO);
+	}
+	
 	private OrderMasterHistoryVO orderMasterVOToOrderMasterHistoryVO(OrderMasterVO orderMasterVO) {
 		OrderMasterHistoryVO orderMasterHistoryVO = new OrderMasterHistoryVO();
 		
@@ -119,6 +159,7 @@ public class OrderServiceImpl implements OrderService {
 		orderMasterHistoryVO.setDeliveryRequest(orderMasterVO.getDeliveryRequest());
 		orderMasterHistoryVO.setPaymentMethod(orderMasterVO.getPaymentMethod());
 		orderMasterHistoryVO.setWaybillNumber(orderMasterVO.getWaybillNumber());
+		orderMasterHistoryVO.setVideoRequestCd(orderMasterVO.getVideoRequestCd());
 		
 		return orderMasterHistoryVO;
 	}

@@ -19,6 +19,7 @@ public interface OrderDAO {
 	public Integer getOrderMasterHistoryVOMaxHistorySeq(String id);
 	public void deleteOrderMasterHistoryVO(String id);
 	
+	public List<OrderDetailVO> getOrderDetailAllList(OrderDetailVO orderDetailVO);
 	public Integer insertOrderDetailVO(OrderDetailVO orderDetailVO);
 	public void deleteOrderDetailVO(String id);
 }

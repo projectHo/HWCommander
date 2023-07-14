@@ -11,4 +11,8 @@ public interface OrderService {
 	public void orderAllDeleteLogic(String id);
 	public Integer inicisPayComplete(String id);
 	public List<OrderMasterVO> getOrderMasterAllList(OrderMasterVO orderMasterVO);
+	public OrderMasterVO getOrderMasterById(String id);
+	public Integer orderVideoRequestToAdmin(String id);
+	
+	public List<OrderDetailVO> getOrderDetailAllList(OrderDetailVO orderDetailVO);
 }

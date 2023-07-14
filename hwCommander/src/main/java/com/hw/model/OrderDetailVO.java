@@ -12,4 +12,8 @@ public class OrderDetailVO {
 	private String regDtm;
 	private String updtDtm;
 	
+	// ProductMasterVO Data
+	private String productName;
+	private String productDescription;
+	private String productImage;
 }
