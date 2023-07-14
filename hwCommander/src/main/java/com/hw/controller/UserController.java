@@ -13,8 +13,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.hw.model.OrderDetailVO;
 import com.hw.model.OrderMasterVO;
 import com.hw.model.UserInfoVO;
 import com.hw.service.OrderService;
@@ -109,9 +111,8 @@ public class UserController {
 	 - 주문내역
 	*--------------------------------------------------*/
 	@RequestMapping(value = "/orderList.do", method = RequestMethod.GET)
-	public String goOrderListPage(HttpServletRequest request, Model model) {
+	public String goOrderList(HttpServletRequest request, Model model) {
 		HttpSession httpSession = request.getSession();
-		
 		UserInfoVO user = (UserInfoVO) httpSession.getAttribute("loginUser");
 		
 		OrderMasterVO searchVO = new OrderMasterVO();
@@ -119,9 +120,37 @@ public class UserController {
 		
 		List<OrderMasterVO> orderMasterVOList = orderService.getOrderMasterAllList(searchVO);
 		
+		model.addAttribute("loginUser", user);
 		model.addAttribute("orderMasterVOList", orderMasterVOList);
 		
 		return userLoginCheck(request, model, "userOrderList");
+	}
+	
+	@RequestMapping(value = "/orderListDetail.do", method = RequestMethod.GET)
+	public String goOrderListDetail(HttpServletRequest request
+			, Model model
+			, @RequestParam(value = "id", required = true) String id) {
+		HttpSession httpSession = request.getSession();
+		UserInfoVO user = (UserInfoVO) httpSession.getAttribute("loginUser");
+		
+		OrderMasterVO orderMasterVO = orderService.getOrderMasterById(id);
+		
+		OrderDetailVO searchVO = new OrderDetailVO();
+		searchVO.setId(id);
+		
+		List<OrderDetailVO> orderDetailVOList = orderService.getOrderDetailAllList(searchVO);
+		
+		model.addAttribute("loginUser", user);
+		model.addAttribute("orderMasterVO", orderMasterVO);
+		model.addAttribute("orderDetailVOList", orderDetailVOList);
+		
+		return userLoginCheck(request, model, "userOrderListDetail");
+	}
+	
+	@RequestMapping(value = "/orderVideoRequestToAdminLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer orderVideoRequestToAdminLogic(String id) {
+		return orderService.orderVideoRequestToAdmin(id);
 	}
 	
 	/*--------------------------------------------------

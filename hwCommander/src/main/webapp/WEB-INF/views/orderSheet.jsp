@@ -156,7 +156,8 @@ function btnCheckOutClick() {
 		recipientZipcode : $("#recipientZipcode").val(),
 		orderRequest : $("#orderRequest").val(),
 		deliveryRequest : $("#deliveryRequest").val(),
-		paymentMethod : "Card"
+		paymentMethod : "Card",
+		videoRequestCd : "01"
 	};
 	
 	var ajaxData = {
@@ -479,13 +480,13 @@ function validationCheck() {
 
 		
 	<!-- todo wonho 로컬테스트 -->
+	<%-- 
 	<input type="hidden" name="returnUrl" value="http://localhost:8080/order/inicisPayReturn.do">
 	<input type="hidden" name="closeUrl" value="http://localhost:8080/order/inicisPayClose.do?id=<%=oid%>">
+	 --%>
 	<!-- todo wonho 운영 -->
-	<!-- 
 	<input type="hidden" name="returnUrl" value="http://hwcommander.com/order/inicisPayReturn.do">
 	<input type="hidden" name="closeUrl" value="http://hwcommander.com/order/inicisPayClose.do?id=<%=oid%>">
-	 -->
 </form>
 
 </body>

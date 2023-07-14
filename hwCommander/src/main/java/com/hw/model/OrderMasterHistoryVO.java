@@ -27,5 +27,7 @@ public class OrderMasterHistoryVO {
 	private String deliveryRequest;
 	private String paymentMethod;
 	private String waybillNumber;
+	private String videoRequestCd;
+	private String videoRequestCdNm;
 	private String regDtm;
 }
