@@ -22,10 +22,34 @@
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
+	var Pattern = /\((.*?)\)/;
+	var userInfoMatch = Pattern.exec("${loginUser}");
+	var userInfoValues = userInfoMatch[1];
+
+	var userInfoArray = userInfoValues.split(", ");
+	var userInfoObject = {};
+	for (var i = 0; i < userInfoArray.length; i++) {
+		var keyValue = userInfoArray[i].split("=");
+		var key = keyValue[0];
+		var value = keyValue[1];
+		userInfoObject[key] = value;
+	}
+	$(".user-name").html(userInfoObject.name);
+	function goOrderListDetailPage(){
+		if(loginCheck()){
+			location.href = "/user/orderListDetail.do?id=" + objectNum;
+		}
+	}
+	let objectNum
+	function clickOrderList(el){
+		let orderNumber = $(el).find(".item-id").html();
+		objectNum = orderNumber;
+		goOrderListDetailPage();
+	}
+	
+
 	$(function(){
-		const data = JSON.stringify("${orderMasterVOList}");
-		console.log(JSON.parse(data).length);
-		$(".order-id").html(data.id);
+		
 	})
 </script>
 </head>
@@ -38,7 +62,10 @@
 			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
 			<!-- 작업영역 -->
 			<div class="estimateCalc_background p-5" style="width: 70% !important">
-				<h2 class="mb-3"><span class="order-id"></span><b>님의 주문내역</b></h2>
+				<h2 class="mb-3">
+					<span class="user-name"></span>
+					<b>님의 주문내역</b>
+				</h2>
 				<div class="container">
 					<table id="userOrderListTable" class="table" style="border-collapse: separate; border-spacing: 0; border: 1px solid black; border-radius: 14px 0 14px 0;">
 						<thead>
@@ -52,12 +79,23 @@
 						</thead>
 						<tbody class="table-group-divider">
 							<c:forEach var="item" items="${orderMasterVOList}">
-								<tr style="border-color: transparent;">
-									<td scope="row">${item.orderDate}</td>
-									<td>${item.orderName}</td>
-									<td>${item.id}</td>
-									<td>${item.totOrderPrice}</td>
-									<td>${item.orderStateCdNm}</td>
+								<tr style="border-color: transparent; cursor: pointer;" onclick="javascript:clickOrderList(this)">
+									<a href="javascript:goOrderListDetailPage()">
+										<td scope="row">
+											<script>
+												var dateString = "${item.orderDate}";
+												var parts = dateString.split(" ");
+												var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+												var month = monthNames.indexOf(parts[1]) + 1;
+												var formattedDate = parts[5] + "-" + ("0" + month).slice(-2) + "-" + parts[2];
+												document.write(formattedDate);
+											</script>
+										</td>
+										<td>${item.orderName}</td>
+										<td class="item-id">${item.id}</td>
+										<td>${item.totOrderPrice}</td>
+										<td>${item.orderStateCdNm}</td>
+									</a>
 								</tr>
 							</c:forEach>
 						</tbody>

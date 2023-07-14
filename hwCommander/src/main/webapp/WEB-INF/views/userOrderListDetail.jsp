@@ -21,7 +21,97 @@
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
+<!-- 23.07.15 다음 카카오 map api 추가 -->
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
 <script>
+	// 데이터 불러오기
+	var Pattern = /\((.*?)\)/;
+	var masterInfoMatch = Pattern.exec("${orderMasterVO}");
+	var masterInfoValues = masterInfoMatch[1];
+
+	var masterInfoArray = masterInfoValues.split(", ");
+	var masterInfoObject = {};
+	for (var i = 0; i < masterInfoArray.length; i++) {
+		var keyValue = masterInfoArray[i].split("=");
+		var key = keyValue[0];
+		var value = keyValue[1];
+		masterInfoObject[key] = value;
+	}
+	console.log(masterInfoObject.ordererHpNumber.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3"))
+
+	var dateString = "${item.orderDate}";
+
+	var parts = masterInfoObject.orderDate.split(" ");
+	console.log(parts)
+	
+	var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+	var month = monthNames.indexOf(parts[1]) + 1;
+	var formattedDate = parts[5] + "-" + ("0" + month).slice(-2) + "-" + parts[2];
+	function loadData(){
+		$(".order-num").html(masterInfoObject.id);
+		$(".order-date").html(formattedDate);
+		$(".orderer-name").html(masterInfoObject.ordererName);
+		$(".order-state").html(masterInfoObject.orderStateCdNm);
+		$(".orderer-hp").html(masterInfoObject.ordererHpNumber.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3"));
+		$(".orderer-email").html(masterInfoObject.ordererMail);
+		$(".recipient-name").html(masterInfoObject.recipientName);
+		$(".recipient-hp").html(masterInfoObject.recipientHpNumber.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3"));
+		$(".recipient-next-hp").val(masterInfoObject.recipientHpNumber2.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3"));
+		$(".recipient-zip-code").val(masterInfoObject.recipientZipcode);
+		$(".recipient-jibun-addr").val(masterInfoObject.recipientJibunAddr);
+		$(".recipient-road-addr").val(masterInfoObject.recipientRoadAddr);
+		$(".recipient-detail-addr").val(masterInfoObject.recipientDetailAddr);
+		$(".order-req").val(masterInfoObject.orderRequest);
+		$(".delivery-req").val(masterInfoObject.deliveryRequest);
+		$(".waybill").html(masterInfoObject.waybillNumber);
+		$(".payment-meth").html(masterInfoObject.paymentMethod);
+		$(".tot-order-price").val(masterInfoObject.totOrderPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+	};
+	// 다음 지도
+	function findDaumAddr() {
+	new daum.Postcode({
+        oncomplete: function(data) {
+            $(".recipient-zip-code").val(data.zonecode);
+            $(".recipient-jibun-addr").val(data.jibunAddress);
+            $(".recipient-road-addr").val(data.roadAddress);
+            $(".recipient-detail-addr").val("");
+        }
+    }).open();
+}
+	// 수정버튼
+	function editHpBtn(){
+
+	}
+	function editAddrBtn(){
+		findDaumAddr();
+	}
+	function editOrderReqBtn(){
+
+	}
+	function editDeliveryReqBtn(){
+
+	}
+	function saveAddrBtn(){
+
+	}
+
+	function checkHp(){
+		const numberCheck = /^[0-9]+$/;
+		if($('.recipient-next-hp').val().trim() == "" || $('.recipient-next-hp').val().trim() == null) {
+			alert("휴대폰번호를 입력하세요.");
+			$('.recipient-next-hp').focus();
+		}
+	
+		if (!numberCheck.test($('.recipient-next-hp').val())) {
+			alert("휴대폰번호는 숫자만 입력 가능합니다.");
+			$('.recipient-next-hp').val("");
+			$('.recipient-next-hp').focus();
+		}
+	}
+	$(function(){
+		loadData();
+	})
 </script>
 </head>
 <body>
@@ -32,7 +122,129 @@
 			<!-- 빈 영역 -->
 			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
 			<!-- 작업영역 -->
-			<div class="estimateCalc_background p-2" style="width: 70% !important">
+			<div class="estimateCalc_background p-5" style="width: 70% !important">
+				<div class="container">
+					<table class="table table-secondary table-bordered" style="border-collapse: separate;">
+						<tbody>
+								<tr>
+									<th style="width: 20%;" scope="row">주문번호</th>
+									<td style="width: 30%;" class="order-num"></td>
+									<th style="width: 20%;">주문날짜</th>
+									<td style="width: 30%;" class="order-date"></td>
+								</tr>
+								<tr>
+									<th style="width: 20%;" scope="row">주문자</th>
+									<td style="width: 30%;" class="orderer-name"></td>
+									<th style="width: 20%;">결제상태</th>
+									<td style="width: 30%;" class="order-state"></td>
+								</tr>
+								<tr>
+									<th style="width: 20%;" scope="row">연락처</th>
+									<td style="width: 30%;" class="orderer-hp"></td>
+									<th style="width: 20%;">이메일 주소</th>
+									<td style="width: 30%;" class="orderer-email"></td>
+								</tr>
+						</tbody>
+					</table>
+					<table class="table table-secondary table-bordered" style="border-collapse: separate;">
+						<thead>
+							<tr>
+								<th scope="col" style="width: 20%;">수령인</th>
+								<th scope="col" style="font-weight: 400;" class="recipient-name"></th>
+							</tr>
+						</thead>
+						<tbody>
+						<tr>
+							<th scope="row">연락처</th>
+							<td class="recipient-hp"></td>
+						</tr>
+						<tr>
+							<th scope="row">추가 연락처</th>
+							<td>
+								<div class="input-group">
+									<input maxlength="11" type="text" class="form-control recipient-next-hp" aria-label="Recipient's another hpNumber" aria-describedby="button-addon" oninput="javascript:checkHp()">
+									<button class="btn btn-outline-secondary" type="button" id="button-addon" onclick="javascript:editHpBtn()">수정</button>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">주소</th>
+							<td>
+								<div class="input-group">
+									<input type="text" class="form-control recipient-zip-code" aria-label="Recipient's addr" aria-describedby="button-addon2" readonly="readonly">
+									<button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="javascript:editAddrBtn()">수정</button>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">지번주소</th>
+							<td>
+								<input type="text" class="form-control recipient-jibun-addr" aria-label="Recipient's Ji addr" readonly="readonly">
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">도로명주소</th>
+							<td>
+								<input type="text" class="form-control recipient-road-addr" aria-label="Recipient's Road addr" readonly="readonly">
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">상세주소</th>
+							<td>
+								<div class="input-group">
+									<input type="text" class="form-control recipient-detail-addr" aria-label="Recipient's Detail addr" aria-describedby="button-addon3">
+									<button class="btn btn-outline-secondary" type="button" id="button-addon3" onclick="javascript:saveAddrBtn()">저장</button>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">주문 시 요청사항</th>
+							<td>
+								<div class="input-group">
+									<input type="text" class="form-control order-req" aria-label="Recipient's order required" aria-describedby="button-addon4">
+									<button class="btn btn-outline-secondary" type="button" id="button-addon4" onclick="javascript:editOrderReqBtn()">수정</button>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">배송 시 요청사항</th>
+							<td>
+								<div class="input-group">
+									<input type="text" class="form-control delivery-req" aria-label="Recipient's delivery required" aria-describedby="button-addon5">
+									<button class="btn btn-outline-secondary" type="button" id="button-addon5" onclick="javascript:editDeliveryReqBtn()">수정</button>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<th scope="row">상태</th>
+							<td class="order-state"></td>
+						</tr>
+						<tr>
+							<th scope="row">결제 수단</th>
+							<td class="payment-meth"></td>
+						</tr>
+						</tbody>
+					</table>
+					<div class="d-flex align-items-center justify-content-center">
+						<div class="input-group input-group-lg w-25 ">
+							<span class="input-group-text" id="inputGroup-sizing-lg">제품단가</span>
+							<input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+						</div>
+						<div>
+							<svg fill="#000000" width="40px" height="40px" viewBox="-7 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>plus</title> <path d="M17.040 15.16h-7.28v-7.24c0-0.48-0.36-0.84-0.84-0.84s-0.84 0.36-0.84 0.84v7.28h-7.24c-0.48-0.040-0.84 0.32-0.84 0.8s0.36 0.84 0.84 0.84h7.28v7.28c0 0.48 0.36 0.84 0.84 0.84s0.84-0.36 0.84-0.84v-7.32h7.28c0.48 0 0.84-0.36 0.84-0.84s-0.44-0.8-0.88-0.8z"></path> </g></svg>
+						</div>
+						<div class="input-group input-group-lg w-25">
+							<span class="input-group-text" id="inputGroup-sizing-lg">배송비</span>
+							<input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-lg">
+						</div>
+						<div>
+							<svg fill="#000000" width="40px" height="40px" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M 13.7969 22.6914 L 42.2266 22.6914 C 43.3516 22.6914 44.3125 21.7305 44.3125 20.5820 C 44.3125 19.4336 43.3516 18.4961 42.2266 18.4961 L 13.7969 18.4961 C 12.6719 18.4961 11.6875 19.4336 11.6875 20.5820 C 11.6875 21.7305 12.6719 22.6914 13.7969 22.6914 Z M 13.7969 37.5039 L 42.2266 37.5039 C 43.3516 37.5039 44.3125 36.5664 44.3125 35.4180 C 44.3125 34.2696 43.3516 33.3086 42.2266 33.3086 L 13.7969 33.3086 C 12.6719 33.3086 11.6875 34.2696 11.6875 35.4180 C 11.6875 36.5664 12.6719 37.5039 13.7969 37.5039 Z"></path></g></svg>						</div>
+						<div class="input-group input-group-lg w-25">
+							<span class="input-group-text" id="inputGroup-sizing-lg">최종금액</span>
+							<input type="text" class="form-control tot-order-price" aria-label="tot-order-price" aria-describedby="inputGroup-sizing-lg">
+						</div>
+					</div>
+				</div>
 	 		</div>
 			
 			<!-- 빈 영역 -->
