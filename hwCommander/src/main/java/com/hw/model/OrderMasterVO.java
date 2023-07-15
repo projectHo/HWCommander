@@ -8,8 +8,10 @@ import lombok.Data;
 public class OrderMasterVO {
 	private String id;
 	private Date orderDate;
+	private String orderDateStr;
 	private String orderName;
 	private int totOrderPrice;
+	private String totOrderPriceStr;
 	private String orderStateCd;
 	private String orderStateCdNm;
 	private String ordererUserId;

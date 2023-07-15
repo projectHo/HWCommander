@@ -173,9 +173,11 @@
 	<select id="getOrderMasterAllList" resultType="orderMasterVO"  parameterType="orderMasterVO">
 		SELECT 
 			a.id                                                                                   AS id                 
-			, a.order_date                                                                         AS orderDate          
+			, a.order_date                                                                         AS orderDate
+			, DATE_FORMAT(a.order_date, '%Y-%m-%d')                                                AS orderDateStr                    
 			, a.order_name                                                                         AS orderName          
-			, a.tot_order_price                                                                    AS totOrderPrice      
+			, a.tot_order_price                                                                    AS totOrderPrice
+			, FORMAT(a.tot_order_price, 0)                                                         AS totOrderPriceStr      
 			, a.order_state_cd                                                                     AS orderStateCd       
 			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'ORD001' AND cd = a.order_state_cd)   AS orderStateCdNm     
 			, a.orderer_user_id                                                                    AS ordererUserId      

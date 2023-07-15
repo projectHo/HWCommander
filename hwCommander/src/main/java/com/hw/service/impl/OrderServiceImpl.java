@@ -1,7 +1,6 @@
 package com.hw.service.impl;
 
 
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +10,6 @@ import com.hw.dao.OrderDAO;
 import com.hw.model.OrderDetailVO;
 import com.hw.model.OrderMasterHistoryVO;
 import com.hw.model.OrderMasterVO;
-import com.hw.model.PartsGpuVO;
-import com.hw.model.PartsMakerHistoryVO;
-import com.hw.model.ProductDetailVO;
-import com.hw.model.ProductMasterVO;
 import com.hw.service.OrderService;
 
 @Service
@@ -89,8 +84,9 @@ public class OrderServiceImpl implements OrderService {
 	}
 	
 	@Override
-	public List<OrderMasterVO> getOrderMasterAllList(OrderMasterVO orderMasterVO) {
-		return orderDAO.getOrderMasterAllList(orderMasterVO);
+	public List<OrderMasterVO> getOrderMasterAllList() {
+		OrderMasterVO searchVO = new OrderMasterVO();
+		return orderDAO.getOrderMasterAllList(searchVO);
 	}
 	
 	@Override
@@ -106,6 +102,16 @@ public class OrderServiceImpl implements OrderService {
 		}
 		
 		return resultVO;
+	}
+	
+	@Override
+	public List<OrderMasterVO> getOrderMasterListByOrdererUserId(String ordererUserId) {
+		OrderMasterVO searchVO = new OrderMasterVO();
+		
+		searchVO.setOrdererUserId(ordererUserId);
+		List<OrderMasterVO> resultList = orderDAO.getOrderMasterAllList(searchVO);
+		
+		return resultList;
 	}
 	
 	@Override
@@ -128,8 +134,46 @@ public class OrderServiceImpl implements OrderService {
 	}
 	
 	@Override
-	public List<OrderDetailVO> getOrderDetailAllList(OrderDetailVO orderDetailVO) {
-		return orderDAO.getOrderDetailAllList(orderDetailVO);
+	public Integer adminUpdateOrderStateCd(OrderMasterVO orderMasterVO) {
+		int result = 0;
+		OrderMasterVO searchVO = new OrderMasterVO();
+		searchVO.setId(orderMasterVO.getId());
+		
+		OrderMasterVO targetOrderMasterVO = orderDAO.getOrderMasterAllList(searchVO).get(0);
+		
+		targetOrderMasterVO.setOrderStateCd(orderMasterVO.getOrderStateCd());
+		result = orderDAO.updateOrderMasterVO(targetOrderMasterVO);
+		
+		if(1 == result) {
+			result += orderDAO.insertOrderMasterHistoryVO(orderMasterVOToOrderMasterHistoryVO(targetOrderMasterVO));
+		}
+		
+		return result;
+	}
+	
+	@Override
+	public Integer adminUpdateVideoRequestCd(OrderMasterVO orderMasterVO) {
+		int result = 0;
+		OrderMasterVO searchVO = new OrderMasterVO();
+		searchVO.setId(orderMasterVO.getId());
+		
+		OrderMasterVO targetOrderMasterVO = orderDAO.getOrderMasterAllList(searchVO).get(0);
+		
+		targetOrderMasterVO.setVideoRequestCd(orderMasterVO.getVideoRequestCd());
+		result = orderDAO.updateOrderMasterVO(targetOrderMasterVO);
+		
+		if(1 == result) {
+			result += orderDAO.insertOrderMasterHistoryVO(orderMasterVOToOrderMasterHistoryVO(targetOrderMasterVO));
+		}
+		
+		return result;
+	}
+	
+	@Override
+	public List<OrderDetailVO> getOrderDetailListById(String id) {
+		OrderDetailVO searchVO = new OrderDetailVO();
+		searchVO.setId(id);
+		return orderDAO.getOrderDetailAllList(searchVO);
 	}
 	
 	private OrderMasterHistoryVO orderMasterVOToOrderMasterHistoryVO(OrderMasterVO orderMasterVO) {

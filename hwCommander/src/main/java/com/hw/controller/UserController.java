@@ -115,10 +115,7 @@ public class UserController {
 		HttpSession httpSession = request.getSession();
 		UserInfoVO user = (UserInfoVO) httpSession.getAttribute("loginUser");
 		
-		OrderMasterVO searchVO = new OrderMasterVO();
-		searchVO.setOrdererUserId(user.getId());
-		
-		List<OrderMasterVO> orderMasterVOList = orderService.getOrderMasterAllList(searchVO);
+		List<OrderMasterVO> orderMasterVOList = orderService.getOrderMasterListByOrdererUserId(user.getId());
 		
 		model.addAttribute("loginUser", user);
 		model.addAttribute("orderMasterVOList", orderMasterVOList);
@@ -133,16 +130,9 @@ public class UserController {
 		HttpSession httpSession = request.getSession();
 		UserInfoVO user = (UserInfoVO) httpSession.getAttribute("loginUser");
 		
-		OrderMasterVO orderMasterVO = orderService.getOrderMasterById(id);
-		
-		OrderDetailVO searchVO = new OrderDetailVO();
-		searchVO.setId(id);
-		
-		List<OrderDetailVO> orderDetailVOList = orderService.getOrderDetailAllList(searchVO);
-		
 		model.addAttribute("loginUser", user);
-		model.addAttribute("orderMasterVO", orderMasterVO);
-		model.addAttribute("orderDetailVOList", orderDetailVOList);
+		model.addAttribute("orderMasterVO", orderService.getOrderMasterById(id));
+		model.addAttribute("orderDetailVOList", orderService.getOrderDetailListById(id));
 		
 		return userLoginCheck(request, model, "userOrderListDetail");
 	}
