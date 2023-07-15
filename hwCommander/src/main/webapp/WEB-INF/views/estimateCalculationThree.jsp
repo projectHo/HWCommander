@@ -67,7 +67,7 @@
 				type : "post",
 				url : "/estimateCalculationResult.do",
 				data: ajaxData,
-				dataType: "json",
+				dataType: "text",
 			})
 		window.location.href = "estimateCalculationResult.do";
 	}
