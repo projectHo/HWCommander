@@ -1,6 +1,5 @@
 package com.hw.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -145,7 +144,11 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/estimateCalculationResult.do", method = RequestMethod.GET)
-	public String goEstimateCalculationResult(HttpServletRequest request, Model model) {
+	public String goEstimateCalculationResult(
+			HttpServletRequest request
+			, Model model
+			, @RequestParam(value = "resultString", required = true) String resultString ) {
+		// todo wonho resultString 이용해서 견적산출
 		return userLoginCheck(request, model, "estimateCalculationResult");
 	}
 	
