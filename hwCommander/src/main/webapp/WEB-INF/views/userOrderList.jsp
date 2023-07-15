@@ -81,16 +81,7 @@
 							<c:forEach var="item" items="${orderMasterVOList}">
 								<tr style="border-color: transparent; cursor: pointer;" onclick="javascript:clickOrderList(this)">
 									<a href="javascript:goOrderListDetailPage()">
-										<td scope="row">
-											<script>
-												var dateString = "${item.orderDate}";
-												var parts = dateString.split(" ");
-												var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-												var month = monthNames.indexOf(parts[1]) + 1;
-												var formattedDate = parts[5] + "-" + ("0" + month).slice(-2) + "-" + parts[2];
-												document.write(formattedDate);
-											</script>
-										</td>
+										<td scope="row">${item.orderDateStr}</td>
 										<td>${item.orderName}</td>
 										<td class="item-id">${item.id}</td>
 										<td>${item.totOrderPrice}</td>

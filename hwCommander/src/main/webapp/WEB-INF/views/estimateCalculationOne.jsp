@@ -24,10 +24,9 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
     <script>
 		var progress = 0;
 		function nextBtn() {
-			console.log("1");
 			if($(".first-q-input").val() !== ""){
 				// 견적산출 데이터처리부(송신)
-				sessionStorage.setItem("one-Data",$("#can-pay-val").val());
+				sessionStorage.setItem("data-1",$("#can-pay-val").val());
 				$(".next-btn").addClass('is-valid');
 				window.location.href = "estimateCalculationTwo.do";
 			}
@@ -95,15 +94,18 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 		}
 
 		$(function () {
+			for(let i = 1; i<=20 ; i++){
+				sessionStorage.setItem("data-" + i, "");
+			}
 			// bootstrap tooltip base
 			const tooltipTriggerList = $('[data-bs-toggle="tooltip"]');
 			const tooltipList = tooltipTriggerList.map(function() {
 				return new bootstrap.Tooltip($(this)[0]);
 			}).get();
 			// 견적산출 데이터처리부(수신)
-			if(sessionStorage.getItem("one-Data")){
-				$('#can-pay-val').val(sessionStorage.getItem("one-Data"));
-				sessionStorage.removeItem("one-Data");
+			if(sessionStorage.getItem("data-1")){
+				$('#can-pay-val').val(sessionStorage.getItem("data-1"));
+				sessionStorage.removeItem("data-1");
 			}
 			
 			// functions

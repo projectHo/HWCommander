@@ -38,19 +38,9 @@
 		var value = keyValue[1];
 		masterInfoObject[key] = value;
 	}
-	console.log(masterInfoObject.ordererHpNumber.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3"))
-
-	var dateString = "${item.orderDate}";
-
-	var parts = masterInfoObject.orderDate.split(" ");
-	console.log(parts)
-	
-	var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-	var month = monthNames.indexOf(parts[1]) + 1;
-	var formattedDate = parts[5] + "-" + ("0" + month).slice(-2) + "-" + parts[2];
 	function loadData(){
 		$(".order-num").html(masterInfoObject.id);
-		$(".order-date").html(formattedDate);
+		$(".order-date").html(masterInfoObject.orderDateStr);
 		$(".orderer-name").html(masterInfoObject.ordererName);
 		$(".order-state").html(masterInfoObject.orderStateCdNm);
 		$(".orderer-hp").html(masterInfoObject.ordererHpNumber.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3"));
@@ -66,7 +56,7 @@
 		$(".delivery-req").val(masterInfoObject.deliveryRequest);
 		$(".waybill").html(masterInfoObject.waybillNumber);
 		$(".payment-meth").html(masterInfoObject.paymentMethod);
-		$(".tot-order-price").val(masterInfoObject.totOrderPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ","))
+		$(".tot-order-price").val(masterInfoObject.totOrderPriceStr)
 	};
 	// 다음 지도
 	function findDaumAddr() {
