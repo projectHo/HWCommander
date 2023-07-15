@@ -78,38 +78,7 @@
 			setTimeout(() => {
 				$(el).removeClass("is-valid");
 			}, 2000);
-			var resultString = {
-				answer1 : sessionStorage.getItem("one-Data") + "0000",
-				answer2 : sessionStorage.getItem("two-Data"),
-				answer3 : sessionStorage.getItem("three-Data"),
-				answer4 : sessionStorage.getItem("four-Data"),
-				answer5 : sessionStorage.getItem("five-Data"),
-				answer6 : sessionStorage.getItem("six-Data"),
-				answer7 : sessionStorage.getItem("seven-Data"),
-				answer8 : "",
-				answer9 : "",
-				answer10 : "",
-				answer11 : "",
-				answer12 : "",
-				answer13 : "",
-				answer14 : "",
-				answer15 : "",
-				answer16 : "",
-				answer17 : "",
-				answer18 : "",
-				answer19 : "",
-				answer20 : ""
-			}
-			var ajaxData = {
-				resultString : JSON.stringify(resultString)
-			}
-			$.ajax({
-				type : "post",
-				url : "/estimateCalculationResult.do",
-				data: ajaxData,
-				dataType: "text",
-			})
-			window.location.href = "estimateCalculationResult.do";
+			window.location.href ="/estimateCalculationResult.do?resultString=answer1:"+sessionStorage.getItem("one-Data")+"0000"+"|"+"answer2:"+sessionStorage.getItem("two-Data")+"|"+"answer3:"+sessionStorage.getItem("three-Data")+"|"+"answer4:"+sessionStorage.getItem("four-Data")+"|"+"answer5:"+sessionStorage.getItem("five-Data")+"|"+"answer6:"+sessionStorage.getItem("six-Data")+"|"+"answer7:"+sessionStorage.getItem("seven-Data")+"|"+"answer8:"+sessionStorage.getItem("eight-Data")+"|"+"answer9:"+sessionStorage.getItem("nine-Data")+"|"+"answer10:"+sessionStorage.getItem("ten-Data")+"|"+"answer11:"+sessionStorage.getItem("eleven-Data")+"|"+"answer12:"+sessionStorage.getItem("twelve-Data")+"|"+"answer13:"+sessionStorage.getItem("thirteen-Data")+"|"+"answer14:"+sessionStorage.getItem("fourteen-Data")+"|"+"answer15:"+sessionStorage.getItem("fifteen-Data")+"|"+"answer16:"+sessionStorage.getItem("sixteen-Data")+"|"+"answer17:"+sessionStorage.getItem("seventeen-Data")+"|"+"answer18:"+sessionStorage.getItem("eighteen-Data")+"|"+"answer19:"+sessionStorage.getItem("nineteen-Data")+"|"+"answer20:"+sessionStorage.getItem("twenty-Data");
 		}else {
 			$(el).addClass("is-invalid");
 			alert("둘중에 하나 선택해주세요!")
