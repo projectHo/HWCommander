@@ -61,12 +61,15 @@
 	}
 
 	function clickNeedBtn(){
+		// 견적산출 데이터처리부(송신)
 		sessionStorage.setItem("six-Data","Need");
 	}	
 	function clickOkBtn(){
+		// 견적산출 데이터처리부(송신)
 		sessionStorage.setItem("six-Data","0");
 	}
 	function clickNoBtn(){
+		// 견적산출 데이터처리부(송신)
 		sessionStorage.setItem("six-Data","Not Need");
 	}
 	function returnPageBtn(){
@@ -110,7 +113,7 @@
 	const tooltipList = $('[data-bs-toggle="tooltip"]').map(function() {
 		return new bootstrap.Tooltip($(this)[0]);
 	}).get();
-	// session set
+	// 견적산출 데이터처리부(수신)
 	if(sessionStorage.getItem("five-Data")){
 		const storedData = sessionStorage.getItem("six-Data");
 		if(storedData === "Need"){

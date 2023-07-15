@@ -61,9 +61,11 @@
 	}
 
 	function clickYesBtn(){
+		// 견적산출 데이터처리부(송신)
 		sessionStorage.setItem("seven-Data",1);
 	}
 	function clickNoBtn(){
+		// 견적산출 데이터처리부(송신)
 		sessionStorage.setItem("seven-Data",0);
 	}
 	function returnPageBtn(){
@@ -107,7 +109,7 @@
 	const tooltipList = $('[data-bs-toggle="tooltip"]').map(function() {
 		return new bootstrap.Tooltip($(this)[0]);
 	}).get();
-
+	// 견적산출 데이터처리부(수신)
 	if(sessionStorage.getItem("seven-Data")){
 		const sevenData = sessionStorage.getItem("seven-Data");
 		const yesBtn = $("#answer-y");
