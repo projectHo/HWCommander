@@ -37,6 +37,38 @@
 		}
 		// 견적산출 데이터처리부(송신)
 		sessionStorage.setItem("three-Data",JSON.stringify(value))
+
+		var resultString = {
+				answer1 : sessionStorage.getItem("one-Data") + "0000",
+				answer2 : sessionStorage.getItem("two-Data"),
+				answer3 : sessionStorage.getItem("three-Data"),
+				answer4 : "",
+				answer5 : "",
+				answer6 : "",
+				answer7 : "",
+				answer8 : "",
+				answer9 : "",
+				answer10 : "",
+				answer11 : "",
+				answer12 : "",
+				answer13 : "",
+				answer14 : "",
+				answer15 : "",
+				answer16 : "",
+				answer17 : "",
+				answer18 : "",
+				answer19 : "",
+				answer20 : ""
+			}
+			var ajaxData = {
+				resultString : JSON.stringify(resultString)
+			}
+			$.ajax({
+				type : "post",
+				url : "/estimateCalculationResult.do",
+				data: ajaxData,
+				dataType: "json",
+			})
 		window.location.href = "estimateCalculationResult.do";
 	}
 	function clickNextBtn(el){

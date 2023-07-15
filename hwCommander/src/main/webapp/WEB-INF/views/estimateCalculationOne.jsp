@@ -24,7 +24,6 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
     <script>
 		var progress = 0;
 		function nextBtn() {
-			console.log("1");
 			if($(".first-q-input").val() !== ""){
 				// 견적산출 데이터처리부(송신)
 				sessionStorage.setItem("one-Data",$("#can-pay-val").val());
