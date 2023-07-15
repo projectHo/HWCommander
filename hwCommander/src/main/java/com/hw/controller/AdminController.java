@@ -745,16 +745,22 @@ public class AdminController {
 		return adminLoginCheck(request, model, "orderDetail");
 	}
 	
-	@RequestMapping(value = "/adminUpdateOrderStateCd.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/updateOrderStateCd.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Integer adminUpdateOrderStateCd(OrderMasterVO orderMasterVO) {
-		return orderService.adminUpdateOrderStateCd(orderMasterVO);
+	public Integer updateOrderStateCd(OrderMasterVO orderMasterVO) {
+		return orderService.updateOrderStateCd(orderMasterVO);
 	}
 	
-	@RequestMapping(value = "/adminUpdateVideoRequestCd.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/updateVideoRequestCd.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Integer adminUpdateVideoRequestCd(OrderMasterVO orderMasterVO) {
-		return orderService.adminUpdateVideoRequestCd(orderMasterVO);
+	public Integer updateVideoRequestCd(OrderMasterVO orderMasterVO) {
+		return orderService.updateVideoRequestCd(orderMasterVO);
+	}
+	
+	@RequestMapping(value = "/updateWaybillNumber.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer updateWaybillNumber(OrderMasterVO orderMasterVO) {
+		return orderService.updateWaybillNumber(orderMasterVO);
 	}
 	
 	private String adminLoginCheck(HttpServletRequest request, Model model, String url) {

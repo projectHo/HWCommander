@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - ORDER</title>
+<title>현우의 컴퓨터 공방 - Order</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <!-- Bootstrap CSS -->
@@ -131,20 +131,20 @@
             <div id="layoutSidenav_content">
 				<main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">ORDER</h1>
+                        <h1 class="mt-4">Order</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="main.do">Admin Page</a></li>
-                            <li class="breadcrumb-item active">ORDER</li>
+                            <li class="breadcrumb-item active">Order</li>
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                                ORDER를 관리합니다. 조회, 수정 작업을 할 수 있습니다.
+                                Order를 관리합니다.
                             </div>
                         </div>
                         <div class="card mb-4">
                             <div class="card-header">
 								<div class="d-flex">
-								  <div class="me-auto d-flex align-items-center">Search ORDER</div>
+								  <div class="me-auto d-flex align-items-center">Search Order</div>
 								</div>
                             </div>
                             <div class="card-body">

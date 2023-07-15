@@ -13,9 +13,9 @@ public interface OrderService {
 	public OrderMasterVO getOrderMasterById(String id);
 	public List<OrderMasterVO> getOrderMasterListByOrdererUserId(String ordererUserId);
 	public Integer inicisPayComplete(String id);
-	public Integer orderVideoRequestToAdmin(String id);
-	public Integer adminUpdateOrderStateCd(OrderMasterVO orderMasterVO);
-	public Integer adminUpdateVideoRequestCd(OrderMasterVO orderMasterVO);
+	public Integer updateOrderStateCd(OrderMasterVO orderMasterVO);
+	public Integer updateVideoRequestCd(OrderMasterVO orderMasterVO);
+	public Integer updateWaybillNumber(OrderMasterVO orderMasterVO);
 	
 	public List<OrderDetailVO> getOrderDetailListById(String id);
 }

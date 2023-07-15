@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.hw.model.OrderDetailVO;
 import com.hw.model.OrderMasterVO;
 import com.hw.model.UserInfoVO;
 import com.hw.service.OrderService;
@@ -140,7 +139,19 @@ public class UserController {
 	@RequestMapping(value = "/orderVideoRequestToAdminLogic.do", method = RequestMethod.POST)
 	@ResponseBody
 	public Integer orderVideoRequestToAdminLogic(String id) {
-		return orderService.orderVideoRequestToAdmin(id);
+		OrderMasterVO orderMasterVO = new OrderMasterVO();
+		orderMasterVO.setId(id);
+		orderMasterVO.setVideoRequestCd("02");
+		return orderService.updateVideoRequestCd(orderMasterVO);
+	}
+	
+	@RequestMapping(value = "/orderRefundRequestToAdminLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer orderRefundRequestToAdminLogic(String id) {
+		OrderMasterVO orderMasterVO = new OrderMasterVO();
+		orderMasterVO.setId(id);
+		orderMasterVO.setOrderStateCd("09");
+		return orderService.updateOrderStateCd(orderMasterVO);
 	}
 	
 	/*--------------------------------------------------

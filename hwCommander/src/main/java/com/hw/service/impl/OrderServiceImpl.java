@@ -51,7 +51,9 @@ public class OrderServiceImpl implements OrderService {
 		searchVO.setId(orderMasterVO.getId());
 		
 		if(1 == result) {
-			result += orderDAO.insertOrderMasterHistoryVO(orderMasterVOToOrderMasterHistoryVO(orderMasterVO));
+			OrderMasterHistoryVO orderMasterHistoryVO = orderMasterVOToOrderMasterHistoryVO(orderMasterVO);
+			orderMasterHistoryVO.setHistoryContents("최초등록");
+			result += orderDAO.insertOrderMasterHistoryVO(orderMasterHistoryVO);
 		}
 		
 		return result;
@@ -77,7 +79,9 @@ public class OrderServiceImpl implements OrderService {
 		result = orderDAO.updateOrderMasterVO(orderMasterVO);
 		
 		if(1 == result) {
-			result += orderDAO.insertOrderMasterHistoryVO(orderMasterVOToOrderMasterHistoryVO(orderMasterVO));
+			OrderMasterHistoryVO orderMasterHistoryVO = orderMasterVOToOrderMasterHistoryVO(orderMasterVO);
+			orderMasterHistoryVO.setHistoryContents("이니시스 결제완료");
+			result += orderDAO.insertOrderMasterHistoryVO(orderMasterHistoryVO);
 		}
 		
 		return result;
@@ -115,26 +119,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 	
 	@Override
-	public Integer orderVideoRequestToAdmin(String id) {
-		int result = 0;
-		OrderMasterVO searchVO = new OrderMasterVO();
-		searchVO.setId(id);
-		
-		OrderMasterVO orderMasterVO = orderDAO.getOrderMasterAllList(searchVO).get(0);
-		
-		// 요청
-		orderMasterVO.setVideoRequestCd("02");
-		result = orderDAO.updateOrderMasterVO(orderMasterVO);
-		
-		if(1 == result) {
-			result += orderDAO.insertOrderMasterHistoryVO(orderMasterVOToOrderMasterHistoryVO(orderMasterVO));
-		}
-		
-		return result;
-	}
-	
-	@Override
-	public Integer adminUpdateOrderStateCd(OrderMasterVO orderMasterVO) {
+	public Integer updateOrderStateCd(OrderMasterVO orderMasterVO) {
 		int result = 0;
 		OrderMasterVO searchVO = new OrderMasterVO();
 		searchVO.setId(orderMasterVO.getId());
@@ -145,14 +130,16 @@ public class OrderServiceImpl implements OrderService {
 		result = orderDAO.updateOrderMasterVO(targetOrderMasterVO);
 		
 		if(1 == result) {
-			result += orderDAO.insertOrderMasterHistoryVO(orderMasterVOToOrderMasterHistoryVO(targetOrderMasterVO));
+			OrderMasterHistoryVO orderMasterHistoryVO = orderMasterVOToOrderMasterHistoryVO(orderMasterVO);
+			orderMasterHistoryVO.setHistoryContents("결제상태변경");
+			result += orderDAO.insertOrderMasterHistoryVO(orderMasterHistoryVO);
 		}
 		
 		return result;
 	}
 	
 	@Override
-	public Integer adminUpdateVideoRequestCd(OrderMasterVO orderMasterVO) {
+	public Integer updateVideoRequestCd(OrderMasterVO orderMasterVO) {
 		int result = 0;
 		OrderMasterVO searchVO = new OrderMasterVO();
 		searchVO.setId(orderMasterVO.getId());
@@ -163,7 +150,29 @@ public class OrderServiceImpl implements OrderService {
 		result = orderDAO.updateOrderMasterVO(targetOrderMasterVO);
 		
 		if(1 == result) {
-			result += orderDAO.insertOrderMasterHistoryVO(orderMasterVOToOrderMasterHistoryVO(targetOrderMasterVO));
+			OrderMasterHistoryVO orderMasterHistoryVO = orderMasterVOToOrderMasterHistoryVO(orderMasterVO);
+			orderMasterHistoryVO.setHistoryContents("영상요청상태변경");
+			result += orderDAO.insertOrderMasterHistoryVO(orderMasterHistoryVO);
+		}
+		
+		return result;
+	}
+	
+	@Override
+	public Integer updateWaybillNumber(OrderMasterVO orderMasterVO) {
+		int result = 0;
+		OrderMasterVO searchVO = new OrderMasterVO();
+		searchVO.setId(orderMasterVO.getId());
+		
+		OrderMasterVO targetOrderMasterVO = orderDAO.getOrderMasterAllList(searchVO).get(0);
+		
+		targetOrderMasterVO.setWaybillNumber(orderMasterVO.getWaybillNumber());
+		result = orderDAO.updateOrderMasterVO(targetOrderMasterVO);
+		
+		if(1 == result) {
+			OrderMasterHistoryVO orderMasterHistoryVO = orderMasterVOToOrderMasterHistoryVO(orderMasterVO);
+			orderMasterHistoryVO.setHistoryContents("운송장번호 추가 또는 변경");
+			result += orderDAO.insertOrderMasterHistoryVO(orderMasterHistoryVO);
 		}
 		
 		return result;

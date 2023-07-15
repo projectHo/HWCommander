@@ -129,6 +129,7 @@
 			, waybill_number
 			, video_request_cd
 			, reg_dtm
+			, history_contents
 		)
 		VALUES
 		(
@@ -155,6 +156,7 @@
 			, #{waybillNumber}
 			, #{videoRequestCd}
 			, NOW()
+			, #{historyContents}
 		)
 	</insert>
 	
