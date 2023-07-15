@@ -22,6 +22,67 @@
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
+	//견적산출 데이터처리부(송신)
+	function sendAllData(){
+		let answer1 = new Map();let answer2 = new Map();let answer3 = new Map();let answer4 = new Map();let answer5 = new Map();let answer6 = new Map();let answer7 = new Map();let answer8 = new Map();let answer9 = new Map();let answer10 = new Map();let answer11 = new Map();let answer12 = new Map();let answer13 = new Map();let answer14 = new Map();let answer15 = new Map();let answer16 = new Map();let answer17 = new Map();let answer18 = new Map();let answer19 = new Map();let answer20 = new Map();
+		
+		answer1.set(sessionStorage.getItem("data-1") + "0000");
+		let twoDatas = JSON.parse(sessionStorage.getItem("data-2"));
+		for(let i = 0 ; i < twoDatas.length; i++){
+			answer2.set(twoDatas[i][0],twoDatas[i][1])
+		}
+		if(sessionStorage.getItem("data-3") !== ""){
+			let threeDatas = JSON.parse(sessionStorage.getItem("data-3"));
+			answer3.set("Fever", threeDatas[0]);
+			answer3.set("Meterial", threeDatas[1]);
+			answer3.set("AS", threeDatas[2]);
+			answer3.set("Noise", threeDatas[3]);
+			answer3.set("Stability", threeDatas[4]);
+			answer3.set("QC", threeDatas[5]);
+		}else {
+			answer3.set("Fever", "");
+			answer3.set("Meterial", "");
+			answer3.set("AS", "");
+			answer3.set("Noise", "");
+			answer3.set("Stability", "");
+			answer3.set("QC", "");
+		}
+		
+		for(let i = 4; i <=20 ; i++){
+			if(i === 8 && sessionStorage.getItem("data-" + i) !== ""){
+				let eightDatas = JSON.parse(sessionStorage.getItem("data-8"));
+				answer8.set("main-color", eightDatas[0]);
+				answer8.set("sub-color", eightDatas[1]);
+			}else if (i === 8 && sessionStorage.getItem("data-" + i) === ""){
+				answer8.set("main-color", "");
+				answer8.set("sub-color", "");
+			}else if(sessionStorage.getItem("data-" + i) !== ""){
+				var answerName = "answer" + i;
+				var answer = eval(answerName);
+				answer.set(sessionStorage.getItem("data-" + i));
+			}else if (sessionStorage.getItem("data-" + i) === ""){
+				var answerName = "answer" + i;
+				var answer = eval(answerName);
+				answer.set("");
+			}
+		}
+		
+
+		var urlParams = "";
+
+		for (var i = 1; i <= 20; i++) {
+			var mapName = "answer" + i;
+			var map = eval(mapName);
+
+			for (var [key, value] of map) {
+				urlParams += mapName + ":" + key + "=" + value;
+				urlParams += "|";
+			}
+		}
+		var baseUrl = "/estimateCalculationResult.do";
+		var fullUrl = baseUrl + "?" + urlParams;
+		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
+	}
 	function deleteButton(elem) {
 		var forms = $(".needs-validation");
 		$(elem).parent().parent().remove();
@@ -98,7 +159,7 @@
 	};
 
 	function returnOnePage(){
-		sessionStorage.removeItem("two-Data");
+		sessionStorage.removeItem("data-2");
 		window.location.href ="estimateCalculationOne.do";
 	}
 
@@ -202,9 +263,8 @@
 				let storageValue = [$(".use-list-name")[i].id,$(".use-list-rating")[i].value,$(".use-list-genre")[i].id];
 				value.push(storageValue);
 			}
-			// 견적산출 데이터처리부(송신)
-			sessionStorage.setItem("two-Data",JSON.stringify(value));
-			window.location.href ="/estimateCalculationResult.do?resultString=answer1:"+sessionStorage.getItem("one-Data")+"0000"+"|"+"answer2:"+sessionStorage.getItem("two-Data")+"|"+"answer3:"+sessionStorage.getItem("three-Data")+"|"+"answer4:"+sessionStorage.getItem("four-Data")+"|"+"answer5:"+sessionStorage.getItem("five-Data")+"|"+"answer6:"+sessionStorage.getItem("six-Data")+"|"+"answer7:"+sessionStorage.getItem("seven-Data")+"|"+"answer8:"+sessionStorage.getItem("eight-Data")+"|"+"answer9:"+sessionStorage.getItem("nine-Data")+"|"+"answer10:"+sessionStorage.getItem("ten-Data")+"|"+"answer11:"+sessionStorage.getItem("eleven-Data")+"|"+"answer12:"+sessionStorage.getItem("twelve-Data")+"|"+"answer13:"+sessionStorage.getItem("thirteen-Data")+"|"+"answer14:"+sessionStorage.getItem("fourteen-Data")+"|"+"answer15:"+sessionStorage.getItem("fifteen-Data")+"|"+"answer16:"+sessionStorage.getItem("sixteen-Data")+"|"+"answer17:"+sessionStorage.getItem("seventeen-Data")+"|"+"answer18:"+sessionStorage.getItem("eighteen-Data")+"|"+"answer19:"+sessionStorage.getItem("nineteen-Data")+"|"+"answer20:"+sessionStorage.getItem("twenty-Data");
+			sessionStorage.setItem("data-2",JSON.stringify(value));
+			sendAllData()
 		}else{
 			$(".calc-two-final-text").css("display","block");
 			$(".calc-two-final").addClass("is-invalid");
@@ -227,8 +287,7 @@
 				let storageValue = [$(".use-list-name")[i].id,$(".use-list-rating")[i].value,$(".use-list-genre")[i].id];
 				value.push(storageValue);
 			}
-			// 견적산출 데이터처리부(송신)
-			sessionStorage.setItem("two-Data",JSON.stringify(value))
+			sessionStorage.setItem("data-2",JSON.stringify(value))
 			window.location.href ="estimateCalculationThree.do";
 		}else if (totalRating !== 100){
 			$(".calc-two-final-text-rating").css("display", "block");
@@ -252,8 +311,8 @@
 	// modal esc delete
 	$('#use-collector').off('keydown.dismiss.bs.modal');
 	// 견적산출 데이터처리부(수신)
-	if(sessionStorage.getItem("two-Data")){
-		const storedValues = JSON.parse(sessionStorage.getItem("two-Data"));
+	if(sessionStorage.getItem("data-2")){
+		const storedValues = JSON.parse(sessionStorage.getItem("data-2"));
 		var dataBtn = ${processResourceTypeCodeInfoVOList};
 		var modalList = ${processResourceMasterVOList};
 		storedValues.forEach(val => {
@@ -314,7 +373,7 @@
 		$(".table-list-names").css("display","table-row");
 		$("input#search-input").val('');
 		$("#label-table").find("tr").remove();
-		sessionStorage.removeItem("two-Data");
+		sessionStorage.removeItem("data-2");
 	}
 	// search input
 	

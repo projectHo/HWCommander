@@ -22,6 +22,66 @@
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
+	function sendAllData(){
+		let answer1 = new Map();let answer2 = new Map();let answer3 = new Map();let answer4 = new Map();let answer5 = new Map();let answer6 = new Map();let answer7 = new Map();let answer8 = new Map();let answer9 = new Map();let answer10 = new Map();let answer11 = new Map();let answer12 = new Map();let answer13 = new Map();let answer14 = new Map();let answer15 = new Map();let answer16 = new Map();let answer17 = new Map();let answer18 = new Map();let answer19 = new Map();let answer20 = new Map();
+		
+		answer1.set(sessionStorage.getItem("data-1") + "0000");
+		let twoDatas = JSON.parse(sessionStorage.getItem("data-2"));
+		for(let i = 0 ; i < twoDatas.length; i++){
+			answer2.set(twoDatas[i][0],twoDatas[i][1])
+		}
+		if(sessionStorage.getItem("data-3") !== ""){
+			let threeDatas = JSON.parse(sessionStorage.getItem("data-3"));
+			answer3.set("Fever", threeDatas[0]);
+			answer3.set("Meterial", threeDatas[1]);
+			answer3.set("AS", threeDatas[2]);
+			answer3.set("Noise", threeDatas[3]);
+			answer3.set("Stability", threeDatas[4]);
+			answer3.set("QC", threeDatas[5]);
+		}else {
+			answer3.set("Fever", "");
+			answer3.set("Meterial", "");
+			answer3.set("AS", "");
+			answer3.set("Noise", "");
+			answer3.set("Stability", "");
+			answer3.set("QC", "");
+		}
+		
+		for(let i = 4; i <=20 ; i++){
+			if(i === 8 && sessionStorage.getItem("data-" + i) !== ""){
+				let eightDatas = JSON.parse(sessionStorage.getItem("data-8"));
+				answer8.set("main-color", eightDatas[0]);
+				answer8.set("sub-color", eightDatas[1]);
+			}else if (i === 8 && sessionStorage.getItem("data-" + i) === ""){
+				answer8.set("main-color", "");
+				answer8.set("sub-color", "");
+			}else if(sessionStorage.getItem("data-" + i) !== ""){
+				var answerName = "answer" + i;
+				var answer = eval(answerName);
+				answer.set(sessionStorage.getItem("data-" + i));
+			}else if (sessionStorage.getItem("data-" + i) === ""){
+				var answerName = "answer" + i;
+				var answer = eval(answerName);
+				answer.set("");
+			}
+		}
+		
+
+		var urlParams = "";
+
+		for (var i = 1; i <= 20; i++) {
+			var mapName = "answer" + i;
+			var map = eval(mapName);
+
+			for (var [key, value] of map) {
+				urlParams += mapName + ":" + key + "=" + value;
+				urlParams += "|";
+			}
+		}
+		var baseUrl = "/estimateCalculationResult.do";
+		var fullUrl = baseUrl + "?" + urlParams;
+		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
+	}
 	// donut
 	let progress = 0;
 	function animateDonutGauge() {
@@ -60,7 +120,7 @@
 		}
 	}
 	function returnPageBtn(){
-		sessionStorage.removeItem("eight-Data");
+		sessionStorage.removeItem("data-8");
 		window.location.href = "estimateCalculationSeven.do";
 	}
 	let value = [];
@@ -80,8 +140,8 @@
 			setTimeout(() => {
 				$(el).removeClass("is-valid");
 			}, 2000);
-			sessionStorage.setItem("eight-Data","np")
-			window.location.href = "estimateCalculationResult.do";
+			sessionStorage.setItem("data-8","np")
+			sendAllData()
 		} else if(conditionMet){
 			alert("메인&서브 색상을 골라주시거나 상관없음을 골라주세요!");
 			$(el).addClass("is-invalid");
@@ -96,8 +156,8 @@
 				$(el).removeClass("is-valid");
 			}, 2000);
 			// 견적산출 데이터처리부(송신)
-			sessionStorage.setItem("eight-Data",JSON.stringify(value))
-			window.location.href ="/estimateCalculationResult.do?resultString=answer1:"+sessionStorage.getItem("one-Data")+"0000"+"|"+"answer2:"+sessionStorage.getItem("two-Data")+"|"+"answer3:"+sessionStorage.getItem("three-Data")+"|"+"answer4:"+sessionStorage.getItem("four-Data")+"|"+"answer5:"+sessionStorage.getItem("five-Data")+"|"+"answer6:"+sessionStorage.getItem("six-Data")+"|"+"answer7:"+sessionStorage.getItem("seven-Data")+"|"+"answer8:"+sessionStorage.getItem("eight-Data").replace(/\s/g, "")+"|"+"answer9:"+sessionStorage.getItem("nine-Data")+"|"+"answer10:"+sessionStorage.getItem("ten-Data")+"|"+"answer11:"+sessionStorage.getItem("eleven-Data")+"|"+"answer12:"+sessionStorage.getItem("twelve-Data")+"|"+"answer13:"+sessionStorage.getItem("thirteen-Data")+"|"+"answer14:"+sessionStorage.getItem("fourteen-Data")+"|"+"answer15:"+sessionStorage.getItem("fifteen-Data")+"|"+"answer16:"+sessionStorage.getItem("sixteen-Data")+"|"+"answer17:"+sessionStorage.getItem("seventeen-Data")+"|"+"answer18:"+sessionStorage.getItem("eighteen-Data")+"|"+"answer19:"+sessionStorage.getItem("nineteen-Data")+"|"+"answer20:"+sessionStorage.getItem("twenty-Data");
+			sessionStorage.setItem("data-8",JSON.stringify(value))
+			sendAllData()
 		}
 	}
 	function clickNextBtn(el){
@@ -155,7 +215,7 @@
 			let storageColor = [$($(".picked-color")[i]).css("background-color")];
 			value.push(storageColor);
 			let trimmedValue = String(value).replace(/\s/g, "");
-			sessionStorage.setItem("eight-Data",trimmedValue);
+			sessionStorage.setItem("data-8",trimmedValue);
 		}
 	}
 	function clickNpBtn(){
@@ -184,10 +244,10 @@
 	}).get();
 
 	// 견적산출 데이터처리부(수신)
-	if(sessionStorage.getItem("eight-Data")){
-		const data = sessionStorage.getItem("eight-Data");
+	if(sessionStorage.getItem("data-8")){
+		const data = sessionStorage.getItem("data-8");
 		if(data.length>3){
-			data = JSON.parse(sessionStorage.getItem("eight-Data"));
+			data = JSON.parse(sessionStorage.getItem("data-8"));
 			for(let i=0; i<data.length; i++){
 				$($(".picked-color")[i]).css("background-color", data[i]);
 			}
