@@ -22,10 +22,11 @@
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
+	// 견적산출 데이터처리부(송신)
 	function sendAllData(){
 		let answer1 = new Map();let answer2 = new Map();let answer3 = new Map();let answer4 = new Map();let answer5 = new Map();let answer6 = new Map();let answer7 = new Map();let answer8 = new Map();let answer9 = new Map();let answer10 = new Map();let answer11 = new Map();let answer12 = new Map();let answer13 = new Map();let answer14 = new Map();let answer15 = new Map();let answer16 = new Map();let answer17 = new Map();let answer18 = new Map();let answer19 = new Map();let answer20 = new Map();
 		
-		answer1.set(sessionStorage.getItem("data-1") + "0000");
+		answer1.set(sessionStorage.getItem("data-1") + "0000", "");
 		let twoDatas = JSON.parse(sessionStorage.getItem("data-2"));
 		for(let i = 0 ; i < twoDatas.length; i++){
 			answer2.set(twoDatas[i][0],twoDatas[i][1])
@@ -48,7 +49,7 @@
 		}
 		
 		for(let i = 4; i <=20 ; i++){
-			if(i === 8 && sessionStorage.getItem("data-" + i) !== ""){
+			if(i === 8 && sessionStorage.getItem("data-" + i) !== "" && sessionStorage.getItem("data-8") !=="np"){
 				let eightDatas = JSON.parse(sessionStorage.getItem("data-8"));
 				answer8.set("main-color", eightDatas[0]);
 				answer8.set("sub-color", eightDatas[1]);
@@ -74,6 +75,9 @@
 			var map = eval(mapName);
 
 			for (var [key, value] of map) {
+				if(value === "" || !value){
+					value = "null";
+				}
 				urlParams += mapName + ":" + key + "=" + value;
 				urlParams += "|";
 			}
@@ -213,9 +217,11 @@
 		$(".card-text").css("cursor","not-allowed");
 		for(let i = 0 ; i<$(".picked-color").length; i++){
 			let storageColor = [$($(".picked-color")[i]).css("background-color")];
+			console.log(storageColor)
 			value.push(storageColor);
-			let trimmedValue = String(value).replace(/\s/g, "");
-			sessionStorage.setItem("data-8",trimmedValue);
+			console.log(value)
+			let trimmedValue = value;
+			sessionStorage.setItem("data-8",JSON.stringify(value));
 		}
 	}
 	function clickNpBtn(){
@@ -247,9 +253,9 @@
 	if(sessionStorage.getItem("data-8")){
 		const data = sessionStorage.getItem("data-8");
 		if(data.length>3){
-			data = JSON.parse(sessionStorage.getItem("data-8"));
-			for(let i=0; i<data.length; i++){
-				$($(".picked-color")[i]).css("background-color", data[i]);
+			const data2 = JSON.parse(data);
+			for(let i=0; i<data2.length; i++){
+				$($(".picked-color")[i]).css("background-color", data2[i]);
 			}
 		}else{
 			$(".np-btn").addClass("active");

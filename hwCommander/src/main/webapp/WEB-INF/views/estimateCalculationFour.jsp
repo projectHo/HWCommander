@@ -26,7 +26,7 @@
 	function sendAllData(){
 		let answer1 = new Map();let answer2 = new Map();let answer3 = new Map();let answer4 = new Map();let answer5 = new Map();let answer6 = new Map();let answer7 = new Map();let answer8 = new Map();let answer9 = new Map();let answer10 = new Map();let answer11 = new Map();let answer12 = new Map();let answer13 = new Map();let answer14 = new Map();let answer15 = new Map();let answer16 = new Map();let answer17 = new Map();let answer18 = new Map();let answer19 = new Map();let answer20 = new Map();
 		
-		answer1.set(sessionStorage.getItem("data-1") + "0000");
+		answer1.set(sessionStorage.getItem("data-1") + "0000", "");
 		let twoDatas = JSON.parse(sessionStorage.getItem("data-2"));
 		for(let i = 0 ; i < twoDatas.length; i++){
 			answer2.set(twoDatas[i][0],twoDatas[i][1])
@@ -75,6 +75,9 @@
 			var map = eval(mapName);
 
 			for (var [key, value] of map) {
+				if(value === "" || !value){
+					value = "null";
+				}
 				urlParams += mapName + ":" + key + "=" + value;
 				urlParams += "|";
 			}

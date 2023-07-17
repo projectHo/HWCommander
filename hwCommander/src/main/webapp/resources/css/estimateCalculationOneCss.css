@@ -154,18 +154,19 @@ input[type="number"]::-webkit-inner-spin-button {
 }
 .first-hex-text {
   top: 2%;
-  left: 2%;
+  left: 1%;
 }
 .second-hex-text {
-  top: 25%;
+  top: 23%;
+  left: 2%;
 }
 .third-hex-text {
-  top: 71%;
-  left: 4%;
+  top: 74%;
+  left: -4%;
 }
 .fourth-hex-text {
   bottom: -4%;
-  left: 2%;
+  left: 1%;
 }
 
 .lines{
