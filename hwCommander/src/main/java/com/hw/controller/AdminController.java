@@ -20,6 +20,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hw.model.OrderDetailVO;
+import com.hw.model.OrderMasterVO;
 import com.hw.model.PartsCaseVO;
 import com.hw.model.PartsCoolerVO;
 import com.hw.model.PartsCpuVO;
@@ -38,6 +40,7 @@ import com.hw.model.ProductDetailVO;
 import com.hw.model.ProductMasterVO;
 import com.hw.model.UserInfoVO;
 import com.hw.service.CommonService;
+import com.hw.service.OrderService;
 import com.hw.service.PartsService;
 import com.hw.service.ProcessResourceService;
 import com.hw.service.ProductService;
@@ -59,6 +62,9 @@ public class AdminController {
 	
 	@Autowired
     private ProcessResourceService processResourceService;
+	
+	@Autowired
+    private OrderService orderService;
 	
 	@RequestMapping(value = "/main.do", method = RequestMethod.GET)
 	public String goAdminPageMain(HttpServletRequest request, Model model) {
@@ -503,7 +509,6 @@ public class AdminController {
 		return partsService.makerUpdateLogic(partsMakerVO);
 	}
 	
-	
 	/*--------------------------------------------------
 	 - PRODUCT
 	*--------------------------------------------------*/
@@ -720,7 +725,43 @@ public class AdminController {
 		return processResourceService.processResourceDetailUpdateLogic(processResourceDetailVO);
 	}
 	
-
+	/*--------------------------------------------------
+	 - ORDER
+	*--------------------------------------------------*/
+	@RequestMapping(value = "/orderManagement.do", method = RequestMethod.GET)
+	public String goOrderManagement(HttpServletRequest request, Model model) {
+		model.addAttribute("orderMasterList", orderService.getOrderMasterAllList());
+		return adminLoginCheck(request, model, "orderManagement");
+	}
+	
+	@RequestMapping(value = "/orderDetail.do", method = RequestMethod.GET)
+	public String goOrderUpdate(HttpServletRequest request, Model model, @RequestParam(value = "id", required = true) String id) {
+		
+		model.addAttribute("order_state_cd", commonService.getComnCdDetailList("ORD001"));
+		model.addAttribute("video_request_cd", commonService.getComnCdDetailList("ORD002"));
+		
+		model.addAttribute("selectMasterData", orderService.getOrderMasterById(id));
+		model.addAttribute("selectDetailData", orderService.getOrderDetailListById(id));
+		return adminLoginCheck(request, model, "orderDetail");
+	}
+	
+	@RequestMapping(value = "/updateOrderStateCd.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer updateOrderStateCd(OrderMasterVO orderMasterVO) {
+		return orderService.updateOrderStateCd(orderMasterVO);
+	}
+	
+	@RequestMapping(value = "/updateVideoRequestCd.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer updateVideoRequestCd(OrderMasterVO orderMasterVO) {
+		return orderService.updateVideoRequestCd(orderMasterVO);
+	}
+	
+	@RequestMapping(value = "/updateWaybillNumber.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer updateWaybillNumber(OrderMasterVO orderMasterVO) {
+		return orderService.updateWaybillNumber(orderMasterVO);
+	}
 	
 	private String adminLoginCheck(HttpServletRequest request, Model model, String url) {
 		HttpSession httpSession = request.getSession();

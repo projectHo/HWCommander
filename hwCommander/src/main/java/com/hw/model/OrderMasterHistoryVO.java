@@ -30,4 +30,5 @@ public class OrderMasterHistoryVO {
 	private String videoRequestCd;
 	private String videoRequestCdNm;
 	private String regDtm;
+	private String historyContents;
 }
