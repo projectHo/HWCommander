@@ -238,6 +238,14 @@
             <artifactId>spring-security-config</artifactId>
             <version>3.2.8.RELEASE</version>
         </dependency>
+        
+		<!-- https://mvnrepository.com/artifact/commons-fileupload/commons-fileupload -->
+		<dependency>
+		    <groupId>commons-fileupload</groupId>
+		    <artifactId>commons-fileupload</artifactId>
+		    <version>1.5</version>
+		</dependency>
+
 
 		
 	</dependencies>
