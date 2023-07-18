@@ -20,7 +20,12 @@
         
 <script>
 
+var sel_file;
+
     $(function() {
+    	
+    	$("#imageThumbnail").css("display", "none");
+    	
     	dataSetting();
         $('#btn_case_update').on("click", function () {
         	if(!validationCheck()) {
@@ -31,6 +36,8 @@
         		goCaseUpdate();
         	}
         });
+        
+        $("#multipartFile").on("change", handleImgFileSelect);
     });
     
 function dataSetting() {
@@ -58,16 +65,52 @@ function dataSetting() {
 	
 	$("#id").val("${selectData.id}");
 	$("#partsImage").val("${selectData.partsImage}");
+	
+	if($('#partsImage').val().trim() != "") {
+		$("#imageThumbnail").attr("src", $('#partsImage').val());
+        $("#imageThumbnail").css("display", "block");
+	}
 }
     
 function goCaseUpdate() {
-    var form = $("#case_update_form").serialize();
+	var form = new FormData();
+	
+	var partsCaseVO = {
+			id :  $("#id").val(),
+			partsName : $("#partsName").val(),
+			partsPrice : $("#partsPrice").val(),
+			cledCd : $("#cledCd").val(),
+			cmCd : $("#cmCd").val(),
+			cmcCd : $("#cmcCd").val(),
+			cscCd : $("#cscCd").val(),
+			makerId : $("#makerId").val(),
+			adap : $("#adap").val(),
+			cool : $("#cool").val(),
+			end : $("#end").val(),
+			conv : $("#conv").val(),
+			ff : $("#ff").val(),
+			iw : $("#iw").val(),
+			il : $("#il").val(),
+			ih : $("#ih").val(),
+			it : $("#it").val(),
+			fh : $("#fh").val(),
+			ft : $("#ft").val(),
+			strTwoDotFive : $("#strTwoDotFive").val(),
+			strThreeDotFive : $("#strThreeDotFive").val(),
+			partsImage : $("#partsImage").val()
+		};
+	
+	form.append("multipartFile", $("#multipartFile")[0].files[0]);
+	form.append("partsCaseVO", JSON.stringify(partsCaseVO));
+	
     
     $.ajax({
         type: "post",
         url: "/admin/caseUpdateLogic.do",
         data: form,
-        dataType: 'json',
+        contentType : false,
+        processData : false,
+        enctype : "multipart/form-data",
         success: function (data) {
         	if(data == 1) {
         		alert("수정완료");
@@ -78,6 +121,30 @@ function goCaseUpdate() {
             console.log(data);
         }
     });
+}
+
+function handleImgFileSelect(e) {
+	var files = e.target.files;
+    var filesArr = Array.prototype.slice.call(files);
+
+    var reg = /(.*?)\/(jpg|jpeg|png|bmp)$/;
+
+    filesArr.forEach(function(f) {
+        if (!f.type.match(reg)) {
+            alert("확장자는 이미지 확장자만 가능합니다.");
+            return;
+        }
+
+        sel_file = f;
+
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $("#imageThumbnail").attr("src", e.target.result);
+            $("#imageThumbnail").css("display", "block");
+        }
+        reader.readAsDataURL(f);
+    });
+	
 }
 
 function validationCheck() {
@@ -387,6 +454,15 @@ function validationCheck() {
                                                <input class="form-control" id="multiBulk" name="multiBulk" type="text" placeholder="Enter multiBulk" />
                                                <label for="multiBulk">멀티팩 벌크</label>
                                            </div>
+                                       </div>
+                                   </div>
+                                   
+                                   <div class="row mb-3">
+                                       <div class="col-md-6">
+                                           <img class="img-fluid rounded mx-auto" id="imageThumbnail" style="width:500px; height:500px; object-fit:contain;">
+                                       </div>
+                                       <div class="col-md-6">
+                                           <input type="file" class="form-control" id="multipartFile" name="multipartFile" aria-label="Upload">
                                        </div>
                                    </div>
                                    

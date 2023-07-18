@@ -154,6 +154,30 @@ public class UserController {
 		return orderService.updateOrderStateCd(orderMasterVO);
 	}
 	
+	@RequestMapping(value = "/orderUpdateRecipientHpNumber2Logic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer orderUpdateRecipientHpNumber2Logic(OrderMasterVO orderMasterVO) {
+		return orderService.updateRecipientHpNumber2(orderMasterVO);
+	}
+	
+	@RequestMapping(value = "/orderUpdateAddrsLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer orderUpdateAddrsLogic(OrderMasterVO orderMasterVO) {
+		return orderService.updateAddrs(orderMasterVO);
+	}
+	
+	@RequestMapping(value = "/orderUpdateOrderRequest.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer orderUpdateOrderRequest(OrderMasterVO orderMasterVO) {
+		return orderService.updateOrderRequest(orderMasterVO);
+	}
+	
+	@RequestMapping(value = "/orderUpdateDeliveryRequest.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer orderUpdateDeliveryRequest(OrderMasterVO orderMasterVO) {
+		return orderService.updateDeliveryRequest(orderMasterVO);
+	}
+	
 	/*--------------------------------------------------
 	 - private method
 	*--------------------------------------------------*/

@@ -17,5 +17,10 @@ public interface OrderService {
 	public Integer updateVideoRequestCd(OrderMasterVO orderMasterVO);
 	public Integer updateWaybillNumber(OrderMasterVO orderMasterVO);
 	
+	public Integer updateRecipientHpNumber2(OrderMasterVO orderMasterVO);
+	public Integer updateAddrs(OrderMasterVO orderMasterVO);
+	public Integer updateOrderRequest(OrderMasterVO orderMasterVO);
+	public Integer updateDeliveryRequest(OrderMasterVO orderMasterVO);
+	
 	public List<OrderDetailVO> getOrderDetailListById(String id);
 }

@@ -27,6 +27,10 @@ public class ProductServiceImpl implements ProductService {
 			productDetailVO.setId(maxId);
 			productDetailVO.setSeq(i+1);
 			
+			if("CASE".equals(productDetailVO.getPartsId().substring(0, 4))) {
+				productMasterVO.setProductImage(productDetailVO.getPartsImage());
+			}
+			
 			productDAO.insertProductDetailVO(productDetailVO);
 		}
 		

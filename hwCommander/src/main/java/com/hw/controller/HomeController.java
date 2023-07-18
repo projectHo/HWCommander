@@ -143,6 +143,56 @@ public class HomeController {
 		return userLoginCheck(request, model, "estimateCalculationTen");
 	}
 	
+	@RequestMapping(value = "/estimateCalculationEleven.do", method = RequestMethod.GET)
+	public String goEstimateCalculationEleven(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "estimateCalculationEleven");
+	}
+	
+	@RequestMapping(value = "/estimateCalculationTwelve.do", method = RequestMethod.GET)
+	public String goEstimateCalculationTwelve(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "estimateCalculationTwelve");
+	}
+	
+	@RequestMapping(value = "/estimateCalculationThirteen.do", method = RequestMethod.GET)
+	public String goEstimateCalculationThirteen(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "estimateCalculationThirteen");
+	}
+	
+	@RequestMapping(value = "/estimateCalculationFourteen.do", method = RequestMethod.GET)
+	public String goEstimateCalculationFourteen(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "estimateCalculationFourteen");
+	}
+	
+	@RequestMapping(value = "/estimateCalculationFifteen.do", method = RequestMethod.GET)
+	public String goEstimateCalculationFifteen(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "estimateCalculationFifteen");
+	}
+	
+	@RequestMapping(value = "/estimateCalculationSixteen.do", method = RequestMethod.GET)
+	public String goEstimateCalculationSixteen(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "estimateCalculationSixteen");
+	}
+	
+	@RequestMapping(value = "/estimateCalculationSeventeen.do", method = RequestMethod.GET)
+	public String goEstimateCalculationSeventeen(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "estimateCalculationSeventeen");
+	}
+	
+	@RequestMapping(value = "/estimateCalculationEighteen.do", method = RequestMethod.GET)
+	public String goEstimateCalculationEighteen(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "estimateCalculationEighteen");
+	}
+	
+	@RequestMapping(value = "/estimateCalculationNineteen.do", method = RequestMethod.GET)
+	public String goEstimateCalculationNineteen(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "estimateCalculationNineteen");
+	}
+	
+	@RequestMapping(value = "/estimateCalculationTwenty.do", method = RequestMethod.GET)
+	public String goEstimateCalculationTwenty(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "estimateCalculationTwenty");
+	}
+	
 	@RequestMapping(value = "/estimateCalculationResult.do", method = RequestMethod.GET)
 	public String goEstimateCalculationResult(
 			HttpServletRequest request

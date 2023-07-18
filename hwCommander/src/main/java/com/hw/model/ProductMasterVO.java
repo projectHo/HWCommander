@@ -1,7 +1,5 @@
 package com.hw.model;
 
-import java.util.Date;
-
 import lombok.Data;
 
 @Data
@@ -15,6 +13,8 @@ public class ProductMasterVO {
 	private String productImage;
 	private String regDtm;
 	private String updtDtm;
+	private String productRegistPathCd;
+	private String productRegistPathCdNm;
 	
 	//necessity column
 	private String eventMallInfo;
