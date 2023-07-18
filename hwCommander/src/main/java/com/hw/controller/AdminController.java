@@ -1,10 +1,14 @@
 package com.hw.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -15,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -303,9 +308,22 @@ public class AdminController {
 		return adminLoginCheck(request, model, "caseRegist");
 	}
 	
+	
 	@RequestMapping(value = "/caseRegistLogic.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Integer caseRegistLogic(PartsCaseVO partsCaseVO) {
+	public Integer caseRegistLogic( 
+			@RequestParam(value = "partsCaseVO", required = true) String partsCaseVOString
+			, @RequestParam(value = "multipartFile", required = false) MultipartFile multipartFile) throws JsonMappingException, JsonProcessingException {
+		
+		PartsCaseVO partsCaseVO = new PartsCaseVO();
+		ObjectMapper objectMapper = new ObjectMapper();
+		partsCaseVO = objectMapper.readValue(partsCaseVOString, PartsCaseVO.class);
+		
+		if(multipartFile != null) {
+			String filePath = fileUploadLogic(multipartFile);
+	        partsCaseVO.setPartsImage(filePath);
+		}
+        
 		return partsService.caseRegistLogic(partsCaseVO);
 	}
 	
@@ -324,7 +342,19 @@ public class AdminController {
 	
 	@RequestMapping(value = "/caseUpdateLogic.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Integer caseUpdateLogic(PartsCaseVO partsCaseVO) {
+	public Integer caseUpdateLogic(
+			@RequestParam(value = "partsCaseVO", required = true) String partsCaseVOString
+			, @RequestParam(value = "multipartFile") MultipartFile multipartFile) throws JsonMappingException, JsonProcessingException {
+		
+		PartsCaseVO partsCaseVO = new PartsCaseVO();
+		ObjectMapper objectMapper = new ObjectMapper();
+		partsCaseVO = objectMapper.readValue(partsCaseVOString, PartsCaseVO.class);
+		
+		if(multipartFile != null) {
+			String filePath = fileUploadLogic(multipartFile);
+	        partsCaseVO.setPartsImage(filePath);
+		}
+
 		return partsService.caseUpdateLogic(partsCaseVO);
 	}
 	
@@ -776,5 +806,65 @@ public class AdminController {
 			return url;
 		}
 	}
+	
+	// 현재 시간을 기준으로 파일 이름 생성
+    private String genSaveFileName(String extName) {
+        String fileName = "";
+        
+        Calendar calendar = Calendar.getInstance();
+        fileName += calendar.get(Calendar.YEAR);
+        fileName += calendar.get(Calendar.MONTH);
+        fileName += calendar.get(Calendar.DATE);
+        fileName += calendar.get(Calendar.HOUR);
+        fileName += calendar.get(Calendar.MINUTE);
+        fileName += calendar.get(Calendar.SECOND);
+        fileName += calendar.get(Calendar.MILLISECOND);
+        fileName += extName;
+        
+        return fileName;
+    }
+    
+    private String fileUploadLogic(MultipartFile multipartFile) {
+    	String filePath = "";
+		MultipartFile multi = multipartFile;
+		
+//		local test
+//		String path = "C:\\Users\\HO\\git\\HWCommander\\hwCommander\\src\\main\\webapp\\resources\\uploadImage";
+		
+		String path = "http://hwcommander.com/resources/uploadImage";
+		
+        String uploadpath = path;
+        String originFilename = multi.getOriginalFilename();
+        String extName = originFilename.substring(originFilename.lastIndexOf("."),originFilename.length());
+        long size = multi.getSize();
+        String saveFileName = genSaveFileName(extName);
+        
+        System.out.println("############## uploadpath : " + uploadpath);
+        
+        System.out.println("originFilename : " + originFilename);
+        System.out.println("extensionName : " + extName);
+        System.out.println("size : " + size);
+        System.out.println("saveFileName : " + saveFileName);
+        
+        if(!multi.isEmpty())
+        {
+            File file = new File(uploadpath, saveFileName);
+            try {
+            	filePath = "/resources/uploadImage/"+saveFileName;
+				multi.transferTo(file);
+			} catch (IllegalStateException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            
+            System.out.println("multi.getOriginalFilename() : " + multi.getOriginalFilename());
+            System.out.println("file.getAbsolutePath() : " + file.getAbsolutePath());
+        }
+        
+        return filePath;
+    }
 	
 }

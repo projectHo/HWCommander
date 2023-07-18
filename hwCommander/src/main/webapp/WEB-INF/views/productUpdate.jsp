@@ -80,6 +80,7 @@ function dataSetting() {
 		 $("#partsQty_"+inputIndex).val(selectDetailDataList[i].partsQty);
 		 $("#partsPrice_"+inputIndex).val(selectDetailDataList[i].partsPrice);
 		 $("#partsTotalPrice_"+inputIndex).val(selectDetailDataList[i].partsTotalPrice);
+		 $("#partsImage_"+inputIndex).val(selectDetailDataList[i].partsImage);
 	 }
 }
 
@@ -95,6 +96,7 @@ function goProductUpdate() {
 				partsQty : $(this).find('input[name=partsQty]').val(),
 				partsPrice : $(this).find('input[name=partsPrice]').val(),
 				partsTotalPrice : $(this).find('input[name=partsTotalPrice]').val(),
+				partsImage : $(this).find('input[name=partsImage]').val()
 			};
 			partsUpdateFormArray.push(item);
 		}
@@ -177,6 +179,7 @@ function partsAdd() {
 	innerHtml +='			<input type="text" class="form-control form-control-sm" name="partsName" id="partsName_'+addIndex+'" disabled>';
 	innerHtml +='			<a class="btn btn-outline-secondary btn-sm" type="button" href="javascript:partsSelect('+addIndex+')">선택</a>';
 	innerHtml +='			<input name="partsId" id="partsId_'+addIndex+'" type="hidden"/>';
+	innerHtml +='			<input name="partsImage" id="partsImage'+addIndex+'" type="hidden"/>';
 	innerHtml +='			<input name="partsTotalPrice" type="hidden"/>';
 	innerHtml +='		</div>';
 	innerHtml +='	</td>';
@@ -230,11 +233,12 @@ function partsSelect(rowNum) {
     myModal.show();
 }
 
-function modalPartsSelect(id, partsName, partsPrice) {
+function modalPartsSelect(id, partsName, partsPrice, partsImage) {
 	
 	$("#partsId_"+targetIndex).val(id);
 	$("#partsName_"+targetIndex).val(partsName);
 	$("#partsPrice_"+targetIndex).val(partsPrice);
+	$("#partsImage_"+targetIndex).val(partsImage);
 	
 	$("#"+targetModelId).modal('hide');
 	
@@ -483,7 +487,7 @@ function productPriceCalculate() {
 									<td>${item.partsName}</td>
 									<td>${item.partsPrice}</td>
 								    <td>
-								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}')">선택</button>
+								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}', '${item.partsImage}')">선택</button>
 								    </td>
 	                          	</tr>
 							</c:forEach>
@@ -520,7 +524,7 @@ function productPriceCalculate() {
 									<td>${item.partsName}</td>
 									<td>${item.partsPrice}</td>
 								    <td>
-								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}')">선택</button>
+								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}', '${item.partsImage}')">선택</button>
 								    </td>
 	                          	</tr>
 							</c:forEach>
@@ -556,7 +560,7 @@ function productPriceCalculate() {
 									<td>${item.partsName}</td>
 									<td>${item.partsPrice}</td>
 								    <td>
-								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}')">선택</button>
+								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}', '${item.partsImage}')">선택</button>
 								    </td>
 	                          	</tr>
 							</c:forEach>
@@ -592,7 +596,7 @@ function productPriceCalculate() {
 									<td>${item.partsName}</td>
 									<td>${item.partsPrice}</td>
 								    <td>
-								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}')">선택</button>
+								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}', '${item.partsImage}')">선택</button>
 								    </td>
 	                          	</tr>
 							</c:forEach>
@@ -628,7 +632,7 @@ function productPriceCalculate() {
 									<td>${item.partsName}</td>
 									<td>${item.partsPrice}</td>
 								    <td>
-								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}')">선택</button>
+								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}', '${item.partsImage}')">선택</button>
 								    </td>
 	                          	</tr>
 							</c:forEach>
@@ -664,7 +668,7 @@ function productPriceCalculate() {
 									<td>${item.partsName}</td>
 									<td>${item.partsPrice}</td>
 								    <td>
-								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}')">선택</button>
+								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}', '${item.partsImage}')">선택</button>
 								    </td>
 	                          	</tr>
 							</c:forEach>
@@ -700,7 +704,7 @@ function productPriceCalculate() {
 									<td>${item.partsName}</td>
 									<td>${item.partsPrice}</td>
 								    <td>
-								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}')">선택</button>
+								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}', '${item.partsImage}')">선택</button>
 								    </td>
 	                          	</tr>
 							</c:forEach>
@@ -736,7 +740,7 @@ function productPriceCalculate() {
 									<td>${item.partsName}</td>
 									<td>${item.partsPrice}</td>
 								    <td>
-								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}')">선택</button>
+								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}', '${item.partsImage}')">선택</button>
 								    </td>
 	                          	</tr>
 							</c:forEach>
@@ -772,7 +776,7 @@ function productPriceCalculate() {
 									<td>${item.partsName}</td>
 									<td>${item.partsPrice}</td>
 								    <td>
-								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}')">선택</button>
+								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}', '${item.partsImage}')">선택</button>
 								    </td>
 	                          	</tr>
 							</c:forEach>
@@ -808,7 +812,7 @@ function productPriceCalculate() {
 									<td>${item.partsName}</td>
 									<td>${item.partsPrice}</td>
 								    <td>
-								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}')">선택</button>
+								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}', '${item.partsImage}')">선택</button>
 								    </td>
 	                          	</tr>
 							</c:forEach>

@@ -171,7 +171,93 @@ public class OrderServiceImpl implements OrderService {
 		
 		if(1 == result) {
 			OrderMasterHistoryVO orderMasterHistoryVO = orderMasterVOToOrderMasterHistoryVO(orderMasterVO);
-			orderMasterHistoryVO.setHistoryContents("운송장번호 추가 또는 변경");
+			orderMasterHistoryVO.setHistoryContents("운송장번호 항목 변경");
+			result += orderDAO.insertOrderMasterHistoryVO(orderMasterHistoryVO);
+		}
+		
+		return result;
+	}
+	
+	@Override
+	public Integer updateRecipientHpNumber2(OrderMasterVO orderMasterVO) {
+		int result = 0;
+		OrderMasterVO searchVO = new OrderMasterVO();
+		searchVO.setId(orderMasterVO.getId());
+		
+		OrderMasterVO targetOrderMasterVO = orderDAO.getOrderMasterAllList(searchVO).get(0);
+		
+		targetOrderMasterVO.setRecipientHpNumber2(orderMasterVO.getRecipientHpNumber2());
+		result = orderDAO.updateOrderMasterVO(targetOrderMasterVO);
+		
+		if(1 == result) {
+			OrderMasterHistoryVO orderMasterHistoryVO = orderMasterVOToOrderMasterHistoryVO(orderMasterVO);
+			orderMasterHistoryVO.setHistoryContents("추가연락처 항목 변경");
+			result += orderDAO.insertOrderMasterHistoryVO(orderMasterHistoryVO);
+		}
+		
+		return result;
+	}
+	
+	@Override
+	public Integer updateAddrs(OrderMasterVO orderMasterVO) {
+		int result = 0;
+		OrderMasterVO searchVO = new OrderMasterVO();
+		searchVO.setId(orderMasterVO.getId());
+		
+		OrderMasterVO targetOrderMasterVO = orderDAO.getOrderMasterAllList(searchVO).get(0);
+		
+		targetOrderMasterVO.setRecipientJibunAddr(orderMasterVO.getRecipientJibunAddr());
+		targetOrderMasterVO.setRecipientRoadAddr(orderMasterVO.getRecipientRoadAddr());
+		targetOrderMasterVO.setRecipientDetailAddr(orderMasterVO.getRecipientDetailAddr());
+		targetOrderMasterVO.setRecipientZipcode(orderMasterVO.getRecipientZipcode());
+		
+		result = orderDAO.updateOrderMasterVO(targetOrderMasterVO);
+		
+		if(1 == result) {
+			OrderMasterHistoryVO orderMasterHistoryVO = orderMasterVOToOrderMasterHistoryVO(orderMasterVO);
+			orderMasterHistoryVO.setHistoryContents("주소 항목 변경");
+			result += orderDAO.insertOrderMasterHistoryVO(orderMasterHistoryVO);
+		}
+		
+		return result;
+	}
+	
+	@Override
+	public Integer updateOrderRequest(OrderMasterVO orderMasterVO) {
+		int result = 0;
+		OrderMasterVO searchVO = new OrderMasterVO();
+		searchVO.setId(orderMasterVO.getId());
+		
+		OrderMasterVO targetOrderMasterVO = orderDAO.getOrderMasterAllList(searchVO).get(0);
+		
+		targetOrderMasterVO.setOrderRequest(orderMasterVO.getOrderRequest());
+		
+		result = orderDAO.updateOrderMasterVO(targetOrderMasterVO);
+		
+		if(1 == result) {
+			OrderMasterHistoryVO orderMasterHistoryVO = orderMasterVOToOrderMasterHistoryVO(orderMasterVO);
+			orderMasterHistoryVO.setHistoryContents("주문 시 요청사항 항목 변경");
+			result += orderDAO.insertOrderMasterHistoryVO(orderMasterHistoryVO);
+		}
+		
+		return result;
+	}
+	
+	@Override
+	public Integer updateDeliveryRequest(OrderMasterVO orderMasterVO) {
+		int result = 0;
+		OrderMasterVO searchVO = new OrderMasterVO();
+		searchVO.setId(orderMasterVO.getId());
+		
+		OrderMasterVO targetOrderMasterVO = orderDAO.getOrderMasterAllList(searchVO).get(0);
+		
+		targetOrderMasterVO.setDeliveryRequest(orderMasterVO.getDeliveryRequest());
+		
+		result = orderDAO.updateOrderMasterVO(targetOrderMasterVO);
+		
+		if(1 == result) {
+			OrderMasterHistoryVO orderMasterHistoryVO = orderMasterVOToOrderMasterHistoryVO(orderMasterVO);
+			orderMasterHistoryVO.setHistoryContents("배송 시 요청사항 항목 변경");
 			result += orderDAO.insertOrderMasterHistoryVO(orderMasterHistoryVO);
 		}
 		

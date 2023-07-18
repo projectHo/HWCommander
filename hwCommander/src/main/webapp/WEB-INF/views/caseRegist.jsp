@@ -19,8 +19,12 @@
 <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
         
 <script>
+var sel_file;
 
     $(function() {
+    	
+    	$("#imageThumbnail").css("display", "none");
+    	
         $('#btn_case_regist').on("click", function () {
         	if(!validationCheck()) {
         		return false;
@@ -30,16 +34,47 @@
         		goCaseRegist();
         	}
         });
+        
+        $("#multipartFile").on("change", handleImgFileSelect);
     });
     
 function goCaseRegist() {
-    var form = $("#case_regist_form").serialize();
-    
+	var form = new FormData();
+	
+	var partsCaseVO = {
+		partsName : $("#partsName").val(),
+		partsPrice : $("#partsPrice").val(),
+		cledCd : $("#cledCd").val(),
+		cmCd : $("#cmCd").val(),
+		cmcCd : $("#cmcCd").val(),
+		cscCd : $("#cscCd").val(),
+		makerId : $("#makerId").val(),
+		adap : $("#adap").val(),
+		cool : $("#cool").val(),
+		end : $("#end").val(),
+		conv : $("#conv").val(),
+		ff : $("#ff").val(),
+		iw : $("#iw").val(),
+		il : $("#il").val(),
+		ih : $("#ih").val(),
+		it : $("#it").val(),
+		fh : $("#fh").val(),
+		ft : $("#ft").val(),
+		strTwoDotFive : $("#strTwoDotFive").val(),
+		strThreeDotFive : $("#strThreeDotFive").val()
+	};
+	
+	form.append("multipartFile", $("#multipartFile")[0].files[0]);
+	form.append("partsCaseVO", JSON.stringify(partsCaseVO));
+	
+	
     $.ajax({
         type: "post",
         url: "/admin/caseRegistLogic.do",
         data: form,
-        dataType: 'json',
+        contentType : false,
+        processData : false,
+        enctype : "multipart/form-data",
         success: function (data) {
         	if(data == 1) {
         		alert("등록완료");
@@ -50,6 +85,30 @@ function goCaseRegist() {
             console.log(data);
         }
     });
+}
+
+function handleImgFileSelect(e) {
+	var files = e.target.files;
+    var filesArr = Array.prototype.slice.call(files);
+
+    var reg = /(.*?)\/(jpg|jpeg|png|bmp)$/;
+
+    filesArr.forEach(function(f) {
+        if (!f.type.match(reg)) {
+            alert("확장자는 이미지 확장자만 가능합니다.");
+            return;
+        }
+
+        sel_file = f;
+
+        var reader = new FileReader();
+        reader.onload = function(e) {
+            $("#imageThumbnail").attr("src", e.target.result);
+            $("#imageThumbnail").css("display", "block");
+        }
+        reader.readAsDataURL(f);
+    });
+	
 }
 
 function validationCheck() {
@@ -357,6 +416,15 @@ function validationCheck() {
                                                <input class="form-control" id="multiBulk" name="multiBulk" type="text" placeholder="Enter multiBulk" />
                                                <label for="multiBulk">멀티팩 벌크</label>
                                            </div>
+                                       </div>
+                                   </div>
+                                   
+                                   <div class="row mb-3">
+                                       <div class="col-md-6">
+                                           <img class="img-fluid rounded mx-auto" id="imageThumbnail" style="width:500px; height:500px; object-fit:contain;">
+                                       </div>
+                                       <div class="col-md-6">
+                                           <input type="file" class="form-control" id="multipartFile" name="multipartFile" aria-label="Upload">
                                        </div>
                                    </div>
                                    

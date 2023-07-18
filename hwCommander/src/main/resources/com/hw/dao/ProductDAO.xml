@@ -20,6 +20,7 @@
 			, product_image
 			, reg_dtm
 			, updt_dtm
+			, product_regist_path_cd
 		)
 		VALUES
 		(
@@ -31,6 +32,7 @@
 			, #{productImage}
 			, NOW()
 			, #{updtDtm}
+			, #{productRegistPathCd}
 		)
 	</insert>
 	
@@ -45,7 +47,8 @@
 			, a.product_image                                                                   AS productImage
 			, (SELECT GROUP_CONCAT(parts_name SEPARATOR '|') FROM product_detail WHERE id = a.id) AS productDetailListStr
 			, a.reg_dtm                                                                         AS regDtm            
-			, a.updt_dtm                                                                        AS updtDtm            
+			, a.updt_dtm                                                                        AS updtDtm
+			, a.product_regist_path_cd                                                          AS productRegistPathCd            
 		FROM
 			product_master a
 	</select>
@@ -64,6 +67,7 @@
 			, parts_image
 			, reg_dtm
 			, updt_dtm
+			, parts_history_seq
 		)
 		VALUES
 		(
@@ -78,6 +82,7 @@
 			, #{partsImage}
 			, NOW()
 			, #{updtDtm}
+			, #{partsHistorySeq}
 		)
 	</insert>
 	
@@ -99,6 +104,7 @@
 			product_master a
 		WHERE
 			a.product_qty >= 1
+			AND a.product_regist_path_cd = '01'
 	</select>
 	
 	<select id="getProductMasterById" parameterType="String" resultType="productMasterVO">
@@ -115,7 +121,9 @@
 			, a.product_image                                                                   AS productImage      
 			, a.reg_dtm                                                                         AS regDtm            
 			, a.updt_dtm                                                                        AS updtDtm
-			, (SELECT COUNT(b.id) AS cnt FROM order_detail b WHERE a.id = b.product_id)         AS orderDetailCnt            
+			, (SELECT COUNT(b.id) AS cnt FROM order_detail b WHERE a.id = b.product_id)         AS orderDetailCnt
+			, a.product_regist_path_cd                                                          AS productRegistPathCd
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRO001' AND cd = a.product_regist_path_cd )     AS productRegistPathCdNm            
 		FROM
 			product_master a
 		WHERE
@@ -132,7 +140,8 @@
 			, product_qty         			= #{productQty}        
 			, product_description 			= #{productDescription}
 			, product_image       			= #{productImage}      
-			, updt_dtm            			= NOW()                
+			, updt_dtm            			= NOW()
+			, product_regist_path_cd        = #{productRegistPathCd}               
 		WHERE
 			id = #{id}
 	</update>
@@ -150,7 +159,8 @@
 			, a.parts_total_price                                                             AS partsTotalPrice
 			, a.parts_image                                                                   AS partsImage     
 			, a.reg_dtm                                                                       AS regDtm         
-			, a.updt_dtm                                                                      AS updtDtm        
+			, a.updt_dtm                                                                      AS updtDtm
+			, a.parts_history_seq                                                             AS partsHistorySeq        
 		FROM
 			product_detail a 
 		WHERE
