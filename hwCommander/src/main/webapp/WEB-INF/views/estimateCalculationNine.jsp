@@ -135,7 +135,7 @@
 		window.location.href = "estimateCalculationEight.do";
 	}
 	function clickEstimateBtn(el){
-		if($("#answer-y").prop("checked") === false && $("#answer-n").prop("checked") === false && $("#answer-o").prop("checked") === false){
+		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false){
 			alert("선택은 필수에요!");
 			$(el).addClass("is-invalid");
 			setTimeout(() => {
@@ -150,7 +150,7 @@
 		}
 	}
 	function clickNextBtn(el){
-		if($("#answer-y").prop("checked") === false && $("#answer-n").prop("checked") === false && $("#answer-o").prop("checked") === false){
+		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false){
 			alert("선택은 필수에요!");
 			$(el).addClass("is-invalid");
 			setTimeout(() => {
@@ -175,11 +175,11 @@
 	if(sessionStorage.getItem("data-9")){
 		const storedData = sessionStorage.getItem("data-9");
 		if(storedData === "DDR4"){
-			$("#answer-y").prop("checked",true);
+			$("#answer-a").prop("checked",true);
 		}else if (storedData === "DDR5"){
-			$("#answer-n").prop("checked",true);
+			$("#answer-b").prop("checked",true);
 		}else if (storedData === "0"){
-			$("#answer-o").prop("checked",true);
+			$("#answer-c").prop("checked",true);
 		}
 	}
 	})
@@ -210,16 +210,16 @@
 					</div>
 					<div class="row pb-5">
 						<div class="col-4 d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-y">
-							<label class="btn btn-outline-secondary w-75" for="answer-y" onclick="javascript:clickDdr4Btn()">DDR4</label>
+							<input type="radio" class="btn-check" name="btnradio" id="answer-a">
+							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickDdr4Btn()">DDR4</label>
 						</div>
 						<div class="col-4 d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-n">
-							<label class="btn btn-outline-secondary w-75" for="answer-n" onclick="javascript:clickDdr5Btn()">DDR5</label>
+							<input type="radio" class="btn-check" name="btnradio" id="answer-b">
+							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickDdr5Btn()">DDR5</label>
 						</div>
 						<div class="col-4 d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-o">
-							<label class="btn btn-outline-secondary w-75" for="answer-o" onclick="javascript:clickOkBtn()">상관 없음</label>
+							<input type="radio" class="btn-check" name="btnradio" id="answer-c">
+							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickOkBtn()">상관 없음</label>
 						</div>
 					</div>
 					<div class="row mb-4">

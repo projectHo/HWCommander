@@ -138,7 +138,7 @@
 		window.location.href = "estimateCalculationNine.do";
 	}
 	function clickEstimateBtn(el){
-		if($("#answer-y").prop("checked") === false && $("#answer-n").prop("checked") === false && $("#answer-o").prop("checked") === false && $("#answer-z").prop("checked") === false){
+		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false && $("#answer-d").prop("checked") === false){
 			alert("선택은 필수에요!");
 			$(el).addClass("is-invalid");
 			setTimeout(() => {
@@ -152,7 +152,21 @@
 			sendAllData();
 		}
 	}
-	
+	function clickNextBtn(el){
+		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false && $("#answer-d").prop("checked") === false){
+			alert("선택은 필수에요!");
+			$(el).addClass("is-invalid");
+			setTimeout(() => {
+				$(el).removeClass("is-invalid");
+			}, 2000);
+		}else {
+			$(el).addClass("is-valid");
+			setTimeout(() => {
+				$(el).removeClass("is-valid");
+			}, 2000);
+			window.location.href = "estimateCalculationEleven.do";
+		}
+	}
 	$(function () {
 	typeText();
 	animateDonutGauge();
@@ -164,13 +178,13 @@
 	if(sessionStorage.getItem("data-10")){
 		const storedData = sessionStorage.getItem("data-10");
 		if(storedData === "Bulk"){
-			$("#answer-y").prop("checked",true);
+			$("#answer-a").prop("checked",true);
 		}else if (storedData === "Multi"){
-			$("#answer-n").prop("checked",true);
+			$("#answer-b").prop("checked",true);
 		}else if (storedData === "1"){
-			$("#answer-o").prop("checked",true);
+			$("#answer-c").prop("checked",true);
 		}else if (storedData === "0"){
-			$("#answer-z").prop("checked",true);
+			$("#answer-d").prop("checked",true);
 		}
 		
 	}
@@ -197,25 +211,25 @@
 							<input id="typingInput" class="form-control text-center" type="text" readonly aria-label="예산 편성" disabled />
 						</div>
 					    <div class="col-2 d-flex flex-column-reverse">
-							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="마지막 질문이에요!" style="cursor:pointer">
+							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="좋아하시는 쿨러가 있나요?" style="cursor:pointer">
 						</div>
 					</div>
 					<div class="row pb-5">
 						<div class="col-3 d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-y">
-							<label class="btn btn-outline-secondary w-75" for="answer-y" onclick="javascript:clickBulkBtn()">벌크</label>
+							<input type="radio" class="btn-check" name="btnradio" id="answer-a">
+							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickBulkBtn()">벌크</label>
 						</div>
 						<div class="col-3 d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-n">
-							<label class="btn btn-outline-secondary w-75" for="answer-n" onclick="javascript:clickMultiBtn()">멀티팩</label>
+							<input type="radio" class="btn-check" name="btnradio" id="answer-b">
+							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickMultiBtn()">멀티팩</label>
 						</div>
 						<div class="col-3 d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-o">
-							<label class="btn btn-outline-secondary w-75" for="answer-o" onclick="javascript:clickOkBtn()">둘다 좋음</label>
+							<input type="radio" class="btn-check" name="btnradio" id="answer-c">
+							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickOkBtn()">둘다 좋음</label>
 						</div>
 						<div class="col-3 d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-z">
-							<label class="btn btn-outline-secondary w-75" for="answer-z" onclick="javascript:clickNoBtn()">둘다 싫음</label>
+							<input type="radio" class="btn-check" name="btnradio" id="answer-d">
+							<label class="btn btn-outline-secondary w-75" for="answer-d" onclick="javascript:clickNoBtn()">둘다 싫음</label>
 						</div>
 					</div>
 					<div class="row mb-4">
@@ -226,7 +240,7 @@
 							<button type="button" class="form-control calc-two-final margin-center" onclick="javascript:clickEstimateBtn(this)">견적 보기</button>
 						</div>
 						<div class="col-4">
-							
+							<button type="button" class="form-control w-50 margin-left-auto" onclick="javascript:clickNextBtn(this)">다음 질문</button>
 						</div>
 					</div>
 				</div>

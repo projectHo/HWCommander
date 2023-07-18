@@ -190,7 +190,6 @@
 		}else if($(".save-btn").css("display") === "block"){
 			alert("저장 해주세요!")
 		}else {
-			
 			$(el).addClass("is-valid");
 			setTimeout(() => {
 				$(el).removeClass("is-valid");
@@ -241,26 +240,94 @@
 			$(".color-card").css("opacity","0.3");
 		}
 	}
-	$(function () {
-	typeText();
-	animateDonutGauge();
-	// bootstrap tooltip
-	const tooltipList = $('[data-bs-toggle="tooltip"]').map(function() {
-		return new bootstrap.Tooltip($(this)[0]);
-	}).get();
-
-	// 견적산출 데이터처리부(수신)
-	if(sessionStorage.getItem("data-8")){
-		const data = sessionStorage.getItem("data-8");
-		if(data.length>3){
-			const data2 = JSON.parse(data);
-			for(let i=0; i<data2.length; i++){
-				$($(".picked-color")[i]).css("background-color", data2[i]);
-			}
-		}else{
-			$(".np-btn").addClass("active");
+	// 미구현 모달용
+	function clickEstimateModalBtn(){
+		let answer1 = new Map();let answer2 = new Map();let answer3 = new Map();let answer4 = new Map();let answer5 = new Map();let answer6 = new Map();let answer7 = new Map();let answer8 = new Map();let answer9 = new Map();let answer10 = new Map();let answer11 = new Map();let answer12 = new Map();let answer13 = new Map();let answer14 = new Map();let answer15 = new Map();let answer16 = new Map();let answer17 = new Map();let answer18 = new Map();let answer19 = new Map();let answer20 = new Map();
+		
+		answer1.set(sessionStorage.getItem("data-1") + "0000", "");
+		let twoDatas = JSON.parse(sessionStorage.getItem("data-2"));
+		for(let i = 0 ; i < twoDatas.length; i++){
+			answer2.set(twoDatas[i][0],twoDatas[i][1])
 		}
+		if(sessionStorage.getItem("data-3") !== ""){
+			let threeDatas = JSON.parse(sessionStorage.getItem("data-3"));
+			answer3.set("Fever", threeDatas[0]);
+			answer3.set("Meterial", threeDatas[1]);
+			answer3.set("AS", threeDatas[2]);
+			answer3.set("Noise", threeDatas[3]);
+			answer3.set("Stability", threeDatas[4]);
+			answer3.set("QC", threeDatas[5]);
+		}else {
+			answer3.set("Fever", "");
+			answer3.set("Meterial", "");
+			answer3.set("AS", "");
+			answer3.set("Noise", "");
+			answer3.set("Stability", "");
+			answer3.set("QC", "");
+		}
+		
+		for(let i = 4; i <=20 ; i++){
+			if(i === 8){
+				answer8.set("main-color", "null");
+				answer8.set("sub-color", "null");
+			}else if(sessionStorage.getItem("data-" + i) !== ""){
+				var answerName = "answer" + i;
+				var answer = eval(answerName);
+				answer.set(sessionStorage.getItem("data-" + i));
+			}else if (sessionStorage.getItem("data-" + i) === ""){
+				var answerName = "answer" + i;
+				var answer = eval(answerName);
+				answer.set("");
+			}
+		}
+		
+
+		var urlParams = "";
+
+		for (var i = 1; i <= 20; i++) {
+			var mapName = "answer" + i;
+			var map = eval(mapName);
+
+			for (var [key, value] of map) {
+				if(value === "" || !value){
+					value = "null";
+				}
+				urlParams += mapName + ":" + key + "=" + value;
+				urlParams += "|";
+			}
+		}
+		var baseUrl = "/estimateCalculationResult.do";
+		var fullUrl = baseUrl + "?" + urlParams;
+		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
 	}
+	function clickNextModalBtn(){
+		window.location.href = "estimateCalculationNine.do";
+	}
+	$(function () {
+		typeText();
+		animateDonutGauge();
+		// bootstrap tooltip
+		const tooltipList = $('[data-bs-toggle="tooltip"]').map(function() {
+			return new bootstrap.Tooltip($(this)[0]);
+		}).get();
+
+		// 견적산출 데이터처리부(수신)
+		if(sessionStorage.getItem("data-8")){
+			const data = sessionStorage.getItem("data-8");
+			if(data.length>3){
+				const data2 = JSON.parse(data);
+				for(let i=0; i<data2.length; i++){
+					$($(".picked-color")[i]).css("background-color", data2[i]);
+				}
+			}else{
+				$(".np-btn").addClass("active");
+			}
+		}
+		// 미구현 모달
+		$(document).ready(function() {
+			$('#myModal').modal({ backdrop: 'static', keyboard: false }); 
+			$('#myModal').modal('show');
+		});
 	})
 </script>
 </head>
@@ -277,184 +344,100 @@
 					<div class="row mt-4 pb-5">
 						<div class="col-2 text-center">
 							<div class="donut-container margin-center">
-								 <div class="donut-fill">7</div>
+								<div class="donut-fill">7</div>
 							</div>
 						</div>
 						<div class="col-8 d-flex p-2">
 							<input id="typingInput" class="form-control text-center" type="text" readonly aria-label="예산 편성" disabled />
 						</div>
-					    <div class="col-2 d-flex flex-column-reverse">
+						<div class="col-2 d-flex flex-column-reverse">
 							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="선택사항 입니다~!" style="cursor:pointer">
 						</div>
 					</div>
-						<div class="row container">
-							<div class="col-4">
-								<div class="row pb-5">
-									<div class="col-7 p-0">
-										<div class="card" style="width: 100%;">
-											<div class="card-body">
-												<h3 class="card-title mb-0 text-center">메인 컬러</h3>
-											</div>
-										</div>
-									</div>
-									<div class="col-4">
-										<div class="card h-100">
-											<div class="card-body p-0 color-picker-btn d-flex align-items-center justify-content-center">
-												<div class="picked-color" onclick="javascript:clickColorPick(this)" onmouseover="javascript:mouseInPicker()" onmouseout="javascript:mouseOutPicker()">
-		
-												</div>
-											</div>
+					<div class="row container">
+						<div class="col-4">
+							<div class="row pb-5">
+								<div class="col-7 p-0">
+									<div class="card" style="width: 100%;">
+										<div class="card-body">
+											<h3 class="card-title mb-0 text-center">메인 컬러</h3>
 										</div>
 									</div>
 								</div>
-								<div class="row pb-5">
-									<div class="col-7 p-0">
-										<div class="card" style="width: 100%;">
-											<div class="card-body">
-												<h3 class="card-title mb-0 text-center">서브 컬러</h3>
-											</div>
-										</div>
-									</div>
-									<div class="col-4">
-										<div class="card h-100">
-											<div class="card-body p-0 color-picker-btn d-flex align-items-center justify-content-center">
-												<div class="picked-color"  onclick="javascript:clickColorPick(this)" onmouseover="javascript:mouseInPicker()" onmouseout="javascript:mouseOutPicker()">
-		
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="row pb-5">
-									<div class="col-7 p-0">
-										<button type="button" class="btn btn-outline-secondary w-100 fs-3 np-btn" data-bs-toggle="button" onclick="javascript:clickNpBtn()">상관 없음</button>
-									</div>
-									<div class="col"></div>
-								</div>
-							</div>
-							<div class="col-8">
-								<div class="card color-card" style="width: 100%;">
-									<div class="card-body">
-										<div class="row">
-											<div class="col-4"><span class="card-text d-flex align-items-center w-75 fs-4"><div class="color-container me-2 mt-1" style="background-color: rgb(0,0,0);"></div> Black</span></div>
-											<div class="col-4"><span class="card-text d-flex align-items-center w-75 fs-4"><div class="color-container me-2 mt-1" style="background-color: rgb(0,122,192);"></div> Blue</span></div>
-											<div class="col-4"><span class="card-text d-flex align-items-center w-75 fs-4"><div class="color-container me-2 mt-1" style="background-color: rgb(112,63,58);"></div> Brown</span></div>
-										</div>
-										<div class="row">
-											<div class="col-4"><span class="card-text d-flex align-items-center w-75 fs-4"><div class="color-container me-2 mt-1" style="background-color: rgb(222,182,62);"></div> Gold</span></div>
-											<div class="col-4"><span class="card-text d-flex align-items-center w-75 fs-4"><div class="color-container me-2 mt-1" style="background-color: rgb(94,94,94);"></div> Gray</span></div>
-											<div class="col-4"><span class="card-text d-flex align-items-center w-75 fs-4"><div class="color-container me-2 mt-1" style="background-color: rgb(199,198,116);"></div> Green</span></div>
-										</div>
-										<div class="row">
-											<div class="col-4"><span class="card-text d-flex align-items-center w-75 fs-4"><div class="color-container me-2 mt-1" style="background-color: rgb(212,37,114);"></div> Magenta</span></div>
-											<div class="col-4"><span class="card-text d-flex align-items-center w-75 fs-4"><div class="color-container me-2 mt-1" style="background-color: rgb(143,215,212);"></div> Mint</span></div>
-											<div class="col-4"><span class="card-text d-flex align-items-center w-75 fs-4"><div class="color-container me-2 mt-1" style="background-color: rgb(239,124,31);"></div> Orange</span></div>
-										</div>
-										<div class="row">
-											<div class="col-4"><span class="card-text d-flex align-items-center w-75 fs-4"><div class="color-container me-2 mt-1" style="background-color: rgb(236,180,186);"></div> Pink</span></div>
-											<div class="col-4"><span class="card-text d-flex align-items-center w-75 fs-4"><div class="color-container me-2 mt-1" style="background-color: rgb(173,108,200);"></div> Purple</span></div>
-											<div class="col-4"><span class="card-text d-flex align-items-center w-75 fs-4"><div class="color-container me-2 mt-1" style="background-color: rgb(252,46,70);"></div> Red</span></div>
-										</div>
-										<div class="row">
-											<div class="col-4"><span class="card-text d-flex align-items-center w-75 fs-4"><div class="color-container me-2 mt-1" style="background-color: rgb(220,218,221);"></div> Silver</span></div>
-											<div class="col-4"><span class="card-text d-flex align-items-center w-75 fs-4"><div class="color-container me-2 mt-1" style="background-color: rgb(255,255,255);"></div> White</span></div>
-											<div class="col-4"><span class="card-text d-flex align-items-center w-75 fs-4"><div class="color-container me-2 mt-1" style="background-color: rgb(255,213,33);"></div> Yellow</span></div>
-										</div>
-										<div class="row">
-											<div class="col-4"><span class="card-text d-flex align-items-center fs-4"><div class="color-container me-2 mt-1"></div> 상관없음</span></div>
-											<div class="col-4"></div>
-											<div class="col-4">
-												<button type="button" class="btn btn-primary ms-5 save-btn" style="display: none;" onclick="javascript:clickSaveBtn()">저장</button>
+								<div class="col-4">
+									<div class="card h-100">
+										<div class="card-body p-0 color-picker-btn d-flex align-items-center justify-content-center">
+											<div class="picked-color" onclick="javascript:clickColorPick(this)" onmouseover="javascript:mouseInPicker()" onmouseout="javascript:mouseOutPicker()">
+	
 											</div>
 										</div>
 									</div>
 								</div>
 							</div>
-						
+							<div class="row pb-5">
+								<div class="col-7 p-0">
+									<div class="card" style="width: 100%;">
+										<div class="card-body">
+											<h3 class="card-title mb-0 text-center">서브 컬러</h3>
+										</div>
+									</div>
+								</div>
+								<div class="col-4">
+									<div class="card h-100">
+										<div class="card-body p-0 color-picker-btn d-flex align-items-center justify-content-center">
+											<div class="picked-color"  onclick="javascript:clickColorPick(this)" onmouseover="javascript:mouseInPicker()" onmouseout="javascript:mouseOutPicker()">
+	
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="row pb-5">
+								<div class="col-7 p-0">
+									<button type="button" class="btn btn-outline-secondary w-100 fs-3 np-btn" data-bs-toggle="button" onclick="javascript:clickNpBtn()">상관 없음</button>
+								</div>
+								<div class="col"></div>
+							</div>
+						</div>
+						<div class="col-8">
+							<div class="card color-card" style="width: 100%;">
+								<div class="card-body">
+									<div class="row">
+										<div class="col-4"><span class="card-text d-flex align-items-center w-75 fs-4"><div class="color-container me-2 mt-1" style="background-color: rgb(0,0,0);"></div> Black</span></div>
+										<div class="col-4"><span class="card-text d-flex align-items-center w-75 fs-4"><div class="color-container me-2 mt-1" style="background-color: rgb(0,122,192);"></div> Blue</span></div>
+										<div class="col-4"><span class="card-text d-flex align-items-center w-75 fs-4"><div class="color-container me-2 mt-1" style="background-color: rgb(112,63,58);"></div> Brown</span></div>
+									</div>
+									<div class="row">
+										<div class="col-4"><span class="card-text d-flex align-items-center w-75 fs-4"><div class="color-container me-2 mt-1" style="background-color: rgb(222,182,62);"></div> Gold</span></div>
+										<div class="col-4"><span class="card-text d-flex align-items-center w-75 fs-4"><div class="color-container me-2 mt-1" style="background-color: rgb(94,94,94);"></div> Gray</span></div>
+										<div class="col-4"><span class="card-text d-flex align-items-center w-75 fs-4"><div class="color-container me-2 mt-1" style="background-color: rgb(199,198,116);"></div> Green</span></div>
+									</div>
+									<div class="row">
+										<div class="col-4"><span class="card-text d-flex align-items-center w-75 fs-4"><div class="color-container me-2 mt-1" style="background-color: rgb(212,37,114);"></div> Magenta</span></div>
+										<div class="col-4"><span class="card-text d-flex align-items-center w-75 fs-4"><div class="color-container me-2 mt-1" style="background-color: rgb(143,215,212);"></div> Mint</span></div>
+										<div class="col-4"><span class="card-text d-flex align-items-center w-75 fs-4"><div class="color-container me-2 mt-1" style="background-color: rgb(239,124,31);"></div> Orange</span></div>
+									</div>
+									<div class="row">
+										<div class="col-4"><span class="card-text d-flex align-items-center w-75 fs-4"><div class="color-container me-2 mt-1" style="background-color: rgb(236,180,186);"></div> Pink</span></div>
+										<div class="col-4"><span class="card-text d-flex align-items-center w-75 fs-4"><div class="color-container me-2 mt-1" style="background-color: rgb(173,108,200);"></div> Purple</span></div>
+										<div class="col-4"><span class="card-text d-flex align-items-center w-75 fs-4"><div class="color-container me-2 mt-1" style="background-color: rgb(252,46,70);"></div> Red</span></div>
+									</div>
+									<div class="row">
+										<div class="col-4"><span class="card-text d-flex align-items-center w-75 fs-4"><div class="color-container me-2 mt-1" style="background-color: rgb(220,218,221);"></div> Silver</span></div>
+										<div class="col-4"><span class="card-text d-flex align-items-center w-75 fs-4"><div class="color-container me-2 mt-1" style="background-color: rgb(255,255,255);"></div> White</span></div>
+										<div class="col-4"><span class="card-text d-flex align-items-center w-75 fs-4"><div class="color-container me-2 mt-1" style="background-color: rgb(255,213,33);"></div> Yellow</span></div>
+									</div>
+									<div class="row">
+										<div class="col-4"><span class="card-text d-flex align-items-center fs-4"><div class="color-container me-2 mt-1"></div> 상관없음</span></div>
+										<div class="col-4"></div>
+										<div class="col-4">
+											<button type="button" class="btn btn-primary ms-5 save-btn" style="display: none;" onclick="javascript:clickSaveBtn()">저장</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
 					</div>
-					<!-- <div class="row pb-5">
-						<div class="col-6">
-							<div class="card" style="width: 18rem;">
-								<div class="card-body">
-									<h3 class="card-title d-flex align-items-center" style="height: 50px;">메인 컬러 : <span class="picked-color ms-4"></span></h3>
-									<div class="container">
-										<div class="row">
-											<span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(0,0,0);"></div> Black</span></div>
-											<span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(0,122,192);"></div> Blue</span></div>
-										</div>
-										<div class="row">
-											<span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(112,63,58);"></div> Brown</span></div>
-											<span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(222,182,62);"></div> Gold</span></div>
-										</div>
-										<div class="row">
-											<span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(94,94,94);"></div> Gray</span></div>
-											<span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(199,198,116);"></div> Green</span></div>
-										</div>
-										<div class="row">
-											<span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(212,37,114);"></div> Magenta</span></div>
-											<span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(143,215,212);"></div> Mint</span></div>
-										</div>
-										<div class="row">
-											<span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(239,124,31);"></div> Orange</span></div>
-											<span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(236,180,186);"></div> Pink</span></div>
-										</div>
-										<div class="row">
-											<span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(173,108,200);"></div> Purple</span></div>
-											<span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(252,46,70);"></div> Red</span></div>
-										</div>
-										<div class="row">
-											<span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(220,218,221);"></div> Silver</span></div>
-											<span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(255,255,255);"></div> White</span></div>
-										</div>
-										<div class="row">
-											<span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(255,213,33);"></div> Yellow</span></div>
-											<span class="card-text d-flex align-items-center"><div class="color-container me-2"></div> 상관없음</span></div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div> -->
-						<!-- <div class="col-6">
-							<div class="card" style="width: 18rem;">
-								<div class="card-body">
-									<h3 class="card-title d-flex align-items-center" style="height: 50px;">서브 컬러 : <span class="picked-color ms-4"></span></h3>
-									<div class="container">
-										<div class="row">
-											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(0,0,0);"></div> Black</span></div>
-											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(0,122,192);"></div> Blue</span></div>
-										</div>
-										<div class="row">
-											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(112,63,58);"></div> Brown</span></div>
-											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(222,182,62);"></div> Gold</span></div>
-										</div>
-										<div class="row">
-											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(94,94,94);"></div> Gray</span></div>
-											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(199,198,116);"></div> Green</span></div>
-										</div>
-										<div class="row">
-											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(212,37,114);"></div> Magenta</span></div>
-											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(143,215,212);"></div> Mint</span></div>
-										</div>
-										<div class="row">
-											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(239,124,31);"></div> Orange</span></div>
-											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(236,180,186);"></div> Pink</span></div>
-										</div>
-										<div class="row">
-											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(173,108,200);"></div> Purple</span></div>
-											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(252,46,70);"></div> Red</span></div>
-										</div>
-										<div class="row">
-											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(220,218,221);"></div> Silver</span></div>
-											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(255,255,255);"></div> White</span></div>
-										</div>
-										<div class="row">
-											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2" style="background-color: rgb(255,213,33);"></div> Yellow</span></div>
-											<div class="col-6"><span class="card-text d-flex align-items-center"><div class="color-container me-2"></div> 상관없음</span></div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div> -->
 					<div class="row mb-4">
 						<div class="col">
 							<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:returnPageBtn()">이전 질문</button>
@@ -468,7 +451,25 @@
 					</div>
 				</div>
 	 		</div>
-			
+			<!-- 미구현 모달 -->
+			<div class="modal fade" id="myModal" tabindex="-1">
+				<div class="modal-dialog modal-dialog-centered">
+				  <div class="modal-content">
+					<div class="modal-header">
+					  <h5 class="modal-title text-center">8번째 질문</h5>
+					</div>
+					<div class="modal-body text-center">
+					  <p>죄송합니다.. 미구현 질문입니다...</p>
+					  <p>다음질문으로 넘어가시거나 견적산출을 해주세요!</p>
+					  <p>(이전까지의 질문은 모두 저장 되어 있습니다!!)</p>
+					</div>
+					<div class="modal-footer">
+					  <button type="button" class="btn btn-secondary" onclick="javascript:clickEstimateModalBtn()">견적 산출</button>
+					  <button type="button" class="btn btn-primary" onclick="javascript:clickNextModalBtn()">다음 질문</button>
+					</div>
+				  </div>
+				</div>
+			  </div>
 			<!-- 빈 영역 -->
 			<div class="justify-content-end" style="width: 15%!important;"></div>
 		</div>

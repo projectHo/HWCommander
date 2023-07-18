@@ -130,12 +130,15 @@
 	function clickNoBtn(){
 		sessionStorage.setItem("data-7",0);
 	}
+	function clickWhatBtn(){
+		sessionStorage.setItem("data-7","np")
+	}
 	function returnPageBtn(){
 		sessionStorage.removeItem("data-7");
 		window.location.href = "estimateCalculationSix.do";
 	}
 	function clickEstimateBtn(el){
-		if($("#answer-y").prop("checked") === true || $("#answer-n").prop("checked") === true){
+		if($("#answer-a").prop("checked") === true || $("#answer-b").prop("checked") === true || $("#answer-c").prop("checked") === true){
 			$(el).addClass("is-valid");
 			setTimeout(() => {
 				$(el).removeClass("is-valid");
@@ -150,7 +153,7 @@
 		}
 	}
 	function clickNextBtn(el){
-		if($("#answer-y").prop("checked") === false && $("#answer-n").prop("checked")===false){
+		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked")===false && $("#answer-c").prop("checked") === false){
 			$(el).addClass("is-invalid");
 			alert("둘중에 하나 선택해주세요!")
 			setTimeout(() => {
@@ -174,12 +177,15 @@
 	// 견적산출 데이터처리부(수신)
 	if(sessionStorage.getItem("data-7")){
 		const sevenData = sessionStorage.getItem("data-7");
-		const yesBtn = $("#answer-y");
-		const noBtn = $("#answer-n");
+		const yesBtn = $("#answer-a");
+		const noBtn = $("#answer-b");
+		const npBtn = $("#answer-c");
 		if(sevenData === "1"){
 			yesBtn.prop("checked",true);
 		}else if (sevenData === "0"){
 			noBtn.prop("checked",true);
+		}else if (sevenData === "np"){
+			npBtn.prop("checked",true);
 		}
 	}
 	})
@@ -209,18 +215,18 @@
 						</div>
 					</div>
 					<div class="row pb-5">
-						<div class="col-6 d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-y">
-							<label class="btn btn-outline-secondary w-50" for="answer-y" onclick="javascript:clickYesBtn()">좋아요!</label>
+						<div class="col-4 d-flex justify-content-center">
+							<input type="radio" class="btn-check" name="btnradio" id="answer-a">
+							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickYesBtn()">좋아요!</label>
 						</div>
-						<div class="col-6 d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-n">
-							<label class="btn btn-outline-secondary w-50" for="answer-n" onclick="javascript:clickNoBtn()">싫어요!</label>
+						<div class="col-4 d-flex justify-content-center">
+							<input type="radio" class="btn-check" name="btnradio" id="answer-b">
+							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickNoBtn()">싫어요!</label>
 						</div>
-						<!-- <div class="col-4 d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-n">
-							<label class="btn btn-outline-secondary w-75" for="answer-n" onclick="javascript:clickNoBtn()">모르겠어요!</label>
-						</div> -->
+						<div class="col-4 d-flex justify-content-center">
+							<input type="radio" class="btn-check" name="btnradio" id="answer-c">
+							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickWhatBtn()">상관없어요!</label>
+						</div>
 					</div>
 					<div class="row mb-4">
 						<div class="col">

@@ -24,9 +24,7 @@
 <script>
 	
 	function goOrderListDetailPage(){
-		if(loginCheck()){
-			location.href = "/user/orderListDetail.do?id=" + objectNum;
-		}
+		location.href = "/user/orderListDetail.do?id=" + objectNum;
 	}
 	let objectNum
 	function clickOrderList(el){
@@ -83,7 +81,7 @@
 										<td scope="row">${item.orderDateStr}</td>
 										<td>${item.orderName}</td>
 										<td class="item-id">${item.id}</td>
-										<td>${item.totOrderPrice}</td>
+										<td>${item.totOrderPriceStr}</td>
 										<td>${item.orderStateCdNm}</td>
 									</a>
 								</tr>

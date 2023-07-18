@@ -38,6 +38,7 @@
 		var value = keyValue[1];
 		masterInfoObject[key] = value;
 	}
+	console.log(masterInfoObject);
 	function loadData(){
 		$(".order-num").html(masterInfoObject.id);
 		$(".order-date").html(masterInfoObject.orderDateStr);
@@ -56,7 +57,7 @@
 		$(".delivery-req").val(masterInfoObject.deliveryRequest);
 		$(".waybill").html(masterInfoObject.waybillNumber);
 		$(".payment-meth").html(masterInfoObject.paymentMethod);
-		$(".tot-order-price").val(masterInfoObject.totOrderPriceStr)
+		$(".tot-order-price").html(masterInfoObject.totOrderPriceStr + "원")
 	};
 	// 다음 지도
 	function findDaumAddr() {
@@ -71,19 +72,121 @@
 }
 	// 수정버튼
 	function editHpBtn(){
-
+		$.ajax({
+			type: "post",
+			url: "/user/orderUpdateRecipientHpNumber2Logic.do",
+			data: {
+				id: $(".order-num").html(),
+				recipientHpNumber2: $(".recipient-next-hp").val()
+			},
+			dataType: "json",
+			success: function(response) {
+				console.log("데이터 수정 성공!");
+				console.log(response);
+			},
+			error: function(xhr, status, error) {
+				console.error("데이터 수정 실패:", error);
+			}
+		});
 	}
+	
 	function editAddrBtn(){
 		findDaumAddr();
 	}
-	function editOrderReqBtn(){
 
-	}
-	function editDeliveryReqBtn(){
-
-	}
 	function saveAddrBtn(){
-
+		$.ajax({
+			type: "post",
+			url: "/user/orderUpdateAddrsLogic.do",
+			data: {
+				id: $(".order-num").html(),
+				recipientJibunAddr: $(".recipient-jibun-addr").val(),
+				recipientRoadAddr: $(".recipient-road-addr").val(),
+				recipientDetailAddr: $(".recipient-detail-addr").val(),
+				recipientZipcode: $(".recipient-zip-code").val()
+			},
+			dataType: "json",
+			success: function(response) {
+				console.log("데이터 수정 성공!");
+				console.log(response);
+			},
+			error: function(xhr, status, error) {
+				console.error("데이터 수정 실패:", error);
+			}
+		});
+	}
+	
+	function editOrderReqBtn(){
+		$.ajax({
+			type: "post",
+			url: "/user/orderUpdateOrderRequest.do",
+			data: {
+				id: $(".order-num").html(),
+				orderRequest: $(".order-req").val()
+			},
+			dataType: "json",
+			success: function(response) {
+				console.log("데이터 수정 성공!");
+				console.log(response);
+			},
+			error: function(xhr, status, error) {
+				console.error("데이터 수정 실패:", error);
+			}
+		});
+	}
+	
+	function editDeliveryReqBtn(){
+		$.ajax({
+			type: "post",
+			url: "/user/orderUpdateDeliveryRequest.do",
+			data: {
+				id: $(".order-num").html(),
+				deliveryRequest: $(".delivery-req").val()
+			},
+			dataType: "json",
+			success: function(response) {
+				console.log("데이터 수정 성공!");
+				console.log(response);
+			},
+			error: function(xhr, status, error) {
+				console.error("데이터 수정 실패:", error);
+			}
+		});
+	}
+	
+	function requestVideoBtn(){
+		$.ajax({
+			type: "post",
+			url: "/user/orderVideoRequestToAdminLogic.do",
+			data: {
+				id: $(".order-num").html()
+			},
+			dataType: "json",
+			success: function(response) {
+				console.log("데이터 수정 성공!");
+				console.log(response);
+			},
+			error: function(xhr, status, error) {
+				console.error("데이터 수정 실패:", error);
+			}
+		});
+	}
+	function requestRefundBtn(){
+		$.ajax({
+			type: "post",
+			url: "/user/orderRefundRequestToAdminLogic.do",
+			data: {
+				id: $(".order-num").html()
+			},
+			dataType: "json",
+			success: function(response) {
+				console.log("데이터 수정 성공!");
+				console.log(response);
+			},
+			error: function(xhr, status, error) {
+				console.error("데이터 수정 실패:", error);
+			}
+		});
 	}
 
 	function checkHp(){
@@ -114,6 +217,13 @@
 			userInfoObject[key] = value;
 		}
 		$(".user-name").html(userInfoObject.name);
+		if($(".order-state").html() == "출고" || $(".order-state").html() == "배송 출발" || $(".order-state").html() == "배송 완료"){
+			$(".btn-s").attr("data-bs-toggle","tooltip").attr("data-bs-placement","right").attr("data-bs-title","배송 단계부터는 수정이 불가능합니다!").css("cursor","not-allowed").attr("onclick","");
+		}
+
+		// 부트스트랩 툴팁
+		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 	})
 </script>
 </head>
@@ -133,8 +243,8 @@
 							<b>님의 주문 상세내역</b>
 						</h2>
 						<div class="mt-2">
-							<button class="btn btn-outline-success me-md-2" type="button">영상 요청</button>
-							<button class="btn btn-outline-danger" type="button">환불 요청</button>
+							<button class="btn btn-outline-success me-md-2" type="button" onclick="javascript:requestVideoBtn()">영상 요청</button>
+							<button class="btn btn-outline-danger" type="button" onclick="javascript:requestRefundBtn()">환불 요청</button>
 						</div>	
 					</div>
 					<table class="table table-secondary table-bordered" style="border-collapse: separate;">
@@ -172,59 +282,59 @@
 								<td class="recipient-hp"></td>
 							</tr>
 							<tr>
-								<th scope="row">추가 연락처</th>
+								<th scope="row" class="align-middle">추가 연락처</th>
 								<td>
 									<div class="input-group">
 										<input maxlength="11" type="text" class="form-control recipient-next-hp" aria-label="Recipient's another hpNumber" aria-describedby="button-addon" oninput="javascript:checkHp()">
-										<button class="btn btn-outline-secondary" type="button" id="button-addon" onclick="javascript:editHpBtn()">수정</button>
+										<button class="btn btn-outline-secondary btn-s" type="button" id="button-addon" onclick="javascript:editHpBtn()">저장</button>
 									</div>
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">주소</th>
+								<th scope="row" class="align-middle">주소</th>
 								<td>
 									<div class="input-group">
 										<input type="text" class="form-control recipient-zip-code" aria-label="Recipient's addr" aria-describedby="button-addon2" readonly="readonly">
-										<button class="btn btn-outline-secondary" type="button" id="button-addon2" onclick="javascript:editAddrBtn()">수정</button>
+										<button class="btn btn-outline-secondary btn-s" type="button" id="button-addon2" onclick="javascript:editAddrBtn()">찾기</button>
 									</div>
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">지번주소</th>
+								<th scope="row" class="align-middle">지번주소</th>
 								<td>
 									<input type="text" class="form-control recipient-jibun-addr" aria-label="Recipient's Ji addr" readonly="readonly">
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">도로명주소</th>
+								<th scope="row" class="align-middle">도로명주소</th>
 								<td>
 									<input type="text" class="form-control recipient-road-addr" aria-label="Recipient's Road addr" readonly="readonly">
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">상세주소</th>
+								<th scope="row" class="align-middle">상세주소</th>
 								<td>
 									<div class="input-group">
 										<input type="text" class="form-control recipient-detail-addr" aria-label="Recipient's Detail addr" aria-describedby="button-addon3">
-										<button class="btn btn-outline-secondary" type="button" id="button-addon3" onclick="javascript:saveAddrBtn()">저장</button>
+										<button class="btn btn-outline-secondary btn-s" type="button" id="button-addon3" onclick="javascript:saveAddrBtn()">저장</button>
 									</div>
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">주문 시 요청사항</th>
+								<th scope="row" class="align-middle">주문 시 요청사항</th>
 								<td>
 									<div class="input-group">
 										<input type="text" class="form-control order-req" aria-label="Recipient's order required" aria-describedby="button-addon4">
-										<button class="btn btn-outline-secondary" type="button" id="button-addon4" onclick="javascript:editOrderReqBtn()">수정</button>
+										<button class="btn btn-outline-secondary btn-s" type="button" id="button-addon4" onclick="javascript:editOrderReqBtn()">저장</button>
 									</div>
 								</td>
 							</tr>
 							<tr>
-								<th scope="row">배송 시 요청사항</th>
+								<th scope="row" class="align-middle">배송 시 요청사항</th>
 								<td>
 									<div class="input-group">
 										<input type="text" class="form-control delivery-req" aria-label="Recipient's delivery required" aria-describedby="button-addon5">
-										<button class="btn btn-outline-secondary" type="button" id="button-addon5" onclick="javascript:editDeliveryReqBtn()">수정</button>
+										<button class="btn btn-outline-secondary btn-s" type="button" id="button-addon5" onclick="javascript:editDeliveryReqBtn()">저장</button>
 									</div>
 								</td>
 							</tr>
@@ -238,25 +348,7 @@
 							</tr>
 							<tr>
 								<th class="align-middle" scope="row">결제 금액</th>
-								<td class="d-flex align-items-center">
-									<div class="input-group input-group-md w-25 ">
-										<span class="input-group-text" id="inputGroup-sizing-md">제품단가</span>
-										<input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-md">
-									</div>
-									<div>
-										<svg fill="#000000" width="20px" height="20px" viewBox="-7 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <title>plus</title> <path d="M17.040 15.16h-7.28v-7.24c0-0.48-0.36-0.84-0.84-0.84s-0.84 0.36-0.84 0.84v7.28h-7.24c-0.48-0.040-0.84 0.32-0.84 0.8s0.36 0.84 0.84 0.84h7.28v7.28c0 0.48 0.36 0.84 0.84 0.84s0.84-0.36 0.84-0.84v-7.32h7.28c0.48 0 0.84-0.36 0.84-0.84s-0.44-0.8-0.88-0.8z"></path> </g></svg>
-									</div>
-									<div class="input-group input-group-md w-25">
-										<span class="input-group-text" id="inputGroup-sizing-md">배송비</span>
-										<input type="text" class="form-control" aria-label="Sizing example input" aria-describedby="inputGroup-sizing-md">
-									</div>
-									<div>
-										<svg fill="#000000" width="20px" height="20px" viewBox="0 0 56 56" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path d="M 13.7969 22.6914 L 42.2266 22.6914 C 43.3516 22.6914 44.3125 21.7305 44.3125 20.5820 C 44.3125 19.4336 43.3516 18.4961 42.2266 18.4961 L 13.7969 18.4961 C 12.6719 18.4961 11.6875 19.4336 11.6875 20.5820 C 11.6875 21.7305 12.6719 22.6914 13.7969 22.6914 Z M 13.7969 37.5039 L 42.2266 37.5039 C 43.3516 37.5039 44.3125 36.5664 44.3125 35.4180 C 44.3125 34.2696 43.3516 33.3086 42.2266 33.3086 L 13.7969 33.3086 C 12.6719 33.3086 11.6875 34.2696 11.6875 35.4180 C 11.6875 36.5664 12.6719 37.5039 13.7969 37.5039 Z"></path></g></svg>						</div>
-									<div class="input-group input-group-md w-25">
-										<span class="input-group-text" id="inputGroup-sizing-md">최종금액</span>
-										<input type="text" class="form-control tot-order-price" aria-label="tot-order-price" aria-describedby="inputGroup-sizing-md">
-									</div>
-								</td>
+								<td class="tot-order-price"></td>
 							</tr>
 						</tbody>
 					</table>
