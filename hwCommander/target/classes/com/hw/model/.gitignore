@@ -1,9 +1,12 @@
 /OrderDetailVO.class
 /OrderMasterHistoryVO.class
 /OrderMasterVO.class
+/PartsCaseVO.class
 /PartsMakerHistoryVO.class
 /PartsMakerVO.class
 /ProcessResourceDetailHistoryVO.class
 /ProcessResourceDetailVO.class
 /ProcessResourceMasterVO.class
 /ProcessResourceTypeCodeInfoVO.class
+/ProductDetailVO.class
+/ProductMasterVO.class
