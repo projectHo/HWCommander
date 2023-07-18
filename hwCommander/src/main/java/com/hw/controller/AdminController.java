@@ -829,9 +829,10 @@ public class AdminController {
 		MultipartFile multi = multipartFile;
 		
 //		local test
-//		String path = "C:\\Users\\HO\\git\\HWCommander\\hwCommander\\src\\main\\webapp\\resources\\uploadImage";
-		
-		String path = "http://hwcommander.com/resources/uploadImage";
+		String path = "D:\\testUploadImage";
+
+//		real
+//		String path = "http://hwcommander.com//hwcommander/upload/image";
 		
         String uploadpath = path;
         String originFilename = multi.getOriginalFilename();
@@ -850,7 +851,7 @@ public class AdminController {
         {
             File file = new File(uploadpath, saveFileName);
             try {
-            	filePath = "/resources/uploadImage/"+saveFileName;
+            	filePath = "/uploadImage/"+saveFileName;
 				multi.transferTo(file);
 			} catch (IllegalStateException e) {
 				// TODO Auto-generated catch block
