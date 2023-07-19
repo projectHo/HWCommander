@@ -72,22 +72,46 @@
 }
 	// 수정버튼
 	function editHpBtn(){
-		$.ajax({
-			type: "post",
-			url: "/user/orderUpdateRecipientHpNumber2Logic.do",
-			data: {
-				id: $(".order-num").html(),
-				recipientHpNumber2: $(".recipient-next-hp").val()
-			},
-			dataType: "json",
-			success: function(response) {
-				console.log("데이터 수정 성공!");
-				console.log(response);
-			},
-			error: function(xhr, status, error) {
-				console.error("데이터 수정 실패:", error);
+		if($(".recipient-next-hp").val() === ""){
+			if(confirm("추가 연락처를 삭제할까요?")){
+				$.ajax({
+				type: "post",
+				url: "/user/orderUpdateRecipientHpNumber2Logic.do",
+				data: {
+					id: $(".order-num").html(),
+					recipientHpNumber2: $(".recipient-next-hp").val()
+				},
+				dataType: "json",
+				success: function(response) {
+					alert("정상적으로 삭제됐습니다!");
+				},
+				error: function(xhr, status, error) {
+					alert("수정에 실패했습니다.. 다시 입력해주세요!");
+				}
+			});
+			}else {
+				return false;
 			}
-		});
+		}else if($(".recipient-next-hp").val().length < 11){
+			alert("번호를 정확히 입력해주세요! ex) 01011111111");
+			$(".recipient-next-hp").focus();
+		}else {
+			$.ajax({
+				type: "post",
+				url: "/user/orderUpdateRecipientHpNumber2Logic.do",
+				data: {
+					id: $(".order-num").html(),
+					recipientHpNumber2: $(".recipient-next-hp").val()
+				},
+				dataType: "json",
+				success: function(response) {
+					alert("정상적으로 수정됐습니다!");
+				},
+				error: function(xhr, status, error) {
+					alert("수정에 실패했습니다.. 다시 입력해주세요!");
+				}
+			});
+		}
 	}
 	
 	function editAddrBtn(){
@@ -95,108 +119,158 @@
 	}
 
 	function saveAddrBtn(){
-		$.ajax({
-			type: "post",
-			url: "/user/orderUpdateAddrsLogic.do",
-			data: {
-				id: $(".order-num").html(),
-				recipientJibunAddr: $(".recipient-jibun-addr").val(),
-				recipientRoadAddr: $(".recipient-road-addr").val(),
-				recipientDetailAddr: $(".recipient-detail-addr").val(),
-				recipientZipcode: $(".recipient-zip-code").val()
-			},
-			dataType: "json",
-			success: function(response) {
-				console.log("데이터 수정 성공!");
-				console.log(response);
-			},
-			error: function(xhr, status, error) {
-				console.error("데이터 수정 실패:", error);
-			}
-		});
+		if($(".recipient-detail-addr").val() === ""){
+			alert("상세 주소를 입력해주세요!");
+			$(".recipient-detail-addr").focus();
+		}else{
+			$.ajax({
+				type: "post",
+				url: "/user/orderUpdateAddrsLogic.do",
+				data: {
+					id: $(".order-num").html(),
+					recipientJibunAddr: $(".recipient-jibun-addr").val(),
+					recipientRoadAddr: $(".recipient-road-addr").val(),
+					recipientDetailAddr: $(".recipient-detail-addr").val(),
+					recipientZipcode: $(".recipient-zip-code").val()
+				},
+				dataType: "json",
+				success: function(response) {
+					alert("정상적으로 수정됐습니다!");
+				},
+				error: function(xhr, status, error) {
+					alert("수정에 실패했습니다.. 다시 입력해주세요!");
+				}
+			});
+		}
 	}
 	
 	function editOrderReqBtn(){
-		$.ajax({
-			type: "post",
-			url: "/user/orderUpdateOrderRequest.do",
-			data: {
-				id: $(".order-num").html(),
-				orderRequest: $(".order-req").val()
-			},
-			dataType: "json",
-			success: function(response) {
-				console.log("데이터 수정 성공!");
-				console.log(response);
-			},
-			error: function(xhr, status, error) {
-				console.error("데이터 수정 실패:", error);
+		if($(".order-req").val() === ""){
+			if(confirm("요청내용을 삭제할까요?")){
+				$.ajax({
+					type: "post",
+					url: "/user/orderUpdateOrderRequest.do",
+					data: {
+						id: $(".order-num").html(),
+						orderRequest: $(".order-req").val()
+					},
+					dataType: "json",
+					success: function(response) {
+						alert("정상적으로 삭제되었습니다!");
+					},
+					error: function(xhr, status, error) {
+						alert("수정에 실패했습니다.. 다시 입력해주세요!");
+					}
+				});
+			}else {
+				return false;
 			}
-		});
+		}else {
+			$.ajax({
+				type: "post",
+				url: "/user/orderUpdateOrderRequest.do",
+				data: {
+					id: $(".order-num").html(),
+					orderRequest: $(".order-req").val()
+				},
+				dataType: "json",
+				success: function(response) {
+					alert("정상적으로 수정됐습니다!");
+				},
+				error: function(xhr, status, error) {
+					alert("수정에 실패했습니다.. 다시 입력해주세요!");
+				}
+			});
+		}
 	}
 	
 	function editDeliveryReqBtn(){
-		$.ajax({
-			type: "post",
-			url: "/user/orderUpdateDeliveryRequest.do",
-			data: {
-				id: $(".order-num").html(),
-				deliveryRequest: $(".delivery-req").val()
-			},
-			dataType: "json",
-			success: function(response) {
-				console.log("데이터 수정 성공!");
-				console.log(response);
-			},
-			error: function(xhr, status, error) {
-				console.error("데이터 수정 실패:", error);
+		if($(".delivery-req").val() === ""){
+			if(confirm("요청내용을 삭제할까요?")){
+				$.ajax({
+					type: "post",
+					url: "/user/orderUpdateDeliveryRequest.do",
+					data: {
+						id: $(".order-num").html(),
+						deliveryRequest: $(".delivery-req").val()
+					},
+					dataType: "json",
+					success: function(response) {
+						alert("정상적으로 삭제되었습니다!");
+					},
+					error: function(xhr, status, error) {
+						alert("수정에 실패했습니다.. 다시 입력해주세요!");
+					}
+				});
+			}else {
+				return false;
 			}
-		});
+		}else {
+			$.ajax({
+				type: "post",
+				url: "/user/orderUpdateDeliveryRequest.do",
+				data: {
+					id: $(".order-num").html(),
+					deliveryRequest: $(".delivery-req").val()
+				},
+				dataType: "json",
+				success: function(response) {
+					alert("정상적으로 수정됐습니다!");
+				},
+				error: function(xhr, status, error) {
+					alert("수정에 실패했습니다.. 다시 입력해주세요!");
+				}
+			});
+		}
+		
 	}
 	
 	function requestVideoBtn(){
-		$.ajax({
-			type: "post",
-			url: "/user/orderVideoRequestToAdminLogic.do",
-			data: {
-				id: $(".order-num").html()
-			},
-			dataType: "json",
-			success: function(response) {
-				console.log("데이터 수정 성공!");
-				console.log(response);
-			},
-			error: function(xhr, status, error) {
-				console.error("데이터 수정 실패:", error);
-			}
-		});
+		if($(".order-state").html() === "환불 요청"){
+			alert("환불 진행중입니다!");
+		}else if(masterInfoObject.videoRequestCdNm === "요청"){
+			alert("이미 요청하셨습니다!");
+		}else {
+			$.ajax({
+				type: "post",
+				url: "/user/orderVideoRequestToAdminLogic.do",
+				data: {
+					id: $(".order-num").html()
+				},
+				dataType: "json",
+				success: function(response) {
+					alert("정상적으로 요청했습니다!");
+				},
+				error: function(xhr, status, error) {
+					alert("요청에 실패했습니다.. 다시 입력해주세요!");
+				}
+			});
+		}
 	}
 	function requestRefundBtn(){
-		$.ajax({
-			type: "post",
-			url: "/user/orderRefundRequestToAdminLogic.do",
-			data: {
-				id: $(".order-num").html()
-			},
-			dataType: "json",
-			success: function(response) {
-				console.log("데이터 수정 성공!");
-				console.log(response);
-			},
-			error: function(xhr, status, error) {
-				console.error("데이터 수정 실패:", error);
-			}
-		});
+		if($(".order-state").html() === "환불 요청"){
+			alert("환불 진행중입니다!");
+		}else {
+			$.ajax({
+				type: "post",
+				url: "/user/orderRefundRequestToAdminLogic.do",
+				data: {
+					id: $(".order-num").html()
+				},
+				dataType: "json",
+				success: function(response) {
+					alert("정상적으로 요청했습니다!");
+				},
+				error: function(xhr, status, error) {
+					alert("요청에 실패했습니다.. 다시 입력해주세요!");
+				}
+			});
+		}
 	}
 
 	function checkHp(){
-		const numberCheck = /^[0-9]+$/;
-		if($('.recipient-next-hp').val().trim() == "" || $('.recipient-next-hp').val().trim() == null) {
-			alert("휴대폰번호를 입력하세요.");
-			$('.recipient-next-hp').focus();
-		}
-	
-		if (!numberCheck.test($('.recipient-next-hp').val())) {
+		const numberCheck = /^[0-9]+$/;	
+		if ($('.recipient-next-hp').val().length>=1 && !numberCheck.test($('.recipient-next-hp').val())) {
 			alert("휴대폰번호는 숫자만 입력 가능합니다.");
 			$('.recipient-next-hp').val("");
 			$('.recipient-next-hp').focus();
@@ -219,6 +293,11 @@
 		$(".user-name").html(userInfoObject.name);
 		if($(".order-state").html() == "출고" || $(".order-state").html() == "배송 출발" || $(".order-state").html() == "배송 완료"){
 			$(".btn-s").attr("data-bs-toggle","tooltip").attr("data-bs-placement","right").attr("data-bs-title","배송 단계부터는 수정이 불가능합니다!").css("cursor","not-allowed").attr("onclick","");
+			$("input").attr("disabled","disabled");
+		}else if ($(".order-state").html() == "환불 요청"){
+			$(".btn-s").attr("data-bs-toggle","tooltip").attr("data-bs-placement","right").attr("data-bs-title","환불 요청 진행중입니다!").css("cursor","not-allowed").attr("onclick","");
+			$("input").attr("disabled","disabled");
+
 		}
 
 		// 부트스트랩 툴팁

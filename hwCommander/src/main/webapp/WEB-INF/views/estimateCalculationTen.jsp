@@ -168,26 +168,25 @@
 		}
 	}
 	$(function () {
-	typeText();
-	animateDonutGauge();
-	// bootstrap tooltip
-	const tooltipList = $('[data-bs-toggle="tooltip"]').map(function() {
-		return new bootstrap.Tooltip($(this)[0]);
-	}).get();
-	// 견적산출 데이터처리부(수신)
-	if(sessionStorage.getItem("data-10")){
-		const storedData = sessionStorage.getItem("data-10");
-		if(storedData === "Bulk"){
-			$("#answer-a").prop("checked",true);
-		}else if (storedData === "Multi"){
-			$("#answer-b").prop("checked",true);
-		}else if (storedData === "1"){
-			$("#answer-c").prop("checked",true);
-		}else if (storedData === "0"){
-			$("#answer-d").prop("checked",true);
+		typeText();
+		animateDonutGauge();
+		// bootstrap tooltip
+		const tooltipList = $('[data-bs-toggle="tooltip"]').map(function() {
+			return new bootstrap.Tooltip($(this)[0]);
+		}).get();
+		// 견적산출 데이터처리부(수신)
+		if(sessionStorage.getItem("data-10")){
+			const storedData = sessionStorage.getItem("data-10");
+			if(storedData === "Bulk"){
+				$("#answer-a").prop("checked",true);
+			}else if (storedData === "Multi"){
+				$("#answer-b").prop("checked",true);
+			}else if (storedData === "1"){
+				$("#answer-c").prop("checked",true);
+			}else if (storedData === "0"){
+				$("#answer-d").prop("checked",true);
+			}
 		}
-		
-	}
 	})
 </script>
 </head>
