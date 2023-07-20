@@ -137,20 +137,19 @@
 		}
 	}
 	function clickNextBtn(el){
-		// if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false && $("#answer-d").prop("checked") === false && $("#answer-e").prop("checked") === false){
-		// 	alert("선택은 필수에요!");
-		// 	$(el).addClass("is-invalid");
-		// 	setTimeout(() => {
-		// 		$(el).removeClass("is-invalid");
-		// 	}, 2000);
-		// }else {
-		// 	$(el).addClass("is-valid");
-		// 	setTimeout(() => {
-		// 		$(el).removeClass("is-valid");
-		// 	}, 2000);
-		// 	window.location.href = "estimateCalculationTwelve.do";
-		// }
-		alert("드디어 마지막 질문이네요!! 견적보기를 눌러주세요!!");
+		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false && $("#answer-d").prop("checked") === false && $("#answer-e").prop("checked") === false){
+			alert("선택은 필수에요!");
+			$(el).addClass("is-invalid");
+			setTimeout(() => {
+				$(el).removeClass("is-invalid");
+			}, 2000);
+		}else {
+			$(el).addClass("is-valid");
+			setTimeout(() => {
+				$(el).removeClass("is-valid");
+			}, 2000);
+			window.location.href = "estimateCalculationTwelve.do";
+		}
 	}
 	$(function () {
 		// donut

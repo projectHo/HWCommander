@@ -216,9 +216,7 @@
 		$(".card-text").css("cursor","not-allowed");
 		for(let i = 0 ; i<$(".picked-color").length; i++){
 			let storageColor = [$($(".picked-color")[i]).css("background-color")];
-			console.log(storageColor)
 			value.push(storageColor);
-			console.log(value)
 			let trimmedValue = value;
 			sessionStorage.setItem("data-8",JSON.stringify(value));
 		}
