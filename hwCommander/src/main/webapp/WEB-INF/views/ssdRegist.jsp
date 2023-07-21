@@ -40,7 +40,7 @@ function goSsdRegist() {
         data: form,
         dataType: 'json',
         success: function (data) {
-        	if(data == 1) {
+        	if(data == 2) {
         		alert("등록완료");
         	}else {
         		alert("등록실패");
