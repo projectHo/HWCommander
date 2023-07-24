@@ -28,7 +28,7 @@
 		let index2 = 0;
 		let index3 = 0;
 		let answer1 = new Map();
-		answer1.set(sessionStorage.getItem("data-1") + "0000", "");
+		answer1.set("Price",sessionStorage.getItem("data-1") + "0000");
 		let answer2 = new Map();
 		let answer2s = "";
 		let twoDatas = JSON.parse(sessionStorage.getItem("data-2"));
@@ -70,13 +70,13 @@
 			}
 		}
 		let answer4 = new Map();
-		answer4.set(sessionStorage.getItem("data-4"), "");
+		answer4.set("Wireless",sessionStorage.getItem("data-4"));
 		let answer5 = new Map();
-		answer5.set(sessionStorage.getItem("data-5"),"");
+		answer5.set("CPU",sessionStorage.getItem("data-5"));
 		let answer6 = new Map();
-		answer6.set(sessionStorage.getItem("data-6"),"");
+		answer6.set("GPU",sessionStorage.getItem("data-6"));
 		let answer7 = new Map();
-		answer7.set(sessionStorage.getItem("data-7"),"");
+		answer7.set("Aio",sessionStorage.getItem("data-7"));
 		let answer8 = new Map();
 		if(sessionStorage.getItem("data-8") !== ""){
 			let eightDatas = JSON.parse(sessionStorage.getItem("data-8"));
@@ -96,22 +96,30 @@
 			}
 		}
 		let answer9 = new Map();
-		answer9.set(sessionStorage.getItem("data-9"),"");
+		answer9.set("RAM",sessionStorage.getItem("data-9"));
 		let answer10 = new Map();
-		answer10.set(sessionStorage.getItem("data-10"),"");
+		answer10.set("Bulk",sessionStorage.getItem("data-10"));
 		let answer11 = new Map();
-		answer11.set(sessionStorage.getItem("data-11"),"");
+		answer11.set("Ssd",sessionStorage.getItem("data-11"));
 		let answer12 = new Map();
-		answer12.set(sessionStorage.getItem("data-12"),"");
+		answer12.set("Metarial",sessionStorage.getItem("data-12"));
 		let answer13 = new Map();
-		const thirteenDatas = JSON.parse(sessionStorage.getItem("data-13"));
-		answer13.set(thirteenDatas[0],thirteenDatas[1]);
+		if(sessionStorage.getItem("data-13") !== ""){
+			const thirteenDatas = JSON.parse(sessionStorage.getItem("data-13"));
+			answer13.set("HDD",thirteenDatas[0] + ":" + thirteenDatas[1]);
+		}else {
+			answer13.set("HDD","");
+		}
 		let answer14 = new Map();
-		answer14.set(sessionStorage.getItem("data-14"),"");
-		let answer15 = new Map();let answer16 = new Map();let answer17 = new Map();let answer18 = new Map();let answer19 = new Map();let answer20 = new Map();
+		answer14.set("Window",sessionStorage.getItem("data-14"));
+		let answer15 = new Map();
+		answer15.set("Fan",sessionStorage.getItem("data-15"));
+		let answer16 = new Map();
+		answer16.set("LED",sessionStorage.getItem("data-16"));
+		let answer17 = new Map();let answer18 = new Map();let answer19 = new Map();let answer20 = new Map();
 		
 		
-		for(let i = 15; i <=20 ; i++){
+		for(let i = 17; i <=20 ; i++){
 			if(sessionStorage.getItem("data-" + i) !== ""){
 				var answerName = "answer" + i;
 				var answer = eval(answerName);
@@ -278,7 +286,7 @@
 					<div class="row mt-4 pb-5">
 						<div class="col-2 text-center">
 							<div class="donut-container margin-center">
-								 <div class="donut-fill"">10</div>
+								 <div class="donut-fill"">13</div>
 							</div>
 						</div>
 						<div class="col-8 d-flex p-2">
