@@ -193,7 +193,7 @@ public class UserController {
 		model.addAttribute("orderMasterVO", orderService.getOrderMasterById(id));
 		model.addAttribute("orderDetailVOList", orderService.getOrderDetailListById(id));
 		
-		return userLoginCheck(request, model, "orderProgressStatus");
+		return userLoginCheck(request, model, "userOrderProgressStatus");
 	}
 	
 	/*--------------------------------------------------
