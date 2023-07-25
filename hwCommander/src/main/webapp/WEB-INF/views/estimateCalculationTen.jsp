@@ -22,15 +22,28 @@
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
-	// 견적산출 데이터처리부(송신)
+	//견적산출 데이터처리부(송신)
 	function sendAllData(){
-		let answer1 = new Map();let answer2 = new Map();let answer3 = new Map();let answer4 = new Map();let answer5 = new Map();let answer6 = new Map();let answer7 = new Map();let answer8 = new Map();let answer9 = new Map();let answer10 = new Map();let answer11 = new Map();let answer12 = new Map();let answer13 = new Map();let answer14 = new Map();let answer15 = new Map();let answer16 = new Map();let answer17 = new Map();let answer18 = new Map();let answer19 = new Map();let answer20 = new Map();
-		
-		answer1.set(sessionStorage.getItem("data-1") + "0000");
+		let index1 = 0;
+		let index2 = 0;
+		let index3 = 0;
+		let answer1 = new Map();
+		answer1.set("Price",sessionStorage.getItem("data-1") + "0000");
+		let answer2 = new Map();
+		let answer2s = "";
 		let twoDatas = JSON.parse(sessionStorage.getItem("data-2"));
 		for(let i = 0 ; i < twoDatas.length; i++){
 			answer2.set(twoDatas[i][0],twoDatas[i][1])
 		}
+		for(var [key,value] of answer2){
+			let totalKey = answer2.size;
+			answer2s += key + "," + value;
+			index1++;
+			if (index1 !== totalKey) {
+				answer2s += ":";
+			}
+		}
+		let answer3 = new Map();
 		if(sessionStorage.getItem("data-3") !== ""){
 			let threeDatas = JSON.parse(sessionStorage.getItem("data-3"));
 			answer3.set("Fever", threeDatas[0]);
@@ -47,35 +60,102 @@
 			answer3.set("Stability", "");
 			answer3.set("QC", "");
 		}
+		let answer3s = "";
+		for(var [key,value] of answer3){
+			let totalKey = answer3.size;
+			answer3s += key + "," + value;
+			index2++;
+			if (index2 !== totalKey) {
+				answer3s += ":";
+			}
+		}
+		let answer4 = new Map();
+		answer4.set("Wireless",sessionStorage.getItem("data-4"));
+		let answer5 = new Map();
+		answer5.set("CPU",sessionStorage.getItem("data-5"));
+		let answer6 = new Map();
+		answer6.set("GPU",sessionStorage.getItem("data-6"));
+		let answer7 = new Map();
+		answer7.set("Aio",sessionStorage.getItem("data-7"));
+		let answer8 = new Map();
+		if(sessionStorage.getItem("data-8") !== ""){
+			let eightDatas = JSON.parse(sessionStorage.getItem("data-8"));
+			answer8.set("main-color", eightDatas[0]);
+			answer8.set("sub-color", eightDatas[1]);
+		}else if (sessionStorage.getItem("data-8") === ""){
+			answer8.set("main-color", "");
+			answer8.set("sub-color", "");
+		}
+		let answer8s = "";
+		for(var [key,value] of answer8){
+			let totalKey = answer8.size;
+			answer8s += key + "," + value;
+			index3++;
+			if (index3 !== totalKey) {
+				answer8s += ":";
+			}
+		}
+		let answer9 = new Map();
+		answer9.set("RAM",sessionStorage.getItem("data-9"));
+		let answer10 = new Map();
+		answer10.set("Bulk",sessionStorage.getItem("data-10"));
+		let answer11 = new Map();
+		answer11.set("Ssd",sessionStorage.getItem("data-11"));
+		let answer12 = new Map();
+		answer12.set("Metarial",sessionStorage.getItem("data-12"));
+		let answer13 = new Map();
+		if(sessionStorage.getItem("data-13") !== ""){
+			const thirteenDatas = JSON.parse(sessionStorage.getItem("data-13"));
+			answer13.set("HDD",thirteenDatas[0] + ":" + thirteenDatas[1]);
+		}else {
+			answer13.set("HDD","");
+		}
+		let answer14 = new Map();
+		answer14.set("Window",sessionStorage.getItem("data-14"));
+		let answer15 = new Map();
+		answer15.set("Fan",sessionStorage.getItem("data-15"));
+		let answer16 = new Map();
+		answer16.set("LED",sessionStorage.getItem("data-16"));
+		let answer17 = new Map();let answer18 = new Map();let answer19 = new Map();let answer20 = new Map();
 		
-		for(let i = 4; i <=20 ; i++){
-			if(i === 8 && sessionStorage.getItem("data-" + i) !== ""){
-				let eightDatas = JSON.parse(sessionStorage.getItem("data-8"));
-				answer8.set("main-color", eightDatas[0]);
-				answer8.set("sub-color", eightDatas[1]);
-			}else if (i === 8 && sessionStorage.getItem("data-" + i) === ""){
-				answer8.set("main-color", "");
-				answer8.set("sub-color", "");
-			}else if(sessionStorage.getItem("data-" + i) !== ""){
+		
+		for(let i = 17; i <=20 ; i++){
+			if(sessionStorage.getItem("data-" + i) !== ""){
 				var answerName = "answer" + i;
 				var answer = eval(answerName);
-				answer.set(sessionStorage.getItem("data-" + i));
+				answer.set(sessionStorage.getItem("data-" + i),"");
 			}else if (sessionStorage.getItem("data-" + i) === ""){
 				var answerName = "answer" + i;
 				var answer = eval(answerName);
-				answer.set("");
+				answer.set("null","null");
 			}
 		}
-		
-
 		var urlParams = "";
 
 		for (var i = 1; i <= 20; i++) {
 			var mapName = "answer" + i;
 			var map = eval(mapName);
-
-			for (var [key, value] of map) {
-				urlParams += mapName + ":" + key + "=" + value;
+			if(i === 2){
+				urlParams += mapName + "<" + answer2s + ">";
+			}else if(i===3){
+				urlParams += mapName + "<" + answer3s + ">";
+			}else if (i ===8){
+				urlParams += mapName + "<" + answer8s + ">";
+			}else {
+				for (var [key, value] of map) {
+					if(key === "" || !key){
+						key = "null";
+						value = "null";
+						urlParams += mapName + "<" + "null" + ">";
+					}else if(key !== "" && value === ""){
+						value = "null";
+						urlParams += mapName + "<" + key + ">";
+					}else if (key !== "" && value !== ""){
+						urlParams += mapName + "<" + key + "," + value + ">";
+					}
+				}
+			}
+			if(i !== 20){
 				urlParams += "|";
 			}
 		}
@@ -138,7 +218,7 @@
 		window.location.href = "estimateCalculationNine.do";
 	}
 	function clickEstimateBtn(el){
-		if($("#answer-y").prop("checked") === false && $("#answer-n").prop("checked") === false && $("#answer-o").prop("checked") === false && $("#answer-z").prop("checked") === false){
+		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false && $("#answer-d").prop("checked") === false){
 			alert("선택은 필수에요!");
 			$(el).addClass("is-invalid");
 			setTimeout(() => {
@@ -152,28 +232,41 @@
 			sendAllData();
 		}
 	}
-	
-	$(function () {
-	typeText();
-	animateDonutGauge();
-	// bootstrap tooltip
-	const tooltipList = $('[data-bs-toggle="tooltip"]').map(function() {
-		return new bootstrap.Tooltip($(this)[0]);
-	}).get();
-	// 견적산출 데이터처리부(수신)
-	if(sessionStorage.getItem("data-10")){
-		const storedData = sessionStorage.getItem("data-10");
-		if(storedData === "Bulk"){
-			$("#answer-y").prop("checked",true);
-		}else if (storedData === "Multi"){
-			$("#answer-n").prop("checked",true);
-		}else if (storedData === "1"){
-			$("#answer-o").prop("checked",true);
-		}else if (storedData === "0"){
-			$("#answer-z").prop("checked",true);
+	function clickNextBtn(el){
+		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false && $("#answer-d").prop("checked") === false){
+			alert("선택은 필수에요!");
+			$(el).addClass("is-invalid");
+			setTimeout(() => {
+				$(el).removeClass("is-invalid");
+			}, 2000);
+		}else {
+			$(el).addClass("is-valid");
+			setTimeout(() => {
+				$(el).removeClass("is-valid");
+			}, 2000);
+			window.location.href = "estimateCalculationEleven.do";
 		}
-		
 	}
+	$(function () {
+		typeText();
+		animateDonutGauge();
+		// bootstrap tooltip
+		const tooltipList = $('[data-bs-toggle="tooltip"]').map(function() {
+			return new bootstrap.Tooltip($(this)[0]);
+		}).get();
+		// 견적산출 데이터처리부(수신)
+		if(sessionStorage.getItem("data-10")){
+			const storedData = sessionStorage.getItem("data-10");
+			if(storedData === "Bulk"){
+				$("#answer-a").prop("checked",true);
+			}else if (storedData === "Multi"){
+				$("#answer-b").prop("checked",true);
+			}else if (storedData === "1"){
+				$("#answer-c").prop("checked",true);
+			}else if (storedData === "0"){
+				$("#answer-d").prop("checked",true);
+			}
+		}
 	})
 </script>
 </head>
@@ -197,25 +290,25 @@
 							<input id="typingInput" class="form-control text-center" type="text" readonly aria-label="예산 편성" disabled />
 						</div>
 					    <div class="col-2 d-flex flex-column-reverse">
-							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="마지막 질문이에요!" style="cursor:pointer">
+							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="좋아하시는 쿨러가 있나요?" style="cursor:pointer">
 						</div>
 					</div>
 					<div class="row pb-5">
 						<div class="col-3 d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-y">
-							<label class="btn btn-outline-secondary w-75" for="answer-y" onclick="javascript:clickBulkBtn()">벌크</label>
+							<input type="radio" class="btn-check" name="btnradio" id="answer-a">
+							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickBulkBtn()">벌크</label>
 						</div>
 						<div class="col-3 d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-n">
-							<label class="btn btn-outline-secondary w-75" for="answer-n" onclick="javascript:clickMultiBtn()">멀티팩</label>
+							<input type="radio" class="btn-check" name="btnradio" id="answer-b">
+							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickMultiBtn()">멀티팩</label>
 						</div>
 						<div class="col-3 d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-o">
-							<label class="btn btn-outline-secondary w-75" for="answer-o" onclick="javascript:clickOkBtn()">둘다 좋음</label>
+							<input type="radio" class="btn-check" name="btnradio" id="answer-c">
+							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickOkBtn()">둘다 좋음</label>
 						</div>
 						<div class="col-3 d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-z">
-							<label class="btn btn-outline-secondary w-75" for="answer-z" onclick="javascript:clickNoBtn()">둘다 싫음</label>
+							<input type="radio" class="btn-check" name="btnradio" id="answer-d">
+							<label class="btn btn-outline-secondary w-75" for="answer-d" onclick="javascript:clickNoBtn()">둘다 싫음</label>
 						</div>
 					</div>
 					<div class="row mb-4">
@@ -226,7 +319,7 @@
 							<button type="button" class="form-control calc-two-final margin-center" onclick="javascript:clickEstimateBtn(this)">견적 보기</button>
 						</div>
 						<div class="col-4">
-							
+							<button type="button" class="form-control w-50 margin-left-auto" onclick="javascript:clickNextBtn(this)">다음 질문</button>
 						</div>
 					</div>
 				</div>

@@ -22,34 +22,31 @@
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
-	var Pattern = /\((.*?)\)/;
-	var userInfoMatch = Pattern.exec("${loginUser}");
-	var userInfoValues = userInfoMatch[1];
-
-	var userInfoArray = userInfoValues.split(", ");
-	var userInfoObject = {};
-	for (var i = 0; i < userInfoArray.length; i++) {
-		var keyValue = userInfoArray[i].split("=");
-		var key = keyValue[0];
-		var value = keyValue[1];
-		userInfoObject[key] = value;
-	}
-	$(".user-name").html(userInfoObject.name);
+	
 	function goOrderListDetailPage(){
-		if(loginCheck()){
-			location.href = "/user/orderListDetail.do?id=" + objectNum;
-		}
+		location.href = "/user/orderListDetail.do?id=" + objectNum;
 	}
 	let objectNum
 	function clickOrderList(el){
 		let orderNumber = $(el).find(".item-id").html();
-		objectNum = orderNumber;
+		objectNum = encodeURIComponent(orderNumber);
 		goOrderListDetailPage();
 	}
-	
 
 	$(function(){
-		
+		var Pattern = /\((.*?)\)/;
+		var userInfoMatch = Pattern.exec("${loginUser}");
+		var userInfoValues = userInfoMatch[1];
+
+		var userInfoArray = userInfoValues.split(", ");
+		var userInfoObject = {};
+		for (var i = 0; i < userInfoArray.length; i++) {
+			var keyValue = userInfoArray[i].split("=");
+			var key = keyValue[0];
+			var value = keyValue[1];
+			userInfoObject[key] = value;
+		}
+		$(".user-name").html(userInfoObject.name);
 	})
 </script>
 </head>
@@ -70,7 +67,7 @@
 					<table id="userOrderListTable" class="table" style="border-collapse: separate; border-spacing: 0; border: 1px solid black; border-radius: 14px 0 14px 0;">
 						<thead>
 							<tr>
-								<th scope="col">주문일시</th>
+								<th scope="col">주문날짜</th>
 								<th scope="col">상품명</th>
 								<th scope="col">주문번호</th>
 								<th scope="col">주문금액</th>
@@ -84,7 +81,7 @@
 										<td scope="row">${item.orderDateStr}</td>
 										<td>${item.orderName}</td>
 										<td class="item-id">${item.id}</td>
-										<td>${item.totOrderPrice}</td>
+										<td>${item.totOrderPriceStr}</td>
 										<td>${item.orderStateCdNm}</td>
 									</a>
 								</tr>

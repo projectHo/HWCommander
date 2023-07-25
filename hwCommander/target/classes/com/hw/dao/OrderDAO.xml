@@ -36,6 +36,7 @@
 			, delivery_request
 			, payment_method
 			, waybill_number
+			, video_request_cd
 			, reg_dtm
 		)
 		VALUES
@@ -60,6 +61,7 @@
 			, #{deliveryRequest}
 			, #{paymentMethod}
 			, #{waybillNumber}
+			, #{videoRequestCd}
 			, NOW()
 		)
 	</insert>
@@ -94,7 +96,8 @@
 			, order_request          = #{orderRequest}       
 			, delivery_request       = #{deliveryRequest}    
 			, payment_method         = #{paymentMethod}      
-			, waybill_number         = #{waybillNumber}      
+			, waybill_number         = #{waybillNumber}
+			, video_request_cd       = #{videoRequestCd}      
 			, updt_dtm               = NOW()
 		WHERE
 			id = #{id}
@@ -124,7 +127,9 @@
 			, delivery_request
 			, payment_method
 			, waybill_number
+			, video_request_cd
 			, reg_dtm
+			, history_contents
 		)
 		VALUES
 		(
@@ -149,7 +154,9 @@
 			, #{deliveryRequest}
 			, #{paymentMethod}
 			, #{waybillNumber}
+			, #{videoRequestCd}
 			, NOW()
+			, #{historyContents}
 		)
 	</insert>
 	
@@ -167,29 +174,33 @@
 	
 	<select id="getOrderMasterAllList" resultType="orderMasterVO"  parameterType="orderMasterVO">
 		SELECT 
-			id                                                                                   AS id                 
-			, order_date                                                                         AS orderDate          
-			, order_name                                                                         AS orderName          
-			, tot_order_price                                                                    AS totOrderPrice      
-			, order_state_cd                                                                     AS orderStateCd       
-			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'ORD001' AND cd = a.order_state_cd) AS orderStateCdNm     
-			, orderer_user_id                                                                    AS ordererUserId      
-			, orderer_name                                                                       AS ordererName        
-			, orderer_hp_number                                                                  AS ordererHpNumber    
-			, orderer_mail                                                                       AS ordererMail        
-			, recipient_name                                                                     AS recipientName      
-			, recipient_hp_number                                                                AS recipientHpNumber  
-			, recipient_hp_number2                                                               AS recipientHpNumber2 
-			, recipient_jibun_addr                                                               AS recipientJibunAddr 
-			, recipient_road_addr                                                                AS recipientRoadAddr  
-			, recipient_detail_addr                                                              AS recipientDetailAddr
-			, recipient_zipcode                                                                  AS recipientZipcode   
-			, order_request                                                                      AS orderRequest       
-			, delivery_request                                                                   AS deliveryRequest    
-			, payment_method                                                                     AS paymentMethod      
-			, waybill_number                                                                     AS waybillNumber      
-			, reg_dtm                                                                            AS regDtm             
-			, updt_dtm                                                                           AS updtDtm            
+			a.id                                                                                   AS id                 
+			, a.order_date                                                                         AS orderDate
+			, DATE_FORMAT(a.order_date, '%Y-%m-%d')                                                AS orderDateStr                    
+			, a.order_name                                                                         AS orderName          
+			, a.tot_order_price                                                                    AS totOrderPrice
+			, FORMAT(a.tot_order_price, 0)                                                         AS totOrderPriceStr      
+			, a.order_state_cd                                                                     AS orderStateCd       
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'ORD001' AND cd = a.order_state_cd)   AS orderStateCdNm     
+			, a.orderer_user_id                                                                    AS ordererUserId      
+			, a.orderer_name                                                                       AS ordererName        
+			, a.orderer_hp_number                                                                  AS ordererHpNumber    
+			, a.orderer_mail                                                                       AS ordererMail        
+			, a.recipient_name                                                                     AS recipientName      
+			, a.recipient_hp_number                                                                AS recipientHpNumber  
+			, a.recipient_hp_number2                                                               AS recipientHpNumber2 
+			, a.recipient_jibun_addr                                                               AS recipientJibunAddr 
+			, a.recipient_road_addr                                                                AS recipientRoadAddr  
+			, a.recipient_detail_addr                                                              AS recipientDetailAddr
+			, a.recipient_zipcode                                                                  AS recipientZipcode   
+			, a.order_request                                                                      AS orderRequest       
+			, a.delivery_request                                                                   AS deliveryRequest    
+			, a.payment_method                                                                     AS paymentMethod      
+			, a.waybill_number                                                                     AS waybillNumber
+			, a.video_request_cd                                                                   AS videoRequestCd
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'ORD002' AND cd = a.video_request_cd) AS videoRequestCdNm      
+			, a.reg_dtm                                                                            AS regDtm             
+			, a.updt_dtm                                                                           AS updtDtm            
 		FROM
 			order_master a
 		<where>
@@ -230,4 +241,27 @@
 		WHERE
 			id = #{id}
 	</delete>
+	
+	<select id="getOrderDetailAllList" resultType="orderDetailVO"  parameterType="orderDetailVO">
+		SELECT 
+			a.id                                                                                   AS id             
+			, a.seq                                                                                AS seq            
+			, a.product_id                                                                         AS productId      
+			, a.product_price                                                                      AS productPrice   
+			, a.product_order_qty                                                                  AS productOrderQty
+			, a.reg_dtm                                                                            AS regDtm
+			, b.product_name                                                                       AS productName
+			, b.product_description                                                                AS productDescription
+			, b.product_image                                                                      AS productImage
+		FROM
+			order_detail a
+			LEFT OUTER JOIN product_master b
+			ON a.product_id = b.id
+		<where>
+		    <if test="id != null and id != ''">
+		    	AND a.id = #{id}
+		    </if>
+		</where>
+	</select>
+	
 </mapper>
