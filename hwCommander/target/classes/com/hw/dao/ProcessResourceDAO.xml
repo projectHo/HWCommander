@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+   
+<mapper namespace="com.hw.dao.ProcessResourceDAO">
+
+	<select id="getCheckDupliChkCount" resultType="Integer" parameterType="String">
+		SELECT COUNT(1) AS code_cnt FROM process_resource_type_cd_info WHERE process_type_exclusive_cd = #{checkCode}
+	</select>
+
+	<insert id="insertProcessResourceTypeCodeInfoVO" parameterType="processResourceTypeCodeInfoVO">
+		INSERT INTO process_resource_type_cd_info
+		(
+			process_type_exclusive_cd
+			, process_type_exclusive_cd_nm
+			, process_lg_cd
+			, use_yn
+			, reg_dtm
+			, updt_dtm
+		)
+		VALUES
+		(
+			#{processTypeExclusiveCd}
+			, #{processTypeExclusiveCdNm}
+			, #{processLgCd}
+			, #{useYn}
+			, NOW()
+			, #{updtDtm}
+		)
+	</insert>
+	
+	<select id="getProcessResourceTypeCodeInfoAllList" resultType="processResourceTypeCodeInfoVO"  parameterType="processResourceTypeCodeInfoVO">
+		SELECT 
+			a.process_type_exclusive_cd                                                         AS processTypeExclusiveCd                
+			, a.process_type_exclusive_cd_nm                                                    AS processTypeExclusiveCdNm       
+			, a.process_lg_cd                                                                   AS processLgCd
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'COM004' AND cd = a.process_lg_cd) AS processLgCdNm
+			, a.use_yn                                                                          AS useYn      
+			, a.reg_dtm                                                                         AS regDtm            
+			, a.updt_dtm                                                                        AS updtDtm
+		FROM
+			process_resource_type_cd_info a
+		<where>
+		    <if test="processTypeExclusiveCd != null and processTypeExclusiveCd != ''">
+		    	AND a.process_type_exclusive_cd = #{processTypeExclusiveCd}
+		    </if>
+		    <if test="useYn != null and useYn != ''">
+		    	AND a.use_yn = 'Y'
+		    </if>
+		</where>
+	</select>
+	
+	<update id="updateProcessResourceTypeCodeInfoVO" parameterType="processResourceTypeCodeInfoVO">
+		UPDATE
+			process_resource_type_cd_info
+		SET
+			process_type_exclusive_cd_nm            = #{processTypeExclusiveCdNm} 
+			, use_yn              = #{useYn}    
+			, updt_dtm            = NOW()        
+		WHERE
+			process_type_exclusive_cd = #{processTypeExclusiveCd}
+	</update>
+	
+	<select id="getProcessResourceMasterVOMaxId" resultType="String">
+		SELECT CONCAT('PR', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 3)), 0)+1, 6, '0') FROM process_resource_master)) AS id FROM DUAL
+	</select>
+	
+	<insert id="insertProcessResourceMasterVO" parameterType="processResourceMasterVO">
+		INSERT INTO process_resource_master
+		(
+			id
+			, process_lg_cd
+			, process_type_exclusive_cd
+			, process_name
+			, reg_dtm
+			, updt_dtm
+		)
+		VALUES
+		(
+			#{id}
+			, #{processLgCd}
+			, #{processTypeExclusiveCd}
+			, #{processName}
+			, NOW()
+			, #{updtDtm}
+		)
+	</insert>
+	
+	<select id="getProcessResourceMasterAllList" resultType="processResourceMasterVO" parameterType="processResourceMasterVO">
+		SELECT 
+			a.id                                                                                AS id                
+			, a.process_lg_cd                                                                   AS processLgCd       
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'COM004' AND cd = a.process_lg_cd) AS processLgCdNm
+			, a.process_type_exclusive_cd                                                       AS processTypeExclusiveCd
+			-- 공통코드가 아님. 사용자가 변경할 수 있는 process_resource_type_cd_info table 참조함.
+			, (SELECT process_type_exclusive_cd_nm FROM process_resource_type_cd_info WHERE process_type_exclusive_cd = a.process_type_exclusive_cd) AS processTypeExclusiveCdNm
+			, a.process_name                                                                    AS processName
+			, a.reg_dtm                                                                         AS regDtm            
+			, a.updt_dtm                                                                        AS updtDtm
+			, (SELECT COUNT(b.id) AS cnt FROM process_resource_detail_history b WHERE a.id = b.id)      AS detailHistoryCnt            
+		FROM
+			process_resource_master a
+		<where>
+		    <if test="id != null and id != ''">
+		    	AND a.id = #{id}
+		    </if>
+		</where>
+	</select>
+	
+	<update id="updateProcessResourceMasterVO" parameterType="processResourceMasterVO">
+		UPDATE
+			process_resource_master
+		SET
+			process_name        = #{processName}    
+			, updt_dtm            = NOW()        
+		WHERE
+			id = #{id}
+	</update>
+	
+	<select id="getProcessResourceDetailVOMaxSeq" resultType="Integer" parameterType="String">
+		SELECT IFNULL(MAX(seq), 0)+1 AS seq FROM process_resource_detail WHERE id = #{id}
+	</select>
+	
+	<insert id="insertProcessResourceDetailVO" parameterType="processResourceDetailVO">
+		INSERT INTO process_resource_detail
+		(
+			id
+			, seq
+			, variable_chk
+			, resource_name
+			, resource_mapping_value
+			, resource_score
+			, reg_dtm
+			, updt_dtm
+		)
+		VALUES
+		(
+			#{id}
+			, #{seq}
+			, #{variableChk}
+			, #{resourceName}
+			, #{resourceMappingValue}
+			, #{resourceScore}
+			, NOW()
+			, #{updtDtm}
+		)
+	</insert>
+	
+	<select id="getProcessResourceDetailAllList" resultType="processResourceDetailVO" parameterType="processResourceDetailVO">
+		SELECT 
+			a.id                                                                                AS id                
+			, a.seq                                                                             AS seq       
+			, b.process_type_exclusive_cd                                                       AS processTypeExclusiveCd    
+			, c.process_type_exclusive_cd_nm                                                    AS processTypeExclusiveCdNm    
+			, b.process_name                                                                    AS processName
+			, a.variable_chk                                                                    AS variableChk
+			, CASE
+				WHEN a.variable_chk = 'F' THEN '고정'
+				WHEN a.variable_chk = 'C' THEN 'CPU'
+				WHEN a.variable_chk = 'G' THEN 'GVA'
+				WHEN a.variable_chk = 'RM' THEN 'RAM(MaxRange)'
+				WHEN a.variable_chk = 'RV' THEN 'RAM(Volume)'
+				ELSE '알수없음'
+				END variableChkNm
+			, a.resource_name                                                                   AS resourceName
+			, a.resource_mapping_value                                                          AS resourceMappingValue
+			, a.resource_score                                                                  AS resourceScore 
+			, a.reg_dtm                                                                         AS regDtm            
+			, a.updt_dtm                                                                        AS updtDtm
+		FROM
+			process_resource_detail a 
+			LEFT OUTER JOIN process_resource_master b
+			ON a.id = b.id
+			LEFT OUTER JOIN process_resource_type_cd_info c
+			ON b.process_type_exclusive_cd = c.process_type_exclusive_cd
+			<where>
+			    <if test="id != null and id != ''">
+			    	AND a.id = #{id}
+			    </if>
+			    <if test="seq != null and seq != '' and seq != 0">
+			    	AND a.seq = #{seq}
+			    </if>
+		    </where>
+	</select>
+	
+	<update id="updateProcessResourceDetailVO" parameterType="processResourceDetailVO">
+		UPDATE
+			process_resource_detail
+		SET
+			resource_name        = #{resourceName}
+			, resource_score        = #{resourceScore}    
+			, updt_dtm            = NOW()        
+		WHERE
+			id = #{id}
+			AND seq = #{seq}
+	</update>
+	
+	<select id="resourceMappingValueDupliChk" resultType="Integer" parameterType="processResourceDetailVO">
+		SELECT COUNT(id) AS cnt FROM process_resource_detail WHERE id = #{id} AND resource_mapping_value = #{resourceMappingValue}
+	</select>
+	
+	<insert id="insertProcessResourceDetailHistoryVO" parameterType="processResourceDetailHistoryVO">
+		INSERT INTO process_resource_detail_history
+		(
+			id
+			, seq
+			, history_seq
+			, variable_chk
+			, resource_name
+			, resource_mapping_value
+			, resource_score
+			, reg_dtm
+		)
+		VALUES
+		(
+			#{id}
+			, #{seq}
+			, #{historySeq}
+			, #{variableChk}
+			, #{resourceName}
+			, #{resourceMappingValue}
+			, #{resourceScore}
+			, NOW()
+		)
+	</insert>
+	
+	<select id="getProcessResourceDetailHistoryVOMaxHistorySeq" resultType="Integer" parameterType="processResourceDetailVO">
+		SELECT IFNULL(MAX(history_seq), 0)+1 AS history_seq FROM process_resource_detail_history WHERE id = #{id} AND seq = #{seq}
+	</select>
+	
+</mapper>
