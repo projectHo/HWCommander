@@ -829,10 +829,10 @@ public class AdminController {
 		MultipartFile multi = multipartFile;
 		
 //		local test
-		String path = "D:\\testUploadImage";
+//		String path = "D:\\testUploadImage";
 
 //		real
-//		String path = "http://hwcommander.com//hwcommander/upload/image";
+		String path = "/hwcommander/tomcat/webapps/upload/image";
 		
         String uploadpath = path;
         String originFilename = multi.getOriginalFilename();
@@ -840,7 +840,7 @@ public class AdminController {
         long size = multi.getSize();
         String saveFileName = genSaveFileName(extName);
         
-        System.out.println("############## uploadpath : " + uploadpath);
+        System.out.println("##############2 uploadpath : " + uploadpath);
         
         System.out.println("originFilename : " + originFilename);
         System.out.println("extensionName : " + extName);

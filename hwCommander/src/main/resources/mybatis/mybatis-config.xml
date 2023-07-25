@@ -14,17 +14,27 @@
 		<typeAlias alias="orderMasterVO" type="com.hw.model.OrderMasterVO"></typeAlias>
 		
 		<!-- 부품 -->
+		<typeAlias alias="partsCaseHistoryVO" type="com.hw.model.PartsCaseHistoryVO"></typeAlias>
 		<typeAlias alias="partsCaseVO" type="com.hw.model.PartsCaseVO"></typeAlias>
+		<typeAlias alias="partsCoolerHistoryVO" type="com.hw.model.PartsCoolerHistoryVO"></typeAlias>
 		<typeAlias alias="partsCoolerVO" type="com.hw.model.PartsCoolerVO"></typeAlias>
+		<typeAlias alias="partsCpuHistoryVO" type="com.hw.model.PartsCpuHistoryVO"></typeAlias>
 		<typeAlias alias="partsCpuVO" type="com.hw.model.PartsCpuVO"></typeAlias>
+		<typeAlias alias="partsGpuHistoryVO" type="com.hw.model.PartsGpuHistoryVO"></typeAlias>
 		<typeAlias alias="partsGpuVO" type="com.hw.model.PartsGpuVO"></typeAlias>
+		<typeAlias alias="partsHddHistoryVO" type="com.hw.model.PartsHddHistoryVO"></typeAlias>
 		<typeAlias alias="partsHddVO" type="com.hw.model.PartsHddVO"></typeAlias>
 		<typeAlias alias="partsMakerHistoryVO" type="com.hw.model.PartsMakerHistoryVO"></typeAlias>
 		<typeAlias alias="partsMakerVO" type="com.hw.model.PartsMakerVO"></typeAlias>
+		<typeAlias alias="partsMbHistoryVO" type="com.hw.model.PartsMbHistoryVO"></typeAlias>
 		<typeAlias alias="partsMbVO" type="com.hw.model.PartsMbVO"></typeAlias>
+		<typeAlias alias="partsPsuHistoryVO" type="com.hw.model.PartsPsuHistoryVO"></typeAlias>
 		<typeAlias alias="partsPsuVO" type="com.hw.model.PartsPsuVO"></typeAlias>
+		<typeAlias alias="partsRamHistoryVO" type="com.hw.model.PartsRamHistoryVO"></typeAlias>
 		<typeAlias alias="partsRamVO" type="com.hw.model.PartsRamVO"></typeAlias>
+		<typeAlias alias="partsSfHistoryVO" type="com.hw.model.PartsSfHistoryVO"></typeAlias>
 		<typeAlias alias="partsSfVO" type="com.hw.model.PartsSfVO"></typeAlias>
+		<typeAlias alias="partsSsdHistoryVO" type="com.hw.model.PartsSsdHistoryVO"></typeAlias>
 		<typeAlias alias="partsSsdVO" type="com.hw.model.PartsSsdVO"></typeAlias>
 		
 		<!-- Process Resource -->

@@ -59,7 +59,7 @@ function goHddUpdate() {
         data: form,
         dataType: 'json',
         success: function (data) {
-        	if(data == 1) {
+        	if(data == 2) {
         		alert("수정완료");
         	}else {
         		alert("수정실패");
