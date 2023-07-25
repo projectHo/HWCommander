@@ -179,6 +179,24 @@ public class UserController {
 	}
 	
 	/*--------------------------------------------------
+	 - 주문진행현황
+	*--------------------------------------------------*/
+	@RequestMapping(value = "/orderProgressStatus.do", method = RequestMethod.GET)
+	public String goOrderProgressStatus(HttpServletRequest request
+			, Model model
+			, @RequestParam(value = "id", required = true) String id) {
+		
+		HttpSession httpSession = request.getSession();
+		UserInfoVO user = (UserInfoVO) httpSession.getAttribute("loginUser");
+		
+		model.addAttribute("loginUser", user);
+		model.addAttribute("orderMasterVO", orderService.getOrderMasterById(id));
+		model.addAttribute("orderDetailVOList", orderService.getOrderDetailListById(id));
+		
+		return userLoginCheck(request, model, "userOrderProgressStatus");
+	}
+	
+	/*--------------------------------------------------
 	 - private method
 	*--------------------------------------------------*/
 	private String userLoginCheck(HttpServletRequest request, Model model, String url) {
