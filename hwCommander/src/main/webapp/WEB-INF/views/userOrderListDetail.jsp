@@ -224,6 +224,13 @@
 		}
 		
 	}
+	function clickStatusBtn(){
+		if(masterInfoObject.orderStateCdNm === "환불 요청"){
+			alert("환불 진행중입니다!")
+		}else {
+			location.href = "orderProgressStatus.do?id=" + encodeURIComponent(masterInfoObject.id);
+		}
+	}
 	
 	function requestVideoBtn(){
 		if($(".order-state").html() === "환불 요청"){
@@ -322,6 +329,7 @@
 							<b>님의 주문 상세내역</b>
 						</h2>
 						<div class="mt-2">
+							<button class="btn btn-outline-primary me-md-2" type="button" onclick="javascript:clickStatusBtn()">현황 확인</button>
 							<button class="btn btn-outline-success me-md-2" type="button" onclick="javascript:requestVideoBtn()">영상 요청</button>
 							<button class="btn btn-outline-danger" type="button" onclick="javascript:requestRefundBtn()">환불 요청</button>
 						</div>	
