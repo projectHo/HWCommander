@@ -31,7 +31,7 @@
 			, reg_dtm
 			, updt_dtm
 			, multi_bulk
-			, GC
+			, gc
 		)
 		VALUES
 		(
@@ -119,6 +119,59 @@
 		WHERE
 			id = #{id}
 	</update>
+	
+	<select id="getPartsGpuHistoryVOMaxHistorySeq" resultType="Integer" parameterType="String">
+		SELECT IFNULL(MAX(history_seq), 0)+1 AS history_seq FROM parts_gpu_history WHERE id = #{id} 
+	</select>
+	
+	<insert id="insertPartsGpuHistoryVO" parameterType="partsGpuHistoryVO">
+		INSERT INTO parts_gpu_history
+		(
+			id
+			, history_seq
+			, parts_name
+			, parts_price
+			, gled_cd
+			, gn
+			, gmc_cd
+			, gsc_cd
+			, gsv
+			, maker_id
+			, qc
+			, tdp
+			, bn
+			, il
+			, gpl
+			, twelve_pin
+			, parts_image
+			, reg_dtm
+			, multi_bulk
+			, gc
+		)
+		VALUES
+		(
+			#{id}
+			, #{historySeq}
+			, #{partsName}
+			, #{partsPrice}
+			, #{gledCd}
+			, #{gn}
+			, #{gmcCd}
+			, #{gscCd}
+			, #{gsv}
+			, #{makerId}
+			, #{qc}
+			, #{tdp}
+			, #{bn}
+			, #{il}
+			, #{gpl}
+			, #{twelvePin}
+			, #{partsImage}
+			, NOW()
+			, #{multiBulk}
+			, #{gc}
+		)
+	</insert>
 	
 	<select id="getPartsCpuVOMaxId" resultType="String">
 		SELECT CONCAT('CPU', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 4)), 0)+1, 6, '0') FROM parts_cpu)) AS id FROM DUAL
@@ -216,6 +269,53 @@
 		WHERE
 			id = #{id}
 	</update>
+	
+	<select id="getPartsCpuHistoryVOMaxHistorySeq" resultType="Integer" parameterType="String">
+		SELECT IFNULL(MAX(history_seq), 0)+1 AS history_seq FROM parts_cpu_history WHERE id = #{id} 
+	</select>
+	
+	<insert id="insertPartsCpuHistoryVO" parameterType="partsCpuHistoryVO">
+		INSERT INTO parts_cpu_history
+		(
+			id
+			, history_seq
+			, parts_name
+			, parts_price
+			, csv
+			, ia_cd
+			, thermal
+			, bn
+			, cpu_soc_cd
+			, vrm_range
+			, ddr4_max_range
+			, ddr5_max_range
+			, parts_image
+			, reg_dtm
+			, updt_dtm
+			, multi_bulk
+			, apu
+		)
+		VALUES
+		(
+			#{id}
+			, #{historySeq}
+			, #{partsName}
+			, #{partsPrice}
+			, #{csv}
+			, #{iaCd}
+			, #{thermal}
+			, #{bn}
+			, #{cpuSocCd}
+			, #{vrmRange}
+			, #{ddr4MaxRange}
+			, #{ddr5MaxRange}
+			, #{partsImage}
+			, NOW()
+			, #{updtDtm}
+			, #{multiBulk}
+			, #{apu}
+		)
+	</insert>
 	
 	<select id="getPartsMbVOMaxId" resultType="String">
 		SELECT CONCAT('MB', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 3)), 0)+1, 6, '0') FROM parts_mb)) AS id FROM DUAL
@@ -347,6 +447,65 @@
 			id = #{id}
 	</update>
 	
+	<select id="getPartsMbHistoryVOMaxHistorySeq" resultType="Integer" parameterType="String">
+		SELECT IFNULL(MAX(history_seq), 0)+1 AS history_seq FROM parts_mb_history WHERE id = #{id} 
+	</select>
+	
+	<insert id="insertPartsMbHistoryVO" parameterType="partsMbHistoryVO">
+		INSERT INTO parts_mb_history
+		(
+			id
+			, history_seq
+			, parts_name
+			, parts_price
+			, mled_cd
+			, mmc_cd
+			, msc_cd
+			, maker_id
+			, port
+			, scal
+			, bios
+			, cpu_soc_cd
+			, vrm_range
+			, mem_soc_cd
+			, scs_cd
+			, ff
+			, pl
+			, sata
+			, parts_image
+			, reg_dtm
+			, multi_bulk
+			, wifi
+			, mc
+		)
+		VALUES
+		(
+			#{id}
+			, #{historySeq}
+			, #{partsName}
+			, #{partsPrice}
+			, #{mledCd}
+			, #{mmcCd}
+			, #{mscCd}
+			, #{makerId}
+			, #{port}
+			, #{scal}
+			, #{bios}
+			, #{cpuSocCd}
+			, #{vrmRange}
+			, #{memSocCd}
+			, #{scsCd}
+			, #{ff}
+			, #{pl}
+			, #{sata}
+			, #{partsImage}
+			, NOW()
+			, #{multiBulk}
+			, #{wifi}
+			, #{mc}
+		)
+	</insert>
+	
 	<select id="getPartsRamVOMaxId" resultType="String">
 		SELECT CONCAT('RAM', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 4)), 0)+1, 6, '0') FROM parts_ram)) AS id FROM DUAL
 	</select>
@@ -455,6 +614,55 @@
 			id = #{id}
 	</update>
 	
+	<select id="getPartsRamHistoryVOMaxHistorySeq" resultType="Integer" parameterType="String">
+		SELECT IFNULL(MAX(history_seq), 0)+1 AS history_seq FROM parts_ram_history WHERE id = #{id} 
+	</select>
+	
+	<insert id="insertPartsRamHistoryVO" parameterType="partsRamHistoryVO">
+		INSERT INTO parts_ram_history
+		(
+			id
+			, history_seq
+			, parts_name
+			, parts_price
+			, rled_cd
+			, rmc_cd
+			, rsc_cd
+			, cl
+			, latency
+			, pr_cd
+			, mem_soc_cd
+			, ddr4_max_range
+			, ddr5_max_range
+			, parts_image
+			, reg_dtm
+			, multi_bulk
+			, volume
+			, sd
+		)
+		VALUES
+		(
+			#{id}
+			, #{historySeq}
+			, #{partsName}
+			, #{partsPrice}
+			, #{rledCd}
+			, #{rmcCd}
+			, #{rscCd}
+			, #{cl}
+			, #{latency}
+			, #{prCd}
+			, #{memSocCd}
+			, #{ddr4MaxRange}
+			, #{ddr5MaxRange}
+			, #{partsImage}
+			, NOW()
+			, #{multiBulk}
+			, #{volume}
+			, #{sd}
+		)
+	</insert>
+	
 	<select id="getPartsPsuVOMaxId" resultType="String">
 		SELECT CONCAT('PSU', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 4)), 0)+1, 6, '0') FROM parts_psu)) AS id FROM DUAL
 	</select>
@@ -555,6 +763,53 @@
 		WHERE
 			id = #{id}
 	</update>
+	
+	<select id="getPartsPsuHistoryVOMaxHistorySeq" resultType="Integer" parameterType="String">
+		SELECT IFNULL(MAX(history_seq), 0)+1 AS history_seq FROM parts_psu_history WHERE id = #{id} 
+	</select>
+	
+	<insert id="insertPartsPsuHistoryVO" parameterType="partsPsuHistoryVO">
+		INSERT INTO parts_psu_history
+		(
+			id
+			, history_seq
+			, parts_name
+			, parts_price
+			, pmc_cd
+			, psc_cd
+			, std
+			, maker_id
+			, pfm
+			, sft
+			, tdp
+			, pl
+			, gpl
+			, twelve_pin
+			, parts_image
+			, reg_dtm
+			, multi_bulk
+		)
+		VALUES
+		(
+			#{id}
+			, #{historySeq}
+			, #{partsName}
+			, #{partsPrice}
+			, #{pmcCd}
+			, #{pscCd}
+			, #{std}
+			, #{makerId}
+			, #{pfm}
+			, #{sft}
+			, #{tdp}
+			, #{pl}
+			, #{gpl}
+			, #{twelvePin}
+			, #{partsImage}
+			, NOW()
+			, #{multiBulk}
+		)
+	</insert>
 	
 	<select id="getPartsCaseVOMaxId" resultType="String">
 		SELECT CONCAT('CASE', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 5)), 0)+1, 6, '0') FROM parts_case)) AS id FROM DUAL
@@ -692,6 +947,69 @@
 			id = #{id}
 	</update>
 	
+	<select id="getPartsCaseHistoryVOMaxHistorySeq" resultType="Integer" parameterType="String">
+		SELECT IFNULL(MAX(history_seq), 0)+1 AS history_seq FROM parts_case_history WHERE id = #{id} 
+	</select>
+	
+	<insert id="insertPartsCaseHistoryVO" parameterType="partsCaseHistoryVO">
+		INSERT INTO parts_case_history
+		(
+			id
+			, history_seq
+			, parts_name
+			, parts_price
+			, cled_cd
+			, cm_cd
+			, cmc_cd
+			, csc_cd
+			, maker_id
+			, adap
+			, cool
+			, end
+			, conv
+			, ff
+			, iw
+			, il
+			, ih
+			, it
+			, fh
+			, ft
+			, str_two_dot_five
+			, str_three_dot_five
+			, parts_image
+			, reg_dtm
+			, multi_bulk
+		)
+		VALUES
+		(
+			#{id}
+			, #{historySeq}
+			, #{partsName}
+			, #{partsPrice}
+			, #{cledCd}
+			, #{cmCd}
+			, #{cmcCd}
+			, #{cscCd}
+			, #{makerId}
+			, #{adap}
+			, #{cool}
+			, #{end}
+			, #{conv}
+			, #{ff}
+			, #{iw}
+			, #{il}
+			, #{ih}
+			, #{it}
+			, #{fh}
+			, #{ft}
+			, #{strTwoDotFive}
+			, #{strThreeDotFive}
+			, #{partsImage}
+			, NOW()
+			, #{multiBulk}
+		)
+	</insert>
+	
 	<select id="getPartsCoolerVOMaxId" resultType="String">
 		SELECT CONCAT('COOLER', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 7)), 0)+1, 6, '0') FROM parts_cooler)) AS id FROM DUAL
 	</select>
@@ -807,6 +1125,59 @@
 			id = #{id}
 	</update>
 	
+	<select id="getPartsCoolerHistoryVOMaxHistorySeq" resultType="Integer" parameterType="String">
+		SELECT IFNULL(MAX(history_seq), 0)+1 AS history_seq FROM parts_cooler_history WHERE id = #{id} 
+	</select>
+	
+	<insert id="insertPartsCoolerHistoryVO" parameterType="partsCoolerHistoryVO">
+		INSERT INTO parts_cooler_history
+		(
+			id
+			, history_seq
+			, parts_name
+			, parts_price
+			, clled_cd
+			, clmc_cd
+			, clsc_cd
+			, formula_cd
+			, sta
+			, wcas
+			, acas
+			, noi
+			, cnv
+			, thermal
+			, iw
+			, ih
+			, it
+			, parts_image
+			, reg_dtm
+			, multi_bulk
+		)
+		VALUES
+		(
+			#{id}
+			, #{historySeq}
+			, #{partsName}
+			, #{partsPrice}
+			, #{clledCd}
+			, #{clmcCd}
+			, #{clscCd}
+			, #{formulaCd}
+			, #{sta}
+			, #{wcas}
+			, #{acas}
+			, #{noi}
+			, #{cnv}
+			, #{thermal}
+			, #{iw}
+			, #{ih}
+			, #{it}
+			, #{partsImage}
+			, NOW()
+			, #{multiBulk}
+		)
+	</insert>
+	
 	<select id="getPartsHddVOMaxId" resultType="String">
 		SELECT CONCAT('HDD', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 4)), 0)+1, 6, '0') FROM parts_hdd)) AS id FROM DUAL
 	</select>
@@ -901,6 +1272,52 @@
 		WHERE
 			id = #{id}
 	</update>
+	
+	<select id="getPartsHddHistoryVOMaxHistorySeq" resultType="Integer" parameterType="String">
+		SELECT IFNULL(MAX(history_seq), 0)+1 AS history_seq FROM parts_hdd_history WHERE id = #{id} 
+	</select>
+	
+	<insert id="insertPartsHddHistoryVO" parameterType="partsHddHistoryVO">
+		INSERT INTO parts_hdd_history
+		(
+			id
+			, history_seq
+			, parts_name
+			, parts_price
+			, spd
+			, fea
+			, rel
+			, noice
+			, mttf
+			, gur
+			, str_three_dot_five
+			, sata
+			, parts_image
+			, reg_dtm
+			, multi_bulk
+			, volume
+		)
+		VALUES
+		(
+			#{id}
+			, #{historySeq}
+			, #{partsName}
+			, #{partsPrice}
+			, #{spd}
+			, #{fea}
+			, #{rel}
+			, #{noice}
+			, #{mttf}
+			, #{gur}
+			, #{strThreeDotFive}
+			, #{sata}
+			, #{partsImage}
+			, NOW()
+			, #{updtDtm}
+			, #{multiBulk}
+			, #{volume}
+		)
+	</insert>
 	
 	<select id="getPartsSsdVOMaxId" resultType="String">
 		SELECT CONCAT('SSD', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 4)), 0)+1, 6, '0') FROM parts_ssd)) AS id FROM DUAL
@@ -1002,6 +1419,53 @@
 			id = #{id}
 	</update>
 	
+	<select id="getPartsSsdHistoryVOMaxHistorySeq" resultType="Integer" parameterType="String">
+		SELECT IFNULL(MAX(history_seq), 0)+1 AS history_seq FROM parts_ssd_history WHERE id = #{id} 
+	</select>
+	
+	<insert id="insertPartsSsdHistoryVO" parameterType="partsSsdHistoryVO">
+		INSERT INTO parts_ssd_history
+		(
+			id
+			, history_seq
+			, parts_name
+			, parts_price
+			, basic
+			, fnc
+			, cmf
+			, war
+			, thr
+			, rlb
+			, str_two_dot_five
+			, scs_cd
+			, sata
+			, parts_image
+			, reg_dtm
+			, multi_bulk
+			, volume
+		)
+		VALUES
+		(
+			#{id}
+			, #{historySeq}
+			, #{partsName}
+			, #{partsPrice}
+			, #{basic}
+			, #{fnc}
+			, #{cmf}
+			, #{war}
+			, #{thr}
+			, #{rlb}
+			, #{strTwoDotFive}
+			, #{scsCd}
+			, #{sata}
+			, #{partsImage}
+			, NOW()
+			, #{multiBulk}
+			, #{volume}
+		)
+	</insert>
+	
 	<select id="getPartsSfVOMaxId" resultType="String">
 		SELECT CONCAT('SF', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 3)), 0)+1, 6, '0') FROM parts_sf)) AS id FROM DUAL
 	</select>
@@ -1092,6 +1556,46 @@
 			id = #{id}
 	</update>
 	
+	<select id="getPartsSfHistoryVOMaxHistorySeq" resultType="Integer" parameterType="String">
+		SELECT IFNULL(MAX(history_seq), 0)+1 AS history_seq FROM parts_sf_history WHERE id = #{id} 
+	</select>
+	
+	<insert id="insertPartsSfHistoryVO" parameterType="partsSfHistoryVO">
+		INSERT INTO parts_sf_history
+		(
+			id
+			, history_seq
+			, parts_name
+			, parts_price
+			, fled_cd
+			, fmc_cd
+			, fsc_cd
+			, fnoi
+			, ffm
+			, fh
+			, ft
+			, parts_image
+			, reg_dtm
+			, multi_bulk
+		)
+		VALUES
+		(
+			#{id}
+			, #{historySeq}
+			, #{partsName}
+			, #{partsPrice}
+			, #{fledCd}
+			, #{fmcCd}
+			, #{fscCd}
+			, #{fnoi}
+			, #{ffm}
+			, #{fh}
+			, #{ft}
+			, #{partsImage}
+			, NOW()
+			, #{multiBulk}
+		)
+	</insert>
 	
 	<select id="getPartsMakerVOMaxId" resultType="String">
 		SELECT CONCAT('MAKER', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 6)), 0)+1, 6, '0') FROM parts_maker)) AS id FROM DUAL
@@ -1144,6 +1648,10 @@
 			id = #{id}
 	</update>
 	
+	<select id="getPartsMakerHistoryVOMaxHistorySeq" resultType="Integer" parameterType="String">
+		SELECT IFNULL(MAX(history_seq), 0)+1 AS history_seq FROM parts_maker_history WHERE id = #{id} 
+	</select>
+	
 	<insert id="insertPartsMakerHistoryVO" parameterType="partsMakerHistoryVO">
 		INSERT INTO parts_maker_history
 		(
@@ -1162,9 +1670,5 @@
 			, NOW()
 		)
 	</insert>
-	
-	<select id="getPartsMakerHistoryVOMaxHistorySeq" resultType="Integer" parameterType="String">
-		SELECT IFNULL(MAX(history_seq), 0)+1 AS history_seq FROM parts_maker_history WHERE id = #{id} 
-	</select>
 	
 </mapper>
