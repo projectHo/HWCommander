@@ -155,10 +155,21 @@
 					}
 				}
 			}
-			if(i !== 20){
-				urlParams += "|";
-			}
+			urlParams += "|";
 		}
+		var Pattern = /\((.*?)\)/;
+		var userInfoMatch = Pattern.exec("${loginUser}");
+		var userInfoValues = userInfoMatch[1];
+
+		var userInfoArray = userInfoValues.split(", ");
+		var userInfoObject = {};
+		for (var i = 0; i < userInfoArray.length; i++) {
+			var keyValue = userInfoArray[i].split("=");
+			var key = keyValue[0];
+			var value = keyValue[1];
+			userInfoObject[key] = value;
+		}
+		urlParams += "etc<userId," + userInfoObject.id + "> |etc<" + new Date() + ",null>" 
 		var baseUrl = "/estimateCalculationResult.do";
 		var fullUrl = baseUrl + "?" + urlParams;
 		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
@@ -205,10 +216,10 @@
 		sessionStorage.setItem("data-6","1");
 	}	
 	function clickOkBtn(){
-		sessionStorage.setItem("data-6","0");
+		sessionStorage.setItem("data-6","np");
 	}
 	function clickNoBtn(){
-		sessionStorage.setItem("data-6","Not Need");
+		sessionStorage.setItem("data-6","0");
 	}
 	function returnPageBtn(){
 		sessionStorage.removeItem("data-6");
@@ -256,9 +267,9 @@
 		const storedData = sessionStorage.getItem("data-6");
 		if(storedData === "1"){
 			$("#answer-a").prop("checked",true);
-		}else if (storedData === "0"){
+		}else if (storedData === "np"){
 			$("#answer-b").prop("checked",true);
-		}else if (storedData === "Not Need"){
+		}else if (storedData === "0"){
 			$("#answer-c").prop("checked",true);
 		}
 	}

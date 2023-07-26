@@ -155,10 +155,21 @@
 					}
 				}
 			}
-			if(i !== 20){
-				urlParams += "|";
-			}
+			urlParams += "|";
 		}
+		var Pattern = /\((.*?)\)/;
+		var userInfoMatch = Pattern.exec("${loginUser}");
+		var userInfoValues = userInfoMatch[1];
+
+		var userInfoArray = userInfoValues.split(", ");
+		var userInfoObject = {};
+		for (var i = 0; i < userInfoArray.length; i++) {
+			var keyValue = userInfoArray[i].split("=");
+			var key = keyValue[0];
+			var value = keyValue[1];
+			userInfoObject[key] = value;
+		}
+		urlParams += "etc<userId," + userInfoObject.id + "> |etc<" + new Date() + ",null>" 
 		var baseUrl = "/estimateCalculationResult.do";
 		var fullUrl = baseUrl + "?" + urlParams;
 		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
@@ -208,7 +219,7 @@
 		sessionStorage.setItem("data-9","DDR5");
 	}
 	function clickOkBtn(){
-		sessionStorage.setItem("data-9","0");
+		sessionStorage.setItem("data-9","np");
 	}
 	function returnPageBtn(){
 		sessionStorage.removeItem("data-9");
@@ -258,7 +269,7 @@
 			$("#answer-a").prop("checked",true);
 		}else if (storedData === "DDR5"){
 			$("#answer-b").prop("checked",true);
-		}else if (storedData === "0"){
+		}else if (storedData === "np"){
 			$("#answer-c").prop("checked",true);
 		}
 	}

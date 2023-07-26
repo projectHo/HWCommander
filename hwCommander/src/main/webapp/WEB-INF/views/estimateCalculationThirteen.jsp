@@ -155,10 +155,21 @@
 					}
 				}
 			}
-			if(i !== 20){
-				urlParams += "|";
-			}
+			urlParams += "|";
 		}
+		var Pattern = /\((.*?)\)/;
+		var userInfoMatch = Pattern.exec("${loginUser}");
+		var userInfoValues = userInfoMatch[1];
+
+		var userInfoArray = userInfoValues.split(", ");
+		var userInfoObject = {};
+		for (var i = 0; i < userInfoArray.length; i++) {
+			var keyValue = userInfoArray[i].split("=");
+			var key = keyValue[0];
+			var value = keyValue[1];
+			userInfoObject[key] = value;
+		}
+		urlParams += "etc<userId," + userInfoObject.id + "> |etc<" + new Date() + ",null>" 
 		var baseUrl = "/estimateCalculationResult.do";
 		var fullUrl = baseUrl + "?" + urlParams;
 		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
@@ -189,13 +200,21 @@
 	};
 	let answers=[];
 	function clickAnswerBtn(el){
-		$(".count-container").css("display","flex");
-		$(".count-hdd").focus();
-		if($(".count-hdd").val() !== ""){
+		if($(el).html().includes("필요없음")){
+			$(".count-container").css("display","none");
 			var val = [];
 			val.push($(el).html());
-			val.push($(".count-hdd").val());
-			sessionStorage.setItem("data-13",JSON.stringify(val));
+			val.push("null");
+			sessionStorage.setItem("data-13",JSON.stringify(val))
+		}else{
+			$(".count-container").css("display","flex");
+			$(".count-hdd").focus();
+			if($(".count-hdd").val() !== ""){
+				var val = [];
+				val.push($(el).html());
+				val.push($(".count-hdd").val());
+				sessionStorage.setItem("data-13",JSON.stringify(val));
+			}
 		}
 	}
 	
@@ -304,9 +323,11 @@
 				}else if(storedData[i] === "필요없음"){
 					$("#answer-f").prop("checked",true);
 				}
+				if(storedData[0] !== "필요없음"){
+					$(".count-container").css("display","flex");
+					$(".count-hdd").val(storedData[1]);
+				}
 			}
-			$(".count-container").css("display","flex");
-			$(".count-hdd").val(storedData[1]);
 		}
 	})
 </script>

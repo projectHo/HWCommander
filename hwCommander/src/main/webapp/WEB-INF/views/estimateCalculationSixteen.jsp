@@ -155,10 +155,21 @@
 					}
 				}
 			}
-			if(i !== 20){
-				urlParams += "|";
-			}
+			urlParams += "|";
 		}
+		var Pattern = /\((.*?)\)/;
+		var userInfoMatch = Pattern.exec("${loginUser}");
+		var userInfoValues = userInfoMatch[1];
+
+		var userInfoArray = userInfoValues.split(", ");
+		var userInfoObject = {};
+		for (var i = 0; i < userInfoArray.length; i++) {
+			var keyValue = userInfoArray[i].split("=");
+			var key = keyValue[0];
+			var value = keyValue[1];
+			userInfoObject[key] = value;
+		}
+		urlParams += "etc<userId," + userInfoObject.id + "> |etc<" + new Date() + ",null>" 
 		var baseUrl = "/estimateCalculationResult.do";
 		var fullUrl = baseUrl + "?" + urlParams;
 		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
@@ -188,19 +199,45 @@
 		}
 	};
 	let answers=[];
-	function clickAnswerBtn(el){
-		const storedV = sessionStorage.getItem("data-12");
-		if($(el).siblings().prop("checked") === false){
-			if(!answers.includes($(el).html().replace(/\s/g, ""))){
-				answers.push($(el).html().replace(/\s/g, ""));
-			}
-		}else if($(el).siblings().prop("checked") === true){
-			var index = $.inArray($(el).html().replace(/\s/g, ""),answers);
-			if(index !== -1){
-				answers.splice(index,1);
-			}
+	if(sessionStorage.getItem("data-16")){
+		let datas = JSON.parse(sessionStorage.getItem("data-16"));
+		for(let i = 0 ; i<datas.length; i++){
+			answers.push(datas[i]);
 		}
-		sessionStorage.setItem("data-16",JSON.stringify(answers));
+	}
+	function clickAnswerBtn(el){
+		if($(el).html().includes("LED") || $(el).html().includes("RGB") || $(el).html().includes("ARGB")){
+			$("#answer-d").prop("checked",false);
+			$("#answer-e").prop("checked",false);
+			if($(el).siblings().prop("checked") === false){
+				if(!answers.includes($(el).html())){
+					answers.push($(el).html());
+				}
+			}else if($(el).siblings().prop("checked") === true){
+				var index = $.inArray($(el).html(),answers);
+				if(index !== -1){
+					answers.splice(index,1);
+				}
+			}
+			sessionStorage.setItem("data-16",JSON.stringify(answers));
+		}else if ($(el).html().includes("상관없음") || $(el).html().includes("모두제외")){
+			answers = [];
+			if($(el).html() === "상관없음"){
+				$("#answer-a").prop("checked",false);
+				$("#answer-b").prop("checked",false);
+				$("#answer-c").prop("checked",false);
+				$("#answer-e").prop("checked",false);
+				answers.push($(el).html());
+			}else if ($(el).html() === "모두제외"){
+				$("#answer-a").prop("checked",false);
+				$("#answer-b").prop("checked",false);
+				$("#answer-c").prop("checked",false);
+				$("#answer-d").prop("checked",false);
+				answers.push($(el).html());
+			}
+			sessionStorage.setItem("data-16",JSON.stringify(answers));
+			answers = [];
+		}
 	}
 	
 	function returnPageBtn(){
