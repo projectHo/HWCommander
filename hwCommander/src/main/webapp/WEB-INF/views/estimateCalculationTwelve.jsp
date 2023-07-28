@@ -169,7 +169,7 @@
 			var value = keyValue[1];
 			userInfoObject[key] = value;
 		}
-		urlParams += "etc<userId," + userInfoObject.id + "> |etc<" + new Date() + ",null>" 
+		urlParams += "etc<userId," + userInfoObject.id + "> |etc<targetDate,null>";
 		var baseUrl = "/estimateCalculationResult.do";
 		var fullUrl = baseUrl + "?" + urlParams;
 		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
@@ -207,35 +207,55 @@
 	}
 	function clickAnswerBtn(el){
 		if($(el).html() !== "상관없음"){
-			if(sessionStorage.getItem("data-12").includes("상관없음")){
+			if(sessionStorage.getItem("data-12") === "5"){
 				answers = [];
 			}
 			$("#answer-f").prop("checked",false);
 			if($(el).siblings().prop("checked") === false){
-				if(!answers.includes($(el).html().replace(/\s/g, ""))){
-					answers.push($(el).html().replace(/\s/g, ""));
+				if($(el).html() === "아크릴"){
+					if(!answers.includes("0")){
+						answers.push("0");
+					}
+				}else if ($(el).html() === "강화유리"){
+					if(!answers.includes("1")){
+						answers.push("1");
+					}
+				}else if($(el).html() === "알루미늄"){
+					if(!answers.includes("2")){
+						answers.push("2");
+					}
+				}else if($(el).html() === "통철판"){
+					if(!answers.includes("3")){
+						answers.push("3");
+					}
+				}else if($(el).html() === "창문형 유리"){
+					if(!answers.includes("4")){
+						answers.push("4");
+					}
 				}
 			}else if($(el).siblings().prop("checked") === true){
-				var index = $.inArray($(el).html().replace(/\s/g, ""),answers);
+				var index = answers.indexOf($(el).attr("data-value"));
 				if(index !== -1){
 					answers.splice(index,1);
 				}
 			}
 			sessionStorage.setItem("data-12",JSON.stringify(answers));
 		}else {
-			answers = [];
-			answers.push($(el).html());
-			$("#answer-a").prop("checked",false);
-			$("#answer-b").prop("checked",false);
-			$("#answer-c").prop("checked",false);
-			$("#answer-d").prop("checked",false);
-			$("#answer-e").prop("checked",false);
-			sessionStorage.setItem("data-12",JSON.stringify(answers));
-			answers = [];
+			if($(el).siblings().prop("checked") === false){
+				answers = [];
+				answers.push("5");
+				$("#answer-a").prop("checked",false);
+				$("#answer-b").prop("checked",false);
+				$("#answer-c").prop("checked",false);
+				$("#answer-d").prop("checked",false);
+				$("#answer-e").prop("checked",false);
+				sessionStorage.setItem("data-12",JSON.stringify(answers));
+				answers = [];
+			}
 		}
 	}
 	
-	function returnPageBtn(){
+	function clickReturnBtn(){
 		sessionStorage.setItem("data-12","");
 		location.href = "estimateCalculationEleven.do";
 	}
@@ -294,17 +314,17 @@
 		if(sessionStorage.getItem("data-12")){
 			const storedData = JSON.parse(sessionStorage.getItem("data-12"));
 			for(let i =0; i<storedData.length; i++){
-				if (storedData[i] === "아크릴"){
+				if (storedData[i] === "0"){
 					$("#answer-a").prop("checked",true);
-				}else if (storedData[i] === "강화유리"){
+				}else if (storedData[i] === "1"){
 					$("#answer-b").prop("checked",true);
-				}else if (storedData[i] === "알루미늄"){
+				}else if (storedData[i] === "2"){
 					$("#answer-c").prop("checked",true);
-				}else if (storedData[i] === "통철판"){
+				}else if (storedData[i] === "3"){
 					$("#answer-d").prop("checked",true);
-				}else if (storedData[i] === "창문형유리"){
+				}else if (storedData[i] === "4"){
 					$("#answer-e").prop("checked",true);
-				}else if(storedData[i] === "상관없음"){
+				}else if(storedData[i] === "5"){
 					$("#answer-f").prop("checked",true);
 				}
 			}
@@ -338,34 +358,34 @@
 					<div class="row pb-5">
 						<div class="col d-flex justify-content-center">
 							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-a">
-							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickAnswerBtn(this)">아크릴</label>
+							<label class="btn btn-outline-secondary w-75" for="answer-a" data-value="0" onclick="javascript:clickAnswerBtn(this)">아크릴</label>
 						</div>
 						<div class="col d-flex justify-content-center">
 							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-b">
-							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickAnswerBtn(this)">강화유리</label>
+							<label class="btn btn-outline-secondary w-75" for="answer-b" data-value="1" onclick="javascript:clickAnswerBtn(this)">강화유리</label>
 						</div>
 						<div class="col d-flex justify-content-center">
 							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-c">
-							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickAnswerBtn(this)">알루미늄</label>
+							<label class="btn btn-outline-secondary w-75" for="answer-c" data-value="2" onclick="javascript:clickAnswerBtn(this)">알루미늄</label>
 						</div>
 					</div>
 					<div class="row pb-5">
 						<div class="col d-flex justify-content-center">
 							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-d">
-							<label class="btn btn-outline-secondary w-75" for="answer-d" onclick="javascript:clickAnswerBtn(this)">통철판</label>
+							<label class="btn btn-outline-secondary w-75" for="answer-d" data-value="3" onclick="javascript:clickAnswerBtn(this)">통철판</label>
 						</div>
 						<div class="col d-flex justify-content-center">
 							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-e">
-							<label class="btn btn-outline-secondary w-75" for="answer-e" onclick="javascript:clickAnswerBtn(this)">창문형 유리</label>
+							<label class="btn btn-outline-secondary w-75" for="answer-e" data-value="4" onclick="javascript:clickAnswerBtn(this)">창문형 유리</label>
 						</div>
 						<div class="col d-flex justify-content-center">
 							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-f">
-							<label class="btn btn-outline-secondary w-75" for="answer-f" onclick="javascript:clickAnswerBtn(this)">상관없음</label>
+							<label class="btn btn-outline-secondary w-75" for="answer-f" data-value="5" onclick="javascript:clickAnswerBtn(this)">상관없음</label>
 						</div>
 					</div>
 					<div class="row mb-4">
 						<div class="col-4">
-							<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:returnPageBtn()">이전 질문</button>
+							<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:clickReturnBtn()">이전 질문</button>
 						</div>
 						<div class="col-4">
 							<button type="button" class="form-control margin-center" onclick="javascript:clickEstimateBtn(this)">견적 보기</button>

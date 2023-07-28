@@ -169,7 +169,7 @@
 			var value = keyValue[1];
 			userInfoObject[key] = value;
 		}
-		urlParams += "etc<userId," + userInfoObject.id + "> |etc<" + new Date() + ",null>" 
+		urlParams += "etc<userId," + userInfoObject.id + "> |etc<targetDate,null>";
 		var baseUrl = "/estimateCalculationResult.do";
 		var fullUrl = baseUrl + "?" + urlParams;
 		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
@@ -212,16 +212,16 @@
 		}
 	}
 
-	function clickIntelBtn(){
-		sessionStorage.setItem("data-5","Intel");
+	function clickAnswerBtn(el){
+		if($(el).html() === "Intel"){
+			sessionStorage.setItem("data-5",0);
+		}else if($(el).html() === "AMD"){
+			sessionStorage.setItem("data-5",1);
+		}else {
+			sessionStorage.setItem("data-5",2);
+		}
 	}	
-	function clickAmdBtn(){
-		sessionStorage.setItem("data-5","Amd");
-	}
-	function clickOkBtn(){
-		sessionStorage.setItem("data-5","0");
-	}
-	function returnPageBtn(){
+	function clickReturnBtn(){
 		sessionStorage.removeItem("data-5");
 		window.location.href = "estimateCalculationFour.do";
 	}
@@ -264,12 +264,11 @@
 	}).get();
 	// 견적산출 데이터처리부(수신)
 	if(sessionStorage.getItem("data-5")){
-		const storedData = sessionStorage.getItem("data-5");
-		if(storedData === "Intel"){
+		if(sessionStorage.getItem("data-5") === "0"){
 			$("#answer-a").prop("checked",true);
-		}else if (storedData === "Amd"){
+		}else if (sessionStorage.getItem("data-5") === "1"){
 			$("#answer-b").prop("checked",true);
-		}else if (storedData === "0"){
+		}else if (sessionStorage.getItem("data-5") === "2"){
 			$("#answer-c").prop("checked",true);
 		}
 	}
@@ -302,20 +301,20 @@
 					<div class="row pb-5">
 						<div class="col-4 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-a">
-							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickIntelBtn()">Intel</label>
+							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickAnswerBtn(this)">Intel</label>
 						</div>
 						<div class="col-4 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-b">
-							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickAmdBtn()">AMD</label>
+							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickAnswerBtn(this)">AMD</label>
 						</div>
 						<div class="col-4 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-c">
-							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickOkBtn()">상관없음 혹은 잘 모름</label>
+							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickAnswerBtn(this)">상관없음 혹은 잘 모름</label>
 						</div>
 					</div>
 					<div class="row mb-4">
 						<div class="col">
-							<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:returnPageBtn()">이전 질문</button>
+							<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:clickReturnBtn()">이전 질문</button>
 						</div>
 						<div class="col">
 							<button type="button" class="form-control calc-two-final margin-center" onclick="javascript:clickEstimateBtn(this)">견적 보기</button>

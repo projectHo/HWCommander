@@ -169,7 +169,7 @@
 			var value = keyValue[1];
 			userInfoObject[key] = value;
 		}
-		urlParams += "etc<userId," + userInfoObject.id + "> |etc<" + new Date() + ",null>" 
+		urlParams += "etc<userId," + userInfoObject.id + "> |etc<targetDate,null>";
 		var baseUrl = "/estimateCalculationResult.do";
 		var fullUrl = baseUrl + "?" + urlParams;
 		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
@@ -212,17 +212,17 @@
 		}
 	}
 
-	function clickDdr4Btn(){
-		sessionStorage.setItem("data-9","DDR4");
+	function clickAnswerBtn(el){
+		if($(el).html() === "DDR4"){
+			sessionStorage.setItem("data-9",0);
+		}else if($(el).html() === "DDR5"){
+			sessionStorage.setItem("data-9",1);
+		}else {
+			sessionStorage.setItem("data-9",2);
+		}
 	}	
-	function clickDdr5Btn(){
-		sessionStorage.setItem("data-9","DDR5");
-	}
-	function clickOkBtn(){
-		sessionStorage.setItem("data-9","np");
-	}
-	function returnPageBtn(){
-		sessionStorage.removeItem("data-9");
+	function clickReturnBtn(){
+		sessionStorage.setItem("data-9","null");
 		window.location.href = "estimateCalculationEight.do";
 	}
 	function clickEstimateBtn(el){
@@ -264,12 +264,11 @@
 	}).get();
 	// 견적산출 데이터처리부(수신)
 	if(sessionStorage.getItem("data-9")){
-		const storedData = sessionStorage.getItem("data-9");
-		if(storedData === "DDR4"){
+		if(sessionStorage.getItem("data-9") === "0"){
 			$("#answer-a").prop("checked",true);
-		}else if (storedData === "DDR5"){
+		}else if (sessionStorage.getItem("data-9") === "1"){
 			$("#answer-b").prop("checked",true);
-		}else if (storedData === "np"){
+		}else if (sessionStorage.getItem("data-9") === "2"){
 			$("#answer-c").prop("checked",true);
 		}
 	}
@@ -302,20 +301,20 @@
 					<div class="row pb-5">
 						<div class="col-4 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-a">
-							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickDdr4Btn()">DDR4</label>
+							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickAnswerBtn(this)">DDR4</label>
 						</div>
 						<div class="col-4 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-b">
-							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickDdr5Btn()">DDR5</label>
+							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickAnswerBtn(this)">DDR5</label>
 						</div>
 						<div class="col-4 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-c">
-							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickOkBtn()">상관 없음</label>
+							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickAnswerBtn(this)">상관 없음</label>
 						</div>
 					</div>
 					<div class="row mb-4">
 						<div class="col">
-							<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:returnPageBtn()">이전 질문</button>
+							<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:clickReturnBtn()">이전 질문</button>
 						</div>
 						<div class="col">
 							<button type="button" class="form-control calc-two-final margin-center" onclick="javascript:clickEstimateBtn(this)">견적 보기</button>

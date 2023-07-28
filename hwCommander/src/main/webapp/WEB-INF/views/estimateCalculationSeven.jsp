@@ -169,7 +169,7 @@
 			var value = keyValue[1];
 			userInfoObject[key] = value;
 		}
-		urlParams += "etc<userId," + userInfoObject.id + "> |etc<" + new Date() + ",null>" 
+		urlParams += "etc<userId," + userInfoObject.id + "> |etc<targetDate,null>";
 		var baseUrl = "/estimateCalculationResult.do";
 		var fullUrl = baseUrl + "?" + urlParams;
 		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
@@ -212,17 +212,17 @@
 		}
 	}
 
-	function clickYesBtn(){
-		sessionStorage.setItem("data-7",1);
+	function clickAnswerBtn(el){
+		if($(el).html() === "좋아요!"){
+			sessionStorage.setItem("data-7",0);
+		}else if($(el).html() === "싫어요!"){
+			sessionStorage.setItem("data-7",1);
+		}else {
+			sessionStorage.setItem("data-7",2);
+		}
 	}
-	function clickNoBtn(){
-		sessionStorage.setItem("data-7",0);
-	}
-	function clickWhatBtn(){
-		sessionStorage.setItem("data-7","np")
-	}
-	function returnPageBtn(){
-		sessionStorage.removeItem("data-7");
+	function clickReturnBtn(){
+		sessionStorage.setItem("data-7","");
 		window.location.href = "estimateCalculationSix.do";
 	}
 	function clickEstimateBtn(el){
@@ -264,16 +264,12 @@
 	}).get();
 	// 견적산출 데이터처리부(수신)
 	if(sessionStorage.getItem("data-7")){
-		const sevenData = sessionStorage.getItem("data-7");
-		const yesBtn = $("#answer-a");
-		const noBtn = $("#answer-b");
-		const npBtn = $("#answer-c");
-		if(sevenData === "1"){
-			yesBtn.prop("checked",true);
-		}else if (sevenData === "0"){
-			noBtn.prop("checked",true);
-		}else if (sevenData === "np"){
-			npBtn.prop("checked",true);
+		if(sessionStorage.getItem("data-7") === "0"){
+			$("#answer-a").prop("checked",true);
+		}else if (sessionStorage.getItem("data-7") === "1"){
+			$("#answer-b").prop("checked",true);
+		}else if (sessionStorage.getItem("data-7") === "2"){
+			$("#answer-c").prop("checked",true);
 		}
 	}
 	})
@@ -305,20 +301,20 @@
 					<div class="row pb-5">
 						<div class="col-4 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-a">
-							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickYesBtn()">좋아요!</label>
+							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickAnswerBtn(this)">좋아요!</label>
 						</div>
 						<div class="col-4 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-b">
-							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickNoBtn()">싫어요!</label>
+							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickAnswerBtn(this)">싫어요!</label>
 						</div>
 						<div class="col-4 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-c">
-							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickWhatBtn()">상관없어요!</label>
+							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickAnswerBtn(this)">상관없어요!</label>
 						</div>
 					</div>
 					<div class="row mb-4">
 						<div class="col">
-							<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:returnPageBtn()">이전 질문</button>
+							<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:clickReturnBtn()">이전 질문</button>
 						</div>
 						<div class="col">
 							<button type="button" class="form-control calc-two-final margin-center" onclick="javascript:clickEstimateBtn(this)">견적 보기</button>

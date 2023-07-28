@@ -169,7 +169,7 @@
 			var value = keyValue[1];
 			userInfoObject[key] = value;
 		}
-		urlParams += "etc<userId," + userInfoObject.id + "> |etc<" + new Date() + ",null>" 
+		urlParams += "etc<userId," + userInfoObject.id + "> |etc<targetDate,null>";
 		var baseUrl = "/estimateCalculationResult.do";
 		var fullUrl = baseUrl + "?" + urlParams;
 		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
@@ -212,14 +212,15 @@
 		}
 	}
 
-	function clickYesBtn(){
-		sessionStorage.setItem("data-4",1);
-	}
-	function clickNoBtn(){
-		sessionStorage.setItem("data-4",0);
+	function clickAnswerBtn(el){
+		if($(el).html() === "필요해요!"){
+			sessionStorage.setItem("data-4",0);
+		}else {
+			sessionStorage.setItem("data-4",1);
+		}
 	}
 	function returnPageBtn(){
-		sessionStorage.removeItem("data-4");
+		sessionStorage.setItem("data-4","");
 		window.location.href = "estimateCalculationThree.do";
 	}
 	function clickEstimateBtn(el){
@@ -261,13 +262,10 @@
 	}).get();
 	// 견적산출 데이터처리부(수신)
 	if(sessionStorage.getItem("data-4")){
-		const fourData = sessionStorage.getItem("data-4");
-		const yesBtn = $("#answer-a");
-		const noBtn = $("#answer-b");
-		if(fourData === "1"){
-			yesBtn.prop("checked",true);
-		}else if (fourData === "0"){
-			noBtn.prop("checked",true);
+		if(sessionStorage.getItem("data-4") === "0"){
+			$("#answer-a").prop("checked",true);
+		}else if (sessionStorage.getItem("data-4") === "1"){
+			$("#answer-b").prop("checked",true);
 		}
 	}
 	})
@@ -300,16 +298,12 @@
 					<div class="row pb-5">
 						<div class="col-6 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-a">
-							<label class="btn btn-outline-secondary w-50" for="answer-a" onclick="javascript:clickYesBtn()">네! 필요해요!</label>
+							<label class="btn btn-outline-secondary w-50" for="answer-a" onclick="javascript:clickAnswerBtn(this)">필요해요!</label>
 						</div>
 						<div class="col-6 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-b">
-							<label class="btn btn-outline-secondary w-50" for="answer-b" onclick="javascript:clickNoBtn()">아뇨! 필요없어요!</label>
+							<label class="btn btn-outline-secondary w-50" for="answer-b" onclick="javascript:clickAnswerBtn(this)">필요없어요!</label>
 						</div>
-						<!-- <div class="col-4 d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-b">
-							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickNoBtn()">모르겠어요!</label>
-						</div> -->
 					</div>
 					<div class="row mb-4">
 						<div class="col">

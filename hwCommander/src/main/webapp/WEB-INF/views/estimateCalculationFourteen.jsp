@@ -169,7 +169,7 @@
 			var value = keyValue[1];
 			userInfoObject[key] = value;
 		}
-		urlParams += "etc<userId," + userInfoObject.id + "> |etc<" + new Date() + ",null>" 
+		urlParams += "etc<userId," + userInfoObject.id + "> |etc<targetDate,null>";
 		var baseUrl = "/estimateCalculationResult.do";
 		var fullUrl = baseUrl + "?" + urlParams;
 		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
@@ -200,18 +200,18 @@
 	};
 	function clickAnswerBtn(el){
 		if($(el).html() === "필요해요"){
-			sessionStorage.setItem("data-14","1");
+			sessionStorage.setItem("data-14",0);
 		}else if($(el).html().includes("HOME")){
-			sessionStorage.setItem("data-14","HOME");
+			sessionStorage.setItem("data-14",1);
 		}else if($(el).html().includes("Pro")){
-			sessionStorage.setItem("data-14","Pro");
+			sessionStorage.setItem("data-14",2);
 		}else if($(el).html().includes("Edu")){
-			sessionStorage.setItem("data-14","Edu");
+			sessionStorage.setItem("data-14",3);
 		}else if($(el).html() === "필요없어요"){
-			sessionStorage.setItem("data-14","0");
+			sessionStorage.setItem("data-14",4);
 		}
 	}
-	function returnPageBtn(){
+	function clickReturnBtn(){
 		sessionStorage.setItem("data-14","");
 		location.href = "estimateCalculationThirteen.do";
 	}
@@ -269,15 +269,15 @@
 		// 견적산출 데이터처리부(수신)
 		if(sessionStorage.getItem("data-14")){
 			const storedData = sessionStorage.getItem("data-14");
-			if(storedData === "1"){
+			if(storedData === "0"){
 				$("#answer-a").prop("checked",true);
-			}else if (storedData === "HOME"){
+			}else if (storedData === "1"){
 				$("#answer-b").prop("checked",true);
-			}else if (storedData === "Pro"){
+			}else if (storedData === "2"){
 				$("#answer-c").prop("checked",true);
-			}else if (storedData === "Edu"){
+			}else if (storedData === "3"){
 				$("#answer-d").prop("checked",true);
-			}else if (storedData === "0"){
+			}else if (storedData === "4"){
 				$("#answer-e").prop("checked",true);
 			}
 		}
@@ -331,7 +331,7 @@
 					</div>
 					<div class="row mb-4">
 						<div class="col-4">
-							<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:returnPageBtn()">이전 질문</button>
+							<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:clickReturnBtn()">이전 질문</button>
 						</div>
 						<div class="col-4">
 							<button type="button" class="form-control margin-center" onclick="javascript:clickEstimateBtn(this)">견적 보기</button>

@@ -94,7 +94,7 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 		}
 
 		$(function () {
-			for(let i = 1; i<=20 ; i++){
+			for(let i = 2; i<=20 ; i++){
 				sessionStorage.setItem("data-" + i, "");
 			}
 			// bootstrap tooltip base
@@ -105,7 +105,6 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 			// 견적산출 데이터처리부(수신)
 			if(sessionStorage.getItem("data-1")){
 				$('#can-pay-val').val(sessionStorage.getItem("data-1"));
-				sessionStorage.removeItem("data-1");
 			}
 			
 			// functions

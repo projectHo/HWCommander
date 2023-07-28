@@ -169,7 +169,7 @@
 			var value = keyValue[1];
 			userInfoObject[key] = value;
 		}
-		urlParams += "etc<userId," + userInfoObject.id + "> |etc<" + new Date() + ",null>" 
+		urlParams += "etc<userId," + userInfoObject.id + "> |etc<targetDate,null>";
 		var baseUrl = "/estimateCalculationResult.do";
 		var fullUrl = baseUrl + "?" + urlParams;
 		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
@@ -212,19 +212,18 @@
 		}
 	}
 
-	function clickBulkBtn(){
-		sessionStorage.setItem("data-10","Bulk");
+	function clickAnswerBtn(el){
+		if($(el).html() === "벌크"){
+			sessionStorage.setItem("data-10",0);
+		}else if($(el).html() === "멀티팩"){
+			sessionStorage.setItem("data-10",1);
+		}else if($(el).html() === "둘다 좋음"){
+			sessionStorage.setItem("data-10",2);
+		}else {
+			sessionStorage.setItem("data-10",3);
+		}
 	}	
-	function clickMultiBtn(){
-		sessionStorage.setItem("data-10","Multi");
-	}
-	function clickOkBtn(){
-		sessionStorage.setItem("data-10","1");
-	}
-	function clickNoBtn(){
-		sessionStorage.setItem("data-10","0");
-	}
-	function returnPageBtn(){
+	function clickReturnBtn(){
 		sessionStorage.removeItem("data-10");
 		window.location.href = "estimateCalculationNine.do";
 	}
@@ -267,14 +266,13 @@
 		}).get();
 		// 견적산출 데이터처리부(수신)
 		if(sessionStorage.getItem("data-10")){
-			const storedData = sessionStorage.getItem("data-10");
-			if(storedData === "Bulk"){
+			if(sessionStorage.getItem("data-10") === "0"){
 				$("#answer-a").prop("checked",true);
-			}else if (storedData === "Multi"){
+			}else if (sessionStorage.getItem("data-10") === "1"){
 				$("#answer-b").prop("checked",true);
-			}else if (storedData === "1"){
+			}else if (sessionStorage.getItem("data-10") === "2"){
 				$("#answer-c").prop("checked",true);
-			}else if (storedData === "0"){
+			}else if (sessionStorage.getItem("data-10") === "3"){
 				$("#answer-d").prop("checked",true);
 			}
 		}
@@ -307,24 +305,24 @@
 					<div class="row pb-5">
 						<div class="col-3 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-a">
-							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickBulkBtn()">벌크</label>
+							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickAnswerBtn(this)">벌크</label>
 						</div>
 						<div class="col-3 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-b">
-							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickMultiBtn()">멀티팩</label>
+							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickAnswerBtn(this)">멀티팩</label>
 						</div>
 						<div class="col-3 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-c">
-							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickOkBtn()">둘다 좋음</label>
+							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickAnswerBtn(this)">둘다 좋음</label>
 						</div>
 						<div class="col-3 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-d">
-							<label class="btn btn-outline-secondary w-75" for="answer-d" onclick="javascript:clickNoBtn()">둘다 싫음</label>
+							<label class="btn btn-outline-secondary w-75" for="answer-d" onclick="javascript:clickAnswerBtn(this)">둘다 싫음</label>
 						</div>
 					</div>
 					<div class="row mb-4">
 						<div class="col-4">
-							<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:returnPageBtn()">이전 질문</button>
+							<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:clickReturnBtn()">이전 질문</button>
 						</div>
 						<div class="col-4">
 							<button type="button" class="form-control calc-two-final margin-center" onclick="javascript:clickEstimateBtn(this)">견적 보기</button>

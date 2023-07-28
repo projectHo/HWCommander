@@ -51,7 +51,7 @@
 
 		}
 	}
-	function returnPageBtn(){
+	function clickReturnBtn(){
 		sessionStorage.setItem("data-17","");
 		location.href = "estimateCalculationSixteen.do";
 	}
@@ -212,7 +212,7 @@
 					</div>
 					<div class="row mb-4">
 						<div class="col-4">
-							<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:returnPageBtn()">이전 질문</button>
+							<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:clickReturnBtn()">이전 질문</button>
 						</div>
 						<div class="col-4">
 							<button type="button" class="form-control margin-center" onclick="javascript:clickEstimateBtn(this)">견적 보기</button>
