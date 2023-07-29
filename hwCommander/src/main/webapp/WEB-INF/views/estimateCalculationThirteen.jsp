@@ -155,10 +155,21 @@
 					}
 				}
 			}
-			if(i !== 20){
-				urlParams += "|";
-			}
+			urlParams += "|";
 		}
+		var Pattern = /\((.*?)\)/;
+		var userInfoMatch = Pattern.exec("${loginUser}");
+		var userInfoValues = userInfoMatch[1];
+
+		var userInfoArray = userInfoValues.split(", ");
+		var userInfoObject = {};
+		for (var i = 0; i < userInfoArray.length; i++) {
+			var keyValue = userInfoArray[i].split("=");
+			var key = keyValue[0];
+			var value = keyValue[1];
+			userInfoObject[key] = value;
+		}
+		urlParams += "etc<userId," + userInfoObject.id + "> |etc<targetDate,null>";
 		var baseUrl = "/estimateCalculationResult.do";
 		var fullUrl = baseUrl + "?" + urlParams;
 		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
@@ -189,17 +200,43 @@
 	};
 	let answers=[];
 	function clickAnswerBtn(el){
-		$(".count-container").css("display","flex");
-		$(".count-hdd").focus();
-		if($(".count-hdd").val() !== ""){
+		if($(el).html().includes("필요없음")){
+			$(".count-container").css("display","none");
 			var val = [];
-			val.push($(el).html());
-			val.push($(".count-hdd").val());
-			sessionStorage.setItem("data-13",JSON.stringify(val));
+			val.push("5");
+			val.push("null");
+			sessionStorage.setItem("data-13",JSON.stringify(val))
+		}else{
+			$(".count-container").css("display","flex");
+			$(".count-hdd").focus();
+			if($(".count-hdd").val() !== ""){
+				var val = [];
+				if($(el).html().includes("1TB")){
+					val.push("0");
+					val.push($(".count-hdd").val());
+					sessionStorage.setItem("data-13",JSON.stringify(val));
+				}else if($(el).html().includes("2TB")){
+					val.push("1");
+					val.push($(".count-hdd").val());
+					sessionStorage.setItem("data-13",JSON.stringify(val));
+				}else if($(el).html().includes("4TB")){
+					val.push("2");
+					val.push($(".count-hdd").val());
+					sessionStorage.setItem("data-13",JSON.stringify(val));
+				}else if($(el).html().includes("6TB")){
+					val.push("3");
+					val.push($(".count-hdd").val());
+					sessionStorage.setItem("data-13",JSON.stringify(val));
+				}else if($(el).html().includes("8TB")){
+					val.push("4");
+					val.push($(".count-hdd").val());
+					sessionStorage.setItem("data-13",JSON.stringify(val));
+				}
+			}
 		}
 	}
 	
-	function returnPageBtn(){
+	function clickReturnBtn(){
 		sessionStorage.setItem("data-13","");
 		location.href = "estimateCalculationTwelve.do";
 	}
@@ -240,27 +277,23 @@
 		}else {
 			let value = [];
 			if($("#answer-a").prop("checked") === true){
-				value.push($("#answer-a").siblings().html());
+				value.push("0");
 				value.push($(".count-hdd").val());
 				sessionStorage.setItem("data-13",JSON.stringify(value))
 			}else if($("#answer-b").prop("checked") === true){
-				value.push($("#answer-b").siblings().html());
+				value.push("1");
 				value.push($(".count-hdd").val());
 				sessionStorage.setItem("data-13",JSON.stringify(value))
 			}else if($("#answer-c").prop("checked") === true){
-				value.push($("#answer-c").siblings().html());
+				value.push("2");
 				value.push($(".count-hdd").val());
 				sessionStorage.setItem("data-13",JSON.stringify(value))
 			}else if($("#answer-d").prop("checked") === true){
-				value.push($("#answer-d").siblings().html());
+				value.push("3");
 				value.push($(".count-hdd").val());
 				sessionStorage.setItem("data-13",JSON.stringify(value))
 			}else if($("#answer-e").prop("checked") === true){
-				value.push($("#answer-e").siblings().html());
-				value.push($(".count-hdd").val());
-				sessionStorage.setItem("data-13",JSON.stringify(value))
-			}else if($("#answer-f").prop("checked") === true){
-				value.push($("#answer-f").siblings().html());
+				value.push("4");
 				value.push($(".count-hdd").val());
 				sessionStorage.setItem("data-13",JSON.stringify(value))
 			}
@@ -291,22 +324,24 @@
 		if(sessionStorage.getItem("data-13")){
 			const storedData = JSON.parse(sessionStorage.getItem("data-13"));
 			for(let i =0; i<storedData.length; i++){
-				if (storedData[i] === "1024GB(1TB)"){
+				if (storedData[i] === "0)"){
 					$("#answer-a").prop("checked",true);
-				}else if (storedData[i] === "2048GB(2TB)"){
+				}else if (storedData[i] === "1)"){
 					$("#answer-b").prop("checked",true);
-				}else if (storedData[i] === "4096GB(4TB)"){
+				}else if (storedData[i] === "2"){
 					$("#answer-c").prop("checked",true);
-				}else if (storedData[i] === "6144GB(6TB)"){
+				}else if (storedData[i] === "3"){
 					$("#answer-d").prop("checked",true);
-				}else if (storedData[i] === "8192GB(8TB)"){
+				}else if (storedData[i] === "4"){
 					$("#answer-e").prop("checked",true);
-				}else if(storedData[i] === "필요없음"){
+				}else if(storedData[i] === "5"){
 					$("#answer-f").prop("checked",true);
 				}
+				if(storedData[0] !== "5"){
+					$(".count-container").css("display","flex");
+					$(".count-hdd").val(storedData[1]);
+				}
 			}
-			$(".count-container").css("display","flex");
-			$(".count-hdd").val(storedData[1]);
 		}
 	})
 </script>
@@ -370,7 +405,7 @@
 					</div>
 					<div class="row mb-4">
 						<div class="col-4">
-							<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:returnPageBtn()">이전 질문</button>
+							<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:clickReturnBtn()">이전 질문</button>
 						</div>
 						<div class="col-4">
 							<button type="button" class="form-control margin-center" onclick="javascript:clickEstimateBtn(this)">견적 보기</button>

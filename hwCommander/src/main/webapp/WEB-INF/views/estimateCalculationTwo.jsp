@@ -155,10 +155,21 @@
 					}
 				}
 			}
-			if(i !== 20){
-				urlParams += "|";
-			}
+			urlParams += "|";
 		}
+		var Pattern = /\((.*?)\)/;
+		var userInfoMatch = Pattern.exec("${loginUser}");
+		var userInfoValues = userInfoMatch[1];
+
+		var userInfoArray = userInfoValues.split(", ");
+		var userInfoObject = {};
+		for (var i = 0; i < userInfoArray.length; i++) {
+			var keyValue = userInfoArray[i].split("=");
+			var key = keyValue[0];
+			var value = keyValue[1];
+			userInfoObject[key] = value;
+		}
+		urlParams += "etc<userId," + userInfoObject.id + ">|etc<targetDate,null>" 
 		var baseUrl = "/estimateCalculationResult.do";
 		var fullUrl = baseUrl + "?" + urlParams;
 		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
@@ -238,8 +249,8 @@
 		removableTr.remove();
 	};
 
-	function returnOnePage(){
-		sessionStorage.removeItem("data-2");
+	function clickReturnBtn(){
+		sessionStorage.setItem("data-2","");
 		window.location.href ="estimateCalculationOne.do";
 	}
 
@@ -329,7 +340,7 @@
 		}
 	}
 
-	function viewBtn() {
+	function clickEstimateBtn() {
 		let totalRating = 0;
 		$(".use-list-rating").each(function() {
 			totalRating += parseInt($(this).val(), 10) || 0;
@@ -354,7 +365,7 @@
 			}, 3000);
 		}
 	}
-	function nextBtn(){
+	function clickNextBtn(){
 		let totalRating = 0;
 		$(".use-list-rating").each(function() {
 			totalRating += parseInt($(this).val(), 10) || 0;
@@ -690,16 +701,16 @@
 							</div>
 							<div class="row mb-4">
 								<div class="col">
-									<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:returnOnePage()">이전 질문</button>
+									<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:clickReturnBtn()">이전 질문</button>
 								</div>
 								<div class="col">
-									<button type="button" class="form-control calc-two-final margin-center" onclick="javascript:viewBtn()">견적 보기</button>
+									<button type="button" class="form-control calc-two-final margin-center" onclick="javascript:clickEstimateBtn()">견적 보기</button>
 									<div class="invalid-feedback fs-5 calc-two-final-text text-center" style="display: none; font-weight: bold;">2페이지 까지는 필수 질문입니다!</div>
 									<div class="invalid-feedback fs-5 calc-two-final-text-use text-center" style="display: none; font-weight: bold;">사용 용도를 선택해주세요!</div>
 									<div class="invalid-feedback fs-5 calc-two-final-text-rating text-center" style="display: none; font-weight: bold;">비중을 100%로 맞춰주세요!</div>
 								</div>
 								<div class="col">
-									<button type="button" class="form-control w-50 margin-left-auto next-two-btn" onclick="javascript:nextBtn()">다음 질문</button>
+									<button type="button" class="form-control w-50 margin-left-auto next-two-btn" onclick="javascript:clickNextBtn()">다음 질문</button>
 								</div>
 							</div>
 				 		<div class="modal fade" id="use-collector" tabindex="-1" aria-labelledby="collecter" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">

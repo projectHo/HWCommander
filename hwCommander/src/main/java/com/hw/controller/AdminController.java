@@ -344,7 +344,7 @@ public class AdminController {
 	@ResponseBody
 	public Integer caseUpdateLogic(
 			@RequestParam(value = "partsCaseVO", required = true) String partsCaseVOString
-			, @RequestParam(value = "multipartFile") MultipartFile multipartFile) throws JsonMappingException, JsonProcessingException {
+			, @RequestParam(value = "multipartFile", required = false) MultipartFile multipartFile) throws JsonMappingException, JsonProcessingException {
 		
 		PartsCaseVO partsCaseVO = new PartsCaseVO();
 		ObjectMapper objectMapper = new ObjectMapper();

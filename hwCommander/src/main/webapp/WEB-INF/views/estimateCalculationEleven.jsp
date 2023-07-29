@@ -155,10 +155,21 @@
 					}
 				}
 			}
-			if(i !== 20){
-				urlParams += "|";
-			}
+			urlParams += "|";
 		}
+		var Pattern = /\((.*?)\)/;
+		var userInfoMatch = Pattern.exec("${loginUser}");
+		var userInfoValues = userInfoMatch[1];
+
+		var userInfoArray = userInfoValues.split(", ");
+		var userInfoObject = {};
+		for (var i = 0; i < userInfoArray.length; i++) {
+			var keyValue = userInfoArray[i].split("=");
+			var key = keyValue[0];
+			var value = keyValue[1];
+			userInfoObject[key] = value;
+		}
+		urlParams += "etc<userId," + userInfoObject.id + "> |etc<targetDate,null>";
 		var baseUrl = "/estimateCalculationResult.do";
 		var fullUrl = baseUrl + "?" + urlParams;
 		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
@@ -188,13 +199,19 @@
 		}
 	};
 	function clickAnswerBtn(el){
-		if( $(el).html() !== "예산에 맞게"){
-			sessionStorage.setItem("data-11", $(el).html());
-		}else {
-			sessionStorage.setItem("data-11", "0");
+		if($(el).html() === "예산에 맞게"){
+			sessionStorage.setItem("data-11",0);
+		}else if($(el).html() === "256GB"){
+			sessionStorage.setItem("data-11",1);
+		}else if($(el).html() === "512GB"){
+			sessionStorage.setItem("data-11",2);
+		}else if($(el).html() === "1024GB(1TB)"){
+			sessionStorage.setItem("data-11",3);
+		}else if($(el).html() === "2048GB(1TB)"){
+			sessionStorage.setItem("data-11",4);
 		}
 	}
-	function returnPageBtn(){
+	function clickReturnBtn(){
 		sessionStorage.setItem("data-11","");
 		location.href = "estimateCalculationTen.do";
 	}
@@ -251,16 +268,15 @@
 		}).get();
 		// 견적산출 데이터처리부(수신)
 		if(sessionStorage.getItem("data-11")){
-			const storedData = sessionStorage.getItem("data-11");
-			if(storedData === "0"){
+			if(sessionStorage.getItem("data-11") === "0"){
 				$("#answer-a").prop("checked",true);
-			}else if (storedData === "256GB"){
+			}else if (sessionStorage.getItem("data-11") === "1"){
 				$("#answer-b").prop("checked",true);
-			}else if (storedData === "512GB"){
+			}else if (sessionStorage.getItem("data-11") === "2"){
 				$("#answer-c").prop("checked",true);
-			}else if (storedData === "1024GB(1TB)"){
+			}else if (sessionStorage.getItem("data-11") === "3"){
 				$("#answer-d").prop("checked",true);
-			}else if (storedData === "2048GB(2TB)"){
+			}else if (sessionStorage.getItem("data-11") === "4"){
 				$("#answer-e").prop("checked",true);
 			}
 		}
@@ -314,7 +330,7 @@
 					</div>
 					<div class="row mb-4">
 						<div class="col-4">
-							<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:returnPageBtn()">이전 질문</button>
+							<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:clickReturnBtn()">이전 질문</button>
 						</div>
 						<div class="col-4">
 							<button type="button" class="form-control margin-center" onclick="javascript:clickEstimateBtn(this)">견적 보기</button>

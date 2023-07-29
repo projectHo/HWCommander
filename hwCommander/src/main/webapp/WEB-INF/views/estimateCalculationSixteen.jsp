@@ -155,10 +155,21 @@
 					}
 				}
 			}
-			if(i !== 20){
-				urlParams += "|";
-			}
+			urlParams += "|";
 		}
+		var Pattern = /\((.*?)\)/;
+		var userInfoMatch = Pattern.exec("${loginUser}");
+		var userInfoValues = userInfoMatch[1];
+
+		var userInfoArray = userInfoValues.split(", ");
+		var userInfoObject = {};
+		for (var i = 0; i < userInfoArray.length; i++) {
+			var keyValue = userInfoArray[i].split("=");
+			var key = keyValue[0];
+			var value = keyValue[1];
+			userInfoObject[key] = value;
+		}
+		urlParams += "etc<userId," + userInfoObject.id + "> |etc<targetDate,null>";
 		var baseUrl = "/estimateCalculationResult.do";
 		var fullUrl = baseUrl + "?" + urlParams;
 		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
@@ -188,22 +199,51 @@
 		}
 	};
 	let answers=[];
-	function clickAnswerBtn(el){
-		const storedV = sessionStorage.getItem("data-12");
-		if($(el).siblings().prop("checked") === false){
-			if(!answers.includes($(el).html().replace(/\s/g, ""))){
-				answers.push($(el).html().replace(/\s/g, ""));
-			}
-		}else if($(el).siblings().prop("checked") === true){
-			var index = $.inArray($(el).html().replace(/\s/g, ""),answers);
-			if(index !== -1){
-				answers.splice(index,1);
-			}
+	if(sessionStorage.getItem("data-16")){
+		let datas = JSON.parse(sessionStorage.getItem("data-16"));
+		for(let i = 0 ; i<datas.length; i++){
+			answers.push(datas[i]);
 		}
-		sessionStorage.setItem("data-16",JSON.stringify(answers));
+	}
+	function clickAnswerBtn(el){
+		if($(el).attr("data-value") === "0" || $(el).attr("data-value") === "1" || $(el).attr("data-value") === "2"){
+			console.log(answers[0])
+			if(answers[0] === "3" || answers[0] === "4"){
+				answers = [];
+				$("#answer-d").prop("checked",false);
+				$("#answer-e").prop("checked",false);
+			}
+			if($(el).siblings().prop("checked") === false){
+				if(!answers.includes($(el).attr("data-value"))){
+					answers.push($(el).attr("data-value"));
+				}
+			}else if($(el).siblings().prop("checked") === true){
+				var index = answers.indexOf($(el).attr("data-value"));
+				if(index !== -1){
+					answers.splice(index,1);
+				}
+			}
+			sessionStorage.setItem("data-16",JSON.stringify(answers));
+		}else if ($(el).attr("data-value") === "3" || $(el).attr("data-value") === "4"){
+			answers = [];
+			if($(el).attr("data-value") === "3"){
+				$("#answer-a").prop("checked",false);
+				$("#answer-b").prop("checked",false);
+				$("#answer-c").prop("checked",false);
+				$("#answer-e").prop("checked",false);
+				answers.push($(el).attr("data-value"));
+			}else if ($(el).attr("data-value") === "4"){
+				$("#answer-a").prop("checked",false);
+				$("#answer-b").prop("checked",false);
+				$("#answer-c").prop("checked",false);
+				$("#answer-d").prop("checked",false);
+				answers.push($(el).attr("data-value"));
+			}
+			sessionStorage.setItem("data-16",JSON.stringify(answers));
+		}
 	}
 	
-	function returnPageBtn(){
+	function clickReturnBtn(){
 		sessionStorage.setItem("data-16","");
 		location.href = "estimateCalculationFifteen.do";
 	}
@@ -262,15 +302,15 @@
 		if(sessionStorage.getItem("data-16")){
 			const storedData = JSON.parse(sessionStorage.getItem("data-16"));
 			for(let i =0; i<storedData.length; i++){
-				if (storedData[i] === "LED"){
+				if (storedData[i] === "0"){
 					$("#answer-a").prop("checked",true);
-				}else if (storedData[i] === "RGB"){
+				}else if (storedData[i] === "1"){
 					$("#answer-b").prop("checked",true);
-				}else if (storedData[i] === "ARGB"){
+				}else if (storedData[i] === "2"){
 					$("#answer-c").prop("checked",true);
-				}else if (storedData[i] === "상관없음"){
+				}else if (storedData[i] === "3"){
 					$("#answer-d").prop("checked",true);
-				}else if (storedData[i] === "모두제외"){
+				}else if (storedData[i] === "4"){
 					$("#answer-e").prop("checked",true);
 				}
 			}
@@ -304,30 +344,30 @@
 					<div class="row pb-5">
 						<div class="col d-flex justify-content-center">
 							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-a">
-							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickAnswerBtn(this)">LED</label>
+							<label class="btn btn-outline-secondary w-75" for="answer-a" data-value="0" onclick="javascript:clickAnswerBtn(this)">LED</label>
 						</div>
 						<div class="col d-flex justify-content-center">
 							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-b">
-							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickAnswerBtn(this)">RGB</label>
+							<label class="btn btn-outline-secondary w-75" for="answer-b" data-value="1" onclick="javascript:clickAnswerBtn(this)">RGB</label>
 						</div>
 						<div class="col d-flex justify-content-center">
 							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-c">
-							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickAnswerBtn(this)">ARGB</label>
+							<label class="btn btn-outline-secondary w-75" for="answer-c" data-value="2" onclick="javascript:clickAnswerBtn(this)">ARGB</label>
 						</div>
 					</div>
 					<div class="row pb-5">
 						<div class="col d-flex justify-content-center">
 							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-d">
-							<label class="btn btn-outline-secondary w-75" for="answer-d" onclick="javascript:clickAnswerBtn(this)">상관없음</label>
+							<label class="btn btn-outline-secondary w-75" for="answer-d" data-value="3" onclick="javascript:clickAnswerBtn(this)">상관없음</label>
 						</div>
 						<div class="col d-flex justify-content-center">
 							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-e">
-							<label class="btn btn-outline-secondary w-75" for="answer-e" onclick="javascript:clickAnswerBtn(this)">모두제외</label>
+							<label class="btn btn-outline-secondary w-75" for="answer-e" data-value="4" onclick="javascript:clickAnswerBtn(this)">모두제외</label>
 						</div>
 					</div>
 					<div class="row mb-4">
 						<div class="col-4">
-							<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:returnPageBtn()">이전 질문</button>
+							<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:clickReturnBtn()">이전 질문</button>
 						</div>
 						<div class="col-4">
 							<button type="button" class="form-control margin-center" onclick="javascript:clickEstimateBtn(this)">견적 보기</button>

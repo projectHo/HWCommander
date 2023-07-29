@@ -85,6 +85,7 @@
 			, a.updt_dtm                                                                      AS updtDtm
 			, a.multi_bulk                                                                    AS multiBulk
 			, a.gc                                                                            AS gc
+			, (SELECT MAX(history_seq) FROM parts_gpu_history WHERE id = a.id)                AS partsHistorySeq
 		FROM
 			parts_gpu a
 		<where>
@@ -238,7 +239,8 @@
 			, a.reg_dtm                                                                        AS regDtm      
 			, a.updt_dtm                                                                       AS updtDtm
 			, a.multi_bulk                                                                     AS multiBulk
-			, a.apu                                                                            AS apu     
+			, a.apu                                                                            AS apu
+			, (SELECT MAX(history_seq) FROM parts_cpu_history WHERE id = a.id)                 AS partsHistorySeq     
 		FROM
 			parts_cpu a
 		<where>
@@ -291,7 +293,6 @@
 			, ddr5_max_range
 			, parts_image
 			, reg_dtm
-			, updt_dtm
 			, multi_bulk
 			, apu
 		)
@@ -311,7 +312,6 @@
 			, #{ddr5MaxRange}
 			, #{partsImage}
 			, NOW()
-			, #{updtDtm}
 			, #{multiBulk}
 			, #{apu}
 		)
@@ -343,7 +343,6 @@
 			, sata
 			, parts_image
 			, reg_dtm
-			, updt_dtm
 			, multi_bulk
 			, wifi
 			, mc
@@ -369,7 +368,6 @@
 			, #{sata}
 			, #{partsImage}
 			, NOW()
-			, #{updtDtm}
 			, #{multiBulk}
 			, #{wifi}
 			, #{mc}
@@ -408,7 +406,8 @@
 			, a.updt_dtm                                                                       AS updtDtm
 			, a.multi_bulk                                                                     AS multiBulk
 			, a.wifi                                                                           AS wifi
-			, a.mc                                                                             AS mc        
+			, a.mc                                                                             AS mc
+			, (SELECT MAX(history_seq) FROM parts_mb_history WHERE id = a.id)                  AS partsHistorySeq
 		FROM
 			parts_mb a
 		<where>
@@ -581,6 +580,7 @@
 			, a.multi_bulk                                                                     AS multiBulk
 			, a.volume                                                                         AS volume
 			, a.sd                                                                             AS sd     
+			, (SELECT MAX(history_seq) FROM parts_ram_history WHERE id = a.id)                 AS partsHistorySeq
 		FROM
 			parts_ram a
 		<where>
@@ -731,7 +731,8 @@
 			, a.parts_image                                                                    AS partsImage
 			, a.reg_dtm                                                                        AS regDtm    
 			, a.updt_dtm                                                                       AS updtDtm
-			, a.multi_bulk                                                                     AS multiBulk     
+			, a.multi_bulk                                                                     AS multiBulk
+			, (SELECT MAX(history_seq) FROM parts_psu_history WHERE id = a.id)                 AS partsHistorySeq     
 		FROM
 			parts_psu a
 		<where>
@@ -906,7 +907,8 @@
 			, a.parts_image                                                                    AS partsImage     
 			, a.reg_dtm                                                                        AS regDtm         
 			, a.updt_dtm                                                                       AS updtDtm
-			, a.multi_bulk                                                                     AS multiBulk        
+			, a.multi_bulk                                                                     AS multiBulk
+			, (SELECT MAX(history_seq) FROM parts_case_history WHERE id = a.id)                AS partsHistorySeq
 		FROM
 			parts_case a
 		<where>
@@ -1089,7 +1091,8 @@
 			, a.parts_image                                                                    AS partsImage
 			, a.reg_dtm                                                                        AS regDtm    
 			, a.updt_dtm                                                                       AS updtDtm
-			, a.multi_bulk                                                                     AS multiBulk   
+			, a.multi_bulk                                                                     AS multiBulk
+			, (SELECT MAX(history_seq) FROM parts_cooler_history WHERE id = a.id)              AS partsHistorySeq
 		FROM
 			parts_cooler a
 		<where>
@@ -1242,6 +1245,7 @@
 			, a.updt_dtm                                                                       AS updtDtm
 			, a.multi_bulk                                                                     AS multiBulk
 			, a.volume                                                                         AS volume
+			, (SELECT MAX(history_seq) FROM parts_hdd_history WHERE id = a.id)                 AS partsHistorySeq
 		FROM
 			parts_hdd a
 		<where>
@@ -1313,7 +1317,6 @@
 			, #{sata}
 			, #{partsImage}
 			, NOW()
-			, #{updtDtm}
 			, #{multiBulk}
 			, #{volume}
 		)
@@ -1386,7 +1389,8 @@
 			, a.reg_dtm                                                                        AS regDtm       
 			, a.updt_dtm                                                                       AS updtDtm
 			, a.multi_bulk                                                                     AS multiBulk
-			, a.volume                                                                         AS volume   
+			, a.volume                                                                         AS volume
+			, (SELECT MAX(history_seq) FROM parts_ssd_history WHERE id = a.id)                 AS partsHistorySeq   
 		FROM
 			parts_ssd a
 		<where>
@@ -1526,7 +1530,8 @@
 			, a.parts_image                                                                    AS partsImage
 			, a.reg_dtm                                                                        AS regDtm    
 			, a.updt_dtm                                                                       AS updtDtm
-			, a.multi_bulk                                                                     AS multiBulk   
+			, a.multi_bulk                                                                     AS multiBulk
+			, (SELECT MAX(history_seq) FROM parts_sf_history WHERE id = a.id)                  AS partsHistorySeq   
 		FROM
 			parts_sf a
 		<where>

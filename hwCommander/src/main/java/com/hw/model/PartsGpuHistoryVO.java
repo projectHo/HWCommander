@@ -31,6 +31,6 @@ public class PartsGpuHistoryVO {
 	private int twelvePin;
 	private String partsImage;
 	private String regDtm;
-	private String multiBulk;
+	private int multiBulk;
 	private int gc;
 }

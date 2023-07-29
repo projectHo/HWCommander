@@ -23,6 +23,8 @@ public class PartsSsdVO {
 	private String partsImage;
 	private String regDtm;
 	private String updtDtm;
-	private String multiBulk;
+	private int multiBulk;
 	private int volume;
+	
+	private int partsHistorySeq;
 }

@@ -58,7 +58,8 @@ function goProductRegist() {
 				partsQty : $(this).find('input[name=partsQty]').val(),
 				partsPrice : $(this).find('input[name=partsPrice]').val(),
 				partsTotalPrice : $(this).find('input[name=partsTotalPrice]').val(),
-				partsImage : $(this).find('input[name=partsImage]').val()
+				partsImage : $(this).find('input[name=partsImage]').val(),
+				partsHistorySeq : $(this).find('input[name=partsHistorySeq]').val()
 			};
 			partsRegistFormArray.push(item);
 		}
@@ -142,6 +143,7 @@ function partsAdd() {
 	innerHtml +='			<a class="btn btn-outline-secondary btn-sm" type="button" href="javascript:partsSelect('+addIndex+')">선택</a>';
 	innerHtml +='			<input name="partsId" id="partsId_'+addIndex+'" type="hidden"/>';
 	innerHtml +='			<input name="partsImage" id="partsImage_'+addIndex+'" type="hidden"/>';
+	innerHtml +='			<input name="partsHistorySeq" id="partsHistorySeq_'+addIndex+'" type="hidden"/>';
 	innerHtml +='			<input name="partsTotalPrice" type="hidden"/>';
 	innerHtml +='		</div>';
 	innerHtml +='	</td>';
@@ -195,12 +197,13 @@ function partsSelect(rowNum) {
     myModal.show();
 }
 
-function modalPartsSelect(id, partsName, partsPrice, partsImage) {
+function modalPartsSelect(id, partsName, partsPrice, partsImage, partsHistorySeq) {
 	
 	$("#partsId_"+targetIndex).val(id);
 	$("#partsName_"+targetIndex).val(partsName);
 	$("#partsPrice_"+targetIndex).val(partsPrice);
 	$("#partsImage_"+targetIndex).val(partsImage);
+	$("#partsHistorySeq_"+targetIndex).val(partsHistorySeq);
 	
 	$("#"+targetModelId).modal('hide');
 	
@@ -447,7 +450,7 @@ function productPriceCalculate() {
 									<td>${item.partsName}</td>
 									<td>${item.partsPrice}</td>
 								    <td>
-								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}', '${item.partsImage}')">선택</button>
+								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}', '${item.partsImage}', '${item.partsHistorySeq}')">선택</button>
 								    </td>
 	                          	</tr>
 							</c:forEach>
@@ -484,7 +487,7 @@ function productPriceCalculate() {
 									<td>${item.partsName}</td>
 									<td>${item.partsPrice}</td>
 								    <td>
-								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}', '${item.partsImage}')">선택</button>
+								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}', '${item.partsImage}', '${item.partsHistorySeq}')">선택</button>
 								    </td>
 	                          	</tr>
 							</c:forEach>
@@ -520,7 +523,7 @@ function productPriceCalculate() {
 									<td>${item.partsName}</td>
 									<td>${item.partsPrice}</td>
 								    <td>
-								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}', '${item.partsImage}')">선택</button>
+								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}', '${item.partsImage}', '${item.partsHistorySeq}')">선택</button>
 								    </td>
 	                          	</tr>
 							</c:forEach>
@@ -556,7 +559,7 @@ function productPriceCalculate() {
 									<td>${item.partsName}</td>
 									<td>${item.partsPrice}</td>
 								    <td>
-								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}', '${item.partsImage}')">선택</button>
+								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}', '${item.partsImage}', '${item.partsHistorySeq}')">선택</button>
 								    </td>
 	                          	</tr>
 							</c:forEach>
@@ -592,7 +595,7 @@ function productPriceCalculate() {
 									<td>${item.partsName}</td>
 									<td>${item.partsPrice}</td>
 								    <td>
-								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}', '${item.partsImage}')">선택</button>
+								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}', '${item.partsImage}', '${item.partsHistorySeq}')">선택</button>
 								    </td>
 	                          	</tr>
 							</c:forEach>
@@ -628,7 +631,7 @@ function productPriceCalculate() {
 									<td>${item.partsName}</td>
 									<td>${item.partsPrice}</td>
 								    <td>
-								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}', '${item.partsImage}')">선택</button>
+								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}', '${item.partsImage}', '${item.partsHistorySeq}')">선택</button>
 								    </td>
 	                          	</tr>
 							</c:forEach>
@@ -664,7 +667,7 @@ function productPriceCalculate() {
 									<td>${item.partsName}</td>
 									<td>${item.partsPrice}</td>
 								    <td>
-								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}', '${item.partsImage}')">선택</button>
+								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}', '${item.partsImage}', '${item.partsHistorySeq}')">선택</button>
 								    </td>
 	                          	</tr>
 							</c:forEach>
@@ -700,7 +703,7 @@ function productPriceCalculate() {
 									<td>${item.partsName}</td>
 									<td>${item.partsPrice}</td>
 								    <td>
-								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}', '${item.partsImage}')">선택</button>
+								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}', '${item.partsImage}', '${item.partsHistorySeq}')">선택</button>
 								    </td>
 	                          	</tr>
 							</c:forEach>
@@ -736,7 +739,7 @@ function productPriceCalculate() {
 									<td>${item.partsName}</td>
 									<td>${item.partsPrice}</td>
 								    <td>
-								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}', '${item.partsImage}')">선택</button>
+								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}', '${item.partsImage}', '${item.partsHistorySeq}')">선택</button>
 								    </td>
 	                          	</tr>
 							</c:forEach>
@@ -772,7 +775,7 @@ function productPriceCalculate() {
 									<td>${item.partsName}</td>
 									<td>${item.partsPrice}</td>
 								    <td>
-								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}', '${item.partsImage}')">선택</button>
+								      <button type="button" class="btn btn-outline-secondary btn-sm" onclick="javascript:modalPartsSelect('${item.id}', '${item.partsName}', '${item.partsPrice}', '${item.partsImage}', '${item.partsHistorySeq}')">선택</button>
 								    </td>
 	                          	</tr>
 							</c:forEach>

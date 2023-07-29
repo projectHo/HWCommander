@@ -175,4 +175,503 @@
 			id = #{id}
 	</delete>
 	
+	<select id="getGpuHistoryAllListByTargetDate" resultType="partsGpuHistoryVO" parameterType="String">
+		SELECT 
+			a.id                                                                              AS id
+			, a.history_seq                                                                   AS historySeq        
+			, a.parts_name                                                                    AS partsName 
+			, a.parts_price                                                                   AS partsPrice
+			, FORMAT(a.parts_price, 0)                                                        AS partsPriceStr
+			, a.gled_cd                                                                       AS gledCd    
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'COM002' AND cd = a.gled_cd)     AS gledCdNm  
+			, a.gn                                                                            AS gn        
+			, a.gmc_cd                                                                        AS gmcCd     
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT001' AND cd = a.gmc_cd)      AS gmcCdNm   
+			, a.gsc_cd                                                                        AS gscCd     
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT002' AND cd = a.gsc_cd)      AS gscCdNm   
+			, a.gsv                                                                           AS gsv       
+			, a.maker_id                                                                      AS makerId   
+			, (SELECT maker_name FROM parts_maker WHERE id = a.maker_id)                      AS makerNm 
+			, a.qc                                                                            AS qc        
+			, a.tdp                                                                           AS tdp       
+			, a.bn                                                                            AS bn        
+			, a.il                                                                            AS il        
+			, a.gpl                                                                           AS gpl       
+			, a.twelve_pin                                                                    AS twelvePin 
+			, a.parts_image                                                                   AS partsImage
+			, a.reg_dtm                                                                       AS regDtm    
+			, a.multi_bulk                                                                    AS multiBulk
+			, a.gc                                                                            AS gc
+		FROM
+			parts_gpu_history a
+		WHERE
+			(id, history_seq) 
+				IN (
+					SELECT 
+						id
+						, MAX(history_seq) AS history_seq
+					FROM 
+						parts_gpu_history
+					WHERE 
+					    <if test="targetDate != null and targetDate != ''">
+					    	<![CDATA[
+					    	reg_dtm <= #{targetDate}
+					    	]]> 
+					    </if>
+						<if test="targetDate == null or targetDate == ''">
+							<![CDATA[
+					    	reg_dtm <= NOW()
+					    	]]>  
+					    </if>
+					GROUP BY id 
+				)
+	</select>
+	
+	<select id="getCpuHistoryAllListByTargetDate" resultType="partsCpuHistoryVO" parameterType="String">
+		SELECT 
+			a.id                                                                               AS id
+			, a.history_seq                                                                    AS historySeq
+			, a.parts_name                                                                     AS partsName   
+			, a.parts_price                                                                    AS partsPrice
+			, FORMAT(a.parts_price, 0)                                                         AS partsPriceStr  
+			, a.csv                                                                            AS csv         
+			, a.ia_cd                                                                          AS iaCd     
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT009' AND cd = a.ia_cd)        AS iaCdNm   
+			, a.thermal                                                                        AS thermal     
+			, a.bn                                                                             AS bn          
+			, a.cpu_soc_cd                                                                     AS cpuSocCd    
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT007' AND cd = a.cpu_soc_cd)   AS cpuSocCdNm  
+			, a.vrm_range                                                                      AS vrmRange    
+			, a.ddr4_max_range                                                                 AS ddr4MaxRange
+			, a.ddr5_max_range                                                                 AS ddr5MaxRange
+			, a.parts_image                                                                    AS partsImage  
+			, a.reg_dtm                                                                        AS regDtm      
+			, a.multi_bulk                                                                     AS multiBulk
+			, a.apu                                                                            AS apu
+		FROM
+			parts_cpu_history a
+		WHERE
+			(id, history_seq) 
+				IN (
+					SELECT 
+						id
+						, MAX(history_seq) AS history_seq
+					FROM 
+						parts_cpu_history
+					WHERE 
+					    <if test="targetDate != null and targetDate != ''">
+					    	<![CDATA[
+					    	reg_dtm <= #{targetDate}
+					    	]]> 
+					    </if>
+						<if test="targetDate == null or targetDate == ''">
+							<![CDATA[
+					    	reg_dtm <= NOW()
+					    	]]>  
+					    </if>
+					GROUP BY id 
+				)
+	</select>
+	
+	<select id="getMbHistoryAllListByTargetDate" resultType="partsMbHistoryVO" parameterType="String">
+		SELECT 
+			a.id                                                                               AS id
+			, a.history_seq                                                                    AS historySeq
+			, a.parts_name                                                                     AS partsName 
+			, a.parts_price                                                                    AS partsPrice
+			, FORMAT(a.parts_price, 0)                                                         AS partsPriceStr
+			, a.mled_cd                                                                        AS mledCd    
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'COM002' AND cd = a.mled_cd)      AS mledCdNm  
+			, a.mmc_cd                                                                         AS mmcCd     
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT004' AND cd = a.mmc_cd)       AS mmcCdNm   
+			, a.msc_cd                                                                         AS mscCd     
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT005' AND cd = a.msc_cd)       AS mscCdNm   
+			, a.maker_id                                                                       AS makerId    
+			, (SELECT maker_name FROM parts_maker WHERE id = a.maker_id)                       AS makerNm   
+			, a.port                                                                           AS port      
+			, a.scal                                                                           AS scal      
+			, a.bios                                                                           AS bios      
+			, a.cpu_soc_cd                                                                     AS cpuSocCd  
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT007' AND cd = a.cpu_soc_cd)   AS cpuSocCdNm
+			, a.vrm_range                                                                      AS vrmRange  
+			, a.mem_soc_cd                                                                     AS memSocCd  
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT024' AND cd = a.mem_soc_cd)   AS memSocCdNm
+			, a.scs_cd                                                                         AS scsCd     
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT008' AND cd = a.scs_cd)       AS scsCdNm   
+			, a.ff                                                                             AS ff        
+			, a.pl                                                                             AS pl        
+			, a.sata                                                                           AS sata      
+			, a.parts_image                                                                    AS partsImage
+			, a.reg_dtm                                                                        AS regDtm    
+			, a.multi_bulk                                                                     AS multiBulk
+			, a.wifi                                                                           AS wifi
+			, a.mc                                                                             AS mc
+		FROM
+			parts_mb_history a
+		WHERE
+			(id, history_seq) 
+				IN (
+					SELECT 
+						id
+						, MAX(history_seq) AS history_seq
+					FROM 
+						parts_mb_history
+					WHERE 
+					    <if test="targetDate != null and targetDate != ''">
+					    	<![CDATA[
+					    	reg_dtm <= #{targetDate}
+					    	]]> 
+					    </if>
+						<if test="targetDate == null or targetDate == ''">
+							<![CDATA[
+					    	reg_dtm <= NOW()
+					    	]]>  
+					    </if>
+					GROUP BY id 
+				)
+	</select>
+	
+	<select id="getRamHistoryAllListByTargetDate" resultType="partsRamHistoryVO" parameterType="String">
+		SELECT 
+			a.id                                                                               AS id          
+			, a.history_seq                                                                    AS historySeq
+			, a.parts_name                                                                     AS partsName   
+			, a.parts_price                                                                    AS partsPrice
+			, FORMAT(a.parts_price, 0)                                                         AS partsPriceStr  
+			, a.rled_cd                                                                        AS rledCd      
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'COM002' AND cd = a.rled_cd)      AS rledCdNm    
+			, a.rmc_cd                                                                         AS rmcCd       
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT010' AND cd = a.rmc_cd)       AS rmcCdNm     
+			, a.rsc_cd                                                                         AS rscCd       
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT011' AND cd = a.rsc_cd)       AS rscCdNm     
+			, a.cl                                                                             AS cl          
+			, a.latency                                                                        AS latency          
+			, a.pr_cd                                                                          AS prCd        
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT012' AND cd = a.pr_cd)        AS prCdNm      
+			, a.mem_soc_cd                                                                     AS memSocCd    
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT024' AND cd = a.mem_soc_cd)   AS memSocCdNm  
+			, a.ddr4_max_range                                                                 AS ddr4MaxRange
+			, a.ddr5_max_range                                                                 AS ddr5MaxRange
+			, a.parts_image                                                                    AS partsImage  
+			, a.reg_dtm                                                                        AS regDtm      
+			, a.multi_bulk                                                                     AS multiBulk
+			, a.volume                                                                         AS volume
+			, a.sd                                                                             AS sd     
+		FROM
+			parts_ram_history a
+		WHERE
+			(id, history_seq) 
+				IN (
+					SELECT 
+						id
+						, MAX(history_seq) AS history_seq
+					FROM 
+						parts_ram_history
+					WHERE 
+					    <if test="targetDate != null and targetDate != ''">
+					    	<![CDATA[
+					    	reg_dtm <= #{targetDate}
+					    	]]> 
+					    </if>
+						<if test="targetDate == null or targetDate == ''">
+							<![CDATA[
+					    	reg_dtm <= NOW()
+					    	]]>  
+					    </if>
+					GROUP BY id 
+				)
+	</select>
+	
+	<select id="getPsuHistoryAllListByTargetDate" resultType="partsPsuHistoryVO" parameterType="String">
+		SELECT 
+			a.id                                                                               AS id        
+			, a.history_seq                                                                    AS historySeq
+			, a.parts_name                                                                     AS partsName 
+			, a.parts_price                                                                    AS partsPrice
+			, FORMAT(a.parts_price, 0)                                                         AS partsPriceStr
+			, a.pmc_cd                                                                         AS pmcCd     
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT013' AND cd = a.pmc_cd)       AS pmcCdNm   
+			, a.psc_cd                                                                         AS pscCd     
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT014' AND cd = a.psc_cd)       AS pscCdNm   
+			, a.std                                                                            AS std       
+			, a.maker_id                                                                       AS makerId     
+			, a.pfm                                                                            AS pfm       
+			, a.sft                                                                            AS sft       
+			, a.tdp                                                                            AS tdp       
+			, a.pl                                                                             AS pl        
+			, a.gpl                                                                            AS gpl       
+			, a.twelve_pin                                                                     AS twelvePin 
+			, a.parts_image                                                                    AS partsImage
+			, a.reg_dtm                                                                        AS regDtm    
+			, a.multi_bulk                                                                     AS multiBulk
+		FROM
+			parts_psu_history a
+		WHERE
+			(id, history_seq) 
+				IN (
+					SELECT 
+						id
+						, MAX(history_seq) AS history_seq
+					FROM 
+						parts_psu_history
+					WHERE 
+					    <if test="targetDate != null and targetDate != ''">
+					    	<![CDATA[
+					    	reg_dtm <= #{targetDate}
+					    	]]> 
+					    </if>
+						<if test="targetDate == null or targetDate == ''">
+							<![CDATA[
+					    	reg_dtm <= NOW()
+					    	]]>  
+					    </if>
+					GROUP BY id 
+				)
+	</select>
+	
+	<select id="getCaseHistoryAllListByTargetDate" resultType="partsCaseHistoryVO" parameterType="String">
+		SELECT 
+			a.id                                                                               AS id   
+			, a.history_seq                                                                    AS historySeq          
+			, a.parts_name                                                                     AS partsName      
+			, a.parts_price                                                                    AS partsPrice
+			, FORMAT(a.parts_price, 0)                                                         AS partsPriceStr     
+			, a.cled_cd                                                                        AS cledCd         
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'COM002' AND cd = a.cled_cd)      AS cledCdNm
+			, a.cm_cd                                                                          AS cmCd           
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT023' AND cd = a.cm_cd)        AS cmCdNm
+			, a.cmc_cd                                                                         AS cmcCd          
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT015' AND cd = a.cmc_cd)       AS cmcCdNm
+			, a.csc_cd                                                                         AS cscCd          
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT016' AND cd = a.csc_cd)       AS cscCdNm
+			, a.maker_id                                                                       AS makerId       
+			, (SELECT maker_name FROM parts_maker WHERE id = a.maker_id)                       AS makerNm 
+			, a.adap                                                                           AS adap           
+			, a.cool                                                                           AS cool           
+			, a.end                                                                            AS end            
+			, a.conv                                                                           AS conv           
+			, a.ff                                                                             AS ff             
+			, a.iw                                                                             AS iw             
+			, a.il                                                                             AS il             
+			, a.ih                                                                             AS ih             
+			, a.it                                                                             AS it             
+			, a.fh                                                                             AS fh             
+			, a.ft                                                                             AS ft             
+			, a.str_two_dot_five                                                               AS strTwoDotFive  
+			, a.str_three_dot_five                                                             AS strThreeDotFive
+			, a.parts_image                                                                    AS partsImage     
+			, a.reg_dtm                                                                        AS regDtm         
+			, a.multi_bulk                                                                     AS multiBulk
+		FROM
+			parts_case_history a
+		WHERE
+			(id, history_seq) 
+				IN (
+					SELECT 
+						id
+						, MAX(history_seq) AS history_seq
+					FROM 
+						parts_case_history
+					WHERE 
+					    <if test="targetDate != null and targetDate != ''">
+					    	<![CDATA[
+					    	reg_dtm <= #{targetDate}
+					    	]]> 
+					    </if>
+						<if test="targetDate == null or targetDate == ''">
+							<![CDATA[
+					    	reg_dtm <= NOW()
+					    	]]>  
+					    </if>
+					GROUP BY id 
+				)
+	</select>
+	
+	<select id="getCoolerHistoryAllListByTargetDate" resultType="partsCoolerHistoryVO" parameterType="String">
+		SELECT 
+			a.id                                                                               AS id       
+			, a.history_seq                                                                    AS historySeq 
+			, a.parts_name                                                                     AS partsName 
+			, a.parts_price                                                                    AS partsPrice
+			, FORMAT(a.parts_price, 0)                                                         AS partsPriceStr
+			, a.clled_cd                                                                       AS clledCd   
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'COM002' AND cd = a.clled_cd)     AS clledCdNm
+			, a.clmc_cd                                                                        AS clmcCd    
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT018' AND cd = a.clmc_cd)      AS clmcCdNm
+			, a.clsc_cd                                                                        AS clscCd    
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT019' AND cd = a.clsc_cd)      AS clscCdNm
+			, a.formula_cd                                                                     AS formulaCd 
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT020' AND cd = a.formula_cd)   AS formulaCdNm
+			, a.sta                                                                            AS sta       
+			, a.wcas                                                                           AS wcas      
+			, a.acas                                                                           AS acas      
+			, a.noi                                                                            AS noi       
+			, a.cnv                                                                            AS cnv       
+			, a.thermal                                                                        AS thermal   
+			, a.iw                                                                             AS iw        
+			, a.ih                                                                             AS ih        
+			, a.it                                                                             AS it        
+			, a.parts_image                                                                    AS partsImage
+			, a.reg_dtm                                                                        AS regDtm    
+			, a.multi_bulk                                                                     AS multiBulk
+		FROM
+			parts_cooler_history a
+		WHERE
+			(id, history_seq) 
+				IN (
+					SELECT 
+						id
+						, MAX(history_seq) AS history_seq
+					FROM 
+						parts_cooler_history
+					WHERE 
+					    <if test="targetDate != null and targetDate != ''">
+					    	<![CDATA[
+					    	reg_dtm <= #{targetDate}
+					    	]]> 
+					    </if>
+						<if test="targetDate == null or targetDate == ''">
+							<![CDATA[
+					    	reg_dtm <= NOW()
+					    	]]>  
+					    </if>
+					GROUP BY id 
+				)
+	</select>
+	
+	<select id="getHddHistoryAllListByTargetDate" resultType="partsHddHistoryVO" parameterType="String">
+		SELECT 
+			a.id                                                                               AS id  
+			, a.history_seq                                                                    AS historySeq           
+			, a.parts_name                                                                     AS partsName      
+			, a.parts_price                                                                    AS partsPrice
+			, FORMAT(a.parts_price, 0)                                                         AS partsPriceStr     
+			, a.spd                                                                            AS spd            
+			, a.fea                                                                            AS fea            
+			, a.rel                                                                            AS rel            
+			, a.noice                                                                          AS noice          
+			, a.mttf                                                                           AS mttf           
+			, a.gur                                                                            AS gur            
+			, a.str_three_dot_five                                                             AS strThreeDotFive
+			, a.sata                                                                           AS sata           
+			, a.parts_image                                                                    AS partsImage     
+			, a.reg_dtm                                                                        AS regDtm         
+			, a.multi_bulk                                                                     AS multiBulk
+			, a.volume                                                                         AS volume
+		FROM
+			parts_hdd_history a
+		WHERE
+			(id, history_seq) 
+				IN (
+					SELECT 
+						id
+						, MAX(history_seq) AS history_seq
+					FROM 
+						parts_hdd_history
+					WHERE 
+					    <if test="targetDate != null and targetDate != ''">
+					    	<![CDATA[
+					    	reg_dtm <= #{targetDate}
+					    	]]> 
+					    </if>
+						<if test="targetDate == null or targetDate == ''">
+							<![CDATA[
+					    	reg_dtm <= NOW()
+					    	]]>  
+					    </if>
+					GROUP BY id 
+				)
+	</select>
+	
+	<select id="getSsdHistoryAllListByTargetDate" resultType="partsSsdHistoryVO" parameterType="String">
+		SELECT 
+			a.id                                                                               AS id      
+			, a.history_seq                                                                    AS historySeq     
+			, a.parts_name                                                                     AS partsName    
+			, a.parts_price                                                                    AS partsPrice
+			, FORMAT(a.parts_price, 0)                                                         AS partsPriceStr   
+			, a.basic                                                                          AS basic        
+			, a.fnc                                                                            AS fnc          
+			, a.cmf                                                                            AS cmf          
+			, a.war                                                                            AS war          
+			, a.thr                                                                            AS thr          
+			, a.rlb                                                                            AS rlb          
+			, a.str_two_dot_five                                                               AS strTwoDotFive
+			, a.scs_cd                                                                         AS scsCd        
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT008' AND cd = a.scs_cd)       AS scsCdNm      
+			, a.sata                                                                           AS sata         
+			, a.parts_image                                                                    AS partsImage   
+			, a.reg_dtm                                                                        AS regDtm       
+			, a.multi_bulk                                                                     AS multiBulk
+			, a.volume                                                                         AS volume
+		FROM
+			parts_ssd_history a
+		WHERE
+			(id, history_seq) 
+				IN (
+					SELECT 
+						id
+						, MAX(history_seq) AS history_seq
+					FROM 
+						parts_ssd_history
+					WHERE 
+					    <if test="targetDate != null and targetDate != ''">
+					    	<![CDATA[
+					    	reg_dtm <= #{targetDate}
+					    	]]> 
+					    </if>
+						<if test="targetDate == null or targetDate == ''">
+							<![CDATA[
+					    	reg_dtm <= NOW()
+					    	]]>  
+					    </if>
+					GROUP BY id 
+				)
+	</select>
+	
+	<select id="getSfHistoryAllListByTargetDate" resultType="partsSfHistoryVO" parameterType="String">
+		SELECT
+			a.id                                                                               AS id     
+			, a.history_seq                                                                    AS historySeq   
+			, a.parts_name                                                                     AS partsName 
+			, a.parts_price                                                                    AS partsPrice
+			, FORMAT(a.parts_price, 0)                                                         AS partsPriceStr
+			, a.fled_cd                                                                        AS fledCd    
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'COM002' AND cd = a.fled_cd)      AS fledCdNm  
+			, a.fmc_cd                                                                         AS fmcCd     
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT021' AND cd = a.fmc_cd)       AS fmcCdNm   
+			, a.fsc_cd                                                                         AS fscCd     
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT022' AND cd = a.fsc_cd)       AS fscCdNm   
+			, a.fnoi                                                                           AS fnoi      
+			, a.ffm                                                                            AS ffm       
+			, a.fh                                                                             AS fh        
+			, a.ft                                                                             AS ft        
+			, a.parts_image                                                                    AS partsImage
+			, a.reg_dtm                                                                        AS regDtm    
+			, a.multi_bulk                                                                     AS multiBulk
+		FROM
+			parts_sf_history a
+		WHERE
+			(id, history_seq) 
+				IN (
+					SELECT 
+						id
+						, MAX(history_seq) AS history_seq
+					FROM 
+						parts_sf_history
+					WHERE 
+					    <if test="targetDate != null and targetDate != ''">
+					    	<![CDATA[
+					    	reg_dtm <= #{targetDate}
+					    	]]> 
+					    </if>
+						<if test="targetDate == null or targetDate == ''">
+							<![CDATA[
+					    	reg_dtm <= NOW()
+					    	]]>  
+					    </if>
+					GROUP BY id 
+				)
+	</select>
+	
 </mapper>

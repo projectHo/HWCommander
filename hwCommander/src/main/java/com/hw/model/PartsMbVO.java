@@ -36,7 +36,9 @@ public class PartsMbVO {
 	private String partsImage;
 	private String regDtm;
 	private String updtDtm;
-	private String multiBulk;
+	private int multiBulk;
 	private int wifi;
 	private int mc;
+	
+	private int partsHistorySeq;
 }

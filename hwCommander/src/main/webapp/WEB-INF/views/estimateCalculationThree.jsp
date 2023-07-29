@@ -158,13 +158,28 @@
 					}
 				}
 			}
-			if(i !== 20){
-				urlParams += "|";
-			}
+			urlParams += "|";
 		}
+		var Pattern = /\((.*?)\)/;
+		var userInfoMatch = Pattern.exec("${loginUser}");
+		var userInfoValues = userInfoMatch[1];
+
+		var userInfoArray = userInfoValues.split(", ");
+		var userInfoObject = {};
+		for (var i = 0; i < userInfoArray.length; i++) {
+			var keyValue = userInfoArray[i].split("=");
+			var key = keyValue[0];
+			var value = keyValue[1];
+			userInfoObject[key] = value;
+		}
+		urlParams += "etc<userId," + userInfoObject.id + "> |etc<targetDate,null>";
 		var baseUrl = "/estimateCalculationResult.do";
 		var fullUrl = baseUrl + "?" + urlParams;
 		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
+	}
+	function clickReturnBtn() {
+		sessionStorage.setItem("data-3","");
+		window.location.href = "estimateCalculationTwo.do";
 	}
 	function clickEstimateBtn(el){
 		let value = [];
@@ -231,10 +246,6 @@
 	}
 	typeText();
 	
-	function returnTwoPage() {
-		sessionStorage.removeItem("data-3");
-		window.location.href = "estimateCalculationTwo.do";
-	}
 	var myChart ;
 	// hex chart.js
 	function createChart(){
@@ -605,7 +616,7 @@
 						</div>
 						<div class="row mb-4">
 							<div class="col">
-								<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:returnTwoPage()">이전 질문</button>
+								<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:clickReturnBtn()">이전 질문</button>
 							</div>
 							<div class="col">
 								<button type="button" class="form-control calc-two-final margin-center" onclick="javascript:clickEstimateBtn(this)">견적 보기</button>

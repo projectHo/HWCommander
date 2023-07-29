@@ -198,7 +198,7 @@ public class HomeController {
 			HttpServletRequest request
 			, Model model
 			, @RequestParam(value = "resultString", required = true) String resultString ) {
-		// todo wonho resultString 이용해서 견적산출
+		productService.estimateCalculation(resultString);
 		return userLoginCheck(request, model, "estimateCalculationResult");
 	}
 	

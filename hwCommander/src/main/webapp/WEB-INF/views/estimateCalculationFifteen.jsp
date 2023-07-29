@@ -155,10 +155,21 @@
 					}
 				}
 			}
-			if(i !== 20){
-				urlParams += "|";
-			}
+			urlParams += "|";
 		}
+		var Pattern = /\((.*?)\)/;
+		var userInfoMatch = Pattern.exec("${loginUser}");
+		var userInfoValues = userInfoMatch[1];
+
+		var userInfoArray = userInfoValues.split(", ");
+		var userInfoObject = {};
+		for (var i = 0; i < userInfoArray.length; i++) {
+			var keyValue = userInfoArray[i].split("=");
+			var key = keyValue[0];
+			var value = keyValue[1];
+			userInfoObject[key] = value;
+		}
+		urlParams += "etc<userId," + userInfoObject.id + "> |etc<targetDate,null>";
 		var baseUrl = "/estimateCalculationResult.do";
 		var fullUrl = baseUrl + "?" + urlParams;
 		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
@@ -189,14 +200,14 @@
 	};
 	function clickAnswerBtn(el){
 		if($(el).html().includes("전체")){
-			sessionStorage.setItem("data-15","All");
+			sessionStorage.setItem("data-15",0);
 		}else if($(el).html().includes("상단")){
-			sessionStorage.setItem("data-15","Parts");
+			sessionStorage.setItem("data-15",1);
 		}else if($(el).html().includes("기본")){
-			sessionStorage.setItem("data-15","Base");
+			sessionStorage.setItem("data-15",2);
 		}
 	}
-	function returnPageBtn(){
+	function clickReturnBtn(){
 		sessionStorage.setItem("data-15","");
 		location.href = "estimateCalculationFourteen.do";
 	}
@@ -254,11 +265,11 @@
 		// 견적산출 데이터처리부(수신)
 		if(sessionStorage.getItem("data-15")){
 			const storedData = sessionStorage.getItem("data-15");
-			if(storedData === "All"){
+			if(storedData === "0"){
 				$("#answer-a").prop("checked",true);
-			}else if (storedData === "Parts"){
+			}else if (storedData === "1"){
 				$("#answer-b").prop("checked",true);
-			}else if (storedData === "Base"){
+			}else if (storedData === "2"){
 				$("#answer-c").prop("checked",true);
 			}
 		}
@@ -304,7 +315,7 @@
 					</div>
 					<div class="row mb-4">
 						<div class="col-4">
-							<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:returnPageBtn()">이전 질문</button>
+							<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:clickReturnBtn()">이전 질문</button>
 						</div>
 						<div class="col-4">
 							<button type="button" class="form-control margin-center" onclick="javascript:clickEstimateBtn(this)">견적 보기</button>
