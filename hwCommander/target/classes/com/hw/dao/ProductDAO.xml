@@ -225,6 +225,8 @@
 					    </if>
 					GROUP BY id 
 				)
+		/* 23.07.30 견적산출 알고리즘 11번에서 필요한 가격 정렬조건 추가 */  
+		ORDER BY a.parts_price ASC
 	</select>
 	
 	<select id="getCpuHistoryAllListByTargetDate" resultType="partsCpuHistoryVO" parameterType="String">
@@ -659,6 +661,38 @@
 						, MAX(history_seq) AS history_seq
 					FROM 
 						parts_sf_history
+					WHERE 
+					    <if test="targetDate != null and targetDate != ''">
+					    	<![CDATA[
+					    	reg_dtm <= #{targetDate}
+					    	]]> 
+					    </if>
+						<if test="targetDate == null or targetDate == ''">
+							<![CDATA[
+					    	reg_dtm <= NOW()
+					    	]]>  
+					    </if>
+					GROUP BY id 
+				)
+	</select>
+	
+	<select id="getMakerHistoryAllListByTargetDate" resultType="partsMakerHistoryVO" parameterType="String">
+		SELECT
+			a.id                                                                               AS id  
+			, a.history_seq                                                                    AS historySeq      
+			, a.maker_name                                                                     AS makerName 
+			, a.as_score                                                                       AS asScore
+			, a.reg_dtm                                                                        AS regDtm    
+		FROM
+			parts_maker_history a
+		WHERE
+			(id, history_seq) 
+				IN (
+					SELECT 
+						id
+						, MAX(history_seq) AS history_seq
+					FROM 
+						parts_maker_history
 					WHERE 
 					    <if test="targetDate != null and targetDate != ''">
 					    	<![CDATA[

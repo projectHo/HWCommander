@@ -26,4 +26,9 @@ public interface ProcessResourceDAO {
 	
 	public Integer insertProcessResourceDetailHistoryVO(ProcessResourceDetailHistoryVO processResourceDetailHistoryVO);
 	public Integer getProcessResourceDetailHistoryVOMaxHistorySeq(ProcessResourceDetailVO processResourceDetailVO);
+	
+	/*--------------------------------------------------
+	 - 견적산출 시 필요한 프로세스 리소스 디테일 이력테이블에서 시점조회
+	*--------------------------------------------------*/
+	public List<ProcessResourceDetailHistoryVO> getProcessResourceDetailHistoryAllListByTargetDate(String targetDate);
 }

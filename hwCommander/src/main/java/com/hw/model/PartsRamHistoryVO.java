@@ -30,4 +30,7 @@ public class PartsRamHistoryVO {
 	private int multiBulk;
 	private int volume;
 	private int sd;
+	
+	// EstimateCalculation Field
+	private BigDecimal ramValue;
 }

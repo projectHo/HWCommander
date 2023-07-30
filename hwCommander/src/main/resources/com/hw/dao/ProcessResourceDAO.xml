@@ -229,4 +229,48 @@
 		SELECT IFNULL(MAX(history_seq), 0)+1 AS history_seq FROM process_resource_detail_history WHERE id = #{id} AND seq = #{seq}
 	</select>
 	
+	<select id="getProcessResourceDetailHistoryAllListByTargetDate" resultType="processResourceDetailHistoryVO" parameterType="String">
+		SELECT 
+			a.id                                                                                AS id                
+			, a.seq                                                                             AS seq
+			, a.history_seq                                                                     AS historySeq       
+			, a.variable_chk                                                                    AS variableChk
+			, CASE
+				WHEN a.variable_chk = 'F' THEN '고정'
+				WHEN a.variable_chk = 'C' THEN 'CPU'
+				WHEN a.variable_chk = 'G' THEN 'GVA'
+				WHEN a.variable_chk = 'RM' THEN 'RAM(MaxRange)'
+				WHEN a.variable_chk = 'RV' THEN 'RAM(Volume)'
+				ELSE '알수없음'
+				END variableChkNm
+			, a.resource_name                                                                   AS resourceName
+			, a.resource_mapping_value                                                          AS resourceMappingValue
+			, a.resource_score                                                                  AS resourceScore 
+			, a.reg_dtm                                                                         AS regDtm            
+		FROM
+			process_resource_detail_history a   
+		WHERE
+			(id, seq, history_seq) 
+				IN (
+					SELECT 
+						id
+						, seq
+						, MAX(history_seq) AS history_seq
+					FROM 
+						process_resource_detail_history
+					WHERE 
+					    <if test="targetDate != null and targetDate != ''">
+					    	<![CDATA[
+					    	reg_dtm <= #{targetDate}
+					    	]]> 
+					    </if>
+						<if test="targetDate == null or targetDate == ''">
+							<![CDATA[
+					    	reg_dtm <= NOW()
+					    	]]>  
+					    </if>
+					GROUP BY id, seq 
+				)
+	</select>
+	
 </mapper>

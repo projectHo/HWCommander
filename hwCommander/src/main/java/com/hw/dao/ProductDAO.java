@@ -7,11 +7,13 @@ import com.hw.model.PartsCoolerHistoryVO;
 import com.hw.model.PartsCpuHistoryVO;
 import com.hw.model.PartsGpuHistoryVO;
 import com.hw.model.PartsHddHistoryVO;
+import com.hw.model.PartsMakerHistoryVO;
 import com.hw.model.PartsMbHistoryVO;
 import com.hw.model.PartsPsuHistoryVO;
 import com.hw.model.PartsRamHistoryVO;
 import com.hw.model.PartsSfHistoryVO;
 import com.hw.model.PartsSsdHistoryVO;
+import com.hw.model.ProcessResourceDetailHistoryVO;
 import com.hw.model.ProductDetailVO;
 import com.hw.model.ProductMasterVO;
 
@@ -41,5 +43,5 @@ public interface ProductDAO {
 	public List<PartsHddHistoryVO> getHddHistoryAllListByTargetDate(String targetDate);
 	public List<PartsSsdHistoryVO> getSsdHistoryAllListByTargetDate(String targetDate);
 	public List<PartsSfHistoryVO> getSfHistoryAllListByTargetDate(String targetDate);
-	
+	public List<PartsMakerHistoryVO> getMakerHistoryAllListByTargetDate(String targetDate);
 }

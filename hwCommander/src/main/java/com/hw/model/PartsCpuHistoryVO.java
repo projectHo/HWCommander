@@ -25,4 +25,7 @@ public class PartsCpuHistoryVO {
 	private String regDtm;
 	private int multiBulk;
 	private String apu;
+	
+	// EstimateCalculation Field
+	private BigDecimal cpuValue;
 }

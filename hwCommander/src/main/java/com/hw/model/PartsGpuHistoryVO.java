@@ -23,7 +23,7 @@ public class PartsGpuHistoryVO {
 //	private String gpuasCdNm;
 	private String makerId;
 	private String makerNm;
-	private BigDecimal qc;
+	private int qc;
 	private int tdp;
 	private int bn;
 	private int il;
@@ -33,4 +33,9 @@ public class PartsGpuHistoryVO {
 	private String regDtm;
 	private int multiBulk;
 	private int gc;
+	
+	// EstimateCalculation Field
+	private int gpuas;
+	private BigDecimal gpuValue;
+	private BigDecimal mappingPrAndGcResourceScore; 
 }
