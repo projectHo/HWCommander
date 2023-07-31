@@ -32,10 +32,10 @@ public class PartsGpuHistoryVO {
 	private String partsImage;
 	private String regDtm;
 	private int multiBulk;
-	private int gc;
+	private int gc; // DB 실 저장 값인 GC
 	
 	// EstimateCalculation Field
 	private int gpuas;
 	private BigDecimal gpuValue;
-	private BigDecimal mappingPrAndGcResourceScore; 
+	private BigDecimal mappingPrAndGcResourceScore; // 로직에서 사용 될 GC
 }

@@ -768,29 +768,289 @@ public class AdminController {
 			List<String> tempIdList = new ArrayList<>();
 			
 			if(updateRequiestId.equals("CPU000001")
-					|| updateRequiestId.equals("CPU000002")) {
-				tempIdList.add("CPU000001");
-				tempIdList.add("CPU000002");
+			   || updateRequiestId.equals("CPU000002")) {
+			   tempIdList.add("CPU000001");
+			   tempIdList.add("CPU000002");
 			}else if(updateRequiestId.equals("CPU000003")
-					|| updateRequiestId.equals("CPU000004")) {
-				tempIdList.add("CPU000003");
-				tempIdList.add("CPU000004");
+			   || updateRequiestId.equals("CPU000004")) {
+			   tempIdList.add("CPU000003");
+			   tempIdList.add("CPU000004");
 			}else if(updateRequiestId.equals("CPU000006")
-					|| updateRequiestId.equals("CPU000007")) {
-				tempIdList.add("CPU000006");
-				tempIdList.add("CPU000007");
+			   || updateRequiestId.equals("CPU000007")) {
+			   tempIdList.add("CPU000006");
+			   tempIdList.add("CPU000007");
 			}else if(updateRequiestId.equals("CPU000008")
-					|| updateRequiestId.equals("CPU000009")) {
-				tempIdList.add("CPU000008");
-				tempIdList.add("CPU000009");
+			   || updateRequiestId.equals("CPU000009")) {
+			   tempIdList.add("CPU000008");
+			   tempIdList.add("CPU000009");
 			}else if(updateRequiestId.equals("CPU000098")
-					|| updateRequiestId.equals("CPU000010")
-					|| updateRequiestId.equals("CPU000011")
-					|| updateRequiestId.equals("CPU000012")) {
-				tempIdList.add("CPU000098");
-				tempIdList.add("CPU000010");
-				tempIdList.add("CPU000011");
-				tempIdList.add("CPU000012");
+			   || updateRequiestId.equals("CPU000010")
+			   || updateRequiestId.equals("CPU000011")
+			   || updateRequiestId.equals("CPU000012")) {
+			   tempIdList.add("CPU000098");
+			   tempIdList.add("CPU000010");
+			   tempIdList.add("CPU000011");
+			   tempIdList.add("CPU000012");
+			}else if(updateRequiestId.equals("CPU000014")
+			   || updateRequiestId.equals("CPU000015")
+			   || updateRequiestId.equals("CPU000016")){
+			   tempIdList.add("CPU000014");   
+			   tempIdList.add("CPU000015");   
+			   tempIdList.add("CPU000016");   
+			}else if(updateRequiestId.equals("CPU000018")
+			   || updateRequiestId.equals("CPU000019")){
+			   tempIdList.add("CPU000018");
+			   tempIdList.add("CPU000019");
+			}else if(updateRequiestId.equals("CPU000020")
+			   || updateRequiestId.equals("CPU000021")
+			   || updateRequiestId.equals("CPU000022")){
+			   tempIdList.add("CPU000020");
+			   tempIdList.add("CPU000021");
+			   tempIdList.add("CPU000022");
+			}else if(updateRequiestId.equals("CPU000023")
+			   || updateRequiestId.equals("CPU000024")){
+			   tempIdList.add("CPU000023");
+			   tempIdList.add("CPU000024");
+			}else if(updateRequiestId.equals("CPU000026")
+			   || updateRequiestId.equals("CPU000027")){
+			   tempIdList.add("CPU000026");
+			   tempIdList.add("CPU000027");
+			}else if(updateRequiestId.equals("CPU000029")
+			   || updateRequiestId.equals("CPU000030")){
+			   tempIdList.add("CPU000029");
+			   tempIdList.add("CPU000030");
+			}else if(updateRequiestId.equals("CPU000033")
+			   || updateRequiestId.equals("CPU000034")){
+			   tempIdList.add("CPU000033");
+			   tempIdList.add("CPU000034");
+			}else if(updateRequiestId.equals("CPU000035")
+			   || updateRequiestId.equals("CPU000096")){
+			   tempIdList.add("CPU000035");
+			   tempIdList.add("CPU000096");
+			}else if(updateRequiestId.equals("CPU000036")
+			   || updateRequiestId.equals("CPU000037")){
+			   tempIdList.add("CPU000036");
+			   tempIdList.add("CPU000037");
+			}else if(updateRequiestId.equals("CPU000038")
+			   || updateRequiestId.equals("CPU000039")
+			   || updateRequiestId.equals("CPU000040")){
+			   tempIdList.add("CPU000038");
+			   tempIdList.add("CPU000039");
+			   tempIdList.add("CPU000040");
+			}else if(updateRequiestId.equals("CPU000041")
+			   || updateRequiestId.equals("CPU000042")
+			   || updateRequiestId.equals("CPU000043")){
+			   tempIdList.add("CPU000041");
+			   tempIdList.add("CPU000042");
+			   tempIdList.add("CPU000043");
+			}else if(updateRequiestId.equals("CPU000081")
+			   || updateRequiestId.equals("CPU000082")
+			   || updateRequiestId.equals("CPU000083")){
+			   tempIdList.add("CPU000081");
+			   tempIdList.add("CPU000082");
+			   tempIdList.add("CPU000083");
+			}else if(updateRequiestId.equals("CPU000044")
+			   || updateRequiestId.equals("CPU000045")
+			   || updateRequiestId.equals("CPU000046")){
+			   tempIdList.add("CPU000044");
+			   tempIdList.add("CPU000045");
+			   tempIdList.add("CPU000046");
+			}else if(updateRequiestId.equals("CPU000047")
+			   || updateRequiestId.equals("CPU000048")
+			   || updateRequiestId.equals("CPU000049")){
+			   tempIdList.add("CPU000047");
+			   tempIdList.add("CPU000048");
+			   tempIdList.add("CPU000049");
+			}else if(updateRequiestId.equals("CPU000055")
+			   || updateRequiestId.equals("CPU000054")
+			   || updateRequiestId.equals("CPU000053")){
+			   tempIdList.add("CPU000055");
+			   tempIdList.add("CPU000054");
+			   tempIdList.add("CPU000053");
+			}else if(updateRequiestId.equals("CPU000084")
+			   || updateRequiestId.equals("CPU000085")
+			   || updateRequiestId.equals("CPU000086")){
+			   tempIdList.add("CPU000084");
+			   tempIdList.add("CPU000085");
+			   tempIdList.add("CPU000086");
+			}else if(updateRequiestId.equals("CPU000087")
+			   || updateRequiestId.equals("CPU000088")
+			   || updateRequiestId.equals("CPU000089")){
+			   tempIdList.add("CPU000087");
+			   tempIdList.add("CPU000088");
+			   tempIdList.add("CPU000089");
+			}else if(updateRequiestId.equals("CPU000090")
+			   || updateRequiestId.equals("CPU000091")
+			   || updateRequiestId.equals("CPU000092")){
+			   tempIdList.add("CPU000090");
+			   tempIdList.add("CPU000091");
+			   tempIdList.add("CPU000092");
+			}else if(updateRequiestId.equals("CPU000093")
+			   || updateRequiestId.equals("CPU000094")
+			   || updateRequiestId.equals("CPU000095")){
+			   tempIdList.add("CPU000093");
+			   tempIdList.add("CPU000094");
+			   tempIdList.add("CPU000095");
+			}else if(updateRequiestId.equals("CPU000050")
+			   || updateRequiestId.equals("CPU000051")
+			   || updateRequiestId.equals("CPU000052")){
+			   tempIdList.add("CPU000050");
+			   tempIdList.add("CPU000051");
+			   tempIdList.add("CPU000052");
+			}else if(updateRequiestId.equals("CPU000056")
+			   || updateRequiestId.equals("CPU000057")
+			   || updateRequiestId.equals("CPU000058")){
+			   tempIdList.add("CPU000056");
+			   tempIdList.add("CPU000057");
+			   tempIdList.add("CPU000058");
+			}else if(updateRequiestId.equals("CPU000059")
+			   || updateRequiestId.equals("CPU000060")
+			   || updateRequiestId.equals("CPU000061")){
+			   tempIdList.add("CPU000059");
+			   tempIdList.add("CPU000060");
+			   tempIdList.add("CPU000061");
+			}else if(updateRequiestId.equals("CPU000062")
+			   || updateRequiestId.equals("CPU000063")
+			   || updateRequiestId.equals("CPU000064")){
+			   tempIdList.add("CPU000062");
+			   tempIdList.add("CPU000063");
+			   tempIdList.add("CPU000064");
+			}else if(updateRequiestId.equals("CPU000065")
+			   || updateRequiestId.equals("CPU000066")
+			   || updateRequiestId.equals("CPU000067")){
+			   tempIdList.add("CPU000065");
+			   tempIdList.add("CPU000066");
+			   tempIdList.add("CPU000067");
+			}else if(updateRequiestId.equals("CPU000068")
+			   || updateRequiestId.equals("CPU000069")
+			   || updateRequiestId.equals("CPU000070")){
+			   tempIdList.add("CPU000068");
+			   tempIdList.add("CPU000069");
+			   tempIdList.add("CPU000070");
+			}else if(updateRequiestId.equals("CPU000071")
+			   || updateRequiestId.equals("CPU000072")
+			   || updateRequiestId.equals("CPU000146")){
+			   tempIdList.add("CPU000071");
+			   tempIdList.add("CPU000072");
+			   tempIdList.add("CPU000146");
+			}else if(updateRequiestId.equals("CPU000073")
+			   || updateRequiestId.equals("CPU000074")
+			   || updateRequiestId.equals("CPU000075")){
+			   tempIdList.add("CPU000073");
+			   tempIdList.add("CPU000074");
+			   tempIdList.add("CPU000075");
+			}else if(updateRequiestId.equals("CPU000076")
+			   || updateRequiestId.equals("CPU000077")
+			   || updateRequiestId.equals("CPU000078")){
+			   tempIdList.add("CPU000076");
+			   tempIdList.add("CPU000077");
+			   tempIdList.add("CPU000078");
+			}else if(updateRequiestId.equals("CPU000102")
+			   || updateRequiestId.equals("CPU000103")){
+			   tempIdList.add("CPU000102");
+			   tempIdList.add("CPU000103");
+			}else if(updateRequiestId.equals("CPU000153")
+			   || updateRequiestId.equals("CPU000152")
+			   || updateRequiestId.equals("CPU000151")){
+			   tempIdList.add("CPU000153");
+			   tempIdList.add("CPU000152");
+			   tempIdList.add("CPU000151");
+			}else if(updateRequiestId.equals("CPU000110")
+			   || updateRequiestId.equals("CPU000111")
+			   || updateRequiestId.equals("CPU000112")){
+			   tempIdList.add("CPU000110");
+			   tempIdList.add("CPU000111");
+			   tempIdList.add("CPU000112");
+			}else if(updateRequiestId.equals("CPU000150")
+			   || updateRequiestId.equals("CPU000154")
+			   || updateRequiestId.equals("CPU000155")){
+			   tempIdList.add("CPU000150");
+			   tempIdList.add("CPU000154");
+			   tempIdList.add("CPU000155");
+			}else if(updateRequiestId.equals("CPU000145")
+			   || updateRequiestId.equals("CPU000144")
+			   || updateRequiestId.equals("CPU000143")){
+			   tempIdList.add("CPU000145");
+			   tempIdList.add("CPU000144");
+			   tempIdList.add("CPU000143");
+			}else if(updateRequiestId.equals("CPU000142")
+			   || updateRequiestId.equals("CPU000141")
+			   || updateRequiestId.equals("CPU000140")){
+			   tempIdList.add("CPU000142");
+			   tempIdList.add("CPU000141");
+			   tempIdList.add("CPU000140");
+			}else if(updateRequiestId.equals("CPU000139")
+			   || updateRequiestId.equals("CPU000138")
+			   || updateRequiestId.equals("CPU000137")){
+			   tempIdList.add("CPU000139");
+			   tempIdList.add("CPU000138");
+			   tempIdList.add("CPU000137");
+			}else if(updateRequiestId.equals("CPU000136")
+			   || updateRequiestId.equals("CPU000135")
+			   || updateRequiestId.equals("CPU000134")){
+			   tempIdList.add("CPU000136");
+			   tempIdList.add("CPU000135");
+			   tempIdList.add("CPU000134");
+			}else if(updateRequiestId.equals("CPU000133")
+			   || updateRequiestId.equals("CPU000132")
+			   || updateRequiestId.equals("CPU000131")){
+			   tempIdList.add("CPU000133");
+			   tempIdList.add("CPU000132");
+			   tempIdList.add("CPU000131");
+			}else if(updateRequiestId.equals("CPU000130")
+			   || updateRequiestId.equals("CPU000129")
+			   || updateRequiestId.equals("CPU000128")){
+			   tempIdList.add("CPU000130");
+			   tempIdList.add("CPU000129");
+			   tempIdList.add("CPU000128");
+			}else if(updateRequiestId.equals("CPU000127")
+			   || updateRequiestId.equals("CPU000126")
+			   || updateRequiestId.equals("CPU000125")){
+			   tempIdList.add("CPU000127");
+			   tempIdList.add("CPU000126");
+			   tempIdList.add("CPU000125");
+			}else if(updateRequiestId.equals("CPU000149")
+			   || updateRequiestId.equals("CPU000148")
+			   || updateRequiestId.equals("CPU000147")){
+			   tempIdList.add("CPU000149");
+			   tempIdList.add("CPU000148");
+			   tempIdList.add("CPU000147");
+			}else if(updateRequiestId.equals("CPU000124")
+			   || updateRequiestId.equals("CPU000123")
+			   || updateRequiestId.equals("CPU000122")){
+			   tempIdList.add("CPU000124");
+			   tempIdList.add("CPU000123");
+			   tempIdList.add("CPU000122");
+			}else if(updateRequiestId.equals("CPU000121")
+			   || updateRequiestId.equals("CPU000120")
+			   || updateRequiestId.equals("CPU000119")){
+			   tempIdList.add("CPU000121");
+			   tempIdList.add("CPU000120");
+			   tempIdList.add("CPU000119");
+			}else if(updateRequiestId.equals("CPU000118")
+			   || updateRequiestId.equals("CPU000117")
+			   || updateRequiestId.equals("CPU000116")){
+			   tempIdList.add("CPU000118");
+			   tempIdList.add("CPU000117");
+			   tempIdList.add("CPU000116");
+			}else if(updateRequiestId.equals("CPU000115")
+			   || updateRequiestId.equals("CPU000114")
+			   || updateRequiestId.equals("CPU000113")){
+			   tempIdList.add("CPU000115");
+			   tempIdList.add("CPU000114");
+			   tempIdList.add("CPU000113");
+			}else if(updateRequiestId.equals("CPU000107")
+			   || updateRequiestId.equals("CPU000108")
+			   || updateRequiestId.equals("CPU000109")){
+			   tempIdList.add("CPU000107");
+			   tempIdList.add("CPU000108");
+			   tempIdList.add("CPU000109");
+			}else if(updateRequiestId.equals("CPU000106")
+			   || updateRequiestId.equals("CPU000105")
+			   || updateRequiestId.equals("CPU000104")){
+			   tempIdList.add("CPU000106");
+			   tempIdList.add("CPU000105");
+			   tempIdList.add("CPU000104");
 			}
 			
 			List<ProcessResourceDetailVO> list = processResourceService.qudtlsTlqkf(updateRequiestId);

@@ -25,4 +25,7 @@ public class PartsSsdHistoryVO {
 	private String regDtm;
 	private int multiBulk;
 	private int volume;
+	
+	// EstimateCalculation Field
+	private BigDecimal ssdValue;
 }

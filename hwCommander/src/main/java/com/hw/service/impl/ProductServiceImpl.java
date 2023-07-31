@@ -1044,7 +1044,7 @@ public class ProductServiceImpl implements ProductService {
 				ProcessResourceDetailHistoryVO processResourceDetailHistoryVO = processResourceDetailHistoryVOList.get(z);
 				// G = GVA
 				if("G".equals(processResourceDetailHistoryVO.getVariableChk())) {
-					// 사용자 견적산출질문 2번 prid, value 적용
+					// 사용자 견적산출질문 2번 pr_id, scale 적용
 					for(int x = 0; x < answer2.size(); x++) {
 						// 0~100까지의 수 퍼센테이지로 변환
 						BigDecimal scale = new BigDecimal(answer2.get(x).get("scale")).multiply(new BigDecimal("0.01"));
@@ -1254,24 +1254,50 @@ public class ProductServiceImpl implements ProductService {
 		 - 46번의 변수초기화 값도 0으로 정정한다. 
 		*--------------------------------------------------*/
 		// 12번 시점에서 백업데이터. 추후 구현할 18번에서 롤백 할 백업데이터로 쓰인다.
-		List<PartsGpuHistoryVO> partsGpuHistoryVOListAlgorithm12Backup = new ArrayList<>();
-		for(int i = 0; i < partsGpuHistoryVOList.size(); i++) {
-			partsGpuHistoryVOListAlgorithm12Backup.add(partsGpuHistoryVOList.get(i));
+		List<PartsCpuHistoryVO> partsCpuHistoryVOListAlgorithm12Backup = new ArrayList<>();
+		List<PartsRamHistoryVO> partsRamHistoryVOListAlgorithm12Backup = new ArrayList<>();
+		List<PartsCoolerHistoryVO> partsCoolerHistoryVOListAlgorithm12Backup = new ArrayList<>();
+		List<PartsPsuHistoryVO> partsPsuHistoryVOListAlgorithm12Backup = new ArrayList<>();
+		List<PartsCaseHistoryVO> partsCaseHistoryVOListAlgorithm12Backup = new ArrayList<>();
+		List<PartsSsdHistoryVO> partsSsdHistoryVOListAlgorithm12Backup = new ArrayList<>();
+
+		for(int i = 0; i < partsCpuHistoryVOList.size(); i++) {
+			partsCpuHistoryVOListAlgorithm12Backup.add(partsCpuHistoryVOList.get(i));
+		}
+		
+		for(int i = 0; i < partsRamHistoryVOList.size(); i++) {
+			partsRamHistoryVOListAlgorithm12Backup.add(partsRamHistoryVOList.get(i));
+		}
+		
+		for(int i = 0; i < partsCoolerHistoryVOList.size(); i++) {
+			partsCoolerHistoryVOListAlgorithm12Backup.add(partsCoolerHistoryVOList.get(i));
+		}
+		
+		for(int i = 0; i < partsPsuHistoryVOList.size(); i++) {
+			partsPsuHistoryVOListAlgorithm12Backup.add(partsPsuHistoryVOList.get(i));
+		}
+		
+		for(int i = 0; i < partsCaseHistoryVOList.size(); i++) {
+			partsCaseHistoryVOListAlgorithm12Backup.add(partsCaseHistoryVOList.get(i));
+		}
+		
+		for(int i = 0; i < partsSsdHistoryVOList.size(); i++) {
+			partsSsdHistoryVOListAlgorithm12Backup.add(partsSsdHistoryVOList.get(i));
 		}
 		
 		int limα = partsGpuHistoryVOList.size();
 		
-		for(int i = α; i < limα; i++) {
+		for(int gpuIndex = α; gpuIndex < limα; gpuIndex++) {
 			/*--------------------------------------------------
 			 - 13. VC = VC-α번째 GPU의 Price
 			*--------------------------------------------------*/
-			VC = VC.subtract(new BigDecimal(partsGpuHistoryVOList.get(i).getPartsPrice()));
+			VC = VC.subtract(new BigDecimal(partsGpuHistoryVOList.get(gpuIndex).getPartsPrice()));
 			
 			/*--------------------------------------------------
 			 - 14. GC(α번째 GPU의 GC)를 연산하여 MB를 제외한 
 			 - 모든 제품의 Value를 계산한다.
 			*--------------------------------------------------*/
-			BigDecimal GC = partsGpuHistoryVOList.get(i).getMappingPrAndGcResourceScore();
+			BigDecimal GC = partsGpuHistoryVOList.get(gpuIndex).getMappingPrAndGcResourceScore();
 			
 			/*--------------------------------------------------
 			 - 14-1. CPU Value = CC(선정된 CPU)
@@ -1348,7 +1374,8 @@ public class ProductServiceImpl implements ProductService {
 					}
 				}
 				
-				partsRamHistoryVO.setRamValue(CL.add(RV));
+				ramValue = CL.add(RV);
+				partsRamHistoryVO.setRamValue(ramValue);
 			}
 			
 			/*--------------------------------------------------
@@ -1383,26 +1410,138 @@ public class ProductServiceImpl implements ProductService {
 				partsCoolerHistoryVO.setCoolerValue(coolerValue);
 			}
 			
+			/*--------------------------------------------------
+			 - 14-4. PSU Value = PFM*GC(조합된 견적에서의 GPU 칩셋)*0.05*{1+(PFM*1.5+SFT)*CSFT*0.1+PFM*CMT*0.05+AS(PSUAS)*0.001*CAS}
+			 - 대입변수 변환
+			 - [calculation1] PFM*GC*0.05
+			 - [calculation2] PFM*1.5+SFT
+			 - [calculation3] [calculation2]*CSFT*0.1
+			 - [calculation4] PFM*CMT*0.05
+			 - [calculation5] AS(PSUAS)*0.001*CAS
+			 - [calculation6] 1+[calculation3]+[calculation4]+[calculation5]
+			 - Psu Value = [calculation1]*[calculation6]
+			*--------------------------------------------------*/
 			
-//
-//			MB Value = CPU Value*0.4*(1+AS(MBAS)*0.001*CAS+Port*0.001*CMT+BIOS*0.0001*CSFT)
-//
-//
-//			PSU Value = PFM*GC(조합된 견적에서의 GPU 칩셋)*0.05*{1+(PFM*1.5+SFT)*CSFT*0.1+PFM*CMT*0.05+AS(PSUAS)*0.001*CAS}
-//
-//			CASE Value = GC(조합된 견적에서의 GPU 칩셋)*0.1*{1+AS(CASEAS)*0.1*CAS+Cool*0.001*CTH+END*(-0.1)*CQC+ADAP*0.05*CMT}
-//
-//			SSD Value = Basic*GC(조합되 견적에서의 GPU 칩셋)*0.0006*{1+War*0.01*CAS+FNC*0.001*CMT+CMF*(-0.1)*CQC+RLB*0.001*CSFT}
-//			
-//			
+			// maker as_score -> psu psuas 값 이식
+			for(int ma = 0; ma < partsMakerHistoryVOList.size(); ma++) {
+				for(int z = 0; z < partsPsuHistoryVOList.size(); z++) {
+					if(partsMakerHistoryVOList.get(ma).getId().equals(partsPsuHistoryVOList.get(z).getMakerId())) {
+						partsPsuHistoryVOList.get(z).setPsuas(partsMakerHistoryVOList.get(ma).getAsScore());
+					}
+				}
+			}
+			
+			for(int ps = 0; ps < partsPsuHistoryVOList.size(); ps++) {
+				PartsPsuHistoryVO partsPsuHistoryVO = partsPsuHistoryVOList.get(ps);
+				BigDecimal psuValue = BigDecimal.ZERO;
+				BigDecimal PSUAS = new BigDecimal(partsPsuHistoryVO.getPsuas());
+				BigDecimal PFM = partsPsuHistoryVO.getPfm();
+				BigDecimal SFT = partsPsuHistoryVO.getSft();
+				BigDecimal calculation1 = BigDecimal.ZERO;
+				BigDecimal calculation2 = BigDecimal.ZERO;
+				BigDecimal calculation3 = BigDecimal.ZERO;
+				BigDecimal calculation4 = BigDecimal.ZERO;
+				BigDecimal calculation5 = BigDecimal.ZERO;
+				BigDecimal calculation6 = BigDecimal.ZERO;
+				
+				calculation1 = PFM.multiply(GC).multiply(new BigDecimal("0.05"));
+				calculation2 = PFM.multiply(new BigDecimal("1.5")).multiply(SFT);
+				calculation3 = calculation2.multiply(CSFT).multiply(new BigDecimal("0.1"));
+				calculation4 = PFM.multiply(CMT).multiply(new BigDecimal("0.05"));
+				calculation5 = PSUAS.multiply(new BigDecimal("0.001")).multiply(CAS);
+				calculation6 = new BigDecimal("1").add(calculation3).add(calculation4).add(calculation5);
+				psuValue = calculation1.multiply(calculation6);
+				
+				partsPsuHistoryVO.setPsuValue(psuValue);
+			}
+			
+			/*--------------------------------------------------
+			 - 14-5. CASE Value = GC(조합된 견적에서의 GPU 칩셋)*0.1*{1+AS(CASEAS)*0.1*CAS+Cool*0.001*CTH+END*(-0.1)*CQC+ADAP*0.05*CMT}
+			 - 대입변수 변환
+			 - [calculation1] GC*0.1
+			 - [calculation2] AS(CASEAS)*0.1*CAS
+			 - [calculation3] Cool*0.001*CTH
+			 - [calculation4] END*(-0.1)*CQC
+			 - [calculation5] ADAP*0.05*CMT
+			 - [calculation6] 1+[calculation2]+[calculation3]+[calculation4]+[calculation5]
+			 - Case Value = [calculation1]*[calculation6]
+			*--------------------------------------------------*/
+			
+			// maker as_score -> case caseas 값 이식
+			for(int ma = 0; ma < partsMakerHistoryVOList.size(); ma++) {
+				for(int z = 0; z < partsCaseHistoryVOList.size(); z++) {
+					if(partsMakerHistoryVOList.get(ma).getId().equals(partsCaseHistoryVOList.get(z).getMakerId())) {
+						partsCaseHistoryVOList.get(z).setCaseas(partsMakerHistoryVOList.get(ma).getAsScore());
+					}
+				}
+			}
+			
+			for(int ca = 0; ca < partsCaseHistoryVOList.size(); ca++) {
+				PartsCaseHistoryVO partsCaseHistoryVO = partsCaseHistoryVOList.get(ca);
+				BigDecimal caseValue = BigDecimal.ZERO;
+				BigDecimal CASEAS = new BigDecimal(partsCaseHistoryVO.getCaseas());
+				BigDecimal COOL = partsCaseHistoryVO.getCool();
+				BigDecimal END = partsCaseHistoryVO.getEnd();
+				BigDecimal ADAP = partsCaseHistoryVO.getAdap();
+				BigDecimal calculation1 = BigDecimal.ZERO;
+				BigDecimal calculation2 = BigDecimal.ZERO;
+				BigDecimal calculation3 = BigDecimal.ZERO;
+				BigDecimal calculation4 = BigDecimal.ZERO;
+				BigDecimal calculation5 = BigDecimal.ZERO;
+				BigDecimal calculation6 = BigDecimal.ZERO;
+				
+				calculation1 = GC.multiply(new BigDecimal("0.1"));
+				calculation2 = CASEAS.multiply(new BigDecimal("0.001")).multiply(CTH);
+				calculation3 = COOL.multiply(new BigDecimal("0.001")).multiply(CTH);
+				calculation4 = END.multiply(new BigDecimal("-0.1")).multiply(CQC);
+				calculation5 = ADAP.multiply(new BigDecimal("0.05")).multiply(CMT);
+				calculation6 = new BigDecimal("1").add(calculation2).add(calculation3).add(calculation4).add(calculation5);
+				caseValue = calculation1.multiply(calculation6);
+				
+				partsCaseHistoryVO.setCaseValue(caseValue);
+			}
+			
+			/*--------------------------------------------------
+			 - 14-6. SSD Value = Basic*GC(조합되 견적에서의 GPU 칩셋)*0.0006*{1+War*0.01*CAS+FNC*0.001*CMT+CMF*(-0.1)*CQC+RLB*0.001*CSFT}
+			 - 대입변수 변환
+			 - [calculation1] Basic*GC*0.0006
+			 - [calculation2] War*0.01*CAS
+			 - [calculation3] FNC*0.001*CMT
+			 - [calculation4] CMF*(-0.1)*CQC
+			 - [calculation5] RLB*0.001*CSFT
+			 - [calculation6] 1+[calculation2]+[calculation3]+[calculation4]+[calculation5]
+			 - Ssd Value = [calculation1]*[calculation6] 
+			*--------------------------------------------------*/
+			for(int ss = 0; ss < partsSsdHistoryVOList.size(); ss++) {
+				PartsSsdHistoryVO partsSsdHistoryVO = partsSsdHistoryVOList.get(ss);
+				BigDecimal ssdValue = BigDecimal.ZERO;
+				BigDecimal BASIC = partsSsdHistoryVO.getBasic();
+				BigDecimal WAR = new BigDecimal(partsSsdHistoryVO.getWar());
+				BigDecimal FNC = new BigDecimal(partsSsdHistoryVO.getFnc());
+				BigDecimal CMF = new BigDecimal(partsSsdHistoryVO.getCmf());
+				BigDecimal RLB = partsSsdHistoryVO.getRlb();
+				BigDecimal calculation1 = BigDecimal.ZERO;
+				BigDecimal calculation2 = BigDecimal.ZERO;
+				BigDecimal calculation3 = BigDecimal.ZERO;
+				BigDecimal calculation4 = BigDecimal.ZERO;
+				BigDecimal calculation5 = BigDecimal.ZERO;
+				BigDecimal calculation6 = BigDecimal.ZERO;
+				
+				calculation1 = BASIC.multiply(GC).multiply(new BigDecimal("0.0006"));
+				calculation2 = WAR.multiply(new BigDecimal("0.01")).multiply(CAS);
+				calculation3 = FNC.multiply(new BigDecimal("0.001")).multiply(CMT);
+				calculation4 = CMF.multiply(new BigDecimal("-0.1")).multiply(CQC);
+				calculation5 = RLB.multiply(new BigDecimal("0.001")).multiply(CSFT);
+				calculation6 = new BigDecimal("1").add(calculation2).add(calculation3).add(calculation4).add(calculation5);
+				ssdValue = calculation1.multiply(calculation6);
+				
+				partsSsdHistoryVO.setSsdValue(ssdValue);
+			}
 			
 		} // 13번 for end
 		
 		
-		
-
-		
-		
+//		MB Value = CPU Value*0.4*(1+AS(MBAS)*0.001*CAS+Port*0.001*CMT+BIOS*0.0001*CSFT)
 		
 		return estimateCalculationResultPrivateVO;
 		

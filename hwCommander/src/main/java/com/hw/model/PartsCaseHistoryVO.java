@@ -41,4 +41,8 @@ public class PartsCaseHistoryVO {
 	private String partsImage;
 	private String regDtm;
 	private int multiBulk;
+	
+	// EstimateCalculation Field
+	private int caseas;
+	private BigDecimal caseValue;
 }
