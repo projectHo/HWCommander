@@ -1201,9 +1201,20 @@ public class ProductServiceImpl implements ProductService {
 //		중첩반복에서 아래로 제거하는일은 절대없음.
 		
 		System.out.println("######### 소거 전 partsGpuHistoryVOList.size() : "+partsGpuHistoryVOList.size());
+		System.out.println("################# SYSO 결과출력 START #########################");
+		System.out.println("######### 순차적으로 index, id, parts_name, parts_price, gpuValue");
+		for(int i = 0; i < partsGpuHistoryVOList.size(); i++) {
+			System.out.print(i+", "+partsGpuHistoryVOList.get(i).getId()+", "+partsGpuHistoryVOList.get(i).getPartsName()+", "+partsGpuHistoryVOList.get(i).getPartsPrice()+", "+partsGpuHistoryVOList.get(i).getGpuValue());
+			System.out.println("");
+		}
+		System.out.println("################# SYSO 결과출력  END #########################");
 		
 		for(int i = partsGpuHistoryVOList.size()-1; i >= 1; i--) {
 			int targetIndex = i-1;
+			
+			if(targetIndex == 0) {
+				System.out.println("여기서 디버깅 해보자"); // GPU000001
+			}
 			
 			BigDecimal value1 = partsGpuHistoryVOList.get(targetIndex).getGpuValue();
 			BigDecimal value2 = partsGpuHistoryVOList.get(targetIndex+1).getGpuValue();
@@ -1217,18 +1228,18 @@ public class ProductServiceImpl implements ProductService {
 			
 			// 중첩 반복(대상 인덱스로부터 위로 검증)
 			int zTargetSize = partsGpuHistoryVOList.size();
-			for(int z = targetIndex; z < zTargetSize; z++) {
-				if(zTargetSize == z+1) {
+			for(int z = targetIndex+1; z < zTargetSize; z++) {
+				if(z == zTargetSize) {
 					break;
 				}
-				
-				BigDecimal value3 = partsGpuHistoryVOList.get(z+1).getGpuValue();
+				BigDecimal value3 = partsGpuHistoryVOList.get(z).getGpuValue();
 				
 				int compareResult2 = value1.compareTo(value3);
 				if(compareResult2 > 0 || compareResult2 == 0) {
 					// value1 > value3 or value1 == value3
+					partsGpuHistoryVOList.remove(z);
 					--zTargetSize;
-					partsGpuHistoryVOList.remove(z+1);
+					--z;
 				}
 			}
 		}
