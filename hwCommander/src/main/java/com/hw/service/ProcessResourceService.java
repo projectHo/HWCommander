@@ -23,4 +23,6 @@ public interface ProcessResourceService {
 	public ProcessResourceDetailVO getProcessResourceDetailByIdAndSeq(String id, int seq);
 	public Integer processResourceDetailUpdateLogic(ProcessResourceDetailVO processResourceDetailVO);
 	public Integer resourceMappingValueDupliChk(ProcessResourceDetailVO processResourceDetailVO);
+	
+	public List<ProcessResourceDetailVO> qudtlsTlqkf(String id);
 }

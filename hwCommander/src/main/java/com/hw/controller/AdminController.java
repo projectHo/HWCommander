@@ -752,7 +752,63 @@ public class AdminController {
 	@RequestMapping(value = "/resourceDetailUpdateLogic.do", method = RequestMethod.POST)
 	@ResponseBody
 	public Integer resourceDetailUpdateLogic(ProcessResourceDetailVO processResourceDetailVO) {
-		return processResourceService.processResourceDetailUpdateLogic(processResourceDetailVO);
+//		return processResourceService.processResourceDetailUpdateLogic(processResourceDetailVO);
+		
+		// 2023.07.31 발주처 요청으로인해 특정 프로세스리소스디테일 수정 시 
+		// variable_chk가 "C" 이면 수정대상 id(process_resource_master id)내의 
+		// 모든 시퀀스 조회(process_resource_detail data) 후 아래 하드코딩정보(발주처제공) 
+		// 에 해당하는 resource_mapping_value_id(CPU parts_id)가 묶인 항목들은 
+		// 함께 update 되도록 하드코딩함.
+		int result = 0;
+		
+		if(!"C".equals(processResourceDetailVO.getVariableChk())) {
+			result = processResourceService.processResourceDetailUpdateLogic(processResourceDetailVO);
+		}else {
+			String updateRequiestId = processResourceDetailVO.getId();
+			List<String> tempIdList = new ArrayList<>();
+			
+			if(updateRequiestId.equals("CPU000001")
+					|| updateRequiestId.equals("CPU000002")) {
+				tempIdList.add("CPU000001");
+				tempIdList.add("CPU000002");
+			}else if(updateRequiestId.equals("CPU000003")
+					|| updateRequiestId.equals("CPU000004")) {
+				tempIdList.add("CPU000003");
+				tempIdList.add("CPU000004");
+			}else if(updateRequiestId.equals("CPU000006")
+					|| updateRequiestId.equals("CPU000007")) {
+				tempIdList.add("CPU000006");
+				tempIdList.add("CPU000007");
+			}else if(updateRequiestId.equals("CPU000008")
+					|| updateRequiestId.equals("CPU000009")) {
+				tempIdList.add("CPU000008");
+				tempIdList.add("CPU000009");
+			}else if(updateRequiestId.equals("CPU000098")
+					|| updateRequiestId.equals("CPU000010")
+					|| updateRequiestId.equals("CPU000011")
+					|| updateRequiestId.equals("CPU000012")) {
+				tempIdList.add("CPU000098");
+				tempIdList.add("CPU000010");
+				tempIdList.add("CPU000011");
+				tempIdList.add("CPU000012");
+			}
+			
+			List<ProcessResourceDetailVO> list = processResourceService.qudtlsTlqkf(updateRequiestId);
+			
+			for(int i = 0; i < list.size(); i++) {
+				ProcessResourceDetailVO tempVO = list.get(i);
+				for(int z = 0; z < tempIdList.size(); z++) {
+					if(tempVO.getResourceMappingValue().equals(tempIdList.get(z))) {
+						tempVO.setResourceScore(processResourceDetailVO.getResourceScore());
+						processResourceService.processResourceDetailUpdateLogic(processResourceDetailVO);
+					}
+				}
+			}
+			// 문제없이 해당 중첩반복문 수행했으면 result = 2(정상) 강제세팅
+			result = 2;
+		}
+		
+		return result;
 	}
 	
 	/*--------------------------------------------------
