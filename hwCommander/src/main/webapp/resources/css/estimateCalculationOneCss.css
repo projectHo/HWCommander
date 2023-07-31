@@ -270,3 +270,42 @@ canvas{
   background-color: lightgray;
   opacity: 0.3;
 }
+
+/* userOrderProgressStatus detail */
+div.status-progress {
+  height: 8px;
+  width: 4%;
+}
+div.status-progress:first-child,div.status-progress:last-child{
+  height: 8px;
+  width: 8%;
+}
+div.status-box{
+  width: 12%;
+  height: 60px;
+  background-color: #5CACEE;border-radius: 12px;
+  box-shadow: 2px 2px 2px 2px gray;
+  z-index: 99;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+}
+.status-font-size{
+  font-size: 12px;
+}
+
+.status-progress-bar{
+  width: 100%;
+  border: 1px solid gray;
+}
+.status-container{
+  height: 200px;
+}
+
+.status-this{
+  width: 20%!important;
+  height: 100px!important;
+}
+.status-near{
+  width: 16%!important;
+  height: 80px!important;
+}

@@ -22,6 +22,34 @@
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
+	var Pattern = /\((.*?)\)/;
+	var masterInfoMatch = Pattern.exec("${orderMasterVO}");
+	var masterInfoValues = masterInfoMatch[1];
+
+	var masterInfoArray = masterInfoValues.split(", ");
+	var masterInfoObject = {};
+	for (var i = 0; i < masterInfoArray.length; i++) {
+		var keyValue = masterInfoArray[i].split("=");
+		var key = keyValue[0];
+		var value = keyValue[1];
+		masterInfoObject[key] = value;
+	}
+	function mouseInBox(el){
+		$(el).addClass("status-this").addClass("fs-5")
+		$(el).next().next().addClass("status-near");
+		$(el).prev().prev().addClass("status-near");
+	}
+	function mouseOutBox(el){
+		$(el).removeClass("status-this").removeClass("fs-5");
+		$(el).next().next().removeClass("status-near");
+		$(el).prev().prev().removeClass("status-near");
+	}
+	$(function(){
+		$(".user-name").html(masterInfoObject.ordererName);
+		$(".order-name").html(masterInfoObject.orderName);
+		console.log(masterInfoObject)
+		
+	})
 </script>
 </head>
 <body>
@@ -34,63 +62,63 @@
 			<!-- 작업영역 -->
 			<div class="estimateCalc_background pt-5 pb-5" style="width: 70% !important">
 				<div class="mb-3 ps-5 ms-5">
-					<span class="user-name fs-2">12</span>
+					<span class="user-name fs-2 fw-bold"></span>
 					<b class="fs-2">님의 진행현황</b>
 					<p>※ 상태가 배송단계로 넘어갔을 경우 배송지 변경은 불가능합니다!! ※</p>
 					<span>주문 제품 명 : </span>
-					<b>122</b>
+					<b class="order-name fw-bold"></b>
 				</div>
-				<div class="d-flex align-items-center">
-					<div class="progress" style="height: 8px; width: 8%;">
-						<div class="progress-bar bg-info" role="progressbar" aria-label="Success example" style="width: 100%; border: 1px solid gray;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="border: 1px solid gray;"></div>
+				<div class="d-flex align-items-center status-container">
+					<div class="progress status-progress">
+						<div class="progress-bar status-progress-bar bg-info" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 					</div>
-					<div class="box text-center d-flex align-items-center justify-content-center" style="font-size: 12px; width: 12%; height: 60px; background-color: #5CACEE;border-radius: 12px; box-shadow: 2px 2px 2px 2px gray; z-index: 99;">
+					<div class="box text-center status-box d-flex align-items-center justify-content-center status-font-size" onmouseover="javascript:mouseInBox(this)" onmouseleave="javascript:mouseOutBox(this)">
 						<span class="fw-bold text-white">청약철회 및<br>소프트웨어<br>조항 동의 완료</span>
 					</div>
-					<div class="progress" style="height: 8px; width: 4%;">
-						<div class="progress-bar bg-success" role="progressbar" aria-label="Success example" style="width: 100%; border: 1px solid gray;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="border: 1px solid gray;"></div>
+					<div class="progress status-progress">
+						<div class="progress-bar status-progress-bar bg-success" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 					</div>
-					<div class="box text-center d-flex align-items-center justify-content-center" style="width: 12%; height: 60px; background-color: #5CACEE;border-radius: 12px; box-shadow: 2px 2px 2px 2px gray; z-index: 99;">
+					<div class="box text-center status-box d-flex align-items-center justify-content-center" onmouseover="javascript:mouseInBox(this)" onmouseleave="javascript:mouseOutBox(this)">
 						<span class="fw-bold text-white">결제 완료</span>
 					</div>
-					<div class="progress" style="height: 8px; width: 4%;">
-						<div class="progress-bar bg-info" role="progressbar" aria-label="Success example" style="width: 100%; border: 1px solid gray;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="border: 1px solid gray;"></div>
+					<div class="progress status-progress">
+						<div class="progress-bar status-progress-bar bg-info" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 					</div>
-					<div class="box text-center d-flex align-items-center justify-content-center" style="width: 12%; height: 60px; background-color: #5CACEE;border-radius: 12px; box-shadow: 2px 2px 2px 2px gray; z-index: 99;">
+					<div class="box text-center status-box d-flex align-items-center justify-content-center" onmouseover="javascript:mouseInBox(this)" onmouseleave="javascript:mouseOutBox(this)">
 						<span class="fw-bold text-white">제품 공수 중</span>
 					</div>
-					<div class="progress" style="height: 8px; width: 4%;">
-						<div class="progress-bar bg-danger" role="progressbar" aria-label="Success example" style="width: 100%; border: 1px solid gray;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="border: 1px solid gray;"></div>
+					<div class="progress status-progress">
+						<div class="progress-bar status-progress-bar bg-danger" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 					</div>
-					<div class="box text-center d-flex align-items-center justify-content-center" style="width: 12%; height: 60px; background-color: #5CACEE;border-radius: 12px; box-shadow: 2px 2px 2px 2px gray; z-index: 99;">
+					<div class="box text-center status-box d-flex align-items-center justify-content-center" onmouseover="javascript:mouseInBox(this)" onmouseleave="javascript:mouseOutBox(this)">
 						<span class="fw-bold text-white">조립 중</span>
 					</div>
-					<div class="progress" style="height: 8px; width: 4%;">
-						<div class="progress-bar bg-info" role="progressbar" aria-label="Success example" style="width: 100%; border: 1px solid gray;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="border: 1px solid gray;"></div>
+					<div class="progress status-progress">
+						<div class="progress-bar status-progress-bar bg-info" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 					</div>
-					<div class="box text-center d-flex align-items-center justify-content-center" style="width: 12%; height: 60px; background-color: #5CACEE;border-radius: 12px; box-shadow: 2px 2px 2px 2px gray; z-index: 99;">
-						<span class="fw-bold text-white">시스템 구성 중</span>
+					<div class="box text-center status-box d-flex align-items-center justify-content-center" onmouseover="javascript:mouseInBox(this)" onmouseleave="javascript:mouseOutBox(this)">
+						<span class="fw-bold text-white">시스템 구성중</span>
 					</div>
-					<div class="progress" style="height: 8px; width: 4%;">
-						<div class="progress-bar bg-success" role="progressbar" aria-label="Success example" style="width: 100%; border: 1px solid gray;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="border: 1px solid gray;"></div>
+					<div class="progress status-progress">
+						<div class="progress-bar status-progress-bar bg-success" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 					</div>
-					<div class="box text-center d-flex align-items-center justify-content-center" style="width: 12%; height: 60px; background-color: #5CACEE;border-radius: 12px; box-shadow: 2px 2px 2px 2px gray; z-index: 99;">
+					<div class="box text-center status-box d-flex align-items-center justify-content-center" onmouseover="javascript:mouseInBox(this)" onmouseleave="javascript:mouseOutBox(this)">
 						<span class="fw-bold text-white">출고</span>
 					</div>
-					<div class="progress" style="height: 8px; width: 4%;">
-						<div class="progress-bar bg-danger" role="progressbar" aria-label="Success example" style="width: 100%; border: 1px solid gray;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="border: 1px solid gray;"></div>
+					<div class="progress status-progress">
+						<div class="progress-bar status-progress-bar bg-danger" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 					</div>
-					<div class="box text-center d-flex align-items-center justify-content-center" style="width: 12%; height: 60px; background-color: #5CACEE;border-radius: 12px; box-shadow: 2px 2px 2px 2px gray; z-index: 99;">
+					<div class="box text-center status-box d-flex align-items-center justify-content-center" onmouseover="javascript:mouseInBox(this)" onmouseleave="javascript:mouseOutBox(this)">
 						<span class="fw-bold text-white">지역배송 출발</span>
 					</div>
-					<div class="progress" style="height: 8px; width: 4%;">
-						<div class="progress-bar bg-info" role="progressbar" aria-label="Success example" style="width: 100%; border: 1px solid gray;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="border: 1px solid gray;"></div>
+					<div class="progress status-progress">
+						<div class="progress-bar status-progress-bar bg-info" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 					</div>
-					<div class="box text-center d-flex align-items-center justify-content-center" style="width: 12%; height: 60px; background-color: #5CACEE;border-radius: 12px; box-shadow: 2px 2px 2px 2px gray; z-index: 99;">
+					<div class="box text-center status-box d-flex align-items-center justify-content-center" onmouseover="javascript:mouseInBox(this)" onmouseleave="javascript:mouseOutBox(this)">
 						<span class="fw-bold text-white">도착</span>
 					</div>
-					<div class="progress" style="height: 8px; width: 8%;">
-						<div class="progress-bar bg-success" role="progressbar" aria-label="Success example" style="width: 100%; border: 1px solid gray;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100" style="border: 1px solid gray;"></div>
+					<div class="progress status-progress">
+						<div class="progress-bar status-progress-bar bg-success" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 					</div>
 				</div>
 	 		</div>

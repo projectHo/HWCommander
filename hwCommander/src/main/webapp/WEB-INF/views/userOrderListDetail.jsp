@@ -38,7 +38,6 @@
 		var value = keyValue[1];
 		masterInfoObject[key] = value;
 	}
-	console.log(masterInfoObject);
 	function loadData(){
 		$(".order-num").html(masterInfoObject.id);
 		$(".order-date").html(masterInfoObject.orderDateStr);
