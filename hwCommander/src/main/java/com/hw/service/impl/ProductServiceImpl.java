@@ -567,15 +567,19 @@ public class ProductServiceImpl implements ProductService {
 		 - CAS = 유저 AS점수
 		 - CMT = 유저 소재 점수
 		*--------------------------------------------------*/
-		int α = 1;
-		int c_cpu = 1;
-		int c_mb = 1;
-		int c_cooler = 1;
-		int c_case = 1;
-		int c_psu = 1;
-		int c_ram = 1;
-		int c_ssd = 1;
-		int c_estimateSave = 1;
+//		[이해창] [오후 4:25] 인덱스가 0부터 시작하죠 ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ
+//		[이해창] [오후 4:25] 이해했어요 저게 맞아요 그럼
+//		[이해창] [오후 4:25] 전 인덱스가 1부터 시작한다고 생각하고 작성한거에요
+		// 23.07.30 알고리즘 12번 근거로 초기값 변경처리함. 
+		int α = 0;
+		int β = 0;
+		int γ = 0;
+		int k = 0;
+		int p = 0;
+		int q = 0;
+		int x = 0;
+		int y = 0;
+		int ω = 0;
 		
 		// 프론트에서 만단위 곱해서 보내주기때문에 백엔드에서 만단위 나눠서 대입함.
 //		BigDecimal VC = answer1.divide(new BigDecimal("10000"));
@@ -1045,10 +1049,10 @@ public class ProductServiceImpl implements ProductService {
 				// G = GVA
 				if("G".equals(processResourceDetailHistoryVO.getVariableChk())) {
 					// 사용자 견적산출질문 2번 pr_id, scale 적용
-					for(int x = 0; x < answer2.size(); x++) {
+					for(int an = 0; an < answer2.size(); an++) {
 						// 0~100까지의 수 퍼센테이지로 변환
-						BigDecimal scale = new BigDecimal(answer2.get(x).get("scale")).multiply(new BigDecimal("0.01"));
-						String pr_id = answer2.get(x).get("pr_id");
+						BigDecimal scale = new BigDecimal(answer2.get(an).get("scale")).multiply(new BigDecimal("0.01"));
+						String pr_id = answer2.get(an).get("pr_id");
 						
 						if(pr_id.equals(processResourceDetailHistoryVO.getId())
 								&& gcString.equals(processResourceDetailHistoryVO.getResourceMappingValue())) {
@@ -1200,6 +1204,7 @@ public class ProductServiceImpl implements ProductService {
 //		회귀점 1은 단순인덱스, 2는 중첩반복을 뜻한다고 함.
 //		중첩반복에서 아래로 제거하는일은 절대없음.
 		
+		
 		System.out.println("######### 소거 전 partsGpuHistoryVOList.size() : "+partsGpuHistoryVOList.size());
 		System.out.println("################# SYSO 결과출력 START #########################");
 		System.out.println("######### 순차적으로 index, id, parts_name, parts_price, gpuValue");
@@ -1209,6 +1214,7 @@ public class ProductServiceImpl implements ProductService {
 		}
 		System.out.println("################# SYSO 결과출력  END #########################");
 		
+		// Gpu 소거로직 START
 		for(int i = partsGpuHistoryVOList.size()-1; i >= 1; i--) {
 			int targetIndex = i-1;
 			
@@ -1271,6 +1277,7 @@ public class ProductServiceImpl implements ProductService {
 		List<PartsPsuHistoryVO> partsPsuHistoryVOListAlgorithm12Backup = new ArrayList<>();
 		List<PartsCaseHistoryVO> partsCaseHistoryVOListAlgorithm12Backup = new ArrayList<>();
 		List<PartsSsdHistoryVO> partsSsdHistoryVOListAlgorithm12Backup = new ArrayList<>();
+		List<PartsMbHistoryVO> partsMbHistoryVOListAlgorithm12Backup = new ArrayList<>();
 
 		for(int i = 0; i < partsCpuHistoryVOList.size(); i++) {
 			partsCpuHistoryVOListAlgorithm12Backup.add(partsCpuHistoryVOList.get(i));
@@ -1296,9 +1303,52 @@ public class ProductServiceImpl implements ProductService {
 			partsSsdHistoryVOListAlgorithm12Backup.add(partsSsdHistoryVOList.get(i));
 		}
 		
+		for(int i = 0; i < partsMbHistoryVOList.size(); i++) {
+			partsMbHistoryVOListAlgorithm12Backup.add(partsMbHistoryVOList.get(i));
+		}
+		
 		int limα = partsGpuHistoryVOList.size();
 		
 		for(int gpuIndex = α; gpuIndex < limα; gpuIndex++) {
+			/*--------------------------------------------------
+			 - 12-1. 12번백업데이터 기준으로 데이터복원처리
+			*--------------------------------------------------*/
+			partsCpuHistoryVOList = new ArrayList<>();
+			partsRamHistoryVOList = new ArrayList<>();
+			partsCoolerHistoryVOList = new ArrayList<>();
+			partsPsuHistoryVOList = new ArrayList<>();
+			partsCaseHistoryVOList = new ArrayList<>();
+			partsSsdHistoryVOList = new ArrayList<>();
+			partsMbHistoryVOList = new ArrayList<>();
+
+			for(int i = 0; i < partsCpuHistoryVOListAlgorithm12Backup.size(); i++) {
+				partsCpuHistoryVOList.add(partsCpuHistoryVOListAlgorithm12Backup.get(i));
+			}
+			
+			for(int i = 0; i < partsRamHistoryVOListAlgorithm12Backup.size(); i++) {
+				partsRamHistoryVOList.add(partsRamHistoryVOListAlgorithm12Backup.get(i));
+			}
+			
+			for(int i = 0; i < partsCoolerHistoryVOListAlgorithm12Backup.size(); i++) {
+				partsCoolerHistoryVOList.add(partsCoolerHistoryVOListAlgorithm12Backup.get(i));
+			}
+			
+			for(int i = 0; i < partsPsuHistoryVOListAlgorithm12Backup.size(); i++) {
+				partsPsuHistoryVOList.add(partsPsuHistoryVOListAlgorithm12Backup.get(i));
+			}
+			
+			for(int i = 0; i < partsCaseHistoryVOListAlgorithm12Backup.size(); i++) {
+				partsCaseHistoryVOList.add(partsCaseHistoryVOListAlgorithm12Backup.get(i));
+			}
+			
+			for(int i = 0; i < partsSsdHistoryVOListAlgorithm12Backup.size(); i++) {
+				partsSsdHistoryVOList.add(partsSsdHistoryVOListAlgorithm12Backup.get(i));
+			}
+			
+			for(int i = 0; i < partsMbHistoryVOListAlgorithm12Backup.size(); i++) {
+				partsMbHistoryVOList.add(partsMbHistoryVOListAlgorithm12Backup.get(i));
+			}
+			
 			/*--------------------------------------------------
 			 - 13. VC = VC-α번째 GPU의 Price
 			*--------------------------------------------------*/
@@ -1549,10 +1599,561 @@ public class ProductServiceImpl implements ProductService {
 				partsSsdHistoryVO.setSsdValue(ssdValue);
 			}
 			
+			
+			// 각 부품 value 검증
+			// GPU마다 부품 value 값이 다르기에 부품 하나 발주처 선정 (GPU000037)
+			if(partsGpuHistoryVOList.get(gpuIndex).getId().equals("GPU000037")) {
+				
+				System.out.println("######### 대상 GPU ID partsGpuHistoryVOList.get(gpuIndex).getId() : "+partsGpuHistoryVOList.get(gpuIndex).getId());
+				System.out.println("################# SYSO Cpu 결과출력 START #########################");
+				System.out.println("######### 순차적으로 index, id, parts_name, parts_price, 산정된 부품 value");
+				for(int i = 0; i < partsCpuHistoryVOList.size(); i++) {
+					System.out.print(i+", "+partsCpuHistoryVOList.get(i).getId()+", "+partsCpuHistoryVOList.get(i).getPartsName()+", "+partsCpuHistoryVOList.get(i).getPartsPrice()+", "+partsCpuHistoryVOList.get(i).getCpuValue());
+					System.out.println("");
+				}
+				System.out.println("################# SYSO Cpu 결과출력  END #########################");
+				
+				System.out.println("######### 대상 GPU ID partsGpuHistoryVOList.get(gpuIndex).getId() : "+partsGpuHistoryVOList.get(gpuIndex).getId());
+				System.out.println("################# SYSO Cpu 결과출력 START #########################");
+				System.out.println("######### 순차적으로 index, id, parts_name, parts_price, 산정된 부품 value");
+				for(int i = 0; i < partsRamHistoryVOList.size(); i++) {
+					System.out.print(i+", "+partsRamHistoryVOList.get(i).getId()+", "+partsRamHistoryVOList.get(i).getPartsName()+", "+partsRamHistoryVOList.get(i).getPartsPrice()+", "+partsRamHistoryVOList.get(i).getRamValue());
+					System.out.println("");
+				}
+				System.out.println("################# SYSO Cpu 결과출력  END #########################");
+				
+				System.out.println("######### 대상 GPU ID partsGpuHistoryVOList.get(gpuIndex).getId() : "+partsGpuHistoryVOList.get(gpuIndex).getId());
+				System.out.println("################# SYSO Cpu 결과출력 START #########################");
+				System.out.println("######### 순차적으로 index, id, parts_name, parts_price, 산정된 부품 value");
+				for(int i = 0; i < partsCoolerHistoryVOList.size(); i++) {
+					System.out.print(i+", "+partsCoolerHistoryVOList.get(i).getId()+", "+partsCoolerHistoryVOList.get(i).getPartsName()+", "+partsCoolerHistoryVOList.get(i).getPartsPrice()+", "+partsCoolerHistoryVOList.get(i).getCoolerValue());
+					System.out.println("");
+				}
+				System.out.println("################# SYSO Cpu 결과출력  END #########################");
+				
+				System.out.println("######### 대상 GPU ID partsGpuHistoryVOList.get(gpuIndex).getId() : "+partsGpuHistoryVOList.get(gpuIndex).getId());
+				System.out.println("################# SYSO Cpu 결과출력 START #########################");
+				System.out.println("######### 순차적으로 index, id, parts_name, parts_price, 산정된 부품 value");
+				for(int i = 0; i < partsPsuHistoryVOList.size(); i++) {
+					System.out.print(i+", "+partsPsuHistoryVOList.get(i).getId()+", "+partsPsuHistoryVOList.get(i).getPartsName()+", "+partsPsuHistoryVOList.get(i).getPartsPrice()+", "+partsPsuHistoryVOList.get(i).getPsuValue());
+					System.out.println("");
+				}
+				System.out.println("################# SYSO Cpu 결과출력  END #########################");
+				
+				System.out.println("######### 대상 GPU ID partsGpuHistoryVOList.get(gpuIndex).getId() : "+partsGpuHistoryVOList.get(gpuIndex).getId());
+				System.out.println("################# SYSO Cpu 결과출력 START #########################");
+				System.out.println("######### 순차적으로 index, id, parts_name, parts_price, 산정된 부품 value");
+				for(int i = 0; i < partsCaseHistoryVOList.size(); i++) {
+					System.out.print(i+", "+partsCaseHistoryVOList.get(i).getId()+", "+partsCaseHistoryVOList.get(i).getPartsName()+", "+partsCaseHistoryVOList.get(i).getPartsPrice()+", "+partsCaseHistoryVOList.get(i).getCaseValue());
+					System.out.println("");
+				}
+				System.out.println("################# SYSO Cpu 결과출력  END #########################");
+				
+				System.out.println("######### 대상 GPU ID partsGpuHistoryVOList.get(gpuIndex).getId() : "+partsGpuHistoryVOList.get(gpuIndex).getId());
+				System.out.println("################# SYSO Cpu 결과출력 START #########################");
+				System.out.println("######### 순차적으로 index, id, parts_name, parts_price, 산정된 부품 value");
+				for(int i = 0; i < partsSsdHistoryVOList.size(); i++) {
+					System.out.print(i+", "+partsSsdHistoryVOList.get(i).getId()+", "+partsSsdHistoryVOList.get(i).getPartsName()+", "+partsSsdHistoryVOList.get(i).getPartsPrice()+", "+partsSsdHistoryVOList.get(i).getSsdValue());
+					System.out.println("");
+				}
+				System.out.println("################# SYSO Cpu 결과출력  END #########################");
+				
+				
+				
+			} // 14번 mb를 제외한 모든 부품 value test system log
+			
+			
+			/*--------------------------------------------------
+			 - 15.  MB를 제외한 모든 테이블에서 Value가 더 낮음과 동시에 Price가 더 높은 
+			 - (완벽한 하위 호환에 있는)제품이 있는 경우 하위 호환 제품을 소거한다.
+			 - 
+			 - gpu 소거로직과 동일함.
+			 - 모든 부품별로 돌려야함.(mb 제외)
+			*--------------------------------------------------*/
+			
+			/*--------------------------------------------------
+			 - 15-1. CPU Value 기준 소거처리부 
+			*--------------------------------------------------*/
+			for(int i = partsCpuHistoryVOList.size()-1; i >= 1; i--) {
+				int targetIndex = i-1;
+				
+				BigDecimal value1 = partsCpuHistoryVOList.get(targetIndex).getCpuValue();
+				BigDecimal value2 = partsCpuHistoryVOList.get(targetIndex+1).getCpuValue();
+				
+				int compareResult1 = value1.compareTo(value2);
+				
+				if(compareResult1 < 0) {
+					// value1 < value2
+					continue;
+				}
+				
+				// 중첩 반복(대상 인덱스로부터 위로 검증)
+				int zTargetSize = partsCpuHistoryVOList.size();
+				for(int z = targetIndex+1; z < zTargetSize; z++) {
+					if(z == zTargetSize) {
+						break;
+					}
+					BigDecimal value3 = partsCpuHistoryVOList.get(z).getCpuValue();
+					
+					int compareResult2 = value1.compareTo(value3);
+					if(compareResult2 > 0 || compareResult2 == 0) {
+						// value1 > value3 or value1 == value3
+						partsCpuHistoryVOList.remove(z);
+						--zTargetSize;
+						--z;
+					}
+				}
+			}
+			
+			/*--------------------------------------------------
+			 - 15-2. RAM Value 기준 소거처리부 
+			*--------------------------------------------------*/
+			for(int i = partsRamHistoryVOList.size()-1; i >= 1; i--) {
+				int targetIndex = i-1;
+				
+				BigDecimal value1 = partsRamHistoryVOList.get(targetIndex).getRamValue();
+				BigDecimal value2 = partsRamHistoryVOList.get(targetIndex+1).getRamValue();
+				
+				int compareResult1 = value1.compareTo(value2);
+				
+				if(compareResult1 < 0) {
+					// value1 < value2
+					continue;
+				}
+				
+				// 중첩 반복(대상 인덱스로부터 위로 검증)
+				int zTargetSize = partsRamHistoryVOList.size();
+				for(int z = targetIndex+1; z < zTargetSize; z++) {
+					if(z == zTargetSize) {
+						break;
+					}
+					BigDecimal value3 = partsRamHistoryVOList.get(z).getRamValue();
+					
+					int compareResult2 = value1.compareTo(value3);
+					if(compareResult2 > 0 || compareResult2 == 0) {
+						// value1 > value3 or value1 == value3
+						partsRamHistoryVOList.remove(z);
+						--zTargetSize;
+						--z;
+					}
+				}
+			}
+			
+			/*--------------------------------------------------
+			 - 15-3. Cooler Value 기준 소거처리부 
+			*--------------------------------------------------*/
+			for(int i = partsCoolerHistoryVOList.size()-1; i >= 1; i--) {
+				int targetIndex = i-1;
+				
+				BigDecimal value1 = partsCoolerHistoryVOList.get(targetIndex).getCoolerValue();
+				BigDecimal value2 = partsCoolerHistoryVOList.get(targetIndex+1).getCoolerValue();
+				
+				int compareResult1 = value1.compareTo(value2);
+				
+				if(compareResult1 < 0) {
+					// value1 < value2
+					continue;
+				}
+				
+				// 중첩 반복(대상 인덱스로부터 위로 검증)
+				int zTargetSize = partsCoolerHistoryVOList.size();
+				for(int z = targetIndex+1; z < zTargetSize; z++) {
+					if(z == zTargetSize) {
+						break;
+					}
+					BigDecimal value3 = partsCoolerHistoryVOList.get(z).getCoolerValue();
+					
+					int compareResult2 = value1.compareTo(value3);
+					if(compareResult2 > 0 || compareResult2 == 0) {
+						// value1 > value3 or value1 == value3
+						partsCoolerHistoryVOList.remove(z);
+						--zTargetSize;
+						--z;
+					}
+				}
+			}
+			
+			/*--------------------------------------------------
+			 - 15-4. Psu Value 기준 소거처리부 
+			*--------------------------------------------------*/
+			for(int i = partsPsuHistoryVOList.size()-1; i >= 1; i--) {
+				int targetIndex = i-1;
+				
+				BigDecimal value1 = partsPsuHistoryVOList.get(targetIndex).getPsuValue();
+				BigDecimal value2 = partsPsuHistoryVOList.get(targetIndex+1).getPsuValue();
+				
+				int compareResult1 = value1.compareTo(value2);
+				
+				if(compareResult1 < 0) {
+					// value1 < value2
+					continue;
+				}
+				
+				// 중첩 반복(대상 인덱스로부터 위로 검증)
+				int zTargetSize = partsPsuHistoryVOList.size();
+				for(int z = targetIndex+1; z < zTargetSize; z++) {
+					if(z == zTargetSize) {
+						break;
+					}
+					BigDecimal value3 = partsPsuHistoryVOList.get(z).getPsuValue();
+					
+					int compareResult2 = value1.compareTo(value3);
+					if(compareResult2 > 0 || compareResult2 == 0) {
+						// value1 > value3 or value1 == value3
+						partsPsuHistoryVOList.remove(z);
+						--zTargetSize;
+						--z;
+					}
+				}
+			}
+			
+			/*--------------------------------------------------
+			 - 15-5. Case Value 기준 소거처리부 
+			*--------------------------------------------------*/
+			for(int i = partsCaseHistoryVOList.size()-1; i >= 1; i--) {
+				int targetIndex = i-1;
+				
+				BigDecimal value1 = partsCaseHistoryVOList.get(targetIndex).getCaseValue();
+				BigDecimal value2 = partsCaseHistoryVOList.get(targetIndex+1).getCaseValue();
+				
+				int compareResult1 = value1.compareTo(value2);
+				
+				if(compareResult1 < 0) {
+					// value1 < value2
+					continue;
+				}
+				
+				// 중첩 반복(대상 인덱스로부터 위로 검증)
+				int zTargetSize = partsCaseHistoryVOList.size();
+				for(int z = targetIndex+1; z < zTargetSize; z++) {
+					if(z == zTargetSize) {
+						break;
+					}
+					BigDecimal value3 = partsCaseHistoryVOList.get(z).getCaseValue();
+					
+					int compareResult2 = value1.compareTo(value3);
+					if(compareResult2 > 0 || compareResult2 == 0) {
+						// value1 > value3 or value1 == value3
+						partsCaseHistoryVOList.remove(z);
+						--zTargetSize;
+						--z;
+					}
+				}
+			}
+			
+			/*--------------------------------------------------
+			 - 15-6. Ssd Value 기준 소거처리부 
+			*--------------------------------------------------*/
+			for(int i = partsSsdHistoryVOList.size()-1; i >= 1; i--) {
+				int targetIndex = i-1;
+				
+				BigDecimal value1 = partsSsdHistoryVOList.get(targetIndex).getSsdValue();
+				BigDecimal value2 = partsSsdHistoryVOList.get(targetIndex+1).getSsdValue();
+				
+				int compareResult1 = value1.compareTo(value2);
+				
+				if(compareResult1 < 0) {
+					// value1 < value2
+					continue;
+				}
+				
+				// 중첩 반복(대상 인덱스로부터 위로 검증)
+				int zTargetSize = partsSsdHistoryVOList.size();
+				for(int z = targetIndex+1; z < zTargetSize; z++) {
+					if(z == zTargetSize) {
+						break;
+					}
+					BigDecimal value3 = partsSsdHistoryVOList.get(z).getSsdValue();
+					
+					int compareResult2 = value1.compareTo(value3);
+					if(compareResult2 > 0 || compareResult2 == 0) {
+						// value1 > value3 or value1 == value3
+						partsSsdHistoryVOList.remove(z);
+						--zTargetSize;
+						--z;
+					}
+				}
+			}
+			
+			/*--------------------------------------------------
+			 - 16. BN이 α번째 GPU>CPU인 CPU제품들을 모두 소거한다. 
+			*--------------------------------------------------*/
+			int gpuBn = partsGpuHistoryVOList.get(gpuIndex).getBn();
+			
+			for(int i = partsCpuHistoryVOList.size()-1; i >= 0; i--) {
+				if(gpuBn > partsCpuHistoryVOList.get(i).getBn()) {
+					partsCpuHistoryVOList.remove(i);
+				}
+			}
+			
+			/*--------------------------------------------------
+			 - 17. VC=<Price인 CPU제품을 모두 소거한다. 
+			*--------------------------------------------------*/
+			for(int i = partsCpuHistoryVOList.size()-1; i >= 0; i--) {
+				BigDecimal cpuPrice = new BigDecimal(partsCpuHistoryVOList.get(i).getPartsPrice());
+				int compareResult = VC.compareTo(cpuPrice);
+				if(compareResult < 0 || compareResult == 0) {
+					partsCpuHistoryVOList.remove(i);
+				}
+			}
+			
+			/*--------------------------------------------------
+			 - 18. 남은 CPU의 개수를 limβ라고 한다.
+			 - limβ<β라면 아래 변수 정렬 후 12번으로 돌아간다.
+			 - (소거된 제품도 12번 시점으로 롤백한다.)
+			 - VC=VC+α번째 GPU의 Price
+			 - α=α+1, β=1, γ=1, k=1, p=1, q=1, x=1, y=1
+			 - (α는 반복문 기준 index이므로 따로 +1을 하지 않아도 반복문 넘기면 자연히
+			 - 인덱스가 상승하므로 처리하지 않는다.)
+			 - limβ>=β라면 연산을 이어간다.
+			 - VC=VC-β번째 CPU의 Price이다.
+			*--------------------------------------------------*/
+			// 18번 시점에서 백업데이터. 추후 구현할 24번에서 롤백 할 백업데이터로 쓰인다.
+			List<PartsMbHistoryVO> partsMbHistoryVOListAlgorithm18Backup = new ArrayList<>();
+
+			for(int i = 0; i < partsMbHistoryVOList.size(); i++) {
+				partsMbHistoryVOListAlgorithm18Backup.add(partsMbHistoryVOList.get(i));
+			}
+			
+			int limβ = partsCpuHistoryVOList.size();
+			
+			if(limβ <= β) {
+				// limβ<β라면 아래 변수 정렬 후 12번으로 돌아간다. -> limβ<=β
+				
+				VC = VC.add(new BigDecimal(partsGpuHistoryVOList.get(gpuIndex).getPartsPrice()));
+				β = 0;
+				γ = 0;
+				k = 0;
+				p = 0;
+				q = 0;
+				x = 0;
+				y = 0;
+				
+				continue; // 13번 처음 for 다음 gpuIndex 진행
+			}
+			
+			// limβ>=β라면 연산을 이어간다. -> limβ>β
+			for(int cpuIndex = β; cpuIndex < limβ; cpuIndex++) {
+				/*--------------------------------------------------
+				 - 18-1. 18번백업데이터 기준으로 데이터복원처리
+				*--------------------------------------------------*/
+				partsMbHistoryVOList = new ArrayList<>();
+
+				for(int i = 0; i < partsMbHistoryVOListAlgorithm18Backup.size(); i++) {
+					partsMbHistoryVOList.add(partsMbHistoryVOListAlgorithm18Backup.get(i));
+				}
+				
+				/*--------------------------------------------------
+				 - 18-2. 현재 진행 cpu Index의 가격 빼기
+				*--------------------------------------------------*/
+				VC = VC.subtract(new BigDecimal(partsCpuHistoryVOList.get(cpuIndex).getPartsPrice()));
+				
+				/*--------------------------------------------------
+				 - 19. CC(β번째 선택된 CPU)를 계산하여 MB테이블의 모든 제품 Value를 계산한다.
+				 - MB Value = CPU Value*0.4*(1+AS(MBAS)*0.001*CAS+Port*0.001*CMT+BIOS*0.0001*CSFT)
+				 - 대입변수 변환
+				 - [calculation1] CPU Value*0.4
+				 - [calculation2] MBAS*0.001*CAS
+				 - [calculation3] Port*0.001*CMT
+				 - [calculation4] BIOS*0.0001*CSFT
+				 - [calculation5] 1+[calculation2]+[calculation3]+[calculation4]
+				 - Mb Value = [calculation1]*[calculation5]
+				*--------------------------------------------------*/
+				BigDecimal CC = partsCpuHistoryVOList.get(cpuIndex).getCpuValue();
+				
+				// maker as_score -> mbas 값 이식
+				for(int ma = 0; ma < partsMakerHistoryVOList.size(); ma++) {
+					for(int z = 0; z < partsMbHistoryVOList.size(); z++) {
+						if(partsMakerHistoryVOList.get(ma).getId().equals(partsMbHistoryVOList.get(z).getMakerId())) {
+							partsMbHistoryVOList.get(z).setMbas(partsMakerHistoryVOList.get(ma).getAsScore());
+						}
+					}
+				}
+				
+				for(int mb = 0; mb < partsMbHistoryVOList.size(); mb++) {
+					PartsMbHistoryVO partsMbHistoryVO = partsMbHistoryVOList.get(mb);
+					BigDecimal mbValue = BigDecimal.ZERO;
+					BigDecimal MBAS = new BigDecimal(partsMbHistoryVO.getMbas());
+					BigDecimal PORT = new BigDecimal(partsMbHistoryVO.getPort());
+					BigDecimal BIOS = new BigDecimal(partsMbHistoryVO.getBios());
+					BigDecimal calculation1 = BigDecimal.ZERO;
+					BigDecimal calculation2 = BigDecimal.ZERO;
+					BigDecimal calculation3 = BigDecimal.ZERO;
+					BigDecimal calculation4 = BigDecimal.ZERO;
+					BigDecimal calculation5 = BigDecimal.ZERO;
+					
+					calculation1 = CC.multiply(new BigDecimal("0.4"));
+					calculation2 = MBAS.multiply(new BigDecimal("0.001")).multiply(CAS);
+					calculation3 = PORT.multiply(new BigDecimal("0.001")).multiply(CMT);
+					calculation4 = BIOS.multiply(new BigDecimal("0.0001")).multiply(CSFT);
+					calculation5 = new BigDecimal("1").add(calculation2).add(calculation3).add(calculation4);
+					mbValue = calculation1.multiply(calculation5);
+					
+					partsMbHistoryVO.setMbValue(mbValue);
+				}
+				
+				/*--------------------------------------------------
+				 - 20. MB테이블에서 Value가 더 낮음과 동시에 Price가 더 높은
+				 - (완벽한 하위 호환에 있는)제품이 있는 경우 하위 호환 제품을 소거한다.  
+				*--------------------------------------------------*/
+				for(int i = partsMbHistoryVOList.size()-1; i >= 1; i--) {
+					int targetIndex = i-1;
+					
+					BigDecimal value1 = partsMbHistoryVOList.get(targetIndex).getMbValue();
+					BigDecimal value2 = partsMbHistoryVOList.get(targetIndex+1).getMbValue();
+					
+					int compareResult1 = value1.compareTo(value2);
+					
+					if(compareResult1 < 0) {
+						// value1 < value2
+						continue;
+					}
+					
+					// 중첩 반복(대상 인덱스로부터 위로 검증)
+					int zTargetSize = partsMbHistoryVOList.size();
+					for(int z = targetIndex+1; z < zTargetSize; z++) {
+						if(z == zTargetSize) {
+							break;
+						}
+						BigDecimal value3 = partsMbHistoryVOList.get(z).getMbValue();
+						
+						int compareResult2 = value1.compareTo(value3);
+						if(compareResult2 > 0 || compareResult2 == 0) {
+							// value1 > value3 or value1 == value3
+							partsMbHistoryVOList.remove(z);
+							--zTargetSize;
+							--z;
+						}
+					}
+				}
+				
+				/*--------------------------------------------------
+				 - 21. VC=<Price인 MB제품을 모두 소거한다.
+				*--------------------------------------------------*/
+				for(int i = partsMbHistoryVOList.size()-1; i >= 0; i--) {
+					BigDecimal mbPrice = new BigDecimal(partsMbHistoryVOList.get(i).getPartsPrice());
+					int compareResult = VC.compareTo(mbPrice);
+					if(compareResult < 0 || compareResult == 0) {
+						partsMbHistoryVOList.remove(i);
+					}
+				}
+				
+				/*--------------------------------------------------
+				 - 22. CPU SOC가 β번째 CPU의 수치와 다른 MB를 모두 소거한다.
+				*--------------------------------------------------*/
+				String cpuSocCd = partsCpuHistoryVOList.get(cpuIndex).getCpuSocCd();
+				for(int i = partsMbHistoryVOList.size()-1; i >= 0; i--) {
+					if(!partsMbHistoryVOList.get(i).getCpuSocCd().equals(cpuSocCd)) {
+						partsMbHistoryVOList.remove(i);
+					}
+				}
+				
+				/*--------------------------------------------------
+				 - 23. VRM Range가 β번째 CPU*(1+CSFT)>MB인 모든 MB제품을 소거한다.
+				 - 여기서 CPU가 뭐임?
+				 - 오기재.. CC라고 함.
+				 - ㄴㄴ vrm range라고 함.
+				*--------------------------------------------------*/
+				BigDecimal cpu_vrmRange = partsCpuHistoryVOList.get(cpuIndex).getVrmRange();
+				BigDecimal algorithm23TargetData = cpu_vrmRange.multiply(new BigDecimal("1").add(CSFT));
+				for(int i = partsMbHistoryVOList.size()-1; i >= 0; i--) {
+					BigDecimal mbVrmRange = partsMbHistoryVOList.get(i).getVrmRange();
+					int compareResult = algorithm23TargetData.compareTo(mbVrmRange);
+					if(compareResult > 0) {
+						partsMbHistoryVOList.remove(i);
+					}
+				}
+				
+				
+				/*--------------------------------------------------
+				 - 24. 남은 MB제품의 개수를 limγ라 한다.
+				 - limγ<γ라면 아래 변수 정렬 후 18번으로 돌아간다.
+				 - (소거된 제품도 18번 시점으로 롤백한다.)
+				 - VC=VC+β번째 CPU의 Price
+				 - β=β+1, γ=1, k=1, p=1, q=1, x=1, y=1
+				 - limγ>=γ라면 연산을 이어나간다.
+				 - VC=VC-γ번째 MB의 Price이다.
+				*--------------------------------------------------*/
+				// 24번 시점에서 백업데이터. 추후 구현할 27번에서 롤백 할 백업데이터로 쓰인다.
+				List<PartsCoolerHistoryVO> partsCoolerHistoryVOListAlgorithm24Backup = new ArrayList<>();
+
+				for(int i = 0; i < partsCoolerHistoryVOList.size(); i++) {
+					partsCoolerHistoryVOListAlgorithm24Backup.add(partsCoolerHistoryVOList.get(i));
+				}
+				
+				int limγ = partsMbHistoryVOList.size();
+				
+				if(limγ <= γ) {
+					// limγ<γ라면 아래 변수 정렬 후 18번으로 돌아간다. -> limγ<=γ
+					
+					VC = VC.add(new BigDecimal(partsCpuHistoryVOList.get(cpuIndex).getPartsPrice()));
+					γ = 0;
+					k = 0;
+					p = 0;
+					q = 0;
+					x = 0;
+					y = 0;
+					
+					continue; // 18번 처음 for 다음 cpu Index 진행
+				}
+				
+				// limγ>=γ라면 연산을 이어간다. -> limγ>γ
+				for(int mbIndex = γ; cpuIndex < limγ; cpuIndex++) {
+					/*--------------------------------------------------
+					 - 24-1. 24번백업데이터 기준으로 데이터복원처리
+					*--------------------------------------------------*/
+					partsCoolerHistoryVOList = new ArrayList<>();
+
+					for(int i = 0; i < partsCoolerHistoryVOListAlgorithm24Backup.size(); i++) {
+						partsCoolerHistoryVOList.add(partsCoolerHistoryVOListAlgorithm24Backup.get(i));
+					}
+					
+					/*--------------------------------------------------
+					 - 24-2. 현재 진행 mb Index의 가격 빼기
+					*--------------------------------------------------*/
+					VC = VC.subtract(new BigDecimal(partsMbHistoryVOList.get(mbIndex).getPartsPrice()));
+					
+					/*--------------------------------------------------
+					 - 25. VC=<Price인 모든 Cooler 제품을 소거한다.
+					*--------------------------------------------------*/
+					for(int i = partsCoolerHistoryVOList.size()-1; i >= 0; i--) {
+						BigDecimal coolerPrice = new BigDecimal(partsCoolerHistoryVOList.get(i).getPartsPrice());
+						int compareResult = VC.compareTo(coolerPrice);
+						if(compareResult < 0 || compareResult == 0) {
+							partsCoolerHistoryVOList.remove(i);
+						}
+					}
+					
+					/*--------------------------------------------------
+					 - 26. Thermal이 β번째 CPU+CTH*5>Cooler인 모든 Cooler제품을 소거한다.
+					*--------------------------------------------------*/
+					BigDecimal cpu_thermal = new BigDecimal(partsCpuHistoryVOList.get(cpuIndex).getThermal());
+					BigDecimal algorithm26TargetData = cpu_thermal.multiply(CTH).multiply(new BigDecimal("5"));
+					for(int i = partsCoolerHistoryVOList.size()-1; i >= 0; i--) {
+						BigDecimal Thermal = new BigDecimal(partsCoolerHistoryVOList.get(i).getThermal());
+						int compareResult = algorithm26TargetData.compareTo(Thermal);
+						if(compareResult > 0) {
+							partsCoolerHistoryVOList.remove(i);
+						}
+					}
+					
+					
+					// 27 시작해야함
+					
+				} // 24번 for 끝
+			} // 18번 for 끝
+			
+			
+			// CPU000056 가 선정되었다고 치고 로직 진행하래
+			
+			
+
+			
+			
 		} // 13번 for end
 		
 		
-//		MB Value = CPU Value*0.4*(1+AS(MBAS)*0.001*CAS+Port*0.001*CMT+BIOS*0.0001*CSFT)
+
 		
 		return estimateCalculationResultPrivateVO;
 		

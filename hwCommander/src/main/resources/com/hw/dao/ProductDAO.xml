@@ -273,6 +273,8 @@
 					    </if>
 					GROUP BY id 
 				)
+		/* 23.08.01 견적산출 알고리즘 11번에서 필요한 가격 정렬조건 추가 */  
+		ORDER BY a.parts_price ASC
 	</select>
 	
 	<select id="getMbHistoryAllListByTargetDate" resultType="partsMbHistoryVO" parameterType="String">
@@ -331,6 +333,8 @@
 					    </if>
 					GROUP BY id 
 				)
+		/* 23.08.01 견적산출 알고리즘 11번에서 필요한 가격 정렬조건 추가 */  
+		ORDER BY a.parts_price ASC
 	</select>
 	
 	<select id="getRamHistoryAllListByTargetDate" resultType="partsRamHistoryVO" parameterType="String">
@@ -382,6 +386,8 @@
 					    </if>
 					GROUP BY id 
 				)
+		/* 23.08.01 견적산출 알고리즘 11번에서 필요한 가격 정렬조건 추가 */  
+		ORDER BY a.parts_price ASC
 	</select>
 	
 	<select id="getPsuHistoryAllListByTargetDate" resultType="partsPsuHistoryVO" parameterType="String">
@@ -429,6 +435,8 @@
 					    </if>
 					GROUP BY id 
 				)
+		/* 23.08.01 견적산출 알고리즘 11번에서 필요한 가격 정렬조건 추가 */  
+		ORDER BY a.parts_price ASC
 	</select>
 	
 	<select id="getCaseHistoryAllListByTargetDate" resultType="partsCaseHistoryVO" parameterType="String">
@@ -487,6 +495,8 @@
 					    </if>
 					GROUP BY id 
 				)
+		/* 23.08.01 견적산출 알고리즘 11번에서 필요한 가격 정렬조건 추가 */  
+		ORDER BY a.parts_price ASC
 	</select>
 	
 	<select id="getCoolerHistoryAllListByTargetDate" resultType="partsCoolerHistoryVO" parameterType="String">
@@ -539,6 +549,8 @@
 					    </if>
 					GROUP BY id 
 				)
+		/* 23.08.01 견적산출 알고리즘 11번에서 필요한 가격 정렬조건 추가 */  
+		ORDER BY a.parts_price ASC
 	</select>
 	
 	<select id="getHddHistoryAllListByTargetDate" resultType="partsHddHistoryVO" parameterType="String">
@@ -629,6 +641,8 @@
 					    </if>
 					GROUP BY id 
 				)
+		/* 23.08.01 견적산출 알고리즘 11번에서 필요한 가격 정렬조건 추가 */  
+		ORDER BY a.parts_price ASC
 	</select>
 	
 	<select id="getSfHistoryAllListByTargetDate" resultType="partsSfHistoryVO" parameterType="String">

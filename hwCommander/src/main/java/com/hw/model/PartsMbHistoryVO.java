@@ -39,4 +39,8 @@ public class PartsMbHistoryVO {
 	private int multiBulk;
 	private int wifi;
 	private int mc;
+	
+	// EstimateCalculation Field
+	private int mbas;
+	private BigDecimal mbValue;
 }
