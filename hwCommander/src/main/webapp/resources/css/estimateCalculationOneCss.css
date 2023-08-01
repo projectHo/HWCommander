@@ -75,23 +75,6 @@
 	word-break: keep-all;
 }
 
-/* stick img style */
-.animated-img {
-  opacity: 0;
-  transform: translateX(100%);
-  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
-}
-
-.animated-img.show {
-  opacity: 1;
-  transform: translateX(0);
-}
-.calc-first-img {
-	padding-left: 104px;
-}
-.calc-second-img {
-	padding-left: 52px;
-}
 /* calc main style */
 
 .calcQuestion {
@@ -301,11 +284,11 @@ div.status-box{
   height: 200px;
 }
 
-.status-this{
+.status-this,.status-now{
   width: 20%!important;
   height: 100px!important;
 }
-.status-near{
+.status-near,.status-now-near{
   width: 16%!important;
   height: 80px!important;
 }
