@@ -22,7 +22,7 @@ public class PartsGpuVO {
 //	private String gpuasCdNm;
 	private String makerId;
 	private String makerNm;
-	private BigDecimal qc;
+	private int qc;
 	private int tdp;
 	private int bn;
 	private int il;
@@ -31,6 +31,8 @@ public class PartsGpuVO {
 	private String partsImage;
 	private String regDtm;
 	private String updtDtm;
-	private String multiBulk;
+	private int multiBulk;
 	private int gc;
+	
+	private int partsHistorySeq;
 }

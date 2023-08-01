@@ -27,7 +27,10 @@ public class PartsRamHistoryVO {
 	private int ddr5MaxRange;
 	private String partsImage;
 	private String regDtm;
-	private String multiBulk;
+	private int multiBulk;
 	private int volume;
 	private int sd;
+	
+	// EstimateCalculation Field
+	private BigDecimal ramValue;
 }

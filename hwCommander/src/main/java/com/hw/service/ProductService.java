@@ -2,6 +2,7 @@ package com.hw.service;
 
 import java.util.List;
 
+import com.hw.model.EstimateCalculationResultPrivateVO;
 import com.hw.model.ProductDetailVO;
 import com.hw.model.ProductMasterVO;
 
@@ -12,4 +13,5 @@ public interface ProductService {
 	public ProductMasterVO getProductMasterById(String id);
 	public List<ProductDetailVO> getProductDetailById(String id);
 	public Integer productUpdateLogic(ProductMasterVO productMasterVO, List<ProductDetailVO> productDetailVOList);
+	public EstimateCalculationResultPrivateVO estimateCalculation(String urlText);
 }

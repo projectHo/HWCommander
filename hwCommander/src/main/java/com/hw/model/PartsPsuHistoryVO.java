@@ -26,5 +26,9 @@ public class PartsPsuHistoryVO {
 	private int twelvePin;
 	private String partsImage;
 	private String regDtm;
-	private String multiBulk;
+	private int multiBulk;
+	
+	// EstimateCalculation Field
+	private int psuas;
+	private BigDecimal psuValue;
 }

@@ -23,5 +23,5 @@ public class PartsSfHistoryVO {
 	private int ft;
 	private String partsImage;
 	private String regDtm;
-	private String multiBulk;
+	private int multiBulk;
 }

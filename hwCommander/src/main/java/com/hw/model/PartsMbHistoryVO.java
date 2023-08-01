@@ -36,7 +36,11 @@ public class PartsMbHistoryVO {
 	private int sata;
 	private String partsImage;
 	private String regDtm;
-	private String multiBulk;
+	private int multiBulk;
 	private int wifi;
 	private int mc;
+	
+	// EstimateCalculation Field
+	private int mbas;
+	private BigDecimal mbValue;
 }

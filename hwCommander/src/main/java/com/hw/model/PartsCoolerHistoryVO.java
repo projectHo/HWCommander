@@ -30,5 +30,8 @@ public class PartsCoolerHistoryVO {
 	private int it;
 	private String partsImage;
 	private String regDtm;
-	private String multiBulk;
+	private int multiBulk;
+	
+	// EstimateCalculation Field
+	private BigDecimal coolerValue;
 }

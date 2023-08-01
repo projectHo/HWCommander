@@ -23,6 +23,8 @@ public class PartsCpuVO {
 	private String partsImage;
 	private String regDtm;
 	private String updtDtm;
-	private String multiBulk;
+	private int multiBulk;
 	private String apu;
+	
+	private int partsHistorySeq;
 }

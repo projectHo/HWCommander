@@ -23,7 +23,7 @@ public class PartsGpuHistoryVO {
 //	private String gpuasCdNm;
 	private String makerId;
 	private String makerNm;
-	private BigDecimal qc;
+	private int qc;
 	private int tdp;
 	private int bn;
 	private int il;
@@ -31,6 +31,11 @@ public class PartsGpuHistoryVO {
 	private int twelvePin;
 	private String partsImage;
 	private String regDtm;
-	private String multiBulk;
-	private int gc;
+	private int multiBulk;
+	private int gc; // DB 실 저장 값인 GC
+	
+	// EstimateCalculation Field
+	private int gpuas;
+	private BigDecimal gpuValue;
+	private BigDecimal mappingPrAndGcResourceScore; // 로직에서 사용 될 GC
 }

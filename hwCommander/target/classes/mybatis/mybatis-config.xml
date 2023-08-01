@@ -5,9 +5,12 @@
  
 <configuration>
 	<typeAliases>
-	
 		<typeAlias alias="comnCdDetailVO" type="com.hw.model.ComnCdDetailVO"></typeAlias>
 		
+		<!-- 견적산출 결과전용 DB -->
+		<!-- 
+		<typeAlias alias="estimateCalculationResultPrivateVO" type="com.hw.model.EstimateCalculationResultPrivateVO"></typeAlias>
+		 -->
 		<!-- 주문 -->
 		<typeAlias alias="orderDetailVO" type="com.hw.model.OrderDetailVO"></typeAlias>
 		<typeAlias alias="orderMasterHistoryVO" type="com.hw.model.OrderMasterHistoryVO"></typeAlias>

@@ -235,7 +235,7 @@ function validationCheck() {
                                 <p class="mb-3">ex) Resource Mapping Value = 5600</p>
                                 
                                 <p class="mb-0">Process Variable Check가 "RAM(Volume)"인 경우 정수(volume)로 입력해야 합니다.</p>
-                                <p class="mb-0">ex) Resource Mapping Value = ??</p>
+                                <p class="mb-0">ex) Resource Mapping Value = 16</p>
                             </div>
                         </div>
                         <div class="card mb-4">

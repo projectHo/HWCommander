@@ -33,6 +33,12 @@
     });
     
 function goGpuRegist() {
+	
+	// 23.07.30 gc validation check 추가
+	if($('#gc').val() == "" || $('#gc').val() == null) {
+		$('#gc').val(0);
+	}
+	
     var form = $("#gpu_regist_form").serialize();
     
     $.ajax({

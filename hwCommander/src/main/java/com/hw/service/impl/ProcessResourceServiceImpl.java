@@ -180,4 +180,14 @@ public class ProcessResourceServiceImpl implements ProcessResourceService {
 	public Integer resourceMappingValueDupliChk(ProcessResourceDetailVO processResourceDetailVO) {
 		return processResourceDAO.resourceMappingValueDupliChk(processResourceDetailVO);
 	}
+	
+	@Override
+	public List<ProcessResourceDetailVO> qudtlsTlqkf(String id) {
+		ProcessResourceDetailVO searchVO = new ProcessResourceDetailVO();
+		
+		searchVO.setId(id);
+		searchVO.setSeq(0);
+		
+		return processResourceDAO.getProcessResourceDetailAllList(searchVO);
+	}
 }

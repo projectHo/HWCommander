@@ -21,6 +21,6 @@ public class PartsHddHistoryVO {
 	private int sata;
 	private String partsImage;
 	private String regDtm;
-	private String multiBulk;
+	private int multiBulk;
 	private int volume;
 }
