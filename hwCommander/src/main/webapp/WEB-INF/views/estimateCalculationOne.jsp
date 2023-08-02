@@ -28,22 +28,22 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 				// 견적산출 데이터처리부(송신)
 				sessionStorage.setItem("data-1",$("#can-pay-val").val());
 				$(".next-btn").addClass('is-valid');
-				window.location.href = "estimateCalculationTwo.do";
+				location.href = "estimateCalculationTwo.do";
 			}
 		}
 
-		function viewBtn() {
-			$(".calc-one-final").next().css("display","block");
-			$(".calc-one-final").addClass("is-invalid");
+		function viewBtn(el) {
+			$(el).next().css("display","block");
+			$(el).addClass("is-invalid");
 			setTimeout(() => {
-				$(".calc-one-final").next().css("display","none");
-				$(".calc-one-final").removeClass("is-invalid");
+				$(el).next().css("display","none");
+				$(el).removeClass("is-invalid");
 			}, 3000);
 		}
 
 		function priceCheck(){
 			if($(".first-q-input").val() < 0){
-				alert("1만원 이상으로 입력해주세요~");
+				alert("0원 이상으로 입력해주세요~");
 				$(".first-q-input").val("");
 			}else if($(".first-q-input").val() > 500){
 				alert("500만원 이하로 입력해주세요!");
@@ -112,6 +112,7 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 			
 			typeText();
 
+			$(".donut-fill").css("left","calc(50% - 12px)");
 		});
 
 		
@@ -131,7 +132,7 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 
         <!-- 작업영역 -->
      
- 		<div class="estimateCalc_background p-2" style="width: 70% !important">
+ 		<div class="estimateCalc_background p-5" style="width: 70% !important">
  			<div class="w-75 container">
 		 		<div class="row mt-2 pb-4">
 		 			<div class="col-2 text-center">
@@ -140,7 +141,7 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 	                  </div>
 		 			</div>
 		 			<div class="col-8 d-flex p-2">
-		 				<input id="typingInput" class="form-control text-center" type="text" readonly aria-label="본체 예상 한도" disabled />
+		 				<input id="typingInput" class="form-control text-center pt-3 fs-5" type="text" readonly aria-label="본체 예상 한도" disabled />
 		 			</div>
 		 			<div class="col-2 d-flex flex-column-reverse">
 		 				<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="0원으로 입력시 요구사항의 최소 견적으로 자동 산출됩니다." style="cursor:pointer">
@@ -149,19 +150,19 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 			 		<div class="row pb-2">
 			 			<div class="col">
 			 				<div class="input-group has-validation text-end d-flex flex-end justify-content-center margin-center mb-5 w-50 calc-input-element">
-							  <input type="number" class="form-control input-field text-end w-50 first-q-input" min="0" max="500" placeholder="ex) 300" id="can-pay-val" aria-describedby="inputGroupPrepend" required oninput="javascript:priceCheck()"/>
-							  <span class="input-group-text" id="inputGroupPrepend">만원</span>
+							  <input type="number" class="form-control input-field text-end w-50 first-q-input fs-5 pt-2" min="0" max="500" placeholder="ex) 300" id="can-pay-val" aria-describedby="inputGroupPrepend" required oninput="javascript:priceCheck()"/>
+							  <span class="input-group-text fs-5 pt-2" id="inputGroupPrepend">만원</span>
 							</div>
 			 			</div>
 			 		</div>
 			 		<div class="row pb-2">
 	 			 		<div class="col"></div>
 			 			<div class="col">
-			 				<button type="button" class="form-control calc-one-final margin-center" onclick="javascript:viewBtn()">견적 보기</button>
-	                		<div class="fs-5 calc-one-final-text text-center" style="display: none; font-weight: bold; color: red;">2페이지 까지는 필수 질문입니다!</div>
+			 				<button type="button" class="form-control margin-center" onclick="javascript:viewBtn(this)"><p class="pt-2 m-0">견적 보기</p></button>
+	                		<div class="fs-5 text-center" style="display: none; font-weight: bold; color: red;">2페이지 까지는 필수 질문입니다!</div>
 			 			</div>
 			 			<div class="col">
-			 				<button type="button" class="form-control margin-center w-50 next-btn" onclick="javascript:nextBtn()">다음 질문</button>
+			 				<button type="button" class="form-control margin-center w-50 next-btn" onclick="javascript:nextBtn()"><p class="pt-2 m-0">다음 질문</p></button>
 			 			</div>
 			 		</div>
 		 	</div>
