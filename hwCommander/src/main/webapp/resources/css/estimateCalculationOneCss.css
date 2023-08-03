@@ -32,7 +32,7 @@
 .submit-btn {
   height: 20% !important;
 }
-button p {
+button .pt-2, label .pt-2, span .pt-2 {
   height: 100%;
 }
 /* donut style */
@@ -109,8 +109,6 @@ input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
-/* calc one style */
-
 
 /* calculation Two style */
 .bgc-disabled{
