@@ -27,8 +27,8 @@ var firstForm = null;
     	$("#processTypeExclusiveCd").attr("disabled", true);
     	$("#processName").attr("disabled", true);
     	
-    	$('#variableChk').attr("disabled", true);
-    	$('#resourceMappingValue').attr("disabled", true);
+    	$('#viewVariableChk').attr("disabled", true);
+    	$('#viewResourceMappingValue').attr("disabled", true);
     	
     	dataSetting();
     	
@@ -49,13 +49,15 @@ function dataSetting() {
 	$("#processName").val("${selectDataMaster.processName}");
 	$("#viewId").val("${selectDataMaster.id}");
 	
-	$("#variableChk").val("${selectDataDetail.variableChk}");
+	$("#viewVariableChk").val("${selectDataDetail.variableChk}");
 	$("#resourceName").val("${selectDataDetail.resourceName}");
-	$("#resourceMappingValue").val("${selectDataDetail.resourceMappingValue}");
+	$("#viewResourceMappingValue").val("${selectDataDetail.resourceMappingValue}");
 	$("#resourceScore").val("${selectDataDetail.resourceScore}");
 
 	$("#id").val("${selectDataMaster.id}");
 	$("#seq").val("${selectDataDetail.seq}");
+	$("#variableChk").val("${selectDataDetail.variableChk}");
+	$("#resourceMappingValue").val("${selectDataDetail.resourceMappingValue}");
 	
 	firstForm = $("#detail_update_form").serialize();
 }
@@ -203,6 +205,9 @@ function validationCheck() {
                                <form id="detail_update_form">
                                    <input type="hidden" id="id" name="id">
                                    <input type="hidden" id="seq" name="seq">
+                                   <input type="hidden" id="variableChk" name="variableChk">
+                                   <input type="hidden" id="resourceMappingValue" name="resourceMappingValue">
+                                   
                                    <div class="row mb-3">
                                        <div class="col-md-3">
                                            <div class="form-floating mb-3 mb-md-0">
@@ -242,7 +247,7 @@ function validationCheck() {
                                    <div class="row mb-3">
                                        <div class="col-md-3">
                                            <div class="form-floating">
-												<select class="form-select pt-4" id="variableChk" name="variableChk">
+												<select class="form-select pt-4" id="viewVariableChk" name="viewVariableChk">
 												  <option value="00" selected>-선택-</option>
 												  <option value="F">고정</option>
 												  <option value="C">CPU</option>
@@ -261,8 +266,8 @@ function validationCheck() {
                                        </div>
                                        <div class="col-md-3">
                                            <div class="form-floating mb-3 mb-md-0">
-                                               <input class="form-control" id="resourceMappingValue" name="resourceMappingValue" type="text" placeholder="Enter resourceMappingValue" />
-                                               <label for="resourceMappingValue">Resource Mapping Value</label>
+                                               <input class="form-control" id="viewResourceMappingValue" name="viewResourceMappingValue" type="text" placeholder="Enter resourceMappingValue" />
+                                               <label for="viewResourceMappingValue">Resource Mapping Value</label>
                                            </div>
                                        </div>
                                        <div class="col-md-3">
