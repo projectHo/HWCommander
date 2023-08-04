@@ -182,30 +182,64 @@
 		window.location.href = "estimateCalculationTwo.do";
 	}
 	function clickEstimateBtn(el){
-		let value = [];
-		$(el).addClass("is-valid");
-		setTimeout(()=>{
-			$(el).removeClass("is-valid");
-		}, 3000);
-		for(let i = 0 ; i<$(".hex-input").length; i++){
-			let storageValue = [$(".hex-input")[i].value];
-			value.push(storageValue);
+		if($("#hex-val-01").val() === "1.00" && $("#hex-val-02").val() === "1.00" && $("#hex-val-03").val() === "1.00" && $("#hex-val-04").val() === "1.00" && $("#hex-val-05").val() === "1.00" && $("#hex-val-06").val() === "1.00"){
+			if(confirm("변동사항이 없습니다! 평균값으로 진행할까요?")){
+				let value = [];
+				$(el).addClass("is-valid");
+				setTimeout(()=>{
+					$(el).removeClass("is-valid");
+				}, 3000);
+				for(let i = 0 ; i<$(".hex-input").length; i++){
+					let storageValue = [$(".hex-input")[i].value];
+					value.push(storageValue);
+				}
+				sessionStorage.setItem("data-3",JSON.stringify(value))
+				sendAllData();
+			}
+		}else{
+			let value = [];
+			$(el).addClass("is-valid");
+			setTimeout(()=>{
+				$(el).removeClass("is-valid");
+			}, 3000);
+			for(let i = 0 ; i<$(".hex-input").length; i++){
+				let storageValue = [$(".hex-input")[i].value];
+				value.push(storageValue);
+			}
+			sessionStorage.setItem("data-3",JSON.stringify(value))
+			sendAllData();
 		}
-		sessionStorage.setItem("data-3",JSON.stringify(value))
-		sendAllData();
 	}
 	function clickNextBtn(el){
-		let value = [];
-		$(el).addClass("is-valid");
-		setTimeout(()=>{
-			$(el).removeClass("is-valid");
-		}, 3000);
-		for(let i = 0 ; i<$(".hex-input").length; i++){
-			let storageValue = [$(".hex-input")[i].value];
-			value.push(storageValue);
+		if($("#hex-val-01").val() === "1.00" && $("#hex-val-02").val() === "1.00" && $("#hex-val-03").val() === "1.00" && $("#hex-val-04").val() === "1.00" && $("#hex-val-05").val() === "1.00" && $("#hex-val-06").val() === "1.00"){
+			if(confirm("변동사항이 없습니다! 평균값으로 진행할까요?")){
+				let value = [];
+				$(el).addClass("is-valid");
+				setTimeout(()=>{
+					$(el).removeClass("is-valid");
+				}, 3000);
+				for(let i = 0 ; i<$(".hex-input").length; i++){
+					let storageValue = [$(".hex-input")[i].value];
+					value.push(storageValue);
+				}
+				sessionStorage.setItem("data-3",JSON.stringify(value))
+				window.location.href = "estimateCalculationFour.do";
+			}
+		}else {
+			let value = [];
+			$(el).addClass("is-valid");
+			setTimeout(()=>{
+				$(el).removeClass("is-valid");
+			}, 3000);
+			for(let i = 0 ; i<$(".hex-input").length; i++){
+				let storageValue = [$(".hex-input")[i].value];
+				value.push(storageValue);
+			}
+			sessionStorage.setItem("data-3",JSON.stringify(value))
+			window.location.href = "estimateCalculationFour.do";
 		}
-		sessionStorage.setItem("data-3",JSON.stringify(value))
-		window.location.href = "estimateCalculationFour.do";
+
+		
 	}
 	// donut
 	let progress = 0;
@@ -552,7 +586,7 @@
 										<div class="col-6">
 											<label for="hexFever" class="form-label w-100">
 												<div class="input-group input-group-lg">
-													<span class="input-group-text w-50 justify-content-center" id="hex-form-01" onmouseenter="javascript:mouseEnter(this)"><p class="pt-2 m-0">발열</p></span>
+													<span class="input-group-text w-50 justify-content-center" id="hex-form-01"><p class="pt-2 m-0" onmouseenter="javascript:mouseEnter(this)">발열</p></span>
 													<input type="number" class="form-control text-center hex-input pt-3" aria-label="발열" aria-describedby="hex-form-01" id="hex-val-01" min="0.00" max="2.00" value="1.00" oninput="javascript:hexagonType()">
 												</div>
 											</label>
@@ -560,7 +594,7 @@
 										<div class="col-6">
 											<label for="hexMaterial" class="form-label w-100">
 												<div class="input-group input-group-lg">
-													<span class="input-group-text w-50 justify-content-center" id="hex-form-02" onmouseenter="javascript:mouseEnter(this)"><p class="pt-2 m-0">소재</p></span>
+													<span class="input-group-text w-50 justify-content-center" id="hex-form-02"><p class="pt-2 m-0" onmouseenter="javascript:mouseEnter(this)">소재</p></span>
 													<input type="number" class="form-control text-center hex-input pt-3" aria-label="소재" aria-describedby="hex-form-02" id="hex-val-02" min="0.00" max="2.00" value="1.00" oninput="javascript:hexagonType()">
 												</div>
 											</label>
@@ -570,7 +604,7 @@
 										<div class="col-6">
 											<label for="hexAs" class="form-label w-100">
 												<div class="input-group input-group-lg">
-													<span class="input-group-text w-50 justify-content-center" id="hex-form-03" onmouseenter="javascript:mouseEnter(this)"><p class="pt-2 m-0">AS</p></span>
+													<span class="input-group-text w-50 justify-content-center" id="hex-form-03"><p class="pt-2 m-0" onmouseenter="javascript:mouseEnter(this)">AS</p></span>
 													<input type="number" class="form-control text-center hex-input pt-3" aria-label="AS" aria-describedby="hex-form-03" id="hex-val-03" min="0.00" max="2.00" value="1.00" oninput="javascript:hexagonType()">
 												</div>
 											</label>
@@ -578,7 +612,7 @@
 										<div class="col-6">
 											<label for="hexNoise" class="form-label w-100">
 												<div class="input-group input-group-lg">
-													<span class="input-group-text w-50 justify-content-center" id="hex-form-04" onmouseenter="javascript:mouseEnter(this)"><p class="pt-2 m-0">소음</p></span>
+													<span class="input-group-text w-50 justify-content-center" id="hex-form-04"><p class="pt-2 m-0" onmouseenter="javascript:mouseEnter(this)">소음</p></span>
 													<input type="number" class="form-control text-center hex-input pt-3" aria-label="소음" aria-describedby="hex-form-04" id="hex-val-04" min="0.00" max="2.00" value="1.00" oninput="javascript:hexagonType()">
 												</div>
 											</label>
@@ -588,7 +622,7 @@
 										<div class="col-6">
 											<label for="hexStability" class="form-label w-100">
 												<div class="input-group input-group-lg">
-													<span class="input-group-text w-50 justify-content-center" id="hex-form-05" onmouseenter="javascript:mouseEnter(this)"><p class="pt-2 m-0">안정성</p></span>
+													<span class="input-group-text w-50 justify-content-center" id="hex-form-05"><p class="pt-2 m-0" onmouseenter="javascript:mouseEnter(this)">안정성</p></span>
 													<input type="number" class="form-control text-center hex-input pt-3" aria-label="안정성" aria-describedby="hex-form-05" id="hex-val-05" min="0.00" max="2.00" value="1.00" oninput="javascript:hexagonType()">
 												</div>
 											</label>
@@ -596,7 +630,7 @@
 										<div class="col-6">
 											<label for="hexQc" class="form-label w-100">
 												<div class="input-group input-group-lg">
-													<span class="input-group-text w-50 justify-content-center" id="hex-form-06" onmouseenter="javascript:mouseEnter(this)"><p class="pt-2 m-0">QC</p></span>
+													<span class="input-group-text w-50 justify-content-center" id="hex-form-06"><p class="pt-2 m-0" onmouseenter="javascript:mouseEnter(this)">QC</p></span>
 													<input type="number" class="form-control text-center hex-input pt-3" aria-label="QC" aria-describedby="hex-form-06" id="hex-val-06" min="0.00" max="2.00" value="1.00" oninput="javascript:hexagonType()">
 												</div>
 											</label>

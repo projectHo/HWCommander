@@ -247,6 +247,13 @@
 			setTimeout(() => {
 				$(el).removeClass("is-invalid");
 			}, 2000);
+		}else if($(".count-container").css("display") === "flex" && $(".count-hdd").val() === ""){
+			alert("개수를 입력해주세요!");
+			$(el).addClass("is-invalid");
+			setTimeout(() => {
+				$(el).removeClass("is-invalid");
+			}, 2000);
+			$(".count-hdd").focus();
 		}else {
 			$(el).addClass("is-valid");
 			setTimeout(() => {
@@ -262,6 +269,13 @@
 			setTimeout(() => {
 				$(el).removeClass("is-invalid");
 			}, 2000);
+		}else if($(".count-container").css("display") === "flex" && $(".count-hdd").val() === ""){
+			alert("개수를 입력해주세요!");
+			$(el).addClass("is-invalid");
+			setTimeout(() => {
+				$(el).removeClass("is-invalid");
+			}, 2000);
+			$(".count-hdd").focus();
 		}else {
 			$(el).addClass("is-valid");
 			setTimeout(() => {

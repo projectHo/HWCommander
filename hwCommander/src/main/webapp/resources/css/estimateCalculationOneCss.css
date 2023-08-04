@@ -282,7 +282,7 @@ div.status-progress:first-child,div.status-progress:last-child{
   width: 8%;
 }
 div.status-box{
-  width: 12%;
+  width: 16%;
   height: 60px;
   background-color: #5CACEE;border-radius: 12px;
   box-shadow: 2px 2px 2px 2px gray;
@@ -303,10 +303,10 @@ div.status-box{
 }
 
 .status-this,.status-now{
-  width: 20%!important;
-  height: 100px!important;
+  width: 18%!important;
+  height: 112px!important;
 }
 .status-near,.status-now-near{
-  width: 16%!important;
+  width: 14%!important;
   height: 80px!important;
 }
