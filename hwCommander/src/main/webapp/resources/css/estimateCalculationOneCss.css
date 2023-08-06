@@ -32,7 +32,9 @@
 .submit-btn {
   height: 20% !important;
 }
-
+button .pt-2, label .pt-2, span .pt-2 {
+  height: 100%;
+}
 /* donut style */
 .donut-container {
   width: 80px;
@@ -46,7 +48,7 @@
 .donut-fill {
   position: absolute;
   left: calc(50% - 10px);
-  top: calc(50% - 30px);
+  top: calc(50% - 22px);
   font-size: 36px;
   color: #fff;
 }
@@ -75,6 +77,23 @@
 	word-break: keep-all;
 }
 
+/* stick img style */
+.animated-img {
+  opacity: 0;
+  transform: translateX(100%);
+  transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+.animated-img.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+.calc-first-img {
+	padding-left: 104px;
+}
+.calc-second-img {
+	padding-left: 52px;
+}
 /* calc main style */
 
 .calcQuestion {
@@ -90,7 +109,6 @@ input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
-
 
 /* calculation Two style */
 .bgc-disabled{
@@ -264,7 +282,7 @@ div.status-progress:first-child,div.status-progress:last-child{
   width: 8%;
 }
 div.status-box{
-  width: 12%;
+  width: 16%;
   height: 60px;
   background-color: #5CACEE;border-radius: 12px;
   box-shadow: 2px 2px 2px 2px gray;
@@ -285,10 +303,10 @@ div.status-box{
 }
 
 .status-this,.status-now{
-  width: 20%!important;
-  height: 100px!important;
+  width: 18%!important;
+  height: 112px!important;
 }
 .status-near,.status-now-near{
-  width: 16%!important;
+  width: 14%!important;
   height: 80px!important;
 }

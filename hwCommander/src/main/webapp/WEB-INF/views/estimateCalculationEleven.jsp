@@ -248,7 +248,7 @@
 	$(function () {
 		// donut
 		animateDonutGauge();
-		$(".donut-fill").css("left","calc(50% - 20px)");
+		$(".donut-fill").css("left","calc(50% - 22px)");
 		// typing question text
 		let index = 0;
 		function typeText() {
@@ -300,7 +300,7 @@
 							</div>
 						</div>
 						<div class="col-8 d-flex p-2">
-							<input id="typingInput" class="form-control text-center" type="text" readonly aria-label="예산 편성" disabled />
+							<input id="typingInput" class="form-control text-center pt-2 fs-5" type="text" readonly aria-label="예산 편성" disabled />
 						</div>
 					    <div class="col-2 d-flex flex-column-reverse">
 							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="저장장치의 용량을 골라주세요!" style="cursor:pointer">
@@ -309,34 +309,34 @@
 					<div class="row pb-5">
 						<div class="col d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-a">
-							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickAnswerBtn(this)">예산에 맞게</label>
+							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">예산에 맞게</p></label>
 						</div>
 						<div class="col d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-b">
-							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickAnswerBtn(this)">256GB</label>
+							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">256GB</p></label>
 						</div>
 						<div class="col d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-c">
-							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickAnswerBtn(this)">512GB</label>
+							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">512GB</p></label>
 						</div>
 						<div class="col d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-d">
-							<label class="btn btn-outline-secondary w-75" for="answer-d" onclick="javascript:clickAnswerBtn(this)">1024GB(1TB)</label>
+							<label class="btn btn-outline-secondary w-75" for="answer-d" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">1024GB(1TB)</p></label>
 						</div>
 						<div class="col d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-e">
-							<label class="btn btn-outline-secondary w-75" for="answer-e" onclick="javascript:clickAnswerBtn(this)">2048GB(2TB)</label>
+							<label class="btn btn-outline-secondary w-75" for="answer-e" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">2048GB(2TB)</p></label>
 						</div>
 					</div>
 					<div class="row mb-4">
 						<div class="col-4">
-							<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:clickReturnBtn()">이전 질문</button>
+							<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:clickReturnBtn()"><p class="pt-2 m-0">이전 질문</p></button>
 						</div>
 						<div class="col-4">
-							<button type="button" class="form-control margin-center" onclick="javascript:clickEstimateBtn(this)">견적 보기</button>
+							<button type="button" class="form-control margin-center" onclick="javascript:clickEstimateBtn(this)"><p class="pt-2 m-0">견적 보기</p></button>
 						</div>
 						<div class="col-4">
-							<button type="button" class="form-control margin-left-auto w-50" onclick="javascript:clickNextBtn(this)">다음 질문</button>
+							<button type="button" class="form-control margin-left-auto w-50" onclick="javascript:clickNextBtn(this)"><p class="pt-2 m-0">다음 질문</p></button>
 						</div>
 					</div>
 			 	</div>

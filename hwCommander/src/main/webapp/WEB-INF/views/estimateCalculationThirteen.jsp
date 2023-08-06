@@ -247,6 +247,13 @@
 			setTimeout(() => {
 				$(el).removeClass("is-invalid");
 			}, 2000);
+		}else if($(".count-container").css("display") === "flex" && $(".count-hdd").val() === ""){
+			alert("개수를 입력해주세요!");
+			$(el).addClass("is-invalid");
+			setTimeout(() => {
+				$(el).removeClass("is-invalid");
+			}, 2000);
+			$(".count-hdd").focus();
 		}else {
 			$(el).addClass("is-valid");
 			setTimeout(() => {
@@ -262,6 +269,13 @@
 			setTimeout(() => {
 				$(el).removeClass("is-invalid");
 			}, 2000);
+		}else if($(".count-container").css("display") === "flex" && $(".count-hdd").val() === ""){
+			alert("개수를 입력해주세요!");
+			$(el).addClass("is-invalid");
+			setTimeout(() => {
+				$(el).removeClass("is-invalid");
+			}, 2000);
+			$(".count-hdd").focus();
 		}else {
 			$(el).addClass("is-valid");
 			setTimeout(() => {
@@ -301,7 +315,7 @@
 	}
 	$(function(){
 		// donut
-		$(".donut-fill").css("left","calc(50% - 20px)");
+		$(".donut-fill").css("left","calc(50% - 22px)");
 		animateDonutGauge();
 		// typing question text
 		let index = 0;
@@ -363,7 +377,7 @@
 							</div>
 						</div>
 						<div class="col-8 d-flex p-2">
-							<input id="typingInput" class="form-control text-center" type="text" readonly aria-label="예산 편성" disabled />
+							<input id="typingInput" class="form-control text-center pt-2 fs-5" type="text" readonly aria-label="예산 편성" disabled />
 						</div>
 					    <div class="col-2 d-flex flex-column-reverse">
 							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="추가 저장장치를 골라주세요!" style="cursor:pointer">
@@ -372,29 +386,29 @@
 					<div class="row pb-5">
 						<div class="col d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-a">
-							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickAnswerBtn(this)">1024GB(1TB)</label>
+							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">1024GB(1TB)</p></label>
 						</div>
 						<div class="col d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-b">
-							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickAnswerBtn(this)">2048GB(2TB)</label>
+							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">2048GB(2TB)</p></label>
 						</div>
 						<div class="col d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-c">
-							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickAnswerBtn(this)">4096GB(4TB)</label>
+							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">4096GB(4TB)</p></label>
 						</div>
 					</div>
 					<div class="row pb-5">
 						<div class="col d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-d">
-							<label class="btn btn-outline-secondary w-75" for="answer-d" onclick="javascript:clickAnswerBtn(this)">6144GB(6TB)</label>
+							<label class="btn btn-outline-secondary w-75" for="answer-d" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">6144GB(6TB)</p></label>
 						</div>
 						<div class="col d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-e">
-							<label class="btn btn-outline-secondary w-75" for="answer-e" onclick="javascript:clickAnswerBtn(this)">8192GB(8TB)</label>
+							<label class="btn btn-outline-secondary w-75" for="answer-e" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">8192GB(8TB)</p></label>
 						</div>
 						<div class="col d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-f">
-							<label class="btn btn-outline-secondary w-75" for="answer-f" onclick="javascript:clickAnswerBtn(this)">필요없음</label>
+							<label class="btn btn-outline-secondary w-75" for="answer-f" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">필요없음</p></label>
 						</div>
 					</div>
 					<div class="row pb-5 w-25 mx-auto count-container" style="display: none;">
@@ -405,13 +419,13 @@
 					</div>
 					<div class="row mb-4">
 						<div class="col-4">
-							<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:clickReturnBtn()">이전 질문</button>
+							<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:clickReturnBtn()"><p class="pt-2 m-0">이전 질문</p></button>
 						</div>
 						<div class="col-4">
-							<button type="button" class="form-control margin-center" onclick="javascript:clickEstimateBtn(this)">견적 보기</button>
+							<button type="button" class="form-control margin-center" onclick="javascript:clickEstimateBtn(this)"><p class="pt-2 m-0">견적 보기</p></button>
 						</div>
 						<div class="col-4">
-							<button type="button" class="form-control margin-left-auto w-50" onclick="javascript:clickNextBtn(this)">다음 질문</button>
+							<button type="button" class="form-control margin-left-auto w-50" onclick="javascript:clickNextBtn(this)"><p class="pt-2 m-0">다음 질문</p></button>
 						</div>
 					</div>
 			 	</div>

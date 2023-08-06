@@ -94,7 +94,12 @@
 		now.addClass("status-now").addClass("fs-5");
 		nowNear.addClass("status-now-near");
 	}
-	
+	function clickBoxOne(){
+		location.href = "/termsOfService.do"
+	}
+	function clickBoxTwo(){
+		location.href = "userReceipt.do?id=" + masterInfoObject.id;
+	}
 </script>
 </head>
 <body>
@@ -117,13 +122,13 @@
 					<div class="progress status-progress">
 						<div class="progress-bar status-progress-bar bg-info" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 					</div>
-					<div class="box text-center status-box d-flex align-items-center justify-content-center status-font-size" id="box-1" onmouseenter="javascript:mouseInBox(this)" onmouseleave="javascript:mouseOutBox(this)" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="청약철회 및 소프트웨어 조항에 동의하셨습니다.(약관 재확인 바로가기)">
+					<div class="box text-center status-box d-flex align-items-center justify-content-center status-font-size" id="box-1" onmouseenter="javascript:mouseInBox(this)" onmouseleave="javascript:mouseOutBox(this)" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="청약철회 및 소프트웨어 조항에 동의하셨습니다.(약관 재확인 바로가기)" onclick="javascript:clickBoxOne()">
 						<span class="fw-bold text-white">청약철회 및<br>소프트웨어<br>조항 동의 완료</span>
 					</div>
 					<div class="progress status-progress">
 						<div class="progress-bar status-progress-bar bg-success" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 					</div>
-					<div class="box text-center status-box d-flex align-items-center justify-content-center" id="box-2" onmouseenter="javascript:mouseInBox(this)" onmouseleave="javascript:mouseOutBox(this)" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="결제완료(영수증 바로가기)">
+					<div class="box text-center status-box d-flex align-items-center justify-content-center" id="box-2" onmouseenter="javascript:mouseInBox(this)" onmouseleave="javascript:mouseOutBox(this)" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="결제완료(영수증 바로가기)" onclick="javascript:clickBoxTwo()">
 						<span class="fw-bold text-white">결제 완료</span>
 					</div>
 					<div class="progress status-progress">
