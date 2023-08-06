@@ -14,19 +14,28 @@ import com.hw.dao.ProductDAO;
 import com.hw.model.EstimateCalculationResultPrivateDetailVO;
 import com.hw.model.EstimateCalculationResultPrivateMasterVO;
 import com.hw.model.PartsCaseHistoryVO;
+import com.hw.model.PartsCaseVO;
 import com.hw.model.PartsCoolerHistoryVO;
+import com.hw.model.PartsCoolerVO;
 import com.hw.model.PartsCpuHistoryVO;
+import com.hw.model.PartsCpuVO;
 import com.hw.model.PartsGpuHistoryVO;
+import com.hw.model.PartsGpuVO;
 import com.hw.model.PartsHddHistoryVO;
 import com.hw.model.PartsMakerHistoryVO;
 import com.hw.model.PartsMbHistoryVO;
+import com.hw.model.PartsMbVO;
 import com.hw.model.PartsPsuHistoryVO;
+import com.hw.model.PartsPsuVO;
 import com.hw.model.PartsRamHistoryVO;
+import com.hw.model.PartsRamVO;
 import com.hw.model.PartsSfHistoryVO;
 import com.hw.model.PartsSsdHistoryVO;
+import com.hw.model.PartsSsdVO;
 import com.hw.model.ProcessResourceDetailHistoryVO;
 import com.hw.model.ProductDetailVO;
 import com.hw.model.ProductMasterVO;
+import com.hw.service.PartsService;
 import com.hw.service.ProductService;
 
 @Service
@@ -37,6 +46,9 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Autowired
     private ProcessResourceDAO processResourceDAO;
+	
+	@Autowired
+    private PartsService partsService;
 	
 	@Override
 	public Integer productRegistLogic(ProductMasterVO productMasterVO, List<ProductDetailVO> productDetailVOList) {
@@ -110,15 +122,17 @@ public class ProductServiceImpl implements ProductService {
 		EstimateCalculationResultPrivateMasterVO estimateCalculationResultPrivateMasterVO = new EstimateCalculationResultPrivateMasterVO();
 		estimateCalculationResultPrivateMasterVO.setErrChk(false); // 기본값 err false
 		
+		BigDecimal loopCnt = BigDecimal.ZERO;
+		
 		//임시로 적용(복수선택에서 무조건 복수)
-//		urlText = "answer1<Price,3000000>|answer2<PR000001,60:PR000004,30:PR000008,10>|answer3<Fever,1.111:Meterial,1.222:AS,1.333:Noise,1.444:Stability,1.555:QC,1.666>|answer4<Wireless,0>|answer5<CPU,1>|answer6<GPU,1>|answer7<Aio,2>|answer8<main-color,:sub-color,>|answer9<RAM,1>|answer10<Bulk,2>|answer11<Ssd,3>|answer12<Metarial,[\"1\",\"4\",\"3\"]>|answer13<HDD,4:3>|answer14<Window,2>|answer15<Fan,1>|answer16<LED,[\"0\",\"2\"]>|answer17<null,null>|answer18<null,null>|answer19<null,null>|answer20<null,null>|etc<userId,root> |etc<targetDate,null>";
+//		urlText = "answer1<Price,3000000>|answer2<PR000003,60:PR000002,30:PR000001,10>|answer3<Fever,1.111:Meterial,1.222:AS,1.333:Noise,1.444:Stability,1.555:QC,1.666>|answer4<Wireless,0>|answer5<CPU,1>|answer6<GPU,1>|answer7<Aio,2>|answer8<main-color,:sub-color,>|answer9<RAM,1>|answer10<Bulk,2>|answer11<Ssd,3>|answer12<Metarial,[\"1\",\"4\",\"3\"]>|answer13<HDD,4:3>|answer14<Window,2>|answer15<Fan,1>|answer16<LED,[\"0\",\"2\"]>|answer17<null,null>|answer18<null,null>|answer19<null,null>|answer20<null,null>|etc<userId,root> |etc<targetDate,null>";
 
 		// 임시로 적용(복수선택에서 무조건 단일선택)
-//		urlText = "answer1<Price,3000000>|answer2<PR000001,100>|answer3<Fever,1.1:Meterial,1.2:AS,1.3:Noise,1.4:Stability,1.5:QC,1.6>|answer4<Wireless,1>|answer5<CPU,2>|answer6<GPU,2>|answer7<Aio,2>|answer8<main-color,:sub-color,>|answer9<RAM,2>|answer10<Bulk,3>|answer11<Ssd,3>|answer12<Metarial,["5"]>|answer13<HDD,5:null>|answer14<Window,2>|answer15<Fan,2>|answer16<LED,["3"]>|answer17<null,null>|answer18<null,null>|answer19<null,null>|answer20<null,null>|etc<userId,root> |etc<targetDate,null>";
+//		urlText = "answer1<Price,3000000>|answer2<PR000003,100>|answer3<Fever,1.1:Meterial,1.2:AS,1.3:Noise,1.4:Stability,1.5:QC,1.6>|answer4<Wireless,1>|answer5<CPU,2>|answer6<GPU,2>|answer7<Aio,2>|answer8<main-color,:sub-color,>|answer9<RAM,2>|answer10<Bulk,3>|answer11<Ssd,3>|answer12<Metarial,["5"]>|answer13<HDD,5:null>|answer14<Window,2>|answer15<Fan,2>|answer16<LED,["3"]>|answer17<null,null>|answer18<null,null>|answer19<null,null>|answer20<null,null>|etc<userId,root> |etc<targetDate,null>";
 		
 		// 1, 2번 질문만 답변했을 때
 		// 1번 5억이라고 일단 두자.. 제품이 걸러지니까..
-		urlText = "answer1<Price,500000000>|answer2<PR000003,100>|answer3<Fever,:Meterial,:AS,:Noise,:Stability,:QC,>|answer4<Wireless>|answer5<CPU>|answer6<GPU>|answer7<Aio>|answer8<main-color,:sub-color,>|answer9<RAM>|answer10<Bulk>|answer11<Ssd>|answer12<Metarial>|answer13<HDD>|answer14<Window>|answer15<Fan>|answer16<LED>|answer17<null,null>|answer18<null,null>|answer19<null,null>|answer20<null,null>|etc<userId,root>|etc<targetDate,null>";
+		//urlText = "answer1<Price,500000000>|answer2<PR000003,100>|answer3<Fever,:Meterial,:AS,:Noise,:Stability,:QC,>|answer4<Wireless>|answer5<CPU>|answer6<GPU>|answer7<Aio>|answer8<main-color,:sub-color,>|answer9<RAM>|answer10<Bulk>|answer11<Ssd>|answer12<Metarial>|answer13<HDD>|answer14<Window>|answer15<Fan>|answer16<LED>|answer17<null,null>|answer18<null,null>|answer19<null,null>|answer20<null,null>|etc<userId,root>|etc<targetDate,null>";
 		
 		/*--------------------------------------------------
 		 - 0. 견적산출 대상  List 선언 및 초기화
@@ -1363,6 +1377,23 @@ public class ProductServiceImpl implements ProductService {
 			/*--------------------------------------------------
 			 - 14-1. CPU Value = CC(선정된 CPU)
 			*--------------------------------------------------*/
+//			for(int c = 0; c < partsCpuHistoryVOList.size(); c++) {
+//				PartsCpuHistoryVO partsCpuHistoryVO = partsCpuHistoryVOList.get(c);
+//				BigDecimal resultCC = BigDecimal.ZERO;
+//				
+//				for(int pr = 0; pr < processResourceDetailHistoryVOList.size(); pr++) {
+//					ProcessResourceDetailHistoryVO processResourceDetailHistoryVO = processResourceDetailHistoryVOList.get(pr);
+//					// C = CPU
+//					if("C".equals(processResourceDetailHistoryVO.getVariableChk())
+//							&& partsCpuHistoryVO.getId().equals(processResourceDetailHistoryVO.getResourceMappingValue())) {
+//						resultCC = processResourceDetailHistoryVO.getResourceScore();
+//					}
+//				}
+//				
+//				partsCpuHistoryVO.setCpuValue(resultCC);
+//			}
+			
+			// 23.08.07 2번질문 배율적용
 			for(int c = 0; c < partsCpuHistoryVOList.size(); c++) {
 				PartsCpuHistoryVO partsCpuHistoryVO = partsCpuHistoryVOList.get(c);
 				BigDecimal resultCC = BigDecimal.ZERO;
@@ -1370,9 +1401,18 @@ public class ProductServiceImpl implements ProductService {
 				for(int pr = 0; pr < processResourceDetailHistoryVOList.size(); pr++) {
 					ProcessResourceDetailHistoryVO processResourceDetailHistoryVO = processResourceDetailHistoryVOList.get(pr);
 					// C = CPU
-					if("C".equals(processResourceDetailHistoryVO.getVariableChk())
-							&& partsCpuHistoryVO.getId().equals(processResourceDetailHistoryVO.getResourceMappingValue())) {
-						resultCC = processResourceDetailHistoryVO.getResourceScore();
+					if("C".equals(processResourceDetailHistoryVO.getVariableChk())) {
+						// 사용자 견적산출질문 2번 pr_id, scale 적용
+						for(int an = 0; an < answer2.size(); an++) {
+							// 0~100까지의 수 퍼센테이지로 변환
+							BigDecimal scale = new BigDecimal(answer2.get(an).get("scale")).multiply(new BigDecimal("0.01"));
+							String pr_id = answer2.get(an).get("pr_id");
+							
+							if(pr_id.equals(processResourceDetailHistoryVO.getId())
+									&& partsCpuHistoryVO.getId().equals(processResourceDetailHistoryVO.getResourceMappingValue())) {
+								resultCC = resultCC.add(processResourceDetailHistoryVO.getResourceScore().multiply(scale));
+							}
+						}
 					}
 				}
 				
@@ -1382,6 +1422,64 @@ public class ProductServiceImpl implements ProductService {
 			/*--------------------------------------------------
 			 - 14-2. RAM Value = CL(CL)+RVol(RVol)
 			*--------------------------------------------------*/
+//			for(int r = 0; r < partsRamHistoryVOList.size(); r++) {
+//				PartsRamHistoryVO partsRamHistoryVO = partsRamHistoryVOList.get(r);
+//				BigDecimal ramValue = BigDecimal.ZERO;
+//				BigDecimal CL = BigDecimal.ZERO;
+//				BigDecimal RV = BigDecimal.ZERO;
+//				
+//				for(int pr = 0; pr < processResourceDetailHistoryVOList.size(); pr++) {
+//					ProcessResourceDetailHistoryVO processResourceDetailHistoryVO = processResourceDetailHistoryVOList.get(pr);
+//					int resourceMappingValue = 0;
+//					
+//					// RV = ramVolume
+//					if("RV".equals(processResourceDetailHistoryVO.getVariableChk())) {
+//						try {
+//							resourceMappingValue = Integer.parseInt(processResourceDetailHistoryVO.getResourceMappingValue());
+//							if(resourceMappingValue == partsRamHistoryVO.getVolume()) {
+//								RV = processResourceDetailHistoryVO.getResourceScore();
+//							}
+//						} catch (NumberFormatException e) {
+//							String errMsg = "########## 견적산출 ERROR : process Resorce Detail data 중 ";
+//							errMsg += " id : "+ processResourceDetailHistoryVO.getId();
+//							errMsg += " seq : "+ processResourceDetailHistoryVO.getSeq();
+//							errMsg += " 에 해당하는 resource_mapping_value를 정수화 시키는 중 오류가 발생했습니다.";
+//							
+//							System.out.println(errMsg);
+//							estimateCalculationResultPrivateMasterVO.setErrChk(true);
+//							estimateCalculationResultPrivateMasterVO.setErrMsg(errMsg);
+//							
+//							return estimateCalculationResultPrivateMasterVO;
+//						}
+//					}
+//					
+//					// RM = ramMaxRange
+//					if("RM".equals(processResourceDetailHistoryVO.getVariableChk())) {
+//						try {
+//							resourceMappingValue = Integer.parseInt(processResourceDetailHistoryVO.getResourceMappingValue());
+//							if(resourceMappingValue == partsRamHistoryVO.getCl()) {
+//								CL = processResourceDetailHistoryVO.getResourceScore();
+//							}
+//						} catch (NumberFormatException e) {
+//							String errMsg = "########## 견적산출 ERROR : process Resorce Detail data 중 ";
+//							errMsg += " id : "+ processResourceDetailHistoryVO.getId();
+//							errMsg += " seq : "+ processResourceDetailHistoryVO.getSeq();
+//							errMsg += " 에 해당하는 resource_mapping_value를 정수화 시키는 중 오류가 발생했습니다.";
+//							
+//							System.out.println(errMsg);
+//							estimateCalculationResultPrivateMasterVO.setErrChk(true);
+//							estimateCalculationResultPrivateMasterVO.setErrMsg(errMsg);
+//							
+//							return estimateCalculationResultPrivateMasterVO;
+//						}
+//					}
+//				}
+//				
+//				ramValue = CL.add(RV);
+//				partsRamHistoryVO.setRamValue(ramValue);
+//			}
+			
+			// 23.08.07 2번질문 배율적용
 			for(int r = 0; r < partsRamHistoryVOList.size(); r++) {
 				PartsRamHistoryVO partsRamHistoryVO = partsRamHistoryVOList.get(r);
 				BigDecimal ramValue = BigDecimal.ZERO;
@@ -1394,43 +1492,60 @@ public class ProductServiceImpl implements ProductService {
 					
 					// RV = ramVolume
 					if("RV".equals(processResourceDetailHistoryVO.getVariableChk())) {
-						try {
-							resourceMappingValue = Integer.parseInt(processResourceDetailHistoryVO.getResourceMappingValue());
-							if(resourceMappingValue == partsRamHistoryVO.getVolume()) {
-								RV = processResourceDetailHistoryVO.getResourceScore();
+						// 사용자 견적산출질문 2번 pr_id, scale 적용
+						for(int an = 0; an < answer2.size(); an++) {
+							// 0~100까지의 수 퍼센테이지로 변환
+							BigDecimal scale = new BigDecimal(answer2.get(an).get("scale")).multiply(new BigDecimal("0.01"));
+							String pr_id = answer2.get(an).get("pr_id");
+							
+							try {
+								resourceMappingValue = Integer.parseInt(processResourceDetailHistoryVO.getResourceMappingValue());
+								if(pr_id.equals(processResourceDetailHistoryVO.getId())
+										&& partsRamHistoryVO.getVolume() == resourceMappingValue) {
+									RV = RV.add(processResourceDetailHistoryVO.getResourceScore().multiply(scale));
+								}
+							} catch (NumberFormatException e) {
+								String errMsg = "########## 견적산출 ERROR : process Resorce Detail data 중 ";
+								errMsg += " id : "+ processResourceDetailHistoryVO.getId();
+								errMsg += " seq : "+ processResourceDetailHistoryVO.getSeq();
+								errMsg += " 에 해당하는 resource_mapping_value를 정수화 시키는 중 오류가 발생했습니다.";
+								
+								System.out.println(errMsg);
+								estimateCalculationResultPrivateMasterVO.setErrChk(true);
+								estimateCalculationResultPrivateMasterVO.setErrMsg(errMsg);
+								
+								return estimateCalculationResultPrivateMasterVO;
 							}
-						} catch (NumberFormatException e) {
-							String errMsg = "########## 견적산출 ERROR : process Resorce Detail data 중 ";
-							errMsg += " id : "+ processResourceDetailHistoryVO.getId();
-							errMsg += " seq : "+ processResourceDetailHistoryVO.getSeq();
-							errMsg += " 에 해당하는 resource_mapping_value를 정수화 시키는 중 오류가 발생했습니다.";
-							
-							System.out.println(errMsg);
-							estimateCalculationResultPrivateMasterVO.setErrChk(true);
-							estimateCalculationResultPrivateMasterVO.setErrMsg(errMsg);
-							
-							return estimateCalculationResultPrivateMasterVO;
 						}
 					}
 					
 					// RM = ramMaxRange
 					if("RM".equals(processResourceDetailHistoryVO.getVariableChk())) {
-						try {
-							resourceMappingValue = Integer.parseInt(processResourceDetailHistoryVO.getResourceMappingValue());
-							if(resourceMappingValue == partsRamHistoryVO.getCl()) {
-								CL = processResourceDetailHistoryVO.getResourceScore();
+						// 사용자 견적산출질문 2번 pr_id, scale 적용
+						for(int an = 0; an < answer2.size(); an++) {
+							// 0~100까지의 수 퍼센테이지로 변환
+							BigDecimal scale = new BigDecimal(answer2.get(an).get("scale")).multiply(new BigDecimal("0.01"));
+							String pr_id = answer2.get(an).get("pr_id");
+							
+							try {
+								resourceMappingValue = Integer.parseInt(processResourceDetailHistoryVO.getResourceMappingValue());
+								
+								if(pr_id.equals(processResourceDetailHistoryVO.getId())
+										&& partsRamHistoryVO.getCl() == resourceMappingValue) {
+									CL = CL.add(processResourceDetailHistoryVO.getResourceScore().multiply(scale));
+								}
+							} catch (NumberFormatException e) {
+								String errMsg = "########## 견적산출 ERROR : process Resorce Detail data 중 ";
+								errMsg += " id : "+ processResourceDetailHistoryVO.getId();
+								errMsg += " seq : "+ processResourceDetailHistoryVO.getSeq();
+								errMsg += " 에 해당하는 resource_mapping_value를 정수화 시키는 중 오류가 발생했습니다.";
+								
+								System.out.println(errMsg);
+								estimateCalculationResultPrivateMasterVO.setErrChk(true);
+								estimateCalculationResultPrivateMasterVO.setErrMsg(errMsg);
+								
+								return estimateCalculationResultPrivateMasterVO;
 							}
-						} catch (NumberFormatException e) {
-							String errMsg = "########## 견적산출 ERROR : process Resorce Detail data 중 ";
-							errMsg += " id : "+ processResourceDetailHistoryVO.getId();
-							errMsg += " seq : "+ processResourceDetailHistoryVO.getSeq();
-							errMsg += " 에 해당하는 resource_mapping_value를 정수화 시키는 중 오류가 발생했습니다.";
-							
-							System.out.println(errMsg);
-							estimateCalculationResultPrivateMasterVO.setErrChk(true);
-							estimateCalculationResultPrivateMasterVO.setErrMsg(errMsg);
-							
-							return estimateCalculationResultPrivateMasterVO;
 						}
 					}
 				}
@@ -1506,7 +1621,9 @@ public class ProductServiceImpl implements ProductService {
 				BigDecimal calculation6 = BigDecimal.ZERO;
 				
 				calculation1 = PFM.multiply(GC).multiply(new BigDecimal("0.05"));
-				calculation2 = PFM.multiply(new BigDecimal("1.5")).multiply(SFT);
+				// 23.08.05 수식에러 수정
+//				calculation2 = PFM.multiply(new BigDecimal("1.5")).multiply(SFT);
+				calculation2 = PFM.multiply(new BigDecimal("1.5")).add(SFT);
 				calculation3 = calculation2.multiply(CSFT).multiply(new BigDecimal("0.1"));
 				calculation4 = PFM.multiply(CMT).multiply(new BigDecimal("0.05"));
 				calculation5 = PSUAS.multiply(new BigDecimal("0.001")).multiply(CAS);
@@ -1552,7 +1669,9 @@ public class ProductServiceImpl implements ProductService {
 				BigDecimal calculation6 = BigDecimal.ZERO;
 				
 				calculation1 = GC.multiply(new BigDecimal("0.1"));
-				calculation2 = CASEAS.multiply(new BigDecimal("0.001")).multiply(CTH);
+				// 23.08.05 수식에러 수정
+//				calculation2 = CASEAS.multiply(new BigDecimal("0.001")).multiply(CTH);
+				calculation2 = CASEAS.multiply(new BigDecimal("0.1")).multiply(CAS);
 				calculation3 = COOL.multiply(new BigDecimal("0.001")).multiply(CTH);
 				calculation4 = END.multiply(new BigDecimal("-0.1")).multiply(CQC);
 				calculation5 = ADAP.multiply(new BigDecimal("0.05")).multiply(CMT);
@@ -1851,13 +1970,6 @@ public class ProductServiceImpl implements ProductService {
 				partsMbHistoryVOListAlgorithm18Backup.add(partsMbHistoryVOList.get(i));
 			}
 			
-			// todo delete CPU000056 빼고 전부 소거처리
-//			
-//			for(int i = partsCpuHistoryVOList.size()-1; i >= 0; i--) {
-//				if(!partsCpuHistoryVOList.get(i).getId().equals("CPU000056")) {
-//					partsCpuHistoryVOList.remove(i);
-//				}
-//			}
 			
 			int limβ = partsCpuHistoryVOList.size();
 			
@@ -2571,6 +2683,9 @@ public class ProductServiceImpl implements ProductService {
 									
 									// limy>=y라면 연산을 이어간다. -> limy>y
 									for(int ssdIndex = y; ssdIndex < limy; ssdIndex++) {
+										
+										loopCnt = loopCnt.add(new BigDecimal("1"));
+										
 										/*--------------------------------------------------
 										 - 46. γ번째 MB의 MC가 0이고 y번째 SSD의 STR2.5=0이면서 VC<y번째SSD의 Price+3000일
 										 - 때 y=y+1 처리 후 45번으로 돌아간다.
@@ -2675,7 +2790,165 @@ public class ProductServiceImpl implements ProductService {
 			}
 			// 가장 value가 큰 모델 정보를 가진 EstimateCalculationResultPrivateDetailVO 세팅
 			estimateCalculationResultPrivateMasterVO.setSelectProduct(ω.get(selectIndex));
-		}
+			
+			/*--------------------------------------------------
+			 - 완본체 등록처리부(현재시점 견적산출일 때)
+			*--------------------------------------------------*/
+			if(null == targetDate) {
+				int productPrice = 0;
+				String maxId = productDAO.getProductMasterVOMaxId();
+				
+				estimateCalculationResultPrivateMasterVO.setCreateProductId(maxId);
+				
+				// gpu 등록
+				ProductDetailVO productDetailGpuVO = new ProductDetailVO();
+				PartsGpuVO partsGpuVO = partsService.getPartsGpuVOById(estimateCalculationResultPrivateMasterVO.getSelectProduct().getGpuId());
+				
+				productDetailGpuVO.setId(maxId);
+				productDetailGpuVO.setSeq(1);
+				productDetailGpuVO.setPartsTypeCd("01");
+				productDetailGpuVO.setPartsId(partsGpuVO.getId());
+				productDetailGpuVO.setPartsName(partsGpuVO.getPartsName());
+				productDetailGpuVO.setPartsQty(1);
+				productDetailGpuVO.setPartsPrice(partsGpuVO.getPartsPrice());
+				productDetailGpuVO.setPartsTotalPrice(partsGpuVO.getPartsPrice());
+				productDetailGpuVO.setPartsHistorySeq(partsGpuVO.getPartsHistorySeq());
+				productPrice += partsGpuVO.getPartsPrice();
+				
+				productDAO.insertProductDetailVO(productDetailGpuVO);
+				
+				// cpu 등록
+				ProductDetailVO productDetailCpuVO = new ProductDetailVO();
+				PartsCpuVO partsCpuVO = partsService.getPartsCpuVOById(estimateCalculationResultPrivateMasterVO.getSelectProduct().getCpuId());
+				
+				productDetailCpuVO.setId(maxId);
+				productDetailCpuVO.setSeq(2);
+				productDetailCpuVO.setPartsTypeCd("02");
+				productDetailCpuVO.setPartsId(partsCpuVO.getId());
+				productDetailCpuVO.setPartsName(partsCpuVO.getPartsName());
+				productDetailCpuVO.setPartsQty(1);
+				productDetailCpuVO.setPartsPrice(partsCpuVO.getPartsPrice());
+				productDetailCpuVO.setPartsTotalPrice(partsCpuVO.getPartsPrice());
+				productDetailCpuVO.setPartsHistorySeq(partsCpuVO.getPartsHistorySeq());
+				productPrice += partsCpuVO.getPartsPrice();
+				
+				productDAO.insertProductDetailVO(productDetailCpuVO);
+				
+				// mb 등록
+				ProductDetailVO productDetailMbVO = new ProductDetailVO();
+				PartsMbVO partsMbVO = partsService.getPartsMbVOById(estimateCalculationResultPrivateMasterVO.getSelectProduct().getMbId());
+				
+				productDetailMbVO.setId(maxId);
+				productDetailMbVO.setSeq(3);
+				productDetailMbVO.setPartsTypeCd("03");
+				productDetailMbVO.setPartsId(partsMbVO.getId());
+				productDetailMbVO.setPartsName(partsMbVO.getPartsName());
+				productDetailMbVO.setPartsQty(1);
+				productDetailMbVO.setPartsPrice(partsMbVO.getPartsPrice());
+				productDetailMbVO.setPartsTotalPrice(partsMbVO.getPartsPrice());
+				productDetailMbVO.setPartsHistorySeq(partsMbVO.getPartsHistorySeq());
+				productPrice += partsMbVO.getPartsPrice();
+				
+				productDAO.insertProductDetailVO(productDetailMbVO);
+				
+				// Cooler 등록
+				ProductDetailVO productDetailCoolerVO = new ProductDetailVO();
+				PartsCoolerVO partsCoolerVO = partsService.getPartsCoolerVOById(estimateCalculationResultPrivateMasterVO.getSelectProduct().getCoolerId());
+				
+				productDetailCoolerVO.setId(maxId);
+				productDetailCoolerVO.setSeq(4);
+				productDetailCoolerVO.setPartsTypeCd("07");
+				productDetailCoolerVO.setPartsId(partsCoolerVO.getId());
+				productDetailCoolerVO.setPartsName(partsCoolerVO.getPartsName());
+				productDetailCoolerVO.setPartsQty(1);
+				productDetailCoolerVO.setPartsPrice(partsCoolerVO.getPartsPrice());
+				productDetailCoolerVO.setPartsTotalPrice(partsCoolerVO.getPartsPrice());
+				productDetailCoolerVO.setPartsHistorySeq(partsCoolerVO.getPartsHistorySeq());
+				productPrice += partsCoolerVO.getPartsPrice();
+				
+				productDAO.insertProductDetailVO(productDetailCoolerVO);
+				
+				// Case 등록
+				ProductDetailVO productDetailCaseVO = new ProductDetailVO();
+				PartsCaseVO partsCaseVO = partsService.getPartsCaseVOById(estimateCalculationResultPrivateMasterVO.getSelectProduct().getCaseId());
+				
+				productDetailCaseVO.setId(maxId);
+				productDetailCaseVO.setSeq(5);
+				productDetailCaseVO.setPartsTypeCd("06");
+				productDetailCaseVO.setPartsId(partsCaseVO.getId());
+				productDetailCaseVO.setPartsName(partsCaseVO.getPartsName());
+				productDetailCaseVO.setPartsQty(1);
+				productDetailCaseVO.setPartsPrice(partsCaseVO.getPartsPrice());
+				productDetailCaseVO.setPartsTotalPrice(partsCaseVO.getPartsPrice());
+				productDetailCaseVO.setPartsHistorySeq(partsCaseVO.getPartsHistorySeq());
+				productPrice += partsCaseVO.getPartsPrice();
+				
+				productDAO.insertProductDetailVO(productDetailCaseVO);
+				
+				// Psu 등록
+				ProductDetailVO productDetailPsuVO = new ProductDetailVO();
+				PartsPsuVO partsPsuVO = partsService.getPartsPsuVOById(estimateCalculationResultPrivateMasterVO.getSelectProduct().getPsuId());
+				
+				productDetailPsuVO.setId(maxId);
+				productDetailPsuVO.setSeq(6);
+				productDetailPsuVO.setPartsTypeCd("05");
+				productDetailPsuVO.setPartsId(partsPsuVO.getId());
+				productDetailPsuVO.setPartsName(partsPsuVO.getPartsName());
+				productDetailPsuVO.setPartsQty(1);
+				productDetailPsuVO.setPartsPrice(partsPsuVO.getPartsPrice());
+				productDetailPsuVO.setPartsTotalPrice(partsPsuVO.getPartsPrice());
+				productDetailPsuVO.setPartsHistorySeq(partsPsuVO.getPartsHistorySeq());
+				productPrice += partsPsuVO.getPartsPrice();
+				
+				productDAO.insertProductDetailVO(productDetailPsuVO);
+				
+				// Ram 등록
+				ProductDetailVO productDetailRamVO = new ProductDetailVO();
+				PartsRamVO partsRamVO = partsService.getPartsRamVOById(estimateCalculationResultPrivateMasterVO.getSelectProduct().getRamId());
+				
+				productDetailRamVO.setId(maxId);
+				productDetailRamVO.setSeq(7);
+				productDetailRamVO.setPartsTypeCd("04");
+				productDetailRamVO.setPartsId(partsRamVO.getId());
+				productDetailRamVO.setPartsName(partsRamVO.getPartsName());
+				productDetailRamVO.setPartsQty(1);
+				productDetailRamVO.setPartsPrice(partsRamVO.getPartsPrice());
+				productDetailRamVO.setPartsTotalPrice(partsRamVO.getPartsPrice());
+				productDetailRamVO.setPartsHistorySeq(partsRamVO.getPartsHistorySeq());
+				productPrice += partsRamVO.getPartsPrice();
+				
+				productDAO.insertProductDetailVO(productDetailRamVO);
+				
+				// Ssd 등록
+				ProductDetailVO productDetailSsdVO = new ProductDetailVO();
+				PartsSsdVO partsSsdVO = partsService.getPartsSsdVOById(estimateCalculationResultPrivateMasterVO.getSelectProduct().getSsdId());
+				
+				productDetailSsdVO.setId(maxId);
+				productDetailSsdVO.setSeq(8);
+				productDetailSsdVO.setPartsTypeCd("09");
+				productDetailSsdVO.setPartsId(partsSsdVO.getId());
+				productDetailSsdVO.setPartsName(partsSsdVO.getPartsName());
+				productDetailSsdVO.setPartsQty(1);
+				productDetailSsdVO.setPartsPrice(partsSsdVO.getPartsPrice());
+				productDetailSsdVO.setPartsTotalPrice(partsSsdVO.getPartsPrice());
+				productDetailSsdVO.setPartsHistorySeq(partsSsdVO.getPartsHistorySeq());
+				productPrice += partsSsdVO.getPartsPrice();
+				
+				productDAO.insertProductDetailVO(productDetailSsdVO);
+				
+				// 완본체 마스터등록
+				ProductMasterVO productMasterVO = new ProductMasterVO();
+				productMasterVO.setId(maxId);
+				productMasterVO.setProductName("견적산출 자동등록 완본체");
+				productMasterVO.setProductPrice(productPrice);
+				productMasterVO.setProductQty(1);
+				productMasterVO.setProductDescription(targetId+" 로 부터 자동등록");
+				productMasterVO.setProductImage(partsCaseVO.getPartsImage());
+				productMasterVO.setProductRegistPathCd("02");
+				
+				productDAO.insertProductMasterVO(productMasterVO);
+			}
+		} // 47번 if else end
 		
 		return estimateCalculationResultPrivateMasterVO;
 	}
