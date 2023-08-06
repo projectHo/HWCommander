@@ -11,21 +11,31 @@ import org.springframework.stereotype.Service;
 
 import com.hw.dao.ProcessResourceDAO;
 import com.hw.dao.ProductDAO;
-import com.hw.model.EstimateCalculationResultPrivateVO;
+import com.hw.model.EstimateCalculationResultPrivateDetailVO;
+import com.hw.model.EstimateCalculationResultPrivateMasterVO;
 import com.hw.model.PartsCaseHistoryVO;
+import com.hw.model.PartsCaseVO;
 import com.hw.model.PartsCoolerHistoryVO;
+import com.hw.model.PartsCoolerVO;
 import com.hw.model.PartsCpuHistoryVO;
+import com.hw.model.PartsCpuVO;
 import com.hw.model.PartsGpuHistoryVO;
+import com.hw.model.PartsGpuVO;
 import com.hw.model.PartsHddHistoryVO;
 import com.hw.model.PartsMakerHistoryVO;
 import com.hw.model.PartsMbHistoryVO;
+import com.hw.model.PartsMbVO;
 import com.hw.model.PartsPsuHistoryVO;
+import com.hw.model.PartsPsuVO;
 import com.hw.model.PartsRamHistoryVO;
+import com.hw.model.PartsRamVO;
 import com.hw.model.PartsSfHistoryVO;
 import com.hw.model.PartsSsdHistoryVO;
+import com.hw.model.PartsSsdVO;
 import com.hw.model.ProcessResourceDetailHistoryVO;
 import com.hw.model.ProductDetailVO;
 import com.hw.model.ProductMasterVO;
+import com.hw.service.PartsService;
 import com.hw.service.ProductService;
 
 @Service
@@ -36,6 +46,9 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Autowired
     private ProcessResourceDAO processResourceDAO;
+	
+	@Autowired
+    private PartsService partsService;
 	
 	@Override
 	public Integer productRegistLogic(ProductMasterVO productMasterVO, List<ProductDetailVO> productDetailVOList) {
@@ -105,18 +118,21 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
-	public EstimateCalculationResultPrivateVO estimateCalculation(String urlText) {
-		EstimateCalculationResultPrivateVO estimateCalculationResultPrivateVO = new EstimateCalculationResultPrivateVO();
+	public EstimateCalculationResultPrivateMasterVO estimateCalculation(String urlText) {
+		EstimateCalculationResultPrivateMasterVO estimateCalculationResultPrivateMasterVO = new EstimateCalculationResultPrivateMasterVO();
+		estimateCalculationResultPrivateMasterVO.setErrChk(false); // 기본값 err false
+		
+		BigDecimal loopCnt = BigDecimal.ZERO;
 		
 		//임시로 적용(복수선택에서 무조건 복수)
-//		urlText = "answer1<Price,3000000>|answer2<PR000001,60:PR000004,30:PR000008,10>|answer3<Fever,1.111:Meterial,1.222:AS,1.333:Noise,1.444:Stability,1.555:QC,1.666>|answer4<Wireless,0>|answer5<CPU,1>|answer6<GPU,1>|answer7<Aio,2>|answer8<main-color,:sub-color,>|answer9<RAM,1>|answer10<Bulk,2>|answer11<Ssd,3>|answer12<Metarial,[\"1\",\"4\",\"3\"]>|answer13<HDD,4:3>|answer14<Window,2>|answer15<Fan,1>|answer16<LED,[\"0\",\"2\"]>|answer17<null,null>|answer18<null,null>|answer19<null,null>|answer20<null,null>|etc<userId,root> |etc<targetDate,null>";
+//		urlText = "answer1<Price,3000000>|answer2<PR000003,60:PR000002,30:PR000001,10>|answer3<Fever,1.111:Meterial,1.222:AS,1.333:Noise,1.444:Stability,1.555:QC,1.666>|answer4<Wireless,0>|answer5<CPU,1>|answer6<GPU,1>|answer7<Aio,2>|answer8<main-color,:sub-color,>|answer9<RAM,1>|answer10<Bulk,2>|answer11<Ssd,3>|answer12<Metarial,[\"1\",\"4\",\"3\"]>|answer13<HDD,4:3>|answer14<Window,2>|answer15<Fan,1>|answer16<LED,[\"0\",\"2\"]>|answer17<null,null>|answer18<null,null>|answer19<null,null>|answer20<null,null>|etc<userId,root> |etc<targetDate,null>";
 
 		// 임시로 적용(복수선택에서 무조건 단일선택)
-//		urlText = "answer1<Price,3000000>|answer2<PR000001,100>|answer3<Fever,1.1:Meterial,1.2:AS,1.3:Noise,1.4:Stability,1.5:QC,1.6>|answer4<Wireless,1>|answer5<CPU,2>|answer6<GPU,2>|answer7<Aio,2>|answer8<main-color,:sub-color,>|answer9<RAM,2>|answer10<Bulk,3>|answer11<Ssd,3>|answer12<Metarial,["5"]>|answer13<HDD,5:null>|answer14<Window,2>|answer15<Fan,2>|answer16<LED,["3"]>|answer17<null,null>|answer18<null,null>|answer19<null,null>|answer20<null,null>|etc<userId,root> |etc<targetDate,null>";
+//		urlText = "answer1<Price,3000000>|answer2<PR000003,100>|answer3<Fever,1.1:Meterial,1.2:AS,1.3:Noise,1.4:Stability,1.5:QC,1.6>|answer4<Wireless,1>|answer5<CPU,2>|answer6<GPU,2>|answer7<Aio,2>|answer8<main-color,:sub-color,>|answer9<RAM,2>|answer10<Bulk,3>|answer11<Ssd,3>|answer12<Metarial,["5"]>|answer13<HDD,5:null>|answer14<Window,2>|answer15<Fan,2>|answer16<LED,["3"]>|answer17<null,null>|answer18<null,null>|answer19<null,null>|answer20<null,null>|etc<userId,root> |etc<targetDate,null>";
 		
 		// 1, 2번 질문만 답변했을 때
 		// 1번 5억이라고 일단 두자.. 제품이 걸러지니까..
-		urlText = "answer1<Price,500000000>|answer2<PR000003,100>|answer3<Fever,:Meterial,:AS,:Noise,:Stability,:QC,>|answer4<Wireless>|answer5<CPU>|answer6<GPU>|answer7<Aio>|answer8<main-color,:sub-color,>|answer9<RAM>|answer10<Bulk>|answer11<Ssd>|answer12<Metarial>|answer13<HDD>|answer14<Window>|answer15<Fan>|answer16<LED>|answer17<null,null>|answer18<null,null>|answer19<null,null>|answer20<null,null>|etc<userId,root>|etc<targetDate,null>";
+		//urlText = "answer1<Price,500000000>|answer2<PR000003,100>|answer3<Fever,:Meterial,:AS,:Noise,:Stability,:QC,>|answer4<Wireless>|answer5<CPU>|answer6<GPU>|answer7<Aio>|answer8<main-color,:sub-color,>|answer9<RAM>|answer10<Bulk>|answer11<Ssd>|answer12<Metarial>|answer13<HDD>|answer14<Window>|answer15<Fan>|answer16<LED>|answer17<null,null>|answer18<null,null>|answer19<null,null>|answer20<null,null>|etc<userId,root>|etc<targetDate,null>";
 		
 		/*--------------------------------------------------
 		 - 0. 견적산출 대상  List 선언 및 초기화
@@ -178,10 +194,10 @@ public class ProductServiceImpl implements ProductService {
 			String errMsg = "########## 견적산출 ERROR : 질문답변갯수가 안맞음 ㄲㅈ셈";
 			
 			System.out.println(errMsg);
-			estimateCalculationResultPrivateVO.setErrChk(true);
-			estimateCalculationResultPrivateVO.setErrMsg(errMsg);
+			estimateCalculationResultPrivateMasterVO.setErrChk(true);
+			estimateCalculationResultPrivateMasterVO.setErrMsg(errMsg);
 			
-			return estimateCalculationResultPrivateVO;
+			return estimateCalculationResultPrivateMasterVO;
 		}
 		
 		// 1번질문
@@ -197,10 +213,10 @@ public class ProductServiceImpl implements ProductService {
 			String errMsg = "########## 견적산출 ERROR : 1번질문에 대한 답변데이터가 정상적으로 전달되지 않음";
 			
 			System.out.println(errMsg);
-			estimateCalculationResultPrivateVO.setErrChk(true);
-			estimateCalculationResultPrivateVO.setErrMsg(errMsg);
+			estimateCalculationResultPrivateMasterVO.setErrChk(true);
+			estimateCalculationResultPrivateMasterVO.setErrMsg(errMsg);
 			
-			return estimateCalculationResultPrivateVO;
+			return estimateCalculationResultPrivateMasterVO;
 		}else {
 			answer1 = new BigDecimal(nameValueArray[1]);
 		}
@@ -218,10 +234,10 @@ public class ProductServiceImpl implements ProductService {
 			String errMsg = "########## 견적산출 ERROR : 2번질문에 대한 답변이 1개보다 적음";
 			
 			System.out.println(errMsg);
-			estimateCalculationResultPrivateVO.setErrChk(true);
-			estimateCalculationResultPrivateVO.setErrMsg(errMsg);
+			estimateCalculationResultPrivateMasterVO.setErrChk(true);
+			estimateCalculationResultPrivateMasterVO.setErrMsg(errMsg);
 			
-			return estimateCalculationResultPrivateVO;
+			return estimateCalculationResultPrivateMasterVO;
 		}else {
 			for(int i = 0; i < nameValueArray.length; i++) {
 				String tempArray[] = nameValueArray[i].split(",");
@@ -239,10 +255,10 @@ public class ProductServiceImpl implements ProductService {
 			String errMsg = "########## 견적산출 ERROR : 2번질문 답변데이터가 없습니다.";
 			
 			System.out.println(errMsg);
-			estimateCalculationResultPrivateVO.setErrChk(true);
-			estimateCalculationResultPrivateVO.setErrMsg(errMsg);
+			estimateCalculationResultPrivateMasterVO.setErrChk(true);
+			estimateCalculationResultPrivateMasterVO.setErrMsg(errMsg);
 			
-			return estimateCalculationResultPrivateVO;
+			return estimateCalculationResultPrivateMasterVO;
 		}
 		
 		// 3번질문
@@ -416,10 +432,10 @@ public class ProductServiceImpl implements ProductService {
 				String errMsg = "########## 견적산출 ERROR : 13번질문에 대한 답변값이 2개가 아님(필요없음일 시 null 전송)";
 				
 				System.out.println(errMsg);
-				estimateCalculationResultPrivateVO.setErrChk(true);
-				estimateCalculationResultPrivateVO.setErrMsg(errMsg);
+				estimateCalculationResultPrivateMasterVO.setErrChk(true);
+				estimateCalculationResultPrivateMasterVO.setErrMsg(errMsg);
 				
-				return estimateCalculationResultPrivateVO;
+				return estimateCalculationResultPrivateMasterVO;
 			}else {
 				String[] tempTextArray = nameValueArray;
 				answer13 = new Integer[tempTextArray.length];
@@ -503,10 +519,10 @@ public class ProductServiceImpl implements ProductService {
 			String errMsg = "########## 견적산출 ERROR : userId 데이터전송 오류";
 			
 			System.out.println(errMsg);
-			estimateCalculationResultPrivateVO.setErrChk(true);
-			estimateCalculationResultPrivateVO.setErrMsg(errMsg);
+			estimateCalculationResultPrivateMasterVO.setErrChk(true);
+			estimateCalculationResultPrivateMasterVO.setErrMsg(errMsg);
 			
-			return estimateCalculationResultPrivateVO;
+			return estimateCalculationResultPrivateMasterVO;
 		}else {
 			targetId = nameValueArray[1];
 		}
@@ -525,10 +541,10 @@ public class ProductServiceImpl implements ProductService {
 			String errMsg = "########## 견적산출 ERROR : targetDate 데이터전송 오류";
 			
 			System.out.println(errMsg);
-			estimateCalculationResultPrivateVO.setErrChk(true);
-			estimateCalculationResultPrivateVO.setErrMsg(errMsg);
+			estimateCalculationResultPrivateMasterVO.setErrChk(true);
+			estimateCalculationResultPrivateMasterVO.setErrMsg(errMsg);
 			
-			return estimateCalculationResultPrivateVO;
+			return estimateCalculationResultPrivateMasterVO;
 		}else {
 			// 과거 견적산출로부터 넘어오지 않을 경우 문자열 "null"을 화면에서 뿌림.
 			// 일반 견적산출이면 날짜는 targetDate = "null", 과거견적산출이면 targetDate에 반영
@@ -579,7 +595,9 @@ public class ProductServiceImpl implements ProductService {
 		int q = 0;
 		int x = 0;
 		int y = 0;
-		int ω = 0;
+//		int ω = 0;
+		// model object 생성 후 List로 저장하는 방식이 결과 추출하기 용이함.
+		List<EstimateCalculationResultPrivateDetailVO> ω = new ArrayList<>();
 		
 		// 프론트에서 만단위 곱해서 보내주기때문에 백엔드에서 만단위 나눠서 대입함.
 //		BigDecimal VC = answer1.divide(new BigDecimal("10000"));
@@ -686,10 +704,10 @@ public class ProductServiceImpl implements ProductService {
 					String errMsg = "########## 견적산출 ERROR : CPU ID "+partsCpuHistoryVOList.get(i).getId()+" 인 제품의 APU 정보가 null check 오류를 발생시켰습니다.";
 					
 					System.out.println(errMsg);
-					estimateCalculationResultPrivateVO.setErrChk(true);
-					estimateCalculationResultPrivateVO.setErrMsg(errMsg);
+					estimateCalculationResultPrivateMasterVO.setErrChk(true);
+					estimateCalculationResultPrivateMasterVO.setErrMsg(errMsg);
 					
-					return estimateCalculationResultPrivateVO;
+					return estimateCalculationResultPrivateMasterVO;
 				}else {
 					// 필요
 					if(0 == answer6) {
@@ -1218,10 +1236,6 @@ public class ProductServiceImpl implements ProductService {
 		for(int i = partsGpuHistoryVOList.size()-1; i >= 1; i--) {
 			int targetIndex = i-1;
 			
-			if(targetIndex == 0) {
-				System.out.println("여기서 디버깅 해보자"); // GPU000001
-			}
-			
 			BigDecimal value1 = partsGpuHistoryVOList.get(targetIndex).getGpuValue();
 			BigDecimal value2 = partsGpuHistoryVOList.get(targetIndex+1).getGpuValue();
 			
@@ -1363,6 +1377,23 @@ public class ProductServiceImpl implements ProductService {
 			/*--------------------------------------------------
 			 - 14-1. CPU Value = CC(선정된 CPU)
 			*--------------------------------------------------*/
+//			for(int c = 0; c < partsCpuHistoryVOList.size(); c++) {
+//				PartsCpuHistoryVO partsCpuHistoryVO = partsCpuHistoryVOList.get(c);
+//				BigDecimal resultCC = BigDecimal.ZERO;
+//				
+//				for(int pr = 0; pr < processResourceDetailHistoryVOList.size(); pr++) {
+//					ProcessResourceDetailHistoryVO processResourceDetailHistoryVO = processResourceDetailHistoryVOList.get(pr);
+//					// C = CPU
+//					if("C".equals(processResourceDetailHistoryVO.getVariableChk())
+//							&& partsCpuHistoryVO.getId().equals(processResourceDetailHistoryVO.getResourceMappingValue())) {
+//						resultCC = processResourceDetailHistoryVO.getResourceScore();
+//					}
+//				}
+//				
+//				partsCpuHistoryVO.setCpuValue(resultCC);
+//			}
+			
+			// 23.08.07 2번질문 배율적용
 			for(int c = 0; c < partsCpuHistoryVOList.size(); c++) {
 				PartsCpuHistoryVO partsCpuHistoryVO = partsCpuHistoryVOList.get(c);
 				BigDecimal resultCC = BigDecimal.ZERO;
@@ -1370,9 +1401,18 @@ public class ProductServiceImpl implements ProductService {
 				for(int pr = 0; pr < processResourceDetailHistoryVOList.size(); pr++) {
 					ProcessResourceDetailHistoryVO processResourceDetailHistoryVO = processResourceDetailHistoryVOList.get(pr);
 					// C = CPU
-					if("C".equals(processResourceDetailHistoryVO.getVariableChk())
-							&& partsCpuHistoryVO.getId().equals(processResourceDetailHistoryVO.getResourceMappingValue())) {
-						resultCC = processResourceDetailHistoryVO.getResourceScore();
+					if("C".equals(processResourceDetailHistoryVO.getVariableChk())) {
+						// 사용자 견적산출질문 2번 pr_id, scale 적용
+						for(int an = 0; an < answer2.size(); an++) {
+							// 0~100까지의 수 퍼센테이지로 변환
+							BigDecimal scale = new BigDecimal(answer2.get(an).get("scale")).multiply(new BigDecimal("0.01"));
+							String pr_id = answer2.get(an).get("pr_id");
+							
+							if(pr_id.equals(processResourceDetailHistoryVO.getId())
+									&& partsCpuHistoryVO.getId().equals(processResourceDetailHistoryVO.getResourceMappingValue())) {
+								resultCC = resultCC.add(processResourceDetailHistoryVO.getResourceScore().multiply(scale));
+							}
+						}
 					}
 				}
 				
@@ -1382,6 +1422,64 @@ public class ProductServiceImpl implements ProductService {
 			/*--------------------------------------------------
 			 - 14-2. RAM Value = CL(CL)+RVol(RVol)
 			*--------------------------------------------------*/
+//			for(int r = 0; r < partsRamHistoryVOList.size(); r++) {
+//				PartsRamHistoryVO partsRamHistoryVO = partsRamHistoryVOList.get(r);
+//				BigDecimal ramValue = BigDecimal.ZERO;
+//				BigDecimal CL = BigDecimal.ZERO;
+//				BigDecimal RV = BigDecimal.ZERO;
+//				
+//				for(int pr = 0; pr < processResourceDetailHistoryVOList.size(); pr++) {
+//					ProcessResourceDetailHistoryVO processResourceDetailHistoryVO = processResourceDetailHistoryVOList.get(pr);
+//					int resourceMappingValue = 0;
+//					
+//					// RV = ramVolume
+//					if("RV".equals(processResourceDetailHistoryVO.getVariableChk())) {
+//						try {
+//							resourceMappingValue = Integer.parseInt(processResourceDetailHistoryVO.getResourceMappingValue());
+//							if(resourceMappingValue == partsRamHistoryVO.getVolume()) {
+//								RV = processResourceDetailHistoryVO.getResourceScore();
+//							}
+//						} catch (NumberFormatException e) {
+//							String errMsg = "########## 견적산출 ERROR : process Resorce Detail data 중 ";
+//							errMsg += " id : "+ processResourceDetailHistoryVO.getId();
+//							errMsg += " seq : "+ processResourceDetailHistoryVO.getSeq();
+//							errMsg += " 에 해당하는 resource_mapping_value를 정수화 시키는 중 오류가 발생했습니다.";
+//							
+//							System.out.println(errMsg);
+//							estimateCalculationResultPrivateMasterVO.setErrChk(true);
+//							estimateCalculationResultPrivateMasterVO.setErrMsg(errMsg);
+//							
+//							return estimateCalculationResultPrivateMasterVO;
+//						}
+//					}
+//					
+//					// RM = ramMaxRange
+//					if("RM".equals(processResourceDetailHistoryVO.getVariableChk())) {
+//						try {
+//							resourceMappingValue = Integer.parseInt(processResourceDetailHistoryVO.getResourceMappingValue());
+//							if(resourceMappingValue == partsRamHistoryVO.getCl()) {
+//								CL = processResourceDetailHistoryVO.getResourceScore();
+//							}
+//						} catch (NumberFormatException e) {
+//							String errMsg = "########## 견적산출 ERROR : process Resorce Detail data 중 ";
+//							errMsg += " id : "+ processResourceDetailHistoryVO.getId();
+//							errMsg += " seq : "+ processResourceDetailHistoryVO.getSeq();
+//							errMsg += " 에 해당하는 resource_mapping_value를 정수화 시키는 중 오류가 발생했습니다.";
+//							
+//							System.out.println(errMsg);
+//							estimateCalculationResultPrivateMasterVO.setErrChk(true);
+//							estimateCalculationResultPrivateMasterVO.setErrMsg(errMsg);
+//							
+//							return estimateCalculationResultPrivateMasterVO;
+//						}
+//					}
+//				}
+//				
+//				ramValue = CL.add(RV);
+//				partsRamHistoryVO.setRamValue(ramValue);
+//			}
+			
+			// 23.08.07 2번질문 배율적용
 			for(int r = 0; r < partsRamHistoryVOList.size(); r++) {
 				PartsRamHistoryVO partsRamHistoryVO = partsRamHistoryVOList.get(r);
 				BigDecimal ramValue = BigDecimal.ZERO;
@@ -1394,43 +1492,60 @@ public class ProductServiceImpl implements ProductService {
 					
 					// RV = ramVolume
 					if("RV".equals(processResourceDetailHistoryVO.getVariableChk())) {
-						try {
-							resourceMappingValue = Integer.parseInt(processResourceDetailHistoryVO.getResourceMappingValue());
-							if(resourceMappingValue == partsRamHistoryVO.getVolume()) {
-								RV = processResourceDetailHistoryVO.getResourceScore();
+						// 사용자 견적산출질문 2번 pr_id, scale 적용
+						for(int an = 0; an < answer2.size(); an++) {
+							// 0~100까지의 수 퍼센테이지로 변환
+							BigDecimal scale = new BigDecimal(answer2.get(an).get("scale")).multiply(new BigDecimal("0.01"));
+							String pr_id = answer2.get(an).get("pr_id");
+							
+							try {
+								resourceMappingValue = Integer.parseInt(processResourceDetailHistoryVO.getResourceMappingValue());
+								if(pr_id.equals(processResourceDetailHistoryVO.getId())
+										&& partsRamHistoryVO.getVolume() == resourceMappingValue) {
+									RV = RV.add(processResourceDetailHistoryVO.getResourceScore().multiply(scale));
+								}
+							} catch (NumberFormatException e) {
+								String errMsg = "########## 견적산출 ERROR : process Resorce Detail data 중 ";
+								errMsg += " id : "+ processResourceDetailHistoryVO.getId();
+								errMsg += " seq : "+ processResourceDetailHistoryVO.getSeq();
+								errMsg += " 에 해당하는 resource_mapping_value를 정수화 시키는 중 오류가 발생했습니다.";
+								
+								System.out.println(errMsg);
+								estimateCalculationResultPrivateMasterVO.setErrChk(true);
+								estimateCalculationResultPrivateMasterVO.setErrMsg(errMsg);
+								
+								return estimateCalculationResultPrivateMasterVO;
 							}
-						} catch (NumberFormatException e) {
-							String errMsg = "########## 견적산출 ERROR : process Resorce Detail data 중 ";
-							errMsg += " id : "+ processResourceDetailHistoryVO.getId();
-							errMsg += " seq : "+ processResourceDetailHistoryVO.getSeq();
-							errMsg += " 에 해당하는 resource_mapping_value를 정수화 시키는 중 오류가 발생했습니다.";
-							
-							System.out.println(errMsg);
-							estimateCalculationResultPrivateVO.setErrChk(true);
-							estimateCalculationResultPrivateVO.setErrMsg(errMsg);
-							
-							return estimateCalculationResultPrivateVO;
 						}
 					}
 					
 					// RM = ramMaxRange
 					if("RM".equals(processResourceDetailHistoryVO.getVariableChk())) {
-						try {
-							resourceMappingValue = Integer.parseInt(processResourceDetailHistoryVO.getResourceMappingValue());
-							if(resourceMappingValue == partsRamHistoryVO.getCl()) {
-								CL = processResourceDetailHistoryVO.getResourceScore();
+						// 사용자 견적산출질문 2번 pr_id, scale 적용
+						for(int an = 0; an < answer2.size(); an++) {
+							// 0~100까지의 수 퍼센테이지로 변환
+							BigDecimal scale = new BigDecimal(answer2.get(an).get("scale")).multiply(new BigDecimal("0.01"));
+							String pr_id = answer2.get(an).get("pr_id");
+							
+							try {
+								resourceMappingValue = Integer.parseInt(processResourceDetailHistoryVO.getResourceMappingValue());
+								
+								if(pr_id.equals(processResourceDetailHistoryVO.getId())
+										&& partsRamHistoryVO.getCl() == resourceMappingValue) {
+									CL = CL.add(processResourceDetailHistoryVO.getResourceScore().multiply(scale));
+								}
+							} catch (NumberFormatException e) {
+								String errMsg = "########## 견적산출 ERROR : process Resorce Detail data 중 ";
+								errMsg += " id : "+ processResourceDetailHistoryVO.getId();
+								errMsg += " seq : "+ processResourceDetailHistoryVO.getSeq();
+								errMsg += " 에 해당하는 resource_mapping_value를 정수화 시키는 중 오류가 발생했습니다.";
+								
+								System.out.println(errMsg);
+								estimateCalculationResultPrivateMasterVO.setErrChk(true);
+								estimateCalculationResultPrivateMasterVO.setErrMsg(errMsg);
+								
+								return estimateCalculationResultPrivateMasterVO;
 							}
-						} catch (NumberFormatException e) {
-							String errMsg = "########## 견적산출 ERROR : process Resorce Detail data 중 ";
-							errMsg += " id : "+ processResourceDetailHistoryVO.getId();
-							errMsg += " seq : "+ processResourceDetailHistoryVO.getSeq();
-							errMsg += " 에 해당하는 resource_mapping_value를 정수화 시키는 중 오류가 발생했습니다.";
-							
-							System.out.println(errMsg);
-							estimateCalculationResultPrivateVO.setErrChk(true);
-							estimateCalculationResultPrivateVO.setErrMsg(errMsg);
-							
-							return estimateCalculationResultPrivateVO;
 						}
 					}
 				}
@@ -1506,7 +1621,9 @@ public class ProductServiceImpl implements ProductService {
 				BigDecimal calculation6 = BigDecimal.ZERO;
 				
 				calculation1 = PFM.multiply(GC).multiply(new BigDecimal("0.05"));
-				calculation2 = PFM.multiply(new BigDecimal("1.5")).multiply(SFT);
+				// 23.08.05 수식에러 수정
+//				calculation2 = PFM.multiply(new BigDecimal("1.5")).multiply(SFT);
+				calculation2 = PFM.multiply(new BigDecimal("1.5")).add(SFT);
 				calculation3 = calculation2.multiply(CSFT).multiply(new BigDecimal("0.1"));
 				calculation4 = PFM.multiply(CMT).multiply(new BigDecimal("0.05"));
 				calculation5 = PSUAS.multiply(new BigDecimal("0.001")).multiply(CAS);
@@ -1552,7 +1669,9 @@ public class ProductServiceImpl implements ProductService {
 				BigDecimal calculation6 = BigDecimal.ZERO;
 				
 				calculation1 = GC.multiply(new BigDecimal("0.1"));
-				calculation2 = CASEAS.multiply(new BigDecimal("0.001")).multiply(CTH);
+				// 23.08.05 수식에러 수정
+//				calculation2 = CASEAS.multiply(new BigDecimal("0.001")).multiply(CTH);
+				calculation2 = CASEAS.multiply(new BigDecimal("0.1")).multiply(CAS);
 				calculation3 = COOL.multiply(new BigDecimal("0.001")).multiply(CTH);
 				calculation4 = END.multiply(new BigDecimal("-0.1")).multiply(CQC);
 				calculation5 = ADAP.multiply(new BigDecimal("0.05")).multiply(CMT);
@@ -1598,70 +1717,6 @@ public class ProductServiceImpl implements ProductService {
 				
 				partsSsdHistoryVO.setSsdValue(ssdValue);
 			}
-			
-			
-			// 각 부품 value 검증
-			// GPU마다 부품 value 값이 다르기에 부품 하나 발주처 선정 (GPU000037)
-			if(partsGpuHistoryVOList.get(gpuIndex).getId().equals("GPU000037")) {
-				
-				System.out.println("######### 대상 GPU ID partsGpuHistoryVOList.get(gpuIndex).getId() : "+partsGpuHistoryVOList.get(gpuIndex).getId());
-				System.out.println("################# SYSO Cpu 결과출력 START #########################");
-				System.out.println("######### 순차적으로 index, id, parts_name, parts_price, 산정된 부품 value");
-				for(int i = 0; i < partsCpuHistoryVOList.size(); i++) {
-					System.out.print(i+", "+partsCpuHistoryVOList.get(i).getId()+", "+partsCpuHistoryVOList.get(i).getPartsName()+", "+partsCpuHistoryVOList.get(i).getPartsPrice()+", "+partsCpuHistoryVOList.get(i).getCpuValue());
-					System.out.println("");
-				}
-				System.out.println("################# SYSO Cpu 결과출력  END #########################");
-				
-				System.out.println("######### 대상 GPU ID partsGpuHistoryVOList.get(gpuIndex).getId() : "+partsGpuHistoryVOList.get(gpuIndex).getId());
-				System.out.println("################# SYSO Cpu 결과출력 START #########################");
-				System.out.println("######### 순차적으로 index, id, parts_name, parts_price, 산정된 부품 value");
-				for(int i = 0; i < partsRamHistoryVOList.size(); i++) {
-					System.out.print(i+", "+partsRamHistoryVOList.get(i).getId()+", "+partsRamHistoryVOList.get(i).getPartsName()+", "+partsRamHistoryVOList.get(i).getPartsPrice()+", "+partsRamHistoryVOList.get(i).getRamValue());
-					System.out.println("");
-				}
-				System.out.println("################# SYSO Cpu 결과출력  END #########################");
-				
-				System.out.println("######### 대상 GPU ID partsGpuHistoryVOList.get(gpuIndex).getId() : "+partsGpuHistoryVOList.get(gpuIndex).getId());
-				System.out.println("################# SYSO Cpu 결과출력 START #########################");
-				System.out.println("######### 순차적으로 index, id, parts_name, parts_price, 산정된 부품 value");
-				for(int i = 0; i < partsCoolerHistoryVOList.size(); i++) {
-					System.out.print(i+", "+partsCoolerHistoryVOList.get(i).getId()+", "+partsCoolerHistoryVOList.get(i).getPartsName()+", "+partsCoolerHistoryVOList.get(i).getPartsPrice()+", "+partsCoolerHistoryVOList.get(i).getCoolerValue());
-					System.out.println("");
-				}
-				System.out.println("################# SYSO Cpu 결과출력  END #########################");
-				
-				System.out.println("######### 대상 GPU ID partsGpuHistoryVOList.get(gpuIndex).getId() : "+partsGpuHistoryVOList.get(gpuIndex).getId());
-				System.out.println("################# SYSO Cpu 결과출력 START #########################");
-				System.out.println("######### 순차적으로 index, id, parts_name, parts_price, 산정된 부품 value");
-				for(int i = 0; i < partsPsuHistoryVOList.size(); i++) {
-					System.out.print(i+", "+partsPsuHistoryVOList.get(i).getId()+", "+partsPsuHistoryVOList.get(i).getPartsName()+", "+partsPsuHistoryVOList.get(i).getPartsPrice()+", "+partsPsuHistoryVOList.get(i).getPsuValue());
-					System.out.println("");
-				}
-				System.out.println("################# SYSO Cpu 결과출력  END #########################");
-				
-				System.out.println("######### 대상 GPU ID partsGpuHistoryVOList.get(gpuIndex).getId() : "+partsGpuHistoryVOList.get(gpuIndex).getId());
-				System.out.println("################# SYSO Cpu 결과출력 START #########################");
-				System.out.println("######### 순차적으로 index, id, parts_name, parts_price, 산정된 부품 value");
-				for(int i = 0; i < partsCaseHistoryVOList.size(); i++) {
-					System.out.print(i+", "+partsCaseHistoryVOList.get(i).getId()+", "+partsCaseHistoryVOList.get(i).getPartsName()+", "+partsCaseHistoryVOList.get(i).getPartsPrice()+", "+partsCaseHistoryVOList.get(i).getCaseValue());
-					System.out.println("");
-				}
-				System.out.println("################# SYSO Cpu 결과출력  END #########################");
-				
-				System.out.println("######### 대상 GPU ID partsGpuHistoryVOList.get(gpuIndex).getId() : "+partsGpuHistoryVOList.get(gpuIndex).getId());
-				System.out.println("################# SYSO Cpu 결과출력 START #########################");
-				System.out.println("######### 순차적으로 index, id, parts_name, parts_price, 산정된 부품 value");
-				for(int i = 0; i < partsSsdHistoryVOList.size(); i++) {
-					System.out.print(i+", "+partsSsdHistoryVOList.get(i).getId()+", "+partsSsdHistoryVOList.get(i).getPartsName()+", "+partsSsdHistoryVOList.get(i).getPartsPrice()+", "+partsSsdHistoryVOList.get(i).getSsdValue());
-					System.out.println("");
-				}
-				System.out.println("################# SYSO Cpu 결과출력  END #########################");
-				
-				
-				
-			} // 14번 mb를 제외한 모든 부품 value test system log
-			
 			
 			/*--------------------------------------------------
 			 - 15.  MB를 제외한 모든 테이블에서 Value가 더 낮음과 동시에 Price가 더 높은 
@@ -1915,6 +1970,7 @@ public class ProductServiceImpl implements ProductService {
 				partsMbHistoryVOListAlgorithm18Backup.add(partsMbHistoryVOList.get(i));
 			}
 			
+			
 			int limβ = partsCpuHistoryVOList.size();
 			
 			if(limβ <= β) {
@@ -2098,7 +2154,7 @@ public class ProductServiceImpl implements ProductService {
 				}
 				
 				// limγ>=γ라면 연산을 이어간다. -> limγ>γ
-				for(int mbIndex = γ; cpuIndex < limγ; cpuIndex++) {
+				for(int mbIndex = γ; mbIndex < limγ; mbIndex++) {
 					/*--------------------------------------------------
 					 - 24-1. 24번백업데이터 기준으로 데이터복원처리
 					*--------------------------------------------------*/
@@ -2128,7 +2184,7 @@ public class ProductServiceImpl implements ProductService {
 					 - 26. Thermal이 β번째 CPU+CTH*5>Cooler인 모든 Cooler제품을 소거한다.
 					*--------------------------------------------------*/
 					BigDecimal cpu_thermal = new BigDecimal(partsCpuHistoryVOList.get(cpuIndex).getThermal());
-					BigDecimal algorithm26TargetData = cpu_thermal.multiply(CTH).multiply(new BigDecimal("5"));
+					BigDecimal algorithm26TargetData = CTH.multiply(new BigDecimal("5")).add(cpu_thermal);
 					for(int i = partsCoolerHistoryVOList.size()-1; i >= 0; i--) {
 						BigDecimal Thermal = new BigDecimal(partsCoolerHistoryVOList.get(i).getThermal());
 						int compareResult = algorithm26TargetData.compareTo(Thermal);
@@ -2137,25 +2193,763 @@ public class ProductServiceImpl implements ProductService {
 						}
 					}
 					
-					
-					// 27 시작해야함
-					
-				} // 24번 for 끝
-			} // 18번 for 끝
-			
-			
-			// CPU000056 가 선정되었다고 치고 로직 진행하래
-			
-			
+					/*--------------------------------------------------
+					 - 27. 남은 Cooler제품의 개수를 limk이라 한다.
+					 - limk<k라면 아래 변수정렬 후 24번으로 돌아간다.(소거 시점도 24번으로 롤백한다.)
+					 - VC=VC+γ번째 MB의 Price
+					 - γ=γ+1, k=1, p=1, q=1, x=1, y=1
+					 - limk>=k라면 연산을 이어나간다.
+					 - VC=VC-k번째 Cooler의 Price이다.
+					*--------------------------------------------------*/
+					// 27번 시점에서 백업데이터. 추후 구현할 33번에서 롤백 할 백업데이터로 쓰인다.
+					List<PartsCaseHistoryVO> partsCaseHistoryVOListAlgorithm27Backup = new ArrayList<>();
 
-			
-			
+					for(int i = 0; i < partsCaseHistoryVOList.size(); i++) {
+						partsCaseHistoryVOListAlgorithm27Backup.add(partsCaseHistoryVOList.get(i));
+					}
+					
+					int limk = partsCoolerHistoryVOList.size();
+					
+					if(limk <= k) {
+						// limk<k라면 아래 변수 정렬 후 24번으로 돌아간다. -> limk<=k
+						
+						VC = VC.add(new BigDecimal(partsMbHistoryVOList.get(mbIndex).getPartsPrice()));
+						k = 0;
+						p = 0;
+						q = 0;
+						x = 0;
+						y = 0;
+						
+						continue; // 24번 처음 for 다음 mbIndex 진행
+					}
+					
+					// limk>=k라면 연산을 이어간다. -> limk>k
+					for(int coolerIndex = k; coolerIndex < limk; coolerIndex++) {
+						/*--------------------------------------------------
+						 - 27-1. 27번백업데이터 기준으로 데이터복원처리
+						*--------------------------------------------------*/
+						partsCaseHistoryVOList = new ArrayList<>();
+
+						for(int i = 0; i < partsCaseHistoryVOListAlgorithm27Backup.size(); i++) {
+							partsCaseHistoryVOList.add(partsCaseHistoryVOListAlgorithm27Backup.get(i));
+						}
+						
+						/*--------------------------------------------------
+						 - 27-2. 현재 진행 cooler Index의 가격 빼기
+						*--------------------------------------------------*/
+						VC = VC.subtract(new BigDecimal(partsCoolerHistoryVOList.get(coolerIndex).getPartsPrice()));
+						
+						/*--------------------------------------------------
+						 - 28. VC=<Price인 모든 CASE제품을 소거한다.
+						*--------------------------------------------------*/
+						for(int i = partsCaseHistoryVOList.size()-1; i >= 0; i--) {
+							BigDecimal casePrice = new BigDecimal(partsCaseHistoryVOList.get(i).getPartsPrice());
+							int compareResult = VC.compareTo(casePrice);
+							if(compareResult < 0 || compareResult == 0) {
+								partsCaseHistoryVOList.remove(i);
+							}
+						}
+						
+						/*--------------------------------------------------
+						 - 29. α번째 GPU의 IL>=CASE인 모든 CASE제품을 소거한다.
+						*--------------------------------------------------*/
+						BigDecimal gpuIL = new BigDecimal(partsGpuHistoryVOList.get(gpuIndex).getIl());
+						for(int i = partsCaseHistoryVOList.size()-1; i >= 0; i--) {
+							BigDecimal caseIl = new BigDecimal(partsCaseHistoryVOList.get(i).getIl());
+							int compareResult = gpuIL.compareTo(caseIl);
+							if(compareResult > 0 || compareResult == 0) {
+								partsCaseHistoryVOList.remove(i);
+							}
+						}
+						
+						/*--------------------------------------------------
+						 - 30. γ번째 MB의 FF⊂CASE가 아닌 모든 제품을 소거한다.
+						 - 23.08.03 추가정보 30번 : 4자리수 2진법 (FF)
+						*--------------------------------------------------*/
+//						[H] [오후 4:56] 진법표현한거 부분집합에 속하는지 처리할 때 십진법 변환 뒤 비교연산자 적용으로 처리하는지? 아니면 대상 자리에 같은 값이 없으면 부분집합에 속하지 않는다고 보는지?
+//						[H] [오후 4:56] 1번예시 A : 0010(십진4), B : 0100(십진6)
+//						[H] [오후 4:56] B⊂A 성립
+//						[H] [오후 4:57] 2번일 때는 성립하지 않음
+//						[이해창] [오후 4:57] 성립하지 않습니다. also 2진법은 같은 값이지만
+//						[이해창] [오후 4:57] 3진법 이상에선 같거나 상위값이면 포함관계입니다
+//						[이해창] [오후 4:57] 0100은 0200에 포함됩니다.
+//						[이해창] [오후 4:57] 0010은 0200에 포함되지 않습니다
+//						[H] [오후 4:58] 2번예시로 봐야겠네
+//						[H] [오후 4:58] 십진법 변환할 필요 없구만
+//						[이해창] [오후 4:58] 넹 맞습니다
+//						[H] [오후 4:58] 같은 자리값에 대해서 더 큰 수인지 비교하면 되겠노
+//						[H] [오후 4:58] ㅇㅋㅇㅋ
+//						[이해창] [오후 4:58] 네넹 감삼다
+						
+						String mbFF = String.format("%04d", partsMbHistoryVOList.get(mbIndex).getFf());
+						int mbFF1 = Integer.parseInt(mbFF.substring(0, 1));
+						int mbFF2 = Integer.parseInt(mbFF.substring(1, 2));
+						int mbFF3 = Integer.parseInt(mbFF.substring(2, 3));
+						int mbFF4 = Integer.parseInt(mbFF.substring(3, 4));
+						
+						for(int i = partsCaseHistoryVOList.size()-1; i >= 0; i--) {
+							String caseFF = String.format("%04d", partsCaseHistoryVOList.get(i).getFf());
+							int caseFF1 = Integer.parseInt(caseFF.substring(0, 1));
+							int caseFF2 = Integer.parseInt(caseFF.substring(1, 2));
+							int caseFF3 = Integer.parseInt(caseFF.substring(2, 3));
+							int caseFF4 = Integer.parseInt(caseFF.substring(3, 4));
+							int subset = 0;
+							
+
+							//같은 자릿수에 대해서 케이스의 인자가 같거나 더 커야함
+							if(mbFF1 <= caseFF1) {
+								subset = 1;
+							}
+							
+							if(mbFF2 <= caseFF2) {
+								subset = 1;
+							}
+							
+							if(mbFF3 <= caseFF3) {
+								subset = 1;
+							}
+							
+							if(mbFF4 <= caseFF4) {
+								subset = 1;
+							}
+							
+							//MB는 CASE의 부분집합 이 아니면 제외
+							if(subset == 0) {
+								partsCaseHistoryVOList.remove(i);
+							}
+						}
+						
+						/*--------------------------------------------------
+						 - 31. k번째 Cooler의 IW>=CASE인 모든 제품을 소거한다.
+						*--------------------------------------------------*/
+						BigDecimal coolerIW = new BigDecimal(partsCoolerHistoryVOList.get(coolerIndex).getIw());
+						for(int i = partsCaseHistoryVOList.size()-1; i >= 0; i--) {
+							BigDecimal caseIW = new BigDecimal(partsCaseHistoryVOList.get(i).getIw());
+							int compareResult = coolerIW.compareTo(caseIW);
+							if(compareResult > 0 || compareResult == 0) {
+								partsCaseHistoryVOList.remove(i);
+							}
+						}
+						
+						/*--------------------------------------------------
+						 - 32. k번째 Cooler의 IH⊂CASE 혹은 IT⊂CASE 둘 중 하나 
+						 - 이상을 만족하는 CASE를 제외한 모든 CASE제품을 소거한다.
+						 - 23.08.03 추가정보 32번 : 2자리수 4진법 (IH, IT)
+						*--------------------------------------------------*/
+						String coolerIH = String.format("%02d", partsCoolerHistoryVOList.get(coolerIndex).getIh());
+						String coolerIT = String.format("%02d", partsCoolerHistoryVOList.get(coolerIndex).getIt());
+						int coolerIH1 = Integer.parseInt(coolerIH.substring(0, 1));
+						int coolerIH2 = Integer.parseInt(coolerIH.substring(1, 2));
+						int coolerIT1 = Integer.parseInt(coolerIT.substring(0, 1));
+						int coolerIT2 = Integer.parseInt(coolerIT.substring(1, 2));
+						
+						for(int i = partsCaseHistoryVOList.size()-1; i >= 0; i--) {
+							String caseIH = String.format("%02d", partsCaseHistoryVOList.get(i).getIh());
+							String caseIT = String.format("%02d", partsCaseHistoryVOList.get(i).getIt());
+							int caseIH1 = Integer.parseInt(caseIH.substring(0, 1));
+							int caseIH2 = Integer.parseInt(caseIH.substring(1, 2));
+							int caseIT1 = Integer.parseInt(caseIT.substring(0, 1));
+							int caseIT2 = Integer.parseInt(caseIT.substring(1, 2));
+							int subset = 0;
+							
+							if(coolerIH1 <= caseIH1) {
+								subset = 1;
+							}
+							
+							if(coolerIH2 <= caseIH2) {
+								subset = 1;
+							}
+							
+							if(coolerIT1 <= caseIT1) {
+								subset = 1;
+							}
+							
+							if(coolerIT2 <= caseIT2) {
+								subset = 1;
+							}
+							
+							if(subset == 0) {
+								partsCaseHistoryVOList.remove(i);
+							}
+						}
+						
+						
+						/*--------------------------------------------------
+						 - 33. 남은 CASE제품의 개수를 limp 라고 한다.
+						 - Limp<p라면 아래 변수정렬 후 27번으로 돌아간다.(소거 시점도 27번으로 롤백한다.)
+						 - VC=VC+k번째 Cooler의 Price
+						 - k=k+1, p=1, q=1, x=1, y=1
+						 - limp>=p라면 연산을 이어나간다.
+						 - VC=VC-p번째 CASE의 Price이다.
+						*--------------------------------------------------*/
+						// 33번 시점에서 백업데이터. 추후 구현할 39번에서 롤백 할 백업데이터로 쓰인다.
+						List<PartsPsuHistoryVO> partsPsuHistoryVOListAlgorithm33Backup = new ArrayList<>();
+
+						for(int i = 0; i < partsPsuHistoryVOList.size(); i++) {
+							partsPsuHistoryVOListAlgorithm33Backup.add(partsPsuHistoryVOList.get(i));
+						}
+						
+						int limp = partsCaseHistoryVOList.size();
+						
+						if(limp <= p) {
+							// limp<p라면 아래 변수 정렬 후 27번으로 돌아간다. -> limp<=p
+							
+							VC = VC.add(new BigDecimal(partsMbHistoryVOList.get(coolerIndex).getPartsPrice()));
+							p = 0;
+							q = 0;
+							x = 0;
+							y = 0;
+							
+							continue; // 27번 처음 for 다음 coolerIndex 진행
+						}
+						
+						// limp>=p라면 연산을 이어간다. -> limp>p
+						for(int caseIndex = p; caseIndex < limp; caseIndex++) {
+							/*--------------------------------------------------
+							 - 33-1. 33번백업데이터 기준으로 데이터복원처리
+							*--------------------------------------------------*/
+							partsPsuHistoryVOList = new ArrayList<>();
+
+							for(int i = 0; i < partsPsuHistoryVOListAlgorithm33Backup.size(); i++) {
+								partsPsuHistoryVOList.add(partsPsuHistoryVOListAlgorithm33Backup.get(i));
+							}
+							
+							/*--------------------------------------------------
+							 - 33-2. 현재 진행 caseIndex의 가격 빼기
+							*--------------------------------------------------*/
+							VC = VC.subtract(new BigDecimal(partsCaseHistoryVOList.get(caseIndex).getPartsPrice()));
+							
+							/*--------------------------------------------------
+							 - 34. VC=<Price인 모든 PSU제품을 소거한다.
+							*--------------------------------------------------*/
+							for(int i = partsPsuHistoryVOList.size()-1; i >= 0; i--) {
+								BigDecimal psuPrice = new BigDecimal(partsPsuHistoryVOList.get(i).getPartsPrice());
+								int compareResult = VC.compareTo(psuPrice);
+								if(compareResult < 0 || compareResult == 0) {
+									partsPsuHistoryVOList.remove(i);
+								}
+							}
+							
+							/*--------------------------------------------------
+							 - 35. α번째 GPU의 TDP>PSU인 모든 PSU제품을 소거한다.
+							*--------------------------------------------------*/
+							BigDecimal gpuTDP = new BigDecimal(partsGpuHistoryVOList.get(gpuIndex).getTdp());
+							for(int i = partsPsuHistoryVOList.size()-1; i >= 0; i--) {
+								BigDecimal psuTDP = new BigDecimal(partsPsuHistoryVOList.get(i).getTdp());
+								int compareResult = gpuTDP.compareTo(psuTDP);
+								if(compareResult > 0) {
+									partsPsuHistoryVOList.remove(i);
+								}
+							}
+							
+							/*--------------------------------------------------
+							 - 36. α번째 GPU의 GPL⊂PSU인 제품을 제외한 모든 PSU제품을 소거한다.
+							 - 23.08.03 추가정보 36번 : 4자릿수 3진법 (GPL)
+							*--------------------------------------------------*/
+							String gpuGPL = String.format("%04d", partsGpuHistoryVOList.get(gpuIndex).getGpl());
+							int gpuGPL1 = Integer.parseInt(gpuGPL.substring(0, 1));
+							int gpuGPL2 = Integer.parseInt(gpuGPL.substring(1, 2));
+							int gpuGPL3 = Integer.parseInt(gpuGPL.substring(2, 3));
+							int gpuGPL4 = Integer.parseInt(gpuGPL.substring(3, 4));
+							
+							for(int i = partsPsuHistoryVOList.size()-1; i >= 0; i--) {
+								String psuGPL = String.format("%04d", partsPsuHistoryVOList.get(i).getGpl());
+								int psuGPL1 = Integer.parseInt(psuGPL.substring(0, 1));
+								int psuGPL2 = Integer.parseInt(psuGPL.substring(1, 2));
+								int psuGPL3 = Integer.parseInt(psuGPL.substring(2, 3));
+								int psuGPL4 = Integer.parseInt(psuGPL.substring(3, 4));
+								int subset = 0;
+								
+								if(gpuGPL1 <= psuGPL1) {
+									subset = 1;
+								}
+								
+								if(gpuGPL2 <= psuGPL2) {
+									subset = 1;
+								}
+								
+								if(gpuGPL3 <= psuGPL3) {
+									subset = 1;
+								}
+								
+								if(gpuGPL4 <= psuGPL4) {
+									subset = 1;
+								}
+								
+								if(subset == 0) {
+									partsPsuHistoryVOList.remove(i);
+								}
+							}
+							
+							/*--------------------------------------------------
+							 - 37. α번째 GPU의 12PIN⊂PSU인 제품을 제외한 모든 PSU제품을 소거한다.
+							 - 23.08.03 정정 요청 
+							 - 37번에서 GPU의 12PIN>PSU인 모든 PSU제품을 소거한다(PSU의 12PIN수가 같거나 더 많아야 함)
+							*--------------------------------------------------*/
+							int gpu12PIN = partsGpuHistoryVOList.get(gpuIndex).getTwelvePin();
+							
+							for(int i = partsPsuHistoryVOList.size()-1; i >= 0; i--) {
+								int psu12PIN = partsPsuHistoryVOList.get(i).getTwelvePin();
+								if(gpu12PIN > psu12PIN) {
+									partsPsuHistoryVOList.remove(i);
+								}
+							}
+							
+							/*--------------------------------------------------
+							 - 38. γ번째 MB의 PL⊂PSU인 제품을 제외한 모든 PSU제품을 소거한다.
+							 - 23.08.03 추가정보 38번 : 3자리수 3진법 (PL)
+							*--------------------------------------------------*/
+							String mbPL = String.format("%03d", partsMbHistoryVOList.get(mbIndex).getPl());
+							int mbPL1 = Integer.parseInt(mbPL.substring(0, 1));
+							int mbPL2 = Integer.parseInt(mbPL.substring(1, 2));
+							int mbPL3 = Integer.parseInt(mbPL.substring(2, 3));
+							
+							for(int i = partsPsuHistoryVOList.size()-1; i >= 0; i--) {
+								String psuPL = String.format("%03d", partsPsuHistoryVOList.get(i).getPl());
+								int psuPL1 = Integer.parseInt(psuPL.substring(0, 1));
+								int psuPL2 = Integer.parseInt(psuPL.substring(1, 2));
+								int psuPL3 = Integer.parseInt(psuPL.substring(2, 3));
+								int subset = 0;
+								
+								if(mbPL1 <= psuPL1) {
+									subset = 1;
+								}
+								
+								if(mbPL2 <= psuPL2) {
+									subset = 1;
+								}
+								
+								if(mbPL3 <= psuPL3) {
+									subset = 1;
+								}
+								
+								if(subset == 0) {
+									partsPsuHistoryVOList.remove(i);
+								}
+							}
+							
+							
+							/*--------------------------------------------------
+							 - 39. 남은 PSU제품의 개수를 limq라고 한다.
+							 - Limq<q라면 아래 변수정렬 후 33번으로 돌아간다.(소거 시점도 33번으로 롤백한다.)
+							 - VC=VC+p번째 CASE의 Price
+							 - p=p+1, q=1, x=1, y=1
+							 - limq>=q라면 연산을 이어나간다.
+							 - VC=VC-q번째 PSU의 Price이다.
+							*--------------------------------------------------*/
+							// 39번 시점에서 백업데이터. 추후 구현할 42번에서 롤백 할 백업데이터로 쓰인다.
+							List<PartsRamHistoryVO> partsRamHistoryVOListAlgorithm39Backup = new ArrayList<>();
+
+							for(int i = 0; i < partsRamHistoryVOList.size(); i++) {
+								partsRamHistoryVOListAlgorithm39Backup.add(partsRamHistoryVOList.get(i));
+							}
+							
+							int limq = partsPsuHistoryVOList.size();
+							
+							if(limq <= q) {
+								// limq<q라면 아래 변수 정렬 후 33번으로 돌아간다. -> limq<=q
+								
+								VC = VC.add(new BigDecimal(partsCaseHistoryVOList.get(caseIndex).getPartsPrice()));
+								q = 0;
+								x = 0;
+								y = 0;
+								
+								continue; // 33번 처음 for 다음 caseIndex 진행
+							}
+							
+							// limq>=q라면 연산을 이어간다. -> limq>q
+							for(int psuIndex = q; psuIndex < limq; psuIndex++) {
+								/*--------------------------------------------------
+								 - 39-1. 39번백업데이터 기준으로 데이터복원처리
+								*--------------------------------------------------*/
+								partsRamHistoryVOList = new ArrayList<>();
+
+								for(int i = 0; i < partsRamHistoryVOListAlgorithm39Backup.size(); i++) {
+									partsRamHistoryVOList.add(partsRamHistoryVOListAlgorithm39Backup.get(i));
+								}
+								
+								/*--------------------------------------------------
+								 - 39-2. 현재 진행 psuIndex의 가격 빼기
+								*--------------------------------------------------*/
+								VC = VC.subtract(new BigDecimal(partsPsuHistoryVOList.get(psuIndex).getPartsPrice()));
+								
+								/*--------------------------------------------------
+								 - 40. VC=<Price인 모든 RAM제품을 소거한다.
+								*--------------------------------------------------*/
+								for(int i = partsRamHistoryVOList.size()-1; i >= 0; i--) {
+									BigDecimal ramPrice = new BigDecimal(partsRamHistoryVOList.get(i).getPartsPrice());
+									int compareResult = VC.compareTo(ramPrice);
+									if(compareResult < 0 || compareResult == 0) {
+										partsRamHistoryVOList.remove(i);
+									}
+								}
+								
+								/*--------------------------------------------------
+								 - 41. γ번째 MB의 MEM SOC≠RAM인 모든 RAM제품을 소거한다.
+								*--------------------------------------------------*/
+								for(int i = partsRamHistoryVOList.size()-1; i >= 0; i--) {
+									if(!partsMbHistoryVOList.get(mbIndex).getMemSocCd().equals(partsRamHistoryVOList.get(i).getMemSocCd())) {
+										partsRamHistoryVOList.remove(i);
+									}
+								}
+								
+								
+								/*--------------------------------------------------
+								 - 42. 남은 RAM제품의 개수를 limx라고 한다.
+								 - Limx<x라면 아래 변수정렬 후 39번으로 돌아간다.(소거 시점도 39번으로 롤백한다.)
+								 - VC=VC+q번째 PSU의 Price
+								 - q=q+1, x=1, y=1
+								 - limx>=x라면 연산을 이어나간다.
+								 - VC=VC-x번째 RAM의 Price이다.
+								*--------------------------------------------------*/
+								// 42번 시점에서 백업데이터. 추후 구현할 45번에서 롤백 할 백업데이터로 쓰인다.
+								List<PartsSsdHistoryVO> partsSsdHistoryVOListAlgorithm42Backup = new ArrayList<>();
+
+								for(int i = 0; i < partsSsdHistoryVOList.size(); i++) {
+									partsSsdHistoryVOListAlgorithm42Backup.add(partsSsdHistoryVOList.get(i));
+								}
+								
+								int limx = partsRamHistoryVOList.size();
+								
+								if(limx <= x) {
+									// limx<x라면 아래 변수 정렬 후 39번으로 돌아간다. -> limx<=x
+									
+									VC = VC.add(new BigDecimal(partsPsuHistoryVOList.get(psuIndex).getPartsPrice()));
+									x = 0;
+									y = 0;
+									
+									continue; // 39번 처음 for 다음 psuIndex 진행
+								}
+								
+								// limx>=x라면 연산을 이어간다. -> limx>x
+								for(int ramIndex = x; ramIndex < limx; ramIndex++) {
+									/*--------------------------------------------------
+									 - 42-1. 42번백업데이터 기준으로 데이터복원처리
+									*--------------------------------------------------*/
+									partsSsdHistoryVOList = new ArrayList<>();
+
+									for(int i = 0; i < partsSsdHistoryVOListAlgorithm42Backup.size(); i++) {
+										partsSsdHistoryVOList.add(partsSsdHistoryVOListAlgorithm42Backup.get(i));
+									}
+									
+									/*--------------------------------------------------
+									 - 42-2. 현재 진행 ramIndex의 가격 빼기
+									*--------------------------------------------------*/
+									VC = VC.subtract(new BigDecimal(partsRamHistoryVOList.get(ramIndex).getPartsPrice()));
+									
+									/*--------------------------------------------------
+									 - 43. VC<PRICE인 모든 SSD제품을 소거한다.
+									*--------------------------------------------------*/
+									for(int i = partsSsdHistoryVOList.size()-1; i >= 0; i--) {
+										BigDecimal ssdPrice = new BigDecimal(partsSsdHistoryVOList.get(i).getPartsPrice());
+										int compareResult = VC.compareTo(ssdPrice);
+										if(compareResult < 0) {
+											partsSsdHistoryVOList.remove(i);
+										}
+									}
+									
+									/*--------------------------------------------------
+									 - 44. γ번째 MB의 SCS<SSD인 모든 SSD제품을 소거한다.
+									 - (scs_cd 코드 정수화 하면 순서대로 값1부터 5까지임.)
+									 - PRT008 : SCS
+									 - 01	SATA3
+									 - 02	PCIe 2.0
+									 - 03	PCIe 3.0
+									 - 04	PCIe 4.0
+									 - 05	PCIe 5.0
+									*--------------------------------------------------*/
+									for(int i = partsSsdHistoryVOList.size()-1; i >= 0; i--) {
+										int mbScs = Integer.parseInt(partsMbHistoryVOList.get(mbIndex).getScsCd());
+										int ssdScs = Integer.parseInt(partsSsdHistoryVOList.get(i).getScsCd());
+										if(mbScs < ssdScs) {
+											partsSsdHistoryVOList.remove(i);
+										}
+									}
+									
+									
+									/*--------------------------------------------------
+									 - 45. 남은 SSD제품의 개수를 limy라고 한다.
+									 - limy<y라면 아래 변수 정렬 후 42번으로 돌아간다.(소거 시점도 42번으로 롤백한다.)
+									 - x=x+1 y=1
+									 - limy>y라면 연산을 이어나간다.
+									*--------------------------------------------------*/
+									int limy = partsSsdHistoryVOList.size();
+									
+									if(limy <= y) {
+										// limy<y라면 아래 변수 정렬 후 42번으로 돌아간다. -> limy<=y
+										y = 0;
+										continue; // 42번 처음 for 다음 ramIndey 진행
+									}
+									
+									// limy>=y라면 연산을 이어간다. -> limy>y
+									for(int ssdIndex = y; ssdIndex < limy; ssdIndex++) {
+										
+										loopCnt = loopCnt.add(new BigDecimal("1"));
+										
+										/*--------------------------------------------------
+										 - 46. γ번째 MB의 MC가 0이고 y번째 SSD의 STR2.5=0이면서 VC<y번째SSD의 Price+3000일
+										 - 때 y=y+1 처리 후 45번으로 돌아간다.
+										 - 위 세 조건 중 하나라도 미달된다면 아래의 동작을 취한다.
+										 - ω번째 견적 후보에 α β γ k p q x y값을 담고 해당 제품군들의 
+										 - Value 총합 수치를 기록한다.
+										 - ω=ω+1 y=y+1처리 후 45번으로 돌아간다.
+										*--------------------------------------------------*/
+										int mbMC = partsMbHistoryVOList.get(mbIndex).getMc();
+										int ssdSTR2dot5 = partsSsdHistoryVOList.get(ssdIndex).getStrTwoDotFive();
+										BigDecimal ssdPrice = new BigDecimal(partsSsdHistoryVOList.get(ssdIndex).getPartsPrice());
+										ssdPrice = ssdPrice.add(new BigDecimal("3000"));
+										int compareResult = VC.compareTo(ssdPrice);
+										
+										if(mbMC == 0 
+												&& ssdSTR2dot5 == 0
+												&& compareResult < 0) {
+											continue;
+										}else {
+											EstimateCalculationResultPrivateDetailVO resultVO = new EstimateCalculationResultPrivateDetailVO();
+											resultVO.setGpuId(partsGpuHistoryVOList.get(gpuIndex).getId());
+											resultVO.setGpuHistorySeq(partsGpuHistoryVOList.get(gpuIndex).getHistorySeq());
+											resultVO.setGpuValue(partsGpuHistoryVOList.get(gpuIndex).getGpuValue());
+											
+											resultVO.setCpuId(partsCpuHistoryVOList.get(cpuIndex).getId());
+											resultVO.setCpuHistorySeq(partsCpuHistoryVOList.get(cpuIndex).getHistorySeq());
+											resultVO.setCpuValue(partsCpuHistoryVOList.get(cpuIndex).getCpuValue());
+											
+											resultVO.setMbId(partsMbHistoryVOList.get(mbIndex).getId());
+											resultVO.setMbHistorySeq(partsMbHistoryVOList.get(mbIndex).getHistorySeq());
+											resultVO.setMbValue(partsMbHistoryVOList.get(mbIndex).getMbValue());
+											
+											resultVO.setCoolerId(partsCoolerHistoryVOList.get(coolerIndex).getId());
+											resultVO.setCoolerHistorySeq(partsCoolerHistoryVOList.get(coolerIndex).getHistorySeq());
+											resultVO.setCoolerValue(partsCoolerHistoryVOList.get(coolerIndex).getCoolerValue());
+											
+											resultVO.setCaseId(partsCaseHistoryVOList.get(caseIndex).getId());
+											resultVO.setCaseHistorySeq(partsCaseHistoryVOList.get(caseIndex).getHistorySeq());
+											resultVO.setCaseValue(partsCaseHistoryVOList.get(caseIndex).getCaseValue());
+											
+											resultVO.setPsuId(partsPsuHistoryVOList.get(psuIndex).getId());
+											resultVO.setPsuHistorySeq(partsPsuHistoryVOList.get(psuIndex).getHistorySeq());
+											resultVO.setPsuValue(partsPsuHistoryVOList.get(psuIndex).getPsuValue());
+											
+											resultVO.setRamId(partsRamHistoryVOList.get(ramIndex).getId());
+											resultVO.setRamHistorySeq(partsRamHistoryVOList.get(ramIndex).getHistorySeq());
+											resultVO.setRamValue(partsRamHistoryVOList.get(ramIndex).getRamValue());
+											
+											resultVO.setSsdId(partsSsdHistoryVOList.get(ssdIndex).getId());
+											resultVO.setSsdHistorySeq(partsSsdHistoryVOList.get(ssdIndex).getHistorySeq());
+											resultVO.setSsdValue(partsSsdHistoryVOList.get(ssdIndex).getSsdValue());
+											
+											resultVO.setTotalValue(
+													resultVO.getGpuValue()
+													.add(resultVO.getCpuValue())
+													.add(resultVO.getMbValue())
+													.add(resultVO.getCoolerValue())
+													.add(resultVO.getCaseValue())
+													.add(resultVO.getPsuValue())
+													.add(resultVO.getRamValue())
+													.add(resultVO.getSsdValue())
+											);
+											
+											ω.add(resultVO);
+										}
+										
+									} // 45번 for end
+								} // 42번 for end
+							} // 39번 for end
+						} // 33번 for end
+					} // 27번 for end
+				} // 24번 for end
+			} // 18번 for end
 		} // 13번 for end
 		
-		
 
+		/*--------------------------------------------------
+		 - 47. ω=1일 경우 견적산출 불가 알림을 띄운다.
+		*--------------------------------------------------*/
+		if(0 == ω.size()) {
+			String errMsg = "########## 견적산출 ERROR : 견적산출 결과저장량이 0입니다.";
+			
+			System.out.println(errMsg);
+			estimateCalculationResultPrivateMasterVO.setErrChk(true);
+			estimateCalculationResultPrivateMasterVO.setErrMsg(errMsg);
+		}else {
+			/*--------------------------------------------------
+			 - 48. ω>1일 경우 Value.SUM(1~ω)으로부터 가장 높은 
+			 - 수치를 가진 견적을 추적한다.
+			 - 49. α β γ k p q x y값을 복원한 뒤 13번 이후의 알고리즘을 
+			 - 복제하여 최종 선정 제품군들을 추적하고 산출페이지에 해당 제품을 전시한다.
+			*--------------------------------------------------*/
+			int selectIndex = 0;
+			BigDecimal maxValue = BigDecimal.ZERO;
+			for(int i = 0; i < ω.size(); i++) {
+				BigDecimal tempValue = ω.get(i).getTotalValue();
+				int compareResult = maxValue.compareTo(tempValue);
+				if(compareResult < 0) {
+					selectIndex = i;
+					maxValue = tempValue;
+				}
+			}
+			// 가장 value가 큰 모델 정보를 가진 EstimateCalculationResultPrivateDetailVO 세팅
+			estimateCalculationResultPrivateMasterVO.setSelectProduct(ω.get(selectIndex));
+			
+			/*--------------------------------------------------
+			 - 완본체 등록처리부(현재시점 견적산출일 때)
+			*--------------------------------------------------*/
+			if(null == targetDate) {
+				int productPrice = 0;
+				String maxId = productDAO.getProductMasterVOMaxId();
+				
+				estimateCalculationResultPrivateMasterVO.setCreateProductId(maxId);
+				
+				// gpu 등록
+				ProductDetailVO productDetailGpuVO = new ProductDetailVO();
+				PartsGpuVO partsGpuVO = partsService.getPartsGpuVOById(estimateCalculationResultPrivateMasterVO.getSelectProduct().getGpuId());
+				
+				productDetailGpuVO.setId(maxId);
+				productDetailGpuVO.setSeq(1);
+				productDetailGpuVO.setPartsTypeCd("01");
+				productDetailGpuVO.setPartsId(partsGpuVO.getId());
+				productDetailGpuVO.setPartsName(partsGpuVO.getPartsName());
+				productDetailGpuVO.setPartsQty(1);
+				productDetailGpuVO.setPartsPrice(partsGpuVO.getPartsPrice());
+				productDetailGpuVO.setPartsTotalPrice(partsGpuVO.getPartsPrice());
+				productDetailGpuVO.setPartsHistorySeq(partsGpuVO.getPartsHistorySeq());
+				productPrice += partsGpuVO.getPartsPrice();
+				
+				productDAO.insertProductDetailVO(productDetailGpuVO);
+				
+				// cpu 등록
+				ProductDetailVO productDetailCpuVO = new ProductDetailVO();
+				PartsCpuVO partsCpuVO = partsService.getPartsCpuVOById(estimateCalculationResultPrivateMasterVO.getSelectProduct().getCpuId());
+				
+				productDetailCpuVO.setId(maxId);
+				productDetailCpuVO.setSeq(2);
+				productDetailCpuVO.setPartsTypeCd("02");
+				productDetailCpuVO.setPartsId(partsCpuVO.getId());
+				productDetailCpuVO.setPartsName(partsCpuVO.getPartsName());
+				productDetailCpuVO.setPartsQty(1);
+				productDetailCpuVO.setPartsPrice(partsCpuVO.getPartsPrice());
+				productDetailCpuVO.setPartsTotalPrice(partsCpuVO.getPartsPrice());
+				productDetailCpuVO.setPartsHistorySeq(partsCpuVO.getPartsHistorySeq());
+				productPrice += partsCpuVO.getPartsPrice();
+				
+				productDAO.insertProductDetailVO(productDetailCpuVO);
+				
+				// mb 등록
+				ProductDetailVO productDetailMbVO = new ProductDetailVO();
+				PartsMbVO partsMbVO = partsService.getPartsMbVOById(estimateCalculationResultPrivateMasterVO.getSelectProduct().getMbId());
+				
+				productDetailMbVO.setId(maxId);
+				productDetailMbVO.setSeq(3);
+				productDetailMbVO.setPartsTypeCd("03");
+				productDetailMbVO.setPartsId(partsMbVO.getId());
+				productDetailMbVO.setPartsName(partsMbVO.getPartsName());
+				productDetailMbVO.setPartsQty(1);
+				productDetailMbVO.setPartsPrice(partsMbVO.getPartsPrice());
+				productDetailMbVO.setPartsTotalPrice(partsMbVO.getPartsPrice());
+				productDetailMbVO.setPartsHistorySeq(partsMbVO.getPartsHistorySeq());
+				productPrice += partsMbVO.getPartsPrice();
+				
+				productDAO.insertProductDetailVO(productDetailMbVO);
+				
+				// Cooler 등록
+				ProductDetailVO productDetailCoolerVO = new ProductDetailVO();
+				PartsCoolerVO partsCoolerVO = partsService.getPartsCoolerVOById(estimateCalculationResultPrivateMasterVO.getSelectProduct().getCoolerId());
+				
+				productDetailCoolerVO.setId(maxId);
+				productDetailCoolerVO.setSeq(4);
+				productDetailCoolerVO.setPartsTypeCd("07");
+				productDetailCoolerVO.setPartsId(partsCoolerVO.getId());
+				productDetailCoolerVO.setPartsName(partsCoolerVO.getPartsName());
+				productDetailCoolerVO.setPartsQty(1);
+				productDetailCoolerVO.setPartsPrice(partsCoolerVO.getPartsPrice());
+				productDetailCoolerVO.setPartsTotalPrice(partsCoolerVO.getPartsPrice());
+				productDetailCoolerVO.setPartsHistorySeq(partsCoolerVO.getPartsHistorySeq());
+				productPrice += partsCoolerVO.getPartsPrice();
+				
+				productDAO.insertProductDetailVO(productDetailCoolerVO);
+				
+				// Case 등록
+				ProductDetailVO productDetailCaseVO = new ProductDetailVO();
+				PartsCaseVO partsCaseVO = partsService.getPartsCaseVOById(estimateCalculationResultPrivateMasterVO.getSelectProduct().getCaseId());
+				
+				productDetailCaseVO.setId(maxId);
+				productDetailCaseVO.setSeq(5);
+				productDetailCaseVO.setPartsTypeCd("06");
+				productDetailCaseVO.setPartsId(partsCaseVO.getId());
+				productDetailCaseVO.setPartsName(partsCaseVO.getPartsName());
+				productDetailCaseVO.setPartsQty(1);
+				productDetailCaseVO.setPartsPrice(partsCaseVO.getPartsPrice());
+				productDetailCaseVO.setPartsTotalPrice(partsCaseVO.getPartsPrice());
+				productDetailCaseVO.setPartsHistorySeq(partsCaseVO.getPartsHistorySeq());
+				productPrice += partsCaseVO.getPartsPrice();
+				
+				productDAO.insertProductDetailVO(productDetailCaseVO);
+				
+				// Psu 등록
+				ProductDetailVO productDetailPsuVO = new ProductDetailVO();
+				PartsPsuVO partsPsuVO = partsService.getPartsPsuVOById(estimateCalculationResultPrivateMasterVO.getSelectProduct().getPsuId());
+				
+				productDetailPsuVO.setId(maxId);
+				productDetailPsuVO.setSeq(6);
+				productDetailPsuVO.setPartsTypeCd("05");
+				productDetailPsuVO.setPartsId(partsPsuVO.getId());
+				productDetailPsuVO.setPartsName(partsPsuVO.getPartsName());
+				productDetailPsuVO.setPartsQty(1);
+				productDetailPsuVO.setPartsPrice(partsPsuVO.getPartsPrice());
+				productDetailPsuVO.setPartsTotalPrice(partsPsuVO.getPartsPrice());
+				productDetailPsuVO.setPartsHistorySeq(partsPsuVO.getPartsHistorySeq());
+				productPrice += partsPsuVO.getPartsPrice();
+				
+				productDAO.insertProductDetailVO(productDetailPsuVO);
+				
+				// Ram 등록
+				ProductDetailVO productDetailRamVO = new ProductDetailVO();
+				PartsRamVO partsRamVO = partsService.getPartsRamVOById(estimateCalculationResultPrivateMasterVO.getSelectProduct().getRamId());
+				
+				productDetailRamVO.setId(maxId);
+				productDetailRamVO.setSeq(7);
+				productDetailRamVO.setPartsTypeCd("04");
+				productDetailRamVO.setPartsId(partsRamVO.getId());
+				productDetailRamVO.setPartsName(partsRamVO.getPartsName());
+				productDetailRamVO.setPartsQty(1);
+				productDetailRamVO.setPartsPrice(partsRamVO.getPartsPrice());
+				productDetailRamVO.setPartsTotalPrice(partsRamVO.getPartsPrice());
+				productDetailRamVO.setPartsHistorySeq(partsRamVO.getPartsHistorySeq());
+				productPrice += partsRamVO.getPartsPrice();
+				
+				productDAO.insertProductDetailVO(productDetailRamVO);
+				
+				// Ssd 등록
+				ProductDetailVO productDetailSsdVO = new ProductDetailVO();
+				PartsSsdVO partsSsdVO = partsService.getPartsSsdVOById(estimateCalculationResultPrivateMasterVO.getSelectProduct().getSsdId());
+				
+				productDetailSsdVO.setId(maxId);
+				productDetailSsdVO.setSeq(8);
+				productDetailSsdVO.setPartsTypeCd("09");
+				productDetailSsdVO.setPartsId(partsSsdVO.getId());
+				productDetailSsdVO.setPartsName(partsSsdVO.getPartsName());
+				productDetailSsdVO.setPartsQty(1);
+				productDetailSsdVO.setPartsPrice(partsSsdVO.getPartsPrice());
+				productDetailSsdVO.setPartsTotalPrice(partsSsdVO.getPartsPrice());
+				productDetailSsdVO.setPartsHistorySeq(partsSsdVO.getPartsHistorySeq());
+				productPrice += partsSsdVO.getPartsPrice();
+				
+				productDAO.insertProductDetailVO(productDetailSsdVO);
+				
+				// 완본체 마스터등록
+				ProductMasterVO productMasterVO = new ProductMasterVO();
+				productMasterVO.setId(maxId);
+				productMasterVO.setProductName("견적산출 자동등록 완본체");
+				productMasterVO.setProductPrice(productPrice);
+				productMasterVO.setProductQty(1);
+				productMasterVO.setProductDescription(targetId+" 로 부터 자동등록");
+				productMasterVO.setProductImage(partsCaseVO.getPartsImage());
+				productMasterVO.setProductRegistPathCd("02");
+				
+				productDAO.insertProductMasterVO(productMasterVO);
+			}
+		} // 47번 if else end
 		
-		return estimateCalculationResultPrivateVO;
-		
+		return estimateCalculationResultPrivateMasterVO;
 	}
 }

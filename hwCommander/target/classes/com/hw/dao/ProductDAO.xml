@@ -51,6 +51,8 @@
 			, a.product_regist_path_cd                                                          AS productRegistPathCd            
 		FROM
 			product_master a
+		WHERE
+			a.product_regist_path_cd = '01'
 	</select>
 	
 	<insert id="insertProductDetailVO" parameterType="productDetailVO">

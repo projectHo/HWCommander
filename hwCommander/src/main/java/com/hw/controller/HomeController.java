@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hw.model.EstimateCalculationResultPrivateDetailVO;
 import com.hw.model.ProcessResourceMasterVO;
 import com.hw.model.ProcessResourceTypeCodeInfoVO;
 import com.hw.model.UserInfoVO;
@@ -198,7 +199,19 @@ public class HomeController {
 			HttpServletRequest request
 			, Model model
 			, @RequestParam(value = "resultString", required = true) String resultString ) {
-		productService.estimateCalculation(resultString);
+		
+		// 견적산출 로직 호출
+		String productId = productService.estimateCalculation(resultString).getCreateProductId();
+		
+		// 과거견적산출은 아래와 같이 각각 부품id, 부품 history_seq로 조회쿼리 돌려서 정보 얻어오면 됨.
+//		EstimateCalculationResultPrivateDetailVO 
+//			estimateCalculationResultPrivateDetailVO = productService.estimateCalculation(resultString).getSelectProduct();
+//		estimateCalculationResultPrivateDetailVO.getGpuId();
+//		estimateCalculationResultPrivateDetailVO.getGpuHistorySeq();
+		
+		model.addAttribute("productMaster", productService.getProductMasterById(productId));
+		model.addAttribute("productDetail", productService.getProductDetailById(productId));
+		
 		return userLoginCheck(request, model, "estimateCalculationResult");
 	}
 	
