@@ -206,29 +206,29 @@
 		}
 	}
 	function clickAnswerBtn(el){
-		if($(el).html() !== "상관없음"){
+		if($(el).children().html() !== "상관없음"){
 			if(sessionStorage.getItem("data-12") === "5"){
 				answers = [];
 			}
 			$("#answer-f").prop("checked",false);
 			if($(el).siblings().prop("checked") === false){
-				if($(el).html() === "아크릴"){
+				if($(el).children().html() === "아크릴"){
 					if(!answers.includes("0")){
 						answers.push("0");
 					}
-				}else if ($(el).html() === "강화유리"){
+				}else if ($(el).children().html() === "강화유리"){
 					if(!answers.includes("1")){
 						answers.push("1");
 					}
-				}else if($(el).html() === "알루미늄"){
+				}else if($(el).children().html() === "알루미늄"){
 					if(!answers.includes("2")){
 						answers.push("2");
 					}
-				}else if($(el).html() === "통철판"){
+				}else if($(el).children().html() === "통철판"){
 					if(!answers.includes("3")){
 						answers.push("3");
 					}
-				}else if($(el).html() === "창문형 유리"){
+				}else if($(el).children().html() === "창문형 유리"){
 					if(!answers.includes("4")){
 						answers.push("4");
 					}

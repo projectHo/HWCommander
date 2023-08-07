@@ -22,6 +22,49 @@
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
+	let aa = "${productMaster}";
+	let bb = "${productDetail}";
+	const dataString = bb;
+
+	const jsonArrayString = dataString.substring(1, dataString.length - 1);
+	const jsonArray = jsonArrayString.split('ProductDetailVO(');
+	
+	const result = {};
+	var idVal = "";
+	jsonArray.forEach(item => {
+	  const keyValuePairs = item.split(', ');
+	  const detail = {};
+	  keyValuePairs.forEach(pair => {
+	    const [key, value] = pair.split('=');
+	    detail[key] = value;
+	  });
+	
+	  const id = detail.id;
+	  if (!result[id]) {
+	    result[id] = [];
+	  }
+      result[id].push(detail);	
+	  idVal = id;
+	});
+	console.log(result[idVal])
+	function enterPartsText () {
+		$(".gpu-text").html(result[idVal][0].partsName);
+		$(".cpu-text").html(result[idVal][1].partsName);
+		$(".mb-text").html(result[idVal][2].partsName);
+		$(".cooler-text").html(result[idVal][3].partsName);
+		$(".case-text").html(result[idVal][4].partsName);
+		$(".psu-text").html(result[idVal][5].partsName);
+		$(".ram-text").html(result[idVal][6].partsName);
+		$(".ssd-text").html(result[idVal][7].partsName);
+		$(".price-text").html(total + "원");
+	}
+	
+	let total = 0;
+	function calcPartsPrice() {
+		for (let i = 0; i<result[idVal].length; i++){
+			total += Number(result[idVal][i].partsPrice);
+		}
+	}
 	function clickReturnBtn () {
 		window.location.href = "estimateCalculationOne.do";
 		sessionStorage.clear();
@@ -44,7 +87,9 @@
 		const tooltipList = $('[data-bs-toggle="tooltip"]').map(function() {
 			return new bootstrap.Tooltip($(this)[0]);
 		}).get();
-
+		// 부품 이름 입력 & 총 가격 계산
+		calcPartsPrice();
+		enterPartsText();
 		
 	})
 </script>
@@ -72,7 +117,6 @@
 							  </div>
 							  <div class="col-md-8">
 								<div class="card-body">
-									<h2 class="card-title mb-3 fw-bold">컴퓨터 이름</h2>
 									<h4 class="card-title">제품 상세 정보</h4>
 									<div class="container mb-3">
 										<p class="card-text mb-0 fw-bold">가격 : <span class="fw-normal price-text">111</span></p>
