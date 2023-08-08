@@ -199,15 +199,15 @@
 		}
 	};
 	function clickAnswerBtn(el){
-		if($(el).html() === "예산에 맞게"){
+		if($(el).children().html() === "예산에 맞게"){
 			sessionStorage.setItem("data-11",0);
-		}else if($(el).html() === "256GB"){
+		}else if($(el).children().html() === "256GB"){
 			sessionStorage.setItem("data-11",1);
-		}else if($(el).html() === "512GB"){
+		}else if($(el).children().html() === "512GB"){
 			sessionStorage.setItem("data-11",2);
-		}else if($(el).html() === "1024GB(1TB)"){
+		}else if($(el).children().html() === "1024GB(1TB)"){
 			sessionStorage.setItem("data-11",3);
-		}else if($(el).html() === "2048GB(1TB)"){
+		}else if($(el).children().html() === "2048GB(1TB)"){
 			sessionStorage.setItem("data-11",4);
 		}
 	}
@@ -227,6 +227,8 @@
 			setTimeout(() => {
 				$(el).removeClass("is-valid");
 			}, 2000);
+			$(el).css("display","none");
+			$(".loading-prog").css("display","block");
 			sendAllData();
 		}
 	}
@@ -334,6 +336,10 @@
 						</div>
 						<div class="col-4">
 							<button type="button" class="form-control margin-center" onclick="javascript:clickEstimateBtn(this)"><p class="pt-2 m-0">견적 보기</p></button>
+							<button class="btn btn-primary margin-center loading-prog w-100" type="button" disabled style="display: none;">
+								<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+								Loading...
+							</button>
 						</div>
 						<div class="col-4">
 							<button type="button" class="form-control margin-left-auto w-50" onclick="javascript:clickNextBtn(this)"><p class="pt-2 m-0">다음 질문</p></button>

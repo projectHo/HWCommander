@@ -194,6 +194,8 @@
 					value.push(storageValue);
 				}
 				sessionStorage.setItem("data-3",JSON.stringify(value))
+				$(el).css("display","none");
+				$(".loading-prog").css('display',"block");
 				sendAllData();
 			}
 		}else{
@@ -207,6 +209,8 @@
 				value.push(storageValue);
 			}
 			sessionStorage.setItem("data-3",JSON.stringify(value))
+			$(el).css('display',"none");
+			$(".loading-prog").css('display',"block");
 			sendAllData();
 		}
 	}
@@ -645,6 +649,10 @@
 							</div>
 							<div class="col">
 								<button type="button" class="form-control calc-two-final margin-center" onclick="javascript:clickEstimateBtn(this)"><p class="pt-2 m-0">견적 보기</p></button>
+								<button class="btn btn-primary margin-center loading-prog w-100" type="button" disabled style="display: none;">
+									<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+									Loading...
+								</button>
 							</div>
 							<div class="col">
 								<button type="button" class="form-control w-50 margin-left-auto" onclick="javascript:clickNextBtn(this)"><p class="pt-2 m-0">다음 질문</p></button>

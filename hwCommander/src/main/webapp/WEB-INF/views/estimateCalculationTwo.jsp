@@ -412,7 +412,7 @@
 
 		}
 	}
-	function clickEstimateBtn() {
+	function clickEstimateBtn(el) {
 		let totalRating = 0;
 		$(".use-list-rating").each(function() {
 			totalRating += parseInt($(this).val(), 10) || 0;
@@ -427,7 +427,9 @@
 				value.push(storageValue);
 			}
 			sessionStorage.setItem("data-2",JSON.stringify(value));
-			sendAllData()
+			sendAllData();
+			$(el).css("display","none");
+			$(".loading-prog").css("display","block");
 		}else{
 			$(".calc-two-final-text").css("display","block");
 			$(".calc-two-final").addClass("is-invalid");
@@ -650,104 +652,106 @@
 			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
 			<!-- 작업영역 -->
 			<div class="estimateCalc_background p-2" style="width: 70% !important">
-	 			<div class="w-75 container">
-			 		<div class="row mt-4 pb-4">
-			 			<div class="col-2 text-center">
-			 				<div class="donut-container margin-center">
-		                  		<div class="donut-fill">1</div>
-		                  </div>
-			 			</div>
-			 			<div class="col-8 d-flex p-2">
-			 				<input id="typingInput" class="form-control text-center pt-3 fs-5" type="text" readonly aria-label="사용 용도" disabled />
-			 			</div>
+				<div class="w-75 container">
+					<div class="row mt-4 pb-4">
+						<div class="col-2 text-center">
+							<div class="donut-container margin-center">
+								<div class="donut-fill">1</div>
+							</div>
+						</div>
+						<div class="col-8 d-flex p-2">
+							<input id="typingInput" class="form-control text-center pt-3 fs-5" type="text" readonly aria-label="사용 용도" disabled />
+						</div>
 						<div class="col-2 d-flex flex-column-reverse">
-			 				<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="목록 중 기타 항목 선택시 장르의 평균적인 PC로 구성됩니다!" style="cursor:pointer">
-			 			</div>
-			
-			 		</div>
-			 		
-				 		<div class="row pb-2">
-				 			<div class="col">
-				 				<div class="list-group mb-1 w-75 text-center">
-								  <button type="button" class="list-group-item list-group-item-action mb-3 bgc-disabled" disabled aria-current="true"><p class="pt-2 m-0">게임</p></button>
-							    </div>
-				 				<div class="list-group mb-3 w-75 text-center list-game"></div>
-				 			</div>
-				 			<div class="col">
-				 				<div class="list-group mb-1 w-75 text-center margin-center">
-								  <button type="button" class="list-group-item list-group-item-action mb-3 bgc-disabled" disabled aria-current="true"><p class="pt-2 m-0">작업</p></button>
-							    </div>
-				 				<div class="list-group mb-3 w-75 text-center margin-center list-work"></div>
-				 			</div>
-				 			<div class="col d-flex justify-content-end">
-				 				<div class="list-group mb-1 w-75 text-center">
-								  <input type="checkbox" class="btn-check" id="work-surf" autocomplete="off">
-								  <label class="btn btn-outline-secondary surf-btn" for="work-surf" onclick="javascript:clickSurfBtn()"><p class="pt-2 m-0">서핑</p></label>
-							    </div>
-				 			</div>
+							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="목록 중 기타 항목 선택시 장르의 평균적인 PC로 구성됩니다!" style="cursor:pointer">
 						</div>
-							<div class="row table-style p-1 mb-3 table-container" style="display: none;">
-								<div class="container">
-									<table class="table table-submit">
-										<thead>
-											<tr>
-												<th scope="col" class="text-center" style="width: 15%;">장르</th>
-												<th scope="col" class="submit-name ps-4">목록</th>
-												<th scope="col" style="width:20%">비중</th>
-												<th scope="col" style="width:10%"></th>
-											</tr>
-										</thead>
-										<tbody class="table-body"></tbody>
-									</table>
-								</div>
+					</div>
+					<div class="row pb-2">
+						<div class="col">
+							<div class="list-group mb-1 w-75 text-center">
+							<button type="button" class="list-group-item list-group-item-action mb-3 bgc-disabled" disabled aria-current="true"><p class="pt-2 m-0">게임</p></button>
 							</div>
-							<div class="row mb-4">
-								<div class="col">
-									<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:clickReturnBtn()"><p class="pt-2 m-0">이전 질문</p></button>
-								</div>
-								<div class="col">
-									<button type="button" class="form-control calc-two-final margin-center" onclick="javascript:clickEstimateBtn()"><p class="pt-2 m-0">견적 보기</p></button>
-									<div class="invalid-feedback fs-5 calc-two-final-text text-center" style="display: none; font-weight: bold;">2페이지 까지는 필수 질문입니다!</div>
-									<div class="invalid-feedback fs-5 calc-two-final-text-use text-center" style="display: none; font-weight: bold;">사용 용도를 선택해주세요!</div>
-									<div class="invalid-feedback fs-5 calc-two-final-text-rating text-center" style="display: none; font-weight: bold;">비중을 100%로 맞춰주세요!</div>
-								</div>
-								<div class="col">
-									<button type="button" class="form-control w-50 margin-left-auto next-two-btn" onclick="javascript:clickNextBtn()"><p class="pt-2 m-0">다음 질문</p></button>
-								</div>
+							<div class="list-group mb-3 w-75 text-center list-game"></div>
+						</div>
+						<div class="col">
+							<div class="list-group mb-1 w-75 text-center margin-center">
+							<button type="button" class="list-group-item list-group-item-action mb-3 bgc-disabled" disabled aria-current="true"><p class="pt-2 m-0">작업</p></button>
 							</div>
-				 		<div class="modal fade" id="use-collector" tabindex="-1" aria-labelledby="collecter" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-						  <div class="modal-dialog">
-						    <div class="modal-content">
-						      <div class="modal-header">
-						        <h1 class="modal-title fs-5 collector-name"></h1>
-						        <button type="button" class="btn-close modal-btn" data-bs-dismiss="modal" aria-label="Close"></button>
-						      </div>
-						      <div class="modal-body">
-								<div class="container">
-						       	  <table class="table">
+							<div class="list-group mb-3 w-75 text-center margin-center list-work"></div>
+						</div>
+						<div class="col d-flex justify-content-end">
+							<div class="list-group mb-1 w-75 text-center">
+							<input type="checkbox" class="btn-check" id="work-surf" autocomplete="off">
+							<label class="btn btn-outline-secondary surf-btn" for="work-surf" onclick="javascript:clickSurfBtn()"><p class="pt-2 m-0">서핑</p></label>
+							</div>
+						</div>
+					</div>
+						<div class="row table-style p-1 mb-3 table-container" style="display: none;">
+							<div class="container">
+								<table class="table table-submit">
 									<thead>
-									  <tr>
-										<form class="form-inline">
-											<input type="text" class="form-control" id="search-input" placeholder="검색어를 입력하세요">
-										</form>
-									  </tr>
-									  <tr>
-										<th scope="col">이름</th>
-									  </tr>
+										<tr>
+											<th scope="col" class="text-center" style="width: 15%;">장르</th>
+											<th scope="col" class="submit-name ps-4">목록</th>
+											<th scope="col" style="width:20%">비중</th>
+											<th scope="col" style="width:10%"></th>
+										</tr>
 									</thead>
-									<tbody id="label-table"></tbody>
-								  </table>
-								</div>
-						      </div>
-						      <div class="modal-footer">
-						        <button type="button" class="btn btn-secondary modal-btn" data-bs-dismiss="modal" onclick="javascript:modalCancel()">취소</button>
-						        <button type="button" class="btn btn-primary modal-btn modal-submit-btn" onclick="javascript:modalSubmit()">저장</button>
-						      </div>
-						    </div>
-						  </div>
+									<tbody class="table-body"></tbody>
+								</table>
+							</div>
 						</div>
-			 	</div>
-	 		</div>
+						<div class="row mb-4">
+							<div class="col">
+								<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:clickReturnBtn()"><p class="pt-2 m-0">이전 질문</p></button>
+							</div>
+							<div class="col">
+								<button type="button" class="form-control calc-two-final margin-center" onclick="javascript:clickEstimateBtn(this)"><p class="pt-2 m-0">견적 보기</p></button>
+								<button class="btn btn-primary margin-center loading-prog w-100" type="button" disabled style="display: none;">
+									<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+									Loading...
+								</button>
+								<div class="invalid-feedback fs-5 calc-two-final-text text-center" style="display: none; font-weight: bold;">2페이지 까지는 필수 질문입니다!</div>
+								<div class="invalid-feedback fs-5 calc-two-final-text-use text-center" style="display: none; font-weight: bold;">사용 용도를 선택해주세요!</div>
+								<div class="invalid-feedback fs-5 calc-two-final-text-rating text-center" style="display: none; font-weight: bold;">비중을 100%로 맞춰주세요!</div>
+							</div>
+							<div class="col">
+								<button type="button" class="form-control w-50 margin-left-auto next-two-btn" onclick="javascript:clickNextBtn()"><p class="pt-2 m-0">다음 질문</p></button>
+							</div>
+						</div>
+					<div class="modal fade" id="use-collector" tabindex="-1" aria-labelledby="collecter" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h1 class="modal-title fs-5 collector-name"></h1>
+									<button type="button" class="btn-close modal-btn" data-bs-dismiss="modal" aria-label="Close"></button>
+								</div>
+								<div class="modal-body">
+									<div class="container">
+									<table class="table">
+										<thead>
+										<tr>
+											<form class="form-inline">
+												<input type="text" class="form-control" id="search-input" placeholder="검색어를 입력하세요">
+											</form>
+										</tr>
+										<tr>
+											<th scope="col">이름</th>
+										</tr>
+										</thead>
+										<tbody id="label-table"></tbody>
+									</table>
+									</div>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-secondary modal-btn" data-bs-dismiss="modal" onclick="javascript:modalCancel()">취소</button>
+									<button type="button" class="btn btn-primary modal-btn modal-submit-btn" onclick="javascript:modalSubmit()">저장</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 			
 			</div>
 			<!-- 빈 영역 -->
