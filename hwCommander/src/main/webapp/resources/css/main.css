@@ -243,6 +243,7 @@
   font-style: normal;
 }
 
-#id,#pw{
+#id,#pw,#pwConfirm,.join-members{
   font-family: serif;
+  font-weight: bold;
 }

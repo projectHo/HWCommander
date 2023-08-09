@@ -119,13 +119,13 @@
 								<div class="card-body">
 									<h4 class="card-title">제품 상세 정보</h4>
 									<div class="container mb-3">
-										<p class="card-text mb-0 fw-bold">가격 : <span class="fw-normal price-text">111</span></p>
-										<p class="card-text mb-0 fw-bold">CPU : <span class="fw-normal cpu-text">111</span></p>
-										<p class="card-text mb-0 fw-bold">Cooler : <span class="fw-normal cooler-text">111</span></p>
-										<p class="card-text mb-0 fw-bold">MB : <span class="fw-normal mb-text">111</span></p>
-										<p class="card-text mb-0 fw-bold">GPU : <span class="fw-normal gpu-text">111</span></p>
-										<p class="card-text mb-0 fw-bold">SSD : <span class="fw-normal ssd-text">111</span></p>
-										<p class="card-text mb-0 fw-bold">CASE : <span class="fw-normal case-text">111</span></p>
+										<p class="card-text mb-0 fw-bold pb-1">가격 : <span class="fw-normal price-text">111</span></p>
+										<p class="card-text mb-0 fw-bold pb-1">CPU : <span class="fw-normal cpu-text">111</span></p>
+										<p class="card-text mb-0 fw-bold pb-1">Cooler : <span class="fw-normal cooler-text">111</span></p>
+										<p class="card-text mb-0 fw-bold pb-1">MB : <span class="fw-normal mb-text">111</span></p>
+										<p class="card-text mb-0 fw-bold pb-1">GPU : <span class="fw-normal gpu-text">111</span></p>
+										<p class="card-text mb-0 fw-bold pb-1">SSD : <span class="fw-normal ssd-text">111</span></p>
+										<p class="card-text mb-0 fw-bold pb-1">CASE : <span class="fw-normal case-text">111</span></p>
 										<p class="card-text mb-0 fw-bold">PSU : <span class="fw-normal psu-text">111</span></p>
 										<div class="row">
 											<div class="col">
@@ -145,15 +145,14 @@
 											</div>
 										</div>
 									</div>
-									<h4 class="card-title">제품 설명</h4>
+									<!-- <h4 class="card-title">제품 설명</h4>
 									<div class="container mb-3">
 										<p class="card-text fw-bold">제품설명블라블라</p>
-									</div>
+									</div> -->
 									<h4 class="card-title">배송 정보</h4>
 									<div class="container mb-3">
-										<p class="card-text mb-0 fw-bold">배송기간 : <span class="fw-normal delivery-period">1달</span></p>
-										<p class="card-text mb-0 fw-bold">택배사 : <span class="fw-normal delivery-period">로젠통운</span></p>
-										<p class="card-text mb-0 fw-bold">배송비 : <span class="fw-normal delivery-period">30,000원</span></p>
+										<p class="card-text mb-0 fw-bold pb-1">배송기간 : <span class="fw-normal delivery-period">영업일 기준 1~2일</span></p>
+										<p class="card-text mb-0 fw-bold pb-1">택배사 : <span class="fw-normal delivery-period">우체국택배</span></p>
 										<p class="card-text mb-0 fw-bold"><small class="text-muted">도서산간 지역의 경우 배송이 제한되거나 추가요금이 발생할 수 있습니다.</small></p>
 										<p class="card-text"><small class="text-muted">AS 기준은 각 부품의 유통사 규정에 따르며 해당 쇼핑몰에서 1년간 무상 AS를 지원해드립니다.</small></p>
 									</div>

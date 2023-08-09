@@ -213,9 +213,9 @@
 	}
 
 	function clickAnswerBtn(el){
-		if($(el).html() === "DDR4"){
+		if($(el).children().html() === "DDR4"){
 			sessionStorage.setItem("data-9",0);
-		}else if($(el).html() === "DDR5"){
+		}else if($(el).children().html() === "DDR5"){
 			sessionStorage.setItem("data-9",1);
 		}else {
 			sessionStorage.setItem("data-9",2);
