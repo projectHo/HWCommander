@@ -198,69 +198,25 @@
 			setTimeout(goToZero, 20);
 		}
 	};
-	let answers=[];
-	if(sessionStorage.getItem("data-12")){
-		let datas = JSON.parse(sessionStorage.getItem("data-12"));
-		for(let i = 0 ; i < datas.length ; i++){
-			answers.push(datas[i]);
-		}
-	}
 	function clickAnswerBtn(el){
-		if($(el).children().html() !== "상관없음"){
-			if(sessionStorage.getItem("data-12") === "5"){
-				answers = [];
-			}
-			$("#answer-f").prop("checked",false);
-			if($(el).siblings().prop("checked") === false){
-				if($(el).children().html() === "아크릴"){
-					if(!answers.includes("0")){
-						answers.push("0");
-					}
-				}else if ($(el).children().html() === "강화유리"){
-					if(!answers.includes("1")){
-						answers.push("1");
-					}
-				}else if($(el).children().html() === "알루미늄"){
-					if(!answers.includes("2")){
-						answers.push("2");
-					}
-				}else if($(el).children().html() === "통철판"){
-					if(!answers.includes("3")){
-						answers.push("3");
-					}
-				}else if($(el).children().html() === "창문형 유리"){
-					if(!answers.includes("4")){
-						answers.push("4");
-					}
-				}
-			}else if($(el).siblings().prop("checked") === true){
-				var index = answers.indexOf($(el).attr("data-value"));
-				if(index !== -1){
-					answers.splice(index,1);
-				}
-			}
-			sessionStorage.setItem("data-12",JSON.stringify(answers));
-		}else {
-			if($(el).siblings().prop("checked") === false){
-				answers = [];
-				answers.push("5");
-				$("#answer-a").prop("checked",false);
-				$("#answer-b").prop("checked",false);
-				$("#answer-c").prop("checked",false);
-				$("#answer-d").prop("checked",false);
-				$("#answer-e").prop("checked",false);
-				sessionStorage.setItem("data-12",JSON.stringify(answers));
-				answers = [];
-			}
+		if($(el).children().html() === "예산에 맞게"){
+			sessionStorage.setItem("data-12",0);
+		}else if($(el).children().html() === "256GB"){
+			sessionStorage.setItem("data-12",1);
+		}else if($(el).children().html() === "512GB"){
+			sessionStorage.setItem("data-12",2);
+		}else if($(el).children().html() === "1024GB(1TB)"){
+			sessionStorage.setItem("data-12",3);
+		}else if($(el).children().html() === "2048GB(2TB)"){
+			sessionStorage.setItem("data-12",4);
 		}
 	}
-	
 	function clickReturnBtn(){
 		sessionStorage.setItem("data-12","");
 		location.href = "estimateCalculationEleven.do";
 	}
 	function clickEstimateBtn(el){
-		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false && $("#answer-d").prop("checked") === false && $("#answer-e").prop("checked") === false && $("#answer-f").prop("checked") === false){
+		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false && $("#answer-d").prop("checked") === false && $("#answer-e").prop("checked") === false){
 			alert("선택은 필수에요!");
 			$(el).addClass("is-invalid");
 			setTimeout(() => {
@@ -277,7 +233,7 @@
 		}
 	}
 	function clickNextBtn(el){
-		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false && $("#answer-d").prop("checked") === false && $("#answer-e").prop("checked") === false && $("#answer-f").prop("checked") === false){
+		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false && $("#answer-d").prop("checked") === false && $("#answer-e").prop("checked") === false){
 			alert("선택은 필수에요!");
 			$(el).addClass("is-invalid");
 			setTimeout(() => {
@@ -291,14 +247,14 @@
 			window.location.href = "estimateCalculationThirteen.do";
 		}
 	}
-	$(function(){
+	$(function () {
 		// donut
-		$(".donut-fill").css("left","calc(50% - 22px)");
 		animateDonutGauge();
+		$(".donut-fill").css("left","calc(50% - 22px)");
 		// typing question text
 		let index = 0;
 		function typeText() {
-			const text = "원하시는 본체 옆판의 소재를 선택해주세요!(다중선택 가능)";
+			const text = "C드라이브(SSD)의 용량을 선택해주세요!";
 			if (index < text.length) {
 			$("#typingInput").val(function(i, val) {
 				return val + text.charAt(index);
@@ -314,24 +270,19 @@
 		}).get();
 		// 견적산출 데이터처리부(수신)
 		if(sessionStorage.getItem("data-12")){
-			const storedData = JSON.parse(sessionStorage.getItem("data-12"));
-			for(let i =0; i<storedData.length; i++){
-				if (storedData[i] === "0"){
-					$("#answer-a").prop("checked",true);
-				}else if (storedData[i] === "1"){
-					$("#answer-b").prop("checked",true);
-				}else if (storedData[i] === "2"){
-					$("#answer-c").prop("checked",true);
-				}else if (storedData[i] === "3"){
-					$("#answer-d").prop("checked",true);
-				}else if (storedData[i] === "4"){
-					$("#answer-e").prop("checked",true);
-				}else if(storedData[i] === "5"){
-					$("#answer-f").prop("checked",true);
-				}
+			if(sessionStorage.getItem("data-12") === "0"){
+				$("#answer-a").prop("checked",true);
+			}else if (sessionStorage.getItem("data-12") === "1"){
+				$("#answer-b").prop("checked",true);
+			}else if (sessionStorage.getItem("data-12") === "2"){
+				$("#answer-c").prop("checked",true);
+			}else if (sessionStorage.getItem("data-12") === "3"){
+				$("#answer-d").prop("checked",true);
+			}else if (sessionStorage.getItem("data-12") === "4"){
+				$("#answer-e").prop("checked",true);
 			}
 		}
-	})
+});
 </script>
 </head>
 <body>
@@ -343,7 +294,7 @@
 			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
 			<!-- 작업영역 -->
 			<div class="estimateCalc_background p-5" style="width: 70% !important">
-				<div class="w-75 container">
+	 			<div class="w-75 container">
 					<div class="row mt-4 pb-5">
 						<div class="col-2 text-center">
 							<div class="donut-container margin-center">
@@ -354,35 +305,29 @@
 							<input id="typingInput" class="form-control text-center pt-2 fs-5" type="text" readonly aria-label="예산 편성" disabled />
 						</div>
 					    <div class="col-2 d-flex flex-column-reverse">
-							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="본체 옆판의 소재를 선택해주세요!(선택사항입니다)" style="cursor:pointer">
+							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="저장장치의 용량을 골라주세요!" style="cursor:pointer">
 						</div>
 					</div>
 					<div class="row pb-5">
 						<div class="col d-flex justify-content-center">
-							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-a">
-							<label class="btn btn-outline-secondary w-75" for="answer-a" data-value="0" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">아크릴</p></label>
+							<input type="radio" class="btn-check" name="btnradio" id="answer-a">
+							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">예산에 맞게</p></label>
 						</div>
 						<div class="col d-flex justify-content-center">
-							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-b">
-							<label class="btn btn-outline-secondary w-75" for="answer-b" data-value="1" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">강화유리</p></label>
+							<input type="radio" class="btn-check" name="btnradio" id="answer-b">
+							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">256GB</p></label>
 						</div>
 						<div class="col d-flex justify-content-center">
-							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-c">
-							<label class="btn btn-outline-secondary w-75" for="answer-c" data-value="2" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">알루미늄</p></label>
-						</div>
-					</div>
-					<div class="row pb-5">
-						<div class="col d-flex justify-content-center">
-							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-d">
-							<label class="btn btn-outline-secondary w-75" for="answer-d" data-value="3" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">통철판</p></label>
+							<input type="radio" class="btn-check" name="btnradio" id="answer-c">
+							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">512GB</p></label>
 						</div>
 						<div class="col d-flex justify-content-center">
-							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-e">
-							<label class="btn btn-outline-secondary w-75" for="answer-e" data-value="4" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">창문형 유리</p></label>
+							<input type="radio" class="btn-check" name="btnradio" id="answer-d">
+							<label class="btn btn-outline-secondary w-75" for="answer-d" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">1024GB(1TB)</p></label>
 						</div>
 						<div class="col d-flex justify-content-center">
-							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-f">
-							<label class="btn btn-outline-secondary w-75" for="answer-f" data-value="5" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">상관없음</p></label>
+							<input type="radio" class="btn-check" name="btnradio" id="answer-e">
+							<label class="btn btn-outline-secondary w-75" for="answer-e" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">2048GB(2TB)</p></label>
 						</div>
 					</div>
 					<div class="row mb-4">
@@ -403,9 +348,10 @@
 			 	</div>
 	 		</div>
 			
+			</div>
 			<!-- 빈 영역 -->
 			<div class="justify-content-end" style="width: 15%!important;"></div>
-		</div>
+		
 		
 		<!-- 2022.11.16 디자인이미지 추가 -->
 		<div class="mt-5 mx-5" style="height: 15%!important;">

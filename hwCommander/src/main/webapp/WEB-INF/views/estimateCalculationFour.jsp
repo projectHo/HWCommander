@@ -185,7 +185,7 @@
 			progress += 5;
 			setTimeout(animateDonutGauge, 20);
 		} else {
-			$(".donut-fill").html("4-1");
+			$(".donut-fill").html("4");
 			goToZero();
 		}
 	};
@@ -202,7 +202,7 @@
 	// typing question text
 	let index = 0;
 	function typeText() {
-		const text = " 운영체재";
+		const text = " 운영체제를 구매하실 예정이신가요?";
 		if (index < text.length) {
 		$("#typingInput").val(function(i, val) {
 			return val + text.charAt(index);
@@ -213,10 +213,12 @@
 	}
 
 	function clickAnswerBtn(el){
-		if($(el).html() === "필요해요!"){
+		if($(el).children().html().includes("COEM")){
 			sessionStorage.setItem("data-4",0);
-		}else {
+		}else if($(el).children().html().includes("FPP")){
 			sessionStorage.setItem("data-4",1);
+		}else {
+			sessionStorage.setItem("data-4",2);
 		}
 	}
 	function returnPageBtn(){
@@ -234,7 +236,7 @@
 			sendAllData();
 		}else {
 			$(el).addClass("is-invalid");
-			alert("둘중에 하나 선택해주세요!")
+			alert("셋 중에 하나 선택해주세요!")
 			setTimeout(() => {
 				$(el).removeClass("is-invalid");
 			}, 2000);
@@ -243,7 +245,7 @@
 	function clickNextBtn(el){
 		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked")===false){
 			$(el).addClass("is-invalid");
-			alert("둘중에 하나 선택해주세요!")
+			alert("셋 중에 하나 선택해주세요!")
 			setTimeout(() => {
 				$(el).removeClass("is-invalid");
 			}, 2000);
@@ -268,6 +270,8 @@
 			$("#answer-a").prop("checked",true);
 		}else if (sessionStorage.getItem("data-4") === "1"){
 			$("#answer-b").prop("checked",true);
+		}else {
+			$("#answer-c").prop("checked",true);
 		}
 	}
 	})

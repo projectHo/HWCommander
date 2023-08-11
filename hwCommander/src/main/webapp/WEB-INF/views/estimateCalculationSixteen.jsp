@@ -198,57 +198,21 @@
 			setTimeout(goToZero, 20);
 		}
 	};
-	let answers=[];
-	if(sessionStorage.getItem("data-16")){
-		let datas = JSON.parse(sessionStorage.getItem("data-16"));
-		for(let i = 0 ; i<datas.length; i++){
-			answers.push(datas[i]);
-		}
-	}
 	function clickAnswerBtn(el){
-		if($(el).attr("data-value") === "0" || $(el).attr("data-value") === "1" || $(el).attr("data-value") === "2"){
-			console.log(answers[0])
-			if(answers[0] === "3" || answers[0] === "4"){
-				answers = [];
-				$("#answer-d").prop("checked",false);
-				$("#answer-e").prop("checked",false);
-			}
-			if($(el).siblings().prop("checked") === false){
-				if(!answers.includes($(el).attr("data-value"))){
-					answers.push($(el).attr("data-value"));
-				}
-			}else if($(el).siblings().prop("checked") === true){
-				var index = answers.indexOf($(el).attr("data-value"));
-				if(index !== -1){
-					answers.splice(index,1);
-				}
-			}
-			sessionStorage.setItem("data-16",JSON.stringify(answers));
-		}else if ($(el).attr("data-value") === "3" || $(el).attr("data-value") === "4"){
-			answers = [];
-			if($(el).attr("data-value") === "3"){
-				$("#answer-a").prop("checked",false);
-				$("#answer-b").prop("checked",false);
-				$("#answer-c").prop("checked",false);
-				$("#answer-e").prop("checked",false);
-				answers.push($(el).attr("data-value"));
-			}else if ($(el).attr("data-value") === "4"){
-				$("#answer-a").prop("checked",false);
-				$("#answer-b").prop("checked",false);
-				$("#answer-c").prop("checked",false);
-				$("#answer-d").prop("checked",false);
-				answers.push($(el).attr("data-value"));
-			}
-			sessionStorage.setItem("data-16",JSON.stringify(answers));
+		if($(el).html().includes("전체")){
+			sessionStorage.setItem("data-16",0);
+		}else if($(el).html().includes("상단")){
+			sessionStorage.setItem("data-16",1);
+		}else if($(el).html().includes("기본")){
+			sessionStorage.setItem("data-16",2);
 		}
 	}
-	
 	function clickReturnBtn(){
 		sessionStorage.setItem("data-16","");
 		location.href = "estimateCalculationFifteen.do";
 	}
 	function clickEstimateBtn(el){
-		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false && $("#answer-d").prop("checked") === false && $("#answer-e").prop("checked") === false){
+		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false){
 			alert("선택은 필수에요!");
 			$(el).addClass("is-invalid");
 			setTimeout(() => {
@@ -265,7 +229,7 @@
 		}
 	}
 	function clickNextBtn(el){
-		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false && $("#answer-d").prop("checked") === false && $("#answer-e").prop("checked") === false){
+		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false){
 			alert("선택은 필수에요!");
 			$(el).addClass("is-invalid");
 			setTimeout(() => {
@@ -279,14 +243,14 @@
 			window.location.href = "estimateCalculationSeventeen.do";
 		}
 	}
-	$(function(){
+	$(function () {
 		// donut
-		$(".donut-fill").css("left","calc(50% - 22px)");
 		animateDonutGauge();
+		$(".donut-fill").css("left","calc(50% - 22px)");
 		// typing question text
 		let index = 0;
 		function typeText() {
-			const text = "본체에 LED를 선택해주세요!(다중선택)";
+			const text = "케이스에 팬을 추가할까요?";
 			if (index < text.length) {
 			$("#typingInput").val(function(i, val) {
 				return val + text.charAt(index);
@@ -302,22 +266,16 @@
 		}).get();
 		// 견적산출 데이터처리부(수신)
 		if(sessionStorage.getItem("data-16")){
-			const storedData = JSON.parse(sessionStorage.getItem("data-16"));
-			for(let i =0; i<storedData.length; i++){
-				if (storedData[i] === "0"){
-					$("#answer-a").prop("checked",true);
-				}else if (storedData[i] === "1"){
-					$("#answer-b").prop("checked",true);
-				}else if (storedData[i] === "2"){
-					$("#answer-c").prop("checked",true);
-				}else if (storedData[i] === "3"){
-					$("#answer-d").prop("checked",true);
-				}else if (storedData[i] === "4"){
-					$("#answer-e").prop("checked",true);
-				}
+			const storedData = sessionStorage.getItem("data-16");
+			if(storedData === "0"){
+				$("#answer-a").prop("checked",true);
+			}else if (storedData === "1"){
+				$("#answer-b").prop("checked",true);
+			}else if (storedData === "2"){
+				$("#answer-c").prop("checked",true);
 			}
 		}
-	})
+	});
 </script>
 </head>
 <body>
@@ -340,31 +298,21 @@
 							<input id="typingInput" class="form-control text-center pt-2 fs-5" type="text" readonly aria-label="예산 편성" disabled />
 						</div>
 					    <div class="col-2 d-flex flex-column-reverse">
-							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="본체 LED 좋아하세요?" style="cursor:pointer">
+							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="컴퓨터 케이스의 팬을 골라주세요!!" style="cursor:pointer">
 						</div>
 					</div>
 					<div class="row pb-5">
 						<div class="col d-flex justify-content-center">
-							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-a">
-							<label class="btn btn-outline-secondary w-75" for="answer-a" data-value="0" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">LED</p></label>
+							<input type="radio" class="btn-check" name="btnradio" id="answer-a" >
+							<label class="btn btn-outline-secondary w-75 d-flex align-items-center justify-content-center" for="answer-a" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">측면 하단 등 빈공간 전체</p></label>
 						</div>
 						<div class="col d-flex justify-content-center">
-							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-b">
-							<label class="btn btn-outline-secondary w-75" for="answer-b" data-value="1" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">RGB</p></label>
+							<input type="radio" class="btn-check" name="btnradio" id="answer-b">
+							<label class="btn btn-outline-secondary w-75 d-flex align-items-center justify-content-center" for="answer-b" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">정면과 후면 그리고 상단</p></label>
 						</div>
 						<div class="col d-flex justify-content-center">
-							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-c">
-							<label class="btn btn-outline-secondary w-75" for="answer-c" data-value="2" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">ARGB</p></label>
-						</div>
-					</div>
-					<div class="row pb-5">
-						<div class="col d-flex justify-content-center">
-							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-d">
-							<label class="btn btn-outline-secondary w-75" for="answer-d" data-value="3" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">상관없음</p></label>
-						</div>
-						<div class="col d-flex justify-content-center">
-							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-e">
-							<label class="btn btn-outline-secondary w-75" for="answer-e" data-value="4" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">모두제외</p></label>
+							<input type="radio" class="btn-check" name="btnradio" id="answer-c">
+							<label class="btn btn-outline-secondary w-75 d-flex align-items-center justify-content-center" for="answer-c" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">케이스의 기본팬만</p></label>
 						</div>
 					</div>
 					<div class="row mb-4">

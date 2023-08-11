@@ -227,7 +227,7 @@
 					value.push(storageValue);
 				}
 				sessionStorage.setItem("data-3",JSON.stringify(value))
-				window.location.href = "estimateCalculationFourByOne.do";
+				window.location.href = "estimateCalculationFour.do";
 			}
 		}else {
 			let value = [];
@@ -240,7 +240,7 @@
 				value.push(storageValue);
 			}
 			sessionStorage.setItem("data-3",JSON.stringify(value))
-			window.location.href = "estimateCalculationFourByOne.do";
+			window.location.href = "estimateCalculationFour.do";
 		}
 
 		

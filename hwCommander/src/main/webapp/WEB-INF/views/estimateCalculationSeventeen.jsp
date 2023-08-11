@@ -22,6 +22,158 @@
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
+	//견적산출 데이터처리부(송신)
+	function sendAllData(){
+		let index1 = 0;
+		let index2 = 0;
+		let index3 = 0;
+		let answer1 = new Map();
+		answer1.set("Price",sessionStorage.getItem("data-1") + "0000");
+		let answer2 = new Map();
+		let answer2s = "";
+		let twoDatas = JSON.parse(sessionStorage.getItem("data-2"));
+		for(let i = 0 ; i < twoDatas.length; i++){
+			answer2.set(twoDatas[i][0],twoDatas[i][1])
+		}
+		for(var [key,value] of answer2){
+			let totalKey = answer2.size;
+			answer2s += key + "," + value;
+			index1++;
+			if (index1 !== totalKey) {
+				answer2s += ":";
+			}
+		}
+		let answer3 = new Map();
+		if(sessionStorage.getItem("data-3") !== ""){
+			let threeDatas = JSON.parse(sessionStorage.getItem("data-3"));
+			answer3.set("Fever", threeDatas[0]);
+			answer3.set("Meterial", threeDatas[1]);
+			answer3.set("AS", threeDatas[2]);
+			answer3.set("Noise", threeDatas[3]);
+			answer3.set("Stability", threeDatas[4]);
+			answer3.set("QC", threeDatas[5]);
+		}else {
+			answer3.set("Fever", "");
+			answer3.set("Meterial", "");
+			answer3.set("AS", "");
+			answer3.set("Noise", "");
+			answer3.set("Stability", "");
+			answer3.set("QC", "");
+		}
+		let answer3s = "";
+		for(var [key,value] of answer3){
+			let totalKey = answer3.size;
+			answer3s += key + "," + value;
+			index2++;
+			if (index2 !== totalKey) {
+				answer3s += ":";
+			}
+		}
+		let answer4 = new Map();
+		answer4.set("Wireless",sessionStorage.getItem("data-4"));
+		let answer5 = new Map();
+		answer5.set("CPU",sessionStorage.getItem("data-5"));
+		let answer6 = new Map();
+		answer6.set("GPU",sessionStorage.getItem("data-6"));
+		let answer7 = new Map();
+		answer7.set("Aio",sessionStorage.getItem("data-7"));
+		let answer8 = new Map();
+		if(sessionStorage.getItem("data-8") !== ""){
+			let eightDatas = JSON.parse(sessionStorage.getItem("data-8"));
+			answer8.set("main-color", eightDatas[0]);
+			answer8.set("sub-color", eightDatas[1]);
+		}else if (sessionStorage.getItem("data-8") === ""){
+			answer8.set("main-color", "");
+			answer8.set("sub-color", "");
+		}
+		let answer8s = "";
+		for(var [key,value] of answer8){
+			let totalKey = answer8.size;
+			answer8s += key + "," + value;
+			index3++;
+			if (index3 !== totalKey) {
+				answer8s += ":";
+			}
+		}
+		let answer9 = new Map();
+		answer9.set("RAM",sessionStorage.getItem("data-9"));
+		let answer10 = new Map();
+		answer10.set("Bulk",sessionStorage.getItem("data-10"));
+		let answer11 = new Map();
+		answer11.set("Ssd",sessionStorage.getItem("data-11"));
+		let answer12 = new Map();
+		answer12.set("Metarial",sessionStorage.getItem("data-12"));
+		let answer13 = new Map();
+		if(sessionStorage.getItem("data-13") !== ""){
+			const thirteenDatas = JSON.parse(sessionStorage.getItem("data-13"));
+			answer13.set("HDD",thirteenDatas[0] + ":" + thirteenDatas[1]);
+		}else {
+			answer13.set("HDD","");
+		}
+		let answer14 = new Map();
+		answer14.set("Window",sessionStorage.getItem("data-14"));
+		let answer15 = new Map();
+		answer15.set("Fan",sessionStorage.getItem("data-15"));
+		let answer16 = new Map();
+		answer16.set("LED",sessionStorage.getItem("data-16"));
+		let answer17 = new Map();let answer18 = new Map();let answer19 = new Map();let answer20 = new Map();
+		
+		
+		for(let i = 17; i <=20 ; i++){
+			if(sessionStorage.getItem("data-" + i) !== ""){
+				var answerName = "answer" + i;
+				var answer = eval(answerName);
+				answer.set(sessionStorage.getItem("data-" + i),"");
+			}else if (sessionStorage.getItem("data-" + i) === ""){
+				var answerName = "answer" + i;
+				var answer = eval(answerName);
+				answer.set("null","null");
+			}
+		}
+		var urlParams = "";
+
+		for (var i = 1; i <= 20; i++) {
+			var mapName = "answer" + i;
+			var map = eval(mapName);
+			if(i === 2){
+				urlParams += mapName + "<" + answer2s + ">";
+			}else if(i===3){
+				urlParams += mapName + "<" + answer3s + ">";
+			}else if (i ===8){
+				urlParams += mapName + "<" + answer8s + ">";
+			}else {
+				for (var [key, value] of map) {
+					if(key === "" || !key){
+						key = "null";
+						value = "null";
+						urlParams += mapName + "<" + "null" + ">";
+					}else if(key !== "" && value === ""){
+						value = "null";
+						urlParams += mapName + "<" + key + ">";
+					}else if (key !== "" && value !== ""){
+						urlParams += mapName + "<" + key + "," + value + ">";
+					}
+				}
+			}
+			urlParams += "|";
+		}
+		var Pattern = /\((.*?)\)/;
+		var userInfoMatch = Pattern.exec("${loginUser}");
+		var userInfoValues = userInfoMatch[1];
+
+		var userInfoArray = userInfoValues.split(", ");
+		var userInfoObject = {};
+		for (var i = 0; i < userInfoArray.length; i++) {
+			var keyValue = userInfoArray[i].split("=");
+			var key = keyValue[0];
+			var value = keyValue[1];
+			userInfoObject[key] = value;
+		}
+		urlParams += "etc<userId," + userInfoObject.id + "> |etc<targetDate,null>";
+		var baseUrl = "/estimateCalculationResult.do";
+		var fullUrl = baseUrl + "?" + urlParams;
+		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
+	}
 	let progress = 0;
 	function animateDonutGauge() {
 		$(".donut-container").css(
@@ -46,11 +198,51 @@
 			setTimeout(goToZero, 20);
 		}
 	};
-	function clickAnswerBtn(el){
-		if($(el).html() === "선택하기"){
-
+	let answers=[];
+	if(sessionStorage.getItem("data-17")){
+		let datas = JSON.parse(sessionStorage.getItem("data-17"));
+		for(let i = 0 ; i<datas.length; i++){
+			answers.push(datas[i]);
 		}
 	}
+	function clickAnswerBtn(el){
+		if($(el).attr("data-value") === "0" || $(el).attr("data-value") === "1" || $(el).attr("data-value") === "2"){
+			console.log(answers[0])
+			if(answers[0] === "3" || answers[0] === "4"){
+				answers = [];
+				$("#answer-d").prop("checked",false);
+				$("#answer-e").prop("checked",false);
+			}
+			if($(el).siblings().prop("checked") === false){
+				if(!answers.includes($(el).attr("data-value"))){
+					answers.push($(el).attr("data-value"));
+				}
+			}else if($(el).siblings().prop("checked") === true){
+				var index = answers.indexOf($(el).attr("data-value"));
+				if(index !== -1){
+					answers.splice(index,1);
+				}
+			}
+			sessionStorage.setItem("data-17",JSON.stringify(answers));
+		}else if ($(el).attr("data-value") === "3" || $(el).attr("data-value") === "4"){
+			answers = [];
+			if($(el).attr("data-value") === "3"){
+				$("#answer-a").prop("checked",false);
+				$("#answer-b").prop("checked",false);
+				$("#answer-c").prop("checked",false);
+				$("#answer-e").prop("checked",false);
+				answers.push($(el).attr("data-value"));
+			}else if ($(el).attr("data-value") === "4"){
+				$("#answer-a").prop("checked",false);
+				$("#answer-b").prop("checked",false);
+				$("#answer-c").prop("checked",false);
+				$("#answer-d").prop("checked",false);
+				answers.push($(el).attr("data-value"));
+			}
+			sessionStorage.setItem("data-17",JSON.stringify(answers));
+		}
+	}
+	
 	function clickReturnBtn(){
 		sessionStorage.setItem("data-17","");
 		location.href = "estimateCalculationSixteen.do";
@@ -68,7 +260,7 @@
 				$(el).removeClass("is-valid");
 			}, 2000);
 			$(el).css("display","none");
-			$(".loading-prog").css('display',"block");
+			$(".loading-prog").css("display","block");
 			sendAllData();
 		}
 	}
@@ -84,17 +276,24 @@
 			setTimeout(() => {
 				$(el).removeClass("is-valid");
 			}, 2000);
-			window.location.href = "estimateCalculationEighteen.do";
+			window.location.href = "estimateCalculationEightteen.do";
 		}
 	}
-	$(function () {
+	function clickNextBtnbbb(el){
+		alert("다음질문들은 아직 미구현입니다. 견적보기를 눌러서 결과를 확인하세요!");
+		$(el).addClass("is-invalid");
+		setTimeout(() => {
+			$(el).removeClass("is-invalid");
+		}, 2000);
+	}
+	$(function(){
 		// donut
-		animateDonutGauge();
 		$(".donut-fill").css("left","calc(50% - 22px)");
+		animateDonutGauge();
 		// typing question text
 		let index = 0;
 		function typeText() {
-			const text = "싫어하시는 브랜드가 있으신가요?";
+			const text = "본체에 LED를 선택해주세요!(다중선택)";
 			if (index < text.length) {
 			$("#typingInput").val(function(i, val) {
 				return val + text.charAt(index);
@@ -109,74 +308,23 @@
 			return new bootstrap.Tooltip($(this)[0]);
 		}).get();
 		// 견적산출 데이터처리부(수신)
-		if(sessionStorage.getItem("data-14")){
-			const storedData = sessionStorage.getItem("data-14");
-			if(storedData === "1"){
-				$("#answer-a").prop("checked",true);
-			}else if (storedData === "HOME"){
-				$("#answer-b").prop("checked",true);
+		if(sessionStorage.getItem("data-17")){
+			const storedData = JSON.parse(sessionStorage.getItem("data-17"));
+			for(let i =0; i<storedData.length; i++){
+				if (storedData[i] === "0"){
+					$("#answer-a").prop("checked",true);
+				}else if (storedData[i] === "1"){
+					$("#answer-b").prop("checked",true);
+				}else if (storedData[i] === "2"){
+					$("#answer-c").prop("checked",true);
+				}else if (storedData[i] === "3"){
+					$("#answer-d").prop("checked",true);
+				}else if (storedData[i] === "4"){
+					$("#answer-e").prop("checked",true);
+				}
 			}
 		}
-		// search input
-	
-	const noResultText = document.createTextNode("일치하는 결과가 없습니다.");
-	const labelTable = $("#label-table");
-	const noResultRow = $("<tr>");
-	const noResultCell = $("<td>");
-	function searchLabel() {
-		const labels = labelTable.find("label");
-		const searchInput = $("#search-input").val().toLowerCase();
-		const matchedLabels = [];
-		labels.each(function() {
-			const label = $(this);
-			const labelName = label.text().toLowerCase();
-
-			if (labelName.includes(searchInput)) {
-				matchedLabels.push(label);
-			}
-		});
-		for(let i = 0 ; i < labels.length; i++){
-		}
-		const searchInputValue = $("#search-input").val().trim();
-		if (matchedLabels.length > 0) {
-			matchedLabels.sort(function(a, b) {
-			const aIndex = a.text().toLowerCase().indexOf(searchInput);
-			const bIndex = b.text().toLowerCase().indexOf(searchInput);
-
-			if (aIndex === bIndex) {
-				return a.text().toLowerCase().localeCompare(b.text().toLowerCase());
-			}
-
-			return aIndex - bIndex;
-			});
-			
-			hideAllRows();
-			
-			matchedLabels.forEach(function(matchedLabel) {
-			const row = matchedLabel.closest("tr");
-			row.css("display", "table-row");
-			});
-		}else {
-			hideAllRows();
-
-			noResultCell.attr("colspan", "2");
-			noResultCell.append(noResultText);
-			noResultRow.append(noResultCell);
-			labelTable.append(noResultRow);
-		}
-	}
-	function hideAllRows() {
-		labelTable.find("tr").css("display", "none");
-
-		if (noResultRow.parent().is(labelTable)) {
-			noResultRow.remove();
-		}
-	}
-
-	$("#search-input").on("input", function() {
-		searchLabel();
-	});
-});
+	})
 </script>
 </head>
 <body>
@@ -196,20 +344,34 @@
 							</div>
 						</div>
 						<div class="col-8 d-flex p-2">
-							<input id="typingInput" class="form-control text-center fs-5 pt-2" type="text" readonly aria-label="예산 편성" disabled />
+							<input id="typingInput" class="form-control text-center pt-2 fs-5" type="text" readonly aria-label="예산 편성" disabled />
 						</div>
 					    <div class="col-2 d-flex flex-column-reverse">
-							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="선택하신 브랜드는 제외하고 견적 산출 해드립니다! 상관없으시다면 <상관없음> 체크해주세요!" style="cursor:pointer">
+							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="본체 LED 좋아하세요?" style="cursor:pointer">
 						</div>
 					</div>
 					<div class="row pb-5">
 						<div class="col d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-a">
-							<label class="btn btn-outline-secondary w-75 d-flex align-items-center justify-content-center" for="answer-a" data-bs-toggle="modal" data-bs-target="#brand-selector" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">선택하기</p></label>
+							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-a">
+							<label class="btn btn-outline-secondary w-75" for="answer-a" data-value="0" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">LED</p></label>
 						</div>
 						<div class="col d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-b">
-							<label class="btn btn-outline-secondary w-75 d-flex align-items-center justify-content-center" for="answer-b" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">상관없음</p></label>
+							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-b">
+							<label class="btn btn-outline-secondary w-75" for="answer-b" data-value="1" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">RGB</p></label>
+						</div>
+						<div class="col d-flex justify-content-center">
+							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-c">
+							<label class="btn btn-outline-secondary w-75" for="answer-c" data-value="2" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">ARGB</p></label>
+						</div>
+					</div>
+					<div class="row pb-5">
+						<div class="col d-flex justify-content-center">
+							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-d">
+							<label class="btn btn-outline-secondary w-75" for="answer-d" data-value="3" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">상관없음</p></label>
+						</div>
+						<div class="col d-flex justify-content-center">
+							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-e">
+							<label class="btn btn-outline-secondary w-75" for="answer-e" data-value="4" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">모두제외</p></label>
 						</div>
 					</div>
 					<div class="row mb-4">
@@ -224,47 +386,10 @@
 							</button>
 						</div>
 						<div class="col-4">
-							<button type="button" class="form-control margin-left-auto w-50" onclick="javascript:clickNextBtn(this)"><p class="pt-2 m-0">다음 질문</p></button>
+							<button type="button" class="form-control margin-left-auto w-50" onclick="javascript:clickNextBtnbbb(this)"><p class="pt-2 m-0">다음 질문</p></button>
 						</div>
 					</div>
-					<div class="row mb-4">
-						<div class="col-6">
-							<!-- 선택된 내용 박스 -->
-						</div>
-						<div class="col-6"></div>
-					</div>
-				</div>
-				<div class="modal fade" id="brand-selector" tabindex="-1" aria-labelledby="selector" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-					<div class="modal-dialog">
-					  <div class="modal-content">
-						<div class="modal-header">
-						  <h1 class="modal-title fs-4">브랜드 선택하기</h1>
-						  <button type="button" class="btn-close modal-btn" data-bs-dismiss="modal" aria-label="Close"></button>
-						</div>
-						<div class="modal-body">
-						  <div class="container">
-							   <table class="table">
-							  <thead>
-								<tr>
-								  <form class="form-inline">
-									  <input type="text" class="form-control" id="search-input" placeholder="검색어를 입력하세요" oninput="javascript:searchLabel()">
-								  </form>
-								</tr>
-								<tr>
-								  <th scope="col">브랜드명</th>
-								</tr>
-							  </thead>
-							  <tbody id="label-table"></tbody>
-							</table>
-						  </div>
-						</div>
-						<div class="modal-footer">
-						  <button type="button" class="btn btn-secondary modal-btn" data-bs-dismiss="modal" onclick="javascript:modalCancel()">취소</button>
-						  <button type="button" class="btn btn-primary modal-btn modal-submit-btn" onclick="javascript:modalSubmit()">저장</button>
-						</div>
-					  </div>
-					</div>
-				  </div>
+			 	</div>
 	 		</div>
 			
 			<!-- 빈 영역 -->
