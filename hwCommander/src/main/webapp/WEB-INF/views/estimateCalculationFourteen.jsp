@@ -198,47 +198,86 @@
 			setTimeout(goToZero, 20);
 		}
 	};
+	let answers=[];
 	function clickAnswerBtn(el){
-		if($(el).html() === "필요해요"){
-			sessionStorage.setItem("data-14",0);
-		}else if($(el).html().includes("HOME")){
-			sessionStorage.setItem("data-14",1);
-		}else if($(el).html().includes("Pro")){
-			sessionStorage.setItem("data-14",2);
-		}else if($(el).html().includes("Edu")){
-			sessionStorage.setItem("data-14",3);
-		}else if($(el).html() === "필요없어요"){
-			sessionStorage.setItem("data-14",4);
+		if($(el).html().includes("필요없음")){
+			$(".count-container").css("display","none");
+			var val = [];
+			val.push("5");
+			val.push("");
+			sessionStorage.setItem("data-14",JSON.stringify(val))
+		}else{
+			$(".count-container").css("display","flex");
+			$(".count-hdd").focus();
+			if($(".count-hdd").val() !== ""){
+				var val = [];
+				if($(el).html().includes("1TB")){
+					val.push("0");
+					val.push($(".count-hdd").val());
+					sessionStorage.setItem("data-14",JSON.stringify(val));
+				}else if($(el).html().includes("2TB")){
+					val.push("1");
+					val.push($(".count-hdd").val());
+					sessionStorage.setItem("data-14",JSON.stringify(val));
+				}else if($(el).html().includes("4TB")){
+					val.push("2");
+					val.push($(".count-hdd").val());
+					sessionStorage.setItem("data-14",JSON.stringify(val));
+				}else if($(el).html().includes("6TB")){
+					val.push("3");
+					val.push($(".count-hdd").val());
+					sessionStorage.setItem("data-14",JSON.stringify(val));
+				}else if($(el).html().includes("8TB")){
+					val.push("4");
+					val.push($(".count-hdd").val());
+					sessionStorage.setItem("data-14",JSON.stringify(val));
+				}
+			}
 		}
 	}
+	
 	function clickReturnBtn(){
 		sessionStorage.setItem("data-14","");
 		location.href = "estimateCalculationThirteen.do";
 	}
 	function clickEstimateBtn(el){
-		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false && $("#answer-d").prop("checked") === false && $("#answer-e").prop("checked") === false){
+		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false && $("#answer-d").prop("checked") === false && $("#answer-e").prop("checked") === false && $("#answer-f").prop("checked") === false){
 			alert("선택은 필수에요!");
 			$(el).addClass("is-invalid");
 			setTimeout(() => {
 				$(el).removeClass("is-invalid");
 			}, 2000);
+		}else if($(".count-container").css("display") === "flex" && $(".count-hdd").val() === ""){
+			alert("개수를 입력해주세요!");
+			$(el).addClass("is-invalid");
+			setTimeout(() => {
+				$(el).removeClass("is-invalid");
+			}, 2000);
+			$(".count-hdd").focus();
 		}else {
 			$(el).addClass("is-valid");
 			setTimeout(() => {
 				$(el).removeClass("is-valid");
 			}, 2000);
-			$(el).css('display','none');
+			$(el).css("display","none");
 			$(".loading-prog").css("display","block");
 			sendAllData();
 		}
 	}
 	function clickNextBtn(el){
-		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false && $("#answer-d").prop("checked") === false && $("#answer-e").prop("checked") === false){
+		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false && $("#answer-d").prop("checked") === false && $("#answer-e").prop("checked") === false && $("#answer-f").prop("checked") === false){
 			alert("선택은 필수에요!");
 			$(el).addClass("is-invalid");
 			setTimeout(() => {
 				$(el).removeClass("is-invalid");
 			}, 2000);
+		}else if($(".count-container").css("display") === "flex" && $(".count-hdd").val() === ""){
+			alert("개수를 입력해주세요!");
+			$(el).addClass("is-invalid");
+			setTimeout(() => {
+				$(el).removeClass("is-invalid");
+			}, 2000);
+			$(".count-hdd").focus();
 		}else {
 			$(el).addClass("is-valid");
 			setTimeout(() => {
@@ -247,14 +286,43 @@
 			window.location.href = "estimateCalculationFifteen.do";
 		}
 	}
-	$(function () {
+	function inputHdd(){
+		if(isNaN($(".count-hdd").val())){
+			alert("숫자만 입력해주세요!!");
+			$(".count-hdd").val("").focus();
+		}else {
+			let value = [];
+			if($("#answer-a").prop("checked") === true){
+				value.push("0");
+				value.push($(".count-hdd").val());
+				sessionStorage.setItem("data-14",JSON.stringify(value))
+			}else if($("#answer-b").prop("checked") === true){
+				value.push("1");
+				value.push($(".count-hdd").val());
+				sessionStorage.setItem("data-14",JSON.stringify(value))
+			}else if($("#answer-c").prop("checked") === true){
+				value.push("2");
+				value.push($(".count-hdd").val());
+				sessionStorage.setItem("data-14",JSON.stringify(value))
+			}else if($("#answer-d").prop("checked") === true){
+				value.push("3");
+				value.push($(".count-hdd").val());
+				sessionStorage.setItem("data-14",JSON.stringify(value))
+			}else if($("#answer-e").prop("checked") === true){
+				value.push("4");
+				value.push($(".count-hdd").val());
+				sessionStorage.setItem("data-14",JSON.stringify(value))
+			}
+		}
+	}
+	$(function(){
 		// donut
-		animateDonutGauge();
 		$(".donut-fill").css("left","calc(50% - 22px)");
+		animateDonutGauge();
 		// typing question text
 		let index = 0;
 		function typeText() {
-			const text = "윈도우를 추가해드릴까요?";
+			const text = "HDD를 선택해주세요!";
 			if (index < text.length) {
 			$("#typingInput").val(function(i, val) {
 				return val + text.charAt(index);
@@ -269,21 +337,29 @@
 			return new bootstrap.Tooltip($(this)[0]);
 		}).get();
 		// 견적산출 데이터처리부(수신)
-		if(sessionStorage.getItem("data-14")){
-			const storedData = sessionStorage.getItem("data-14");
-			if(storedData === "0"){
-				$("#answer-a").prop("checked",true);
-			}else if (storedData === "1"){
-				$("#answer-b").prop("checked",true);
-			}else if (storedData === "2"){
-				$("#answer-c").prop("checked",true);
-			}else if (storedData === "3"){
-				$("#answer-d").prop("checked",true);
-			}else if (storedData === "4"){
-				$("#answer-e").prop("checked",true);
+		if(sessionStorage.getItem("data-13")){
+			const storedData = JSON.parse(sessionStorage.getItem("data-14"));
+			for(let i =0; i<storedData.length; i++){
+				if (storedData[i] === "0)"){
+					$("#answer-a").prop("checked",true);
+				}else if (storedData[i] === "1)"){
+					$("#answer-b").prop("checked",true);
+				}else if (storedData[i] === "2"){
+					$("#answer-c").prop("checked",true);
+				}else if (storedData[i] === "3"){
+					$("#answer-d").prop("checked",true);
+				}else if (storedData[i] === "4"){
+					$("#answer-e").prop("checked",true);
+				}else if(storedData[i] === "5"){
+					$("#answer-f").prop("checked",true);
+				}
+				if(storedData[0] !== "5"){
+					$(".count-container").css("display","flex");
+					$(".count-hdd").val(storedData[1]);
+				}
 			}
 		}
-});
+	})
 </script>
 </head>
 <body>
@@ -295,7 +371,7 @@
 			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
 			<!-- 작업영역 -->
 			<div class="estimateCalc_background p-5" style="width: 70% !important">
-	 			<div class="w-75 container">
+				<div class="w-75 container">
 					<div class="row mt-4 pb-5">
 						<div class="col-2 text-center">
 							<div class="donut-container margin-center">
@@ -306,30 +382,42 @@
 							<input id="typingInput" class="form-control text-center pt-2 fs-5" type="text" readonly aria-label="예산 편성" disabled />
 						</div>
 					    <div class="col-2 d-flex flex-column-reverse">
-							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="견적에 맞는 윈도우 설치와 최적화를 진행해드립니다!!" style="cursor:pointer">
+							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="추가 저장장치를 골라주세요!" style="cursor:pointer">
 						</div>
 					</div>
 					<div class="row pb-5">
 						<div class="col d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-a" >
-							<label class="btn btn-outline-secondary w-75 d-flex align-items-center justify-content-center" for="answer-a" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="인증까지 마치고 보내드립니다." onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0 mt-4">필요해요</p></label>
+							<input type="radio" class="btn-check" name="btnradio" id="answer-a">
+							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">1024GB(1TB)</p></label>
 						</div>
 						<div class="col d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-b">
-							<label class="btn btn-outline-secondary w-75 d-flex align-items-center justify-content-center" for="answer-b" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Home버전 체험판 설치 및 모든 최적화를 거친 후 보내드립니다" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">HOME<br>버전 보유중</p></label>
+							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">2048GB(2TB)</p></label>
 						</div>
 						<div class="col d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-c">
-							<label class="btn btn-outline-secondary w-75 d-flex align-items-center justify-content-center" for="answer-c" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Pro버전 체험판 설치 및 모든 최적화를 거친 후 보내드립니다" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">Pro<br>버전 보유중</p></label>
+							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">4096GB(4TB)</p></label>
 						</div>
+					</div>
+					<div class="row pb-5">
 						<div class="col d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-d">
-							<label class="btn btn-outline-secondary w-75 d-flex align-items-center justify-content-center" for="answer-d" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="프리도스" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">Edu<br>버전 보유중</p></label>
+							<label class="btn btn-outline-secondary w-75" for="answer-d" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">6144GB(6TB)</p></label>
 						</div>
 						<div class="col d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-e">
-							<label class="btn btn-outline-secondary w-75 d-flex align-items-center justify-content-center" for="answer-e" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="프리도스" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0 mt-4">필요없어요</p></label>
+							<label class="btn btn-outline-secondary w-75" for="answer-e" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">8192GB(8TB)</p></label>
 						</div>
+						<div class="col d-flex justify-content-center">
+							<input type="radio" class="btn-check" name="btnradio" id="answer-f">
+							<label class="btn btn-outline-secondary w-75" for="answer-f" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">필요없음</p></label>
+						</div>
+					</div>
+					<div class="row pb-5 w-25 mx-auto count-container" style="display: none;">
+						<div class="input-group">
+							<input type="text" min="0" class="form-control count-hdd text-end" aria-label="hdd`s count(only number)" placeholder="ex)1 or 2 ..." oninput="javascript:inputHdd()">
+							<span class="input-group-text">개</span>
+						  </div>
 					</div>
 					<div class="row mb-4">
 						<div class="col-4">
@@ -349,10 +437,9 @@
 			 	</div>
 	 		</div>
 			
-			</div>
 			<!-- 빈 영역 -->
 			<div class="justify-content-end" style="width: 15%!important;"></div>
-		
+		</div>
 		
 		<!-- 2022.11.16 디자인이미지 추가 -->
 		<div class="mt-5 mx-5" style="height: 15%!important;">

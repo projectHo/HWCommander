@@ -109,14 +109,9 @@ public class HomeController {
 		return userLoginCheck(request, model, "estimateCalculationThree");
 	}
 	
-	@RequestMapping(value = "/estimateCalculationFourByOne.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/estimateCalculationFour.do", method = RequestMethod.GET)
 	public String goEstimateCalculationFour(HttpServletRequest request, Model model) {
-		return userLoginCheck(request, model, "estimateCalculationFourByOne");
-	}
-
-	@RequestMapping(value = "/estimateCalculationFourByTwo.do", method = RequestMethod.GET)
-	public String goEstimateCalculationFour(HttpServletRequest request, Model model) {
-		return userLoginCheck(request, model, "estimateCalculationFourByTwo");
+		return userLoginCheck(request, model, "estimateCalculationFour");
 	}
 
 	@RequestMapping(value = "/estimateCalculationFive.do", method = RequestMethod.GET)

@@ -199,39 +199,58 @@
 		}
 	};
 	let answers=[];
+	if(sessionStorage.getItem("data-13")){
+		let datas = JSON.parse(sessionStorage.getItem("data-13"));
+		for(let i = 0 ; i < datas.length ; i++){
+			answers.push(datas[i]);
+		}
+	}
 	function clickAnswerBtn(el){
-		if($(el).html().includes("필요없음")){
-			$(".count-container").css("display","none");
-			var val = [];
-			val.push("5");
-			val.push("");
-			sessionStorage.setItem("data-13",JSON.stringify(val))
-		}else{
-			$(".count-container").css("display","flex");
-			$(".count-hdd").focus();
-			if($(".count-hdd").val() !== ""){
-				var val = [];
-				if($(el).html().includes("1TB")){
-					val.push("0");
-					val.push($(".count-hdd").val());
-					sessionStorage.setItem("data-13",JSON.stringify(val));
-				}else if($(el).html().includes("2TB")){
-					val.push("1");
-					val.push($(".count-hdd").val());
-					sessionStorage.setItem("data-13",JSON.stringify(val));
-				}else if($(el).html().includes("4TB")){
-					val.push("2");
-					val.push($(".count-hdd").val());
-					sessionStorage.setItem("data-13",JSON.stringify(val));
-				}else if($(el).html().includes("6TB")){
-					val.push("3");
-					val.push($(".count-hdd").val());
-					sessionStorage.setItem("data-13",JSON.stringify(val));
-				}else if($(el).html().includes("8TB")){
-					val.push("4");
-					val.push($(".count-hdd").val());
-					sessionStorage.setItem("data-13",JSON.stringify(val));
+		if($(el).children().html() !== "상관없음"){
+			if(sessionStorage.getItem("data-13") === "5"){
+				answers = [];
+			}
+			$("#answer-f").prop("checked",false);
+			if($(el).siblings().prop("checked") === false){
+				if($(el).children().html() === "아크릴"){
+					if(!answers.includes("0")){
+						answers.push("0");
+					}
+				}else if ($(el).children().html() === "강화유리"){
+					if(!answers.includes("1")){
+						answers.push("1");
+					}
+				}else if($(el).children().html() === "알루미늄"){
+					if(!answers.includes("2")){
+						answers.push("2");
+					}
+				}else if($(el).children().html() === "통철판"){
+					if(!answers.includes("3")){
+						answers.push("3");
+					}
+				}else if($(el).children().html() === "창문형 유리"){
+					if(!answers.includes("4")){
+						answers.push("4");
+					}
 				}
+			}else if($(el).siblings().prop("checked") === true){
+				var index = answers.indexOf($(el).attr("data-value"));
+				if(index !== -1){
+					answers.splice(index,1);
+				}
+			}
+			sessionStorage.setItem("data-13",JSON.stringify(answers));
+		}else {
+			if($(el).siblings().prop("checked") === false){
+				answers = [];
+				answers.push("5");
+				$("#answer-a").prop("checked",false);
+				$("#answer-b").prop("checked",false);
+				$("#answer-c").prop("checked",false);
+				$("#answer-d").prop("checked",false);
+				$("#answer-e").prop("checked",false);
+				sessionStorage.setItem("data-13",JSON.stringify(answers));
+				answers = [];
 			}
 		}
 	}
@@ -247,13 +266,6 @@
 			setTimeout(() => {
 				$(el).removeClass("is-invalid");
 			}, 2000);
-		}else if($(".count-container").css("display") === "flex" && $(".count-hdd").val() === ""){
-			alert("개수를 입력해주세요!");
-			$(el).addClass("is-invalid");
-			setTimeout(() => {
-				$(el).removeClass("is-invalid");
-			}, 2000);
-			$(".count-hdd").focus();
 		}else {
 			$(el).addClass("is-valid");
 			setTimeout(() => {
@@ -271,48 +283,12 @@
 			setTimeout(() => {
 				$(el).removeClass("is-invalid");
 			}, 2000);
-		}else if($(".count-container").css("display") === "flex" && $(".count-hdd").val() === ""){
-			alert("개수를 입력해주세요!");
-			$(el).addClass("is-invalid");
-			setTimeout(() => {
-				$(el).removeClass("is-invalid");
-			}, 2000);
-			$(".count-hdd").focus();
 		}else {
 			$(el).addClass("is-valid");
 			setTimeout(() => {
 				$(el).removeClass("is-valid");
 			}, 2000);
 			window.location.href = "estimateCalculationFourteen.do";
-		}
-	}
-	function inputHdd(){
-		if(isNaN($(".count-hdd").val())){
-			alert("숫자만 입력해주세요!!");
-			$(".count-hdd").val("").focus();
-		}else {
-			let value = [];
-			if($("#answer-a").prop("checked") === true){
-				value.push("0");
-				value.push($(".count-hdd").val());
-				sessionStorage.setItem("data-13",JSON.stringify(value))
-			}else if($("#answer-b").prop("checked") === true){
-				value.push("1");
-				value.push($(".count-hdd").val());
-				sessionStorage.setItem("data-13",JSON.stringify(value))
-			}else if($("#answer-c").prop("checked") === true){
-				value.push("2");
-				value.push($(".count-hdd").val());
-				sessionStorage.setItem("data-13",JSON.stringify(value))
-			}else if($("#answer-d").prop("checked") === true){
-				value.push("3");
-				value.push($(".count-hdd").val());
-				sessionStorage.setItem("data-13",JSON.stringify(value))
-			}else if($("#answer-e").prop("checked") === true){
-				value.push("4");
-				value.push($(".count-hdd").val());
-				sessionStorage.setItem("data-13",JSON.stringify(value))
-			}
 		}
 	}
 	$(function(){
@@ -322,7 +298,7 @@
 		// typing question text
 		let index = 0;
 		function typeText() {
-			const text = "HDD를 선택해주세요!";
+			const text = "원하시는 본체 옆판의 소재를 선택해주세요!(다중선택 가능)";
 			if (index < text.length) {
 			$("#typingInput").val(function(i, val) {
 				return val + text.charAt(index);
@@ -340,9 +316,9 @@
 		if(sessionStorage.getItem("data-13")){
 			const storedData = JSON.parse(sessionStorage.getItem("data-13"));
 			for(let i =0; i<storedData.length; i++){
-				if (storedData[i] === "0)"){
+				if (storedData[i] === "0"){
 					$("#answer-a").prop("checked",true);
-				}else if (storedData[i] === "1)"){
+				}else if (storedData[i] === "1"){
 					$("#answer-b").prop("checked",true);
 				}else if (storedData[i] === "2"){
 					$("#answer-c").prop("checked",true);
@@ -352,10 +328,6 @@
 					$("#answer-e").prop("checked",true);
 				}else if(storedData[i] === "5"){
 					$("#answer-f").prop("checked",true);
-				}
-				if(storedData[0] !== "5"){
-					$(".count-container").css("display","flex");
-					$(".count-hdd").val(storedData[1]);
 				}
 			}
 		}
@@ -382,42 +354,36 @@
 							<input id="typingInput" class="form-control text-center pt-2 fs-5" type="text" readonly aria-label="예산 편성" disabled />
 						</div>
 					    <div class="col-2 d-flex flex-column-reverse">
-							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="추가 저장장치를 골라주세요!" style="cursor:pointer">
+							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="본체 옆판의 소재를 선택해주세요!(선택사항입니다)" style="cursor:pointer">
 						</div>
 					</div>
 					<div class="row pb-5">
 						<div class="col d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-a">
-							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">1024GB(1TB)</p></label>
+							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-a">
+							<label class="btn btn-outline-secondary w-75" for="answer-a" data-value="0" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">아크릴</p></label>
 						</div>
 						<div class="col d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-b">
-							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">2048GB(2TB)</p></label>
+							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-b">
+							<label class="btn btn-outline-secondary w-75" for="answer-b" data-value="1" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">강화유리</p></label>
 						</div>
 						<div class="col d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-c">
-							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">4096GB(4TB)</p></label>
+							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-c">
+							<label class="btn btn-outline-secondary w-75" for="answer-c" data-value="2" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">알루미늄</p></label>
 						</div>
 					</div>
 					<div class="row pb-5">
 						<div class="col d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-d">
-							<label class="btn btn-outline-secondary w-75" for="answer-d" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">6144GB(6TB)</p></label>
+							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-d">
+							<label class="btn btn-outline-secondary w-75" for="answer-d" data-value="3" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">통철판</p></label>
 						</div>
 						<div class="col d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-e">
-							<label class="btn btn-outline-secondary w-75" for="answer-e" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">8192GB(8TB)</p></label>
+							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-e">
+							<label class="btn btn-outline-secondary w-75" for="answer-e" data-value="4" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">창문형 유리</p></label>
 						</div>
 						<div class="col d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-f">
-							<label class="btn btn-outline-secondary w-75" for="answer-f" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">필요없음</p></label>
+							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-f">
+							<label class="btn btn-outline-secondary w-75" for="answer-f" data-value="5" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">상관없음</p></label>
 						</div>
-					</div>
-					<div class="row pb-5 w-25 mx-auto count-container" style="display: none;">
-						<div class="input-group">
-							<input type="text" min="0" class="form-control count-hdd text-end" aria-label="hdd`s count(only number)" placeholder="ex)1 or 2 ..." oninput="javascript:inputHdd()">
-							<span class="input-group-text">개</span>
-						  </div>
 					</div>
 					<div class="row mb-4">
 						<div class="col-4">
