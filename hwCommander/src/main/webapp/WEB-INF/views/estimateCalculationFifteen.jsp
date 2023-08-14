@@ -199,16 +199,12 @@
 		}
 	};
 	function clickAnswerBtn(el){
-		if($(el).children().html() === "필요해요"){
+		if($(el).html().includes("전체")){
 			sessionStorage.setItem("data-15",0);
-		}else if($(el).html().includes("HOME")){
+		}else if($(el).html().includes("상단")){
 			sessionStorage.setItem("data-15",1);
-		}else if($(el).html().includes("Pro")){
+		}else if($(el).html().includes("기본")){
 			sessionStorage.setItem("data-15",2);
-		}else if($(el).html().includes("Edu")){
-			sessionStorage.setItem("data-15",3);
-		}else if($(el).children().html() === "필요없어요"){
-			sessionStorage.setItem("data-15",4);
 		}
 	}
 	function clickReturnBtn(){
@@ -216,7 +212,7 @@
 		location.href = "estimateCalculationFourteen.do";
 	}
 	function clickEstimateBtn(el){
-		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false && $("#answer-d").prop("checked") === false && $("#answer-e").prop("checked") === false){
+		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false){
 			alert("선택은 필수에요!");
 			$(el).addClass("is-invalid");
 			setTimeout(() => {
@@ -227,13 +223,13 @@
 			setTimeout(() => {
 				$(el).removeClass("is-valid");
 			}, 2000);
-			$(el).css('display','none');
+			$(el).css("display","none");
 			$(".loading-prog").css("display","block");
 			sendAllData();
 		}
 	}
 	function clickNextBtn(el){
-		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false && $("#answer-d").prop("checked") === false && $("#answer-e").prop("checked") === false){
+		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false){
 			alert("선택은 필수에요!");
 			$(el).addClass("is-invalid");
 			setTimeout(() => {
@@ -254,7 +250,7 @@
 		// typing question text
 		let index = 0;
 		function typeText() {
-			const text = "윈도우를 추가해드릴까요?";
+			const text = "케이스에 팬을 추가할까요?";
 			if (index < text.length) {
 			$("#typingInput").val(function(i, val) {
 				return val + text.charAt(index);
@@ -277,13 +273,9 @@
 				$("#answer-b").prop("checked",true);
 			}else if (storedData === "2"){
 				$("#answer-c").prop("checked",true);
-			}else if (storedData === "3"){
-				$("#answer-d").prop("checked",true);
-			}else if (storedData === "4"){
-				$("#answer-e").prop("checked",true);
 			}
 		}
-});
+	});
 </script>
 </head>
 <body>
@@ -295,7 +287,7 @@
 			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
 			<!-- 작업영역 -->
 			<div class="estimateCalc_background p-5" style="width: 70% !important">
-	 			<div class="w-75 container">
+				<div class="w-75 container">
 					<div class="row mt-4 pb-5">
 						<div class="col-2 text-center">
 							<div class="donut-container margin-center">
@@ -306,29 +298,21 @@
 							<input id="typingInput" class="form-control text-center pt-2 fs-5" type="text" readonly aria-label="예산 편성" disabled />
 						</div>
 					    <div class="col-2 d-flex flex-column-reverse">
-							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="견적에 맞는 윈도우 설치와 최적화를 진행해드립니다!!" style="cursor:pointer">
+							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="컴퓨터 케이스의 팬을 골라주세요!!" style="cursor:pointer">
 						</div>
 					</div>
 					<div class="row pb-5">
 						<div class="col d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-a" >
-							<label class="btn btn-outline-secondary w-75 d-flex align-items-center justify-content-center" for="answer-a" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="인증까지 마치고 보내드립니다." onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0 mt-4">필요해요</p></label>
+							<label class="btn btn-outline-secondary w-75 d-flex align-items-center justify-content-center" for="answer-a" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">측면 하단 등 빈공간 전체</p></label>
 						</div>
 						<div class="col d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-b">
-							<label class="btn btn-outline-secondary w-75 d-flex align-items-center justify-content-center" for="answer-b" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Home버전 체험판 설치 및 모든 최적화를 거친 후 보내드립니다" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">HOME<br>버전 보유중</p></label>
+							<label class="btn btn-outline-secondary w-75 d-flex align-items-center justify-content-center" for="answer-b" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">정면과 후면 그리고 상단</p></label>
 						</div>
 						<div class="col d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-c">
-							<label class="btn btn-outline-secondary w-75 d-flex align-items-center justify-content-center" for="answer-c" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Pro버전 체험판 설치 및 모든 최적화를 거친 후 보내드립니다" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">Pro<br>버전 보유중</p></label>
-						</div>
-						<div class="col d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-d">
-							<label class="btn btn-outline-secondary w-75 d-flex align-items-center justify-content-center" for="answer-d" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="프리도스" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">Edu<br>버전 보유중</p></label>
-						</div>
-						<div class="col d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-e">
-							<label class="btn btn-outline-secondary w-75 d-flex align-items-center justify-content-center" for="answer-e" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="프리도스" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0 mt-4">필요없어요</p></label>
+							<label class="btn btn-outline-secondary w-75 d-flex align-items-center justify-content-center" for="answer-c" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">케이스의 기본팬만</p></label>
 						</div>
 					</div>
 					<div class="row mb-4">
@@ -349,10 +333,9 @@
 			 	</div>
 	 		</div>
 			
-			</div>
 			<!-- 빈 영역 -->
 			<div class="justify-content-end" style="width: 15%!important;"></div>
-		
+		</div>
 		
 		<!-- 2022.11.16 디자인이미지 추가 -->
 		<div class="mt-5 mx-5" style="height: 15%!important;">

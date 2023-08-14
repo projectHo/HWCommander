@@ -202,7 +202,7 @@
 	// typing question text
 	let index = 0;
 	function typeText() {
-		const text = " 운영체제를 구매하실 예정이신가요?";
+		const text = " WIFI, 블루투스 옵션이 포함된 PC가 필요하신가요?";
 		if (index < text.length) {
 		$("#typingInput").val(function(i, val) {
 			return val + text.charAt(index);
@@ -213,15 +213,13 @@
 	}
 
 	function clickAnswerBtn(el){
-		if($(el).children().html().includes("COEM")){
+		if($(el).html() === "필요해요!"){
 			sessionStorage.setItem("data-4",0);
-		}else if($(el).children().html().includes("FPP")){
-			sessionStorage.setItem("data-4",1);
 		}else {
-			sessionStorage.setItem("data-4",2);
+			sessionStorage.setItem("data-4",1);
 		}
 	}
-	function returnPageBtn(){
+	function clickReturnBtn(){
 		sessionStorage.setItem("data-4","");
 		window.location.href = "estimateCalculationThree.do";
 	}
@@ -233,10 +231,10 @@
 			}, 2000);
 			$(el).css("display","none");
 			$(".loading-prog").css("display","block");
-			sendAllData();
+			sendAllData()
 		}else {
 			$(el).addClass("is-invalid");
-			alert("셋 중에 하나 선택해주세요!")
+			alert("둘중에 하나 선택해주세요!")
 			setTimeout(() => {
 				$(el).removeClass("is-invalid");
 			}, 2000);
@@ -245,7 +243,7 @@
 	function clickNextBtn(el){
 		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked")===false){
 			$(el).addClass("is-invalid");
-			alert("셋 중에 하나 선택해주세요!")
+			alert("둘중에 하나 선택해주세요!")
 			setTimeout(() => {
 				$(el).removeClass("is-invalid");
 			}, 2000);
@@ -270,8 +268,6 @@
 			$("#answer-a").prop("checked",true);
 		}else if (sessionStorage.getItem("data-4") === "1"){
 			$("#answer-b").prop("checked",true);
-		}else {
-			$("#answer-c").prop("checked",true);
 		}
 	}
 	})
@@ -304,20 +300,16 @@
 					<div class="row pb-5">
 						<div class="col-6 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-a">
-							<label class="btn btn-outline-secondary w-50" for="answer-a" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">COEM</p></label>
+							<label class="btn btn-outline-secondary w-50" for="answer-a" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">필요해요!</p></label>
 						</div>
 						<div class="col-6 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-b">
-							<label class="btn btn-outline-secondary w-50" for="answer-b" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">FPP</p></label>
-						</div>
-						<div class="col-6 d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-b">
-							<label class="btn btn-outline-secondary w-50" for="answer-b" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">Free DOS (미구매)</p></label>
+							<label class="btn btn-outline-secondary w-50" for="answer-b" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">필요없어요!</p></label>
 						</div>
 					</div>
 					<div class="row mb-4">
 						<div class="col">
-							<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:returnPageBtn()"><p class="pt-2 m-0">이전 질문</p></button>
+							<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:clickReturnBtn()"><p class="pt-2 m-0">이전 질문</p></button>
 						</div>
 						<div class="col">
 							<button type="button" class="form-control calc-two-final margin-center" onclick="javascript:clickEstimateBtn(this)"><p class="pt-2 m-0">견적 보기</p></button>

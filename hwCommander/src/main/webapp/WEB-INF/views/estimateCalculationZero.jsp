@@ -1,5 +1,5 @@
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %> <%@ page
-language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
   <head>
     <title>현우의 컴퓨터 공방 - 견적산출</title>
@@ -23,16 +23,30 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 
     <script>
 		var progress = 0;
-		function clickReturnBtn(){
-			sessionStorage.setItem("data-1","");
-			window.location.href = "estimateCalculationZero.do";
-		}
-		function clickNextBtn() {
-			if($(".first-q-input").val() !== ""){
-				// 견적산출 데이터처리부(송신)
-				sessionStorage.setItem("data-1",$("#can-pay-val").val());
-				$(".next-btn").addClass('is-valid');
-				location.href = "estimateCalculationTwo.do";
+
+		function clickAnswerBtn(el){
+			if($(el).children().html().includes("프리도스")){
+				sessionStorage.setItem("data-0",0);
+			}else if($(el).children().html().includes("COEM")){
+				sessionStorage.setItem("data-0",1);
+			}else if($(el).children().html().includes("Fpp")){
+				sessionStorage.setItem("data-0",2);
+			}
+		}	
+
+		function clickNextBtn(el) {
+			if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false){
+				alert("셋중에 하나를 클릭해주세요!");
+				$(el).addClass("is-invalid");
+				setTimeout(() => {
+					$(el).removeClass("is-invalid");
+				}, 2000);
+			}else {
+				$(el).addClass("is-valid");
+				setTimeout(() => {
+					$(el).removeClass("is-valid");
+				}, 2000);
+				window.location.href = "estimateCalculationOne.do";
 			}
 		}
 
@@ -43,19 +57,6 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 				$(el).next().css("display","none");
 				$(el).removeClass("is-invalid");
 			}, 3000);
-		}
-
-		function priceCheck(){
-			if($(".first-q-input").val() < 0){
-				alert("0원 이상으로 입력해주세요~");
-				$(".first-q-input").val("");
-			}else if($(".first-q-input").val() > 500){
-				alert("500만원 이하로 입력해주세요!");
-				$(".first-q-input").val("");
-			}else if (isNaN(parseFloat($(".first-q-input").val())) === true){
-				alert("숫자만 입력해주세요!!");
-				$(".first-q-input").val("");
-			}
 		}
 			
 		function animateBackgroundColor() {
@@ -87,7 +88,7 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 		let index = 0;
 		function typeText() {
 			const inputElement = $("#typingInput");
-			const text = "본체의 가용 예산 한도는 얼마입니까? (최대 500만원)";
+			const text = "OS(윈도우) 라이센스가 필요하신가요?";
 			if (index < text.length) {
 				inputElement.val(function(i, val) {
 				return val + text.charAt(index);
@@ -98,7 +99,7 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 		}
 
 		$(function () {
-			for(let i = 2; i<=20 ; i++){
+			for(let i = 1; i<=20 ; i++){
 				sessionStorage.setItem("data-" + i, "");
 			}
 			// bootstrap tooltip base
@@ -107,16 +108,18 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 				return new bootstrap.Tooltip($(this)[0]);
 			}).get();
 			// 견적산출 데이터처리부(수신)
-			if(sessionStorage.getItem("data-1")){
-				$('#can-pay-val').val(sessionStorage.getItem("data-1"));
+			if(sessionStorage.getItem("data-0")){
+				if(sessionStorage.getItem("data-0") === "0"){
+					$("#answer-a").prop("checked",true);
+				}else if (sessionStorage.getItem("data-0") === "1"){
+					$("#answer-b").prop("checked",true);
+				}else if (sessionStorage.getItem("data-0") === "2"){
+					$("#answer-c").prop("checked",true);
+				}
 			}
 			
-			// functions
-			animateBackgroundColor();
-			
+			// functions			
 			typeText();
-
-			$(".donut-fill").css("left","calc(50% - 12px)");
 		});
 
 		
@@ -148,27 +151,38 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 		 				<input id="typingInput" class="form-control text-center pt-3 fs-5" type="text" readonly aria-label="본체 예상 한도" disabled />
 		 			</div>
 		 			<div class="col-2 d-flex flex-column-reverse">
-		 				<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="0원으로 입력시 요구사항의 최소 견적으로 자동 산출됩니다." style="cursor:pointer">
+		 				<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="버튼에 마우스를 올리면 설명이 나와요!" style="cursor:pointer">
 		 			</div>
 		 		</div>
-			 		<div class="row pb-2">
-			 			<div class="col">
-			 				<div class="input-group has-validation text-end d-flex flex-end justify-content-center margin-center mb-5 w-50 calc-input-element">
-							  <input type="number" class="form-control input-field text-end w-50 first-q-input fs-5 pt-2" min="0" max="500" placeholder="ex) 300" id="can-pay-val" aria-describedby="inputGroupPrepend" required oninput="javascript:priceCheck()"/>
-							  <span class="input-group-text fs-5 pt-2" id="inputGroupPrepend">만원</span>
-							</div>
-			 			</div>
-			 		</div>
-			 		<div class="row pb-2">
-						<div class="col">
-							<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:clickReturnBtn()"><p class="pt-2 m-0">이전 질문</p></button>
+			 		<div class="row pb-3">
+						<div class="col d-flex justify-content-center">
+							<input type="radio" class="btn-check" name="btnradio" id="answer-a">
+							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickAnswerBtn(this)" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Free Dos(OS 미설치) : 구매 후 바로 사용하실 수 없고 윈도우를 직접 설치하셔야 합니다. 최적화가 되어있지 않고, 드라이버가 담긴 USB를 제공합니다!"><p class="pt-2 m-0">프리도스</br>0원</p></label>
 						</div>
+						<div class="col d-flex justify-content-center">
+							<input type="radio" class="btn-check" name="btnradio" id="answer-b">
+							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickAnswerBtn(this)" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="COEM(메인보드 귀속형) : 최적화 작업을 무상 진행합니다. 윈도우는 해당 PC를 폐기하거나 메인보드의 수명이 다하거나 당사 귀책 외의 사항으로 교체 시 라이선스를 재구매하셔야 합니다!"><p class="pt-2 m-0">COEM</br>150,000원</p></label>
+						</div>
+						<div class="col d-flex justify-content-center">
+							<input type="radio" class="btn-check" name="btnradio" id="answer-c">
+							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickAnswerBtn(this)" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Fpp(라이센스 구매형) : 최적화 작업을 무상 진행합니다. 윈도우는 해당 PC를 폐기하거나 교체 할 경우 라이센스를 유지하고 다른 PC로 이전 가능합니다."><p class="pt-2 m-0">Fpp</br>180,000원</p></label>
+						</div>
+			 		</div>
+					<div class="row pb-2">
+						<div class="col"></div>
+						<div class="col-2 d-flex justify-content-center">
+							<label class="btn btn-outline-secondary w-75" for="answer-d" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="윈도우 최적화, 드라이버 업데이트, 바이오스 설정 및 업데이트, 각 업데이트 내용은 이슈 없는 버전으로 리빌딩합니다."><p class="pt-2 m-0">최적화란?</p></label>
+						</div>
+						<div class="col"></div>
+					</div>
+			 		<div class="row pb-2">
+	 			 		<div class="col"></div>
 			 			<div class="col">
 			 				<button type="button" class="form-control margin-center" onclick="javascript:clickEstimateBtn(this)"><p class="pt-2 m-0">견적 보기</p></button>
-	                		<div class="fs-5 text-center" style="display: none; font-weight: bold; color: red;">2페이지 까지는 필수 질문입니다!</div>
+	                		<div class="fs-5 text-center mt-2" style="display: none; font-weight: bold; color: red;">3페이지 까지는 필수 질문입니다!</div>
 			 			</div>
 			 			<div class="col">
-			 				<button type="button" class="form-control margin-center w-50 next-btn" onclick="javascript:clickNextBtn()"><p class="pt-2 m-0">다음 질문</p></button>
+			 				<button type="button" class="form-control margin-center w-50 next-btn" onclick="javascript:clickNextBtn(this)"><p class="pt-2 m-0">다음 질문</p></button>
 			 			</div>
 			 		</div>
 		 	</div>

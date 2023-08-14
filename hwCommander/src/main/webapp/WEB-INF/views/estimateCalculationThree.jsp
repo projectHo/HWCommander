@@ -36,7 +36,7 @@
 		let answer2s = "";
 		let twoDatas = JSON.parse(sessionStorage.getItem("data-2"));
 		for(let i = 0 ; i < twoDatas.length; i++){
-			answer2.set(twoDatas[i][0],twoDatas[i][1]);
+			answer2.set(twoDatas[i][0],twoDatas[i][1])
 		}
 		for(var [key,value] of answer2){
 			let totalKey = answer2.size;

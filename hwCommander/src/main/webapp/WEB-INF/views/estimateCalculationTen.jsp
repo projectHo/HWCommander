@@ -202,7 +202,7 @@
 	// typing question text
 	let index = 0;
 	function typeText() {
-		const text = " 메모리(램)카드의 버전을 DDR4, DDR5 중에서 골라주세요!";
+		const text = " 벌크나 멀티팩을 선호 하시나요?";
 		if (index < text.length) {
 		$("#typingInput").val(function(i, val) {
 			return val + text.charAt(index);
@@ -213,12 +213,14 @@
 	}
 
 	function clickAnswerBtn(el){
-		if($(el).children().html() === "DDR4"){
+		if($(el).html() === "벌크"){
 			sessionStorage.setItem("data-10",0);
-		}else if($(el).children().html() === "DDR5"){
+		}else if($(el).html() === "멀티팩"){
 			sessionStorage.setItem("data-10",1);
-		}else {
+		}else if($(el).html() === "둘다 좋음"){
 			sessionStorage.setItem("data-10",2);
+		}else {
+			sessionStorage.setItem("data-10",3);
 		}
 	}	
 	function clickReturnBtn(){
@@ -226,7 +228,7 @@
 		window.location.href = "estimateCalculationNine.do";
 	}
 	function clickEstimateBtn(el){
-		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false){
+		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false && $("#answer-d").prop("checked") === false){
 			alert("선택은 필수에요!");
 			$(el).addClass("is-invalid");
 			setTimeout(() => {
@@ -237,13 +239,13 @@
 			setTimeout(() => {
 				$(el).removeClass("is-valid");
 			}, 2000);
-			$(el).css('display','none');
+			$(el).css("display","none");
 			$(".loading-prog").css("display","block");
 			sendAllData();
 		}
 	}
 	function clickNextBtn(el){
-		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false){
+		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false && $("#answer-d").prop("checked") === false){
 			alert("선택은 필수에요!");
 			$(el).addClass("is-invalid");
 			setTimeout(() => {
@@ -258,22 +260,24 @@
 		}
 	}
 	$(function () {
-	typeText();
-	animateDonutGauge();
-	// bootstrap tooltip
-	const tooltipList = $('[data-bs-toggle="tooltip"]').map(function() {
-		return new bootstrap.Tooltip($(this)[0]);
-	}).get();
-	// 견적산출 데이터처리부(수신)
-	if(sessionStorage.getItem("data-10")){
-		if(sessionStorage.getItem("data-10") === "0"){
-			$("#answer-a").prop("checked",true);
-		}else if (sessionStorage.getItem("data-10") === "1"){
-			$("#answer-b").prop("checked",true);
-		}else if (sessionStorage.getItem("data-10") === "2"){
-			$("#answer-c").prop("checked",true);
+		typeText();
+		animateDonutGauge();
+		// bootstrap tooltip
+		const tooltipList = $('[data-bs-toggle="tooltip"]').map(function() {
+			return new bootstrap.Tooltip($(this)[0]);
+		}).get();
+		// 견적산출 데이터처리부(수신)
+		if(sessionStorage.getItem("data-10")){
+			if(sessionStorage.getItem("data-10") === "0"){
+				$("#answer-a").prop("checked",true);
+			}else if (sessionStorage.getItem("data-10") === "1"){
+				$("#answer-b").prop("checked",true);
+			}else if (sessionStorage.getItem("data-10") === "2"){
+				$("#answer-c").prop("checked",true);
+			}else if (sessionStorage.getItem("data-10") === "3"){
+				$("#answer-d").prop("checked",true);
+			}
 		}
-	}
 	})
 </script>
 </head>
@@ -290,42 +294,46 @@
 					<div class="row mt-4 pb-5">
 						<div class="col-2 text-center">
 							<div class="donut-container margin-center">
-								 <div class="donut-fill">9</div>
+								 <div class="donut-fill"">9</div>
 							</div>
 						</div>
 						<div class="col-8 d-flex p-2">
 							<input id="typingInput" class="form-control text-center pt-2 fs-5" type="text" readonly aria-label="예산 편성" disabled />
 						</div>
 					    <div class="col-2 d-flex flex-column-reverse">
-							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="선택사항 입니다~!" style="cursor:pointer">
+							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="좋아하시는 쿨러가 있나요?" style="cursor:pointer">
 						</div>
 					</div>
 					<div class="row pb-5">
-						<div class="col-4 d-flex justify-content-center">
+						<div class="col-3 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-a">
-							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">DDR4</p></label>
+							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">벌크</p></label>
 						</div>
-						<div class="col-4 d-flex justify-content-center">
+						<div class="col-3 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-b">
-							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">DDR5</p></label>
+							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">멀티팩</p></label>
 						</div>
-						<div class="col-4 d-flex justify-content-center">
+						<div class="col-3 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-c">
-							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">상관 없음</p></label>
+							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">둘다 좋음</p></label>
+						</div>
+						<div class="col-3 d-flex justify-content-center">
+							<input type="radio" class="btn-check" name="btnradio" id="answer-d">
+							<label class="btn btn-outline-secondary w-75" for="answer-d" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">둘다 싫음</p></label>
 						</div>
 					</div>
 					<div class="row mb-4">
-						<div class="col">
+						<div class="col-4">
 							<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:clickReturnBtn()"><p class="pt-2 m-0">이전 질문</p></button>
 						</div>
-						<div class="col">
+						<div class="col-4">
 							<button type="button" class="form-control calc-two-final margin-center" onclick="javascript:clickEstimateBtn(this)"><p class="pt-2 m-0">견적 보기</p></button>
 							<button class="btn btn-primary margin-center loading-prog w-100" type="button" disabled style="display: none;">
 								<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
 								Loading...
 							</button>
 						</div>
-						<div class="col">
+						<div class="col-4">
 							<button type="button" class="form-control w-50 margin-left-auto" onclick="javascript:clickNextBtn(this)"><p class="pt-2 m-0">다음 질문</p></button>
 						</div>
 					</div>

@@ -202,7 +202,7 @@
 	// typing question text
 	let index = 0;
 	function typeText() {
-		const text = " WIFI, 블루투스 옵션이 포함된 PC가 필요하신가요?";
+		const text = " 원하는 CPU 제조사가 있나요?";
 		if (index < text.length) {
 		$("#typingInput").val(function(i, val) {
 			return val + text.charAt(index);
@@ -213,18 +213,26 @@
 	}
 
 	function clickAnswerBtn(el){
-		if($(el).children().html() === "필요해요!"){
+		if($(el).html() === "Intel"){
 			sessionStorage.setItem("data-5",0);
-		}else {
+		}else if($(el).html() === "AMD"){
 			sessionStorage.setItem("data-5",1);
+		}else {
+			sessionStorage.setItem("data-5",2);
 		}
-	}
-	function returnPageBtn(){
+	}	
+	function clickReturnBtn(){
 		sessionStorage.setItem("data-5","");
 		window.location.href = "estimateCalculationFour.do";
 	}
 	function clickEstimateBtn(el){
-		if($("#answer-a").prop("checked") === true || $("#answer-b").prop("checked") === true){
+		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false){
+			alert("선택은 필수에요!");
+			$(el).addClass("is-invalid");
+			setTimeout(() => {
+				$(el).removeClass("is-invalid");
+			}, 2000);
+		}else {
 			$(el).addClass("is-valid");
 			setTimeout(() => {
 				$(el).removeClass("is-valid");
@@ -232,18 +240,12 @@
 			$(el).css("display","none");
 			$(".loading-prog").css("display","block");
 			sendAllData()
-		}else {
-			$(el).addClass("is-invalid");
-			alert("둘중에 하나 선택해주세요!")
-			setTimeout(() => {
-				$(el).removeClass("is-invalid");
-			}, 2000);
 		}
 	}
 	function clickNextBtn(el){
-		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked")===false){
+		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false){
+			alert("선택은 필수에요!");
 			$(el).addClass("is-invalid");
-			alert("둘중에 하나 선택해주세요!")
 			setTimeout(() => {
 				$(el).removeClass("is-invalid");
 			}, 2000);
@@ -268,10 +270,11 @@
 			$("#answer-a").prop("checked",true);
 		}else if (sessionStorage.getItem("data-5") === "1"){
 			$("#answer-b").prop("checked",true);
+		}else if (sessionStorage.getItem("data-5") === "2"){
+			$("#answer-c").prop("checked",true);
 		}
 	}
 	})
-
 </script>
 </head>
 <body>
@@ -294,22 +297,26 @@
 							<input id="typingInput" class="form-control text-center pt-2 fs-5" type="text" readonly aria-label="예산 편성" disabled />
 						</div>
 					    <div class="col-2 d-flex flex-column-reverse">
-							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="둘 중 택1 해주세요!" style="cursor:pointer">
+							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="확실한 이유가 없다면 상관없음으로 선택해주세요!" style="cursor:pointer">
 						</div>
 					</div>
 					<div class="row pb-5">
-						<div class="col-6 d-flex justify-content-center">
+						<div class="col-4 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-a">
-							<label class="btn btn-outline-secondary w-50" for="answer-a" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">필요해요!</p></label>
+							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">Intel</p></label>
 						</div>
-						<div class="col-6 d-flex justify-content-center">
+						<div class="col-4 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-b">
-							<label class="btn btn-outline-secondary w-50" for="answer-b" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">필요없어요!</p></label>
+							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">AMD</p></label>
+						</div>
+						<div class="col-4 d-flex justify-content-center">
+							<input type="radio" class="btn-check" name="btnradio" id="answer-c">
+							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">상관없음 혹은 잘 모름</p></label>
 						</div>
 					</div>
 					<div class="row mb-4">
 						<div class="col">
-							<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:returnPageBtn()"><p class="pt-2 m-0">이전 질문</p></button>
+							<button type="button" class="form-control marin-center w-50 pre-button" onclick="javascript:clickReturnBtn()"><p class="pt-2 m-0">이전 질문</p></button>
 						</div>
 						<div class="col">
 							<button type="button" class="form-control calc-two-final margin-center" onclick="javascript:clickEstimateBtn(this)"><p class="pt-2 m-0">견적 보기</p></button>
@@ -322,8 +329,8 @@
 							<button type="button" class="form-control w-50 margin-left-auto" onclick="javascript:clickNextBtn(this)"><p class="pt-2 m-0">다음 질문</p></button>
 						</div>
 					</div>
-				</div>
-			</div>
+				</div>				
+	 		</div>
 			
 			<!-- 빈 영역 -->
 			<div class="justify-content-end" style="width: 15%!important;"></div>

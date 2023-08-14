@@ -77,6 +77,11 @@ public class HomeController {
 	/*--------------------------------------------------
 	 - 견적산출
 	*--------------------------------------------------*/
+	@RequestMapping(value = "/estimateCalculationZero.do", method = RequestMethod.GET)
+	public String goEstimateCalculationZero(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "estimateCalculationZero");
+	}
+
 	@RequestMapping(value = "/estimateCalculationOne.do", method = RequestMethod.GET)
 	public String goEstimateCalculationOne(HttpServletRequest request, Model model) {
 		return userLoginCheck(request, model, "estimateCalculationOne");

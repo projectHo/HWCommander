@@ -56,13 +56,18 @@
 		$(".psu-text").html(result[idVal][5].partsName);
 		$(".ram-text").html(result[idVal][6].partsName);
 		$(".ssd-text").html(result[idVal][7].partsName);
-		$(".price-text").html(total + "원");
+		$(".price-text").html(total.toLocaleString("ko-kr") + "원");
 	}
 	
 	let total = 0;
 	function calcPartsPrice() {
 		for (let i = 0; i<result[idVal].length; i++){
 			total += Number(result[idVal][i].partsPrice);
+		}
+		if(sessionStorage.getItem("data-0") == "1"){
+			total += 150000;
+		}else if(sessionStorage.getItem("data-0") == "2"){
+			total += 180000;
 		}
 	}
 	function clickReturnBtn () {

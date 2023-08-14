@@ -160,21 +160,20 @@ public class ProductServiceImpl implements ProductService {
 		Integer answer5 = null;
 		Integer answer6 = null;
 		Integer answer7 = null;
-		Integer answer8 = null;
-		List<Map<String, String>> answer9 = new ArrayList<>(); // 미구현이라고 함.
+		List<Map<String, String>> answer8 = new ArrayList<>(); // 미구현이라고 함.
+		Integer answer9 = null;
 		Integer answer10 = null;
 		Integer answer11 = null;
-		Integer answer12 = null;
+		Integer[] answer12 = null;
 		Integer[] answer13 = null;
-		Integer[] answer14 = null;
+		Integer answer14 = null;
 		Integer answer15 = null;
-		Integer answer16 = null;
-		Integer[] answer17 = null;
+		Integer[] answer16 = null;
+		List<Map<String, String>> answer17 = new ArrayList<>(); //프론트 미구현
 		List<Map<String, String>> answer18 = new ArrayList<>(); //프론트 미구현
 		List<Map<String, String>> answer19 = new ArrayList<>(); //프론트 미구현
 		List<Map<String, String>> answer20 = new ArrayList<>(); //프론트 미구현
-		List<Map<String, String>> answer21 = new ArrayList<>(); //프론트 미구현
-
+		
 		/*--------------------------------------------------
 		 - 0-2. 견적산출 대상 시간 선언 및 초기화
 		*--------------------------------------------------*/
@@ -289,9 +288,9 @@ public class ProductServiceImpl implements ProductService {
 		// 4번질문
 		tempText = urlTextArray[3];
 		tempText = tempText.replaceAll(" ", "");
-
+		
 		// 답변을 하지 않았을 때 Front에서 넘기는 기본텍스트값
-		if(!"answer4<OS>".equals(tempText)) {
+		if(!"answer4<Wireless>".equals(tempText)) {
 			tempText = tempText.replaceAll("answer4", "");
 			tempText = tempText.replaceAll("<", "");
 			tempText = tempText.replaceAll(">", "");
@@ -306,7 +305,7 @@ public class ProductServiceImpl implements ProductService {
 		tempText = tempText.replaceAll(" ", "");
 		
 		// 답변을 하지 않았을 때 Front에서 넘기는 기본텍스트값
-		if(!"answer5<Wireless>".equals(tempText)) {
+		if(!"answer5<CPU>".equals(tempText)) {
 			tempText = tempText.replaceAll("answer5", "");
 			tempText = tempText.replaceAll("<", "");
 			tempText = tempText.replaceAll(">", "");
@@ -315,13 +314,13 @@ public class ProductServiceImpl implements ProductService {
 			
 			answer5 = Integer.parseInt(nameValueArray[1]);
 		}
-
+		
 		// 6번질문
 		tempText = urlTextArray[5];
 		tempText = tempText.replaceAll(" ", "");
 		
 		// 답변을 하지 않았을 때 Front에서 넘기는 기본텍스트값
-		if(!"answer6<CPU>".equals(tempText)) {
+		if(!"answer6<GPU>".equals(tempText)) {
 			tempText = tempText.replaceAll("answer6", "");
 			tempText = tempText.replaceAll("<", "");
 			tempText = tempText.replaceAll(">", "");
@@ -336,7 +335,7 @@ public class ProductServiceImpl implements ProductService {
 		tempText = tempText.replaceAll(" ", "");
 		
 		// 답변을 하지 않았을 때 Front에서 넘기는 기본텍스트값
-		if(!"answer7<GPU>".equals(tempText)) {
+		if(!"answer7<Aio>".equals(tempText)) {
 			tempText = tempText.replaceAll("answer7", "");
 			tempText = tempText.replaceAll("<", "");
 			tempText = tempText.replaceAll(">", "");
@@ -346,29 +345,29 @@ public class ProductServiceImpl implements ProductService {
 			answer7 = Integer.parseInt(nameValueArray[1]);
 		}
 		
-		// 8번질문
-		tempText = urlTextArray[7];
+		// 8번질문 (미구현)
+		
+		// 9번질문
+		tempText = urlTextArray[8];
 		tempText = tempText.replaceAll(" ", "");
 		
 		// 답변을 하지 않았을 때 Front에서 넘기는 기본텍스트값
-		if(!"answer8<Aio>".equals(tempText)) {
-			tempText = tempText.replaceAll("answer8", "");
+		if(!"answer9<RAM>".equals(tempText)) {
+			tempText = tempText.replaceAll("answer9", "");
 			tempText = tempText.replaceAll("<", "");
 			tempText = tempText.replaceAll(">", "");
 			
 			nameValueArray = tempText.split(",");
 			
-			answer8 = Integer.parseInt(nameValueArray[1]);
+			answer9 = Integer.parseInt(nameValueArray[1]);
 		}
-		
-		// 9번질문 (미구현)
 		
 		// 10번질문
 		tempText = urlTextArray[9];
 		tempText = tempText.replaceAll(" ", "");
 		
 		// 답변을 하지 않았을 때 Front에서 넘기는 기본텍스트값
-		if(!"answer10<RAM>".equals(tempText)) {
+		if(!"answer10<Bulk>".equals(tempText)) {
 			tempText = tempText.replaceAll("answer10", "");
 			tempText = tempText.replaceAll("<", "");
 			tempText = tempText.replaceAll(">", "");
@@ -383,7 +382,7 @@ public class ProductServiceImpl implements ProductService {
 		tempText = tempText.replaceAll(" ", "");
 		
 		// 답변을 하지 않았을 때 Front에서 넘기는 기본텍스트값
-		if(!"answer11<Bulk>".equals(tempText)) {
+		if(!"answer11<Ssd>".equals(tempText)) {
 			tempText = tempText.replaceAll("answer11", "");
 			tempText = tempText.replaceAll("<", "");
 			tempText = tempText.replaceAll(">", "");
@@ -393,29 +392,14 @@ public class ProductServiceImpl implements ProductService {
 			answer11 = Integer.parseInt(nameValueArray[1]);
 		}
 		
+		
 		// 12번질문
 		tempText = urlTextArray[11];
 		tempText = tempText.replaceAll(" ", "");
 		
 		// 답변을 하지 않았을 때 Front에서 넘기는 기본텍스트값
-		if(!"answer12<Ssd>".equals(tempText)) {
+		if(!"answer12<Metarial>".equals(tempText)) {
 			tempText = tempText.replaceAll("answer12", "");
-			tempText = tempText.replaceAll("<", "");
-			tempText = tempText.replaceAll(">", "");
-			
-			nameValueArray = tempText.split(",");
-			
-			answer12 = Integer.parseInt(nameValueArray[1]);
-		}
-		
-		
-		// 13번질문
-		tempText = urlTextArray[12];
-		tempText = tempText.replaceAll(" ", "");
-		
-		// 답변을 하지 않았을 때 Front에서 넘기는 기본텍스트값
-		if(!"answer13<Metarial>".equals(tempText)) {
-			tempText = tempText.replaceAll("answer13", "");
 			tempText = tempText.replaceAll("<Metarial,", "");
 			tempText = tempText.replaceAll(">", "");
 			tempText = tempText.replaceAll("\\[", "");
@@ -425,20 +409,20 @@ public class ProductServiceImpl implements ProductService {
 			nameValueArray = tempText.split(",");
 			
 			String[] tempTextArray = nameValueArray;
-			answer13 = new Integer[tempTextArray.length];
+			answer12 = new Integer[tempTextArray.length];
 			for(int i = 0; i < tempTextArray.length; i++) {
-				answer13[i] = Integer.parseInt(tempTextArray[i]);
+				answer12[i] = Integer.parseInt(tempTextArray[i]);
 			}
 		}
 		
 		
-		// 14번질문
-		tempText = urlTextArray[13];
+		// 13번질문
+		tempText = urlTextArray[12];
 		tempText = tempText.replaceAll(" ", "");
 		
 		// 답변을 하지 않았을 때 Front에서 넘기는 기본텍스트값
-		if(!"answer14<HDD>".equals(tempText)) {
-			tempText = tempText.replaceAll("answer14", "");
+		if(!"answer13<HDD>".equals(tempText)) {
+			tempText = tempText.replaceAll("answer13", "");
 			tempText = tempText.replaceAll("<HDD,", "");
 			tempText = tempText.replaceAll(">", "");
 			
@@ -454,11 +438,26 @@ public class ProductServiceImpl implements ProductService {
 				return estimateCalculationResultPrivateMasterVO;
 			}else {
 				String[] tempTextArray = nameValueArray;
-				answer14 = new Integer[tempTextArray.length];
+				answer13 = new Integer[tempTextArray.length];
 				for(int i = 0; i < tempTextArray.length; i++) {
-					answer14[i] = Integer.parseInt(tempTextArray[i]);
+					answer13[i] = Integer.parseInt(tempTextArray[i]);
 				}
 			}
+		}
+		
+		// 14번질문
+		tempText = urlTextArray[13];
+		tempText = tempText.replaceAll(" ", "");
+		
+		// 답변을 하지 않았을 때 Front에서 넘기는 기본텍스트값
+		if(!"answer14<Window>".equals(tempText)) {
+			tempText = tempText.replaceAll("answer14", "");
+			tempText = tempText.replaceAll("<", "");
+			tempText = tempText.replaceAll(">", "");
+			
+			nameValueArray = tempText.split(",");
+			
+			answer14 = Integer.parseInt(nameValueArray[1]);
 		}
 		
 		// 15번질문
@@ -466,7 +465,7 @@ public class ProductServiceImpl implements ProductService {
 		tempText = tempText.replaceAll(" ", "");
 		
 		// 답변을 하지 않았을 때 Front에서 넘기는 기본텍스트값
-		if(!"answer15<Window>".equals(tempText)) {
+		if(!"answer15<Fan>".equals(tempText)) {
 			tempText = tempText.replaceAll("answer15", "");
 			tempText = tempText.replaceAll("<", "");
 			tempText = tempText.replaceAll(">", "");
@@ -481,23 +480,8 @@ public class ProductServiceImpl implements ProductService {
 		tempText = tempText.replaceAll(" ", "");
 		
 		// 답변을 하지 않았을 때 Front에서 넘기는 기본텍스트값
-		if(!"answer16<Fan>".equals(tempText)) {
+		if(!"answer16<LED>".equals(tempText)) {
 			tempText = tempText.replaceAll("answer16", "");
-			tempText = tempText.replaceAll("<", "");
-			tempText = tempText.replaceAll(">", "");
-			
-			nameValueArray = tempText.split(",");
-			
-			answer16 = Integer.parseInt(nameValueArray[1]);
-		}
-		
-		// 17번질문
-		tempText = urlTextArray[16];
-		tempText = tempText.replaceAll(" ", "");
-		
-		// 답변을 하지 않았을 때 Front에서 넘기는 기본텍스트값
-		if(!"answer17<LED>".equals(tempText)) {
-			tempText = tempText.replaceAll("answer17", "");
 			tempText = tempText.replaceAll("<LED,", "");
 			tempText = tempText.replaceAll(">", "");
 			tempText = tempText.replaceAll("\\[", "");
@@ -507,19 +491,19 @@ public class ProductServiceImpl implements ProductService {
 			nameValueArray = tempText.split(",");
 			
 			String[] tempTextArray = nameValueArray;
-			answer17 = new Integer[tempTextArray.length];
+			answer16 = new Integer[tempTextArray.length];
 			for(int i = 0; i < tempTextArray.length; i++) {
-				answer17[i] = Integer.parseInt(tempTextArray[i]);
+				answer16[i] = Integer.parseInt(tempTextArray[i]);
 			}
 		}
+		
+		// 17번질문
 		
 		// 18번질문
 		
 		// 19번질문
 		
 		// 20번질문
-		
-		// 21번질문
 		
 		// etc(userId) index=20
 		tempText = urlTextArray[20];
