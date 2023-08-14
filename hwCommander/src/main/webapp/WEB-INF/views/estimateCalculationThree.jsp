@@ -36,7 +36,7 @@
 		let answer2s = "";
 		let twoDatas = JSON.parse(sessionStorage.getItem("data-2"));
 		for(let i = 0 ; i < twoDatas.length; i++){
-			answer2.set(twoDatas[i][0],twoDatas[i][1])
+			answer2.set(twoDatas[i][0],twoDatas[i][1]);
 		}
 		for(var [key,value] of answer2){
 			let totalKey = answer2.size;
@@ -227,7 +227,7 @@
 					value.push(storageValue);
 				}
 				sessionStorage.setItem("data-3",JSON.stringify(value))
-				window.location.href = "estimateCalculationFour.do";
+				window.location.href = "estimateCalculationFourByOne.do";
 			}
 		}else {
 			let value = [];
@@ -240,7 +240,7 @@
 				value.push(storageValue);
 			}
 			sessionStorage.setItem("data-3",JSON.stringify(value))
-			window.location.href = "estimateCalculationFour.do";
+			window.location.href = "estimateCalculationFourByOne.do";
 		}
 
 		
