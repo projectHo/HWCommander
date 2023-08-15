@@ -111,15 +111,13 @@
 			answer13.set("HDD","");
 		}
 		let answer14 = new Map();
-		answer14.set("Window",sessionStorage.getItem("data-14"));
+		answer14.set("Fan",sessionStorage.getItem("data-14"));
 		let answer15 = new Map();
-		answer15.set("Fan",sessionStorage.getItem("data-15"));
-		let answer16 = new Map();
-		answer16.set("LED",sessionStorage.getItem("data-16"));
-		let answer17 = new Map();let answer18 = new Map();let answer19 = new Map();let answer20 = new Map();
+		answer15.set("LED",sessionStorage.getItem("data-15"));
+		let answer16 = new Map();let answer17 = new Map();let answer18 = new Map();let answer19 = new Map();
 		
 		
-		for(let i = 17; i <=20 ; i++){
+		for(let i = 17; i <=19 ; i++){
 			if(sessionStorage.getItem("data-" + i) !== ""){
 				var answerName = "answer" + i;
 				var answer = eval(answerName);
@@ -132,7 +130,7 @@
 		}
 		var urlParams = "";
 
-		for (var i = 1; i <= 20; i++) {
+		for (var i = 1; i <= 19; i++) {
 			var mapName = "answer" + i;
 			var map = eval(mapName);
 			if(i === 2){
@@ -169,7 +167,7 @@
 			var value = keyValue[1];
 			userInfoObject[key] = value;
 		}
-		urlParams += "etc<userId," + userInfoObject.id + ">|etc<targetDate,null>" 
+		urlParams += "etc<userId," + userInfoObject.id + "> |etc<targetDate,null>";
 		var baseUrl = "/estimateCalculationResult.do";
 		var fullUrl = baseUrl + "?" + urlParams;
 		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);

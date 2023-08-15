@@ -71,7 +71,7 @@
 		}
 	}
 	function clickReturnBtn () {
-		window.location.href = "estimateCalculationOne.do";
+		window.location.href = "estimateCalculationZero.do";
 		sessionStorage.clear();
 	}
 	function clickOrderBtn() {
