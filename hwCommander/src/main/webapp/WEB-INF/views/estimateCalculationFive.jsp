@@ -211,16 +211,16 @@
 	}
 
 	function clickAnswerBtn(el){
-		if($(el).html() === "Intel"){
+		if($(el).children().html() === "Intel"){
 			sessionStorage.setItem("data-5",0);
-		}else if($(el).html() === "AMD"){
+		}else if($(el).children().html() === "AMD"){
 			sessionStorage.setItem("data-5",1);
 		}else {
 			sessionStorage.setItem("data-5",2);
 		}
 	}	
 	function clickReturnBtn(){
-		sessionStorage.setItem("data-5","");
+		sessionStorage.setItem("data-5","null");
 		window.location.href = "estimateCalculationFour.do";
 	}
 	function clickEstimateBtn(el){

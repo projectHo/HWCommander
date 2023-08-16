@@ -235,7 +235,7 @@
 	}
 	
 	function clickReturnBtn(){
-		sessionStorage.setItem("data-13","");
+		sessionStorage.setItem("data-13","null");
 		location.href = "estimateCalculationTwelve.do";
 	}
 	function clickEstimateBtn(el){

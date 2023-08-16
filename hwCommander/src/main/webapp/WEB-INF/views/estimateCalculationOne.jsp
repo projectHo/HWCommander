@@ -24,7 +24,7 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
     <script>
 		var progress = 0;
 		function clickReturnBtn(){
-			sessionStorage.setItem("data-1","");
+			sessionStorage.setItem("data-1","null");
 			window.location.href = "estimateCalculationZero.do";
 		}
 		function clickNextBtn() {
@@ -45,16 +45,16 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 			}, 3000);
 		}
 
-		function priceCheck(){
-			if($(".first-q-input").val() < 0){
+		function priceCheck(el){
+			if($(el).val() < 0){
 				alert("0원 이상으로 입력해주세요~");
-				$(".first-q-input").val("");
-			}else if($(".first-q-input").val() > 500){
+				$(el).val("");
+			}else if($(el).val() > 500){
 				alert("500만원 이하로 입력해주세요!");
-				$(".first-q-input").val("");
-			}else if (isNaN(parseFloat($(".first-q-input").val())) === true){
+				$(el).val("");
+			}else if (isNaN(parseFloat($(el).val())) && $(el).val() != ""){
 				alert("숫자만 입력해주세요!!");
-				$(".first-q-input").val("");
+				$(el).val("");
 			}
 		}
 			
@@ -98,9 +98,6 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 		}
 
 		$(function () {
-			for(let i = 2; i<=20 ; i++){
-				sessionStorage.setItem("data-" + i, "");
-			}
 			// bootstrap tooltip base
 			const tooltipTriggerList = $('[data-bs-toggle="tooltip"]');
 			const tooltipList = tooltipTriggerList.map(function() {
@@ -154,7 +151,7 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 			 		<div class="row pb-2">
 			 			<div class="col">
 			 				<div class="input-group has-validation text-end d-flex flex-end justify-content-center margin-center mb-5 w-50 calc-input-element">
-							  <input type="number" class="form-control input-field text-end w-50 first-q-input fs-5 pt-2" min="0" max="500" placeholder="ex) 300" id="can-pay-val" aria-describedby="inputGroupPrepend" required oninput="javascript:priceCheck()"/>
+							  <input type="text" class="form-control input-field text-end w-50 first-q-input fs-5 pt-2" min="0" max="500" placeholder="ex) 300" id="can-pay-val" aria-describedby="inputGroupPrepend" required oninput="javascript:priceCheck(this)"/>
 							  <span class="input-group-text fs-5 pt-2" id="inputGroupPrepend">만원</span>
 							</div>
 			 			</div>
@@ -165,7 +162,7 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 						</div>
 			 			<div class="col">
 			 				<button type="button" class="form-control margin-center" onclick="javascript:clickEstimateBtn(this)"><p class="pt-2 m-0">견적 보기</p></button>
-	                		<div class="fs-5 text-center" style="display: none; font-weight: bold; color: red;">2페이지 까지는 필수 질문입니다!</div>
+	                		<div class="fs-5 text-center" style="display: none; font-weight: bold; color: red;">2번 질문까지는 필수 질문입니다!</div>
 			 			</div>
 			 			<div class="col">
 			 				<button type="button" class="form-control margin-center w-50 next-btn" onclick="javascript:clickNextBtn()"><p class="pt-2 m-0">다음 질문</p></button>

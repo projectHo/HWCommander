@@ -99,7 +99,7 @@
 		}
 
 		$(function () {
-			for(let i = 1; i<=20 ; i++){
+			for(let i = 1; i<=19 ; i++){
 				sessionStorage.setItem("data-" + i, "");
 			}
 			// bootstrap tooltip base
@@ -179,7 +179,7 @@
 	 			 		<div class="col"></div>
 			 			<div class="col">
 			 				<button type="button" class="form-control margin-center" onclick="javascript:clickEstimateBtn(this)"><p class="pt-2 m-0">견적 보기</p></button>
-	                		<div class="fs-5 text-center mt-2" style="display: none; font-weight: bold; color: red;">3페이지 까지는 필수 질문입니다!</div>
+	                		<div class="fs-5 text-center mt-2" style="display: none; font-weight: bold; color: red;">2번 질문까지는 필수 질문입니다!</div>
 			 			</div>
 			 			<div class="col">
 			 				<button type="button" class="form-control margin-center w-50 next-btn" onclick="javascript:clickNextBtn(this)"><p class="pt-2 m-0">다음 질문</p></button>

@@ -211,14 +211,14 @@
 	}
 
 	function clickAnswerBtn(el){
-		if($(el).html() === "필요해요!"){
+		if($(el).children().html() === "필요해요!"){
 			sessionStorage.setItem("data-4",0);
 		}else {
 			sessionStorage.setItem("data-4",1);
 		}
 	}
 	function clickReturnBtn(){
-		sessionStorage.setItem("data-4","");
+		sessionStorage.setItem("data-4","null");
 		window.location.href = "estimateCalculationThree.do";
 	}
 	function clickEstimateBtn(el){

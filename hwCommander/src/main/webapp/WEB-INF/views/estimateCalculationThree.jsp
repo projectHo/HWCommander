@@ -176,7 +176,7 @@
 		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
 	}
 	function clickReturnBtn() {
-		sessionStorage.setItem("data-3","");
+		sessionStorage.setItem("data-3","null");
 		window.location.href = "estimateCalculationTwo.do";
 	}
 	function clickEstimateBtn(el){

@@ -242,7 +242,7 @@
 	}
 	
 	function clickReturnBtn(){
-		sessionStorage.setItem("data-15","");
+		sessionStorage.setItem("data-15","null");
 		location.href = "estimateCalculationFourteen.do";
 	}
 	function clickEstimateBtn(el){

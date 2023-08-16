@@ -220,7 +220,7 @@
 		}
 	}	
 	function clickReturnBtn(){
-		sessionStorage.setItem("data-9","");
+		sessionStorage.setItem("data-9","null");
 		window.location.href = "estimateCalculationEight.do";
 	}
 	function clickEstimateBtn(el){

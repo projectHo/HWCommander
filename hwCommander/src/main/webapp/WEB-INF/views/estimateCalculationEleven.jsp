@@ -210,7 +210,7 @@
 		}
 	}
 	function clickReturnBtn(){
-		sessionStorage.setItem("data-11","");
+		sessionStorage.setItem("data-11","null");
 		location.href = "estimateCalculationTen.do";
 	}
 	function clickEstimateBtn(el){

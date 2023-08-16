@@ -254,7 +254,7 @@
 	}
 	
 	function clickReturnBtn(){
-		sessionStorage.setItem("data-12","");
+		sessionStorage.setItem("data-12","null");
 		location.href = "estimateCalculationEleven.do";
 	}
 	function clickEstimateBtn(el){

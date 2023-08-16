@@ -211,16 +211,16 @@
 	}
 
 	function clickAnswerBtn(el){
-		if($(el).html() === "필요합니다"){
+		if($(el).children().html() === "필요합니다"){
 			sessionStorage.setItem("data-6",0);
-		}else if($(el).html() === "상관없어요"){
+		}else if($(el).children().html() === "상관없어요"){
 			sessionStorage.setItem("data-6",1);
 		}else {
 			sessionStorage.setItem("data-6",2);
 		}
 	}	
 	function clickReturnBtn(){
-		sessionStorage.setItem("data-6","");
+		sessionStorage.setItem("data-6","null");
 		window.location.href = "estimateCalculationFive.do";
 	}
 	function clickEstimateBtn(el){
@@ -265,11 +265,11 @@
 	// 견적산출 데이터처리부(수신)
 	if(sessionStorage.getItem("data-6")){
 		const storedData = sessionStorage.getItem("data-6");
-		if(storedData === "1"){
+		if(storedData === "0"){
 			$("#answer-a").prop("checked",true);
-		}else if (storedData === "np"){
+		}else if (storedData === "1"){
 			$("#answer-b").prop("checked",true);
-		}else if (storedData === "0"){
+		}else if (storedData === "2"){
 			$("#answer-c").prop("checked",true);
 		}
 	}

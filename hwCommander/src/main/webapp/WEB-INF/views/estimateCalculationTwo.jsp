@@ -121,7 +121,7 @@
 			if(sessionStorage.getItem("data-" + i) !== ""){
 				var answerName = "answer" + i;
 				var answer = eval(answerName);
-				answer.set(sessionStorage.getItem("data-" + i),"");
+				answer.set(sessionStorage.getItem("data-" + i),"null");
 			}else if (sessionStorage.getItem("data-" + i) === ""){
 				var answerName = "answer" + i;
 				var answer = eval(answerName);
@@ -252,7 +252,7 @@
 	};
 
 	function clickReturnBtn(){
-		sessionStorage.setItem("data-2","");
+		sessionStorage.setItem("data-2","null");
 		window.location.href ="estimateCalculationOne.do";
 	}
 
@@ -536,7 +536,7 @@
 		$(".table-list-names").css("display","table-row");
 		$("input#search-input").val('');
 		$("#label-table").find("tr").remove();
-		sessionStorage.removeItem("data-2");
+		sessionStorage.setItem("data-2","null");
 	}
 	// search input
 	
