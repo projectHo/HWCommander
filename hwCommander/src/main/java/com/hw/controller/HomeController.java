@@ -23,6 +23,9 @@ import com.hw.model.ProcessResourceTypeCodeInfoVO;
 import com.hw.model.UserInfoVO;
 import com.hw.service.ProcessResourceService;
 import com.hw.service.ProductService;
+//08.17 test
+import com.hw.service.PartsService;
+// end
 
 
 @Controller
@@ -33,6 +36,11 @@ public class HomeController {
 	@Autowired
     private ProductService productService;
 	
+//	08.17 test
+	@Autowired
+	private PartsService partsService;
+// end
+
 	@Autowired
     private ProcessResourceService processResourceService;
 	
@@ -216,7 +224,9 @@ public class HomeController {
 		
 		model.addAttribute("productMaster", productService.getProductMasterById(productId));
 		model.addAttribute("productDetail", productService.getProductDetailById(productId));
-		
+		// 08.17 test
+		model.addAttribute("partsRam", partsService.getPartsRamVOById(productId));
+		// end
 		return userLoginCheck(request, model, "estimateCalculationResult");
 	}
 	

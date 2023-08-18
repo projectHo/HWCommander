@@ -24,6 +24,7 @@
 <script>
 	let aa = "${productMaster}";
 	let bb = "${productDetail}";
+	let cc = "${partsRam}"
 	const dataString = bb;
 
 	const jsonArrayString = dataString.substring(1, dataString.length - 1);
