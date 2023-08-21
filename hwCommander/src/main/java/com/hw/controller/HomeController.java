@@ -225,7 +225,7 @@ public class HomeController {
 		model.addAttribute("productMaster", productService.getProductMasterById(productId));
 		model.addAttribute("productDetail", productService.getProductDetailById(productId));
 		// 08.17 test
-		model.addAttribute("partsRam", partsService.getPartsRamVOById(productId));
+		model.addAttribute("partsRam", partsService.getRamAllList());
 		// end
 		return userLoginCheck(request, model, "estimateCalculationResult");
 	}
