@@ -30,7 +30,6 @@
 		
 		$(".user-name").html(masterInfoObject.ordererName);
 		$(".order-name").html(masterInfoObject.orderName);
-		console.log(masterInfoObject)
 		if(masterInfoObject.orderStateCd === "01"){
 			$("#box-1").addClass("status-now").addClass("fs-5");
 			$("#box-2").addClass("status-now-near")

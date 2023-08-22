@@ -231,3 +231,19 @@
 #inicisModalDiv {
 	opacity : 1 !important;
 }
+
+/* 폰트 23.08.02 */
+*{
+  font-family: "OTWelcomeRA";
+}
+@font-face {
+  font-family: 'OTWelcomeRA';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2110@1.0/OTWelcomeRA.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+#id,#pw,#pwConfirm,.join-members{
+  font-family: serif;
+  font-weight: bold;
+}

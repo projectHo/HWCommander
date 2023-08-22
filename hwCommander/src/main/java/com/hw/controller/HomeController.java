@@ -23,6 +23,9 @@ import com.hw.model.ProcessResourceTypeCodeInfoVO;
 import com.hw.model.UserInfoVO;
 import com.hw.service.ProcessResourceService;
 import com.hw.service.ProductService;
+//08.17 test
+import com.hw.service.PartsService;
+// end
 
 
 @Controller
@@ -33,6 +36,11 @@ public class HomeController {
 	@Autowired
     private ProductService productService;
 	
+//	08.17 test
+	@Autowired
+	private PartsService partsService;
+// end
+
 	@Autowired
     private ProcessResourceService processResourceService;
 	
@@ -77,6 +85,11 @@ public class HomeController {
 	/*--------------------------------------------------
 	 - 견적산출
 	*--------------------------------------------------*/
+	@RequestMapping(value = "/estimateCalculationZero.do", method = RequestMethod.GET)
+	public String goEstimateCalculationZero(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "estimateCalculationZero");
+	}
+
 	@RequestMapping(value = "/estimateCalculationOne.do", method = RequestMethod.GET)
 	public String goEstimateCalculationOne(HttpServletRequest request, Model model) {
 		return userLoginCheck(request, model, "estimateCalculationOne");
@@ -113,7 +126,7 @@ public class HomeController {
 	public String goEstimateCalculationFour(HttpServletRequest request, Model model) {
 		return userLoginCheck(request, model, "estimateCalculationFour");
 	}
-	
+
 	@RequestMapping(value = "/estimateCalculationFive.do", method = RequestMethod.GET)
 	public String goEstimateCalculationFive(HttpServletRequest request, Model model) {
 		return userLoginCheck(request, model, "estimateCalculationFive");
@@ -211,7 +224,9 @@ public class HomeController {
 		
 		model.addAttribute("productMaster", productService.getProductMasterById(productId));
 		model.addAttribute("productDetail", productService.getProductDetailById(productId));
-		
+		// 08.17 test
+		model.addAttribute("partsRam", partsService.getRamAllList());
+		// end
 		return userLoginCheck(request, model, "estimateCalculationResult");
 	}
 	

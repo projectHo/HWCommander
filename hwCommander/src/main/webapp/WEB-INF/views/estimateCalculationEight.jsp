@@ -111,15 +111,13 @@
 			answer13.set("HDD","");
 		}
 		let answer14 = new Map();
-		answer14.set("Window",sessionStorage.getItem("data-14"));
+		answer14.set("Fan",sessionStorage.getItem("data-14"));
 		let answer15 = new Map();
-		answer15.set("Fan",sessionStorage.getItem("data-15"));
-		let answer16 = new Map();
-		answer16.set("LED",sessionStorage.getItem("data-16"));
-		let answer17 = new Map();let answer18 = new Map();let answer19 = new Map();let answer20 = new Map();
+		answer15.set("LED",sessionStorage.getItem("data-15"));
+		let answer16 = new Map();let answer17 = new Map();let answer18 = new Map();let answer19 = new Map();
 		
 		
-		for(let i = 17; i <=20 ; i++){
+		for(let i = 17; i <=19 ; i++){
 			if(sessionStorage.getItem("data-" + i) !== ""){
 				var answerName = "answer" + i;
 				var answer = eval(answerName);
@@ -132,7 +130,7 @@
 		}
 		var urlParams = "";
 
-		for (var i = 1; i <= 20; i++) {
+		for (var i = 1; i <= 19; i++) {
 			var mapName = "answer" + i;
 			var map = eval(mapName);
 			if(i === 2){
@@ -233,6 +231,8 @@
 				$(el).removeClass("is-valid");
 			}, 2000);
 			sessionStorage.setItem("data-8","np")
+			$(el).css("display","none");
+			$(".loading-prog").css("display","block");
 			sendAllData()
 		} else if(conditionMet){
 			alert("메인&서브 색상을 골라주시거나 상관없음을 골라주세요!");
@@ -249,6 +249,8 @@
 			}, 2000);
 			// 견적산출 데이터처리부(송신)
 			sessionStorage.setItem("data-8",JSON.stringify(value))
+			$(el).css("display","none");
+			$(".loading-prog").css('display',"block");
 			sendAllData()
 		}
 	}
@@ -530,6 +532,10 @@
 						</div>
 						<div class="col">
 							<button type="button" class="form-control calc-two-final margin-center" onclick="javascript:clickEstimateBtn(this)"><p class="pt-2 m-0">견적 보기</p></button>
+							<button class="btn btn-primary margin-center loading-prog w-100" type="button" disabled style="display: none;">
+								<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+								Loading...
+							</button>
 						</div>
 						<div class="col">
 							<button type="button" class="form-control w-50 margin-left-auto" onclick="javascript:clickNextBtn(this)"><p class="pt-2 m-0">다음 질문</p></button>

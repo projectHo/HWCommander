@@ -9,6 +9,7 @@
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 <link rel="stylesheet" href="/resources/css/main.css">
+<link rel="stylesheet" href="/resources/css/estimateCalculationOneCss.css" />
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 <script>
 
@@ -37,7 +38,12 @@ function login() {
         	}else if("Y" == result) {
         		// 로그인 성공
         		//location.href = "/";
-        		location.href = document.referrer;
+				if(document.referrer.includes("/user/signUp.do")){
+					location.href = "/";
+				}else {
+					location.href = document.referrer;
+				}
+
         	}else {
         		alert("메일인증을 완료 후 시도해주세요.");
         		//location.href = "/";
@@ -76,36 +82,38 @@ function comnOnKeyUp() {
 			<!-- 빈 영역 -->
 			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
 			<div class="" style="width: 70%!important;">
-				<form id="login_form">
-					<h4 class="text-light mt-3 mb-5 px-5"><b>아이디/비밀번호를 입력하여 로그인해 주시기 바랍니다.</b></h4>
-					<div class="form-floating mb-3 col-6 mx-auto">
-					  <input type="text" class="form-control" id="id" name="id" onkeyup="javascript:comnOnKeyUp()">
-					  <label for="floatingInput">ID</label>
+				<div class="estimateCalc_background p-5 mb-5">
+					<div class="container">
+						<form id="login_form">
+							<div class="form-floating mb-3 col-6 mx-auto mt-5">
+								<input type="text" class="form-control" id="id" name="id" onkeyup="javascript:comnOnKeyUp()">
+								<label for="floatingInput">ID</label>
+							</div>
+							<div class="form-floating mb-5 col-6 mx-auto">
+								<input type="password" class="form-control" id="pw" name="pw" onkeyup="javascript:comnOnKeyUp()">
+								<label for="floatingPassword">Password</label>
+							</div>
+							<div class="d-grid gap-2 mb-3 col-6 mx-auto">
+								<button class="btn btn-outline-secondary btn-lg" type="button" onclick="javascript:login()">Login</button>
+							</div>
+							<div class="d-flex justify-content-center mb-2">
+								<nav class="navbar navbar-expand-md">
+									<div class="container-fluid">
+										<div class="collapse navbar-collapse">
+											<div class="navbar-nav">
+												<a class="nav-link" href="/user/signUp.do">회원가입</a>
+												<span class="navbar-text">|</span>
+												<a class="nav-link" href="javascript:alert('준비중')">아이디 찾기</a>
+												<span class="navbar-text">|</span>
+												<a class="nav-link" href="javascript:alert('준비중')">비밀번호 찾기</a>
+											</div>
+										</div>
+									</div>
+								</nav>
+							</div>
+						</form>
 					</div>
-					<div class="form-floating mb-5 col-6 mx-auto">
-					  <input type="password" class="form-control" id="pw" name="pw" onkeyup="javascript:comnOnKeyUp()">
-					  <label for="floatingPassword">Password</label>
-					</div>
-					<div class="d-grid gap-2 mb-3 col-6 mx-auto">
-					  <button class="btn btn-outline-light btn-lg" type="button" onclick="javascript:login()">Login</button>
-					</div>
-					<div class="d-flex justify-content-center mb-5">
-						<nav class="navbar navbar-expand-md">
-						  <div class="container-fluid">
-						    <div class="collapse navbar-collapse">
-						      <div class="navbar-nav">
-						        <a class="nav-link text-light" href="/user/signUp.do">회원가입</a>
-						        <span class="navbar-text text-light">|</span>
-						        <a class="nav-link text-light" href="javascript:alert('준비중')">아이디 찾기</a>
-						        <span class="navbar-text text-light">|</span>
-						        <a class="nav-link text-light" href="javascript:alert('준비중')">비밀번호 찾기</a>
-						      </div>
-						    </div>
-						  </div>
-						</nav>
-					</div>
-
-				</form>
+				</div>
 			</div>
 			<!-- 빈 영역 -->
 			<div class="justify-content-end" style="width: 15%!important;"></div>

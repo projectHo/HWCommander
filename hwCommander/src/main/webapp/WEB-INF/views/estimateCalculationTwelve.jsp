@@ -111,15 +111,13 @@
 			answer13.set("HDD","");
 		}
 		let answer14 = new Map();
-		answer14.set("Window",sessionStorage.getItem("data-14"));
+		answer14.set("Fan",sessionStorage.getItem("data-14"));
 		let answer15 = new Map();
-		answer15.set("Fan",sessionStorage.getItem("data-15"));
-		let answer16 = new Map();
-		answer16.set("LED",sessionStorage.getItem("data-16"));
-		let answer17 = new Map();let answer18 = new Map();let answer19 = new Map();let answer20 = new Map();
+		answer15.set("LED",sessionStorage.getItem("data-15"));
+		let answer16 = new Map();let answer17 = new Map();let answer18 = new Map();let answer19 = new Map();
 		
 		
-		for(let i = 17; i <=20 ; i++){
+		for(let i = 17; i <=19 ; i++){
 			if(sessionStorage.getItem("data-" + i) !== ""){
 				var answerName = "answer" + i;
 				var answer = eval(answerName);
@@ -132,7 +130,7 @@
 		}
 		var urlParams = "";
 
-		for (var i = 1; i <= 20; i++) {
+		for (var i = 1; i <= 19; i++) {
 			var mapName = "answer" + i;
 			var map = eval(mapName);
 			if(i === 2){
@@ -206,29 +204,29 @@
 		}
 	}
 	function clickAnswerBtn(el){
-		if($(el).html() !== "상관없음"){
+		if($(el).children().html() !== "상관없음"){
 			if(sessionStorage.getItem("data-12") === "5"){
 				answers = [];
 			}
 			$("#answer-f").prop("checked",false);
 			if($(el).siblings().prop("checked") === false){
-				if($(el).html() === "아크릴"){
+				if($(el).children().html() === "아크릴"){
 					if(!answers.includes("0")){
 						answers.push("0");
 					}
-				}else if ($(el).html() === "강화유리"){
+				}else if ($(el).children().html() === "강화유리"){
 					if(!answers.includes("1")){
 						answers.push("1");
 					}
-				}else if($(el).html() === "알루미늄"){
+				}else if($(el).children().html() === "알루미늄"){
 					if(!answers.includes("2")){
 						answers.push("2");
 					}
-				}else if($(el).html() === "통철판"){
+				}else if($(el).children().html() === "통철판"){
 					if(!answers.includes("3")){
 						answers.push("3");
 					}
-				}else if($(el).html() === "창문형 유리"){
+				}else if($(el).children().html() === "창문형 유리"){
 					if(!answers.includes("4")){
 						answers.push("4");
 					}
@@ -256,7 +254,7 @@
 	}
 	
 	function clickReturnBtn(){
-		sessionStorage.setItem("data-12","");
+		sessionStorage.setItem("data-12","null");
 		location.href = "estimateCalculationEleven.do";
 	}
 	function clickEstimateBtn(el){
@@ -271,6 +269,8 @@
 			setTimeout(() => {
 				$(el).removeClass("is-valid");
 			}, 2000);
+			$(el).css("display","none");
+			$(".loading-prog").css("display","block");
 			sendAllData();
 		}
 	}
@@ -389,6 +389,10 @@
 						</div>
 						<div class="col-4">
 							<button type="button" class="form-control margin-center" onclick="javascript:clickEstimateBtn(this)"><p class="pt-2 m-0">견적 보기</p></button>
+							<button class="btn btn-primary margin-center loading-prog w-100" type="button" disabled style="display: none;">
+								<span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+								Loading...
+							</button>
 						</div>
 						<div class="col-4">
 							<button type="button" class="form-control margin-left-auto w-50" onclick="javascript:clickNextBtn(this)"><p class="pt-2 m-0">다음 질문</p></button>

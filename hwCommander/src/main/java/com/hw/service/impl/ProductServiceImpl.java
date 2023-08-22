@@ -167,12 +167,11 @@ public class ProductServiceImpl implements ProductService {
 		Integer[] answer12 = null;
 		Integer[] answer13 = null;
 		Integer answer14 = null;
-		Integer answer15 = null;
-		Integer[] answer16 = null;
+		Integer[] answer15 = null;
+		List<Map<String, String>> answer16 = new ArrayList<>(); //프론트 미구현
 		List<Map<String, String>> answer17 = new ArrayList<>(); //프론트 미구현
 		List<Map<String, String>> answer18 = new ArrayList<>(); //프론트 미구현
 		List<Map<String, String>> answer19 = new ArrayList<>(); //프론트 미구현
-		List<Map<String, String>> answer20 = new ArrayList<>(); //프론트 미구현
 		
 		/*--------------------------------------------------
 		 - 0-2. 견적산출 대상 시간 선언 및 초기화
@@ -189,8 +188,8 @@ public class ProductServiceImpl implements ProductService {
 		*--------------------------------------------------*/
 		String[] urlTextArray = urlText.split("\\|");
 		
-		// 질문 20개, 견적산출 대상 유저id, 견적산출 대상시간 도합 22가 아닐 시 에러 return
-		if(22 != urlTextArray.length) {
+		// 질문 19개, 견적산출 대상 유저id, 견적산출 대상시간 도합 21가 아닐 시 에러 return
+		if(21 != urlTextArray.length) {
 			String errMsg = "########## 견적산출 ERROR : 질문답변갯수가 안맞음 ㄲㅈ셈";
 			
 			System.out.println(errMsg);
@@ -450,7 +449,7 @@ public class ProductServiceImpl implements ProductService {
 		tempText = tempText.replaceAll(" ", "");
 		
 		// 답변을 하지 않았을 때 Front에서 넘기는 기본텍스트값
-		if(!"answer14<Window>".equals(tempText)) {
+		if(!"answer14<Fan>".equals(tempText)) {
 			tempText = tempText.replaceAll("answer14", "");
 			tempText = tempText.replaceAll("<", "");
 			tempText = tempText.replaceAll(">", "");
@@ -461,26 +460,12 @@ public class ProductServiceImpl implements ProductService {
 		}
 		
 		// 15번질문
+		
 		tempText = urlTextArray[14];
 		tempText = tempText.replaceAll(" ", "");
 		
 		// 답변을 하지 않았을 때 Front에서 넘기는 기본텍스트값
-		if(!"answer15<Fan>".equals(tempText)) {
-			tempText = tempText.replaceAll("answer15", "");
-			tempText = tempText.replaceAll("<", "");
-			tempText = tempText.replaceAll(">", "");
-			
-			nameValueArray = tempText.split(",");
-			
-			answer15 = Integer.parseInt(nameValueArray[1]);
-		}
-		
-		// 16번질문
-		tempText = urlTextArray[15];
-		tempText = tempText.replaceAll(" ", "");
-		
-		// 답변을 하지 않았을 때 Front에서 넘기는 기본텍스트값
-		if(!"answer16<LED>".equals(tempText)) {
+		if(!"answer15<LED>".equals(tempText)) {
 			tempText = tempText.replaceAll("answer16", "");
 			tempText = tempText.replaceAll("<LED,", "");
 			tempText = tempText.replaceAll(">", "");
@@ -491,12 +476,13 @@ public class ProductServiceImpl implements ProductService {
 			nameValueArray = tempText.split(",");
 			
 			String[] tempTextArray = nameValueArray;
-			answer16 = new Integer[tempTextArray.length];
+			answer15 = new Integer[tempTextArray.length];
 			for(int i = 0; i < tempTextArray.length; i++) {
-				answer16[i] = Integer.parseInt(tempTextArray[i]);
+				answer15[i] = Integer.parseInt(tempTextArray[i]);
 			}
 		}
-		
+		// 16번질문
+
 		// 17번질문
 		
 		// 18번질문
@@ -505,8 +491,8 @@ public class ProductServiceImpl implements ProductService {
 		
 		// 20번질문
 		
-		// etc(userId) index=20
-		tempText = urlTextArray[20];
+		// etc(userId) index=19
+		tempText = urlTextArray[19];
 		tempText = tempText.replaceAll(" ", "");
 		
 		tempText = tempText.replaceAll("etc", "");
@@ -526,9 +512,9 @@ public class ProductServiceImpl implements ProductService {
 		}else {
 			targetId = nameValueArray[1];
 		}
-		
-		// etc(targetDate) index=21
-		tempText = urlTextArray[21];
+	
+		// etc(targetDate) index=20
+		tempText = urlTextArray[20];
 		tempText = tempText.replaceAll(" ", "");
 		
 		tempText = tempText.replaceAll("etc", "");
@@ -960,70 +946,70 @@ public class ProductServiceImpl implements ProductService {
 		
 		// 모든제품 for 돌려야함.
 		for(int i = partsGpuHistoryVOList.size()-1; i >= 0; i--) {
-			if(0 > partsGpuHistoryVOList.get(i).getPartsPrice()
+			if(0 >= partsGpuHistoryVOList.get(i).getPartsPrice()
 					|| checkPrice < partsGpuHistoryVOList.get(i).getPartsPrice()) {
 				partsGpuHistoryVOList.remove(i);
 			}
 		}
 		
 		for(int i = partsCpuHistoryVOList.size()-1; i >= 0; i--) {
-			if(0 > partsCpuHistoryVOList.get(i).getPartsPrice()
+			if(0 >= partsCpuHistoryVOList.get(i).getPartsPrice()
 					|| checkPrice < partsCpuHistoryVOList.get(i).getPartsPrice()) {
 				partsCpuHistoryVOList.remove(i);
 			}
 		}
 		
 		for(int i = partsMbHistoryVOList.size()-1; i >= 0; i--) {
-			if(0 > partsMbHistoryVOList.get(i).getPartsPrice()
+			if(0 >= partsMbHistoryVOList.get(i).getPartsPrice()
 					|| checkPrice < partsMbHistoryVOList.get(i).getPartsPrice()) {
 				partsMbHistoryVOList.remove(i);
 			}
 		}
 		
 		for(int i = partsRamHistoryVOList.size()-1; i >= 0; i--) {
-			if(0 > partsRamHistoryVOList.get(i).getPartsPrice()
+			if(0 >= partsRamHistoryVOList.get(i).getPartsPrice()
 					|| checkPrice < partsRamHistoryVOList.get(i).getPartsPrice()) {
 				partsRamHistoryVOList.remove(i);
 			}
 		}
 		
 		for(int i = partsPsuHistoryVOList.size()-1; i >= 0; i--) {
-			if(0 > partsPsuHistoryVOList.get(i).getPartsPrice()
+			if(0 >= partsPsuHistoryVOList.get(i).getPartsPrice()
 					|| checkPrice < partsPsuHistoryVOList.get(i).getPartsPrice()) {
 				partsPsuHistoryVOList.remove(i);
 			}
 		}
 		
 		for(int i = partsCaseHistoryVOList.size()-1; i >= 0; i--) {
-			if(0 > partsCaseHistoryVOList.get(i).getPartsPrice()
+			if(0 >= partsCaseHistoryVOList.get(i).getPartsPrice()
 					|| checkPrice < partsCaseHistoryVOList.get(i).getPartsPrice()) {
 				partsCaseHistoryVOList.remove(i);
 			}
 		}
 		
 		for(int i = partsCoolerHistoryVOList.size()-1; i >= 0; i--) {
-			if(0 > partsCoolerHistoryVOList.get(i).getPartsPrice()
+			if(0 >= partsCoolerHistoryVOList.get(i).getPartsPrice()
 					|| checkPrice < partsCoolerHistoryVOList.get(i).getPartsPrice()) {
 				partsCoolerHistoryVOList.remove(i);
 			}
 		}
 		
 		for(int i = partsHddHistoryVOList.size()-1; i >= 0; i--) {
-			if(0 > partsHddHistoryVOList.get(i).getPartsPrice()
+			if(0 >= partsHddHistoryVOList.get(i).getPartsPrice()
 					|| checkPrice < partsHddHistoryVOList.get(i).getPartsPrice()) {
 				partsHddHistoryVOList.remove(i);
 			}
 		}
 		
 		for(int i = partsSsdHistoryVOList.size()-1; i >= 0; i--) {
-			if(0 > partsSsdHistoryVOList.get(i).getPartsPrice()
+			if(0 >= partsSsdHistoryVOList.get(i).getPartsPrice()
 					|| checkPrice < partsSsdHistoryVOList.get(i).getPartsPrice()) {
 				partsSsdHistoryVOList.remove(i);
 			}
 		}
 		
 		for(int i = partsSfHistoryVOList.size()-1; i >= 0; i--) {
-			if(0 > partsSfHistoryVOList.get(i).getPartsPrice()
+			if(0 >= partsSfHistoryVOList.get(i).getPartsPrice()
 					|| checkPrice < partsSfHistoryVOList.get(i).getPartsPrice()) {
 				partsSfHistoryVOList.remove(i);
 			}

@@ -22,8 +22,76 @@
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
+	let aa = "${productMaster}";
+
+	let productDet = "${productDetail}";	
+	const productDetail = productDet.substring(1, productDet.length - 1);
+	const productSplit = productDetail.split('ProductDetailVO(');
+	
+	const productResult = {};
+	let productIdVal = "";
+	let productIndex = 0;
+	productSplit.forEach(item => {
+	  const keyValuePairs = item.split(', ');
+	  const detail = {};
+	  keyValuePairs.forEach(pair => {
+	    const [key, value] = pair.split('=');
+	    detail[key] = value;
+	  });
+	
+	  if (!productResult[productIndex]) {
+	    productResult[productIndex] = [];
+	  }
+      productResult[productIndex].push(detail);	
+	  productIndex++;
+	});
+
+	let partsRam = "${partsRam}"
+	const ramDetail = partsRam.substring(1, partsRam.length - 1);
+	const ramSplit = ramDetail.split('PartsRamVO(');
+
+	const ramResult = {};
+	var ramIdVal = "";
+	let ramIndex = 0;
+	ramSplit.forEach(item => {
+	  const keyValuePairs = item.split(', ');
+	  const detail = {};
+	  keyValuePairs.forEach(pair => {
+	    const [key, value] = pair.split('=');
+	    detail[key] = value;
+	});
+	  if (!ramResult[ramIndex]) {
+	    ramResult[ramIndex] = [];
+	  }
+	  ramResult[ramIndex].push(detail);
+	  ramIndex++;
+	});
+
+	// function enterPartsText () {
+	// 	$(".gpu-text").html(productResult[idVal][0].partsName);
+	// 	$(".cpu-text").html(productResult[idVal][1].partsName);
+	// 	$(".mb-text").html(productResult[idVal][2].partsName);
+	// 	$(".cooler-text").html(productResult[idVal][3].partsName);
+	// 	$(".case-text").html(productResult[idVal][4].partsName);
+	// 	$(".psu-text").html(productResult[idVal][5].partsName);
+	// 	$(".ram-text").html(productResult[idVal][6].partsName);
+	// 	$(".ssd-text").html(productResult[idVal][7].partsName);
+	// 	$(".price-text").html(total.toLocaleString("ko-kr") + "원");
+	// }
+	
+	let total = 0;
+	// function calcPartsPrice() {
+	// 	for (let i = 0; i<productResult[idVal].length; i++){
+	// 		total += Number(productResult[idVal][i].partsPrice);
+	// 	}
+	// 	if(sessionStorage.getItem("data-0") == "1"){
+	// 		total += 150000;
+	// 	}else if(sessionStorage.getItem("data-0") == "2"){
+	// 		total += 180000;
+	// 	}
+	// }
 	function clickReturnBtn () {
-		window.location.href = "estimateCalculationOne.do";
+		window.location.href = "estimateCalculationZero.do";
 		sessionStorage.clear();
 	}
 	function clickOrderBtn() {
@@ -35,23 +103,85 @@
 	function clickSaveBtn(){
 		alert("미구현");
 	}
-	function clickChangeRam(e){
-		const ramHtml = $(e).html();
-		$(".ram-text").html(ramHtml);
-		$(".change-ram-btn").html(ramHtml);
+	let differencePrices = [];
+	let ramRufIndex = 1;
+	let basedRam = "30000";
+	for (let i = 1; i<Object.keys(ramResult).length; i++){
+		// let basedRam = productResult[idVal][6].partsPrice;
+		if(ramResult[i][0].partsPrice !== "0" && ramResult[i][0].partsPrice !== "9999999"){
+			let defferenceRam = ramResult[i][0].partsPrice;
+
+			let calcPrices = Number(defferenceRam) - Number(basedRam);
+			differencePrices.push(calcPrices);
+		}
 	}
+	function insertRams(){
+		for(let i = 1; i<Object.keys(ramResult).length; i++){
+			if(ramResult[i][0].partsPrice !== "0" && ramResult[i][0].partsPrice !== "9999999"){
+				let li = $("<li></li>");
+				let button = $("<button></button>").addClass("dropdown-item").attr("cd",i).attr("nb",ramRufIndex).attr("type","button").attr("onclick","javascript:clickChangeRam(this)").html(ramResult[i][0].partsName + "(" + differencePrices[ramRufIndex-1] + ")");
+				li.append(button);
+				$(".dropdown-menu").append(li);
+				ramRufIndex++;
+			}
+		}
+	}
+
+	function clickChangeRam(e){
+		if($(e).attr("cd") === "0"){
+			total = 0;
+			calcPartsPrice();
+		}else {
+			const ramCd = $(e).attr("cd");
+			const ramI = $(e).attr("nb");
+			$(".ram-text").html(ramResult[ramCd][0].partsName);
+			$(".price-text").html(total + Number(basedRam) + differencePrices[ramI-1]);
+		}
+	}
+
+	function modalButtons(el){
+		if($(el).hasClass("btn-secondary")){
+			location.href = "/";
+		}else {
+			for(let i = 0; i<=19 ; i++){
+				sessionStorage.setItem("data-" + i, "");
+			}
+			location.href = "/estimateCalculationZero.do";
+		}
+	}
+	
 	$(function() {
 		const tooltipList = $('[data-bs-toggle="tooltip"]').map(function() {
 			return new bootstrap.Tooltip($(this)[0]);
 		}).get();
-
-		
+		// 부품 이름 입력 & 총 가격 계산
+		// calcPartsPrice();
+		// enterPartsText();
+		insertRams();
+		if($(".price-text").html() == "오류"){
+			$("#resultErrorModal").modal("show");
+		}
 	})
 </script>
 </head>
 <body>
 	<%@ include file="./common/header.jsp" %>
-
+	<div class="modal fade" id="resultErrorModal" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <h1 class="modal-title fs-5">견적산출 오류!</h1>
+			</div>
+			<div class="modal-body">
+			  견적 산출 중 오류가 발생했습니다...!!<br>조건을 바꿔서 다시하시거나 이벤트몰을 이용해주세요!
+			</div>
+			<div class="modal-footer">
+			  <button type="button" class="btn btn-secondary" onclick="javascript:modalButtons(this)">홈페이지</button>
+			  <button type="button" class="btn btn-primary" onclick="javascript:modalButtons(this)">다시하기</button>
+			</div>
+		  </div>
+		</div>
+	  </div>
 	<div class="basic_background w-100">
 		<div class="d-flex">
 			<!-- 빈 영역 -->
@@ -72,44 +202,40 @@
 							  </div>
 							  <div class="col-md-8">
 								<div class="card-body">
-									<h2 class="card-title mb-3 fw-bold">컴퓨터 이름</h2>
-									<h4 class="card-title">제품 상세 정보</h4>
-									<div class="container mb-3">
-										<p class="card-text mb-0 fw-bold">가격 : <span class="fw-normal price-text">111</span></p>
-										<p class="card-text mb-0 fw-bold">CPU : <span class="fw-normal cpu-text">111</span></p>
-										<p class="card-text mb-0 fw-bold">Cooler : <span class="fw-normal cooler-text">111</span></p>
-										<p class="card-text mb-0 fw-bold">MB : <span class="fw-normal mb-text">111</span></p>
-										<p class="card-text mb-0 fw-bold">GPU : <span class="fw-normal gpu-text">111</span></p>
-										<p class="card-text mb-0 fw-bold">SSD : <span class="fw-normal ssd-text">111</span></p>
-										<p class="card-text mb-0 fw-bold">CASE : <span class="fw-normal case-text">111</span></p>
-										<p class="card-text mb-0 fw-bold">PSU : <span class="fw-normal psu-text">111</span></p>
-										<div class="row">
-											<div class="col">
-												<p class="card-text mb-0 fw-bold">RAM : <span class="fw-normal ram-text">기본 종류</span></p>
-											</div>
-											<div class="col">
-												<div class="dropdown">
-													<button class="btn btn-secondary dropdown-toggle change-ram-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-														Ram 바꾸기
-													</button>
-													<ul class="dropdown-menu">
-													<li><button class="dropdown-item" type="button" onclick="javascript:clickChangeRam(this)">램종류1</button></li>
-													<li><button class="dropdown-item" type="button" onclick="javascript:clickChangeRam(this)">램종류2</button></li>
-													<li><button class="dropdown-item" type="button" onclick="javascript:clickChangeRam(this)">램종류3</button></li>
-													</ul>
-												</div>
+									<div class="row">
+										<div class="col">
+											<h4 class="card-title">제품 상세 정보</h4>
+										</div>
+										<div class="col text-end">
+											<div class="dropdown">
+												<button class="btn btn-secondary dropdown-toggle change-ram-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+													Ram 변경하기
+												</button>
+												<ul class="dropdown-menu">
+													<li><button class="dropdown-item" cd="0" type="button" onclick="clickChangeRam(this)">추천 램으로 돌아가기</button></li>
+												</ul>
 											</div>
 										</div>
 									</div>
-									<h4 class="card-title">제품 설명</h4>
+									<div class="container mb-3">
+										<p class="card-text mb-0 fw-bold pb-1">가격 : <span class="fw-normal price-text">오류</span></p>
+										<p class="card-text mb-0 fw-bold pb-1">CPU : <span class="fw-normal cpu-text">오류</span></p>
+										<p class="card-text mb-0 fw-bold pb-1">Cooler : <span class="fw-normal cooler-text">오류</span></p>
+										<p class="card-text mb-0 fw-bold pb-1">MB : <span class="fw-normal mb-text">오류</span></p>
+										<p class="card-text mb-0 fw-bold pb-1">GPU : <span class="fw-normal gpu-text">오류</span></p>
+										<p class="card-text mb-0 fw-bold pb-1">SSD : <span class="fw-normal ssd-text">오류</span></p>
+										<p class="card-text mb-0 fw-bold pb-1">CASE : <span class="fw-normal case-text">오류</span></p>
+										<p class="card-text mb-0 fw-bold">PSU : <span class="fw-normal psu-text">오류</span></p>
+										<p class="card-text mb-0 fw-bold">RAM : <span class="fw-normal ram-text">오류</span></p>
+									</div>
+									<!-- <h4 class="card-title">제품 설명</h4>
 									<div class="container mb-3">
 										<p class="card-text fw-bold">제품설명블라블라</p>
-									</div>
+									</div> -->
 									<h4 class="card-title">배송 정보</h4>
 									<div class="container mb-3">
-										<p class="card-text mb-0 fw-bold">배송기간 : <span class="fw-normal delivery-period">1달</span></p>
-										<p class="card-text mb-0 fw-bold">택배사 : <span class="fw-normal delivery-period">로젠통운</span></p>
-										<p class="card-text mb-0 fw-bold">배송비 : <span class="fw-normal delivery-period">30,000원</span></p>
+										<p class="card-text mb-0 fw-bold pb-1">배송기간 : <span class="fw-normal delivery-period">영업일 기준 1~2일</span></p>
+										<p class="card-text mb-0 fw-bold pb-1">택배사 : <span class="fw-normal delivery-period">우체국택배</span></p>
 										<p class="card-text mb-0 fw-bold"><small class="text-muted">도서산간 지역의 경우 배송이 제한되거나 추가요금이 발생할 수 있습니다.</small></p>
 										<p class="card-text"><small class="text-muted">AS 기준은 각 부품의 유통사 규정에 따르며 해당 쇼핑몰에서 1년간 무상 AS를 지원해드립니다.</small></p>
 									</div>
