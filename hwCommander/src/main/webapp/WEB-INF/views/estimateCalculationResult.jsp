@@ -22,9 +22,57 @@
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
-	let aa = "${productMaster}";
+	let productMaster = "${productMaster}";
+	let mbInfo = "${productMbDetailInfo}";
+	let productDet = "${productDetail}";
+	let partsRam = "${partsRam}"
+	// 마스터 리스트화
+	const productMasterDetail = productMaster.substring(1, productMaster.length - 1);
+	const productMasterSplit = productMasterDetail.split('PartsproductMasterHistoryVO(');
+	
+	const productMasterResult = {};
+	let productMasterIdVal = "";
+	let productMasterIndex = 0;
+	productMasterSplit.forEach(item => {
+	  const keyValuePairs = item.split(', ');
+	  const detail = {};
+	  keyValuePairs.forEach(pair => {
+	    const [key, value] = pair.split('=');
+	    detail[key] = value;
+	  });
+	
+	  if (!productMasterResult[productMasterIndex]) {
+	    productMasterResult[productMasterIndex] = [];
+	  }
+      productMasterResult[productMasterIndex].push(detail);	
+	  productMasterIndex++;
+	});
 
-	let productDet = "${productDetail}";	
+	console.log(productMasterResult[0][0].productDescription);
+	let userId = (productMasterResult[0][0].productDescription).split(" ");
+	// 추천 마더보드 리스트화
+	const mbDetail = mbInfo.substring(1, mbInfo.length - 1);
+	const mbSplit = mbDetail.split('PartsMbHistoryVO(');
+	
+	const mbResult = {};
+	let mbIdVal = "";
+	let mbIndex = 0;
+	mbSplit.forEach(item => {
+	  const keyValuePairs = item.split(', ');
+	  const detail = {};
+	  keyValuePairs.forEach(pair => {
+	    const [key, value] = pair.split('=');
+	    detail[key] = value;
+	  });
+	
+	  if (!mbResult[mbIndex]) {
+	    mbResult[mbIndex] = [];
+	  }
+      mbResult[mbIndex].push(detail);	
+	  mbIndex++;
+	});
+
+	// 추천 부품 리스트화
 	const productDetail = productDet.substring(1, productDet.length - 1);
 	const productSplit = productDetail.split('ProductDetailVO(');
 	
@@ -46,7 +94,7 @@
 	  productIndex++;
 	});
 
-	let partsRam = "${partsRam}"
+	// 전체 램 리스트화
 	const ramDetail = partsRam.substring(1, partsRam.length - 1);
 	const ramSplit = ramDetail.split('PartsRamVO(');
 
@@ -67,29 +115,29 @@
 	  ramIndex++;
 	});
 
-	// function enterPartsText () {
-	// 	$(".gpu-text").html(productResult[idVal][0].partsName);
-	// 	$(".cpu-text").html(productResult[idVal][1].partsName);
-	// 	$(".mb-text").html(productResult[idVal][2].partsName);
-	// 	$(".cooler-text").html(productResult[idVal][3].partsName);
-	// 	$(".case-text").html(productResult[idVal][4].partsName);
-	// 	$(".psu-text").html(productResult[idVal][5].partsName);
-	// 	$(".ram-text").html(productResult[idVal][6].partsName);
-	// 	$(".ssd-text").html(productResult[idVal][7].partsName);
-	// 	$(".price-text").html(total.toLocaleString("ko-kr") + "원");
-	// }
+	function enterPartsText () {
+		$(".gpu-text").html(productResult[1][0].partsName);
+		$(".cpu-text").html(productResult[2][0].partsName);
+		$(".mb-text").html(productResult[3][0].partsName);
+		$(".cooler-text").html(productResult[4][0].partsName);
+		$(".case-text").html(productResult[5][0].partsName);
+		$(".psu-text").html(productResult[6][0].partsName);
+		$(".ram-text").html(productResult[7][0].partsName);
+		$(".ssd-text").html(productResult[8][0].partsName);
+		$(".price-text").html(total.toLocaleString("ko-kr") + "원");
+	}
 	
 	let total = 0;
-	// function calcPartsPrice() {
-	// 	for (let i = 0; i<productResult[idVal].length; i++){
-	// 		total += Number(productResult[idVal][i].partsPrice);
-	// 	}
-	// 	if(sessionStorage.getItem("data-0") == "1"){
-	// 		total += 150000;
-	// 	}else if(sessionStorage.getItem("data-0") == "2"){
-	// 		total += 180000;
-	// 	}
-	// }
+	function calcPartsPrice() {
+		for (let i = 1; i<Object.keys(productResult).length; i++){
+			total += Number(productResult[i][0].partsPrice);
+		}
+		if(sessionStorage.getItem("data-0") == "1"){
+			total += 150000;
+		}else if(sessionStorage.getItem("data-0") == "2"){
+			total += 180000;
+		}
+	}
 	function clickReturnBtn () {
 		window.location.href = "estimateCalculationZero.do";
 		sessionStorage.clear();
@@ -105,9 +153,9 @@
 	}
 	let differencePrices = [];
 	let ramRufIndex = 1;
-	let basedRam = "30000";
+
+	let basedRam = productResult[6][0].partsPrice;
 	for (let i = 1; i<Object.keys(ramResult).length; i++){
-		// let basedRam = productResult[idVal][6].partsPrice;
 		if(ramResult[i][0].partsPrice !== "0" && ramResult[i][0].partsPrice !== "9999999"){
 			let defferenceRam = ramResult[i][0].partsPrice;
 
@@ -117,7 +165,7 @@
 	}
 	function insertRams(){
 		for(let i = 1; i<Object.keys(ramResult).length; i++){
-			if(ramResult[i][0].partsPrice !== "0" && ramResult[i][0].partsPrice !== "9999999"){
+			if(ramResult[i][0].partsPrice !== "0" && ramResult[i][0].partsPrice !== "9999999" && mbResult[0][0].memSocCd === ramResult[i][0].memSocCd){
 				let li = $("<li></li>");
 				let button = $("<button></button>").addClass("dropdown-item").attr("cd",i).attr("nb",ramRufIndex).attr("type","button").attr("onclick","javascript:clickChangeRam(this)").html(ramResult[i][0].partsName + "(" + differencePrices[ramRufIndex-1] + ")");
 				li.append(button);
@@ -131,11 +179,12 @@
 		if($(e).attr("cd") === "0"){
 			total = 0;
 			calcPartsPrice();
+			enterPartsText();
 		}else {
 			const ramCd = $(e).attr("cd");
 			const ramI = $(e).attr("nb");
 			$(".ram-text").html(ramResult[ramCd][0].partsName);
-			$(".price-text").html(total + Number(basedRam) + differencePrices[ramI-1]);
+			$(".price-text").html(total + differencePrices[ramI-1]);
 		}
 	}
 
@@ -155,12 +204,13 @@
 			return new bootstrap.Tooltip($(this)[0]);
 		}).get();
 		// 부품 이름 입력 & 총 가격 계산
-		// calcPartsPrice();
-		// enterPartsText();
+		calcPartsPrice();
+		enterPartsText();
 		insertRams();
 		if($(".price-text").html() == "오류"){
 			$("#resultErrorModal").modal("show");
 		}
+		$("#id-input").val("ID : " + userId[0]);
 	})
 </script>
 </head>
@@ -191,7 +241,7 @@
 				<div class="row">
 					<div class="row w-25">
 						<div class="input-group mb-3 w-50">
-							<input type="text" class="form-control" aria-label="Text input with checkbox" value="ID : example" style="background-color: #fff;" disabled>
+							<input type="text" class="form-control" id = "id-input"aria-label="Text input with checkbox" value="ID : error" style="background-color: #fff;" disabled>
 						</div>
 					</div>
 					<div class="row">
