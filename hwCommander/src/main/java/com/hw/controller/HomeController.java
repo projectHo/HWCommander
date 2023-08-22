@@ -18,6 +18,9 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hw.model.EstimateCalculationResultPrivateDetailVO;
+import com.hw.model.EstimateCalculationResultPrivateMasterVO;
+import com.hw.model.PartsMbHistoryVO;
+import com.hw.model.PartsRamHistoryVO;
 import com.hw.model.ProcessResourceMasterVO;
 import com.hw.model.ProcessResourceTypeCodeInfoVO;
 import com.hw.model.UserInfoVO;
@@ -214,7 +217,21 @@ public class HomeController {
 			, @RequestParam(value = "resultString", required = true) String resultString ) {
 		
 		// 견적산출 로직 호출
-		String productId = productService.estimateCalculation(resultString).getCreateProductId();
+		EstimateCalculationResultPrivateMasterVO estimateCalculationResultPrivateMasterVO 
+		= productService.estimateCalculation(resultString);
+		
+		EstimateCalculationResultPrivateDetailVO estimateCalculationResultPrivateDetailVO
+		= estimateCalculationResultPrivateMasterVO.getSelectProduct();
+		
+		String productId = estimateCalculationResultPrivateMasterVO.getCreateProductId();
+		
+		PartsMbHistoryVO partsMbHistoryVO = new PartsMbHistoryVO();
+		partsMbHistoryVO.setId(estimateCalculationResultPrivateDetailVO.getMbId());
+		partsMbHistoryVO.setHistorySeq(estimateCalculationResultPrivateDetailVO.getMbHistorySeq());
+		
+		PartsRamHistoryVO partsRamHistoryVO = new PartsRamHistoryVO();
+		partsRamHistoryVO.setId(estimateCalculationResultPrivateDetailVO.getRamId());
+		partsRamHistoryVO.setHistorySeq(estimateCalculationResultPrivateDetailVO.getRamHistorySeq());
 		
 		// 과거견적산출은 아래와 같이 각각 부품id, 부품 history_seq로 조회쿼리 돌려서 정보 얻어오면 됨.
 //		EstimateCalculationResultPrivateDetailVO 
@@ -224,6 +241,11 @@ public class HomeController {
 		
 		model.addAttribute("productMaster", productService.getProductMasterById(productId));
 		model.addAttribute("productDetail", productService.getProductDetailById(productId));
+		
+		model.addAttribute("productMbDetailInfo", partsService.getPartsMbHistoryVOByIdAndHistorySeq(partsMbHistoryVO));
+		model.addAttribute("productRamDetailInfo", partsService.getPartsRamHistoryVOByIdAndHistorySeq(partsRamHistoryVO));
+		
+		
 		// 08.17 test
 		model.addAttribute("partsRam", partsService.getRamAllList());
 		// end

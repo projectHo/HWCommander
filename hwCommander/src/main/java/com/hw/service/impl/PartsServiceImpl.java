@@ -332,6 +332,22 @@ public class PartsServiceImpl implements PartsService {
 		return result;
 	}
 	
+	@Override
+	public PartsMbHistoryVO getPartsMbHistoryVOByIdAndHistorySeq(PartsMbHistoryVO partsMbHistoryVO) {
+		PartsMbHistoryVO resultVO = null;
+		PartsMbHistoryVO searchVO = new PartsMbHistoryVO();
+		
+		searchVO.setId(partsMbHistoryVO.getId());
+		searchVO.setHistorySeq(partsMbHistoryVO.getHistorySeq());
+		List<PartsMbHistoryVO> resultList = partsDAO.getMbHistoryAllList(searchVO);
+		
+		if(resultList.size() != 0) {
+			resultVO = resultList.get(0);
+		}
+		
+		return resultVO;
+	}
+	
 	/*--------------------------------------------------
 	 - RAM
 	*--------------------------------------------------*/
@@ -422,6 +438,22 @@ public class PartsServiceImpl implements PartsService {
 			result += partsDAO.insertPartsRamHistoryVO(partsRamHistoryVO);
 		}
 		return result;
+	}
+	
+	@Override
+	public PartsRamHistoryVO getPartsRamHistoryVOByIdAndHistorySeq(PartsRamHistoryVO partsRamHistoryVO) {
+		PartsRamHistoryVO resultVO = null;
+		PartsRamHistoryVO searchVO = new PartsRamHistoryVO();
+		
+		searchVO.setId(partsRamHistoryVO.getId());
+		searchVO.setHistorySeq(partsRamHistoryVO.getHistorySeq());
+		List<PartsRamHistoryVO> resultList = partsDAO.getRamHistoryAllList(searchVO);
+		
+		if(resultList.size() != 0) {
+			resultVO = resultList.get(0);
+		}
+		
+		return resultVO;
 	}
 	
 	/*--------------------------------------------------

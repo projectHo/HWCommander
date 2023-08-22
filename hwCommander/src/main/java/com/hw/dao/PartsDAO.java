@@ -46,6 +46,7 @@ public interface PartsDAO {
 	public Integer updatePartsMbVO(PartsMbVO partsMbVO);
 	public Integer getPartsMbHistoryVOMaxHistorySeq(String id);
 	public Integer insertPartsMbHistoryVO(PartsMbHistoryVO partsMbHistoryVO);
+	public List<PartsMbHistoryVO> getMbHistoryAllList(PartsMbHistoryVO partsMbHistoryVO);
 	
 	public String getPartsRamVOMaxId();
 	public Integer insertPartsRamVO(PartsRamVO partsRamVO);
@@ -53,6 +54,7 @@ public interface PartsDAO {
 	public Integer updatePartsRamVO(PartsRamVO partsRamVO);
 	public Integer getPartsRamHistoryVOMaxHistorySeq(String id);
 	public Integer insertPartsRamHistoryVO(PartsRamHistoryVO partsRamHistoryVO);
+	public List<PartsRamHistoryVO> getRamHistoryAllList(PartsRamHistoryVO partsRamHistoryVO);
 	
 	public String getPartsPsuVOMaxId();
 	public Integer insertPartsPsuVO(PartsPsuVO partsPsuVO);

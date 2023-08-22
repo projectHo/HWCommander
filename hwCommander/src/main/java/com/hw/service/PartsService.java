@@ -8,8 +8,10 @@ import com.hw.model.PartsCpuVO;
 import com.hw.model.PartsGpuVO;
 import com.hw.model.PartsHddVO;
 import com.hw.model.PartsMakerVO;
+import com.hw.model.PartsMbHistoryVO;
 import com.hw.model.PartsMbVO;
 import com.hw.model.PartsPsuVO;
+import com.hw.model.PartsRamHistoryVO;
 import com.hw.model.PartsRamVO;
 import com.hw.model.PartsSfVO;
 import com.hw.model.PartsSsdVO;
@@ -29,11 +31,13 @@ public interface PartsService {
 	public List<PartsMbVO> getMbAllList();
 	public PartsMbVO getPartsMbVOById(String id);
 	public Integer mbUpdateLogic(PartsMbVO partsMbVO);
+	public PartsMbHistoryVO getPartsMbHistoryVOByIdAndHistorySeq(PartsMbHistoryVO partsMbHistoryVO);
 	
 	public Integer ramRegistLogic(PartsRamVO partsRamVO);
 	public List<PartsRamVO> getRamAllList();
 	public PartsRamVO getPartsRamVOById(String id);
 	public Integer ramUpdateLogic(PartsRamVO partsRamVO);
+	public PartsRamHistoryVO getPartsRamHistoryVOByIdAndHistorySeq(PartsRamHistoryVO partsRamHistoryVO);
 	
 	public Integer psuRegistLogic(PartsPsuVO partsPsuVO);
 	public List<PartsPsuVO> getPsuAllList();
