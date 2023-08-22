@@ -946,70 +946,110 @@ public class ProductServiceImpl implements ProductService {
 		
 		// 모든제품 for 돌려야함.
 		for(int i = partsGpuHistoryVOList.size()-1; i >= 0; i--) {
+<<<<<<< HEAD
 			if(0 >= partsGpuHistoryVOList.get(i).getPartsPrice()
+=======
+			if(0 > partsGpuHistoryVOList.get(i).getPartsPrice()
+>>>>>>> 5e12a239726a2d013bdcfb58e9849a7913a7c887
 					|| checkPrice < partsGpuHistoryVOList.get(i).getPartsPrice()) {
 				partsGpuHistoryVOList.remove(i);
 			}
 		}
 		
 		for(int i = partsCpuHistoryVOList.size()-1; i >= 0; i--) {
+<<<<<<< HEAD
 			if(0 >= partsCpuHistoryVOList.get(i).getPartsPrice()
+=======
+			if(0 > partsCpuHistoryVOList.get(i).getPartsPrice()
+>>>>>>> 5e12a239726a2d013bdcfb58e9849a7913a7c887
 					|| checkPrice < partsCpuHistoryVOList.get(i).getPartsPrice()) {
 				partsCpuHistoryVOList.remove(i);
 			}
 		}
 		
 		for(int i = partsMbHistoryVOList.size()-1; i >= 0; i--) {
+<<<<<<< HEAD
 			if(0 >= partsMbHistoryVOList.get(i).getPartsPrice()
+=======
+			if(0 > partsMbHistoryVOList.get(i).getPartsPrice()
+>>>>>>> 5e12a239726a2d013bdcfb58e9849a7913a7c887
 					|| checkPrice < partsMbHistoryVOList.get(i).getPartsPrice()) {
 				partsMbHistoryVOList.remove(i);
 			}
 		}
 		
 		for(int i = partsRamHistoryVOList.size()-1; i >= 0; i--) {
+<<<<<<< HEAD
 			if(0 >= partsRamHistoryVOList.get(i).getPartsPrice()
+=======
+			if(0 > partsRamHistoryVOList.get(i).getPartsPrice()
+>>>>>>> 5e12a239726a2d013bdcfb58e9849a7913a7c887
 					|| checkPrice < partsRamHistoryVOList.get(i).getPartsPrice()) {
 				partsRamHistoryVOList.remove(i);
 			}
 		}
 		
 		for(int i = partsPsuHistoryVOList.size()-1; i >= 0; i--) {
+<<<<<<< HEAD
 			if(0 >= partsPsuHistoryVOList.get(i).getPartsPrice()
+=======
+			if(0 > partsPsuHistoryVOList.get(i).getPartsPrice()
+>>>>>>> 5e12a239726a2d013bdcfb58e9849a7913a7c887
 					|| checkPrice < partsPsuHistoryVOList.get(i).getPartsPrice()) {
 				partsPsuHistoryVOList.remove(i);
 			}
 		}
 		
 		for(int i = partsCaseHistoryVOList.size()-1; i >= 0; i--) {
+<<<<<<< HEAD
 			if(0 >= partsCaseHistoryVOList.get(i).getPartsPrice()
+=======
+			if(0 > partsCaseHistoryVOList.get(i).getPartsPrice()
+>>>>>>> 5e12a239726a2d013bdcfb58e9849a7913a7c887
 					|| checkPrice < partsCaseHistoryVOList.get(i).getPartsPrice()) {
 				partsCaseHistoryVOList.remove(i);
 			}
 		}
 		
 		for(int i = partsCoolerHistoryVOList.size()-1; i >= 0; i--) {
+<<<<<<< HEAD
 			if(0 >= partsCoolerHistoryVOList.get(i).getPartsPrice()
+=======
+			if(0 > partsCoolerHistoryVOList.get(i).getPartsPrice()
+>>>>>>> 5e12a239726a2d013bdcfb58e9849a7913a7c887
 					|| checkPrice < partsCoolerHistoryVOList.get(i).getPartsPrice()) {
 				partsCoolerHistoryVOList.remove(i);
 			}
 		}
 		
 		for(int i = partsHddHistoryVOList.size()-1; i >= 0; i--) {
+<<<<<<< HEAD
 			if(0 >= partsHddHistoryVOList.get(i).getPartsPrice()
+=======
+			if(0 > partsHddHistoryVOList.get(i).getPartsPrice()
+>>>>>>> 5e12a239726a2d013bdcfb58e9849a7913a7c887
 					|| checkPrice < partsHddHistoryVOList.get(i).getPartsPrice()) {
 				partsHddHistoryVOList.remove(i);
 			}
 		}
 		
 		for(int i = partsSsdHistoryVOList.size()-1; i >= 0; i--) {
+<<<<<<< HEAD
 			if(0 >= partsSsdHistoryVOList.get(i).getPartsPrice()
+=======
+			if(0 > partsSsdHistoryVOList.get(i).getPartsPrice()
+>>>>>>> 5e12a239726a2d013bdcfb58e9849a7913a7c887
 					|| checkPrice < partsSsdHistoryVOList.get(i).getPartsPrice()) {
 				partsSsdHistoryVOList.remove(i);
 			}
 		}
 		
 		for(int i = partsSfHistoryVOList.size()-1; i >= 0; i--) {
+<<<<<<< HEAD
 			if(0 >= partsSfHistoryVOList.get(i).getPartsPrice()
+=======
+			if(0 > partsSfHistoryVOList.get(i).getPartsPrice()
+>>>>>>> 5e12a239726a2d013bdcfb58e9849a7913a7c887
 					|| checkPrice < partsSfHistoryVOList.get(i).getPartsPrice()) {
 				partsSfHistoryVOList.remove(i);
 			}
