@@ -635,40 +635,6 @@
 		</where>
 	</select>
 	
-	<!-- 08.17 test -->
-	<select id="getPartsRaMById" parameterType="String" resultType="partsRamVO">
-		SELECT 
-			a.id                                                                               AS id          
-			, a.parts_name                                                                     AS partsName   
-			, a.parts_price                                                                    AS partsPrice
-			, FORMAT(a.parts_price, 0)                                                         AS partsPriceStr  
-			, a.rled_cd                                                                        AS rledCd      
-			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'COM002' AND cd = a.rled_cd)      AS rledCdNm    
-			, a.rmc_cd                                                                         AS rmcCd       
-			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT010' AND cd = a.rmc_cd)       AS rmcCdNm     
-			, a.rsc_cd                                                                         AS rscCd       
-			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT011' AND cd = a.rsc_cd)       AS rscCdNm     
-			, a.cl                                                                             AS cl          
-			, a.latency                                                                             AS latency          
-			, a.pr_cd                                                                          AS prCd        
-			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT012' AND cd = a.pr_cd)        AS prCdNm      
-			, a.mem_soc_cd                                                                     AS memSocCd    
-			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT024' AND cd = a.mem_soc_cd)   AS memSocCdNm  
-			, a.ddr4_max_range                                                                 AS ddr4MaxRange
-			, a.ddr5_max_range                                                                 AS ddr5MaxRange
-			, a.parts_image                                                                    AS partsImage  
-			, a.reg_dtm                                                                        AS regDtm      
-			, a.updt_dtm                                                                       AS updtDtm
-			, a.multi_bulk                                                                     AS multiBulk
-			, a.volume                                                                         AS volume
-			, a.sd                                                                             AS sd     
-			, (SELECT MAX(history_seq) FROM parts_ram_history WHERE id = a.id)                 AS partsHistorySeq
-		FROM
-			parts_ram a 
-		WHERE
-			a.id = #{id}
-	</select>
-
 	<update id="updatePartsRamVO" parameterType="partsRamVO">
 		UPDATE
 			parts_ram

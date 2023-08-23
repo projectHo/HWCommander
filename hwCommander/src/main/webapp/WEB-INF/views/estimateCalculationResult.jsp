@@ -21,7 +21,31 @@
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
+<!-- 08.23 캡쳐 스크립트 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
+
 <script>
+	// 캡쳐 기능
+	function clickCaptureBtn(){
+    	html2canvas(document.querySelector("#capture-container")).then(canvas => {
+    		$(".change-ram-btn").css("display","none");
+			saveAs(canvas.toDataURL('image/png'),"capture-test.png");
+			$(".change-ram-btn").css("display","inline-block");
+		});
+    };
+    function saveAs(uri, filename) { 
+    	var link = document.createElement('a'); 
+    	if (typeof link.download === 'string') { 
+        	link.href = uri; 
+        	link.download = filename; 
+       		document.body.appendChild(link); 
+        	link.click(); 
+        	document.body.removeChild(link); 
+      	} else { 
+        	window.open(uri); 
+      	} 
+    }
+
 	let productMaster = "${productMaster}";
 	let mbInfo = "${productMbDetailInfo}";
 	let productDet = "${productDetail}";
@@ -50,7 +74,7 @@
 
 	console.log(productMasterResult[0][0].productDescription);
 	let userId = (productMasterResult[0][0].productDescription).split(" ");
-	// 추천 마더보드 리스트화
+	// 추천된 마더보드 리스트화
 	const mbDetail = mbInfo.substring(1, mbInfo.length - 1);
 	const mbSplit = mbDetail.split('PartsMbHistoryVO(');
 	
@@ -72,7 +96,7 @@
 	  mbIndex++;
 	});
 
-	// 추천 부품 리스트화
+	// 추천된 부품 디테일 리스트화
 	const productDetail = productDet.substring(1, productDet.length - 1);
 	const productSplit = productDetail.split('ProductDetailVO(');
 	
@@ -143,14 +167,13 @@
 		sessionStorage.clear();
 	}
 	function clickOrderBtn() {
-		alert("미구현");
+		location.href = "/order/sheet.do?accessRoute=direct&productIds="+"${productMaster.id}";
 	}
-	function clickCaptureBtn(){
-		alert("미구현");
-	}
+
 	function clickSaveBtn(){
 		alert("미구현");
 	}
+
 	let differencePrices = [];
 	let ramRufIndex = 1;
 
@@ -207,10 +230,11 @@
 		calcPartsPrice();
 		enterPartsText();
 		insertRams();
-		if($(".price-text").html() == "오류"){
+		$("#id-input").val("ID : " + userId[0]);
+		if($("#id-input").val() === "ID : error"){
+			console.log($("#id-input").val());
 			$("#resultErrorModal").modal("show");
 		}
-		$("#id-input").val("ID : " + userId[0]);
 	})
 </script>
 </head>
@@ -237,11 +261,12 @@
 			<!-- 빈 영역 -->
 			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
 			<!-- 작업영역 -->
-			<div class="estimateCalc_background p-5" style="width: 70% !important">
+			<div id="capturedImage"></div>
+			<div class="estimateCalc_background p-5" id="capture-container" style="width: 70% !important">
 				<div class="row">
 					<div class="row w-25">
 						<div class="input-group mb-3 w-50">
-							<input type="text" class="form-control" id = "id-input"aria-label="Text input with checkbox" value="ID : error" style="background-color: #fff;" disabled>
+							<input type="text" class="form-control" id="id-input"aria-label="Text input with checkbox" value="ID : error" style="background-color: #fff;" disabled>
 						</div>
 					</div>
 					<div class="row">
@@ -254,7 +279,7 @@
 								<div class="card-body">
 									<div class="row">
 										<div class="col">
-											<h4 class="card-title">제품 상세 정보</h4>
+											<h4 class="card-title position-relative result-index">제품 상세 정보</h4>
 										</div>
 										<div class="col text-end">
 											<div class="dropdown">
@@ -267,7 +292,7 @@
 											</div>
 										</div>
 									</div>
-									<div class="container mb-3">
+									<div class="container mb-3 position-relative result-index">
 										<p class="card-text mb-0 fw-bold pb-1">가격 : <span class="fw-normal price-text">오류</span></p>
 										<p class="card-text mb-0 fw-bold pb-1">CPU : <span class="fw-normal cpu-text">오류</span></p>
 										<p class="card-text mb-0 fw-bold pb-1">Cooler : <span class="fw-normal cooler-text">오류</span></p>
@@ -282,8 +307,8 @@
 									<div class="container mb-3">
 										<p class="card-text fw-bold">제품설명블라블라</p>
 									</div> -->
-									<h4 class="card-title">배송 정보</h4>
-									<div class="container mb-3">
+									<h4 class="card-title position-relative result-index">배송 정보</h4>
+									<div class="container mb-3 position-relative result-index">
 										<p class="card-text mb-0 fw-bold pb-1">배송기간 : <span class="fw-normal delivery-period">영업일 기준 1~2일</span></p>
 										<p class="card-text mb-0 fw-bold pb-1">택배사 : <span class="fw-normal delivery-period">우체국택배</span></p>
 										<p class="card-text mb-0 fw-bold"><small class="text-muted">도서산간 지역의 경우 배송이 제한되거나 추가요금이 발생할 수 있습니다.</small></p>

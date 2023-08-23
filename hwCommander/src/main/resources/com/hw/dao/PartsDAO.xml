@@ -505,7 +505,6 @@
 		)
 	</insert>
 	
-<<<<<<< HEAD
 	<select id="getMbHistoryAllList" resultType="partsMbHistoryVO" parameterType="partsMbHistoryVO">
 		SELECT 
 			a.id                                                                             AS id
@@ -551,8 +550,6 @@
 		</where>
 	</select>
 	
-=======
->>>>>>> 5e12a239726a2d013bdcfb58e9849a7913a7c887
 	<select id="getPartsRamVOMaxId" resultType="String">
 		SELECT CONCAT('RAM', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 4)), 0)+1, 6, '0') FROM parts_ram)) AS id FROM DUAL
 	</select>
@@ -711,7 +708,6 @@
 		)
 	</insert>
 	
-<<<<<<< HEAD
 	<select id="getRamHistoryAllList" resultType="partsRamHistoryVO" parameterType="partsRamHistoryVO">
 		SELECT 
 			a.id                                                                               AS id
@@ -750,8 +746,6 @@
 		</where>
 	</select>
 	
-=======
->>>>>>> 5e12a239726a2d013bdcfb58e9849a7913a7c887
 	<select id="getPartsPsuVOMaxId" resultType="String">
 		SELECT CONCAT('PSU', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 4)), 0)+1, 6, '0') FROM parts_psu)) AS id FROM DUAL
 	</select>
