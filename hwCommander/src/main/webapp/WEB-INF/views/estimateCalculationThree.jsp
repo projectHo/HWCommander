@@ -30,8 +30,10 @@
 		let index1 = 0;
 		let index2 = 0;
 		let index3 = 0;
+		let answer0 = new Map();
+		answer0.set("OS",sessionStorage.getItem("data-0"));
 		let answer1 = new Map();
-		answer1.set("Price",sessionStorage.getItem("data-1") + "0000");
+		answer1.set("Price",Number(sessionStorage.getItem("data-1")) * 10000);
 		let answer2 = new Map();
 		let answer2s = "";
 		let twoDatas = JSON.parse(sessionStorage.getItem("data-2"));
@@ -170,7 +172,7 @@
 			var value = keyValue[1];
 			userInfoObject[key] = value;
 		}
-		urlParams += "etc<userId," + userInfoObject.id + "> |etc<targetDate,null>";
+		urlParams += "etc<userId," + userInfoObject.id + "> |etc<targetDate,null>" + "answer0<" + answer0[key] + "," + answer0[value];
 		var baseUrl = "/estimateCalculationResult.do";
 		var fullUrl = baseUrl + "?" + urlParams;
 		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);

@@ -263,19 +263,20 @@
 		}
 	}
 	function clickNextBtn(el){
-		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false && $("#answer-d").prop("checked") === false && $("#answer-e").prop("checked") === false){
-			alert("선택은 필수에요!");
-			$(el).addClass("is-invalid");
-			setTimeout(() => {
-				$(el).removeClass("is-invalid");
-			}, 2000);
-		}else {
-			$(el).addClass("is-valid");
-			setTimeout(() => {
-				$(el).removeClass("is-valid");
-			}, 2000);
-			window.location.href = "estimateCalculationSixteen.do";
-		}
+		// if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false && $("#answer-d").prop("checked") === false && $("#answer-e").prop("checked") === false){
+		// 	alert("선택은 필수에요!");
+		// 	$(el).addClass("is-invalid");
+		// 	setTimeout(() => {
+		// 		$(el).removeClass("is-invalid");
+		// 	}, 2000);
+		// }else {
+		// 	$(el).addClass("is-valid");
+		// 	setTimeout(() => {
+		// 		$(el).removeClass("is-valid");
+		// 	}, 2000);
+		// 	window.location.href = "estimateCalculationSixteen.do";
+		// }
+		alert("아직 구현중인 질문이에요! 견적산출을 해주세요!!")
 	}
 	$(function(){
 		// donut

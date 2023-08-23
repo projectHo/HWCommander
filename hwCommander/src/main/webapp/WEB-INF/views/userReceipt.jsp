@@ -9,6 +9,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 <link rel="stylesheet" href="/resources/css/main.css">
 <link rel="stylesheet" href="/resources/css/estimateCalculationOneCss.css" />
+<link rel="stylesheet" href="/resources/css/users.css">
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -22,6 +23,18 @@
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
+	let aa = "${loginUser}";
+	let recipeintPhoneNumber = "${orderMasterVO.recipientHpNumber}";
+	$(function(){
+		$(".order-name").html("${orderMasterVO.orderName}");
+		$(".recipient-name").html("${orderMasterVO.recipientName}");
+		$(".order-price").html("${orderMasterVO.totOrderPriceStr}");
+		$(".recipient-hp").html(recipeintPhoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'));
+		$(".recipient-addr").html("${orderMasterVO.recipientRoadAddr}" + " " + "${orderMasterVO.recipientDetailAddr}");
+		if("${orderMasterVO.paymentMethod}" == "Card"){
+			$(".payment-method").html("카드결제");
+		}
+	})
 </script>
 </head>
 <body>
@@ -33,6 +46,41 @@
 			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
 			<!-- 작업영역 -->
 			<div class="estimateCalc_background p-5" style="width: 70% !important">
+				<h2>주문 영수증</h2>
+				<table class="table table-secondary table-bordered" id="receipt-table">
+					<thead>
+						<tr>
+							<th scope="col" id="first-th">결제 품목</th>
+							<th scope="col" class="order-name"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th scope="row">수령인</th>
+							<td class="recipient-name"></td>
+						</tr>
+						<tr>
+							<th scope="row">배송지</th>
+							<td class="recipient-addr"></td>
+						</tr>
+						<tr>
+							<th scope="row">연락처</th>
+							<td class="recipient-hp"></td>
+						</tr>
+						<!-- <tr>
+							<th scope="row">현금영수증/세금계산서</th>
+							<td></td>
+						</tr> -->
+						<tr>
+							<th scope="row">결제 금액</th>
+							<td class="order-price"></td>
+						</tr>
+						<tr>
+							<th scope="row">결제 수단</th>
+							<td class="payment-method"></td>
+						</tr>
+					</tbody>
+				</table>
 	 		</div>
 			
 			<!-- 빈 영역 -->

@@ -21,10 +21,82 @@
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
-<script>
-	let aa = "${productMaster}";
+<!-- 08.23 캡쳐 스크립트 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
 
-	let productDet = "${productDetail}";	
+<script>
+	// 캡쳐 기능
+	function clickCaptureBtn(){
+    	html2canvas(document.querySelector("#capture-container")).then(canvas => {
+    		$(".change-ram-btn").css("display","none");
+			saveAs(canvas.toDataURL('image/png'),"capture-test.png");
+			$(".change-ram-btn").css("display","inline-block");
+		});
+    };
+    function saveAs(uri, filename) { 
+    	var link = document.createElement('a'); 
+    	if (typeof link.download === 'string') { 
+        	link.href = uri; 
+        	link.download = filename; 
+       		document.body.appendChild(link); 
+        	link.click(); 
+        	document.body.removeChild(link); 
+      	} else { 
+        	window.open(uri); 
+      	} 
+    }
+
+	let productMaster = "${productMaster}";
+	let mbInfo = "${productMbDetailInfo}";
+	let productDet = "${productDetail}";
+	let partsRam = "${partsRam}"
+	// 마스터 리스트화
+	const productMasterDetail = productMaster.substring(1, productMaster.length - 1);
+	const productMasterSplit = productMasterDetail.split('PartsproductMasterHistoryVO(');
+	
+	const productMasterResult = {};
+	let productMasterIdVal = "";
+	let productMasterIndex = 0;
+	productMasterSplit.forEach(item => {
+	  const keyValuePairs = item.split(', ');
+	  const detail = {};
+	  keyValuePairs.forEach(pair => {
+	    const [key, value] = pair.split('=');
+	    detail[key] = value;
+	  });
+	
+	  if (!productMasterResult[productMasterIndex]) {
+	    productMasterResult[productMasterIndex] = [];
+	  }
+      productMasterResult[productMasterIndex].push(detail);	
+	  productMasterIndex++;
+	});
+
+	console.log(productMasterResult[0][0].productDescription);
+	let userId = (productMasterResult[0][0].productDescription).split(" ");
+	// 추천된 마더보드 리스트화
+	const mbDetail = mbInfo.substring(1, mbInfo.length - 1);
+	const mbSplit = mbDetail.split('PartsMbHistoryVO(');
+	
+	const mbResult = {};
+	let mbIdVal = "";
+	let mbIndex = 0;
+	mbSplit.forEach(item => {
+	  const keyValuePairs = item.split(', ');
+	  const detail = {};
+	  keyValuePairs.forEach(pair => {
+	    const [key, value] = pair.split('=');
+	    detail[key] = value;
+	  });
+	
+	  if (!mbResult[mbIndex]) {
+	    mbResult[mbIndex] = [];
+	  }
+      mbResult[mbIndex].push(detail);	
+	  mbIndex++;
+	});
+
+	// 추천된 부품 디테일 리스트화
 	const productDetail = productDet.substring(1, productDet.length - 1);
 	const productSplit = productDetail.split('ProductDetailVO(');
 	
@@ -46,7 +118,7 @@
 	  productIndex++;
 	});
 
-	let partsRam = "${partsRam}"
+	// 전체 램 리스트화
 	const ramDetail = partsRam.substring(1, partsRam.length - 1);
 	const ramSplit = ramDetail.split('PartsRamVO(');
 
@@ -67,47 +139,46 @@
 	  ramIndex++;
 	});
 
-	// function enterPartsText () {
-	// 	$(".gpu-text").html(productResult[idVal][0].partsName);
-	// 	$(".cpu-text").html(productResult[idVal][1].partsName);
-	// 	$(".mb-text").html(productResult[idVal][2].partsName);
-	// 	$(".cooler-text").html(productResult[idVal][3].partsName);
-	// 	$(".case-text").html(productResult[idVal][4].partsName);
-	// 	$(".psu-text").html(productResult[idVal][5].partsName);
-	// 	$(".ram-text").html(productResult[idVal][6].partsName);
-	// 	$(".ssd-text").html(productResult[idVal][7].partsName);
-	// 	$(".price-text").html(total.toLocaleString("ko-kr") + "원");
-	// }
+	function enterPartsText () {
+		$(".gpu-text").html(productResult[1][0].partsName);
+		$(".cpu-text").html(productResult[2][0].partsName);
+		$(".mb-text").html(productResult[3][0].partsName);
+		$(".cooler-text").html(productResult[4][0].partsName);
+		$(".case-text").html(productResult[5][0].partsName);
+		$(".psu-text").html(productResult[6][0].partsName);
+		$(".ram-text").html(productResult[7][0].partsName);
+		$(".ssd-text").html(productResult[8][0].partsName);
+		$(".price-text").html(total.toLocaleString("ko-kr") + "원");
+	}
 	
 	let total = 0;
-	// function calcPartsPrice() {
-	// 	for (let i = 0; i<productResult[idVal].length; i++){
-	// 		total += Number(productResult[idVal][i].partsPrice);
-	// 	}
-	// 	if(sessionStorage.getItem("data-0") == "1"){
-	// 		total += 150000;
-	// 	}else if(sessionStorage.getItem("data-0") == "2"){
-	// 		total += 180000;
-	// 	}
-	// }
+	function calcPartsPrice() {
+		for (let i = 1; i<Object.keys(productResult).length; i++){
+			total += Number(productResult[i][0].partsPrice);
+		}
+		if(sessionStorage.getItem("data-0") == "1"){
+			total += 150000;
+		}else if(sessionStorage.getItem("data-0") == "2"){
+			total += 180000;
+		}
+	}
 	function clickReturnBtn () {
 		window.location.href = "estimateCalculationZero.do";
 		sessionStorage.clear();
 	}
 	function clickOrderBtn() {
-		alert("미구현");
+		location.href = "/order/sheet.do?accessRoute=direct&productIds="+"${productMaster.id}";
 	}
-	function clickCaptureBtn(){
-		alert("미구현");
-	}
+
 	function clickSaveBtn(){
 		alert("미구현");
 	}
+
 	let differencePrices = [];
 	let ramRufIndex = 1;
-	let basedRam = "30000";
+
+	let basedRam = productResult[6][0].partsPrice;
 	for (let i = 1; i<Object.keys(ramResult).length; i++){
-		// let basedRam = productResult[idVal][6].partsPrice;
 		if(ramResult[i][0].partsPrice !== "0" && ramResult[i][0].partsPrice !== "9999999"){
 			let defferenceRam = ramResult[i][0].partsPrice;
 
@@ -117,7 +188,7 @@
 	}
 	function insertRams(){
 		for(let i = 1; i<Object.keys(ramResult).length; i++){
-			if(ramResult[i][0].partsPrice !== "0" && ramResult[i][0].partsPrice !== "9999999"){
+			if(ramResult[i][0].partsPrice !== "0" && ramResult[i][0].partsPrice !== "9999999" && mbResult[0][0].memSocCd === ramResult[i][0].memSocCd){
 				let li = $("<li></li>");
 				let button = $("<button></button>").addClass("dropdown-item").attr("cd",i).attr("nb",ramRufIndex).attr("type","button").attr("onclick","javascript:clickChangeRam(this)").html(ramResult[i][0].partsName + "(" + differencePrices[ramRufIndex-1] + ")");
 				li.append(button);
@@ -131,11 +202,12 @@
 		if($(e).attr("cd") === "0"){
 			total = 0;
 			calcPartsPrice();
+			enterPartsText();
 		}else {
 			const ramCd = $(e).attr("cd");
 			const ramI = $(e).attr("nb");
 			$(".ram-text").html(ramResult[ramCd][0].partsName);
-			$(".price-text").html(total + Number(basedRam) + differencePrices[ramI-1]);
+			$(".price-text").html(total + differencePrices[ramI-1]);
 		}
 	}
 
@@ -155,10 +227,12 @@
 			return new bootstrap.Tooltip($(this)[0]);
 		}).get();
 		// 부품 이름 입력 & 총 가격 계산
-		// calcPartsPrice();
-		// enterPartsText();
+		calcPartsPrice();
+		enterPartsText();
 		insertRams();
-		if($(".price-text").html() == "오류"){
+		$("#id-input").val("ID : " + userId[0]);
+		if($("#id-input").val() === "ID : error"){
+			console.log($("#id-input").val());
 			$("#resultErrorModal").modal("show");
 		}
 	})
@@ -187,11 +261,12 @@
 			<!-- 빈 영역 -->
 			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
 			<!-- 작업영역 -->
-			<div class="estimateCalc_background p-5" style="width: 70% !important">
+			<div id="capturedImage"></div>
+			<div class="estimateCalc_background p-5" id="capture-container" style="width: 70% !important">
 				<div class="row">
 					<div class="row w-25">
 						<div class="input-group mb-3 w-50">
-							<input type="text" class="form-control" aria-label="Text input with checkbox" value="ID : example" style="background-color: #fff;" disabled>
+							<input type="text" class="form-control" id="id-input"aria-label="Text input with checkbox" value="ID : error" style="background-color: #fff;" disabled>
 						</div>
 					</div>
 					<div class="row">
@@ -204,7 +279,7 @@
 								<div class="card-body">
 									<div class="row">
 										<div class="col">
-											<h4 class="card-title">제품 상세 정보</h4>
+											<h4 class="card-title position-relative result-index">제품 상세 정보</h4>
 										</div>
 										<div class="col text-end">
 											<div class="dropdown">
@@ -217,7 +292,7 @@
 											</div>
 										</div>
 									</div>
-									<div class="container mb-3">
+									<div class="container mb-3 position-relative result-index">
 										<p class="card-text mb-0 fw-bold pb-1">가격 : <span class="fw-normal price-text">오류</span></p>
 										<p class="card-text mb-0 fw-bold pb-1">CPU : <span class="fw-normal cpu-text">오류</span></p>
 										<p class="card-text mb-0 fw-bold pb-1">Cooler : <span class="fw-normal cooler-text">오류</span></p>
@@ -232,8 +307,8 @@
 									<div class="container mb-3">
 										<p class="card-text fw-bold">제품설명블라블라</p>
 									</div> -->
-									<h4 class="card-title">배송 정보</h4>
-									<div class="container mb-3">
+									<h4 class="card-title position-relative result-index">배송 정보</h4>
+									<div class="container mb-3 position-relative result-index">
 										<p class="card-text mb-0 fw-bold pb-1">배송기간 : <span class="fw-normal delivery-period">영업일 기준 1~2일</span></p>
 										<p class="card-text mb-0 fw-bold pb-1">택배사 : <span class="fw-normal delivery-period">우체국택배</span></p>
 										<p class="card-text mb-0 fw-bold"><small class="text-muted">도서산간 지역의 경우 배송이 제한되거나 추가요금이 발생할 수 있습니다.</small></p>

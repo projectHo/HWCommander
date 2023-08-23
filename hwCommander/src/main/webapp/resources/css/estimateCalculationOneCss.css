@@ -310,3 +310,7 @@ div.status-box{
   width: 14%!important;
   height: 80px!important;
 }
+
+.result-index{
+	z-index: 99;
+}
