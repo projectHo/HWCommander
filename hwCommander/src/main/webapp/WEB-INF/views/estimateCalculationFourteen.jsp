@@ -27,8 +27,10 @@
 		let index1 = 0;
 		let index2 = 0;
 		let index3 = 0;
+		let answer0 = new Map();
+		answer0.set("OS",sessionStorage.getItem("data-0"));
 		let answer1 = new Map();
-		answer1.set("Price",sessionStorage.getItem("data-1") + "0000");
+		answer1.set("Price",Number(sessionStorage.getItem("data-1")) * 10000);
 		let answer2 = new Map();
 		let answer2s = "";
 		let twoDatas = JSON.parse(sessionStorage.getItem("data-2"));
@@ -53,12 +55,12 @@
 			answer3.set("Stability", threeDatas[4]);
 			answer3.set("QC", threeDatas[5]);
 		}else {
-			answer3.set("Fever", "");
-			answer3.set("Meterial", "");
-			answer3.set("AS", "");
-			answer3.set("Noise", "");
-			answer3.set("Stability", "");
-			answer3.set("QC", "");
+			answer3.set("Fever", "null");
+			answer3.set("Meterial", "null");
+			answer3.set("AS", "null");
+			answer3.set("Noise", "null");
+			answer3.set("Stability", "null");
+			answer3.set("QC", "null");
 		}
 		let answer3s = "";
 		for(var [key,value] of answer3){
@@ -83,8 +85,8 @@
 			answer8.set("main-color", eightDatas[0]);
 			answer8.set("sub-color", eightDatas[1]);
 		}else if (sessionStorage.getItem("data-8") === ""){
-			answer8.set("main-color", "");
-			answer8.set("sub-color", "");
+			answer8.set("main-color", "null");
+			answer8.set("sub-color", "null");
 		}
 		let answer8s = "";
 		for(var [key,value] of answer8){
@@ -117,7 +119,7 @@
 		let answer16 = new Map();let answer17 = new Map();let answer18 = new Map();let answer19 = new Map();
 		
 		
-		for(let i = 17; i <=19 ; i++){
+		for(let i = 16; i <=19 ; i++){
 			if(sessionStorage.getItem("data-" + i) !== ""){
 				var answerName = "answer" + i;
 				var answer = eval(answerName);
@@ -144,13 +146,12 @@
 					if(key === "" || !key){
 						key = "null";
 						value = "null";
-						urlParams += mapName + "<" + "null" + ">";
 					}else if(key !== "" && value === ""){
 						value = "null";
-						urlParams += mapName + "<" + key + ">";
-					}else if (key !== "" && value !== ""){
-						urlParams += mapName + "<" + key + "," + value + ">";
 					}
+					
+					urlParams += mapName + "<" + key + "," + value + ">";
+					
 				}
 			}
 			urlParams += "|";
@@ -167,11 +168,12 @@
 			var value = keyValue[1];
 			userInfoObject[key] = value;
 		}
-		urlParams += "etc<userId," + userInfoObject.id + "> |etc<targetDate,null>";
+		urlParams += "etc<userId," + userInfoObject.id + "> |etc<targetDate,null>" + "answer0<" + Array.from(answer0.keys()) + "," + Array.from(answer0.values()) + ">";
 		var baseUrl = "/estimateCalculationResult.do";
 		var fullUrl = baseUrl + "?" + urlParams;
 		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
 	}
+	// donut
 	let progress = 0;
 	function animateDonutGauge() {
 		$(".donut-container").css(
