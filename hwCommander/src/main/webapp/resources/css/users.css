@@ -7,5 +7,16 @@
 }
 
 .order-sheet-body {
-    background-color: rgba(127, 129, 226, 0.6);
+    background-color: rgba(127, 129, 226);
+}
+
+.orderSheet-table-body{
+    display: none;
+}
+.order-custom-input-group{
+    width: auto;
+}
+.order-sheet-card-border {
+    border-top: 1px dashed gray;
+    border-bottom: 1px dashed gray;
 }

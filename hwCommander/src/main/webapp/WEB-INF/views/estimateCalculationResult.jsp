@@ -167,8 +167,7 @@
 		sessionStorage.clear();
 	}
 	function clickOrderBtn() {
-		// location.href = "/order/sheet.do?accessRoute=direct&productIds="+"${productMaster.id}";
-		window.open("/order/sheet.do?accessRoute=direct&productIds="+"${productMaster.id}","_blank","width=1200,height=800,left=300,top=160,resizable=no");
+		location.href = "/order/sheet.do?accessRoute=direct&productIds="+"${productMaster.id}";
 	}
 
 	function clickSaveBtn(){
