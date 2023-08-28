@@ -8,6 +8,7 @@
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 <link rel="stylesheet" href="/resources/css/main.css">
+<link rel="stylesheet" href="/resources/css/estimateCalculationOneCss.css">
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -57,9 +58,9 @@ function loginCheck() {
 			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
 			
 			<!-- 본문영역 -->
-			<div class="" style="width: 70%!important;">
+			<div style="width: 70%!important;">
 				<div class="w-100 row align-items-center mt-4 mb-4">
-					<div class="card mb-4">
+					<div class="card mb-4 pt-5 pb-3 estimateCalc_background">
 						<div class="card-body">				
 							<div class="container">
 							  <div class="row">

@@ -24,9 +24,11 @@
 
 <script>
 	let aa = "${loginUser}";
+	let bb = "${orderMasterVO}";
 	let recipeintPhoneNumber = "${orderMasterVO.recipientHpNumber}";
 	$(function(){
 		$(".order-name").html("${orderMasterVO.orderName}");
+		$(".order-date").html("${orderMasterVO.orderDateStr}");
 		$(".recipient-name").html("${orderMasterVO.recipientName}");
 		$(".order-price").html("${orderMasterVO.totOrderPriceStr}");
 		$(".recipient-hp").html(recipeintPhoneNumber.replace(/(\d{3})(\d{4})(\d{4})/, '$1-$2-$3'));
@@ -35,6 +37,23 @@
 			$(".payment-method").html("카드결제");
 		}
 	})
+	function print(){
+		$("#printButton").css("display","none");
+		const elementsToPrint1 = $('.basic_background').eq(0).clone(); // 복사하여 새 요소 생성
+		const elementsToPrint2 = $('.basic_background').eq(1).clone(); // 복사하여 새 요소 생성
+
+		// 새 창에 복사한 요소 삽입
+		const printWindow = window.open('', '_blank');
+		printWindow.document.write('<html><head><title>Print</title><style> * {color:black; text-decoration:none;}</style></head><body>');
+		printWindow.document.write(elementsToPrint1.html()); // 선택한 요소 삽입
+		printWindow.document.write(elementsToPrint2.html()); // 선택한 요소 삽입
+		printWindow.document.write('</body></html>');
+		printWindow.document.close();
+
+		// 프린트 명령 실행
+		printWindow.print();
+		$("#printButton").css("display","block");
+	}
 </script>
 </head>
 <body>
@@ -46,7 +65,10 @@
 			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
 			<!-- 작업영역 -->
 			<div class="estimateCalc_background p-5" style="width: 70% !important">
-				<h2>주문 영수증</h2>
+				<div class="d-flex justify-content-between mb-3">
+					<h2>주문 영수증</h2>
+					<button class="btn btn-primary me-2 pb-0" id="printButton" onclick="javascript:print()">인쇄하기</button>
+				</div>
 				<table class="table table-secondary table-bordered" id="receipt-table">
 					<thead>
 						<tr>
@@ -55,6 +77,10 @@
 						</tr>
 					</thead>
 					<tbody>
+						<tr>
+							<th scope="row">결제일</th>
+							<td class="order-date"></td>
+						</tr>
 						<tr>
 							<th scope="row">수령인</th>
 							<td class="recipient-name"></td>
