@@ -82,6 +82,8 @@
 			$("#box-8").addClass("status-now").addClass("fs-5");
 			$("#box-7").addClass("status-now-near");
 		}
+
+		$("#box-3").attr("onclick","javascript:clickBoxThree()")
 	})
 
 	function noticeYet(){
@@ -126,11 +128,11 @@
 	}
 	function clickBoxTwo(){
 		// 결제정보 (수령인, 배송지, 연락처, 현금연수증/세금계산서 정보, 결제 금액, 결제 수단-카드 시 카드정보, 계좌이체 시 소비자가 기재한 입금자 명 및 입금받은 계좌 정보)
-		location.href = "userReceipt.do?id=" + masterInfoObject.id;
+		location.href = "/user/userReceipt.do?id=" + masterInfoObject.id;
 	}
 	function clickBoxThree(){
 		// 제품 신품상태 개봉 영상이 담김(클라우드 연동이 되기 전까진 유저가 적을 수 있는 메일 입력칸 생성 후 파일발송 / 클라우드 연동 후엔 영상이 재생 가능한 페이지 혹은 파일 다운로드가 가능한 페이지 만들기)
-		
+		location.href = "/order/orderStateCd03Page.do?id=" + masterInfoObject.id;
 	}
 	function clickBoxFour(){
 		// 조립 완료 시의 사진 포함(클라우드 연동이 되기 전까진 유저가 적을 수 있는 메일 입력칸 생성 후 Admin이 회사용 메일로 직접 파일발송 / 클라우드 연동 후엔 Admin의 사진파일 게시 가능한 페이지 만들기)

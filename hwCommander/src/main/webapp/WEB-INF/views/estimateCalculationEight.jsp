@@ -391,7 +391,7 @@
 		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
 	}
 	function clickNextModalBtn(){
-		window.location.href = "estimateCalculationNine.do";
+		location.href = "estimateCalculationNine.do";
 	}
 	$(function () {
 		typeText();

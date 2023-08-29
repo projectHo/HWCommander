@@ -15,14 +15,13 @@
 <!-- 23.06.17 다음 카카오 주소 api 추가 -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
-<!-- 23.08.26 nice 휴대폰인증 api 추가 -->
-<script src="https://nice.checkplus.co.kr/CheckPlusSafeModel/checkplus.cb.min.js"></script>
 <script>
 
 var targetId = null;
 
     $(function() {
-        $('#btn_signUp').on("click", function () {
+        
+		$('#btn_signUp').on("click", function () {
         	// todo wonho
         	alert("현재는 회원가입이 불가능합니다.");
         	return false;
@@ -44,41 +43,11 @@ var targetId = null;
         });
         
         // 핸드폰인증
-        // $('#btn_hpNumber_chk').on("click", function () {
-        // 	alert("핸드폰인증해");
-        // 	return false;
-        // });
+        $('#btn_hpNumber_chk').on("click", function () {
+        	alert("핸드폰인증해");
+        	return false;
+		});
     });
-    // 08.26 핸드폰 인증
-
-function verifyRequest() {
-	const form = $('#verifyForm')[0];
-	const left = screen.width / 2 - 500 / 2;
-	const top = screen.height / 2 - 800 / 2;
-	const option = `status=no, menubar=no, toolbar=no, resizable=no, width=500, height=600, left=${left}, top=${top}`;
-	const returnUrl = `${url}/api/nice`;  // 본인인증 결과를 전달받을 api url
-
-	// 위에서 언급했던 token api가 요청 데이터를 암호화한 후 표준창 호출에 필요한 데이터를 응답해준다.
-	$.ajax({
-		url: '/api/token',
-		method: 'GET',
-		data: { returnUrl },
-		success: function(res) {
-		const { enc_data, integrity_value, token_version_id } = res;
-		window.open('', 'nicePopup', option);
-
-		form.target = 'nicePopup';
-		form.enc_data.value = enc_data;
-		form.token_version_id.value = token_version_id;
-		form.integrity_value.value = integrity_value;
-		form.action = 'NICE_API_URL'; // NICE API의 URL을 넣어주세요.
-		form.submit();
-		},
-		error: function(error) {
-		console.error('에러 발생:', error);
-		}
-	});
-}
 function goSignUp() {
     var form = $("#signUp_form").serialize();
     
@@ -359,7 +328,7 @@ function findDaumAddr() {
 										<svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(180)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M18.9998 17.5V6.5C19.0627 5.37366 18.6774 4.2682 17.9279 3.42505C17.1784 2.5819 16.1258 2.06958 14.9998 2H8.99981C7.87387 2.06958 6.82121 2.5819 6.07175 3.42505C5.32228 4.2682 4.9369 5.37366 4.99982 6.5V17.5C4.9369 18.6263 5.32228 19.7317 6.07175 20.5748C6.82121 21.418 7.87387 21.9303 8.99981 21.9999H14.9998C16.1258 21.9303 17.1784 21.418 17.9279 20.5748C18.6774 19.7317 19.0627 18.6263 18.9998 17.5V17.5Z" stroke="#000000" stroke-width="0.9600000000000002" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M14 5H10" stroke="#000000" stroke-width="0.9600000000000002" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
 									</span>
 									<input type="text" id="hpNumber" class="form-control border-start-0 join-members" placeholder="'-'를 빼고 입력해주세요." maxlength="11" required autocomplete="off">
-									<button type="button" class="btn btn-outline-secondary" id="btn_hpNumber_chk" onclick="javascript:verifyRequest()">인증하기</button>
+									<button type="button" class="btn btn-outline-secondary" id="btn_hpNumber_chk">인증하기</button>
 								</div>
 							</div>
 							<div class="row justify-content-center">
