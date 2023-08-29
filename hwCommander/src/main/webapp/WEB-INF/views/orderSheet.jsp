@@ -11,6 +11,7 @@
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 <link rel="stylesheet" href="/resources/css/main.css">
+<link rel="stylesheet" href="/resources/css/users.css">
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -68,7 +69,6 @@
 <script>
 
     $(function() {
-    	
     	$('#productListInfoTable').DataTable({ 
     	    bAutoWidth: false,
     	    columnDefs: [
@@ -106,7 +106,12 @@
         $('#btn_addr_search').on("click", function () {
         	findDaumAddr();
         });
-    	
+		// 08.26 상품들 아래 테두리
+		for(let i = 1 ; i <= $(".order-items").length; i++){
+			if(i === $(".order-items").length){
+				$(".order-items").eq(i-1).children("td").addClass("border-bottom-0");
+			}
+		}
     });
     
 function btnCheckOutClick() {
@@ -308,14 +313,45 @@ function validationCheck() {
 	return true;
 }
 
+// 08.26 추천인 확인 기능 추가
+var targetId = null;
+
+function recDupliChk(id) {
+	if(id == "") {
+		alert("추천인을 입력하세요.");
+		return false;
+	}
+	
+	$.ajax({
+        type: "post",
+        url: "/user/idDupliChk.do",
+        data: {
+        	"id" : id
+        },
+        dataType: 'json',
+        success: function (data) {
+        	if(data == 0) {
+				targetId = null;
+				alert("아이디가 정확하지 않습니다.");
+        		$("#recommander").addClass("is-invalid");
+				$("#recommander").next().addClass("border-danger");
+        	}else {
+        		targetId = id;
+        		$("#recommander").removeClass("is-invalid");
+				$("#recommander").next().removeClass("border-danger");
+        		alert("확인되었습니다.");
+        	}
+        }
+    });
+}
 
 </script>
 </head>
-<body>
+<body class="order-sheet-body">
 
 	<form id="order_sheet_form">
-		<div class="container">
-			<div class="card mt-4 mb-4">
+		<div class="mx-auto container pt-3 pb-3">
+			<div class="card mt-4">
 				<div class="card-header">
 					<div class="d-flex">
 						<div class="me-auto d-flex align-items-center">상품 정보</div>
@@ -326,14 +362,13 @@ function validationCheck() {
 						<thead>
 							<tr>
 								<th>상품이미지</th>
-								<th>상품명</th>
 								<th>상품가격</th>
+								<th>상품명</th>
 							</tr>
 						</thead>
-
 						<tbody>
 							<c:forEach var="item" items="${productList}">
-								<tr>
+								<tr class="order-items">
 									<td>
 										<input type="hidden" name="id" value="<%=oid%>">
 										<input type="hidden" name="productId" value="${item.id}">
@@ -344,10 +379,10 @@ function validationCheck() {
 										<input type="hidden" name="productName" value="${item.productName}">
 										
 										
-                                      	<%-- 임시 몰루이미지 
-                                      	<img class="img-fluid rounded mx-auto d-block" src="/resources/img/tempImage_200x200.png">
-                                      	 --%>
-                                      	<img class="img-fluid rounded mx-auto d-block" src="${item.productImage}" alt="" style="cursor:pointer; width:200px; height:200px; object-fit:contain;">
+										<%-- 임시 몰루이미지 
+										<img class="img-fluid rounded mx-auto d-block" src="/resources/img/tempImage_600x600.png">
+										--%>
+										<img class="img-fluid rounded d-block" src="${item.productImage}" alt="" style="cursor:pointer; width:200px; height:200px; object-fit:contain;">
 									</td>
 									<td class="align-middle">${item.productName}</td>
 									<td class="align-middle">${item.productPriceStr}</td>
@@ -357,9 +392,7 @@ function validationCheck() {
 					</table>
 				</div>
 			</div>
-
-
-			<div class="card mt-4 mb-4">
+			<div class="card order-sheet-card-border">
 				<div class="card-header">
 					<div class="d-flex">
 						<div class="me-auto d-flex align-items-center">주문자 정보</div>
@@ -367,96 +400,99 @@ function validationCheck() {
 				</div>
 				<div class="card-body">
 					<div class="mb-3 row">
-						<label for="ordererName" class="col-sm-2 col-form-label">주문자 이름</label>
-						<div class="col-sm-5">
+						<label for="ordererName" class="col-md-2 col-form-label">주문자 이름</label>
+						<div class="col-md-5">
 							<input type="text" class="form-control" id="ordererName" name="ordererName" required>
 						</div>
 					</div>
 					<div class="mb-3 row">
-						<label for="ordererHpNumber" class="col-sm-2 col-form-label">주문자 휴대폰번호</label>
-						<div class="col-sm-5">
+						<label for="ordererHpNumber" class="col-md-2 col-form-label">주문자 휴대폰번호</label>
+						<div class="col-md-5">
 							<input type="text" class="form-control" id="ordererHpNumber" name="ordererHpNumber" required>
 						</div>
 					</div>
-					<div class="row">
-						<label for="ordererMail" class="col-sm-2 col-form-label">주문자 이메일</label>
-						<div class="col-sm-5">
+					<div class="mb-3 row">
+						<label for="ordererMail" class="col-md-2 col-form-label">주문자 이메일</label>
+						<div class="col-md-5">
 							<input type="email" class="form-control" id="ordererMail" name="ordererMail" required>
+						</div>
+					</div>
+					<div class="row">
+						<label for="recommander" class="col-md-2 col-form-label">추천인</label>
+						<div class="col-md-5">
+							<div class="input-group">
+								<input type="text" class="form-control" id="recommander" name="recommander" required>
+								<button type="button" class="btn btn-outline-secondary" maxlength="25" id="btn_rec_dupli_chk" onclick="javascript:recDupliChk($('#recommander').val().trim())">중복확인</button>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-
-			<div class="card mt-4 mb-4">
+			<div class="card mb-4">
 				<div class="card-header">
 					<div class="d-flex">
 						<div class="me-auto d-flex align-items-center">배송지 정보</div>
 					</div>
 				</div>
-				<div class="card-body">
+				<div class="card-body pb-0">
 					<div class="mb-3 row">
-						<label for="recipientName" class="col-sm-2 col-form-label">수령인</label>
-						<div class="col-sm-5">
+						<label for="recipientName" class="col-md-2 col-form-label">수령인</label>
+						<div class="col-md-5">
 							<input type="text" class="form-control" id="recipientName" name="recipientName" required>
 						</div>
 					</div>
 					<div class="mb-3 row">
-						<label for="recipientName" class="col-sm-2 col-form-label">수령인 휴대폰번호</label>
-						<div class="col-sm-5">
+						<label for="recipientName" class="col-md-2 col-form-label">수령인 휴대폰번호</label>
+						<div class="col-md-5">
 							<input type="text" class="form-control" id="recipientHpNumber" name="recipientHpNumber" required>
 						</div>
 					</div>
 					<div class="mb-3 row">
-						<label for="recipientHpNumber2" class="col-sm-2 col-form-label">수령인 추가 휴대폰번호</label>
-						<div class="col-sm-5">
+						<label for="recipientHpNumber2" class="col-md-2 col-form-label">수령인 추가 휴대폰번호</label>
+						<div class="col-md-5">
 							<input type="text" class="form-control" id="recipientHpNumber2" name="recipientHpNumber2" required>
 						</div>
 					</div>
-					<div class="mb-3 row">
-						<label for="recipientZipcode" class="col-sm-2 col-form-label">우편번호</label>
-						<div class="col-sm-2">
+					<div class="mb-3 row d-md-flex">
+						<label for="recipientZipcode" class="col-md-2 col-form-label">우편번호</label>
+						<div class="input-group order-custom-input-group col-md-5">
 							<input type="text" class="form-control" id=recipientZipcode name="recipientZipcode" readonly="readonly" required>
-						</div>
-						<div class="col-auto">
-						  <button type="button" class="btn btn-secondary" id="btn_addr_search">주소찾기</button>
+							<button type="button" class="btn btn-secondary" id="btn_addr_search">주소찾기</button>
 						</div>
 					</div>
 					<div class="mb-3 row">
-						<label for="recipientJibunAddr" class="col-sm-2 col-form-label">지번주소</label>
-						<div class="col-sm-7">
+						<label for="recipientJibunAddr" class="col-md-2 col-form-label">지번주소</label>
+						<div class="col-md-5">
 							<input type="text" class="form-control" id=recipientJibunAddr name="recipientJibunAddr" readonly="readonly" required>
 						</div>
 					</div>
 					<div class="mb-3 row">
-						<label for="recipientRoadAddr" class="col-sm-2 col-form-label">도로명주소</label>
-						<div class="col-sm-7">
+						<label for="recipientRoadAddr" class="col-md-2 col-form-label">도로명주소</label>
+						<div class="col-md-5">
 							<input type="text" class="form-control" id=recipientRoadAddr name="recipientRoadAddr" readonly="readonly" required>
 						</div>
 					</div>
 					<div class="mb-3 row">
-						<label for="recipientDetailAddr" class="col-sm-2 col-form-label">상세주소</label>
-						<div class="col-sm-7">
+						<label for="recipientDetailAddr" class="col-md-2 col-form-label">상세주소</label>
+						<div class="col-md-5">
 							<input type="text" class="form-control" id=recipientDetailAddr name="recipientDetailAddr" required>
 						</div>
 					</div>
 					<div class="mb-3 row">
-						<label for="orderRequest" class="col-sm-2 col-form-label">주문 시 요청사항</label>
-						<div class="col-sm-5">
+						<label for="orderRequest" class="col-md-2 col-form-label">주문 시 요청사항</label>
+						<div class="col-md-5">
 							<input type="text" class="form-control" id="orderRequest" name="orderRequest" required>
 						</div>
 					</div>
 					<div class="row">
-						<label for="deliveryRequest" class="col-sm-2 col-form-label">배송 시 요청사항</label>
-						<div class="col-sm-5">
+						<label for="deliveryRequest" class="col-md-2 col-form-label">배송 시 요청사항</label>
+						<div class="col-md-5">
 							<input type="text" class="form-control" id="deliveryRequest" name="deliveryRequest" required>
 						</div>
 					</div>
-				</div>
-			</div>
-
-			<div class="mt-4 mb-4">
-				<div class="d-grid">
-					<a class="btn btn-secondary btn-block" id="btn_check_out" onclick="javascript:btnCheckOutClick()">결제하기</a>
+					<div class="d-grid p-3">
+						<a class="btn btn-secondary btn-block" id="btn_check_out" onclick="javascript:btnCheckOutClick()">결제하기</a>
+					</div>
 				</div>
 			</div>
 		</div>
