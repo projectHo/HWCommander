@@ -123,7 +123,7 @@ public class OrderController {
 		model.addAttribute("orderMasterVO", orderService.getOrderMasterById(id));
 		model.addAttribute("orderDetailVOList", orderService.getOrderDetailListById(id));
 		
-		return userLoginCheck(request, model, "userReceipt");
+		return userLoginCheck(request, model, "orderStateCd03Page");
 	}
 	
 	/*--------------------------------------------------
