@@ -109,6 +109,24 @@ public class OrderController {
 	}
 	
 	/*--------------------------------------------------
+	 - 진행현황페이지(제품 공수 중)
+	*--------------------------------------------------*/
+	@RequestMapping(value = "/orderStateCd03Page.do", method = RequestMethod.GET)
+	public String goUserReceipt(HttpServletRequest request
+			, Model model
+			, @RequestParam(value = "id", required = true) String id) {
+		
+		HttpSession httpSession = request.getSession();
+		UserInfoVO user = (UserInfoVO) httpSession.getAttribute("loginUser");
+		
+		model.addAttribute("loginUser", user);
+		model.addAttribute("orderMasterVO", orderService.getOrderMasterById(id));
+		model.addAttribute("orderDetailVOList", orderService.getOrderDetailListById(id));
+		
+		return userLoginCheck(request, model, "userReceipt");
+	}
+	
+	/*--------------------------------------------------
 	 - private method
 	*--------------------------------------------------*/
 	private String userLoginCheck(HttpServletRequest request, Model model, String url) {
