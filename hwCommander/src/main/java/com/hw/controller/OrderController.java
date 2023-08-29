@@ -112,7 +112,7 @@ public class OrderController {
 	 - 진행현황페이지(제품 공수 중)
 	*--------------------------------------------------*/
 	@RequestMapping(value = "/orderStateCd03Page.do", method = RequestMethod.GET)
-	public String goUserReceipt(HttpServletRequest request
+	public String goOrderStateCd03Page(HttpServletRequest request
 			, Model model
 			, @RequestParam(value = "id", required = true) String id) {
 		
@@ -124,6 +124,42 @@ public class OrderController {
 		model.addAttribute("orderDetailVOList", orderService.getOrderDetailListById(id));
 		
 		return userLoginCheck(request, model, "orderStateCd03Page");
+	}
+	
+	/*--------------------------------------------------
+	 - 진행현황페이지(조립 중)
+	*--------------------------------------------------*/
+	@RequestMapping(value = "/orderStateCd04Page.do", method = RequestMethod.GET)
+	public String goOrderStateCd04Page(HttpServletRequest request
+			, Model model
+			, @RequestParam(value = "id", required = true) String id) {
+		
+		HttpSession httpSession = request.getSession();
+		UserInfoVO user = (UserInfoVO) httpSession.getAttribute("loginUser");
+		
+		model.addAttribute("loginUser", user);
+		model.addAttribute("orderMasterVO", orderService.getOrderMasterById(id));
+		model.addAttribute("orderDetailVOList", orderService.getOrderDetailListById(id));
+		
+		return userLoginCheck(request, model, "orderStateCd04Page");
+	}
+	
+	/*--------------------------------------------------
+	 - 진행현황페이지(시스템 구성 중)
+	*--------------------------------------------------*/
+	@RequestMapping(value = "/orderStateCd05Page.do", method = RequestMethod.GET)
+	public String goOrderStateCd05Page(HttpServletRequest request
+			, Model model
+			, @RequestParam(value = "id", required = true) String id) {
+		
+		HttpSession httpSession = request.getSession();
+		UserInfoVO user = (UserInfoVO) httpSession.getAttribute("loginUser");
+		
+		model.addAttribute("loginUser", user);
+		model.addAttribute("orderMasterVO", orderService.getOrderMasterById(id));
+		model.addAttribute("orderDetailVOList", orderService.getOrderDetailListById(id));
+		
+		return userLoginCheck(request, model, "orderStateCd05Page");
 	}
 	
 	/*--------------------------------------------------
