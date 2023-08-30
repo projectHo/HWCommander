@@ -53,7 +53,7 @@
 	}
 	function clickReturnBtn(){
 		sessionStorage.setItem("data-17","null");
-		location.href = "estimateCalculationSixteen.do";
+		location.href = "ESCA_16_ver_1_0.do";
 	}
 	function clickEstimateBtn(el){
 		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false && $("#answer-d").prop("checked") === false && $("#answer-e").prop("checked") === false){
@@ -84,7 +84,7 @@
 			setTimeout(() => {
 				$(el).removeClass("is-valid");
 			}, 2000);
-			window.location.href = "estimateCalculationEighteen.do";
+			window.location.href = "ESCA_18_ver_1_0.do";
 		}
 	}
 	$(function () {

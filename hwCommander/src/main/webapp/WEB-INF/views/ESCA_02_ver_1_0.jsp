@@ -168,7 +168,7 @@
 			var value = keyValue[1];
 			userInfoObject[key] = value;
 		}
-		urlParams += "etc<userId," + userInfoObject.id + "> |etc<targetDate,null>" + "answer0<" + Array.from(answer0.keys()) + "," + Array.from(answer0.values()) + ">";
+		urlParams += "etc<userId," + userInfoObject.id + ">|etc<targetDate,null>" + "|answer0<" + Array.from(answer0.keys()) + "," + Array.from(answer0.values()) + ">";
 		var baseUrl = "/estimateCalculationResult.do";
 		var fullUrl = baseUrl + "?" + urlParams;
 		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
@@ -254,7 +254,7 @@
 
 	function clickReturnBtn(){
 		sessionStorage.setItem("data-2","null");
-		window.location.href ="estimateCalculationOne.do";
+		window.location.href ="ESCA_01_ver_1_0.do";
 	}
 
 	function makeModalList(id, elem) {
@@ -452,7 +452,7 @@
 				value.push(storageValue);
 			}
 			sessionStorage.setItem("data-2",JSON.stringify(value))
-			window.location.href ="estimateCalculationThree.do";
+			window.location.href ="ESCA_03_ver_1_0.do";
 		}else if (totalRating !== 100){
 			$(".calc-two-final-text-rating").css("display", "block");
 			$(".next-two-btn").addClass("is-invalid");

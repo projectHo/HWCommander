@@ -168,7 +168,7 @@
 			var value = keyValue[1];
 			userInfoObject[key] = value;
 		}
-		urlParams += "etc<userId," + userInfoObject.id + "> |etc<targetDate,null>" + "answer0<" + Array.from(answer0.keys()) + "," + Array.from(answer0.values()) + ">";
+		urlParams += "etc<userId," + userInfoObject.id + ">|etc<targetDate,null>" + "|answer0<" + Array.from(answer0.keys()) + "," + Array.from(answer0.values()) + ">";
 		var baseUrl = "/estimateCalculationResult.do";
 		var fullUrl = baseUrl + "?" + urlParams;
 		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
@@ -213,7 +213,7 @@
 	}
 	function clickReturnBtn(){
 		sessionStorage.setItem("data-8","null");
-		window.location.href = "estimateCalculationSeven.do";
+		window.location.href = "ESCA_07_ver_1_0.do";
 	}
 	let value = [];
 	function clickEstimateBtn(el){
@@ -272,7 +272,7 @@
 			setTimeout(() => {
 				$(el).removeClass("is-valid");
 			}, 2000);
-			window.location.href = "estimateCalculationNine.do";
+			window.location.href = "ESCA_09_ver_1_0.do";
 		} else if(conditionMet){
 			alert("메인&서브 색상을 골라주시거나 상관없음을 골라주세요!");
 			$(el).addClass("is-invalid");
@@ -286,7 +286,7 @@
 			setTimeout(() => {
 				$(el).removeClass("is-valid");
 			}, 2000);
-			window.location.href = "estimateCalculationNine.do";
+			window.location.href = "ESCA_09_ver_1_0.do";
 		}
 	}
 
@@ -391,7 +391,7 @@
 		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
 	}
 	function clickNextModalBtn(){
-		location.href = "estimateCalculationNine.do";
+		location.href = "ESCA_09_ver_1_0.do";
 	}
 	$(function () {
 		typeText();

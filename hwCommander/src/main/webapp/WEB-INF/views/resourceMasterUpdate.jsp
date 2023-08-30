@@ -179,7 +179,7 @@ function goDetailRegist() {
                         <div class="card mb-4">
                             <div class="card-body">
                                 <p class="mb-0">Resource Data(Detail)가 등록된 이력이 존재하면 수정할 수 없습니다.</p>
-                                <p class="mb-0">Id ~~? 를 클릭하여 본 Category(Master)의 Resource Data(Detail) 등록화면으로 이동할 수 있습니다.</p>
+                                <p class="mb-0">Go Resource Data 버튼을 클릭하여 본 Category(Master)의 Resource Data(Detail) 등록화면으로 이동할 수 있습니다.</p>
                             </div>
                         </div>
                         <div class="card mb-4">
@@ -188,7 +188,7 @@ function goDetailRegist() {
                                    <input type="hidden" id="id" name="id">
                                    <div class="row mb-3">
                                        <div class="col-md-3">
-                                           <div class="form-floating mb-3 mb-md-0" onclick="javascript:goDetailRegist()">
+                                           <div class="form-floating mb-3 mb-md-0">
                                                <input class="form-control" id="viewId" name="viewId" type="text" placeholder="Enter viewId"/>
                                                <label for="viewId">Id</label>
                                            </div>
@@ -225,6 +225,10 @@ function goDetailRegist() {
                                    
                                    <div class="mt-4 mb-0">
                                        <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_master_update">Update</a></div>
+                                   </div>
+                                   
+                                   <div class="mt-4 mb-0">
+                                       <div class="d-grid"><a class="btn btn-secondary btn-block" onclick="javascript:goDetailRegist()">Go Resource Data</a></div>
                                    </div>
                                </form>
                            </div>

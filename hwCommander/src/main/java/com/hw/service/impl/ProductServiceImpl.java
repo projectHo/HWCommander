@@ -173,6 +173,11 @@ public class ProductServiceImpl implements ProductService {
 		List<Map<String, String>> answer18 = new ArrayList<>(); //프론트 미구현
 		List<Map<String, String>> answer19 = new ArrayList<>(); //프론트 미구현
 		
+		// 업무공백 중 발생한 수정사항 질문 0번 추가
+		Integer answer0 = null;
+		String windowsName = null;
+		int windowsPrice = 0;
+		
 		/*--------------------------------------------------
 		 - 0-2. 견적산출 대상 시간 선언 및 초기화
 		*--------------------------------------------------*/
@@ -188,8 +193,8 @@ public class ProductServiceImpl implements ProductService {
 		*--------------------------------------------------*/
 		String[] urlTextArray = urlText.split("\\|");
 		
-		// 질문 19개, 견적산출 대상 유저id, 견적산출 대상시간 도합 21가 아닐 시 에러 return
-		if(21 != urlTextArray.length) {
+		// 질문 19개, 견적산출 대상 유저id, 견적산출 대상시간, 0번질문 추가로 도합 22가 아닐 시 에러 return
+		if(22 != urlTextArray.length) {
 			String errMsg = "########## 견적산출 ERROR : 질문답변갯수가 안맞음 ㄲㅈ셈";
 			
 			System.out.println(errMsg);
@@ -265,7 +270,9 @@ public class ProductServiceImpl implements ProductService {
 		tempText = tempText.replaceAll(" ", "");
 		
 		// 답변을 하지 않았을 때 Front에서 넘기는 기본텍스트값
-		if(!"answer3<Fever,:Meterial,:AS,:Noise,:Stability,:QC,>".equals(tempText)) {
+//		if(!"answer3<Fever,:Meterial,:AS,:Noise,:Stability,:QC,>".equals(tempText)) {
+		if(!"answer3<Fever,null:Meterial,null:AS,null:Noise,null:Stability,null:QC,null>".equals(tempText)) {
+			
 			tempText = tempText.replaceAll("answer3", "");
 			tempText = tempText.replaceAll("<", "");
 			tempText = tempText.replaceAll(">", "");
@@ -289,7 +296,8 @@ public class ProductServiceImpl implements ProductService {
 		tempText = tempText.replaceAll(" ", "");
 		
 		// 답변을 하지 않았을 때 Front에서 넘기는 기본텍스트값
-		if(!"answer4<Wireless>".equals(tempText)) {
+//		if(!"answer4<Wireless>".equals(tempText)) {
+		if(!"answer4<Wireless,null>".equals(tempText)) {
 			tempText = tempText.replaceAll("answer4", "");
 			tempText = tempText.replaceAll("<", "");
 			tempText = tempText.replaceAll(">", "");
@@ -304,7 +312,8 @@ public class ProductServiceImpl implements ProductService {
 		tempText = tempText.replaceAll(" ", "");
 		
 		// 답변을 하지 않았을 때 Front에서 넘기는 기본텍스트값
-		if(!"answer5<CPU>".equals(tempText)) {
+//		if(!"answer5<CPU>".equals(tempText)) {
+		if(!"answer5<CPU,null>".equals(tempText)) {
 			tempText = tempText.replaceAll("answer5", "");
 			tempText = tempText.replaceAll("<", "");
 			tempText = tempText.replaceAll(">", "");
@@ -319,7 +328,9 @@ public class ProductServiceImpl implements ProductService {
 		tempText = tempText.replaceAll(" ", "");
 		
 		// 답변을 하지 않았을 때 Front에서 넘기는 기본텍스트값
-		if(!"answer6<GPU>".equals(tempText)) {
+//		if(!"answer6<GPU>".equals(tempText)) {
+		if(!"answer6<GPU,null>".equals(tempText)) {
+
 			tempText = tempText.replaceAll("answer6", "");
 			tempText = tempText.replaceAll("<", "");
 			tempText = tempText.replaceAll(">", "");
@@ -334,7 +345,9 @@ public class ProductServiceImpl implements ProductService {
 		tempText = tempText.replaceAll(" ", "");
 		
 		// 답변을 하지 않았을 때 Front에서 넘기는 기본텍스트값
-		if(!"answer7<Aio>".equals(tempText)) {
+//		if(!"answer7<Aio>".equals(tempText)) {
+		if(!"answer7<Aio,null>".equals(tempText)) {
+
 			tempText = tempText.replaceAll("answer7", "");
 			tempText = tempText.replaceAll("<", "");
 			tempText = tempText.replaceAll(">", "");
@@ -345,13 +358,17 @@ public class ProductServiceImpl implements ProductService {
 		}
 		
 		// 8번질문 (미구현)
+		if(!"answer8<main-color,null:sub-color,null>".equals(tempText)) {
+		}
 		
 		// 9번질문
 		tempText = urlTextArray[8];
 		tempText = tempText.replaceAll(" ", "");
 		
 		// 답변을 하지 않았을 때 Front에서 넘기는 기본텍스트값
-		if(!"answer9<RAM>".equals(tempText)) {
+//		if(!"answer9<RAM>".equals(tempText)) {
+		if(!"answer9<RAM,null>".equals(tempText)) {
+
 			tempText = tempText.replaceAll("answer9", "");
 			tempText = tempText.replaceAll("<", "");
 			tempText = tempText.replaceAll(">", "");
@@ -366,7 +383,9 @@ public class ProductServiceImpl implements ProductService {
 		tempText = tempText.replaceAll(" ", "");
 		
 		// 답변을 하지 않았을 때 Front에서 넘기는 기본텍스트값
-		if(!"answer10<Bulk>".equals(tempText)) {
+//		if(!"answer10<Bulk>".equals(tempText)) {
+		if(!"answer10<Bulk,null>".equals(tempText)) {
+
 			tempText = tempText.replaceAll("answer10", "");
 			tempText = tempText.replaceAll("<", "");
 			tempText = tempText.replaceAll(">", "");
@@ -381,7 +400,9 @@ public class ProductServiceImpl implements ProductService {
 		tempText = tempText.replaceAll(" ", "");
 		
 		// 답변을 하지 않았을 때 Front에서 넘기는 기본텍스트값
-		if(!"answer11<Ssd>".equals(tempText)) {
+//		if(!"answer11<Ssd>".equals(tempText)) {
+		if(!"answer11<Ssd,null>".equals(tempText)) {
+
 			tempText = tempText.replaceAll("answer11", "");
 			tempText = tempText.replaceAll("<", "");
 			tempText = tempText.replaceAll(">", "");
@@ -397,7 +418,9 @@ public class ProductServiceImpl implements ProductService {
 		tempText = tempText.replaceAll(" ", "");
 		
 		// 답변을 하지 않았을 때 Front에서 넘기는 기본텍스트값
-		if(!"answer12<Metarial>".equals(tempText)) {
+//		if(!"answer12<Metarial>".equals(tempText)) {
+		if(!"answer12<Metarial,null>".equals(tempText)) {
+
 			tempText = tempText.replaceAll("answer12", "");
 			tempText = tempText.replaceAll("<Metarial,", "");
 			tempText = tempText.replaceAll(">", "");
@@ -420,7 +443,9 @@ public class ProductServiceImpl implements ProductService {
 		tempText = tempText.replaceAll(" ", "");
 		
 		// 답변을 하지 않았을 때 Front에서 넘기는 기본텍스트값
-		if(!"answer13<HDD>".equals(tempText)) {
+//		if(!"answer13<HDD>".equals(tempText)) {
+		if(!"answer13<HDD,null>".equals(tempText)) {
+
 			tempText = tempText.replaceAll("answer13", "");
 			tempText = tempText.replaceAll("<HDD,", "");
 			tempText = tempText.replaceAll(">", "");
@@ -449,7 +474,9 @@ public class ProductServiceImpl implements ProductService {
 		tempText = tempText.replaceAll(" ", "");
 		
 		// 답변을 하지 않았을 때 Front에서 넘기는 기본텍스트값
-		if(!"answer14<Fan>".equals(tempText)) {
+//		if(!"answer14<Fan>".equals(tempText)) {
+		if(!"answer14<Fan,null>".equals(tempText)) {
+
 			tempText = tempText.replaceAll("answer14", "");
 			tempText = tempText.replaceAll("<", "");
 			tempText = tempText.replaceAll(">", "");
@@ -465,7 +492,9 @@ public class ProductServiceImpl implements ProductService {
 		tempText = tempText.replaceAll(" ", "");
 		
 		// 답변을 하지 않았을 때 Front에서 넘기는 기본텍스트값
-		if(!"answer15<LED>".equals(tempText)) {
+//		if(!"answer15<LED>".equals(tempText)) {
+		if(!"answer15<LED,null>".equals(tempText)) {
+
 			tempText = tempText.replaceAll("answer16", "");
 			tempText = tempText.replaceAll("<LED,", "");
 			tempText = tempText.replaceAll(">", "");
@@ -540,6 +569,27 @@ public class ProductServiceImpl implements ProductService {
 			}
 		}
 		
+		// 업무공백 중 발생한 수정사항 질문 0번 추가
+		tempText = urlTextArray[21];
+		tempText = tempText.replaceAll(" ", "");
+		tempText = tempText.replaceAll("answer0", "");
+		tempText = tempText.replaceAll("<", "");
+		tempText = tempText.replaceAll(">", "");
+		
+		nameValueArray = tempText.split(",");
+		
+		if(2 != nameValueArray.length) {
+			String errMsg = "########## 견적산출 ERROR : 0번질문에 대한 답변데이터가 정상적으로 전달되지 않음";
+			
+			System.out.println(errMsg);
+			estimateCalculationResultPrivateMasterVO.setErrChk(true);
+			estimateCalculationResultPrivateMasterVO.setErrMsg(errMsg);
+			
+			return estimateCalculationResultPrivateMasterVO;
+		}else {
+			answer0 = Integer.parseInt(nameValueArray[1]);
+		}
+		
 		
 		/*--------------------------------------------------
 		 - 0-5. 견적산출 대상  List 조회(각 부품 별 History 테이블 참조)
@@ -597,6 +647,20 @@ public class ProductServiceImpl implements ProductService {
 		BigDecimal CAS = new BigDecimal(1);
 		BigDecimal CMT = new BigDecimal(1);
 		
+		// 업무공백 중 발생한 수정사항 질문 0번 추가
+		if(answer0 == 0) {
+			windowsName = "프리도스";
+			windowsPrice = 0;
+		}else if(answer0 == 1) {
+			windowsName = "COEM";
+			windowsPrice = 150000;
+			VC = VC.subtract(new BigDecimal(windowsPrice));
+		}else {
+			// answer0 == 2
+			windowsName = "FPP";
+			windowsPrice = 180000;
+			VC = VC.subtract(new BigDecimal(windowsPrice));
+		}
 		
 		// 3번질문 답변했을경우 세팅
 		if(null != answer3) {
@@ -2926,11 +2990,18 @@ public class ProductServiceImpl implements ProductService {
 				ProductMasterVO productMasterVO = new ProductMasterVO();
 				productMasterVO.setId(maxId);
 				productMasterVO.setProductName("견적산출 자동등록 완본체");
-				productMasterVO.setProductPrice(productPrice);
+//				productMasterVO.setProductPrice(productPrice);
 				productMasterVO.setProductQty(1);
-				productMasterVO.setProductDescription(targetId+" 로 부터 자동등록");
+				productMasterVO.setProductDescription("targetId:"+targetId);
 				productMasterVO.setProductImage(partsCaseVO.getPartsImage());
 				productMasterVO.setProductRegistPathCd("02");
+				
+				// 업무공백 중 발생한 수정사항 질문 0번 추가
+				productMasterVO.setWindowsName(windowsName);
+				productMasterVO.setWindowsPrice(windowsPrice);
+				
+				productPrice += windowsPrice;
+				productMasterVO.setProductPrice(productPrice);
 				
 				productDAO.insertProductMasterVO(productMasterVO);
 			}

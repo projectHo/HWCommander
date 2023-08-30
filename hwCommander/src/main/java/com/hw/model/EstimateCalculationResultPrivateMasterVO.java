@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class EstimateCalculationResultPrivateMasterVO {
-	private boolean errChk;
+	private Boolean errChk;
 	private String errMsg;
 	private EstimateCalculationResultPrivateDetailVO selectProduct;
 	private String createProductId;

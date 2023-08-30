@@ -168,7 +168,7 @@
 			var value = keyValue[1];
 			userInfoObject[key] = value;
 		}
-		urlParams += "etc<userId," + userInfoObject.id + "> |etc<targetDate,null>" + "answer0<" + Array.from(answer0.keys()) + "," + Array.from(answer0.values()) + ">";
+		urlParams += "etc<userId," + userInfoObject.id + ">|etc<targetDate,null>" + "|answer0<" + Array.from(answer0.keys()) + "," + Array.from(answer0.values()) + ">";
 		var baseUrl = "/estimateCalculationResult.do";
 		var fullUrl = baseUrl + "?" + urlParams;
 		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
@@ -184,7 +184,7 @@
 			progress += 5;
 			setTimeout(animateDonutGauge, 20);
 		} else {
-			$(".donut-fill").html("13");
+			$(".donut-fill").html("15");
 			goToZero();
 		}
 	};
@@ -199,61 +199,61 @@
 		}
 	};
 	let answers=[];
+	if(sessionStorage.getItem("data-15")){
+		let datas = JSON.parse(sessionStorage.getItem("data-15"));
+		for(let i = 0 ; i<datas.length; i++){
+			answers.push(datas[i]);
+		}
+	}
 	function clickAnswerBtn(el){
-		if($(el).html().includes("필요없음")){
-			$(".count-container").css("display","none");
-			var val = [];
-			val.push("5");
-			val.push("");
-			sessionStorage.setItem("data-13",JSON.stringify(val))
-		}else{
-			$(".count-container").css("display","flex");
-			$(".count-hdd").focus();
-			if($(".count-hdd").val() !== ""){
-				var val = [];
-				if($(el).html().includes("1TB")){
-					val.push("0");
-					val.push($(".count-hdd").val());
-					sessionStorage.setItem("data-13",JSON.stringify(val));
-				}else if($(el).html().includes("2TB")){
-					val.push("1");
-					val.push($(".count-hdd").val());
-					sessionStorage.setItem("data-13",JSON.stringify(val));
-				}else if($(el).html().includes("4TB")){
-					val.push("2");
-					val.push($(".count-hdd").val());
-					sessionStorage.setItem("data-13",JSON.stringify(val));
-				}else if($(el).html().includes("6TB")){
-					val.push("3");
-					val.push($(".count-hdd").val());
-					sessionStorage.setItem("data-13",JSON.stringify(val));
-				}else if($(el).html().includes("8TB")){
-					val.push("4");
-					val.push($(".count-hdd").val());
-					sessionStorage.setItem("data-13",JSON.stringify(val));
+		if($(el).attr("data-value") === "0" || $(el).attr("data-value") === "1" || $(el).attr("data-value") === "2"){
+			console.log(answers[0])
+			if(answers[0] === "3" || answers[0] === "4"){
+				answers = [];
+				$("#answer-d").prop("checked",false);
+				$("#answer-e").prop("checked",false);
+			}
+			if($(el).siblings().prop("checked") === false){
+				if(!answers.includes($(el).attr("data-value"))){
+					answers.push($(el).attr("data-value"));
+				}
+			}else if($(el).siblings().prop("checked") === true){
+				var index = answers.indexOf($(el).attr("data-value"));
+				if(index !== -1){
+					answers.splice(index,1);
 				}
 			}
+			sessionStorage.setItem("data-15",JSON.stringify(answers));
+		}else if ($(el).attr("data-value") === "3" || $(el).attr("data-value") === "4"){
+			answers = [];
+			if($(el).attr("data-value") === "3"){
+				$("#answer-a").prop("checked",false);
+				$("#answer-b").prop("checked",false);
+				$("#answer-c").prop("checked",false);
+				$("#answer-e").prop("checked",false);
+				answers.push($(el).attr("data-value"));
+			}else if ($(el).attr("data-value") === "4"){
+				$("#answer-a").prop("checked",false);
+				$("#answer-b").prop("checked",false);
+				$("#answer-c").prop("checked",false);
+				$("#answer-d").prop("checked",false);
+				answers.push($(el).attr("data-value"));
+			}
+			sessionStorage.setItem("data-15",JSON.stringify(answers));
 		}
 	}
 	
 	function clickReturnBtn(){
-		sessionStorage.setItem("data-13","null");
-		location.href = "estimateCalculationTwelve.do";
+		sessionStorage.setItem("data-15","null");
+		location.href = "ESCA_14_ver_1_0.do";
 	}
 	function clickEstimateBtn(el){
-		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false && $("#answer-d").prop("checked") === false && $("#answer-e").prop("checked") === false && $("#answer-f").prop("checked") === false){
+		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false && $("#answer-d").prop("checked") === false && $("#answer-e").prop("checked") === false){
 			alert("선택은 필수에요!");
 			$(el).addClass("is-invalid");
 			setTimeout(() => {
 				$(el).removeClass("is-invalid");
 			}, 2000);
-		}else if($(".count-container").css("display") === "flex" && $(".count-hdd").val() === ""){
-			alert("개수를 입력해주세요!");
-			$(el).addClass("is-invalid");
-			setTimeout(() => {
-				$(el).removeClass("is-invalid");
-			}, 2000);
-			$(".count-hdd").focus();
 		}else {
 			$(el).addClass("is-valid");
 			setTimeout(() => {
@@ -265,55 +265,20 @@
 		}
 	}
 	function clickNextBtn(el){
-		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false && $("#answer-d").prop("checked") === false && $("#answer-e").prop("checked") === false && $("#answer-f").prop("checked") === false){
-			alert("선택은 필수에요!");
-			$(el).addClass("is-invalid");
-			setTimeout(() => {
-				$(el).removeClass("is-invalid");
-			}, 2000);
-		}else if($(".count-container").css("display") === "flex" && $(".count-hdd").val() === ""){
-			alert("개수를 입력해주세요!");
-			$(el).addClass("is-invalid");
-			setTimeout(() => {
-				$(el).removeClass("is-invalid");
-			}, 2000);
-			$(".count-hdd").focus();
-		}else {
-			$(el).addClass("is-valid");
-			setTimeout(() => {
-				$(el).removeClass("is-valid");
-			}, 2000);
-			window.location.href = "estimateCalculationFourteen.do";
-		}
-	}
-	function inputHdd(){
-		if(isNaN($(".count-hdd").val())){
-			alert("숫자만 입력해주세요!!");
-			$(".count-hdd").val("").focus();
-		}else {
-			let value = [];
-			if($("#answer-a").prop("checked") === true){
-				value.push("0");
-				value.push($(".count-hdd").val());
-				sessionStorage.setItem("data-13",JSON.stringify(value))
-			}else if($("#answer-b").prop("checked") === true){
-				value.push("1");
-				value.push($(".count-hdd").val());
-				sessionStorage.setItem("data-13",JSON.stringify(value))
-			}else if($("#answer-c").prop("checked") === true){
-				value.push("2");
-				value.push($(".count-hdd").val());
-				sessionStorage.setItem("data-13",JSON.stringify(value))
-			}else if($("#answer-d").prop("checked") === true){
-				value.push("3");
-				value.push($(".count-hdd").val());
-				sessionStorage.setItem("data-13",JSON.stringify(value))
-			}else if($("#answer-e").prop("checked") === true){
-				value.push("4");
-				value.push($(".count-hdd").val());
-				sessionStorage.setItem("data-13",JSON.stringify(value))
-			}
-		}
+		// if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false && $("#answer-d").prop("checked") === false && $("#answer-e").prop("checked") === false){
+		// 	alert("선택은 필수에요!");
+		// 	$(el).addClass("is-invalid");
+		// 	setTimeout(() => {
+		// 		$(el).removeClass("is-invalid");
+		// 	}, 2000);
+		// }else {
+		// 	$(el).addClass("is-valid");
+		// 	setTimeout(() => {
+		// 		$(el).removeClass("is-valid");
+		// 	}, 2000);
+		// 	window.location.href = "ESCA_16_ver_1_0.do";
+		// }
+		alert("아직 구현중인 질문이에요! 견적산출을 해주세요!!")
 	}
 	$(function(){
 		// donut
@@ -322,7 +287,7 @@
 		// typing question text
 		let index = 0;
 		function typeText() {
-			const text = "HDD를 선택해주세요!";
+			const text = "본체에 LED를 선택해주세요!(다중선택)";
 			if (index < text.length) {
 			$("#typingInput").val(function(i, val) {
 				return val + text.charAt(index);
@@ -337,12 +302,12 @@
 			return new bootstrap.Tooltip($(this)[0]);
 		}).get();
 		// 견적산출 데이터처리부(수신)
-		if(sessionStorage.getItem("data-13")){
-			const storedData = JSON.parse(sessionStorage.getItem("data-13"));
+		if(sessionStorage.getItem("data-15")){
+			const storedData = JSON.parse(sessionStorage.getItem("data-15"));
 			for(let i =0; i<storedData.length; i++){
-				if (storedData[i] === "0)"){
+				if (storedData[i] === "0"){
 					$("#answer-a").prop("checked",true);
-				}else if (storedData[i] === "1)"){
+				}else if (storedData[i] === "1"){
 					$("#answer-b").prop("checked",true);
 				}else if (storedData[i] === "2"){
 					$("#answer-c").prop("checked",true);
@@ -350,12 +315,6 @@
 					$("#answer-d").prop("checked",true);
 				}else if (storedData[i] === "4"){
 					$("#answer-e").prop("checked",true);
-				}else if(storedData[i] === "5"){
-					$("#answer-f").prop("checked",true);
-				}
-				if(storedData[0] !== "5"){
-					$(".count-container").css("display","flex");
-					$(".count-hdd").val(storedData[1]);
 				}
 			}
 		}
@@ -375,49 +334,39 @@
 					<div class="row mt-4 pb-5">
 						<div class="col-2 text-center">
 							<div class="donut-container margin-center">
-								 <div class="donut-fill"">12</div>
+								 <div class="donut-fill"">15</div>
 							</div>
 						</div>
 						<div class="col-8 d-flex p-2">
 							<input id="typingInput" class="form-control text-center pt-2 fs-5" type="text" readonly aria-label="예산 편성" disabled />
 						</div>
 					    <div class="col-2 d-flex flex-column-reverse">
-							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="추가 저장장치를 골라주세요!" style="cursor:pointer">
+							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="본체 LED 좋아하세요?" style="cursor:pointer">
 						</div>
 					</div>
 					<div class="row pb-5">
 						<div class="col d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-a">
-							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">1024GB(1TB)</p></label>
+							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-a">
+							<label class="btn btn-outline-secondary w-75" for="answer-a" data-value="0" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">LED</p></label>
 						</div>
 						<div class="col d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-b">
-							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">2048GB(2TB)</p></label>
+							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-b">
+							<label class="btn btn-outline-secondary w-75" for="answer-b" data-value="1" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">RGB</p></label>
 						</div>
 						<div class="col d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-c">
-							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">4096GB(4TB)</p></label>
+							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-c">
+							<label class="btn btn-outline-secondary w-75" for="answer-c" data-value="2" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">ARGB</p></label>
 						</div>
 					</div>
 					<div class="row pb-5">
 						<div class="col d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-d">
-							<label class="btn btn-outline-secondary w-75" for="answer-d" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">6144GB(6TB)</p></label>
+							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-d">
+							<label class="btn btn-outline-secondary w-75" for="answer-d" data-value="3" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">상관없음</p></label>
 						</div>
 						<div class="col d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-e">
-							<label class="btn btn-outline-secondary w-75" for="answer-e" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">8192GB(8TB)</p></label>
+							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-e">
+							<label class="btn btn-outline-secondary w-75" for="answer-e" data-value="4" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">모두제외</p></label>
 						</div>
-						<div class="col d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-f">
-							<label class="btn btn-outline-secondary w-75" for="answer-f" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">필요없음</p></label>
-						</div>
-					</div>
-					<div class="row pb-5 w-25 mx-auto count-container" style="display: none;">
-						<div class="input-group">
-							<input type="text" min="0" class="form-control count-hdd text-end" aria-label="hdd`s count(only number)" placeholder="ex)1 or 2 ..." oninput="javascript:inputHdd()">
-							<span class="input-group-text">개</span>
-						  </div>
 					</div>
 					<div class="row mb-4">
 						<div class="col-4">
