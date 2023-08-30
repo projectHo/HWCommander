@@ -171,14 +171,14 @@
 			var value = keyValue[1];
 			userInfoObject[key] = value;
 		}
-		urlParams += "etc<userId," + userInfoObject.id + "> |etc<targetDate,null>" + "answer0<" + Array.from(answer0.keys()) + "," + Array.from(answer0.values()) + ">";
+		urlParams += "etc<userId," + userInfoObject.id + ">|etc<targetDate,null>" + "|answer0<" + Array.from(answer0.keys()) + "," + Array.from(answer0.values()) + ">";
 		var baseUrl = "/estimateCalculationResult.do";
 		var fullUrl = baseUrl + "?" + urlParams;
 		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
 	}
 	function clickReturnBtn() {
 		sessionStorage.setItem("data-3","null");
-		window.location.href = "estimateCalculationTwo.do";
+		window.location.href = "ESCA_02_ver_1_0.do";
 	}
 	function clickEstimateBtn(el){
 		if($("#hex-val-01").val() === "1.00" && $("#hex-val-02").val() === "1.00" && $("#hex-val-03").val() === "1.00" && $("#hex-val-04").val() === "1.00" && $("#hex-val-05").val() === "1.00" && $("#hex-val-06").val() === "1.00"){
@@ -226,7 +226,7 @@
 					value.push(storageValue);
 				}
 				sessionStorage.setItem("data-3",JSON.stringify(value))
-				window.location.href = "estimateCalculationFour.do";
+				window.location.href = "ESCA_04_ver_1_0.do";
 			}
 		}else {
 			let value = [];
@@ -239,7 +239,7 @@
 				value.push(storageValue);
 			}
 			sessionStorage.setItem("data-3",JSON.stringify(value))
-			window.location.href = "estimateCalculationFour.do";
+			window.location.href = "ESCA_04_ver_1_0.do";
 		}
 
 		

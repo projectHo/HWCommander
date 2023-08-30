@@ -163,7 +163,7 @@
 		}
 	}
 	function clickReturnBtn () {
-		window.location.href = "estimateCalculationZero.do";
+		window.location.href = "ESCA_00_ver_1_0.do";
 		sessionStorage.clear();
 	}
 	function clickOrderBtn() {
@@ -218,7 +218,7 @@
 			for(let i = 0; i<=19 ; i++){
 				sessionStorage.setItem("data-" + i, "");
 			}
-			location.href = "/estimateCalculationZero.do";
+			location.href = "/ESCA_00_ver_1_0.do";
 		}
 	}
 	

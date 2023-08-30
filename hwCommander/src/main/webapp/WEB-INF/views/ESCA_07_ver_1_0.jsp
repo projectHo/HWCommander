@@ -168,7 +168,7 @@
 			var value = keyValue[1];
 			userInfoObject[key] = value;
 		}
-		urlParams += "etc<userId," + userInfoObject.id + "> |etc<targetDate,null>" + "answer0<" + Array.from(answer0.keys()) + "," + Array.from(answer0.values()) + ">";
+		urlParams += "etc<userId," + userInfoObject.id + ">|etc<targetDate,null>" + "|answer0<" + Array.from(answer0.keys()) + "," + Array.from(answer0.values()) + ">";
 		var baseUrl = "/estimateCalculationResult.do";
 		var fullUrl = baseUrl + "?" + urlParams;
 		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
@@ -184,7 +184,7 @@
 			progress += 5;
 			setTimeout(animateDonutGauge, 20);
 		} else {
-			$(".donut-fill").html("6");
+			$(".donut-fill").html("7");
 			goToZero();
 		}
 	};
@@ -201,7 +201,7 @@
 	// typing question text
 	let index = 0;
 	function typeText() {
-		const text = " 내장그래픽이 필요하신가요?";
+		const text = " 수냉쿨러를 선호하시나요?";
 		if (index < text.length) {
 		$("#typingInput").val(function(i, val) {
 			return val + text.charAt(index);
@@ -212,26 +212,20 @@
 	}
 
 	function clickAnswerBtn(el){
-		if($(el).children().html() === "필요합니다"){
-			sessionStorage.setItem("data-6",0);
-		}else if($(el).children().html() === "상관없어요"){
-			sessionStorage.setItem("data-6",1);
+		if($(el).html() === "좋아요!"){
+			sessionStorage.setItem("data-7",0);
+		}else if($(el).html() === "싫어요!"){
+			sessionStorage.setItem("data-7",1);
 		}else {
-			sessionStorage.setItem("data-6",2);
+			sessionStorage.setItem("data-7",2);
 		}
-	}	
+	}
 	function clickReturnBtn(){
-		sessionStorage.setItem("data-6","null");
-		window.location.href = "estimateCalculationFive.do";
+		sessionStorage.setItem("data-7","null");
+		window.location.href = "ESCA_06_ver_1_0.do";
 	}
 	function clickEstimateBtn(el){
-		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false){
-			alert("선택은 필수에요!");
-			$(el).addClass("is-invalid");
-			setTimeout(() => {
-				$(el).removeClass("is-invalid");
-			}, 2000);
-		}else {
+		if($("#answer-a").prop("checked") === true || $("#answer-b").prop("checked") === true || $("#answer-c").prop("checked") === true){
 			$(el).addClass("is-valid");
 			setTimeout(() => {
 				$(el).removeClass("is-valid");
@@ -239,12 +233,18 @@
 			$(el).css('display',"none");
 			$(".loading-prog").css("display","block");
 			sendAllData();
+		}else {
+			$(el).addClass("is-invalid");
+			alert("둘중에 하나 선택해주세요!")
+			setTimeout(() => {
+				$(el).removeClass("is-invalid");
+			}, 2000);
 		}
 	}
 	function clickNextBtn(el){
-		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false){
-			alert("선택은 필수에요!");
+		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked")===false && $("#answer-c").prop("checked") === false){
 			$(el).addClass("is-invalid");
+			alert("둘중에 하나 선택해주세요!")
 			setTimeout(() => {
 				$(el).removeClass("is-invalid");
 			}, 2000);
@@ -253,7 +253,7 @@
 			setTimeout(() => {
 				$(el).removeClass("is-valid");
 			}, 2000);
-			window.location.href = "estimateCalculationSeven.do";
+			window.location.href = "ESCA_08_ver_1_0.do";
 		}
 	}
 	$(function () {
@@ -264,13 +264,12 @@
 		return new bootstrap.Tooltip($(this)[0]);
 	}).get();
 	// 견적산출 데이터처리부(수신)
-	if(sessionStorage.getItem("data-6")){
-		const storedData = sessionStorage.getItem("data-6");
-		if(storedData === "0"){
+	if(sessionStorage.getItem("data-7")){
+		if(sessionStorage.getItem("data-7") === "0"){
 			$("#answer-a").prop("checked",true);
-		}else if (storedData === "1"){
+		}else if (sessionStorage.getItem("data-7") === "1"){
 			$("#answer-b").prop("checked",true);
-		}else if (storedData === "2"){
+		}else if (sessionStorage.getItem("data-7") === "2"){
 			$("#answer-c").prop("checked",true);
 		}
 	}
@@ -290,28 +289,28 @@
 					<div class="row mt-4 pb-5">
 						<div class="col-2 text-center">
 							<div class="donut-container margin-center">
-								 <div class="donut-fill">5</div>
+								 <div class="donut-fill">6</div>
 							</div>
 						</div>
 						<div class="col-8 d-flex p-2">
 							<input id="typingInput" class="form-control text-center pt-2 fs-5" type="text" readonly aria-label="예산 편성" disabled />
 						</div>
 					    <div class="col-2 d-flex flex-column-reverse">
-							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="외장그래픽에 대한 질문입니다. 필요합니다를 제외한 답변에는 CPU의 성능에 따라 결과가 달라집니다." style="cursor:pointer">
+							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="선택사항 입니다~!" style="cursor:pointer">
 						</div>
 					</div>
 					<div class="row pb-5">
 						<div class="col-4 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-a">
-							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">필요합니다</p></label>
+							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">좋아요!</p></label>
 						</div>
 						<div class="col-4 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-b">
-							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">상관없어요</p></label>
+							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">싫어요!</p></label>
 						</div>
 						<div class="col-4 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-c">
-							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">필요하지 않아요</p></label>
+							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">상관없어요!</p></label>
 						</div>
 					</div>
 					<div class="row mb-4">

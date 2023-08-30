@@ -168,7 +168,7 @@
 			var value = keyValue[1];
 			userInfoObject[key] = value;
 		}
-		urlParams += "etc<userId," + userInfoObject.id + "> |etc<targetDate,null>" + "answer0<" + Array.from(answer0.keys()) + "," + Array.from(answer0.values()) + ">";
+		urlParams += "etc<userId," + userInfoObject.id + ">|etc<targetDate,null>" + "|answer0<" + Array.from(answer0.keys()) + "," + Array.from(answer0.values()) + ">";
 		var baseUrl = "/estimateCalculationResult.do";
 		var fullUrl = baseUrl + "?" + urlParams;
 		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
@@ -184,7 +184,7 @@
 			progress += 5;
 			setTimeout(animateDonutGauge, 20);
 		} else {
-			$(".donut-fill").html("7");
+			$(".donut-fill").html("9");
 			goToZero();
 		}
 	};
@@ -201,7 +201,7 @@
 	// typing question text
 	let index = 0;
 	function typeText() {
-		const text = " 수냉쿨러를 선호하시나요?";
+		const text = " 메모리(램)카드의 버전을 DDR4, DDR5 중에서 골라주세요!";
 		if (index < text.length) {
 		$("#typingInput").val(function(i, val) {
 			return val + text.charAt(index);
@@ -212,39 +212,39 @@
 	}
 
 	function clickAnswerBtn(el){
-		if($(el).html() === "좋아요!"){
-			sessionStorage.setItem("data-7",0);
-		}else if($(el).html() === "싫어요!"){
-			sessionStorage.setItem("data-7",1);
+		if($(el).children().html() === "DDR4"){
+			sessionStorage.setItem("data-9",0);
+		}else if($(el).children().html() === "DDR5"){
+			sessionStorage.setItem("data-9",1);
 		}else {
-			sessionStorage.setItem("data-7",2);
+			sessionStorage.setItem("data-9",2);
 		}
-	}
+	}	
 	function clickReturnBtn(){
-		sessionStorage.setItem("data-7","null");
-		window.location.href = "estimateCalculationSix.do";
+		sessionStorage.setItem("data-9","null");
+		window.location.href = "ESCA_08_ver_1_0.do";
 	}
 	function clickEstimateBtn(el){
-		if($("#answer-a").prop("checked") === true || $("#answer-b").prop("checked") === true || $("#answer-c").prop("checked") === true){
+		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false){
+			alert("선택은 필수에요!");
+			$(el).addClass("is-invalid");
+			setTimeout(() => {
+				$(el).removeClass("is-invalid");
+			}, 2000);
+		}else {
 			$(el).addClass("is-valid");
 			setTimeout(() => {
 				$(el).removeClass("is-valid");
 			}, 2000);
-			$(el).css('display',"none");
+			$(el).css('display','none');
 			$(".loading-prog").css("display","block");
 			sendAllData();
-		}else {
-			$(el).addClass("is-invalid");
-			alert("둘중에 하나 선택해주세요!")
-			setTimeout(() => {
-				$(el).removeClass("is-invalid");
-			}, 2000);
 		}
 	}
 	function clickNextBtn(el){
-		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked")===false && $("#answer-c").prop("checked") === false){
+		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false){
+			alert("선택은 필수에요!");
 			$(el).addClass("is-invalid");
-			alert("둘중에 하나 선택해주세요!")
 			setTimeout(() => {
 				$(el).removeClass("is-invalid");
 			}, 2000);
@@ -253,7 +253,7 @@
 			setTimeout(() => {
 				$(el).removeClass("is-valid");
 			}, 2000);
-			window.location.href = "estimateCalculationEight.do";
+			window.location.href = "ESCA_10_ver_1_0.do";
 		}
 	}
 	$(function () {
@@ -264,12 +264,12 @@
 		return new bootstrap.Tooltip($(this)[0]);
 	}).get();
 	// 견적산출 데이터처리부(수신)
-	if(sessionStorage.getItem("data-7")){
-		if(sessionStorage.getItem("data-7") === "0"){
+	if(sessionStorage.getItem("data-9")){
+		if(sessionStorage.getItem("data-9") === "0"){
 			$("#answer-a").prop("checked",true);
-		}else if (sessionStorage.getItem("data-7") === "1"){
+		}else if (sessionStorage.getItem("data-9") === "1"){
 			$("#answer-b").prop("checked",true);
-		}else if (sessionStorage.getItem("data-7") === "2"){
+		}else if (sessionStorage.getItem("data-9") === "2"){
 			$("#answer-c").prop("checked",true);
 		}
 	}
@@ -289,7 +289,7 @@
 					<div class="row mt-4 pb-5">
 						<div class="col-2 text-center">
 							<div class="donut-container margin-center">
-								 <div class="donut-fill">6</div>
+								 <div class="donut-fill">8</div>
 							</div>
 						</div>
 						<div class="col-8 d-flex p-2">
@@ -302,15 +302,15 @@
 					<div class="row pb-5">
 						<div class="col-4 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-a">
-							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">좋아요!</p></label>
+							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">DDR4</p></label>
 						</div>
 						<div class="col-4 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-b">
-							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">싫어요!</p></label>
+							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">DDR5</p></label>
 						</div>
 						<div class="col-4 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-c">
-							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">상관없어요!</p></label>
+							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">상관 없음</p></label>
 						</div>
 					</div>
 					<div class="row mb-4">

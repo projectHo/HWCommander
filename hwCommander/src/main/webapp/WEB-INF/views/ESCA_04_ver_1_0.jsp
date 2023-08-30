@@ -168,7 +168,7 @@
 			var value = keyValue[1];
 			userInfoObject[key] = value;
 		}
-		urlParams += "etc<userId," + userInfoObject.id + "> |etc<targetDate,null>" + "answer0<" + Array.from(answer0.keys()) + "," + Array.from(answer0.values()) + ">";
+		urlParams += "etc<userId," + userInfoObject.id + ">|etc<targetDate,null>" + "|answer0<" + Array.from(answer0.keys()) + "," + Array.from(answer0.values()) + ">";
 		var baseUrl = "/estimateCalculationResult.do";
 		var fullUrl = baseUrl + "?" + urlParams;
 		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
@@ -184,7 +184,7 @@
 			progress += 5;
 			setTimeout(animateDonutGauge, 20);
 		} else {
-			$(".donut-fill").html("9");
+			$(".donut-fill").html("4");
 			goToZero();
 		}
 	};
@@ -201,7 +201,7 @@
 	// typing question text
 	let index = 0;
 	function typeText() {
-		const text = " 메모리(램)카드의 버전을 DDR4, DDR5 중에서 골라주세요!";
+		const text = " WIFI, 블루투스 옵션이 포함된 PC가 필요하신가요?";
 		if (index < text.length) {
 		$("#typingInput").val(function(i, val) {
 			return val + text.charAt(index);
@@ -212,39 +212,37 @@
 	}
 
 	function clickAnswerBtn(el){
-		if($(el).children().html() === "DDR4"){
-			sessionStorage.setItem("data-9",0);
-		}else if($(el).children().html() === "DDR5"){
-			sessionStorage.setItem("data-9",1);
+		if($(el).children().html() === "필요해요!"){
+			sessionStorage.setItem("data-4",0);
 		}else {
-			sessionStorage.setItem("data-9",2);
+			sessionStorage.setItem("data-4",1);
 		}
-	}	
+	}
 	function clickReturnBtn(){
-		sessionStorage.setItem("data-9","null");
-		window.location.href = "estimateCalculationEight.do";
+		sessionStorage.setItem("data-4","null");
+		window.location.href = "ESCA_03_ver_1_0.do";
 	}
 	function clickEstimateBtn(el){
-		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false){
-			alert("선택은 필수에요!");
-			$(el).addClass("is-invalid");
-			setTimeout(() => {
-				$(el).removeClass("is-invalid");
-			}, 2000);
-		}else {
+		if($("#answer-a").prop("checked") === true || $("#answer-b").prop("checked") === true){
 			$(el).addClass("is-valid");
 			setTimeout(() => {
 				$(el).removeClass("is-valid");
 			}, 2000);
-			$(el).css('display','none');
+			$(el).css("display","none");
 			$(".loading-prog").css("display","block");
-			sendAllData();
+			sendAllData()
+		}else {
+			$(el).addClass("is-invalid");
+			alert("둘중에 하나 선택해주세요!")
+			setTimeout(() => {
+				$(el).removeClass("is-invalid");
+			}, 2000);
 		}
 	}
 	function clickNextBtn(el){
-		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false){
-			alert("선택은 필수에요!");
+		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked")===false){
 			$(el).addClass("is-invalid");
+			alert("둘중에 하나 선택해주세요!")
 			setTimeout(() => {
 				$(el).removeClass("is-invalid");
 			}, 2000);
@@ -253,7 +251,7 @@
 			setTimeout(() => {
 				$(el).removeClass("is-valid");
 			}, 2000);
-			window.location.href = "estimateCalculationTen.do";
+			window.location.href = "ESCA_05_ver_1_0.do";
 		}
 	}
 	$(function () {
@@ -264,16 +262,15 @@
 		return new bootstrap.Tooltip($(this)[0]);
 	}).get();
 	// 견적산출 데이터처리부(수신)
-	if(sessionStorage.getItem("data-9")){
-		if(sessionStorage.getItem("data-9") === "0"){
+	if(sessionStorage.getItem("data-4")){
+		if(sessionStorage.getItem("data-4") === "0"){
 			$("#answer-a").prop("checked",true);
-		}else if (sessionStorage.getItem("data-9") === "1"){
+		}else if (sessionStorage.getItem("data-4") === "1"){
 			$("#answer-b").prop("checked",true);
-		}else if (sessionStorage.getItem("data-9") === "2"){
-			$("#answer-c").prop("checked",true);
 		}
 	}
 	})
+
 </script>
 </head>
 <body>
@@ -289,28 +286,24 @@
 					<div class="row mt-4 pb-5">
 						<div class="col-2 text-center">
 							<div class="donut-container margin-center">
-								 <div class="donut-fill">8</div>
+								 <div class="donut-fill">3</div>
 							</div>
 						</div>
 						<div class="col-8 d-flex p-2">
 							<input id="typingInput" class="form-control text-center pt-2 fs-5" type="text" readonly aria-label="예산 편성" disabled />
 						</div>
 					    <div class="col-2 d-flex flex-column-reverse">
-							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="선택사항 입니다~!" style="cursor:pointer">
+							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="둘 중 택1 해주세요!" style="cursor:pointer">
 						</div>
 					</div>
 					<div class="row pb-5">
-						<div class="col-4 d-flex justify-content-center">
+						<div class="col-6 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-a">
-							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">DDR4</p></label>
+							<label class="btn btn-outline-secondary w-50" for="answer-a" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">필요해요!</p></label>
 						</div>
-						<div class="col-4 d-flex justify-content-center">
+						<div class="col-6 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-b">
-							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">DDR5</p></label>
-						</div>
-						<div class="col-4 d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-c">
-							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">상관 없음</p></label>
+							<label class="btn btn-outline-secondary w-50" for="answer-b" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">필요없어요!</p></label>
 						</div>
 					</div>
 					<div class="row mb-4">
@@ -329,7 +322,7 @@
 						</div>
 					</div>
 				</div>
-	 		</div>
+			</div>
 			
 			<!-- 빈 영역 -->
 			<div class="justify-content-end" style="width: 15%!important;"></div>

@@ -84,22 +84,30 @@ public class HomeController {
 		return "eventMallDetail";
 	}
 	
+	/*--------------------------------------------------
+	 - 견적산출(ESCA = Estimate Calculation)
+	*--------------------------------------------------*/
+	@RequestMapping(value = "/ESCASelect.do", method = RequestMethod.GET)
+	public String goESCASelect(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "ESCASelect");
+	}
+	
 	
 	/*--------------------------------------------------
 	 - 견적산출
 	*--------------------------------------------------*/
-	@RequestMapping(value = "/estimateCalculationZero.do", method = RequestMethod.GET)
-	public String goEstimateCalculationZero(HttpServletRequest request, Model model) {
-		return userLoginCheck(request, model, "estimateCalculationZero");
+	@RequestMapping(value = "/ESCA_00_ver_1_0.do", method = RequestMethod.GET)
+	public String goESCA_00_ver_1_0(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "ESCA_00_ver_1_0");
 	}
 
-	@RequestMapping(value = "/estimateCalculationOne.do", method = RequestMethod.GET)
-	public String goEstimateCalculationOne(HttpServletRequest request, Model model) {
-		return userLoginCheck(request, model, "estimateCalculationOne");
+	@RequestMapping(value = "/ESCA_01_ver_1_0.do", method = RequestMethod.GET)
+	public String goESCA_01_ver_1_0(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "ESCA_01_ver_1_0");
 	}
 	
-	@RequestMapping(value = "/estimateCalculationTwo.do", method = RequestMethod.GET)
-	public String goEstimateCalculationTwo(HttpServletRequest request, Model model) {
+	@RequestMapping(value = "/ESCA_02_ver_1_0.do", method = RequestMethod.GET)
+	public String goESCA_02_ver_1_0(HttpServletRequest request, Model model) {
 		List<ProcessResourceTypeCodeInfoVO> processResourceTypeCodeInfoVOList = processResourceService.getProcessResourceTypeCodeInfoByUseYn("Y");
 		List<ProcessResourceMasterVO> processResourceMasterVOList = processResourceService.getProcessResourceMasterAllList();
 		
@@ -117,97 +125,97 @@ public class HomeController {
 		model.addAttribute("processResourceMasterVOList", processResourceMasterVOListJSON);
 		model.addAttribute("processResourceTypeCodeInfoVOList", processResourceTypeCodeInfoVOListJSON);
 		
-		return userLoginCheck(request, model, "estimateCalculationTwo");
+		return userLoginCheck(request, model, "ESCA_02_ver_1_0");
 	}
 	
-	@RequestMapping(value = "/estimateCalculationThree.do", method = RequestMethod.GET)
-	public String goEstimateCalculationThree(HttpServletRequest request, Model model) {
-		return userLoginCheck(request, model, "estimateCalculationThree");
+	@RequestMapping(value = "/ESCA_03_ver_1_0.do", method = RequestMethod.GET)
+	public String goESCA_03_ver_1_0(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "ESCA_03_ver_1_0");
 	}
 	
-	@RequestMapping(value = "/estimateCalculationFour.do", method = RequestMethod.GET)
-	public String goEstimateCalculationFour(HttpServletRequest request, Model model) {
-		return userLoginCheck(request, model, "estimateCalculationFour");
+	@RequestMapping(value = "/ESCA_04_ver_1_0.do", method = RequestMethod.GET)
+	public String goESCA_04_ver_1_0(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "ESCA_04_ver_1_0");
 	}
 
-	@RequestMapping(value = "/estimateCalculationFive.do", method = RequestMethod.GET)
-	public String goEstimateCalculationFive(HttpServletRequest request, Model model) {
-		return userLoginCheck(request, model, "estimateCalculationFive");
+	@RequestMapping(value = "/ESCA_05_ver_1_0.do", method = RequestMethod.GET)
+	public String goESCA_05_ver_1_0(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "ESCA_05_ver_1_0");
 	}
 	
-	@RequestMapping(value = "/estimateCalculationSix.do", method = RequestMethod.GET)
-	public String goEstimateCalculationSix(HttpServletRequest request, Model model) {
-		return userLoginCheck(request, model, "estimateCalculationSix");
+	@RequestMapping(value = "/ESCA_06_ver_1_0.do", method = RequestMethod.GET)
+	public String goESCA_06_ver_1_0(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "ESCA_06_ver_1_0");
 	}
 	
-	@RequestMapping(value = "/estimateCalculationSeven.do", method = RequestMethod.GET)
-	public String goEstimateCalculationSeven(HttpServletRequest request, Model model) {
-		return userLoginCheck(request, model, "estimateCalculationSeven");
+	@RequestMapping(value = "/ESCA_07_ver_1_0.do", method = RequestMethod.GET)
+	public String goESCA_07_ver_1_0(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "ESCA_07_ver_1_0");
 	}
 	
-	@RequestMapping(value = "/estimateCalculationEight.do", method = RequestMethod.GET)
-	public String goEstimateCalculationEight(HttpServletRequest request, Model model) {
-		return userLoginCheck(request, model, "estimateCalculationEight");
+	@RequestMapping(value = "/ESCA_08_ver_1_0.do", method = RequestMethod.GET)
+	public String goESCA_08_ver_1_0(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "ESCA_08_ver_1_0");
 	}
 	
-	@RequestMapping(value = "/estimateCalculationNine.do", method = RequestMethod.GET)
-	public String goEstimateCalculationNine(HttpServletRequest request, Model model) {
-		return userLoginCheck(request, model, "estimateCalculationNine");
+	@RequestMapping(value = "/ESCA_09_ver_1_0.do", method = RequestMethod.GET)
+	public String goESCA_09_ver_1_0(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "ESCA_09_ver_1_0");
 	}
 	
-	@RequestMapping(value = "/estimateCalculationTen.do", method = RequestMethod.GET)
-	public String goEstimateCalculationTen(HttpServletRequest request, Model model) {
-		return userLoginCheck(request, model, "estimateCalculationTen");
+	@RequestMapping(value = "/ESCA_10_ver_1_0.do", method = RequestMethod.GET)
+	public String goESCA_10_ver_1_0(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "ESCA_10_ver_1_0");
 	}
 	
-	@RequestMapping(value = "/estimateCalculationEleven.do", method = RequestMethod.GET)
-	public String goEstimateCalculationEleven(HttpServletRequest request, Model model) {
-		return userLoginCheck(request, model, "estimateCalculationEleven");
+	@RequestMapping(value = "/ESCA_11_ver_1_0.do", method = RequestMethod.GET)
+	public String goESCA_11_ver_1_0(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "ESCA_11_ver_1_0");
 	}
 	
-	@RequestMapping(value = "/estimateCalculationTwelve.do", method = RequestMethod.GET)
-	public String goEstimateCalculationTwelve(HttpServletRequest request, Model model) {
-		return userLoginCheck(request, model, "estimateCalculationTwelve");
+	@RequestMapping(value = "/ESCA_12_ver_1_0.do", method = RequestMethod.GET)
+	public String goESCA_12_ver_1_0(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "ESCA_12_ver_1_0");
 	}
 	
-	@RequestMapping(value = "/estimateCalculationThirteen.do", method = RequestMethod.GET)
-	public String goEstimateCalculationThirteen(HttpServletRequest request, Model model) {
-		return userLoginCheck(request, model, "estimateCalculationThirteen");
+	@RequestMapping(value = "/ESCA_13_ver_1_0.do", method = RequestMethod.GET)
+	public String goESCA_13_ver_1_0(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "ESCA_13_ver_1_0");
 	}
 	
-	@RequestMapping(value = "/estimateCalculationFourteen.do", method = RequestMethod.GET)
-	public String goEstimateCalculationFourteen(HttpServletRequest request, Model model) {
-		return userLoginCheck(request, model, "estimateCalculationFourteen");
+	@RequestMapping(value = "/ESCA_14_ver_1_0.do", method = RequestMethod.GET)
+	public String goESCA_14_ver_1_0(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "ESCA_14_ver_1_0");
 	}
 	
-	@RequestMapping(value = "/estimateCalculationFifteen.do", method = RequestMethod.GET)
-	public String goEstimateCalculationFifteen(HttpServletRequest request, Model model) {
-		return userLoginCheck(request, model, "estimateCalculationFifteen");
+	@RequestMapping(value = "/ESCA_15_ver_1_0.do", method = RequestMethod.GET)
+	public String goESCA_15_ver_1_0(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "ESCA_15_ver_1_0");
 	}
 	
-	@RequestMapping(value = "/estimateCalculationSixteen.do", method = RequestMethod.GET)
-	public String goEstimateCalculationSixteen(HttpServletRequest request, Model model) {
-		return userLoginCheck(request, model, "estimateCalculationSixteen");
+	@RequestMapping(value = "/ESCA_16_ver_1_0.do", method = RequestMethod.GET)
+	public String goESCA_16_ver_1_0(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "ESCA_16_ver_1_0");
 	}
 	
-	@RequestMapping(value = "/estimateCalculationSeventeen.do", method = RequestMethod.GET)
-	public String goEstimateCalculationSeventeen(HttpServletRequest request, Model model) {
-		return userLoginCheck(request, model, "estimateCalculationSeventeen");
+	@RequestMapping(value = "/ESCA_17_ver_1_0.do", method = RequestMethod.GET)
+	public String goESCA_17_ver_1_0(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "ESCA_17_ver_1_0");
 	}
 	
-	@RequestMapping(value = "/estimateCalculationEighteen.do", method = RequestMethod.GET)
+	@RequestMapping(value = "/ESCA_18_ver_1_0.do", method = RequestMethod.GET)
 	public String goEstimateCalculationEighteen(HttpServletRequest request, Model model) {
-		return userLoginCheck(request, model, "estimateCalculationEighteen");
+		return userLoginCheck(request, model, "ESCA_18_ver_1_0");
 	}
 	
-	@RequestMapping(value = "/estimateCalculationNineteen.do", method = RequestMethod.GET)
-	public String goEstimateCalculationNineteen(HttpServletRequest request, Model model) {
-		return userLoginCheck(request, model, "estimateCalculationNineteen");
+	@RequestMapping(value = "/ESCA_19_ver_1_0.do", method = RequestMethod.GET)
+	public String goESCA_19_ver_1_0(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "ESCA_19_ver_1_0");
 	}
 	
-	@RequestMapping(value = "/estimateCalculationTwenty.do", method = RequestMethod.GET)
-	public String goEstimateCalculationTwenty(HttpServletRequest request, Model model) {
-		return userLoginCheck(request, model, "estimateCalculationTwenty");
+	@RequestMapping(value = "/ESCA_20_ver_1_0.do", method = RequestMethod.GET)
+	public String goESCA_20_ver_1_0(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "ESCA_20_ver_1_0");
 	}
 	
 	@RequestMapping(value = "/estimateCalculationResult.do", method = RequestMethod.GET)
@@ -220,30 +228,40 @@ public class HomeController {
 		EstimateCalculationResultPrivateMasterVO estimateCalculationResultPrivateMasterVO 
 		= productService.estimateCalculation(resultString);
 		
-		EstimateCalculationResultPrivateDetailVO estimateCalculationResultPrivateDetailVO
-		= estimateCalculationResultPrivateMasterVO.getSelectProduct();
+		if(!estimateCalculationResultPrivateMasterVO.getErrChk()) {
+			EstimateCalculationResultPrivateDetailVO estimateCalculationResultPrivateDetailVO
+			= estimateCalculationResultPrivateMasterVO.getSelectProduct();
+			
+			String productId = estimateCalculationResultPrivateMasterVO.getCreateProductId();
+			
+			PartsMbHistoryVO partsMbHistoryVO = new PartsMbHistoryVO();
+			partsMbHistoryVO.setId(estimateCalculationResultPrivateDetailVO.getMbId());
+			partsMbHistoryVO.setHistorySeq(estimateCalculationResultPrivateDetailVO.getMbHistorySeq());
+			
+			PartsRamHistoryVO partsRamHistoryVO = new PartsRamHistoryVO();
+			partsRamHistoryVO.setId(estimateCalculationResultPrivateDetailVO.getRamId());
+			partsRamHistoryVO.setHistorySeq(estimateCalculationResultPrivateDetailVO.getRamHistorySeq());
+			
+			model.addAttribute("productMaster", productService.getProductMasterById(productId));
+			model.addAttribute("productDetail", productService.getProductDetailById(productId));
+			
+			model.addAttribute("productMbDetailInfo", partsService.getPartsMbHistoryVOByIdAndHistorySeq(partsMbHistoryVO));
+			model.addAttribute("productRamDetailInfo", partsService.getPartsRamHistoryVOByIdAndHistorySeq(partsRamHistoryVO));
+		}else {
+			model.addAttribute("productMaster", null);
+			model.addAttribute("productDetail", null);
+			
+			model.addAttribute("productMbDetailInfo", null);
+			model.addAttribute("productRamDetailInfo", null);
+		}
 		
-		String productId = estimateCalculationResultPrivateMasterVO.getCreateProductId();
-		
-		PartsMbHistoryVO partsMbHistoryVO = new PartsMbHistoryVO();
-		partsMbHistoryVO.setId(estimateCalculationResultPrivateDetailVO.getMbId());
-		partsMbHistoryVO.setHistorySeq(estimateCalculationResultPrivateDetailVO.getMbHistorySeq());
-		
-		PartsRamHistoryVO partsRamHistoryVO = new PartsRamHistoryVO();
-		partsRamHistoryVO.setId(estimateCalculationResultPrivateDetailVO.getRamId());
-		partsRamHistoryVO.setHistorySeq(estimateCalculationResultPrivateDetailVO.getRamHistorySeq());
+
 		
 		// 과거견적산출은 아래와 같이 각각 부품id, 부품 history_seq로 조회쿼리 돌려서 정보 얻어오면 됨.
 //		EstimateCalculationResultPrivateDetailVO 
 //			estimateCalculationResultPrivateDetailVO = productService.estimateCalculation(resultString).getSelectProduct();
 //		estimateCalculationResultPrivateDetailVO.getGpuId();
 //		estimateCalculationResultPrivateDetailVO.getGpuHistorySeq();
-		
-		model.addAttribute("productMaster", productService.getProductMasterById(productId));
-		model.addAttribute("productDetail", productService.getProductDetailById(productId));
-		
-		model.addAttribute("productMbDetailInfo", partsService.getPartsMbHistoryVOByIdAndHistorySeq(partsMbHistoryVO));
-		model.addAttribute("productRamDetailInfo", partsService.getPartsRamHistoryVOByIdAndHistorySeq(partsRamHistoryVO));
 		
 		
 		// 08.17 test
