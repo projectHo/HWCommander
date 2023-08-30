@@ -22,6 +22,26 @@
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
 <script>
+	$(function(){
+
+	})
+	function isValidEmail() {
+		const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+		return emailRegex.test($(".e-mail-input").val());
+	}
+	function modalOpen(){
+		if(isValidEmail()){
+			$('#check-email').modal({ backdrop: 'static', keyboard: false }); 
+			$("#check-email").modal('show');
+			$("#check-email-modal-body").html($(".e-mail-input").val());
+		}else {
+			alert("이메일을 확인해주세요!");
+			$(".e-mail-input").focus();
+		}
+	}
+	function modalCancleBtn(){
+		$(".e-mail-input").focus();
+	}
 </script>
 </head>
 <body>
@@ -32,9 +52,43 @@
 			<!-- 빈 영역 -->
 			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
 			<!-- 작업영역 -->
-			<div class="estimateCalc_background p-2" style="width: 70% !important">
+			<div class="estimateCalc_background p-5" style="width: 70% !important">
+				<!-- 클라우드 연동 전 -->
+				<div class="container">
+					<h2 class="mb-3">제품 상태 개봉 영상</h2>
+					<div class="explane-box">
+						<p>입력하신 이메일로 제품 개봉 영상을 보내드립니다!</p>
+					</div>
+					<div class="input-group w-50">
+						<span class="input-group-text bg-white pe-1">
+							<svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M4 7L10.94 11.3375C11.5885 11.7428 12.4115 11.7428 13.06 11.3375L20 7M5 18H19C20.1046 18 21 17.1046 21 16V8C21 6.89543 20.1046 6 19 6H5C3.89543 6 3 6.89543 3 8V16C3 17.1046 3.89543 18 5 18Z" stroke="#000000" stroke-width="0.624" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+						</span>
+						<input type="email" class="e-mail-input form-control border-start-0 pb-0" placeholder="e-mail을 입력해주세요">
+						<button type="button" class="btn btn-secondary pb-0" id="enter-email" onclick="javascript:modalOpen()">메일입력</button>
+					</div>
+				</div>
+				<!-- 클라우드 연동 후 -->
+				
 	 		</div>
-			
+			<!-- 이메일 확인 모달 -->
+			<div class="modal fade" id="check-email" tabindex="-1" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered">
+				  <div class="modal-content">
+					<div class="modal-header">
+					  <h1 class="modal-title fs-5">주소를 확인해주세요!</h1>
+					  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+					  <p>입력된 E-mail</p>
+					  <p id="check-email-modal-body"></p>
+					</div>
+					<div class="modal-footer">
+					  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="javascript:modalCancleBtn()">수정</button>
+					  <button type="button" class="btn btn-primary" id="modal-btn-check">저장</button>
+					</div>
+				  </div>
+				</div>
+			  </div>
 			<!-- 빈 영역 -->
 			<div class="justify-content-end" style="width: 15%!important;"></div>
 		</div>
