@@ -243,11 +243,15 @@
 		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
 	}
 	function clickNextModalBtn(){
+<<<<<<< HEAD
 <<<<<<< HEAD:hwCommander/src/main/webapp/WEB-INF/views/estimateCalculationEight.jsp
 		location.href = "estimateCalculationNine.do";
 =======
 		location.href = "ESCA_09_ver_1_0.do";
 >>>>>>> 4e0f7429f29b3731e311643c38a41f71235de155:hwCommander/src/main/webapp/WEB-INF/views/ESCA_08_ver_1_0.jsp
+=======
+		location.href = "ESCA_09_ver_1_0.do";
+>>>>>>> 41c04c28b0c7f6aa3363d3794e45aa891e2ae21b
 	}
 	$(function () {
 		typeText();

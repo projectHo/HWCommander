@@ -30,9 +30,53 @@
 <script>
 	const loginUser = "${loginUser}";
 
+<<<<<<< HEAD
+=======
+		for (var i = 1; i <= 19; i++) {
+			var mapName = "answer" + i;
+			var map = eval(mapName);
+			if(i === 2){
+				urlParams += mapName + "<" + answer2s + ">";
+			}else if(i===3){
+				urlParams += mapName + "<" + answer3s + ">";
+			}else if (i ===8){
+				urlParams += mapName + "<" + answer8s + ">";
+			}else {
+				for (var [key, value] of map) {
+					if(key === "" || !key){
+						key = "null";
+						value = "null";
+					}else if(key !== "" && value === ""){
+						value = "null";
+					}
+					
+					urlParams += mapName + "<" + key + "," + value + ">";
+					
+				}
+			}
+			urlParams += "|";
+		}
+		var Pattern = /\((.*?)\)/;
+		var userInfoMatch = Pattern.exec("${loginUser}");
+		var userInfoValues = userInfoMatch[1];
+
+		var userInfoArray = userInfoValues.split(", ");
+		var userInfoObject = {};
+		for (var i = 0; i < userInfoArray.length; i++) {
+			var keyValue = userInfoArray[i].split("=");
+			var key = keyValue[0];
+			var value = keyValue[1];
+			userInfoObject[key] = value;
+		}
+		urlParams += "etc<userId," + userInfoObject.id + ">|etc<targetDate,null>" + "|answer0<" + Array.from(answer0.keys()) + "," + Array.from(answer0.values()) + ">";
+		var baseUrl = "/estimateCalculationResult.do";
+		var fullUrl = baseUrl + "?" + urlParams;
+		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
+	}
+>>>>>>> 41c04c28b0c7f6aa3363d3794e45aa891e2ae21b
 	function clickReturnBtn() {
 		sessionStorage.setItem("data-3","null");
-		window.location.href = "estimateCalculationTwo.do";
+		window.location.href = "ESCA_02_ver_1_0.do";
 	}
 	function clickEstimateBtn(el){
 		if($("#hex-val-01").val() === "1.00" && $("#hex-val-02").val() === "1.00" && $("#hex-val-03").val() === "1.00" && $("#hex-val-04").val() === "1.00" && $("#hex-val-05").val() === "1.00" && $("#hex-val-06").val() === "1.00"){
@@ -80,7 +124,7 @@
 					value.push(storageValue);
 				}
 				sessionStorage.setItem("data-3",JSON.stringify(value))
-				window.location.href = "estimateCalculationFour.do";
+				window.location.href = "ESCA_04_ver_1_0.do";
 			}
 		}else {
 			let value = [];
@@ -93,7 +137,7 @@
 				value.push(storageValue);
 			}
 			sessionStorage.setItem("data-3",JSON.stringify(value))
-			window.location.href = "estimateCalculationFour.do";
+			window.location.href = "ESCA_04_ver_1_0.do";
 		}
 
 		
