@@ -21,7 +21,12 @@
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
+<!-- 08.31 url 파라메터 함수 js파일 분리 -->
+<script src="/resources/js/escaSendData.js"></script>
 <script>
+	const loginUser = "${loginUser}";
+	
+	// donut
 	let progress = 0;
 	function animateDonutGauge() {
 		$(".donut-container").css(
@@ -32,7 +37,7 @@
 			progress += 5;
 			setTimeout(animateDonutGauge, 20);
 		} else {
-			$(".donut-fill").html("17");
+			$(".donut-fill").html("11");
 			goToZero();
 		}
 	};
@@ -47,13 +52,21 @@
 		}
 	};
 	function clickAnswerBtn(el){
-		if($(el).html() === "선택하기"){
-
+		if($(el).children().html() === "예산에 맞게"){
+			sessionStorage.setItem("data-11",0);
+		}else if($(el).children().html() === "256GB"){
+			sessionStorage.setItem("data-11",1);
+		}else if($(el).children().html() === "512GB"){
+			sessionStorage.setItem("data-11",2);
+		}else if($(el).children().html() === "1024GB(1TB)"){
+			sessionStorage.setItem("data-11",3);
+		}else if($(el).children().html() === "2048GB(1TB)"){
+			sessionStorage.setItem("data-11",4);
 		}
 	}
 	function clickReturnBtn(){
-		sessionStorage.setItem("data-17","null");
-		location.href = "estimateCalculationSixteen.do";
+		sessionStorage.setItem("data-11","null");
+		location.href = "ESCA_10_ver_1_0.do";
 	}
 	function clickEstimateBtn(el){
 		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false && $("#answer-d").prop("checked") === false && $("#answer-e").prop("checked") === false){
@@ -68,7 +81,7 @@
 				$(el).removeClass("is-valid");
 			}, 2000);
 			$(el).css("display","none");
-			$(".loading-prog").css('display',"block");
+			$(".loading-prog").css("display","block");
 			sendAllData();
 		}
 	}
@@ -84,7 +97,7 @@
 			setTimeout(() => {
 				$(el).removeClass("is-valid");
 			}, 2000);
-			window.location.href = "estimateCalculationEighteen.do";
+			window.location.href = "ESCA_12_ver_1_0.do";
 		}
 	}
 	$(function () {
@@ -94,7 +107,7 @@
 		// typing question text
 		let index = 0;
 		function typeText() {
-			const text = "싫어하시는 브랜드가 있으신가요?";
+			const text = "C드라이브(SSD)의 용량을 선택해주세요!";
 			if (index < text.length) {
 			$("#typingInput").val(function(i, val) {
 				return val + text.charAt(index);
@@ -109,73 +122,19 @@
 			return new bootstrap.Tooltip($(this)[0]);
 		}).get();
 		// 견적산출 데이터처리부(수신)
-		if(sessionStorage.getItem("data-14")){
-			const storedData = sessionStorage.getItem("data-14");
-			if(storedData === "1"){
+		if(sessionStorage.getItem("data-11")){
+			if(sessionStorage.getItem("data-11") === "0"){
 				$("#answer-a").prop("checked",true);
-			}else if (storedData === "HOME"){
+			}else if (sessionStorage.getItem("data-11") === "1"){
 				$("#answer-b").prop("checked",true);
+			}else if (sessionStorage.getItem("data-11") === "2"){
+				$("#answer-c").prop("checked",true);
+			}else if (sessionStorage.getItem("data-11") === "3"){
+				$("#answer-d").prop("checked",true);
+			}else if (sessionStorage.getItem("data-11") === "4"){
+				$("#answer-e").prop("checked",true);
 			}
 		}
-		// search input
-	
-	const noResultText = document.createTextNode("일치하는 결과가 없습니다.");
-	const labelTable = $("#label-table");
-	const noResultRow = $("<tr>");
-	const noResultCell = $("<td>");
-	function searchLabel() {
-		const labels = labelTable.find("label");
-		const searchInput = $("#search-input").val().toLowerCase();
-		const matchedLabels = [];
-		labels.each(function() {
-			const label = $(this);
-			const labelName = label.text().toLowerCase();
-
-			if (labelName.includes(searchInput)) {
-				matchedLabels.push(label);
-			}
-		});
-		for(let i = 0 ; i < labels.length; i++){
-		}
-		const searchInputValue = $("#search-input").val().trim();
-		if (matchedLabels.length > 0) {
-			matchedLabels.sort(function(a, b) {
-			const aIndex = a.text().toLowerCase().indexOf(searchInput);
-			const bIndex = b.text().toLowerCase().indexOf(searchInput);
-
-			if (aIndex === bIndex) {
-				return a.text().toLowerCase().localeCompare(b.text().toLowerCase());
-			}
-
-			return aIndex - bIndex;
-			});
-			
-			hideAllRows();
-			
-			matchedLabels.forEach(function(matchedLabel) {
-			const row = matchedLabel.closest("tr");
-			row.css("display", "table-row");
-			});
-		}else {
-			hideAllRows();
-
-			noResultCell.attr("colspan", "2");
-			noResultCell.append(noResultText);
-			noResultRow.append(noResultCell);
-			labelTable.append(noResultRow);
-		}
-	}
-	function hideAllRows() {
-		labelTable.find("tr").css("display", "none");
-
-		if (noResultRow.parent().is(labelTable)) {
-			noResultRow.remove();
-		}
-	}
-
-	$("#search-input").on("input", function() {
-		searchLabel();
-	});
 });
 </script>
 </head>
@@ -188,28 +147,40 @@
 			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
 			<!-- 작업영역 -->
 			<div class="estimateCalc_background p-5" style="width: 70% !important">
-				<div class="w-75 container">
+	 			<div class="w-75 container">
 					<div class="row mt-4 pb-5">
 						<div class="col-2 text-center">
 							<div class="donut-container margin-center">
-								 <div class="donut-fill"">16</div>
+								 <div class="donut-fill"">10</div>
 							</div>
 						</div>
 						<div class="col-8 d-flex p-2">
-							<input id="typingInput" class="form-control text-center fs-5 pt-2" type="text" readonly aria-label="예산 편성" disabled />
+							<input id="typingInput" class="form-control text-center pt-2 fs-5" type="text" readonly aria-label="예산 편성" disabled />
 						</div>
 					    <div class="col-2 d-flex flex-column-reverse">
-							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="선택하신 브랜드는 제외하고 견적 산출 해드립니다! 상관없으시다면 <상관없음> 체크해주세요!" style="cursor:pointer">
+							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="저장장치의 용량을 골라주세요!" style="cursor:pointer">
 						</div>
 					</div>
 					<div class="row pb-5">
 						<div class="col d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-a">
-							<label class="btn btn-outline-secondary w-75 d-flex align-items-center justify-content-center" for="answer-a" data-bs-toggle="modal" data-bs-target="#brand-selector" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">선택하기</p></label>
+							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">예산에 맞게</p></label>
 						</div>
 						<div class="col d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-b">
-							<label class="btn btn-outline-secondary w-75 d-flex align-items-center justify-content-center" for="answer-b" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">상관없음</p></label>
+							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">256GB</p></label>
+						</div>
+						<div class="col d-flex justify-content-center">
+							<input type="radio" class="btn-check" name="btnradio" id="answer-c">
+							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">512GB</p></label>
+						</div>
+						<div class="col d-flex justify-content-center">
+							<input type="radio" class="btn-check" name="btnradio" id="answer-d">
+							<label class="btn btn-outline-secondary w-75" for="answer-d" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">1024GB(1TB)</p></label>
+						</div>
+						<div class="col d-flex justify-content-center">
+							<input type="radio" class="btn-check" name="btnradio" id="answer-e">
+							<label class="btn btn-outline-secondary w-75" for="answer-e" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">2048GB(2TB)</p></label>
 						</div>
 					</div>
 					<div class="row mb-4">
@@ -227,49 +198,13 @@
 							<button type="button" class="form-control margin-left-auto w-50" onclick="javascript:clickNextBtn(this)"><p class="pt-2 m-0">다음 질문</p></button>
 						</div>
 					</div>
-					<div class="row mb-4">
-						<div class="col-6">
-							<!-- 선택된 내용 박스 -->
-						</div>
-						<div class="col-6"></div>
-					</div>
-				</div>
-				<div class="modal fade" id="brand-selector" tabindex="-1" aria-labelledby="selector" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-					<div class="modal-dialog">
-					  <div class="modal-content">
-						<div class="modal-header">
-						  <h1 class="modal-title fs-4">브랜드 선택하기</h1>
-						  <button type="button" class="btn-close modal-btn" data-bs-dismiss="modal" aria-label="Close"></button>
-						</div>
-						<div class="modal-body">
-						  <div class="container">
-							   <table class="table">
-							  <thead>
-								<tr>
-								  <form class="form-inline">
-									  <input type="text" class="form-control" id="search-input" placeholder="검색어를 입력하세요" oninput="javascript:searchLabel()">
-								  </form>
-								</tr>
-								<tr>
-								  <th scope="col">브랜드명</th>
-								</tr>
-							  </thead>
-							  <tbody id="label-table"></tbody>
-							</table>
-						  </div>
-						</div>
-						<div class="modal-footer">
-						  <button type="button" class="btn btn-secondary modal-btn" data-bs-dismiss="modal" onclick="javascript:modalCancel()">취소</button>
-						  <button type="button" class="btn btn-primary modal-btn modal-submit-btn" onclick="javascript:modalSubmit()">저장</button>
-						</div>
-					  </div>
-					</div>
-				  </div>
+			 	</div>
 	 		</div>
 			
+			</div>
 			<!-- 빈 영역 -->
 			<div class="justify-content-end" style="width: 15%!important;"></div>
-		</div>
+		
 		
 		<!-- 2022.11.16 디자인이미지 추가 -->
 		<div class="mt-5 mx-5" style="height: 15%!important;">

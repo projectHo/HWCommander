@@ -49,7 +49,8 @@
 	let productMaster = "${productMaster}";
 	let mbInfo = "${productMbDetailInfo}";
 	let productDet = "${productDetail}";
-	let partsRam = "${partsRam}"
+	let partsRam = "${partsRam}";
+	let partsRam2 = "${productRamDetailInfo}";
 	// 마스터 리스트화
 	const productMasterDetail = productMaster.substring(1, productMaster.length - 1);
 	const productMasterSplit = productMasterDetail.split('PartsproductMasterHistoryVO(');
@@ -163,7 +164,7 @@
 		}
 	}
 	function clickReturnBtn () {
-		window.location.href = "estimateCalculationZero.do";
+		window.location.href = "ESCA_00_ver_1_0.do";
 		sessionStorage.clear();
 	}
 	function clickOrderBtn() {
@@ -218,7 +219,7 @@
 			for(let i = 0; i<=19 ; i++){
 				sessionStorage.setItem("data-" + i, "");
 			}
-			location.href = "/estimateCalculationZero.do";
+			location.href = "/ESCA_00_ver_1_0.do";
 		}
 	}
 	
@@ -234,6 +235,20 @@
 		if($("#id-input").val() === "ID : error"){
 			console.log($("#id-input").val());
 			$("#resultErrorModal").modal("show");
+		}
+		const currentDate = new Date();
+
+		const year = currentDate.getFullYear();
+		const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+		const day = String(currentDate.getDate()).padStart(2, "0");
+
+		const formattedDate = `${year}-${month}-${day}`;
+		$("#date-input").val("Date : ${formattedDate}");
+		const urlString = location.href;
+
+		const matchedId = urlString.match(/userId%2C([^%]+)/);
+		if(userId[0] != matchedId[1]){
+			$("#recommender-input").val("추천인 : "+matchedId[1]).css("display","block");
 		}
 	})
 </script>
@@ -264,9 +279,22 @@
 			<div id="capturedImage"></div>
 			<div class="estimateCalc_background p-5" id="capture-container" style="width: 70% !important">
 				<div class="row">
-					<div class="row w-25">
-						<div class="input-group mb-3 w-50">
-							<input type="text" class="form-control" id="id-input"aria-label="Text input with checkbox" value="ID : error" style="background-color: #fff;" disabled>
+					<div class="row w-100">
+						<div class="col-md-2">
+							<div class="input-group mb-3 w-100">
+								<input type="text" class="form-control pb-0 ps-3" id="id-input"aria-label="Text input with checkbox" value="ID : error" style="background-color: #fff;" disabled>
+							</div>
+						</div>
+						<div class="col"></div>
+						<div class="col-md-2">
+							<div class="input-group w-100" style="display: none;">
+								<input type="text" class="form-control pb-0 ps-3" id="recommender-input"aria-label="Text input with checkbox" value="추천인 : 오류" style="background-color: #fff;" disabled>
+							</div>
+						</div>
+						<div class="col-md-2">
+							<div class="input-group w-100">
+								<input type="text" class="form-control pb-0 ps-3" id="date-input"aria-label="Text input with checkbox" value="Date : 0000-00-00" style="background-color: #fff;" disabled>
+							</div>
 						</div>
 					</div>
 					<div class="row">

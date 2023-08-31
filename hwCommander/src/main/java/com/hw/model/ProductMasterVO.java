@@ -15,6 +15,8 @@ public class ProductMasterVO {
 	private String updtDtm;
 	private String productRegistPathCd;
 	private String productRegistPathCdNm;
+	private String windowsName;
+	private int windowsPrice;
 	
 	//necessity column
 	private String eventMallInfo;
