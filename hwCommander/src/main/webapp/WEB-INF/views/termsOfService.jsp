@@ -10,6 +10,11 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 <link rel="stylesheet" href="/resources/css/main.css">
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script>
+	$(function (){
+		// 약관 버전 받아와서 display 될 약관 선택
+	})
+</script>
 </head>
 <body>
 	<%@ include file="./common/header.jsp" %>
@@ -17,7 +22,7 @@
 		<div class="d-flex">
 			<!-- 빈 영역 -->
 			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
-			<div class="content pt-5 px-5 mx-5" style="width: 70%!important;">
+			<div class="content pt-5 px-5 mx-5" style="width: 70%!important;" id="version-1">
 			
 				<p>제1조(목적) 이 약관은 HWCommander(전자상거래 사업자)가 운영하는 현우의 컴퓨터 공방(이하 “몰”이라 한다)에서 제공하는 인터넷 관련 서비스(이하 “서비스”라 한다)를 이용함에 있어 사이버 몰과 이용자의 권리․의무 및 책임사항을 규정함을 목적으로 합니다.</p>
 				<P>※「PC통신, 무선 등을 이용하는 전자상거래에 대해서도 그 성질에 반하지 않는 한 이 약관을 준용합니다.」</P>
@@ -169,6 +174,12 @@
 				<p>① “몰”과 이용자 간에 발생한 전자상거래 분쟁에 관한 소송은 제소 당시의 이용자의 주소에 의하고, 주소가 없는 경우에는 거소를 관할하는 지방법원의 전속관할로 합니다. 다만, 제소 당시 이용자의 주소 또는 거소가 분명하지 않거나 외국 거주자의 경우에는 민사소송법상의 관할법원에 제기합니다.</p>
 				<p class="mb-5">② “몰”과 이용자 간에 제기된 전자상거래 소송에는 한국법을 적용합니다.</p>
 
+			</div>
+			<!-- 위 약관은 폐기 예정 런칭 시 아래 약관부터 사용 예정. -->
+			<div class="content pt-5 px-5 mx-5" style="width: 70%!important;" id="version-2">
+			</div>
+			<!-- 아래에 변호사 참여 개정 약관 입력 예정 -->
+			<div class="content pt-5 px-5 mx-5" style="width: 70%!important;" id="version-3">
 			</div>
 			<!-- 빈 영역 -->
 			<div class="justify-content-end" style="width: 15%!important;"></div>
