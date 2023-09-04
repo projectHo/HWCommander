@@ -67,7 +67,9 @@
 %>
 
 <script>
-
+	let a = "${productList}";
+	let aa = "${orderDetailVOList}";
+	let aaa = "${orderMasterVO}";
     $(function() {
     	$('#productListInfoTable').DataTable({ 
     	    bAutoWidth: false,

@@ -183,75 +183,68 @@
 		}
 	}
 	// 미구현 모달용
-	function clickEstimateModalBtn(){
-		let answer1 = new Map();let answer2 = new Map();let answer3 = new Map();let answer4 = new Map();let answer5 = new Map();let answer6 = new Map();let answer7 = new Map();let answer8 = new Map();let answer9 = new Map();let answer10 = new Map();let answer11 = new Map();let answer12 = new Map();let answer13 = new Map();let answer14 = new Map();let answer15 = new Map();let answer16 = new Map();let answer17 = new Map();let answer18 = new Map();let answer19 = new Map();let answer20 = new Map();
+	function clickReturnBtn(){
+		// let answer1 = new Map();let answer2 = new Map();let answer3 = new Map();let answer4 = new Map();let answer5 = new Map();let answer6 = new Map();let answer7 = new Map();let answer8 = new Map();let answer9 = new Map();let answer10 = new Map();let answer11 = new Map();let answer12 = new Map();let answer13 = new Map();let answer14 = new Map();let answer15 = new Map();let answer16 = new Map();let answer17 = new Map();let answer18 = new Map();let answer19 = new Map();let answer20 = new Map();
 		
-		answer1.set(sessionStorage.getItem("data-1") + "0000", "");
-		let twoDatas = JSON.parse(sessionStorage.getItem("data-2"));
-		for(let i = 0 ; i < twoDatas.length; i++){
-			answer2.set(twoDatas[i][0],twoDatas[i][1])
-		}
-		if(sessionStorage.getItem("data-3") !== ""){
-			let threeDatas = JSON.parse(sessionStorage.getItem("data-3"));
-			answer3.set("Fever", threeDatas[0]);
-			answer3.set("Meterial", threeDatas[1]);
-			answer3.set("AS", threeDatas[2]);
-			answer3.set("Noise", threeDatas[3]);
-			answer3.set("Stability", threeDatas[4]);
-			answer3.set("QC", threeDatas[5]);
-		}else {
-			answer3.set("Fever", "");
-			answer3.set("Meterial", "");
-			answer3.set("AS", "");
-			answer3.set("Noise", "");
-			answer3.set("Stability", "");
-			answer3.set("QC", "");
-		}
+		// answer1.set(sessionStorage.getItem("data-1") + "0000", "");
+		// let twoDatas = JSON.parse(sessionStorage.getItem("data-2"));
+		// for(let i = 0 ; i < twoDatas.length; i++){
+		// 	answer2.set(twoDatas[i][0],twoDatas[i][1])
+		// }
+		// if(sessionStorage.getItem("data-3") !== ""){
+		// 	let threeDatas = JSON.parse(sessionStorage.getItem("data-3"));
+		// 	answer3.set("Fever", threeDatas[0]);
+		// 	answer3.set("Meterial", threeDatas[1]);
+		// 	answer3.set("AS", threeDatas[2]);
+		// 	answer3.set("Noise", threeDatas[3]);
+		// 	answer3.set("Stability", threeDatas[4]);
+		// 	answer3.set("QC", threeDatas[5]);
+		// }else {
+		// 	answer3.set("Fever", "");
+		// 	answer3.set("Meterial", "");
+		// 	answer3.set("AS", "");
+		// 	answer3.set("Noise", "");
+		// 	answer3.set("Stability", "");
+		// 	answer3.set("QC", "");
+		// }
 		
-		for(let i = 4; i <=20 ; i++){
-			if(i === 8){
-				answer8.set("main-color", "null");
-				answer8.set("sub-color", "null");
-			}else if(sessionStorage.getItem("data-" + i) !== ""){
-				var answerName = "answer" + i;
-				var answer = eval(answerName);
-				answer.set(sessionStorage.getItem("data-" + i));
-			}else if (sessionStorage.getItem("data-" + i) === ""){
-				var answerName = "answer" + i;
-				var answer = eval(answerName);
-				answer.set("");
-			}
-		}
+		// for(let i = 4; i <=20 ; i++){
+		// 	if(i === 8){
+		// 		answer8.set("main-color", "null");
+		// 		answer8.set("sub-color", "null");
+		// 	}else if(sessionStorage.getItem("data-" + i) !== ""){
+		// 		var answerName = "answer" + i;
+		// 		var answer = eval(answerName);
+		// 		answer.set(sessionStorage.getItem("data-" + i));
+		// 	}else if (sessionStorage.getItem("data-" + i) === ""){
+		// 		var answerName = "answer" + i;
+		// 		var answer = eval(answerName);
+		// 		answer.set("");
+		// 	}
+		// }
 		
 
-		var urlParams = "";
+		// var urlParams = "";
 
-		for (var i = 1; i <= 20; i++) {
-			var mapName = "answer" + i;
-			var map = eval(mapName);
+		// for (var i = 1; i <= 20; i++) {
+		// 	var mapName = "answer" + i;
+		// 	var map = eval(mapName);
 
-			for (var [key, value] of map) {
-				if(value === "" || !value){
-					value = "null";
-				}
-				urlParams += mapName + ":" + key + "=" + value;
-				urlParams += "|";
-			}
-		}
-		var baseUrl = "/estimateCalculationResult.do";
-		var fullUrl = baseUrl + "?" + urlParams;
-		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
+		// 	for (var [key, value] of map) {
+		// 		if(value === "" || !value){
+		// 			value = "null";
+		// 		}
+		// 		urlParams += mapName + ":" + key + "=" + value;
+		// 		urlParams += "|";
+		// 	}
+		// }
+		// var baseUrl = "/estimateCalculationResult.do";
+		// var fullUrl = baseUrl + "?" + urlParams;
+		// location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
+		location.href = "ESCA_07_ver_1_0.do";
 	}
 	function clickNextModalBtn(){
-<<<<<<< HEAD
-<<<<<<< HEAD:hwCommander/src/main/webapp/WEB-INF/views/estimateCalculationEight.jsp
-		location.href = "estimateCalculationNine.do";
-=======
 		location.href = "ESCA_09_ver_1_0.do";
->>>>>>> 4e0f7429f29b3731e311643c38a41f71235de155:hwCommander/src/main/webapp/WEB-INF/views/ESCA_08_ver_1_0.jsp
-=======
-		location.href = "ESCA_09_ver_1_0.do";
->>>>>>> 41c04c28b0c7f6aa3363d3794e45aa891e2ae21b
 	}
 	$(function () {
 		typeText();
@@ -414,11 +407,11 @@
 					</div>
 					<div class="modal-body text-center">
 					  <p>죄송합니다.. 미구현 질문입니다...</p>
-					  <p>다음질문으로 넘어가시거나 견적산출을 해주세요!</p>
-					  <p>(이전까지의 질문은 모두 저장 되어 있습니다!!)</p>
+					  <p>이전 질문으로 돌아가셔서 견적산출을 해주시거나</p>
+					  <p>다음 질문으로 넘어가주세요!</p>
 					</div>
 					<div class="modal-footer">
-					  <button type="button" class="btn btn-secondary" onclick="javascript:clickEstimateModalBtn()">견적 산출</button>
+					  <button type="button" class="btn btn-secondary" onclick="javascript:clickReturnBtn()">이전 질문</button>
 					  <button type="button" class="btn btn-primary" onclick="javascript:clickNextModalBtn()">다음 질문</button>
 					</div>
 				  </div>
