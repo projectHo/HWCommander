@@ -259,45 +259,57 @@
 	}
 	
 	function requestVideoBtn(){
-		if($(".order-state").html() === "환불 요청"){
-			alert("환불 진행중입니다!");
-		}else if(masterInfoObject.videoRequestCdNm === "요청"){
-			alert("이미 요청하셨습니다!");
+		if("${orderMasterVO.orderStateCd}" != "01"){
+			if("${orderMasterVO.orderStateCd}" === "09"){
+				alert("환불 진행중입니다!");
+			}else if("${orderMasterVO.orderStateCd}" === "10"){
+				alert("환불 완료된 주문입니다!");
+			}else if(masterInfoObject.videoRequestCdNm === "요청"){
+				alert("이미 요청하셨습니다!");
+			}else {
+				$.ajax({
+					type: "post",
+					url: "/user/orderVideoRequestToAdminLogic.do",
+					data: {
+						id: $(".order-num").html()
+					},
+					dataType: "json",
+					success: function(response) {
+						alert("정상적으로 요청했습니다! 회원가입시 입력해주신 이메일로 완료되는 순서대로 보내드릴게요!");
+					},
+					error: function(xhr, status, error) {
+						alert("요청에 실패했습니다.. 다시 입력해주세요!");
+					}
+				});
+			}
 		}else {
-			$.ajax({
-				type: "post",
-				url: "/user/orderVideoRequestToAdminLogic.do",
-				data: {
-					id: $(".order-num").html()
-				},
-				dataType: "json",
-				success: function(response) {
-					alert("정상적으로 요청했습니다!");
-				},
-				error: function(xhr, status, error) {
-					alert("요청에 실패했습니다.. 다시 입력해주세요!");
-				}
-			});
+			alert("아직 결제 전입니다! 결제 후 이용해주세요~!");
 		}
 	}
 	function requestRefundBtn(){
-		if($(".order-state").html() === "환불 요청"){
-			alert("환불 진행중입니다!");
+		if("${orderMasterVO.orderStateCd}" != "01"){
+			if("${orderMasterVO.orderStateCd}" === '09'){
+				alert("환불 진행중입니다!");
+			}else if("${orderMasterVO.orderStateCd}" === "10"){
+				alert("환불 완료된 주문입니다!");
+			}else {
+				$.ajax({
+					type: "post",
+					url: "/user/orderRefundRequestToAdminLogic.do",
+					data: {
+						id: $(".order-num").html()
+					},
+					dataType: "json",
+					success: function(response) {
+						alert("정상적으로 요청했습니다!");
+					},
+					error: function(xhr, status, error) {
+						alert("요청에 실패했습니다.. 다시 입력해주세요!");
+					}
+				});
+			}
 		}else {
-			$.ajax({
-				type: "post",
-				url: "/user/orderRefundRequestToAdminLogic.do",
-				data: {
-					id: $(".order-num").html()
-				},
-				dataType: "json",
-				success: function(response) {
-					alert("정상적으로 요청했습니다!");
-				},
-				error: function(xhr, status, error) {
-					alert("요청에 실패했습니다.. 다시 입력해주세요!");
-				}
-			});
+			alert("아직 결제 전입니다! 결제 후 이용해주세요~!");
 		}
 	}
 

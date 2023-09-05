@@ -67,9 +67,6 @@
 %>
 
 <script>
-	let a = "${productList}";
-	let aa = "${orderDetailVOList}";
-	let aaa = "${orderMasterVO}";
     $(function() {
     	$('#productListInfoTable').DataTable({ 
     	    bAutoWidth: false,
@@ -430,7 +427,7 @@ function recDupliChk(id) {
 						<div class="me-auto d-flex align-items-center">상품 정보</div>
 					</div>
 				</div>
-				<div class="card-body">
+				<div class="card-body pb-0">
 					<table id="productListInfoTable" class="table">
 						<thead>
 							<tr>
@@ -457,7 +454,44 @@ function recDupliChk(id) {
 										--%>
 										<img class="img-fluid rounded d-block" src="${item.productImage}" alt="" style="cursor:pointer; width:200px; height:200px; object-fit:contain;">
 									</td>
-									<td class="align-middle">${item.productName}</td>
+									<td class="align-middle pb-0">
+										<div class="row pt-2">
+											<div class="col fs-4">
+												${item.productName}
+											</div>
+										</div>
+										<div class="row pt-2">
+											<h5 class="col mb-0">
+												부품 상세
+											</h5>
+										</div>
+										<div class="row p-2">
+											<div class="col" id="product-detail-box">
+												<c:choose>
+													<c:when test="${item.windowsName == 'COEM'}">
+														<p class="mb-1">윈도우 : 메인보드 귀속형(${item.windowsName})</p>
+													</c:when>
+													<c:when test="${item.windowsName == 'FPP'}">
+														<p class="mb-1">윈도우 : 구매형(${item.windowsName})</p>
+													</c:when>
+													<c:otherwise>
+														<p class="mb-1">윈도우 : 미포함</p>
+													</c:otherwise>
+												</c:choose>
+												<c:forEach var="items" items="${productDetailList}">
+													<p class="mb-1">메인보드 : ${items[2].partsName}</p>
+													<p class="mb-1">파워 : ${items[5].partsName}</p>
+													<p class="mb-1">CPU : ${items[1].partsName}</p>
+													<p class="mb-1">그래픽카드 : ${items[0].partsName}</p> 
+													<p class="mb-1">램 : ${items[6].partsName}</p>
+													<p class="mb-1">저장장치 : (${items[7].partsTypeCdNm}) ${items[7].partsName}</p>
+													<p class="mb-1">케이스 : ${items[4].partsName}</p>
+													<p class="mb-0">쿨러 : ${items[3].partsName}</p>
+												</c:forEach>
+											</div>
+										</div>
+										
+									</td>
 									<td class="align-middle">${item.productPriceStr}</td>
 								</tr>
 							</c:forEach>
