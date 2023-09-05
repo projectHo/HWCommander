@@ -23,6 +23,7 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hw.model.OrderDetailVO;
 import com.hw.model.OrderMasterVO;
+import com.hw.model.ProductDetailVO;
 import com.hw.model.ProductMasterVO;
 import com.hw.model.UserInfoVO;
 import com.hw.service.OrderService;
@@ -50,10 +51,15 @@ public class OrderController {
 		UserInfoVO loginUser = (UserInfoVO) httpSession.getAttribute("loginUser");
 		
 		if("direct".equals(accessRoute)) {
+			// order 1건에 product 1건이라는 전제임. product가 여러건일 때(ex. cart)아래 else에서 처리
 			List<ProductMasterVO> productMasterVOList = new ArrayList<>();
 			productMasterVOList.add(productService.getProductMasterById(productIds));
 			
+			List<List<ProductDetailVO>> productDetailVOListList = new ArrayList<>();
+			productDetailVOListList.add(productService.getProductDetailById(productIds));
+			
 			model.addAttribute("productList", productMasterVOList);
+			model.addAttribute("productDetailList", productDetailVOListList);
 			model.addAttribute("orderName", productMasterVOList.get(0).getProductName());
 			
 			request.setAttribute("productPrice", productMasterVOList.get(0).getProductPrice());
