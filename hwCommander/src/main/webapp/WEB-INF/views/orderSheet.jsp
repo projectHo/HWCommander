@@ -19,7 +19,8 @@
 <meta name="description" content="" />
 <meta name="author" content="" />
 <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-
+<!-- 09.06 추가 -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet"/>
@@ -113,155 +114,172 @@
 		}
     });
     
-function btnCheckOutClick() {
+async function btnCheckOutClick() {
 	if(!validationCheck()) {
 		return false;
 	}
-	
-	if($("#payment-method-card").prop("checked") == true){
-		var orderRegistFormArray = [];
-		
-		var totOrderPrice = 0;
-		$('#productListInfoTable tr').each(function (index) {
-			if(0 != index) {
-				// orderDetail Set
-				var item = {
-					id : $(this).find('input[name=id]').val(),
-					productId : $(this).find('input[name=productId]').val(),
-					productPrice : $(this).find('input[name=productPrice]').val(),
-					productOrderQty : $(this).find('input[name=productOrderQty]').val()
-				};
-				orderRegistFormArray.push(item);
-				
-				//totOrderPrice set
-				totOrderPrice += parseInt($(this).find('input[name=productPrice]').val());
-			}
-		});
-		
-		if(2 < $('#productListInfoTable tr').length) {
-			orderName += "외 "+($('#productListInfoTable tr').length-1)+"건";
-		}
-		
-		
-		var orderMasterVO = {
-			id : $('input[name=oid]').val(),
-			orderName : "${orderName}",
-			totOrderPrice : totOrderPrice,
-			orderStateCd : "01",
-			ordererUserId : "${loginUser.id}",
-			ordererName : $("#ordererName").val(),
-			ordererHpNumber : $("#ordererHpNumber").val(),
-			ordererMail : $("#ordererMail").val(),
-			recipientName : $("#recipientName").val(),
-			recipientHpNumber : $("#recipientHpNumber").val(),
-			recipientHpNumber2 : $("#recipientHpNumber2").val(),
-			recipientJibunAddr : $("#recipientJibunAddr").val(),
-			recipientRoadAddr : $("#recipientRoadAddr").val(),
-			recipientDetailAddr : $("#recipientDetailAddr").val(),
-			recipientZipcode : $("#recipientZipcode").val(),
-			orderRequest : $("#orderRequest").val(),
-			deliveryRequest : $("#deliveryRequest").val(),
-			paymentMethod : "Card",
-			videoRequestCd : "01"
-		};
-		
-		var ajaxData = {
-				orderMasterVO : JSON.stringify(orderMasterVO),
-				orderDetailVOList : JSON.stringify(orderRegistFormArray)
-		};
-			
-		$.ajax({
-			type: "post",
-			url: "/order/orderRegistLogic.do",
-			data: ajaxData,
-			dataType: 'json',
-			success: function (data) {
-				
-				console.log(data);
-				
-				if(data == 2) {
-					// ajax success 시 결제모듈 호출
-					$("#inicis_goodname").val("${orderName}");
-					$("#inicis_buyername").val($("#ordererName").val());
-					$("#inicis_buyertel").val($("#ordererHpNumber").val());
-					$("#inicis_buyeremail").val($("#ordererMail").val());
-					
-					INIStdPay.pay('inicisSendForm');
-				}else {
-					alert("주문서 작성에 오류가 발생했습니다.\n 관리자에게 문의하세요.");
-				}
-			}
-		});
-	}else if($("#payment-method-account-transfer").prop("checked") == true) {
-		var orderRegistFormArray = [];
-		
-		var totOrderPrice = 0;
-		$('#productListInfoTable tr').each(function (index) {
-			if(0 != index) {
-				// orderDetail Set
-				var item = {
-					id : $(this).find('input[name=id]').val(),
-					productId : $(this).find('input[name=productId]').val(),
-					productPrice : $(this).find('input[name=productPrice]').val(),
-					productOrderQty : $(this).find('input[name=productOrderQty]').val()
-				};
-				orderRegistFormArray.push(item);
-				
-				//totOrderPrice set
-				totOrderPrice += parseInt($(this).find('input[name=productPrice]').val());
-			}
-		});
-		
-		if(2 < $('#productListInfoTable tr').length) {
-			orderName += "외 "+($('#productListInfoTable tr').length-1)+"건";
-		}
-		
-		
-		var orderMasterVO = {
-			id : $('input[name=oid]').val(),
-			orderName : "${orderName}",
-			totOrderPrice : totOrderPrice,
-			orderStateCd : "01",
-			ordererUserId : "${loginUser.id}",
-			ordererName : $("#ordererName").val(),
-			ordererHpNumber : $("#ordererHpNumber").val(),
-			ordererMail : $("#ordererMail").val(),
-			recipientName : $("#recipientName").val(),
-			recipientHpNumber : $("#recipientHpNumber").val(),
-			recipientHpNumber2 : $("#recipientHpNumber2").val(),
-			recipientJibunAddr : $("#recipientJibunAddr").val(),
-			recipientRoadAddr : $("#recipientRoadAddr").val(),
-			recipientDetailAddr : $("#recipientDetailAddr").val(),
-			recipientZipcode : $("#recipientZipcode").val(),
-			orderRequest : $("#orderRequest").val(),
-			deliveryRequest : $("#deliveryRequest").val(),
-			paymentMethod : "account-transfer",
-			videoRequestCd : "01"
-		};
-		
-		var ajaxData = {
-				orderMasterVO : JSON.stringify(orderMasterVO),
-				orderDetailVOList : JSON.stringify(orderRegistFormArray)
-		};
-			
-		$.ajax({
-			type: "post",
-			url: "/order/orderRegistLogic.do",
-			data: ajaxData,
-			dataType: 'json',
-			success: function (data) {
-				
-				console.log(data);
-				
-				if(data == 2) {
-					alert("계좌로 입금해주시면 주문이 완료됩니다. \n계좌번호 : 645-910900-07207 하나은행 이해창(현우의 컴퓨터 공방) \n계좌번호는 주문내역에서 확인 가능합니다!");
-					location.href = "/user/orderList.do";
-				}else {
-					alert("주문서 작성에 오류가 발생했습니다.\n 관리자에게 문의하세요.");
-				}
-			}
-		});
+	if($("#payment-method-card").prop("checked") != true && $("#payment-method-account-transfer").prop("checked") != true){
+		alert("결제 방법을 선택해주세요!");
+		return false;
 	}
+
+	$("#terms-modal").modal("show");
+
+
+	try {
+		await returnTrue();
+		console.log("성공");
+
+
+		if($("#payment-method-card").prop("checked") == true){
+			var orderRegistFormArray = [];
+			
+			var totOrderPrice = 0;
+			$('#productListInfoTable tr').each(function (index) {
+				if(0 != index) {
+					// orderDetail Set
+					var item = {
+						id : $(this).find('input[name=id]').val(),
+						productId : $(this).find('input[name=productId]').val(),
+						productPrice : $(this).find('input[name=productPrice]').val(),
+						productOrderQty : $(this).find('input[name=productOrderQty]').val()
+					};
+					orderRegistFormArray.push(item);
+					
+					//totOrderPrice set
+					totOrderPrice += parseInt($(this).find('input[name=productPrice]').val());
+				}
+			});
+			
+			if(2 < $('#productListInfoTable tr').length) {
+				orderName += "외 "+($('#productListInfoTable tr').length-1)+"건";
+			}
+			
+			
+			var orderMasterVO = {
+				id : $('input[name=oid]').val(),
+				orderName : "${orderName}",
+				totOrderPrice : totOrderPrice,
+				orderStateCd : "01",
+				ordererUserId : "${loginUser.id}",
+				ordererName : $("#ordererName").val(),
+				ordererHpNumber : $("#ordererHpNumber").val(),
+				ordererMail : $("#ordererMail").val(),
+				recipientName : $("#recipientName").val(),
+				recipientHpNumber : $("#recipientHpNumber").val(),
+				recipientHpNumber2 : $("#recipientHpNumber2").val(),
+				recipientJibunAddr : $("#recipientJibunAddr").val(),
+				recipientRoadAddr : $("#recipientRoadAddr").val(),
+				recipientDetailAddr : $("#recipientDetailAddr").val(),
+				recipientZipcode : $("#recipientZipcode").val(),
+				orderRequest : $("#orderRequest").val(),
+				deliveryRequest : $("#deliveryRequest").val(),
+				paymentMethod : "Card",
+				videoRequestCd : "01"
+			};
+			
+			var ajaxData = {
+					orderMasterVO : JSON.stringify(orderMasterVO),
+					orderDetailVOList : JSON.stringify(orderRegistFormArray)
+			};
+				
+			$.ajax({
+				type: "post",
+				url: "/order/orderRegistLogic.do",
+				data: ajaxData,
+				dataType: 'json',
+				success: function (data) {
+					
+					console.log(data);
+					
+					if(data == 2) {
+						// ajax success 시 결제모듈 호출
+						$("#inicis_goodname").val("${orderName}");
+						$("#inicis_buyername").val($("#ordererName").val());
+						$("#inicis_buyertel").val($("#ordererHpNumber").val());
+						$("#inicis_buyeremail").val($("#ordererMail").val());
+						
+						INIStdPay.pay('inicisSendForm');
+					}else {
+						alert("주문서 작성에 오류가 발생했습니다.\n 관리자에게 문의하세요.");
+					}
+				}
+			});
+		}else if($("#payment-method-account-transfer").prop("checked") == true) {
+			var orderRegistFormArray = [];
+			
+			var totOrderPrice = 0;
+			$('#productListInfoTable tr').each(function (index) {
+				if(0 != index) {
+					// orderDetail Set
+					var item = {
+						id : $(this).find('input[name=id]').val(),
+						productId : $(this).find('input[name=productId]').val(),
+						productPrice : $(this).find('input[name=productPrice]').val(),
+						productOrderQty : $(this).find('input[name=productOrderQty]').val()
+					};
+					orderRegistFormArray.push(item);
+					
+					//totOrderPrice set
+					totOrderPrice += parseInt($(this).find('input[name=productPrice]').val());
+				}
+			});
+			
+			if(2 < $('#productListInfoTable tr').length) {
+				orderName += "외 "+($('#productListInfoTable tr').length-1)+"건";
+			}
+			
+			
+			var orderMasterVO = {
+				id : $('input[name=oid]').val(),
+				orderName : "${orderName}",
+				totOrderPrice : totOrderPrice,
+				orderStateCd : "01",
+				ordererUserId : "${loginUser.id}",
+				ordererName : $("#ordererName").val(),
+				ordererHpNumber : $("#ordererHpNumber").val(),
+				ordererMail : $("#ordererMail").val(),
+				recipientName : $("#recipientName").val(),
+				recipientHpNumber : $("#recipientHpNumber").val(),
+				recipientHpNumber2 : $("#recipientHpNumber2").val(),
+				recipientJibunAddr : $("#recipientJibunAddr").val(),
+				recipientRoadAddr : $("#recipientRoadAddr").val(),
+				recipientDetailAddr : $("#recipientDetailAddr").val(),
+				recipientZipcode : $("#recipientZipcode").val(),
+				orderRequest : $("#orderRequest").val(),
+				deliveryRequest : $("#deliveryRequest").val(),
+				paymentMethod : "account-transfer",
+				videoRequestCd : "01"
+			};
+			
+			var ajaxData = {
+					orderMasterVO : JSON.stringify(orderMasterVO),
+					orderDetailVOList : JSON.stringify(orderRegistFormArray)
+			};
+				
+			$.ajax({
+				type: "post",
+				url: "/order/orderRegistLogic.do",
+				data: ajaxData,
+				dataType: 'json',
+				success: function (data) {
+					
+					console.log(data);
+					
+					if(data == 2) {
+						alert("계좌로 입금해주시면 주문이 완료됩니다. \n계좌번호 : 645-910900-07207 하나은행 이해창(현우의 컴퓨터 공방) \n계좌번호는 주문내역에서 확인 가능합니다!");
+						location.href = "/user/orderList.do";
+					}else {
+						alert("주문서 작성에 오류가 발생했습니다.\n 관리자에게 문의하세요.");
+					}
+				}
+			});
+		}
+	} catch (error){
+		return false;
+		console.log("실패");
+	}
+	
 }
 
 function findDaumAddr() {
@@ -414,11 +432,44 @@ function recDupliChk(id) {
         }
     });
 }
+// 09.06 약관 동의 기능 추가
+function refuseTerms(){
+	alert("약관 미동의 시 구매하실 수 없습니다");
+	$("#terms-modal").modal("hide");
+}
+function agreeTerms(){
+	
+}
 
+function returnTrue(){
+	return new Promise((resolve) => {
+		$("#agree-terms").on("click",() => {
+			$("#terms-modal").modal("hide");
+			resolve();
+		});
+    });
+}
 </script>
 </head>
 <body class="order-sheet-body">
-
+	<!-- 09.06 약관 동의 모달 -->
+	<div class="modal fade" tabindex="-1" id="terms-modal" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-scrollable">
+		  <div class="modal-content">
+			<div class="modal-header">
+			  <h5 class="modal-title">이용 약관</h5>
+			  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+			  약관 내용</p>
+			</div>
+			<div class="modal-footer">
+			  <button type="button" class="btn btn-secondary" onclick="javascript:refuseTerms()">닫기</button>
+			  <button type="button" class="btn btn-primary" id="agree-terms" onclick="javascript:returnTrue()">약관 동의</button>
+			</div>
+		  </div>
+		</div>
+	  </div>
 	<form id="order_sheet_form">
 		<div class="mx-auto container pt-3 pb-3">
 			<div class="card mt-4">
@@ -492,7 +543,17 @@ function recDupliChk(id) {
 										</div>
 										
 									</td>
-									<td class="align-middle">${item.productPriceStr}</td>
+									<td class="align-middle">
+										<p class="p-2">${item.productPriceStr}</p>
+										<p class="p-2">
+											<div class="form-check">
+												<input class="form-check-input" type="checkbox" value="" id="add-box">
+												<label class="form-check-label pt-1" for="add-box">
+													제품 박스 추가(+5,000원)
+												</label>
+											</div>
+										</p>
+									</td>
 								</tr>
 							</c:forEach>
 						</tbody>
@@ -601,11 +662,11 @@ function recDupliChk(id) {
 						<label class="col-md-2 col-form-label">결제 방법</label>
 						<div class="col-md-5">
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" name="payment-method" type="radio" id="payment-method-card" value="option1">
+								<input class="form-check-input" name="payment-method" type="radio" id="payment-method-card" value="option1" required>
 								<label class="form-check-label pt-1" for="payment-method-card">카드</label>
 							</div>
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" name="payment-method" type="radio" id="payment-method-account-transfer" value="option1">
+								<input class="form-check-input" name="payment-method" type="radio" id="payment-method-account-transfer" value="option1" required>
 								<label class="form-check-label pt-1" for="payment-method-account-transfer">계좌이체</label>
 							</div>
 						</div>

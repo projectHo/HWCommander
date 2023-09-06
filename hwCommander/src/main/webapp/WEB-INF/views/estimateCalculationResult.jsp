@@ -73,8 +73,8 @@
 	  productMasterIndex++;
 	});
 
-	console.log(productMasterResult[0][0].productDescription);
-	let userId = (productMasterResult[0][0].productDescription).split(" ");
+	// 09.06
+	// let userId = (productMasterResult[0][0].productDescription).split(" ");
 	// 추천된 마더보드 리스트화
 	const mbDetail = mbInfo.substring(1, mbInfo.length - 1);
 	const mbSplit = mbDetail.split('PartsMbHistoryVO(');
@@ -168,6 +168,7 @@
 		sessionStorage.clear();
 	}
 	function clickOrderBtn() {
+		// 09.06 오류 상태 추가 및 램 변경시 업데이트 로직 추가 필요
 		location.href = "/order/sheet.do?accessRoute=direct&productIds="+"${productMaster.id}";
 	}
 
@@ -177,12 +178,10 @@
 
 	let differencePrices = [];
 	let ramRufIndex = 1;
-
 	let basedRam = productResult[6][0].partsPrice;
 	for (let i = 1; i<Object.keys(ramResult).length; i++){
 		if(ramResult[i][0].partsPrice !== "0" && ramResult[i][0].partsPrice !== "9999999"){
 			let defferenceRam = ramResult[i][0].partsPrice;
-
 			let calcPrices = Number(defferenceRam) - Number(basedRam);
 			differencePrices.push(calcPrices);
 		}
@@ -231,10 +230,11 @@
 		calcPartsPrice();
 		enterPartsText();
 		insertRams();
-		$("#id-input").val("ID : " + userId[0]);
+		// 09.06 로직 개선 후 에러 상태 확인 필요
 		if($("#id-input").val() === "ID : error"){
-			console.log($("#id-input").val());
 			$("#resultErrorModal").modal("show");
+		}else {
+			$("#id-input").val("ID : " + userId[0]);
 		}
 		const currentDate = new Date();
 
