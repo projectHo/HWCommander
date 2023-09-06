@@ -1273,14 +1273,14 @@ public class ProductServiceImpl implements ProductService {
 //		중첩반복에서 아래로 제거하는일은 절대없음.
 		
 		
-		System.out.println("######### 소거 전 partsGpuHistoryVOList.size() : "+partsGpuHistoryVOList.size());
-		System.out.println("################# SYSO 결과출력 START #########################");
-		System.out.println("######### 순차적으로 index, id, parts_name, parts_price, gpuValue");
-		for(int i = 0; i < partsGpuHistoryVOList.size(); i++) {
-			System.out.print(i+", "+partsGpuHistoryVOList.get(i).getId()+", "+partsGpuHistoryVOList.get(i).getPartsName()+", "+partsGpuHistoryVOList.get(i).getPartsPrice()+", "+partsGpuHistoryVOList.get(i).getGpuValue());
-			System.out.println("");
-		}
-		System.out.println("################# SYSO 결과출력  END #########################");
+//		System.out.println("######### 소거 전 partsGpuHistoryVOList.size() : "+partsGpuHistoryVOList.size());
+//		System.out.println("################# SYSO 결과출력 START #########################");
+//		System.out.println("######### 순차적으로 index, id, parts_name, parts_price, gpuValue");
+//		for(int i = 0; i < partsGpuHistoryVOList.size(); i++) {
+//			System.out.print(i+", "+partsGpuHistoryVOList.get(i).getId()+", "+partsGpuHistoryVOList.get(i).getPartsName()+", "+partsGpuHistoryVOList.get(i).getPartsPrice()+", "+partsGpuHistoryVOList.get(i).getGpuValue());
+//			System.out.println("");
+//		}
+//		System.out.println("################# SYSO 결과출력  END #########################");
 		
 		// Gpu 소거로직 START
 		for(int i = partsGpuHistoryVOList.size()-1; i >= 1; i--) {
@@ -1314,14 +1314,14 @@ public class ProductServiceImpl implements ProductService {
 			}
 		}
 		
-		System.out.println("######### 소거 후 partsGpuHistoryVOList.size() : "+partsGpuHistoryVOList.size());
-		System.out.println("################# SYSO 결과출력 START #########################");
-		System.out.println("######### 순차적으로 index, id, parts_name, parts_price, gpuValue");
-		for(int i = 0; i < partsGpuHistoryVOList.size(); i++) {
-			System.out.print(i+", "+partsGpuHistoryVOList.get(i).getId()+", "+partsGpuHistoryVOList.get(i).getPartsName()+", "+partsGpuHistoryVOList.get(i).getPartsPrice()+", "+partsGpuHistoryVOList.get(i).getGpuValue());
-			System.out.println("");
-		}
-		System.out.println("################# SYSO 결과출력  END #########################");
+//		System.out.println("######### 소거 후 partsGpuHistoryVOList.size() : "+partsGpuHistoryVOList.size());
+//		System.out.println("################# SYSO 결과출력 START #########################");
+//		System.out.println("######### 순차적으로 index, id, parts_name, parts_price, gpuValue");
+//		for(int i = 0; i < partsGpuHistoryVOList.size(); i++) {
+//			System.out.print(i+", "+partsGpuHistoryVOList.get(i).getId()+", "+partsGpuHistoryVOList.get(i).getPartsName()+", "+partsGpuHistoryVOList.get(i).getPartsPrice()+", "+partsGpuHistoryVOList.get(i).getGpuValue());
+//			System.out.println("");
+//		}
+//		System.out.println("################# SYSO 결과출력  END #########################");
 		
 		
 		/*--------------------------------------------------
@@ -1342,6 +1342,7 @@ public class ProductServiceImpl implements ProductService {
 		List<PartsCaseHistoryVO> partsCaseHistoryVOListAlgorithm12Backup = new ArrayList<>();
 		List<PartsSsdHistoryVO> partsSsdHistoryVOListAlgorithm12Backup = new ArrayList<>();
 		List<PartsMbHistoryVO> partsMbHistoryVOListAlgorithm12Backup = new ArrayList<>();
+		BigDecimal VC12Backup = VC;
 
 		for(int i = 0; i < partsCpuHistoryVOList.size(); i++) {
 			partsCpuHistoryVOListAlgorithm12Backup.add(partsCpuHistoryVOList.get(i));
@@ -1384,6 +1385,7 @@ public class ProductServiceImpl implements ProductService {
 			partsCaseHistoryVOList = new ArrayList<>();
 			partsSsdHistoryVOList = new ArrayList<>();
 			partsMbHistoryVOList = new ArrayList<>();
+			VC = VC12Backup;
 
 			for(int i = 0; i < partsCpuHistoryVOListAlgorithm12Backup.size(); i++) {
 				partsCpuHistoryVOList.add(partsCpuHistoryVOListAlgorithm12Backup.get(i));
@@ -2015,18 +2017,43 @@ public class ProductServiceImpl implements ProductService {
 			*--------------------------------------------------*/
 			// 18번 시점에서 백업데이터. 추후 구현할 24번에서 롤백 할 백업데이터로 쓰인다.
 			List<PartsMbHistoryVO> partsMbHistoryVOListAlgorithm18Backup = new ArrayList<>();
+			List<PartsCoolerHistoryVO> partsCoolerHistoryVOListAlgorithm18Backup = new ArrayList<>();
+			List<PartsCaseHistoryVO> partsCaseHistoryVOListAlgorithm18Backup = new ArrayList<>();
+			List<PartsPsuHistoryVO> partsPsuHistoryVOListAlgorithm18Backup = new ArrayList<>();
+			List<PartsRamHistoryVO> partsRamHistoryVOListAlgorithm18Backup = new ArrayList<>();
+			List<PartsSsdHistoryVO> partsSsdHistoryVOListAlgorithm18Backup = new ArrayList<>();
+			BigDecimal VC18Backup = VC;
 
 			for(int i = 0; i < partsMbHistoryVOList.size(); i++) {
 				partsMbHistoryVOListAlgorithm18Backup.add(partsMbHistoryVOList.get(i));
 			}
 			
+			for(int i = 0; i < partsCoolerHistoryVOList.size(); i++) {
+				partsCoolerHistoryVOListAlgorithm18Backup.add(partsCoolerHistoryVOList.get(i));
+			}
+			
+			for(int i = 0; i < partsCaseHistoryVOList.size(); i++) {
+				partsCaseHistoryVOListAlgorithm18Backup.add(partsCaseHistoryVOList.get(i));
+			}
+			
+			for(int i = 0; i < partsPsuHistoryVOList.size(); i++) {
+				partsPsuHistoryVOListAlgorithm18Backup.add(partsPsuHistoryVOList.get(i));
+			}
+			
+			for(int i = 0; i < partsRamHistoryVOList.size(); i++) {
+				partsRamHistoryVOListAlgorithm18Backup.add(partsRamHistoryVOList.get(i));
+			}
+			
+			for(int i = 0; i < partsSsdHistoryVOList.size(); i++) {
+				partsSsdHistoryVOListAlgorithm18Backup.add(partsSsdHistoryVOList.get(i));
+			}
 			
 			int limβ = partsCpuHistoryVOList.size();
 			
 			if(limβ <= β) {
 				// limβ<β라면 아래 변수 정렬 후 12번으로 돌아간다. -> limβ<=β
 				
-				VC = VC.add(new BigDecimal(partsGpuHistoryVOList.get(gpuIndex).getPartsPrice()));
+//				VC = VC.add(new BigDecimal(partsGpuHistoryVOList.get(gpuIndex).getPartsPrice()));
 				β = 0;
 				γ = 0;
 				k = 0;
@@ -2044,9 +2071,35 @@ public class ProductServiceImpl implements ProductService {
 				 - 18-1. 18번백업데이터 기준으로 데이터복원처리
 				*--------------------------------------------------*/
 				partsMbHistoryVOList = new ArrayList<>();
-
+				partsCoolerHistoryVOList = new ArrayList<>();
+				partsCaseHistoryVOList = new ArrayList<>();
+				partsPsuHistoryVOList = new ArrayList<>();
+				partsRamHistoryVOList = new ArrayList<>();
+				partsSsdHistoryVOList = new ArrayList<>();
+				VC = VC18Backup;
+				
 				for(int i = 0; i < partsMbHistoryVOListAlgorithm18Backup.size(); i++) {
 					partsMbHistoryVOList.add(partsMbHistoryVOListAlgorithm18Backup.get(i));
+				}
+				
+				for(int i = 0; i < partsCoolerHistoryVOListAlgorithm18Backup.size(); i++) {
+					partsCoolerHistoryVOList.add(partsCoolerHistoryVOListAlgorithm18Backup.get(i));
+				}
+				
+				for(int i = 0; i < partsCaseHistoryVOListAlgorithm18Backup.size(); i++) {
+					partsCaseHistoryVOList.add(partsCaseHistoryVOListAlgorithm18Backup.get(i));
+				}
+				
+				for(int i = 0; i < partsPsuHistoryVOListAlgorithm18Backup.size(); i++) {
+					partsPsuHistoryVOList.add(partsPsuHistoryVOListAlgorithm18Backup.get(i));
+				}
+				
+				for(int i = 0; i < partsRamHistoryVOListAlgorithm18Backup.size(); i++) {
+					partsRamHistoryVOList.add(partsRamHistoryVOListAlgorithm18Backup.get(i));
+				}
+				
+				for(int i = 0; i < partsSsdHistoryVOListAlgorithm18Backup.size(); i++) {
+					partsSsdHistoryVOList.add(partsSsdHistoryVOListAlgorithm18Backup.get(i));
 				}
 				
 				/*--------------------------------------------------
@@ -2182,9 +2235,30 @@ public class ProductServiceImpl implements ProductService {
 				*--------------------------------------------------*/
 				// 24번 시점에서 백업데이터. 추후 구현할 27번에서 롤백 할 백업데이터로 쓰인다.
 				List<PartsCoolerHistoryVO> partsCoolerHistoryVOListAlgorithm24Backup = new ArrayList<>();
-
+				List<PartsCaseHistoryVO> partsCaseHistoryVOListAlgorithm24Backup = new ArrayList<>();
+				List<PartsPsuHistoryVO> partsPsuHistoryVOListAlgorithm24Backup = new ArrayList<>();
+				List<PartsRamHistoryVO> partsRamHistoryVOListAlgorithm24Backup = new ArrayList<>();
+				List<PartsSsdHistoryVO> partsSsdHistoryVOListAlgorithm24Backup = new ArrayList<>();
+				BigDecimal VC24Backup = VC;
+				
 				for(int i = 0; i < partsCoolerHistoryVOList.size(); i++) {
 					partsCoolerHistoryVOListAlgorithm24Backup.add(partsCoolerHistoryVOList.get(i));
+				}
+				
+				for(int i = 0; i < partsCaseHistoryVOList.size(); i++) {
+					partsCaseHistoryVOListAlgorithm24Backup.add(partsCaseHistoryVOList.get(i));
+				}
+				
+				for(int i = 0; i < partsPsuHistoryVOList.size(); i++) {
+					partsPsuHistoryVOListAlgorithm24Backup.add(partsPsuHistoryVOList.get(i));
+				}
+				
+				for(int i = 0; i < partsRamHistoryVOList.size(); i++) {
+					partsRamHistoryVOListAlgorithm24Backup.add(partsRamHistoryVOList.get(i));
+				}
+				
+				for(int i = 0; i < partsSsdHistoryVOList.size(); i++) {
+					partsSsdHistoryVOListAlgorithm24Backup.add(partsSsdHistoryVOList.get(i));
 				}
 				
 				int limγ = partsMbHistoryVOList.size();
@@ -2192,7 +2266,7 @@ public class ProductServiceImpl implements ProductService {
 				if(limγ <= γ) {
 					// limγ<γ라면 아래 변수 정렬 후 18번으로 돌아간다. -> limγ<=γ
 					
-					VC = VC.add(new BigDecimal(partsCpuHistoryVOList.get(cpuIndex).getPartsPrice()));
+//					VC = VC.add(new BigDecimal(partsCpuHistoryVOList.get(cpuIndex).getPartsPrice()));
 					γ = 0;
 					k = 0;
 					p = 0;
@@ -2205,13 +2279,38 @@ public class ProductServiceImpl implements ProductService {
 				
 				// limγ>=γ라면 연산을 이어간다. -> limγ>γ
 				for(int mbIndex = γ; mbIndex < limγ; mbIndex++) {
+					// test 23.08.31
+//					if(gpuIndex == 0 && cpuIndex == 0 && mbIndex == 2) {
+//						System.out.println("################# SYSO 결과출력 START #########################");
+//					}
 					/*--------------------------------------------------
 					 - 24-1. 24번백업데이터 기준으로 데이터복원처리
 					*--------------------------------------------------*/
 					partsCoolerHistoryVOList = new ArrayList<>();
-
+					partsCaseHistoryVOList = new ArrayList<>();
+					partsPsuHistoryVOList = new ArrayList<>();
+					partsRamHistoryVOList = new ArrayList<>();
+					partsSsdHistoryVOList = new ArrayList<>();
+					VC = VC24Backup;
+					
 					for(int i = 0; i < partsCoolerHistoryVOListAlgorithm24Backup.size(); i++) {
 						partsCoolerHistoryVOList.add(partsCoolerHistoryVOListAlgorithm24Backup.get(i));
+					}
+					
+					for(int i = 0; i < partsCaseHistoryVOListAlgorithm24Backup.size(); i++) {
+						partsCaseHistoryVOList.add(partsCaseHistoryVOListAlgorithm24Backup.get(i));
+					}
+					
+					for(int i = 0; i < partsPsuHistoryVOListAlgorithm24Backup.size(); i++) {
+						partsPsuHistoryVOList.add(partsPsuHistoryVOListAlgorithm24Backup.get(i));
+					}
+					
+					for(int i = 0; i < partsRamHistoryVOListAlgorithm24Backup.size(); i++) {
+						partsRamHistoryVOList.add(partsRamHistoryVOListAlgorithm24Backup.get(i));
+					}
+					
+					for(int i = 0; i < partsSsdHistoryVOListAlgorithm24Backup.size(); i++) {
+						partsSsdHistoryVOList.add(partsSsdHistoryVOListAlgorithm24Backup.get(i));
 					}
 					
 					/*--------------------------------------------------
@@ -2253,9 +2352,25 @@ public class ProductServiceImpl implements ProductService {
 					*--------------------------------------------------*/
 					// 27번 시점에서 백업데이터. 추후 구현할 33번에서 롤백 할 백업데이터로 쓰인다.
 					List<PartsCaseHistoryVO> partsCaseHistoryVOListAlgorithm27Backup = new ArrayList<>();
-
+					List<PartsPsuHistoryVO> partsPsuHistoryVOListAlgorithm27Backup = new ArrayList<>();
+					List<PartsRamHistoryVO> partsRamHistoryVOListAlgorithm27Backup = new ArrayList<>();
+					List<PartsSsdHistoryVO> partsSsdHistoryVOListAlgorithm27Backup = new ArrayList<>();
+					BigDecimal VC27Backup = VC;
+					
 					for(int i = 0; i < partsCaseHistoryVOList.size(); i++) {
 						partsCaseHistoryVOListAlgorithm27Backup.add(partsCaseHistoryVOList.get(i));
+					}
+					
+					for(int i = 0; i < partsPsuHistoryVOList.size(); i++) {
+						partsPsuHistoryVOListAlgorithm27Backup.add(partsPsuHistoryVOList.get(i));
+					}
+					
+					for(int i = 0; i < partsRamHistoryVOList.size(); i++) {
+						partsRamHistoryVOListAlgorithm27Backup.add(partsRamHistoryVOList.get(i));
+					}
+					
+					for(int i = 0; i < partsSsdHistoryVOList.size(); i++) {
+						partsSsdHistoryVOListAlgorithm27Backup.add(partsSsdHistoryVOList.get(i));
 					}
 					
 					int limk = partsCoolerHistoryVOList.size();
@@ -2263,7 +2378,7 @@ public class ProductServiceImpl implements ProductService {
 					if(limk <= k) {
 						// limk<k라면 아래 변수 정렬 후 24번으로 돌아간다. -> limk<=k
 						
-						VC = VC.add(new BigDecimal(partsMbHistoryVOList.get(mbIndex).getPartsPrice()));
+//						VC = VC.add(new BigDecimal(partsMbHistoryVOList.get(mbIndex).getPartsPrice()));
 						k = 0;
 						p = 0;
 						q = 0;
@@ -2279,9 +2394,25 @@ public class ProductServiceImpl implements ProductService {
 						 - 27-1. 27번백업데이터 기준으로 데이터복원처리
 						*--------------------------------------------------*/
 						partsCaseHistoryVOList = new ArrayList<>();
+						partsPsuHistoryVOList = new ArrayList<>();
+						partsRamHistoryVOList = new ArrayList<>();
+						partsSsdHistoryVOList = new ArrayList<>();
+						VC = VC27Backup;
 
 						for(int i = 0; i < partsCaseHistoryVOListAlgorithm27Backup.size(); i++) {
 							partsCaseHistoryVOList.add(partsCaseHistoryVOListAlgorithm27Backup.get(i));
+						}
+						
+						for(int i = 0; i < partsPsuHistoryVOListAlgorithm27Backup.size(); i++) {
+							partsPsuHistoryVOList.add(partsPsuHistoryVOListAlgorithm27Backup.get(i));
+						}
+						
+						for(int i = 0; i < partsRamHistoryVOListAlgorithm27Backup.size(); i++) {
+							partsRamHistoryVOList.add(partsRamHistoryVOListAlgorithm27Backup.get(i));
+						}
+						
+						for(int i = 0; i < partsSsdHistoryVOListAlgorithm27Backup.size(); i++) {
+							partsSsdHistoryVOList.add(partsSsdHistoryVOListAlgorithm27Backup.get(i));
 						}
 						
 						/*--------------------------------------------------
@@ -2423,7 +2554,6 @@ public class ProductServiceImpl implements ProductService {
 							}
 						}
 						
-						
 						/*--------------------------------------------------
 						 - 33. 남은 CASE제품의 개수를 limp 라고 한다.
 						 - Limp<p라면 아래 변수정렬 후 27번으로 돌아간다.(소거 시점도 27번으로 롤백한다.)
@@ -2434,9 +2564,20 @@ public class ProductServiceImpl implements ProductService {
 						*--------------------------------------------------*/
 						// 33번 시점에서 백업데이터. 추후 구현할 39번에서 롤백 할 백업데이터로 쓰인다.
 						List<PartsPsuHistoryVO> partsPsuHistoryVOListAlgorithm33Backup = new ArrayList<>();
-
+						List<PartsRamHistoryVO> partsRamHistoryVOListAlgorithm33Backup = new ArrayList<>();
+						List<PartsSsdHistoryVO> partsSsdHistoryVOListAlgorithm33Backup = new ArrayList<>();
+						BigDecimal VC33Backup = VC;
+						
 						for(int i = 0; i < partsPsuHistoryVOList.size(); i++) {
 							partsPsuHistoryVOListAlgorithm33Backup.add(partsPsuHistoryVOList.get(i));
+						}
+						
+						for(int i = 0; i < partsRamHistoryVOList.size(); i++) {
+							partsRamHistoryVOListAlgorithm33Backup.add(partsRamHistoryVOList.get(i));
+						}
+						
+						for(int i = 0; i < partsSsdHistoryVOList.size(); i++) {
+							partsSsdHistoryVOListAlgorithm33Backup.add(partsSsdHistoryVOList.get(i));
 						}
 						
 						int limp = partsCaseHistoryVOList.size();
@@ -2444,7 +2585,7 @@ public class ProductServiceImpl implements ProductService {
 						if(limp <= p) {
 							// limp<p라면 아래 변수 정렬 후 27번으로 돌아간다. -> limp<=p
 							
-							VC = VC.add(new BigDecimal(partsMbHistoryVOList.get(coolerIndex).getPartsPrice()));
+//							VC = VC.add(new BigDecimal(partsCoolerHistoryVOList.get(coolerIndex).getPartsPrice()));
 							p = 0;
 							q = 0;
 							x = 0;
@@ -2459,9 +2600,20 @@ public class ProductServiceImpl implements ProductService {
 							 - 33-1. 33번백업데이터 기준으로 데이터복원처리
 							*--------------------------------------------------*/
 							partsPsuHistoryVOList = new ArrayList<>();
+							partsRamHistoryVOList = new ArrayList<>();
+							partsSsdHistoryVOList = new ArrayList<>();
+							VC = VC33Backup;
 
 							for(int i = 0; i < partsPsuHistoryVOListAlgorithm33Backup.size(); i++) {
 								partsPsuHistoryVOList.add(partsPsuHistoryVOListAlgorithm33Backup.get(i));
+							}
+							
+							for(int i = 0; i < partsRamHistoryVOListAlgorithm33Backup.size(); i++) {
+								partsRamHistoryVOList.add(partsRamHistoryVOListAlgorithm33Backup.get(i));
+							}
+
+							for(int i = 0; i < partsSsdHistoryVOListAlgorithm33Backup.size(); i++) {
+								partsSsdHistoryVOList.add(partsSsdHistoryVOListAlgorithm33Backup.get(i));
 							}
 							
 							/*--------------------------------------------------
@@ -2589,9 +2741,15 @@ public class ProductServiceImpl implements ProductService {
 							*--------------------------------------------------*/
 							// 39번 시점에서 백업데이터. 추후 구현할 42번에서 롤백 할 백업데이터로 쓰인다.
 							List<PartsRamHistoryVO> partsRamHistoryVOListAlgorithm39Backup = new ArrayList<>();
-
+							List<PartsSsdHistoryVO> partsSsdHistoryVOListAlgorithm39Backup = new ArrayList<>();
+							BigDecimal VC39Backup = VC;
+							
 							for(int i = 0; i < partsRamHistoryVOList.size(); i++) {
 								partsRamHistoryVOListAlgorithm39Backup.add(partsRamHistoryVOList.get(i));
+							}
+							
+							for(int i = 0; i < partsSsdHistoryVOList.size(); i++) {
+								partsSsdHistoryVOListAlgorithm39Backup.add(partsSsdHistoryVOList.get(i));
 							}
 							
 							int limq = partsPsuHistoryVOList.size();
@@ -2599,7 +2757,7 @@ public class ProductServiceImpl implements ProductService {
 							if(limq <= q) {
 								// limq<q라면 아래 변수 정렬 후 33번으로 돌아간다. -> limq<=q
 								
-								VC = VC.add(new BigDecimal(partsCaseHistoryVOList.get(caseIndex).getPartsPrice()));
+//								VC = VC.add(new BigDecimal(partsCaseHistoryVOList.get(caseIndex).getPartsPrice()));
 								q = 0;
 								x = 0;
 								y = 0;
@@ -2613,9 +2771,15 @@ public class ProductServiceImpl implements ProductService {
 								 - 39-1. 39번백업데이터 기준으로 데이터복원처리
 								*--------------------------------------------------*/
 								partsRamHistoryVOList = new ArrayList<>();
+								partsSsdHistoryVOList = new ArrayList<>();
+								VC = VC39Backup;
 
 								for(int i = 0; i < partsRamHistoryVOListAlgorithm39Backup.size(); i++) {
 									partsRamHistoryVOList.add(partsRamHistoryVOListAlgorithm39Backup.get(i));
+								}
+								
+								for(int i = 0; i < partsSsdHistoryVOListAlgorithm39Backup.size(); i++) {
+									partsSsdHistoryVOList.add(partsSsdHistoryVOListAlgorithm39Backup.get(i));
 								}
 								
 								/*--------------------------------------------------
@@ -2654,7 +2818,8 @@ public class ProductServiceImpl implements ProductService {
 								*--------------------------------------------------*/
 								// 42번 시점에서 백업데이터. 추후 구현할 45번에서 롤백 할 백업데이터로 쓰인다.
 								List<PartsSsdHistoryVO> partsSsdHistoryVOListAlgorithm42Backup = new ArrayList<>();
-
+								BigDecimal VC42Backup = VC;
+								
 								for(int i = 0; i < partsSsdHistoryVOList.size(); i++) {
 									partsSsdHistoryVOListAlgorithm42Backup.add(partsSsdHistoryVOList.get(i));
 								}
@@ -2664,7 +2829,7 @@ public class ProductServiceImpl implements ProductService {
 								if(limx <= x) {
 									// limx<x라면 아래 변수 정렬 후 39번으로 돌아간다. -> limx<=x
 									
-									VC = VC.add(new BigDecimal(partsPsuHistoryVOList.get(psuIndex).getPartsPrice()));
+//									VC = VC.add(new BigDecimal(partsPsuHistoryVOList.get(psuIndex).getPartsPrice()));
 									x = 0;
 									y = 0;
 									
@@ -2677,10 +2842,25 @@ public class ProductServiceImpl implements ProductService {
 									 - 42-1. 42번백업데이터 기준으로 데이터복원처리
 									*--------------------------------------------------*/
 									partsSsdHistoryVOList = new ArrayList<>();
-
+									VC = VC42Backup;
+									
 									for(int i = 0; i < partsSsdHistoryVOListAlgorithm42Backup.size(); i++) {
 										partsSsdHistoryVOList.add(partsSsdHistoryVOListAlgorithm42Backup.get(i));
 									}
+									
+									// test 23.08.31
+//									if(mbIndex == 0) {
+//										System.out.println("################# SYSO 결과출력 START #########################");
+//									}
+//									if(mbIndex == 1) {
+//										System.out.println("################# SYSO 결과출력 START #########################");
+//									}
+//									if(mbIndex == 2) {
+//										System.out.println("################# SYSO 결과출력 START #########################");
+//									}
+//									if(mbIndex == 3) {
+//										System.out.println("################# SYSO 결과출력 START #########################");
+//									}
 									
 									/*--------------------------------------------------
 									 - 42-2. 현재 진행 ramIndex의 가격 빼기
@@ -2728,6 +2908,11 @@ public class ProductServiceImpl implements ProductService {
 									if(limy <= y) {
 										// limy<y라면 아래 변수 정렬 후 42번으로 돌아간다. -> limy<=y
 										y = 0;
+										
+										// 알고리즘 누락된거같은데?
+										// VC 빼고 더하는 연산식으로 처리하던 과정을 부품list 롤백과 동일한 처리로 과정 변경 23.09.05
+//										VC = VC.add(new BigDecimal(partsRamHistoryVOList.get(ramIndex).getPartsPrice()));
+										
 										continue; // 42번 처음 for 다음 ramIndey 진행
 									}
 									
