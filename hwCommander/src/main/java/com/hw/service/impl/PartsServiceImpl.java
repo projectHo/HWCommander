@@ -300,6 +300,7 @@ public class PartsServiceImpl implements PartsService {
 		
 		// update 시 이력 등록
 		if(1 == result) {
+			PartsGpuHistoryVO partsGpuHistoryVO = new PartsGpuHistoryVO();
 			PartsMbHistoryVO partsMbHistoryVO = new PartsMbHistoryVO();
 			partsMbHistoryVO.setId(partsMbVO.getId());
 			
@@ -325,7 +326,6 @@ public class PartsServiceImpl implements PartsService {
 			partsMbHistoryVO.setMultiBulk(partsMbVO.getMultiBulk());
 			partsMbHistoryVO.setWifi(partsMbVO.getWifi());
 			partsMbHistoryVO.setMc(partsMbVO.getMc());
-			partsMbHistoryVO.setLimVrm(partsMbVO.getLimVrm());
 			
 			result += partsDAO.insertPartsMbHistoryVO(partsMbHistoryVO);
 		}

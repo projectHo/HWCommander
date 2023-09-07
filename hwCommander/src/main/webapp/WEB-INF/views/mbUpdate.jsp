@@ -54,7 +54,6 @@ function dataSetting() {
 	$("#multiBulk").val("${selectData.multiBulk}");
 	$("#wifi").val("${selectData.wifi}");
 	$("#mc").val("${selectData.mc}");
-	$("#limVrm").val("${selectData.limVrm}");
 	
 	$("#id").val("${selectData.id}");
 	$("#partsImage").val("${selectData.partsImage}");
@@ -384,12 +383,6 @@ function validationCheck() {
                                            <div class="form-floating">
                                                <input class="form-control" id="mc" name="mc" type="text" placeholder="Enter mc" />
                                                <label for="mc">MC</label>
-                                           </div>
-                                       </div>
-                                       <div class="col-md-3">
-                                           <div class="form-floating">
-                                               <input class="form-control" id="limVrm" name="limVrm" type="text" placeholder="Enter limVrm" />
-                                               <label for="limVrm">LIM VRM</label>
                                            </div>
                                        </div>
                                    </div>

@@ -39,7 +39,6 @@ public class PartsMbVO {
 	private int multiBulk;
 	private int wifi;
 	private int mc;
-	private int limVrm;
 	
 	private int partsHistorySeq;
 }

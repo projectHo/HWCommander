@@ -357,12 +357,6 @@ function validationCheck() {
                                                <label for="mc">MC</label>
                                            </div>
                                        </div>
-                                       <div class="col-md-3">
-                                           <div class="form-floating">
-                                               <input class="form-control" id="limVrm" name="limVrm" type="text" placeholder="Enter limVrm" />
-                                               <label for="limVrm">LIM VRM</label>
-                                           </div>
-                                       </div>
                                    </div>
                                    
                                    <div class="mt-4 mb-0">

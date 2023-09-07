@@ -346,7 +346,6 @@
 			, multi_bulk
 			, wifi
 			, mc
-			, lim_vrm
 		)
 		VALUES
 		(
@@ -372,7 +371,6 @@
 			, #{multiBulk}
 			, #{wifi}
 			, #{mc}
-			, #{limVrm}
 		)
 	</insert>
 	
@@ -410,7 +408,6 @@
 			, a.wifi                                                                           AS wifi
 			, a.mc                                                                             AS mc
 			, (SELECT MAX(history_seq) FROM parts_mb_history WHERE id = a.id)                  AS partsHistorySeq
-			, a.lim_vrm                                                                        AS limVrm
 		FROM
 			parts_mb a
 		<where>
@@ -444,8 +441,7 @@
 			, updt_dtm            = NOW()        
 			, multi_bulk          = #{multiBulk} 
 			, wifi                = #{wifi}
-			, mc                  = #{mc}
-			, lim_vrm             = #{limVrm}
+			, mc                  = #{mc}            
 		WHERE
 			id = #{id}
 	</update>
@@ -480,7 +476,6 @@
 			, multi_bulk
 			, wifi
 			, mc
-			, lim_vrm
 		)
 		VALUES
 		(
@@ -507,7 +502,6 @@
 			, #{multiBulk}
 			, #{wifi}
 			, #{mc}
-			, #{limVrm}
 		)
 	</insert>
 	
@@ -544,7 +538,6 @@
 			, a.multi_bulk                                                                     AS multiBulk
 			, a.wifi                                                                           AS wifi
 			, a.mc                                                                             AS mc
-			, a.lim_vrm                                                                        AS limVrm
 		FROM
 			parts_mb_history a
 		<where>
