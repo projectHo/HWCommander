@@ -37,7 +37,7 @@
 			progress += 5;
 			setTimeout(animateDonutGauge, 20);
 		} else {
-			$(".donut-fill").html("9");
+			$(".donut-fill").html("5");
 			goToZero();
 		}
 	};
@@ -54,7 +54,7 @@
 	// typing question text
 	let index = 0;
 	function typeText() {
-		const text = " 메모리(램)카드의 버전을 DDR4, DDR5 중에서 골라주세요!";
+		const text = " 원하는 CPU 제조사가 있나요?";
 		if (index < text.length) {
 		$("#typingInput").val(function(i, val) {
 			return val + text.charAt(index);
@@ -65,17 +65,17 @@
 	}
 
 	function clickAnswerBtn(el){
-		if($(el).children().html() === "DDR4"){
-			sessionStorage.setItem("data-9",0);
-		}else if($(el).children().html() === "DDR5"){
-			sessionStorage.setItem("data-9",1);
+		if($(el).children().html() === "Intel"){
+			sessionStorage.setItem("data-5",0);
+		}else if($(el).children().html() === "AMD"){
+			sessionStorage.setItem("data-5",1);
 		}else {
-			sessionStorage.setItem("data-9",2);
+			sessionStorage.setItem("data-5",2);
 		}
 	}	
 	function clickReturnBtn(){
-		sessionStorage.setItem("data-9","null");
-		window.location.href = "ESCA_08_ver_1_0.do";
+		sessionStorage.setItem("data-5","null");
+		window.location.href = "ESCA_04_ver_1_0.do";
 	}
 	function clickEstimateBtn(el){
 		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false){
@@ -89,9 +89,9 @@
 			setTimeout(() => {
 				$(el).removeClass("is-valid");
 			}, 2000);
-			$(el).css('display','none');
+			$(el).css("display","none");
 			$(".loading-prog").css("display","block");
-			sendAllData();
+			sendAllData()
 		}
 	}
 	function clickNextBtn(el){
@@ -106,7 +106,7 @@
 			setTimeout(() => {
 				$(el).removeClass("is-valid");
 			}, 2000);
-			window.location.href = "ESCA_10_ver_1_0.do";
+			window.location.href = "ESCA_06_ver_1_0.do";
 		}
 	}
 	$(function () {
@@ -117,12 +117,12 @@
 		return new bootstrap.Tooltip($(this)[0]);
 	}).get();
 	// 견적산출 데이터처리부(수신)
-	if(sessionStorage.getItem("data-9")){
-		if(sessionStorage.getItem("data-9") === "0"){
+	if(sessionStorage.getItem("data-5")){
+		if(sessionStorage.getItem("data-5") === "0"){
 			$("#answer-a").prop("checked",true);
-		}else if (sessionStorage.getItem("data-9") === "1"){
+		}else if (sessionStorage.getItem("data-5") === "1"){
 			$("#answer-b").prop("checked",true);
-		}else if (sessionStorage.getItem("data-9") === "2"){
+		}else if (sessionStorage.getItem("data-5") === "2"){
 			$("#answer-c").prop("checked",true);
 		}
 	}
@@ -130,7 +130,7 @@
 </script>
 </head>
 <body>
-	<%@ include file="./common/header.jsp" %>
+	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 
 	<div class="basic_background w-100">
 		<div class="d-flex">
@@ -142,28 +142,28 @@
 					<div class="row mt-4 pb-5">
 						<div class="col-2 text-center">
 							<div class="donut-container margin-center">
-								 <div class="donut-fill">8</div>
+								 <div class="donut-fill">4</div>
 							</div>
 						</div>
 						<div class="col-8 d-flex p-2">
 							<input id="typingInput" class="form-control text-center pt-2 fs-5" type="text" readonly aria-label="예산 편성" disabled />
 						</div>
 					    <div class="col-2 d-flex flex-column-reverse">
-							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="선택사항 입니다~!" style="cursor:pointer">
+							<img src="/resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="확실한 이유가 없다면 상관없음으로 선택해주세요!" style="cursor:pointer">
 						</div>
 					</div>
 					<div class="row pb-5">
 						<div class="col-4 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-a">
-							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">DDR4</p></label>
+							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">Intel</p></label>
 						</div>
 						<div class="col-4 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-b">
-							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">DDR5</p></label>
+							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">AMD</p></label>
 						</div>
 						<div class="col-4 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-c">
-							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">상관 없음</p></label>
+							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">상관없음 혹은 잘 모름</p></label>
 						</div>
 					</div>
 					<div class="row mb-4">
@@ -181,7 +181,7 @@
 							<button type="button" class="form-control w-50 margin-left-auto" onclick="javascript:clickNextBtn(this)"><p class="pt-2 m-0">다음 질문</p></button>
 						</div>
 					</div>
-				</div>
+				</div>				
 	 		</div>
 			
 			<!-- 빈 영역 -->
@@ -197,6 +197,6 @@
 		</div>
 	</div>
 	
-	<%@ include file="./common/footer.jsp" %>
+	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </body>
 </html>

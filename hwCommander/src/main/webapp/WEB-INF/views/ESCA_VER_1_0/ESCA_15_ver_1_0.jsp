@@ -25,6 +25,8 @@
 <script src="/resources/js/escaSendData.js"></script>
 <script>
 	const loginUser = "${loginUser}";
+	
+	// donut
 	let progress = 0;
 	function animateDonutGauge() {
 		$(".donut-container").css(
@@ -35,7 +37,7 @@
 			progress += 5;
 			setTimeout(animateDonutGauge, 20);
 		} else {
-			$(".donut-fill").html("17");
+			$(".donut-fill").html("15");
 			goToZero();
 		}
 	};
@@ -49,14 +51,54 @@
 			setTimeout(goToZero, 20);
 		}
 	};
-	function clickAnswerBtn(el){
-		if($(el).html() === "선택하기"){
-
+	let answers=[];
+	if(sessionStorage.getItem("data-15")){
+		let datas = JSON.parse(sessionStorage.getItem("data-15"));
+		for(let i = 0 ; i<datas.length; i++){
+			answers.push(datas[i]);
 		}
 	}
+	function clickAnswerBtn(el){
+		if($(el).attr("data-value") === "0" || $(el).attr("data-value") === "1" || $(el).attr("data-value") === "2"){
+			console.log(answers[0])
+			if(answers[0] === "3" || answers[0] === "4"){
+				answers = [];
+				$("#answer-d").prop("checked",false);
+				$("#answer-e").prop("checked",false);
+			}
+			if($(el).siblings().prop("checked") === false){
+				if(!answers.includes($(el).attr("data-value"))){
+					answers.push($(el).attr("data-value"));
+				}
+			}else if($(el).siblings().prop("checked") === true){
+				var index = answers.indexOf($(el).attr("data-value"));
+				if(index !== -1){
+					answers.splice(index,1);
+				}
+			}
+			sessionStorage.setItem("data-15",JSON.stringify(answers));
+		}else if ($(el).attr("data-value") === "3" || $(el).attr("data-value") === "4"){
+			answers = [];
+			if($(el).attr("data-value") === "3"){
+				$("#answer-a").prop("checked",false);
+				$("#answer-b").prop("checked",false);
+				$("#answer-c").prop("checked",false);
+				$("#answer-e").prop("checked",false);
+				answers.push($(el).attr("data-value"));
+			}else if ($(el).attr("data-value") === "4"){
+				$("#answer-a").prop("checked",false);
+				$("#answer-b").prop("checked",false);
+				$("#answer-c").prop("checked",false);
+				$("#answer-d").prop("checked",false);
+				answers.push($(el).attr("data-value"));
+			}
+			sessionStorage.setItem("data-15",JSON.stringify(answers));
+		}
+	}
+	
 	function clickReturnBtn(){
-		sessionStorage.setItem("data-17","null");
-		location.href = "ESCA_16_ver_1_0.do";
+		sessionStorage.setItem("data-15","null");
+		location.href = "ESCA_14_ver_1_0.do";
 	}
 	function clickEstimateBtn(el){
 		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false && $("#answer-d").prop("checked") === false && $("#answer-e").prop("checked") === false){
@@ -71,33 +113,34 @@
 				$(el).removeClass("is-valid");
 			}, 2000);
 			$(el).css("display","none");
-			$(".loading-prog").css('display',"block");
+			$(".loading-prog").css("display","block");
 			sendAllData();
 		}
 	}
 	function clickNextBtn(el){
-		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false && $("#answer-d").prop("checked") === false && $("#answer-e").prop("checked") === false){
-			alert("선택은 필수에요!");
-			$(el).addClass("is-invalid");
-			setTimeout(() => {
-				$(el).removeClass("is-invalid");
-			}, 2000);
-		}else {
-			$(el).addClass("is-valid");
-			setTimeout(() => {
-				$(el).removeClass("is-valid");
-			}, 2000);
-			window.location.href = "ESCA_18_ver_1_0.do";
-		}
+		// if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false && $("#answer-d").prop("checked") === false && $("#answer-e").prop("checked") === false){
+		// 	alert("선택은 필수에요!");
+		// 	$(el).addClass("is-invalid");
+		// 	setTimeout(() => {
+		// 		$(el).removeClass("is-invalid");
+		// 	}, 2000);
+		// }else {
+		// 	$(el).addClass("is-valid");
+		// 	setTimeout(() => {
+		// 		$(el).removeClass("is-valid");
+		// 	}, 2000);
+		// 	window.location.href = "ESCA_16_ver_1_0.do";
+		// }
+		alert("아직 구현중인 질문이에요! 견적산출을 해주세요!!")
 	}
-	$(function () {
+	$(function(){
 		// donut
-		animateDonutGauge();
 		$(".donut-fill").css("left","calc(50% - 22px)");
+		animateDonutGauge();
 		// typing question text
 		let index = 0;
 		function typeText() {
-			const text = "싫어하시는 브랜드가 있으신가요?";
+			const text = "본체에 LED를 선택해주세요!(다중선택)";
 			if (index < text.length) {
 			$("#typingInput").val(function(i, val) {
 				return val + text.charAt(index);
@@ -112,78 +155,27 @@
 			return new bootstrap.Tooltip($(this)[0]);
 		}).get();
 		// 견적산출 데이터처리부(수신)
-		if(sessionStorage.getItem("data-14")){
-			const storedData = sessionStorage.getItem("data-14");
-			if(storedData === "1"){
-				$("#answer-a").prop("checked",true);
-			}else if (storedData === "HOME"){
-				$("#answer-b").prop("checked",true);
+		if(sessionStorage.getItem("data-15")){
+			const storedData = JSON.parse(sessionStorage.getItem("data-15"));
+			for(let i =0; i<storedData.length; i++){
+				if (storedData[i] === "0"){
+					$("#answer-a").prop("checked",true);
+				}else if (storedData[i] === "1"){
+					$("#answer-b").prop("checked",true);
+				}else if (storedData[i] === "2"){
+					$("#answer-c").prop("checked",true);
+				}else if (storedData[i] === "3"){
+					$("#answer-d").prop("checked",true);
+				}else if (storedData[i] === "4"){
+					$("#answer-e").prop("checked",true);
+				}
 			}
 		}
-		// search input
-	
-	const noResultText = document.createTextNode("일치하는 결과가 없습니다.");
-	const labelTable = $("#label-table");
-	const noResultRow = $("<tr>");
-	const noResultCell = $("<td>");
-	function searchLabel() {
-		const labels = labelTable.find("label");
-		const searchInput = $("#search-input").val().toLowerCase();
-		const matchedLabels = [];
-		labels.each(function() {
-			const label = $(this);
-			const labelName = label.text().toLowerCase();
-
-			if (labelName.includes(searchInput)) {
-				matchedLabels.push(label);
-			}
-		});
-		for(let i = 0 ; i < labels.length; i++){
-		}
-		const searchInputValue = $("#search-input").val().trim();
-		if (matchedLabels.length > 0) {
-			matchedLabels.sort(function(a, b) {
-			const aIndex = a.text().toLowerCase().indexOf(searchInput);
-			const bIndex = b.text().toLowerCase().indexOf(searchInput);
-
-			if (aIndex === bIndex) {
-				return a.text().toLowerCase().localeCompare(b.text().toLowerCase());
-			}
-
-			return aIndex - bIndex;
-			});
-			
-			hideAllRows();
-			
-			matchedLabels.forEach(function(matchedLabel) {
-			const row = matchedLabel.closest("tr");
-			row.css("display", "table-row");
-			});
-		}else {
-			hideAllRows();
-
-			noResultCell.attr("colspan", "2");
-			noResultCell.append(noResultText);
-			noResultRow.append(noResultCell);
-			labelTable.append(noResultRow);
-		}
-	}
-	function hideAllRows() {
-		labelTable.find("tr").css("display", "none");
-
-		if (noResultRow.parent().is(labelTable)) {
-			noResultRow.remove();
-		}
-	}
-
-	$("#search-input").on("input", function() {
-		searchLabel();
-	});
-});
+	})
 </script>
 </head>
 <body>
-	<%@ include file="./common/header.jsp" %>
+	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 
 	<div class="basic_background w-100">
 		<div class="d-flex">
@@ -195,24 +187,38 @@
 					<div class="row mt-4 pb-5">
 						<div class="col-2 text-center">
 							<div class="donut-container margin-center">
-								 <div class="donut-fill"">16</div>
+								 <div class="donut-fill"">15</div>
 							</div>
 						</div>
 						<div class="col-8 d-flex p-2">
-							<input id="typingInput" class="form-control text-center fs-5 pt-2" type="text" readonly aria-label="예산 편성" disabled />
+							<input id="typingInput" class="form-control text-center pt-2 fs-5" type="text" readonly aria-label="예산 편성" disabled />
 						</div>
 					    <div class="col-2 d-flex flex-column-reverse">
-							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="선택하신 브랜드는 제외하고 견적 산출 해드립니다! 상관없으시다면 <상관없음> 체크해주세요!" style="cursor:pointer">
+							<img src="/resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="본체 LED 좋아하세요?" style="cursor:pointer">
 						</div>
 					</div>
 					<div class="row pb-5">
 						<div class="col d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-a">
-							<label class="btn btn-outline-secondary w-75 d-flex align-items-center justify-content-center" for="answer-a" data-bs-toggle="modal" data-bs-target="#brand-selector" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">선택하기</p></label>
+							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-a">
+							<label class="btn btn-outline-secondary w-75" for="answer-a" data-value="0" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">LED</p></label>
 						</div>
 						<div class="col d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-b">
-							<label class="btn btn-outline-secondary w-75 d-flex align-items-center justify-content-center" for="answer-b" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">상관없음</p></label>
+							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-b">
+							<label class="btn btn-outline-secondary w-75" for="answer-b" data-value="1" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">RGB</p></label>
+						</div>
+						<div class="col d-flex justify-content-center">
+							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-c">
+							<label class="btn btn-outline-secondary w-75" for="answer-c" data-value="2" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">ARGB</p></label>
+						</div>
+					</div>
+					<div class="row pb-5">
+						<div class="col d-flex justify-content-center">
+							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-d">
+							<label class="btn btn-outline-secondary w-75" for="answer-d" data-value="3" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">상관없음</p></label>
+						</div>
+						<div class="col d-flex justify-content-center">
+							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-e">
+							<label class="btn btn-outline-secondary w-75" for="answer-e" data-value="4" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">모두제외</p></label>
 						</div>
 					</div>
 					<div class="row mb-4">
@@ -230,44 +236,7 @@
 							<button type="button" class="form-control margin-left-auto w-50" onclick="javascript:clickNextBtn(this)"><p class="pt-2 m-0">다음 질문</p></button>
 						</div>
 					</div>
-					<div class="row mb-4">
-						<div class="col-6">
-							<!-- 선택된 내용 박스 -->
-						</div>
-						<div class="col-6"></div>
-					</div>
-				</div>
-				<div class="modal fade" id="brand-selector" tabindex="-1" aria-labelledby="selector" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
-					<div class="modal-dialog">
-					  <div class="modal-content">
-						<div class="modal-header">
-						  <h1 class="modal-title fs-4">브랜드 선택하기</h1>
-						  <button type="button" class="btn-close modal-btn" data-bs-dismiss="modal" aria-label="Close"></button>
-						</div>
-						<div class="modal-body">
-						  <div class="container">
-							   <table class="table">
-							  <thead>
-								<tr>
-								  <form class="form-inline">
-									  <input type="text" class="form-control" id="search-input" placeholder="검색어를 입력하세요" oninput="javascript:searchLabel()">
-								  </form>
-								</tr>
-								<tr>
-								  <th scope="col">브랜드명</th>
-								</tr>
-							  </thead>
-							  <tbody id="label-table"></tbody>
-							</table>
-						  </div>
-						</div>
-						<div class="modal-footer">
-						  <button type="button" class="btn btn-secondary modal-btn" data-bs-dismiss="modal" onclick="javascript:modalCancel()">취소</button>
-						  <button type="button" class="btn btn-primary modal-btn modal-submit-btn" onclick="javascript:modalSubmit()">저장</button>
-						</div>
-					  </div>
-					</div>
-				  </div>
+			 	</div>
 	 		</div>
 			
 			<!-- 빈 영역 -->
@@ -283,6 +252,6 @@
 		</div>
 	</div>
 	
-	<%@ include file="./common/footer.jsp" %>
+	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </body>
 </html>

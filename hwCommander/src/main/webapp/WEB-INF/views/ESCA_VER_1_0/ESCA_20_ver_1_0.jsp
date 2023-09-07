@@ -2,11 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<<<<<<< HEAD
 <title>현우의 컴퓨터 공방 - 견적산출</title>
-=======
-<title>현우의 컴퓨터 공방 - 진행현황</title>
->>>>>>> 41c04c28b0c7f6aa3363d3794e45aa891e2ae21b
 <!-- Required meta tags -->
 <meta charset="UTF-8">
 <!-- Bootstrap CSS -->
@@ -36,7 +32,7 @@
 </script>
 </head>
 <body>
-	<%@ include file="./common/header.jsp" %>
+	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 
 	<div class="basic_background w-100">
 		<div class="d-flex">
@@ -59,6 +55,6 @@
 		</div>
 	</div>
 	
-	<%@ include file="./common/footer.jsp" %>
+	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </body>
 </html>

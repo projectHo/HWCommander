@@ -37,7 +37,7 @@
 			progress += 5;
 			setTimeout(animateDonutGauge, 20);
 		} else {
-			$(".donut-fill").html("7");
+			$(".donut-fill").html("4");
 			goToZero();
 		}
 	};
@@ -54,7 +54,7 @@
 	// typing question text
 	let index = 0;
 	function typeText() {
-		const text = " 수냉쿨러를 선호하시나요?";
+		const text = " WIFI, 블루투스 옵션이 포함된 PC가 필요하신가요?";
 		if (index < text.length) {
 		$("#typingInput").val(function(i, val) {
 			return val + text.charAt(index);
@@ -65,27 +65,25 @@
 	}
 
 	function clickAnswerBtn(el){
-		if($(el).html() === "좋아요!"){
-			sessionStorage.setItem("data-7",0);
-		}else if($(el).html() === "싫어요!"){
-			sessionStorage.setItem("data-7",1);
+		if($(el).children().html() === "필요해요!"){
+			sessionStorage.setItem("data-4",0);
 		}else {
-			sessionStorage.setItem("data-7",2);
+			sessionStorage.setItem("data-4",1);
 		}
 	}
 	function clickReturnBtn(){
-		sessionStorage.setItem("data-7","null");
-		window.location.href = "ESCA_06_ver_1_0.do";
+		sessionStorage.setItem("data-4","null");
+		window.location.href = "ESCA_03_ver_1_0.do";
 	}
 	function clickEstimateBtn(el){
-		if($("#answer-a").prop("checked") === true || $("#answer-b").prop("checked") === true || $("#answer-c").prop("checked") === true){
+		if($("#answer-a").prop("checked") === true || $("#answer-b").prop("checked") === true){
 			$(el).addClass("is-valid");
 			setTimeout(() => {
 				$(el).removeClass("is-valid");
 			}, 2000);
-			$(el).css('display',"none");
+			$(el).css("display","none");
 			$(".loading-prog").css("display","block");
-			sendAllData();
+			sendAllData()
 		}else {
 			$(el).addClass("is-invalid");
 			alert("둘중에 하나 선택해주세요!")
@@ -95,7 +93,7 @@
 		}
 	}
 	function clickNextBtn(el){
-		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked")===false && $("#answer-c").prop("checked") === false){
+		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked")===false){
 			$(el).addClass("is-invalid");
 			alert("둘중에 하나 선택해주세요!")
 			setTimeout(() => {
@@ -106,7 +104,7 @@
 			setTimeout(() => {
 				$(el).removeClass("is-valid");
 			}, 2000);
-			window.location.href = "ESCA_08_ver_1_0.do";
+			window.location.href = "ESCA_05_ver_1_0.do";
 		}
 	}
 	$(function () {
@@ -117,20 +115,19 @@
 		return new bootstrap.Tooltip($(this)[0]);
 	}).get();
 	// 견적산출 데이터처리부(수신)
-	if(sessionStorage.getItem("data-7")){
-		if(sessionStorage.getItem("data-7") === "0"){
+	if(sessionStorage.getItem("data-4")){
+		if(sessionStorage.getItem("data-4") === "0"){
 			$("#answer-a").prop("checked",true);
-		}else if (sessionStorage.getItem("data-7") === "1"){
+		}else if (sessionStorage.getItem("data-4") === "1"){
 			$("#answer-b").prop("checked",true);
-		}else if (sessionStorage.getItem("data-7") === "2"){
-			$("#answer-c").prop("checked",true);
 		}
 	}
 	})
+
 </script>
 </head>
 <body>
-	<%@ include file="./common/header.jsp" %>
+	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 
 	<div class="basic_background w-100">
 		<div class="d-flex">
@@ -142,28 +139,24 @@
 					<div class="row mt-4 pb-5">
 						<div class="col-2 text-center">
 							<div class="donut-container margin-center">
-								 <div class="donut-fill">6</div>
+								 <div class="donut-fill">3</div>
 							</div>
 						</div>
 						<div class="col-8 d-flex p-2">
 							<input id="typingInput" class="form-control text-center pt-2 fs-5" type="text" readonly aria-label="예산 편성" disabled />
 						</div>
 					    <div class="col-2 d-flex flex-column-reverse">
-							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="선택사항 입니다~!" style="cursor:pointer">
+							<img src="/resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="둘 중 택1 해주세요!" style="cursor:pointer">
 						</div>
 					</div>
 					<div class="row pb-5">
-						<div class="col-4 d-flex justify-content-center">
+						<div class="col-6 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-a">
-							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">좋아요!</p></label>
+							<label class="btn btn-outline-secondary w-50" for="answer-a" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">필요해요!</p></label>
 						</div>
-						<div class="col-4 d-flex justify-content-center">
+						<div class="col-6 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-b">
-							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">싫어요!</p></label>
-						</div>
-						<div class="col-4 d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-c">
-							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">상관없어요!</p></label>
+							<label class="btn btn-outline-secondary w-50" for="answer-b" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">필요없어요!</p></label>
 						</div>
 					</div>
 					<div class="row mb-4">
@@ -182,7 +175,7 @@
 						</div>
 					</div>
 				</div>
-	 		</div>
+			</div>
 			
 			<!-- 빈 영역 -->
 			<div class="justify-content-end" style="width: 15%!important;"></div>
@@ -197,6 +190,6 @@
 		</div>
 	</div>
 	
-	<%@ include file="./common/footer.jsp" %>
+	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </body>
 </html>

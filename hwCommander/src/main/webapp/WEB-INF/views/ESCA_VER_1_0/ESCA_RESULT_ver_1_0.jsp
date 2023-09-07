@@ -218,7 +218,7 @@
 			for(let i = 0; i<=19 ; i++){
 				sessionStorage.setItem("data-" + i, "");
 			}
-			location.href = "/ESCA_00_ver_1_0.do";
+			location.href = "/ESCA/ESCA_00_ver_1_0.do";
 		}
 	}
 	
@@ -254,7 +254,7 @@
 </script>
 </head>
 <body>
-	<%@ include file="./common/header.jsp" %>
+	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 	<div class="modal fade" id="resultErrorModal" tabindex="-1" aria-hidden="true">
 		<div class="modal-dialog modal-dialog-centered">
 		  <div class="modal-content">
@@ -378,6 +378,6 @@
 		</div>
 	</div>
 	
-	<%@ include file="./common/footer.jsp" %>
+	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </body>
 </html>
