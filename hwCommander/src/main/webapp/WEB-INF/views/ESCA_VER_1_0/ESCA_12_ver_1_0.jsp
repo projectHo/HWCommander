@@ -37,7 +37,7 @@
 			progress += 5;
 			setTimeout(animateDonutGauge, 20);
 		} else {
-			$(".donut-fill").html("15");
+			$(".donut-fill").html("12");
 			goToZero();
 		}
 	};
@@ -52,23 +52,39 @@
 		}
 	};
 	let answers=[];
-	if(sessionStorage.getItem("data-15")){
-		let datas = JSON.parse(sessionStorage.getItem("data-15"));
-		for(let i = 0 ; i<datas.length; i++){
+	if(sessionStorage.getItem("data-12")){
+		let datas = JSON.parse(sessionStorage.getItem("data-12"));
+		for(let i = 0 ; i < datas.length ; i++){
 			answers.push(datas[i]);
 		}
 	}
 	function clickAnswerBtn(el){
-		if($(el).attr("data-value") === "0" || $(el).attr("data-value") === "1" || $(el).attr("data-value") === "2"){
-			console.log(answers[0])
-			if(answers[0] === "3" || answers[0] === "4"){
+		if($(el).children().html() !== "상관없음"){
+			if(sessionStorage.getItem("data-12") === "5"){
 				answers = [];
-				$("#answer-d").prop("checked",false);
-				$("#answer-e").prop("checked",false);
 			}
+			$("#answer-f").prop("checked",false);
 			if($(el).siblings().prop("checked") === false){
-				if(!answers.includes($(el).attr("data-value"))){
-					answers.push($(el).attr("data-value"));
+				if($(el).children().html() === "아크릴"){
+					if(!answers.includes("0")){
+						answers.push("0");
+					}
+				}else if ($(el).children().html() === "강화유리"){
+					if(!answers.includes("1")){
+						answers.push("1");
+					}
+				}else if($(el).children().html() === "알루미늄"){
+					if(!answers.includes("2")){
+						answers.push("2");
+					}
+				}else if($(el).children().html() === "통철판"){
+					if(!answers.includes("3")){
+						answers.push("3");
+					}
+				}else if($(el).children().html() === "창문형 유리"){
+					if(!answers.includes("4")){
+						answers.push("4");
+					}
 				}
 			}else if($(el).siblings().prop("checked") === true){
 				var index = answers.indexOf($(el).attr("data-value"));
@@ -76,32 +92,28 @@
 					answers.splice(index,1);
 				}
 			}
-			sessionStorage.setItem("data-15",JSON.stringify(answers));
-		}else if ($(el).attr("data-value") === "3" || $(el).attr("data-value") === "4"){
-			answers = [];
-			if($(el).attr("data-value") === "3"){
-				$("#answer-a").prop("checked",false);
-				$("#answer-b").prop("checked",false);
-				$("#answer-c").prop("checked",false);
-				$("#answer-e").prop("checked",false);
-				answers.push($(el).attr("data-value"));
-			}else if ($(el).attr("data-value") === "4"){
+			sessionStorage.setItem("data-12",JSON.stringify(answers));
+		}else {
+			if($(el).siblings().prop("checked") === false){
+				answers = [];
+				answers.push("5");
 				$("#answer-a").prop("checked",false);
 				$("#answer-b").prop("checked",false);
 				$("#answer-c").prop("checked",false);
 				$("#answer-d").prop("checked",false);
-				answers.push($(el).attr("data-value"));
+				$("#answer-e").prop("checked",false);
+				sessionStorage.setItem("data-12",JSON.stringify(answers));
+				answers = [];
 			}
-			sessionStorage.setItem("data-15",JSON.stringify(answers));
 		}
 	}
 	
 	function clickReturnBtn(){
-		sessionStorage.setItem("data-15","null");
-		location.href = "ESCA_14_ver_1_0.do";
+		sessionStorage.setItem("data-12","null");
+		location.href = "ESCA_11_ver_1_0.do";
 	}
 	function clickEstimateBtn(el){
-		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false && $("#answer-d").prop("checked") === false && $("#answer-e").prop("checked") === false){
+		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false && $("#answer-d").prop("checked") === false && $("#answer-e").prop("checked") === false && $("#answer-f").prop("checked") === false){
 			alert("선택은 필수에요!");
 			$(el).addClass("is-invalid");
 			setTimeout(() => {
@@ -118,20 +130,19 @@
 		}
 	}
 	function clickNextBtn(el){
-		// if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false && $("#answer-d").prop("checked") === false && $("#answer-e").prop("checked") === false){
-		// 	alert("선택은 필수에요!");
-		// 	$(el).addClass("is-invalid");
-		// 	setTimeout(() => {
-		// 		$(el).removeClass("is-invalid");
-		// 	}, 2000);
-		// }else {
-		// 	$(el).addClass("is-valid");
-		// 	setTimeout(() => {
-		// 		$(el).removeClass("is-valid");
-		// 	}, 2000);
-		// 	window.location.href = "ESCA_16_ver_1_0.do";
-		// }
-		alert("아직 구현중인 질문이에요! 견적산출을 해주세요!!")
+		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false && $("#answer-d").prop("checked") === false && $("#answer-e").prop("checked") === false && $("#answer-f").prop("checked") === false){
+			alert("선택은 필수에요!");
+			$(el).addClass("is-invalid");
+			setTimeout(() => {
+				$(el).removeClass("is-invalid");
+			}, 2000);
+		}else {
+			$(el).addClass("is-valid");
+			setTimeout(() => {
+				$(el).removeClass("is-valid");
+			}, 2000);
+			window.location.href = "ESCA_13_ver_1_0.do";
+		}
 	}
 	$(function(){
 		// donut
@@ -140,7 +151,7 @@
 		// typing question text
 		let index = 0;
 		function typeText() {
-			const text = "본체에 LED를 선택해주세요!(다중선택)";
+			const text = "원하시는 본체 옆판의 소재를 선택해주세요!(다중선택 가능)";
 			if (index < text.length) {
 			$("#typingInput").val(function(i, val) {
 				return val + text.charAt(index);
@@ -155,8 +166,8 @@
 			return new bootstrap.Tooltip($(this)[0]);
 		}).get();
 		// 견적산출 데이터처리부(수신)
-		if(sessionStorage.getItem("data-15")){
-			const storedData = JSON.parse(sessionStorage.getItem("data-15"));
+		if(sessionStorage.getItem("data-12")){
+			const storedData = JSON.parse(sessionStorage.getItem("data-12"));
 			for(let i =0; i<storedData.length; i++){
 				if (storedData[i] === "0"){
 					$("#answer-a").prop("checked",true);
@@ -168,6 +179,8 @@
 					$("#answer-d").prop("checked",true);
 				}else if (storedData[i] === "4"){
 					$("#answer-e").prop("checked",true);
+				}else if(storedData[i] === "5"){
+					$("#answer-f").prop("checked",true);
 				}
 			}
 		}
@@ -175,7 +188,7 @@
 </script>
 </head>
 <body>
-	<%@ include file="./common/header.jsp" %>
+	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 
 	<div class="basic_background w-100">
 		<div class="d-flex">
@@ -187,38 +200,42 @@
 					<div class="row mt-4 pb-5">
 						<div class="col-2 text-center">
 							<div class="donut-container margin-center">
-								 <div class="donut-fill"">15</div>
+								 <div class="donut-fill"">11</div>
 							</div>
 						</div>
 						<div class="col-8 d-flex p-2">
 							<input id="typingInput" class="form-control text-center pt-2 fs-5" type="text" readonly aria-label="예산 편성" disabled />
 						</div>
 					    <div class="col-2 d-flex flex-column-reverse">
-							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="본체 LED 좋아하세요?" style="cursor:pointer">
+							<img src="/resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="본체 옆판의 소재를 선택해주세요!(선택사항입니다)" style="cursor:pointer">
 						</div>
 					</div>
 					<div class="row pb-5">
 						<div class="col d-flex justify-content-center">
 							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-a">
-							<label class="btn btn-outline-secondary w-75" for="answer-a" data-value="0" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">LED</p></label>
+							<label class="btn btn-outline-secondary w-75" for="answer-a" data-value="0" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">아크릴</p></label>
 						</div>
 						<div class="col d-flex justify-content-center">
 							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-b">
-							<label class="btn btn-outline-secondary w-75" for="answer-b" data-value="1" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">RGB</p></label>
+							<label class="btn btn-outline-secondary w-75" for="answer-b" data-value="1" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">강화유리</p></label>
 						</div>
 						<div class="col d-flex justify-content-center">
 							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-c">
-							<label class="btn btn-outline-secondary w-75" for="answer-c" data-value="2" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">ARGB</p></label>
+							<label class="btn btn-outline-secondary w-75" for="answer-c" data-value="2" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">알루미늄</p></label>
 						</div>
 					</div>
 					<div class="row pb-5">
 						<div class="col d-flex justify-content-center">
 							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-d">
-							<label class="btn btn-outline-secondary w-75" for="answer-d" data-value="3" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">상관없음</p></label>
+							<label class="btn btn-outline-secondary w-75" for="answer-d" data-value="3" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">통철판</p></label>
 						</div>
 						<div class="col d-flex justify-content-center">
 							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-e">
-							<label class="btn btn-outline-secondary w-75" for="answer-e" data-value="4" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">모두제외</p></label>
+							<label class="btn btn-outline-secondary w-75" for="answer-e" data-value="4" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">창문형 유리</p></label>
+						</div>
+						<div class="col d-flex justify-content-center">
+							<input type="checkbox" class="btn-check" name="btnCheck" id="answer-f">
+							<label class="btn btn-outline-secondary w-75" for="answer-f" data-value="5" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">상관없음</p></label>
 						</div>
 					</div>
 					<div class="row mb-4">
@@ -252,6 +269,6 @@
 		</div>
 	</div>
 	
-	<%@ include file="./common/footer.jsp" %>
+	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </body>
 </html>

@@ -496,7 +496,7 @@
 </script>
 </head>
 <body>
-	<%@ include file="./common/header.jsp" %>
+	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 
 	<div class="basic_background w-100">
 		<div class="d-flex">
@@ -515,7 +515,7 @@
 							<input id="typingInput" class="form-control text-center pt-3 fs-5" type="text" readonly aria-label="사용 용도" disabled />
 						</div>
 						<div class="col-2 d-flex flex-column-reverse">
-							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="목록 중 기타 항목 선택시 장르의 평균적인 PC로 구성됩니다!" style="cursor:pointer">
+							<img src="/resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="목록 중 기타 항목 선택시 장르의 평균적인 PC로 구성됩니다!" style="cursor:pointer">
 						</div>
 					</div>
 					<div class="row pb-2">
@@ -618,6 +618,6 @@
 		</div>
 	</div>
 	
-	<%@ include file="./common/footer.jsp" %>
+	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </body>
 </html>

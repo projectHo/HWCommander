@@ -144,7 +144,7 @@ function sendAllData(){
         userInfoObject[key] = value;
     }
     urlParams += "etc<userId," + userInfoObject.id + ">|etc<targetDate,null>" + "|answer0<" + Array.from(answer0.keys()) + "," + Array.from(answer0.values()) + ">";
-    var baseUrl = "/estimateCalculationResult.do";
+    var baseUrl = "/ESCA/ESCA_RESULT_ver_1_0.do";
     var fullUrl = baseUrl + "?" + urlParams;
     location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
 }

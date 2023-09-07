@@ -32,7 +32,7 @@
 </script>
 </head>
 <body>
-	<%@ include file="./common/header.jsp" %>
+	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 
 	<div class="basic_background w-100">
 		<div class="d-flex">
@@ -55,6 +55,6 @@
 		</div>
 	</div>
 	
-	<%@ include file="./common/footer.jsp" %>
+	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </body>
 </html>

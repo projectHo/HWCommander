@@ -13,5 +13,4 @@ public interface ProductService {
 	public ProductMasterVO getProductMasterById(String id);
 	public List<ProductDetailVO> getProductDetailById(String id);
 	public Integer productUpdateLogic(ProductMasterVO productMasterVO, List<ProductDetailVO> productDetailVOList);
-	public EstimateCalculationResultPrivateMasterVO estimateCalculation(String urlText);
 }

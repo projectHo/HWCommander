@@ -238,7 +238,7 @@
 		// 		urlParams += "|";
 		// 	}
 		// }
-		// var baseUrl = "/estimateCalculationResult.do";
+		// var baseUrl = "/ESCA_RESULT_ver_1_0.do";
 		// var fullUrl = baseUrl + "?" + urlParams;
 		// location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
 		location.href = "ESCA_07_ver_1_0.do";
@@ -275,7 +275,7 @@
 </script>
 </head>
 <body>
-	<%@ include file="./common/header.jsp" %>
+	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 
 	<div class="basic_background w-100">
 		<div class="d-flex">
@@ -294,7 +294,7 @@
 							<input id="typingInput" class="form-control text-center pt-2 fs-5" type="text" readonly aria-label="예산 편성" disabled />
 						</div>
 						<div class="col-2 d-flex flex-column-reverse">
-							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="선택사항 입니다~!" style="cursor:pointer">
+							<img src="/resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="선택사항 입니다~!" style="cursor:pointer">
 						</div>
 					</div>
 					<div class="row container">
@@ -430,6 +430,6 @@
 		</div>
 	</div>
 	
-	<%@ include file="./common/footer.jsp" %>
+	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </body>
 </html>

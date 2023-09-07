@@ -37,7 +37,7 @@
 			progress += 5;
 			setTimeout(animateDonutGauge, 20);
 		} else {
-			$(".donut-fill").html("5");
+			$(".donut-fill").html("7");
 			goToZero();
 		}
 	};
@@ -54,7 +54,7 @@
 	// typing question text
 	let index = 0;
 	function typeText() {
-		const text = " 원하는 CPU 제조사가 있나요?";
+		const text = " 수냉쿨러를 선호하시나요?";
 		if (index < text.length) {
 		$("#typingInput").val(function(i, val) {
 			return val + text.charAt(index);
@@ -65,39 +65,39 @@
 	}
 
 	function clickAnswerBtn(el){
-		if($(el).children().html() === "Intel"){
-			sessionStorage.setItem("data-5",0);
-		}else if($(el).children().html() === "AMD"){
-			sessionStorage.setItem("data-5",1);
+		if($(el).html() === "좋아요!"){
+			sessionStorage.setItem("data-7",0);
+		}else if($(el).html() === "싫어요!"){
+			sessionStorage.setItem("data-7",1);
 		}else {
-			sessionStorage.setItem("data-5",2);
+			sessionStorage.setItem("data-7",2);
 		}
-	}	
+	}
 	function clickReturnBtn(){
-		sessionStorage.setItem("data-5","null");
-		window.location.href = "ESCA_04_ver_1_0.do";
+		sessionStorage.setItem("data-7","null");
+		window.location.href = "ESCA_06_ver_1_0.do";
 	}
 	function clickEstimateBtn(el){
-		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false){
-			alert("선택은 필수에요!");
-			$(el).addClass("is-invalid");
-			setTimeout(() => {
-				$(el).removeClass("is-invalid");
-			}, 2000);
-		}else {
+		if($("#answer-a").prop("checked") === true || $("#answer-b").prop("checked") === true || $("#answer-c").prop("checked") === true){
 			$(el).addClass("is-valid");
 			setTimeout(() => {
 				$(el).removeClass("is-valid");
 			}, 2000);
-			$(el).css("display","none");
+			$(el).css('display',"none");
 			$(".loading-prog").css("display","block");
-			sendAllData()
+			sendAllData();
+		}else {
+			$(el).addClass("is-invalid");
+			alert("둘중에 하나 선택해주세요!")
+			setTimeout(() => {
+				$(el).removeClass("is-invalid");
+			}, 2000);
 		}
 	}
 	function clickNextBtn(el){
-		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked") === false && $("#answer-c").prop("checked") === false){
-			alert("선택은 필수에요!");
+		if($("#answer-a").prop("checked") === false && $("#answer-b").prop("checked")===false && $("#answer-c").prop("checked") === false){
 			$(el).addClass("is-invalid");
+			alert("둘중에 하나 선택해주세요!")
 			setTimeout(() => {
 				$(el).removeClass("is-invalid");
 			}, 2000);
@@ -106,7 +106,7 @@
 			setTimeout(() => {
 				$(el).removeClass("is-valid");
 			}, 2000);
-			window.location.href = "ESCA_06_ver_1_0.do";
+			window.location.href = "ESCA_08_ver_1_0.do";
 		}
 	}
 	$(function () {
@@ -117,12 +117,12 @@
 		return new bootstrap.Tooltip($(this)[0]);
 	}).get();
 	// 견적산출 데이터처리부(수신)
-	if(sessionStorage.getItem("data-5")){
-		if(sessionStorage.getItem("data-5") === "0"){
+	if(sessionStorage.getItem("data-7")){
+		if(sessionStorage.getItem("data-7") === "0"){
 			$("#answer-a").prop("checked",true);
-		}else if (sessionStorage.getItem("data-5") === "1"){
+		}else if (sessionStorage.getItem("data-7") === "1"){
 			$("#answer-b").prop("checked",true);
-		}else if (sessionStorage.getItem("data-5") === "2"){
+		}else if (sessionStorage.getItem("data-7") === "2"){
 			$("#answer-c").prop("checked",true);
 		}
 	}
@@ -130,7 +130,7 @@
 </script>
 </head>
 <body>
-	<%@ include file="./common/header.jsp" %>
+	<%@ include file="/WEB-INF/views/common/header.jsp" %>
 
 	<div class="basic_background w-100">
 		<div class="d-flex">
@@ -142,28 +142,28 @@
 					<div class="row mt-4 pb-5">
 						<div class="col-2 text-center">
 							<div class="donut-container margin-center">
-								 <div class="donut-fill">4</div>
+								 <div class="donut-fill">6</div>
 							</div>
 						</div>
 						<div class="col-8 d-flex p-2">
 							<input id="typingInput" class="form-control text-center pt-2 fs-5" type="text" readonly aria-label="예산 편성" disabled />
 						</div>
 					    <div class="col-2 d-flex flex-column-reverse">
-							<img src="resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="확실한 이유가 없다면 상관없음으로 선택해주세요!" style="cursor:pointer">
+							<img src="/resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="선택사항 입니다~!" style="cursor:pointer">
 						</div>
 					</div>
 					<div class="row pb-5">
 						<div class="col-4 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-a">
-							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">Intel</p></label>
+							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">좋아요!</p></label>
 						</div>
 						<div class="col-4 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-b">
-							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">AMD</p></label>
+							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">싫어요!</p></label>
 						</div>
 						<div class="col-4 d-flex justify-content-center">
 							<input type="radio" class="btn-check" name="btnradio" id="answer-c">
-							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">상관없음 혹은 잘 모름</p></label>
+							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickAnswerBtn(this)"><p class="pt-2 m-0">상관없어요!</p></label>
 						</div>
 					</div>
 					<div class="row mb-4">
@@ -181,7 +181,7 @@
 							<button type="button" class="form-control w-50 margin-left-auto" onclick="javascript:clickNextBtn(this)"><p class="pt-2 m-0">다음 질문</p></button>
 						</div>
 					</div>
-				</div>				
+				</div>
 	 		</div>
 			
 			<!-- 빈 영역 -->
@@ -197,6 +197,6 @@
 		</div>
 	</div>
 	
-	<%@ include file="./common/footer.jsp" %>
+	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </body>
 </html>
