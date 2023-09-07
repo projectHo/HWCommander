@@ -176,10 +176,10 @@
 
 			</div>
 			<!-- 위 약관은 폐기 예정 런칭 시 아래 약관부터 사용 예정. -->
-			<div class="content pt-5 px-5 mx-5" style="width: 70%!important;" id="version-2">
+			<div class="content pt-5 px-5 mx-5" style="width: 70%!important; display: none;" id="version-2">
 			</div>
 			<!-- 아래에 변호사 참여 개정 약관 입력 예정 -->
-			<div class="content pt-5 px-5 mx-5" style="width: 70%!important;" id="version-3">
+			<div class="content pt-5 px-5 mx-5" style="width: 70%!important; display: none;" id="version-3">
 			</div>
 			<!-- 빈 영역 -->
 			<div class="justify-content-end" style="width: 15%!important;"></div>
