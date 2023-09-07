@@ -42,7 +42,30 @@
 		$(".order-num").html(masterInfoObject.id);
 		$(".order-date").html(masterInfoObject.orderDateStr);
 		$(".orderer-name").html(masterInfoObject.ordererName);
+
+		// if(masterInfoObject.orderStateCd == 1 && masterInfoObject.paymentMethod == "account-transfer"){
+		// 	$(".pay-state").html("결제 이전");
+		// 	$(".order-state").html(masterInfoObject.orderStateCdNm);
+		// }else if(masterInfoObject.orderStateCd == 9){
+		// 	$(".pay-state").html(masterInfoObject.orderStateCdNm);
+		// 	$(".order-state").html(masterInfoObject.orderStateCdNm);
+		// }else if(masterInfoObject.orderStateCd != 1){
+		// 	$(".pay-state").html("결제 완료");
+		// 	$(".order-state").html(masterInfoObject.orderStateCdNm);
+		// }else if(masterInfoObject.orderStateCd == 1 && masterInfoObject.paymentMethod == "Card"){
+		// 	$(".pay-state").html("결제 이전");
+		// 	$(".order-state").html(masterInfoObject.orderStateCdNm);
+		// }
 		$(".order-state").html(masterInfoObject.orderStateCdNm);
+		if(masterInfoObject.orderStateCd == 1){
+			$(".pay-state").html("결제 이전");
+		}else if(masterInfoObject.orderStateCd == 9) {
+			$(".pay-state").html("환불 요청");
+		}else if(masterInfoObject.orderStateCd == 10){
+			$(".pay-state").html("환불 완료");
+		}else {
+			$(".pay-state").html("결제 완료");
+		}
 		$(".orderer-hp").html(masterInfoObject.ordererHpNumber.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3"));
 		$(".orderer-email").html(masterInfoObject.ordererMail);
 		$(".recipient-name").html(masterInfoObject.recipientName);
@@ -55,7 +78,11 @@
 		$(".order-req").val(masterInfoObject.orderRequest);
 		$(".delivery-req").val(masterInfoObject.deliveryRequest);
 		$(".waybill").html(masterInfoObject.waybillNumber);
-		$(".payment-meth").html(masterInfoObject.paymentMethod);
+		if(masterInfoObject.paymentMethod == "Card"){
+			$(".payment-meth").html("카드");
+		}else if(masterInfoObject.paymentMethod == "account-transfer"){
+			$(".payment-meth").html("계좌이체");
+		}
 		$(".tot-order-price").html(masterInfoObject.totOrderPriceStr + "원")
 	};
 	// 다음 지도
@@ -232,45 +259,57 @@
 	}
 	
 	function requestVideoBtn(){
-		if($(".order-state").html() === "환불 요청"){
-			alert("환불 진행중입니다!");
-		}else if(masterInfoObject.videoRequestCdNm === "요청"){
-			alert("이미 요청하셨습니다!");
+		if("${orderMasterVO.orderStateCd}" != "01"){
+			if("${orderMasterVO.orderStateCd}" === "09"){
+				alert("환불 진행중입니다!");
+			}else if("${orderMasterVO.orderStateCd}" === "10"){
+				alert("환불 완료된 주문입니다!");
+			}else if(masterInfoObject.videoRequestCdNm === "요청"){
+				alert("이미 요청하셨습니다!");
+			}else {
+				$.ajax({
+					type: "post",
+					url: "/user/orderVideoRequestToAdminLogic.do",
+					data: {
+						id: $(".order-num").html()
+					},
+					dataType: "json",
+					success: function(response) {
+						alert("정상적으로 요청했습니다! 회원가입시 입력해주신 이메일로 완료되는 순서대로 보내드릴게요!");
+					},
+					error: function(xhr, status, error) {
+						alert("요청에 실패했습니다.. 다시 입력해주세요!");
+					}
+				});
+			}
 		}else {
-			$.ajax({
-				type: "post",
-				url: "/user/orderVideoRequestToAdminLogic.do",
-				data: {
-					id: $(".order-num").html()
-				},
-				dataType: "json",
-				success: function(response) {
-					alert("정상적으로 요청했습니다!");
-				},
-				error: function(xhr, status, error) {
-					alert("요청에 실패했습니다.. 다시 입력해주세요!");
-				}
-			});
+			alert("아직 결제 전입니다! 결제 후 이용해주세요~!");
 		}
 	}
 	function requestRefundBtn(){
-		if($(".order-state").html() === "환불 요청"){
-			alert("환불 진행중입니다!");
+		if("${orderMasterVO.orderStateCd}" != "01"){
+			if("${orderMasterVO.orderStateCd}" === '09'){
+				alert("환불 진행중입니다!");
+			}else if("${orderMasterVO.orderStateCd}" === "10"){
+				alert("환불 완료된 주문입니다!");
+			}else {
+				$.ajax({
+					type: "post",
+					url: "/user/orderRefundRequestToAdminLogic.do",
+					data: {
+						id: $(".order-num").html()
+					},
+					dataType: "json",
+					success: function(response) {
+						alert("정상적으로 요청했습니다!");
+					},
+					error: function(xhr, status, error) {
+						alert("요청에 실패했습니다.. 다시 입력해주세요!");
+					}
+				});
+			}
 		}else {
-			$.ajax({
-				type: "post",
-				url: "/user/orderRefundRequestToAdminLogic.do",
-				data: {
-					id: $(".order-num").html()
-				},
-				dataType: "json",
-				success: function(response) {
-					alert("정상적으로 요청했습니다!");
-				},
-				error: function(xhr, status, error) {
-					alert("요청에 실패했습니다.. 다시 입력해주세요!");
-				}
-			});
+			alert("아직 결제 전입니다! 결제 후 이용해주세요~!");
 		}
 	}
 
@@ -309,6 +348,11 @@
 		// 부트스트랩 툴팁
 		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
+
+		// 계좌이체 결제 전
+		if(masterInfoObject.orderStateCd == 1 && masterInfoObject.paymentMethod == "account-transfer"){
+			$(".account-numb-tr").css("display","table-row");
+		}
 	})
 </script>
 </head>
@@ -345,7 +389,7 @@
 									<th style="width: 20%;" scope="row">주문자</th>
 									<td style="width: 30%;" class="orderer-name"></td>
 									<th style="width: 20%;">결제상태</th>
-									<td style="width: 30%;" class="order-state"></td>
+									<td style="width: 30%;" class="pay-state"></td>
 								</tr>
 								<tr>
 									<th style="width: 20%;" scope="row">연락처</th>
@@ -431,6 +475,10 @@
 							<tr>
 								<th scope="row">결제 수단</th>
 								<td class="payment-meth"></td>
+							</tr>
+							<tr class="account-numb-tr" style="display: none;">
+								<th scope="row">입금계좌 번호</th>
+								<td class="account-numb">645-910900-07207 하나은행 이해창(현우의 컴퓨터 공방)</td>
 							</tr>
 							<tr>
 								<th class="align-middle" scope="row">결제 금액</th>

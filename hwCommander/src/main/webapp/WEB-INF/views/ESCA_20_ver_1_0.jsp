@@ -21,7 +21,14 @@
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
+<<<<<<< HEAD
+<!-- 08.31 url 파라메터 함수 js파일 분리 -->
+<script src="/resources/js/escaSendData.js"></script>
 <script>
+	const loginUser = "${loginUser}";
+=======
+<script>
+>>>>>>> 41c04c28b0c7f6aa3363d3794e45aa891e2ae21b
 </script>
 </head>
 <body>

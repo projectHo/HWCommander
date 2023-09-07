@@ -2,7 +2,11 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
+<<<<<<< HEAD
 <title>현우의 컴퓨터 공방 - 견적산출</title>
+=======
+<title>현우의 컴퓨터 공방 - 진행현황</title>
+>>>>>>> 41c04c28b0c7f6aa3363d3794e45aa891e2ae21b
 <!-- Required meta tags -->
 <meta charset="UTF-8">
 <!-- Bootstrap CSS -->
@@ -21,7 +25,14 @@
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
+<<<<<<< HEAD
+<!-- 08.31 url 파라메터 함수 js파일 분리 -->
+<script src="/resources/js/escaSendData.js"></script>
 <script>
+	const loginUser = "${loginUser}";
+=======
+<script>
+>>>>>>> 41c04c28b0c7f6aa3363d3794e45aa891e2ae21b
 </script>
 </head>
 <body>

@@ -24,158 +24,12 @@
 <!-- chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-dragdata"></script>
+
+<!-- 08.31 url 파라메터 함수 js파일 분리 -->
+<script src="/resources/js/escaSendData.js"></script>
 <script>
-	//견적산출 데이터처리부(송신)
-	function sendAllData(){
-		let index1 = 0;
-		let index2 = 0;
-		let index3 = 0;
-		let answer0 = new Map();
-		answer0.set("OS",sessionStorage.getItem("data-0"));
-		let answer1 = new Map();
-		answer1.set("Price",Number(sessionStorage.getItem("data-1")) * 10000);
-		let answer2 = new Map();
-		let answer2s = "";
-		let twoDatas = JSON.parse(sessionStorage.getItem("data-2"));
-		for(let i = 0 ; i < twoDatas.length; i++){
-			answer2.set(twoDatas[i][0],twoDatas[i][1])
-		}
-		for(var [key,value] of answer2){
-			let totalKey = answer2.size;
-			answer2s += key + "," + value;
-			index1++;
-			if (index1 !== totalKey) {
-				answer2s += ":";
-			}
-		}
-		let answer3 = new Map();
-		if(sessionStorage.getItem("data-3") !== ""){
-			let threeDatas = JSON.parse(sessionStorage.getItem("data-3"));
-			answer3.set("Fever", threeDatas[0]);
-			answer3.set("Meterial", threeDatas[1]);
-			answer3.set("AS", threeDatas[2]);
-			answer3.set("Noise", threeDatas[3]);
-			answer3.set("Stability", threeDatas[4]);
-			answer3.set("QC", threeDatas[5]);
-		}else {
-			answer3.set("Fever", "null");
-			answer3.set("Meterial", "null");
-			answer3.set("AS", "null");
-			answer3.set("Noise", "null");
-			answer3.set("Stability", "null");
-			answer3.set("QC", "null");
-		}
-		let answer3s = "";
-		for(var [key,value] of answer3){
-			let totalKey = answer3.size;
-			answer3s += key + "," + value;
-			index2++;
-			if (index2 !== totalKey) {
-				answer3s += ":";
-			}
-		}
-		let answer4 = new Map();
-		answer4.set("Wireless",sessionStorage.getItem("data-4"));
-		let answer5 = new Map();
-		answer5.set("CPU",sessionStorage.getItem("data-5"));
-		let answer6 = new Map();
-		answer6.set("GPU",sessionStorage.getItem("data-6"));
-		let answer7 = new Map();
-		answer7.set("Aio",sessionStorage.getItem("data-7"));
-		let answer8 = new Map();
-		if(sessionStorage.getItem("data-8") !== ""){
-			let eightDatas = JSON.parse(sessionStorage.getItem("data-8"));
-			answer8.set("main-color", eightDatas[0]);
-			answer8.set("sub-color", eightDatas[1]);
-		}else if (sessionStorage.getItem("data-8") === ""){
-			answer8.set("main-color", "null");
-			answer8.set("sub-color", "null");
-		}
-		let answer8s = "";
-		for(var [key,value] of answer8){
-			let totalKey = answer8.size;
-			answer8s += key + "," + value;
-			index3++;
-			if (index3 !== totalKey) {
-				answer8s += ":";
-			}
-		}
-		let answer9 = new Map();
-		answer9.set("RAM",sessionStorage.getItem("data-9"));
-		let answer10 = new Map();
-		answer10.set("Bulk",sessionStorage.getItem("data-10"));
-		let answer11 = new Map();
-		answer11.set("Ssd",sessionStorage.getItem("data-11"));
-		let answer12 = new Map();
-		answer12.set("Metarial",sessionStorage.getItem("data-12"));
-		let answer13 = new Map();
-		if(sessionStorage.getItem("data-13") !== ""){
-			const thirteenDatas = JSON.parse(sessionStorage.getItem("data-13"));
-			answer13.set("HDD",thirteenDatas[0] + ":" + thirteenDatas[1]);
-		}else {
-			answer13.set("HDD","");
-		}
-		let answer14 = new Map();
-		answer14.set("Fan",sessionStorage.getItem("data-14"));
-		let answer15 = new Map();
-		answer15.set("LED",sessionStorage.getItem("data-15"));
-		let answer16 = new Map();let answer17 = new Map();let answer18 = new Map();let answer19 = new Map();
-		
-		
-		for(let i = 16; i <=19 ; i++){
-			if(sessionStorage.getItem("data-" + i) !== ""){
-				var answerName = "answer" + i;
-				var answer = eval(answerName);
-				answer.set(sessionStorage.getItem("data-" + i),"");
-			}else if (sessionStorage.getItem("data-" + i) === ""){
-				var answerName = "answer" + i;
-				var answer = eval(answerName);
-				answer.set("null","null");
-			}
-		}
-		var urlParams = "";
+	const loginUser = "${loginUser}";
 
-		for (var i = 1; i <= 19; i++) {
-			var mapName = "answer" + i;
-			var map = eval(mapName);
-			if(i === 2){
-				urlParams += mapName + "<" + answer2s + ">";
-			}else if(i===3){
-				urlParams += mapName + "<" + answer3s + ">";
-			}else if (i ===8){
-				urlParams += mapName + "<" + answer8s + ">";
-			}else {
-				for (var [key, value] of map) {
-					if(key === "" || !key){
-						key = "null";
-						value = "null";
-					}else if(key !== "" && value === ""){
-						value = "null";
-					}
-					
-					urlParams += mapName + "<" + key + "," + value + ">";
-					
-				}
-			}
-			urlParams += "|";
-		}
-		var Pattern = /\((.*?)\)/;
-		var userInfoMatch = Pattern.exec("${loginUser}");
-		var userInfoValues = userInfoMatch[1];
-
-		var userInfoArray = userInfoValues.split(", ");
-		var userInfoObject = {};
-		for (var i = 0; i < userInfoArray.length; i++) {
-			var keyValue = userInfoArray[i].split("=");
-			var key = keyValue[0];
-			var value = keyValue[1];
-			userInfoObject[key] = value;
-		}
-		urlParams += "etc<userId," + userInfoObject.id + ">|etc<targetDate,null>" + "|answer0<" + Array.from(answer0.keys()) + "," + Array.from(answer0.values()) + ">";
-		var baseUrl = "/estimateCalculationResult.do";
-		var fullUrl = baseUrl + "?" + urlParams;
-		location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
-	}
 	function clickReturnBtn() {
 		sessionStorage.setItem("data-3","null");
 		window.location.href = "ESCA_02_ver_1_0.do";
@@ -298,24 +152,48 @@
 			data: {
 				labels: ['발열', '소재', 'AS', '소음', '안정성', 'QC'],
 				datasets: [{
-				label: '',
-				data: [1, 1, 1, 1, 1, 1],
-				backgroundColor: gradient,
+					label: '',
+					data: [1, 1, 1, 1, 1, 1],
+					backgroundColor: gradient,
+					pointRadius: 6,
+					hoverRadius: 12,
 				}]
 			},
 			options: {
+				onHover: function(event, chartElement) {
+						if (chartElement.length > 0) {
+							var point = chartElement[0];
+							var label = myChart.data.labels[point.index];
+							if(label === "발열"){
+								$("#explane-area").html("발열 : 제품을 낮은 온도로 유지해줄 발열제어능력을 의미합니다.\n\n0일 때 온전한 성능을 발휘할 수 있는 최소한의 쿨러만 설치되며, 2일 때 예산을 초과편성하지 않는 선에서의 최고의 쿨링성능을 제공합니다.")
+							}else if(label ==="소재"){
+								$("#explane-area").html("소재 : 하드웨어적 제품 가치를 의미합니다.\n\n강판의 종류, 두께, 강도, 열전도율, 베어링 방식, 방열판 구조, 쿨링솔루션 등을 의미합니다.\n\n0일 때 소재를 전혀 고려하지 않고 호환성만 검토하며\n\n2일 때 하드웨어적으로 완성에 가까운 제품을 선정하게 됩니다.")
+							}else if(label === "소음"){
+								$("#explane-area").html("소음 : 제품의 상세설명 상 표기 데시벨을 점수화하여 기록된 자료입니다.\n\nBeta버전으로, 실측 테스트가 진행되지 않아 알고리즘 연산식에서 배제됩니다.\n\n수치 변동에 따라 제품 선정 변경점이 존재하지 않습니다.")
+							}else if(label === "QC"){
+								$("#explane-area").html("QC : 제품의 결함율을 나타냅니다.\n\n단순한 출고 결함율만이 아닌 최근 해당 제품 혹은 제품의 제조사, 제품군의 라인업/칩셋 등의 이슈를 다룹니다.\n\n0일 때 당장의 리콜/판매금지 제품을 제외하곤 모든 가능성을 열어두며, 2일 때 이름값을 다소 지불하더라도 입증된 메이저 제품군만을 취급합니다.")
+							}else if(label === "안정성"){
+								$("#explane-area").html("안정성 : 제품의 성능을 온전하게 유지하고 수명을 올려줄 모든 수단을 의미합니다.\n\n0일 때 가격대비 퍼포먼스 표기 성능이 가장 높은 제품을 선택하고, 2일 때 제품의 체급을 낮춰서라도 프리미엄 라인업을 선정합니다.")
+							}else if(label === "AS"){
+								$("#explane-area").html("AS : 제품들의 사후처리 가능성을 나타냅니다.\n\n수리규정, 유통사 평판 등이 이에 해당합니다.\n0일 때 AS를 전혀 감안하지 않으며, 2일 때 AS의 가격가치를 제품 성능보다도 우선시합니다.")
+							}else {
+								$("#explane-area").html("가성비 : (깡통 독3사) 최소한의 기준치를 충족한 제품군들 중 성능만을 위해 예산을 소요합니다.\n가격대 성능비가 가장 좋지만 체급에 비해 종합 안정성이 떨어집니다.\n\n메인스트림 : (필수옵션 소나타)해당 예산대의 평균적인 제품군을 선정합니다. 예산 내의 이상적인 견적을 받을 수 있습니다.\n\n프리미엄 : (풀옵 경차)예산에 비해 과한 제품 종합 안정성을 보장합니다.\n각 라인업별 최고의 제품들만 선별하여 활용하겠지만, 성능은 돈값을 못한다는 이야기를 듣기 쉽습니다.");
+							}
+						}
+				},
 				maintainAspectRatio: false,
 				responsive: false,
 				scales: {
-				r: {
-					display: false,
-					min: minDataValue,
-					max: 2,
-					ticks: {
-					// display: false,
-					stepSize: 0.01
+					r: {
+						display: false,
+						min: minDataValue,
+						max: 2,
+						ticks: {
+						// display: false,
+						stepSize: 0.01
+						}
+						
 					}
-				}
 				},
 				plugins: {
 					legend: {
@@ -325,19 +203,22 @@
 						round: 2,
 						showTooltip: true,
 						onDragStart: function (event, datasetIndex, index, value) {
-						if (value < minDataValue) {
-							return false;
-						}
+							if (value < minDataValue) {
+								return false;
+							}
 						},
 						onDrag: function (event, datasetIndex, index, value) {
 							const hexInputs = $(".hex-input");
-							
 							hexInputs[index].value = parseFloat(myChart.data.datasets[datasetIndex].data[index]).toFixed(2);
 							hexagonType();
-						if (value < minDataValue) {
-							myChart.data.datasets[datasetIndex].data[index] = minDataValue;
-							myChart.update();
-						}
+							if (value < minDataValue) {
+								myChart.data.datasets[datasetIndex].data[index] = minDataValue;
+								myChart.update();
+							}
+						},
+						onDragEnd: function(event, datasetIndex, index, value){
+							const hexInputs = $(".hex-input");
+							hexInputs[index].value = parseFloat(myChart.data.datasets[datasetIndex].data[index]).toFixed(2);
 						}
 					}
 				},
@@ -383,7 +264,6 @@
 	}
 	let prevTotalVal = 1;
 	function totalValue(){
-		
 		let count = 6;
 		const hexInputs = $(".hex-input");
 		
@@ -557,11 +437,11 @@
 											<div class="hex-text first-hex-text w-100 d-flex justify-content-center">
 												<div class="fs-4" onmouseenter="javascript:mouseEnter(this)">발열</div>
 											</div>
-											<div class="hex-text second-hex-text w-100 d-flex justify-content-between p-3">
+											<div class="hex-text second-hex-text w-100 d-flex justify-content-between p-1">
 												<div class="fs-4" onmouseenter="javascript:mouseEnter(this)">QC</div>
 												<div class="fs-4" onmouseenter="javascript:mouseEnter(this)">소재</div>
 											</div>
-											<div class="hex-text third-hex-text w-100 d-flex justify-content-between ps-3">
+											<div class="hex-text third-hex-text w-100 d-flex justify-content-between ps-1">
 												<div class="fs-4" onmouseenter="javascript:mouseEnter(this)">안정성</div>
 												<div class="fs-4" onmouseenter="javascript:mouseEnter(this)">AS</div>
 											</div>
@@ -573,7 +453,7 @@
 									</div>
 								</div>
 								<div class="row w-100 justify-content-center m-4 mt-5" style="padding-right: 2.1rem;">
-									<input type="range" class="form-range w-50" min="0" max="2" step="0.01" id="hex-val-total" oninput="javascript:totalValue()">
+									<input type="range" class="form-range w-50" min="0" max="2" step="0.01" id="hex-val-total" onmouseenter="javascript:mouseEnter(this)" oninput="javascript:totalValue()">
 									<label for="hex-val-total" class="form-label text-center ms-2" onmouseenter="javascript:mouseEnter(this)">가성비 <- 메인스트림 -> 프리미엄</label>
 								</div>
 							</div>

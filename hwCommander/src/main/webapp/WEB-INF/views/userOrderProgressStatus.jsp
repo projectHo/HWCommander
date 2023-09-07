@@ -82,8 +82,6 @@
 			$("#box-8").addClass("status-now").addClass("fs-5");
 			$("#box-7").addClass("status-now-near");
 		}
-
-		$("#box-3").attr("onclick","javascript:clickBoxThree()")
 	})
 
 	function noticeYet(){
