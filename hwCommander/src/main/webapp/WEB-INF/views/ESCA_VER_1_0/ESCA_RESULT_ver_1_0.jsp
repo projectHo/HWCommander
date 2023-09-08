@@ -25,32 +25,26 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
 
 <script>
-	// 캡쳐 기능
-	function clickCaptureBtn(){
-    	html2canvas(document.querySelector("#capture-container")).then(canvas => {
-    		$(".change-ram-btn").css("display","none");
-			saveAs(canvas.toDataURL('image/png'),"capture-test.png");
-			$(".change-ram-btn").css("display","inline-block");
-		});
-    };
-    function saveAs(uri, filename) { 
-    	var link = document.createElement('a'); 
-    	if (typeof link.download === 'string') { 
-        	link.href = uri; 
-        	link.download = filename; 
-       		document.body.appendChild(link); 
-        	link.click(); 
-        	document.body.removeChild(link); 
-      	} else { 
-        	window.open(uri); 
-      	} 
-    }
-
+	$(function() {
+		if (productMaster == ""){
+			$("#resultErrorModal").modal("show");
+			return false;
+		}
+		const tooltipList = $('[data-bs-toggle="tooltip"]').map(function() {
+			return new bootstrap.Tooltip($(this)[0]);
+		}).get();
+		// 부품 이름 입력 & 총 가격 계산
+		enterPartsText();
+		insertRams();
+		boxHeadInput();
+	})
 	let productMaster = "${productMaster}";
 	let mbInfo = "${productMbDetailInfo}";
 	let productDet = "${productDetail}";
 	let partsRam = "${partsRam}";
 	let partsRam2 = "${productRamDetailInfo}";
+	let loginUser = "${loginUser}";
+	
 	// 마스터 리스트화
 	const productMasterDetail = productMaster.substring(1, productMaster.length - 1);
 	const productMasterSplit = productMasterDetail.split('PartsproductMasterHistoryVO(');
@@ -59,22 +53,21 @@
 	let productMasterIdVal = "";
 	let productMasterIndex = 0;
 	productMasterSplit.forEach(item => {
-	  const keyValuePairs = item.split(', ');
-	  const detail = {};
-	  keyValuePairs.forEach(pair => {
-	    const [key, value] = pair.split('=');
-	    detail[key] = value;
-	  });
-	
-	  if (!productMasterResult[productMasterIndex]) {
-	    productMasterResult[productMasterIndex] = [];
-	  }
-      productMasterResult[productMasterIndex].push(detail);	
-	  productMasterIndex++;
+	const keyValuePairs = item.split(', ');
+	const detail = {};
+	keyValuePairs.forEach(pair => {
+		const [key, value] = pair.split('=');
+		detail[key] = value;
 	});
-
-	// 09.06
-	// let userId = (productMasterResult[0][0].productDescription).split(" ");
+	
+	if (!productMasterResult[productMasterIndex]) {
+		productMasterResult[productMasterIndex] = [];
+	}
+	productMasterResult[productMasterIndex].push(detail);	
+	productMasterIndex++;
+	});
+		
+		
 	// 추천된 마더보드 리스트화
 	const mbDetail = mbInfo.substring(1, mbInfo.length - 1);
 	const mbSplit = mbDetail.split('PartsMbHistoryVO(');
@@ -83,18 +76,18 @@
 	let mbIdVal = "";
 	let mbIndex = 0;
 	mbSplit.forEach(item => {
-	  const keyValuePairs = item.split(', ');
-	  const detail = {};
-	  keyValuePairs.forEach(pair => {
-	    const [key, value] = pair.split('=');
-	    detail[key] = value;
-	  });
+	const keyValuePairs = item.split(', ');
+	const detail = {};
+	keyValuePairs.forEach(pair => {
+		const [key, value] = pair.split('=');
+		detail[key] = value;
+	});
 	
-	  if (!mbResult[mbIndex]) {
-	    mbResult[mbIndex] = [];
-	  }
-      mbResult[mbIndex].push(detail);	
-	  mbIndex++;
+	if (!mbResult[mbIndex]) {
+		mbResult[mbIndex] = [];
+	}
+	mbResult[mbIndex].push(detail);	
+	mbIndex++;
 	});
 
 	// 추천된 부품 디테일 리스트화
@@ -105,18 +98,18 @@
 	let productIdVal = "";
 	let productIndex = 0;
 	productSplit.forEach(item => {
-	  const keyValuePairs = item.split(', ');
-	  const detail = {};
-	  keyValuePairs.forEach(pair => {
-	    const [key, value] = pair.split('=');
-	    detail[key] = value;
-	  });
+	const keyValuePairs = item.split(', ');
+	const detail = {};
+	keyValuePairs.forEach(pair => {
+		const [key, value] = pair.split('=');
+		detail[key] = value;
+	});
 	
-	  if (!productResult[productIndex]) {
-	    productResult[productIndex] = [];
-	  }
-      productResult[productIndex].push(detail);	
-	  productIndex++;
+	if (!productResult[productIndex]) {
+		productResult[productIndex] = [];
+	}
+	productResult[productIndex].push(detail);	
+	productIndex++;
 	});
 
 	// 전체 램 리스트화
@@ -127,17 +120,17 @@
 	var ramIdVal = "";
 	let ramIndex = 0;
 	ramSplit.forEach(item => {
-	  const keyValuePairs = item.split(', ');
-	  const detail = {};
-	  keyValuePairs.forEach(pair => {
-	    const [key, value] = pair.split('=');
-	    detail[key] = value;
+	const keyValuePairs = item.split(', ');
+	const detail = {};
+	keyValuePairs.forEach(pair => {
+		const [key, value] = pair.split('=');
+		detail[key] = value;
 	});
-	  if (!ramResult[ramIndex]) {
-	    ramResult[ramIndex] = [];
-	  }
-	  ramResult[ramIndex].push(detail);
-	  ramIndex++;
+	if (!ramResult[ramIndex]) {
+		ramResult[ramIndex] = [];
+	}
+	ramResult[ramIndex].push(detail);
+	ramIndex++;
 	});
 
 	function enterPartsText () {
@@ -149,20 +142,9 @@
 		$(".psu-text").html(productResult[6][0].partsName);
 		$(".ram-text").html(productResult[7][0].partsName);
 		$(".ssd-text").html(productResult[8][0].partsName);
-		$(".price-text").html(total.toLocaleString("ko-kr") + "원");
+		$(".price-text").html("${productMaster.productPriceStr}");
 	}
 	
-	let total = 0;
-	function calcPartsPrice() {
-		for (let i = 1; i<Object.keys(productResult).length; i++){
-			total += Number(productResult[i][0].partsPrice);
-		}
-		if(sessionStorage.getItem("data-0") == "1"){
-			total += 150000;
-		}else if(sessionStorage.getItem("data-0") == "2"){
-			total += 180000;
-		}
-	}
 	function clickReturnBtn () {
 		window.location.href = "ESCA_00_ver_1_0.do";
 		sessionStorage.clear();
@@ -200,17 +182,34 @@
 
 	function clickChangeRam(e){
 		if($(e).attr("cd") === "0"){
-			total = 0;
-			calcPartsPrice();
 			enterPartsText();
 		}else {
 			const ramCd = $(e).attr("cd");
 			const ramI = $(e).attr("nb");
 			$(".ram-text").html(ramResult[ramCd][0].partsName);
-			$(".price-text").html(total + differencePrices[ramI-1]);
+			$(".price-text").html(((Number("${productMaster.productPrice}") + differencePrices[ramI-1]).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원"));
 		}
 	}
-
+	// 캡쳐 기능
+	function clickCaptureBtn(){
+		html2canvas(document.querySelector("#capture-container")).then(canvas => {
+			$(".change-ram-btn").css("display","none");
+			saveAs(canvas.toDataURL('image/png'),"capture-test.png");
+			$(".change-ram-btn").css("display","inline-block");
+		});
+	};
+	function saveAs(uri, filename) { 
+		var link = document.createElement('a'); 
+		if (typeof link.download === 'string') { 
+			link.href = uri; 
+			link.download = filename; 
+			document.body.appendChild(link); 
+			link.click(); 
+			document.body.removeChild(link); 
+		} else { 
+			window.open(uri); 
+		} 
+	}
 	function modalButtons(el){
 		if($(el).hasClass("btn-secondary")){
 			location.href = "/";
@@ -218,44 +217,33 @@
 			for(let i = 0; i<=19 ; i++){
 				sessionStorage.setItem("data-" + i, "");
 			}
-			location.href = "/ESCA/ESCA_00_ver_1_0.do";
+			location.href = "/ESCA/ESCAESCASelect.do";
 		}
 	}
 	
-	$(function() {
-		const tooltipList = $('[data-bs-toggle="tooltip"]').map(function() {
-			return new bootstrap.Tooltip($(this)[0]);
-		}).get();
-		// 부품 이름 입력 & 총 가격 계산
-		calcPartsPrice();
-		enterPartsText();
-		insertRams();
-		// 09.06 로직 개선 후 에러 상태 확인 필요
-		if($("#id-input").val() === "ID : error"){
-			$("#resultErrorModal").modal("show");
-		}else {
-			$("#id-input").val("ID : " + userId[0]);
-		}
-		const currentDate = new Date();
+	function boxHeadInput(){
+		$("#id-input").val("ID : " + "${loginUser.id}");
 
+		const currentDate = new Date();
 		const year = currentDate.getFullYear();
 		const month = String(currentDate.getMonth() + 1).padStart(2, "0");
 		const day = String(currentDate.getDate()).padStart(2, "0");
+		const formattedDate = year + "-" + month + "-" + day;
+		$("#date-input").val("Date : " + formattedDate);
 
-		const formattedDate = `${year}-${month}-${day}`;
-		$("#date-input").val("Date : ${formattedDate}");
 		const urlString = location.href;
-
 		const matchedId = urlString.match(/userId%2C([^%]+)/);
-		if(userId[0] != matchedId[1]){
-			$("#recommender-input").val("추천인 : "+matchedId[1]).css("display","block");
+		const aa = matchedId[1];
+		if("${loginUser.id}" != aa){
+			$("#recommender-input").parent().css("display","block");
+			$("#recommender-input").val("추천인 ID : "+ aa).css("display","block");
 		}
-	})
+	}
 </script>
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
-	<div class="modal fade" id="resultErrorModal" tabindex="-1" aria-hidden="true">
+	<div class="modal fade" id="resultErrorModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
 		<div class="modal-dialog modal-dialog-centered">
 		  <div class="modal-content">
 			<div class="modal-header">
@@ -288,7 +276,7 @@
 						<div class="col"></div>
 						<div class="col-md-2">
 							<div class="input-group w-100" style="display: none;">
-								<input type="text" class="form-control pb-0 ps-3" id="recommender-input"aria-label="Text input with checkbox" value="추천인 : 오류" style="background-color: #fff;" disabled>
+								<input type="text" class="form-control pb-0 ps-3 w-100" id="recommender-input" value="추천인 : 오류" style="background-color: #fff;" disabled>
 							</div>
 						</div>
 						<div class="col-md-2">
@@ -301,7 +289,7 @@
 						<div class="card mb-3">
 							<div class="row g-0">
 							  <div class="col-md-4 pt-3 ps-2">
-								<img src="..." class="img-fluid rounded-start" style="box-shadow: 1px 1px gray;"alt="...">
+								<!-- <img src="..." class="img-fluid rounded-start" style="box-shadow: 1px 1px gray;"alt="..."> -->
 							  </div>
 							  <div class="col-md-8">
 								<div class="card-body">

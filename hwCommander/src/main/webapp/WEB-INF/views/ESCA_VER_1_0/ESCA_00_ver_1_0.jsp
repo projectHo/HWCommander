@@ -102,6 +102,9 @@
 			for(let i = 1; i<=19 ; i++){
 				sessionStorage.setItem("data-" + i, "");
 			}
+			if(!sessionStorage.getItem("targetData")){
+				sessionStorage.setItem("targetData" , "");
+			}
 			// bootstrap tooltip base
 			const tooltipTriggerList = $('[data-bs-toggle="tooltip"]');
 			const tooltipList = tooltipTriggerList.map(function() {

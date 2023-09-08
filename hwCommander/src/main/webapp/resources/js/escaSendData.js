@@ -143,7 +143,11 @@ function sendAllData(){
         var value = keyValue[1];
         userInfoObject[key] = value;
     }
-    urlParams += "etc<userId," + userInfoObject.id + ">|etc<targetDate,null>" + "|answer0<" + Array.from(answer0.keys()) + "," + Array.from(answer0.values()) + ">";
+    var targetDate = "null";
+    if(sessionStorage.getItem("targetData") != ""){
+        targetDate = sessionStorage.getItem("targetData");
+    }
+    urlParams += "etc<userId," + userInfoObject.id + ">|etc<targetDate," + targetDate + ">|answer0<" + Array.from(answer0.keys()) + "," + Array.from(answer0.values()) + ">";
     var baseUrl = "/ESCA/ESCA_RESULT_ver_1_0.do";
     var fullUrl = baseUrl + "?" + urlParams;
     location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
