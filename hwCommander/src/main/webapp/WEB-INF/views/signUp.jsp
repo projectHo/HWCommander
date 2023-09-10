@@ -11,7 +11,8 @@
 <link rel="stylesheet" href="/resources/css/main.css">
 <link rel="stylesheet" href="/resources/css/estimateCalculationOneCss.css">
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
-
+<!-- 09.08 추가 -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 <!-- 23.06.17 다음 카카오 주소 api 추가 -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
@@ -47,7 +48,30 @@ var targetId = null;
         	alert("핸드폰인증해");
         	return false;
 		});
+
+		// 09.08 약관동의
+		$('#terms-modal').modal({ backdrop: 'static', keyboard: false }); 
+		$("#terms-modal").modal("show");
     });
+	// 09.08 약관 동의 기능 추가
+function refuseTerms(){
+	alert("약관 미동의 시 이용하실 수 없습니다");
+}
+function agreeTerms(){
+	$("#terms-modal").modal("hide");
+}
+// 09.07 약관 스크롤 이벤트 추가
+function scrollTerms(elem){
+	var scrollTop = $(elem).scrollTop();
+	console.log(scrollTop);
+	var innerHeight = $(elem).innerHeight();
+	console.log(innerHeight);
+	var scrollHeight = $(elem).prop('scrollHeight');
+	console.log(scrollHeight);
+	if (scrollTop + innerHeight >= scrollHeight) {
+		$("#agree-terms").removeClass("btn-outline-primary").addClass("btn-primary").attr("disabled",false);
+	}
+}
 function goSignUp() {
     var form = $("#signUp_form").serialize();
     
@@ -227,6 +251,37 @@ function findDaumAddr() {
 	<div class="basic_background w-100">
 		<div class="d-flex">
 			<!-- 빈 영역 -->
+			<!-- 09.06 약관 동의 모달 -->
+			<div class="modal fade" tabindex="-1" id="terms-modal" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-scrollable modal-lg">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title">이용 약관</h5>
+						</div>
+						<div class="modal-body" onscroll="javascript:scrollTerms(this)">
+							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A cum maxime omnis nam! Minima accusantium pariatur inventore dolorum similique amet ipsam earum distinctio, recusandae dignissimos saepe possimus voluptate autem dicta.</p>
+							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A cum maxime omnis nam! Minima accusantium pariatur inventore dolorum similique amet ipsam earum distinctio, recusandae dignissimos saepe possimus voluptate autem dicta.</p>
+							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A cum maxime omnis nam! Minima accusantium pariatur inventore dolorum similique amet ipsam earum distinctio, recusandae dignissimos saepe possimus voluptate autem dicta.</p>
+							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A cum maxime omnis nam! Minima accusantium pariatur inventore dolorum similique amet ipsam earum distinctio, recusandae dignissimos saepe possimus voluptate autem dicta.</p>
+							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A cum maxime omnis nam! Minima accusantium pariatur inventore dolorum similique amet ipsam earum distinctio, recusandae dignissimos saepe possimus voluptate autem dicta.</p>
+							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A cum maxime omnis nam! Minima accusantium pariatur inventore dolorum similique amet ipsam earum distinctio, recusandae dignissimos saepe possimus voluptate autem dicta.</p>
+							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A cum maxime omnis nam! Minima accusantium pariatur inventore dolorum similique amet ipsam earum distinctio, recusandae dignissimos saepe possimus voluptate autem dicta.</p>
+							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A cum maxime omnis nam! Minima accusantium pariatur inventore dolorum similique amet ipsam earum distinctio, recusandae dignissimos saepe possimus voluptate autem dicta.</p>
+							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A cum maxime omnis nam! Minima accusantium pariatur inventore dolorum similique amet ipsam earum distinctio, recusandae dignissimos saepe possimus voluptate autem dicta.</p>
+							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A cum maxime omnis nam! Minima accusantium pariatur inventore dolorum similique amet ipsam earum distinctio, recusandae dignissimos saepe possimus voluptate autem dicta.</p>
+							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A cum maxime omnis nam! Minima accusantium pariatur inventore dolorum similique amet ipsam earum distinctio, recusandae dignissimos saepe possimus voluptate autem dicta.</p>
+							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A cum maxime omnis nam! Minima accusantium pariatur inventore dolorum similique amet ipsam earum distinctio, recusandae dignissimos saepe possimus voluptate autem dicta.</p>
+							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A cum maxime omnis nam! Minima accusantium pariatur inventore dolorum similique amet ipsam earum distinctio, recusandae dignissimos saepe possimus voluptate autem dicta.</p>
+							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A cum maxime omnis nam! Minima accusantium pariatur inventore dolorum similique amet ipsam earum distinctio, recusandae dignissimos saepe possimus voluptate autem dicta.</p>
+							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A cum maxime omnis nam! Minima accusantium pariatur inventore dolorum similique amet ipsam earum distinctio, recusandae dignissimos saepe possimus voluptate autem dicta.</p>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" onclick="javascript:refuseTerms()">닫기</button>
+							<button type="button" class="btn btn-outline-primary" disabled id="agree-terms" onclick="javascript:agreeTerms()">약관 동의</button>
+						</div>
+					</div>
+				</div>
+			</div>
 			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
 				<div class="estimateCalc_background p-5 mb-4" style="width: 70% !important">
 					<div class="w-75 container">
