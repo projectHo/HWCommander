@@ -99,9 +99,6 @@
 		}
 
 		$(function () {
-			for(let i = 1; i<=19 ; i++){
-				sessionStorage.setItem("data-" + i, "");
-			}
 			// bootstrap tooltip base
 			const tooltipTriggerList = $('[data-bs-toggle="tooltip"]');
 			const tooltipList = tooltipTriggerList.map(function() {
@@ -154,37 +151,37 @@
 		 				<img src="/resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="버튼에 마우스를 올리면 설명이 나와요!" style="cursor:pointer">
 		 			</div>
 		 		</div>
-			 		<div class="row pb-3">
-						<div class="col d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-a">
-							<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickAnswerBtn(this)" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Free Dos(OS 미설치) : 구매 후 바로 사용하실 수 없고 윈도우를 직접 설치하셔야 합니다. 최적화가 되어있지 않고, 드라이버가 담긴 USB를 제공합니다!"><p class="pt-2 m-0">프리도스</br>0원</p></label>
-						</div>
-						<div class="col d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-b">
-							<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickAnswerBtn(this)" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="COEM(메인보드 귀속형) : 최적화 작업을 무상 진행합니다. 윈도우는 해당 PC를 폐기하거나 메인보드의 수명이 다하거나 당사 귀책 외의 사항으로 교체 시 라이선스를 재구매하셔야 합니다!"><p class="pt-2 m-0">COEM</br>150,000원</p></label>
-						</div>
-						<div class="col d-flex justify-content-center">
-							<input type="radio" class="btn-check" name="btnradio" id="answer-c">
-							<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickAnswerBtn(this)" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Fpp(라이센스 구매형) : 최적화 작업을 무상 진행합니다. 윈도우는 해당 PC를 폐기하거나 교체 할 경우 라이센스를 유지하고 다른 PC로 이전 가능합니다."><p class="pt-2 m-0">Fpp</br>180,000원</p></label>
-						</div>
-			 		</div>
-					<div class="row pb-2">
-						<div class="col"></div>
-						<div class="col-2 d-flex justify-content-center">
-							<label class="btn btn-outline-secondary w-75" for="answer-d" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="윈도우 최적화, 드라이버 업데이트, 바이오스 설정 및 업데이트, 각 업데이트 내용은 이슈 없는 버전으로 리빌딩합니다."><p class="pt-2 m-0">최적화란?</p></label>
-						</div>
-						<div class="col"></div>
+				 <div class="row pb-2">
+					<div class="col"></div>
+					<div class="col-2 d-flex justify-content-center">
+						<label class="btn btn-outline-secondary w-75" for="answer-d" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="윈도우 최적화, 드라이버 업데이트, 바이오스 설정 및 업데이트, 각 업데이트 내용은 이슈 없는 버전으로 리빌딩합니다."><p class="pt-2 m-0">최적화란?</p></label>
 					</div>
-			 		<div class="row pb-2">
-	 			 		<div class="col"></div>
-			 			<div class="col">
-			 				<button type="button" class="form-control margin-center" onclick="javascript:clickEstimateBtn(this)"><p class="pt-2 m-0">견적 보기</p></button>
-	                		<div class="fs-5 text-center mt-2" style="display: none; font-weight: bold; color: red;">2번 질문까지는 필수 질문입니다!</div>
-			 			</div>
-			 			<div class="col">
-			 				<button type="button" class="form-control margin-center w-50 next-btn" onclick="javascript:clickNextBtn(this)"><p class="pt-2 m-0">다음 질문</p></button>
-			 			</div>
-			 		</div>
+					<div class="col"></div>
+				</div>
+				<div class="row pb-3">
+					<div class="col d-flex justify-content-center">
+						<input type="radio" class="btn-check" name="btnradio" id="answer-a">
+						<label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickAnswerBtn(this)" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Free Dos(OS 미설치) : 구매 후 바로 사용하실 수 없고 윈도우를 직접 설치하셔야 합니다. 최적화가 되어있지 않고, 드라이버가 담긴 USB를 제공합니다!"><p class="pt-2 m-0">프리도스</br>0원</p></label>
+					</div>
+					<div class="col d-flex justify-content-center">
+						<input type="radio" class="btn-check" name="btnradio" id="answer-b">
+						<label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickAnswerBtn(this)" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="COEM(메인보드 귀속형) : 최적화 작업을 무상 진행합니다. 윈도우는 해당 PC를 폐기하거나 메인보드의 수명이 다하거나 당사 귀책 외의 사항으로 교체 시 라이선스를 재구매하셔야 합니다!"><p class="pt-2 m-0">COEM</br>150,000원</p></label>
+					</div>
+					<div class="col d-flex justify-content-center">
+						<input type="radio" class="btn-check" name="btnradio" id="answer-c">
+						<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickAnswerBtn(this)" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Fpp(라이센스 구매형) : 최적화 작업을 무상 진행합니다. 윈도우는 해당 PC를 폐기하거나 교체 할 경우 라이센스를 유지하고 다른 PC로 이전 가능합니다."><p class="pt-2 m-0">Fpp</br>180,000원</p></label>
+					</div>
+				</div>
+				<div class="row pb-2">
+					<div class="col"></div>
+					<div class="col">
+						<button type="button" class="form-control margin-center" onclick="javascript:clickEstimateBtn(this)"><p class="pt-2 m-0">견적 보기</p></button>
+						<div class="fs-5 text-center mt-2" style="display: none; font-weight: bold; color: red;">2번 질문까지는 필수 질문입니다!</div>
+					</div>
+					<div class="col">
+						<button type="button" class="form-control margin-center w-50 next-btn" onclick="javascript:clickNextBtn(this)"><p class="pt-2 m-0">다음 질문</p></button>
+					</div>
+				</div>
 		 	</div>
  		</div>
         <!-- 빈 영역 -->
