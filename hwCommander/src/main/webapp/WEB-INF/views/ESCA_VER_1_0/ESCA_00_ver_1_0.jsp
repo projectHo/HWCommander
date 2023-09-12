@@ -99,12 +99,6 @@
 		}
 
 		$(function () {
-			for(let i = 1; i<=19 ; i++){
-				sessionStorage.setItem("data-" + i, "");
-			}
-			if(!sessionStorage.getItem("targetData")){
-				sessionStorage.setItem("targetData" , "");
-			}
 			// bootstrap tooltip base
 			const tooltipTriggerList = $('[data-bs-toggle="tooltip"]');
 			const tooltipList = tooltipTriggerList.map(function() {
@@ -157,6 +151,13 @@
 		 				<img src="/resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="버튼에 마우스를 올리면 설명이 나와요!" style="cursor:pointer">
 		 			</div>
 		 		</div>
+				 <div class="row pb-2">
+					<div class="col"></div>
+					<div class="col-2 d-flex justify-content-center">
+						<label class="btn btn-outline-secondary w-75" for="answer-d" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="윈도우 최적화, 드라이버 업데이트, 바이오스 설정 및 업데이트, 각 업데이트 내용은 이슈 없는 버전으로 리빌딩합니다."><p class="pt-2 m-0">최적화란?</p></label>
+					</div>
+					<div class="col"></div>
+				</div>
 				<div class="row pb-3">
 					<div class="col d-flex justify-content-center">
 						<input type="radio" class="btn-check" name="btnradio" id="answer-a">
@@ -170,13 +171,6 @@
 						<input type="radio" class="btn-check" name="btnradio" id="answer-c">
 						<label class="btn btn-outline-secondary w-75" for="answer-c" onclick="javascript:clickAnswerBtn(this)" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Fpp(라이센스 구매형) : 최적화 작업을 무상 진행합니다. 윈도우는 해당 PC를 폐기하거나 교체 할 경우 라이센스를 유지하고 다른 PC로 이전 가능합니다."><p class="pt-2 m-0">Fpp</br>180,000원</p></label>
 					</div>
-				</div>
-				<div class="row pb-2">
-					<div class="col"></div>
-					<div class="col-2 d-flex justify-content-center">
-						<label class="btn btn-outline-secondary w-75" for="answer-d" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="윈도우 최적화, 드라이버 업데이트, 바이오스 설정 및 업데이트, 각 업데이트 내용은 이슈 없는 버전으로 리빌딩합니다."><p class="pt-2 m-0">최적화란?</p></label>
-					</div>
-					<div class="col"></div>
 				</div>
 				<div class="row pb-2">
 					<div class="col"></div>
