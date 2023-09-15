@@ -81,7 +81,7 @@
 			);
 			progress -= 3;
 			if (progress > 0) {
-			setTimeout(goToZero, 20);
+				setTimeout(goToZero, 20);
 			}
 		}
 			
@@ -118,12 +118,6 @@
 			// functions			
 			typeText();
 		});
-
-		
-		
-	  
-   
-
     </script>
   </head>
   <body>
@@ -142,7 +136,7 @@
 		 			<div class="col-2 text-center">
 		 				<div class="donut-container margin-center">
 	                  		<div class="donut-fill">0</div>
-	                  </div>
+	                  	</div>
 		 			</div>
 		 			<div class="col-8 d-flex p-2">
 		 				<input id="typingInput" class="form-control text-center pt-3 fs-5" type="text" readonly aria-label="본체 예상 한도" disabled />
@@ -151,7 +145,7 @@
 		 				<img src="/resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="버튼에 마우스를 올리면 설명이 나와요!" style="cursor:pointer">
 		 			</div>
 		 		</div>
-				 <div class="row pb-2">
+				<div class="row pb-2">
 					<div class="col"></div>
 					<div class="col-2 d-flex justify-content-center">
 						<label class="btn btn-outline-secondary w-75" for="answer-d" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="윈도우 최적화, 드라이버 업데이트, 바이오스 설정 및 업데이트, 각 업데이트 내용은 이슈 없는 버전으로 리빌딩합니다."><p class="pt-2 m-0">최적화란?</p></label>
