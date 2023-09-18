@@ -55,15 +55,15 @@
 			index++;
 			setTimeout(typeText, 50);
 		}
-	}	
+	}
 	function modalPrev(){
 		$(".modal-footer").css("display","block");
 		$('#datepicker-input').datepicker({
-			language: 'ko', // 한국어 번역 설정
-			format: 'yyyy-mm-dd', // 날짜 형식 (년-월-일)
-			startDate: '2023-03-01', // 시작 날짜 설정
-			endDate: new Date(), // 현재 날짜까지만 선택 가능하도록 설정
-			autoclose: true, // 선택 후 자동으로 닫히도록 설정
+			language: 'ko',
+			format: 'yyyy-mm-dd',
+			startDate: '2023-03-01',
+			endDate: new Date(),
+			autoclose: true,
 		});
 	}
 	function clickAnswerBtn(el){
@@ -97,7 +97,6 @@
 			}
 		});
 	}
-
 	
 	function chooseTime(){
 		$('#date-chooser').children().css("display","none");

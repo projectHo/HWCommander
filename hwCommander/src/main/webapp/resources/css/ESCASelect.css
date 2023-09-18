@@ -58,3 +58,7 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
     background: linear-gradient(212deg, rgba(223,34,238,0.8) 3%, rgba(37,180,220,0.8) 89%);
     border-radius: 8px;
 }
+
+.navbar-header{
+    padding: 9.6px 0!important;
+}

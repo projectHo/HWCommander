@@ -26,7 +26,10 @@
 <!-- 09.12 단독 스타일시트 추가 -->
 <link rel="stylesheet" href="/resources/css/ESCASelect.css">
 
-
+<!-- 09.18 데이터 전송 js -->
+<script src="/resources/js/escaSendData.js"></script>
+<!-- 09.18 반응형 추가 -->
+<script src="/resources/js/ESCA_NEW_Resize.js"></script>
 <!-- 09.08 date picker js css 추가 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js" integrity="sha512-LsnSViqQyaXpD4mBBdRYeP6sRwJiJveh2ZIbW41EBrNmKxgr/LFZIiWT6yr+nycvhvauz8c2nYMhrP80YhG7Cw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/locales/bootstrap-datepicker.ko.min.js" integrity="sha512-L4qpL1ZotXZLLe8Oo0ZyHrj/SweV7CieswUODAAPN/tnqN3PA1P+4qPu5vIryNor6HQ5o22NujIcAZIfyVXwbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -36,10 +39,13 @@
 <script>
 	$(function(){		
 		$("#ESCA_modal").modal("show");
-		setTimeout(() => {
-			var modalBtnWidth = $(".modal-btn").width();
-			$(".modal-btn").height(modalBtnWidth);	
-		}, 200);
+		
+
+		// bootstrap tooltip base
+		const tooltipTriggerList = $('[data-bs-toggle="tooltip"]');
+		const tooltipList = tooltipTriggerList.map(function() {
+			return new bootstrap.Tooltip($(this)[0]);
+		}).get();
 	})
 
 	// 초반 모달 기능
@@ -53,7 +59,6 @@
 	function modalSelectDateBtn(){
 
 	}
-
 	function chooseDate(){
 		$("#time-chooser").removeClass("d-flex").addClass("d-none");
 		$('#date-chooser').children().css("display","block");
@@ -72,8 +77,6 @@
 			}
 		});
 	}
-
-	
 	function chooseTime(){
 		$('#date-chooser').children().css("display","none");
 		$("#time-chooser").removeClass("d-none").addClass("d-flex");
@@ -101,6 +104,49 @@
 		chooseTime();
 		changeTime();
 	}
+
+	// 질문 목록 클릭 이벤트
+	function clickQestionList(el){
+		var qnum = $(el).attr("qnum");
+		for(var i = 1 ; i<=20 ; i++ ){
+			if( i != qnum){
+				$(".q-" + i).removeClass("show").css("display","none");
+			}
+		}
+		setTimeout(() => {
+			$(".q-" + qnum).addClass("show");
+		}, 100);
+		$(".q-" + qnum).css("display","block");
+	}
+	// 질문 페이지 별 이벤트들
+	// 1번질문
+	function qestionOneBtns(el){
+		if($(el).attr("val") == "1"){
+			sessionStorage.setItem("data-0",0);
+		}else if($(el).attr("val") == "2"){
+			sessionStorage.setItem("data-0",1);
+		}else {
+			sessionStorage.setItem("data-0",2);
+		}
+		$(".q1-badge").html("OS : " + $(el).attr("qname"));
+	}
+
+	// 2번질문
+	function qestionTwoBtns(){
+
+	}
+	function priceCheck(el){
+		if($(el).val() < 0){
+			alert("0원 이상으로 입력해주세요~");
+			$(el).val("");
+		}else if($(el).val() > 500){
+			alert("500만원 이하로 입력해주세요!");
+			$(el).val("");
+		}else if (isNaN(parseFloat($(el).val())) && $(el).val() != ""){
+			alert("숫자만 입력해주세요!!");
+			$(el).val("");
+		}
+	}
 </script>
 </head>
 <body>
@@ -121,7 +167,7 @@
 						<div class="modal-body text-center">
 							<h4 class="p-2">견적산출 기준을 정해주세요!</h4>
 							<div class="row pb-3">
-								<div class="col-md text-center d-flex align-items-center">
+								<div class="col-md text-center d-flex align-items-center modal-btn-col">
 									<button type="button" class="w-25 btn btn-primary modal-btn pb-0" onclick="javascript:modalNewBtn()">
 										새로하기
 									</button>
@@ -129,7 +175,7 @@
 										처음 이용하시거나 과거 견적산출이 필요 없으신 경우 새로 진행합니다.
 									</div>
 								</div>
-								<div class="col-md text-center d-flex align-items-center">
+								<div class="col-md text-center d-flex align-items-center modal-btn-col">
 									<button type="button" class="w-25 btn btn-primary modal-btn pb-0" data-bs-target="#select-date" data-bs-toggle="modal">
 										날짜선택
 									</button>
@@ -186,47 +232,47 @@
 
 			<!-- ui 업데이트 시안 -->
 			<div style="width: 80%!important;">
-				<div class="d-flex mt-3 mb-5" id="wrapper">
+				<div class="d-flex mt-3 mb-5 rounded" id="wrapper">
 					<!-- Sidebar-->
 					<div class="border-end bg-white" id="sidebar-wrapper">
 						<div class="sidebar-heading border-bottom bg-light ps-2">질문 목록</div>
 						<ul class="list-group list-group-flush">
-							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!">
+							<a class="list-group-item list-group-item-action list-group-item-primary p-2" href="#!" onclick="javascript:clickQestionList(this)" qnum="1">
 								<li class="d-flex justify-content-between align-items-center pt-2">
 									질문 1번
-									<div>
+									<div class="d-flex">
+										<span class="badge bg-primary rounded-pill pt-2 pe-2 q1-badge"></span>
 										<span class="badge bg-danger rounded-pill pt-2">필수</span>
-										<span class="badge bg-primary rounded-pill pt-2 pe-2"></span>
 									</div>
 								</li>
 							</a>
-							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!">
+							<a class="list-group-item list-group-item-action list-group-item-primary p-2" href="#!" onclick="javascript:clickQestionList(this)" qnum="2">
 								<li class="d-flex justify-content-between align-items-center pt-2">
 									질문 2번
 									<div>
-										<span class="badge bg-danger rounded-pill pt-2">필수</span>
 										<span class="badge bg-primary rounded-pill pt-2 pe-2"></span>
+										<span class="badge bg-danger rounded-pill pt-2">필수</span>
 									</div>
 								</li>
 							</a>
-							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!">
+							<a class="list-group-item list-group-item-action list-group-item-primary p-2" href="#!" onclick="javascript:clickQestionList(this)" qnum="3">
 								<li class="d-flex justify-content-between align-items-center pt-2">
 									질문 3번
 									<div>
+										<span class="badge bg-primary rounded-pill pt-2 pe-2"></span>
 										<span class="badge bg-danger rounded-pill pt-2">필수</span>
+									</div>
+								</li>
+							</a>
+							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!" onclick="javascript:clickQestionList(this)" qnum="4">
+								<li class="d-flex justify-content-between align-items-center pt-2">
+									질문 4번
+									<div>
 										<span class="badge bg-primary rounded-pill pt-2 pe-2"></span>
 									</div>
 								</li>
 							</a>
-							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!">
-								<li class="d-flex justify-content-between align-items-center pt-2">
-									질문 4번
-									<div>
-										<span class="badge bg-primary rounded-pill pt-2 pe-2">11</span>
-									</div>
-								</li>
-							</a>
-							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!">
+							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!" onclick="javascript:clickQestionList(this)" qnum="5">
 								<li class="d-flex justify-content-between align-items-center pt-2">
 									질문 5번
 									<div>
@@ -234,7 +280,7 @@
 									</div>
 								</li>
 							</a>
-							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!">
+							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!" onclick="javascript:clickQestionList(this)" qnum="6">
 								<li class="d-flex justify-content-between align-items-center pt-2">
 									질문 6번
 									<div>
@@ -242,7 +288,7 @@
 									</div>
 								</li>
 							</a>
-							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!">
+							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!" onclick="javascript:clickQestionList(this)" qnum="7">
 								<li class="d-flex justify-content-between align-items-center pt-2">
 									질문 7번
 									<div>
@@ -250,7 +296,7 @@
 									</div>
 								</li>
 							</a>
-							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!">
+							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!" onclick="javascript:clickQestionList(this)" qnum="8">
 								<li class="d-flex justify-content-between align-items-center pt-2">
 									질문 8번
 									<div>
@@ -258,7 +304,7 @@
 									</div>
 								</li>
 							</a>
-							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!">
+							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!" onclick="javascript:clickQestionList(this)" qnum="9">
 								<li class="d-flex justify-content-between align-items-center pt-2">
 									질문 9번
 									<div>
@@ -266,88 +312,88 @@
 									</div>
 								</li>
 							</a>
-							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!">
-								<li class="d-flex justify-content-between align-items-center pt-2">
+							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!" onclick="javascript:clickQestionList(this)" qnum="10>
+								<li class="d-flex justify-content-between align-items-center pt-2"">
 									질문 10번
 									<div>
 										<span class="badge bg-primary rounded-pill pt-2 pe-2"></span>
 									</div>
 								</li>
 							</a>
-							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!">
-								<li class="d-flex justify-content-between align-items-center pt-2">
+							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!" onclick="javascript:clickQestionList(this)" qnum="11>
+								<li class="d-flex justify-content-between align-items-center pt-2"">
 									질문 11번
 									<div>
 										<span class="badge bg-primary rounded-pill pt-2 pe-2"></span>
 									</div>
 								</li>
 							</a>
-							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!">
-								<li class="d-flex justify-content-between align-items-center pt-2">
+							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!" onclick="javascript:clickQestionList(this)" qnum="12>
+								<li class="d-flex justify-content-between align-items-center pt-2"">
 									질문 12번
 									<div>
 										<span class="badge bg-primary rounded-pill pt-2 pe-2"></span>
 									</div>
 								</li>
 							</a>
-							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!">
-								<li class="d-flex justify-content-between align-items-center pt-2">
+							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!" onclick="javascript:clickQestionList(this)" qnum="13>
+								<li class="d-flex justify-content-between align-items-center pt-2"">
 									질문 13번
 									<div>
 										<span class="badge bg-primary rounded-pill pt-2 pe-2"></span>
 									</div>
 								</li>
 							</a>
-							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!">
-								<li class="d-flex justify-content-between align-items-center pt-2">
+							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!" onclick="javascript:clickQestionList(this)" qnum="14>
+								<li class="d-flex justify-content-between align-items-center pt-2"">
 									질문 14번
 									<div>
 										<span class="badge bg-primary rounded-pill pt-2 pe-2"></span>
 									</div>
 								</li>
 							</a>
-							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!">
-								<li class="d-flex justify-content-between align-items-center pt-2">
+							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!" onclick="javascript:clickQestionList(this)" qnum="15>
+								<li class="d-flex justify-content-between align-items-center pt-2"">
 									질문 15번
 									<div>
 										<span class="badge bg-primary rounded-pill pt-2 pe-2"></span>
 									</div>
 								</li>
 							</a>
-							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!">
-								<li class="d-flex justify-content-between align-items-center pt-2">
+							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!" onclick="javascript:clickQestionList(this)" qnum="16>
+								<li class="d-flex justify-content-between align-items-center pt-2"">
 									질문 16번
 									<div>
 										<span class="badge bg-primary rounded-pill pt-2 pe-2"></span>
 									</div>
 								</li>
 							</a>
-							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!">
-								<li class="d-flex justify-content-between align-items-center pt-2">
+							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!" onclick="javascript:clickQestionList(this)" qnum="17>
+								<li class="d-flex justify-content-between align-items-center pt-2"">
 									질문 17번
 									<div>
 										<span class="badge bg-primary rounded-pill pt-2 pe-2"></span>
 									</div>
 								</li>
 							</a>
-							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!">
-								<li class="d-flex justify-content-between align-items-center pt-2">
+							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!" onclick="javascript:clickQestionList(this)" qnum="18>
+								<li class="d-flex justify-content-between align-items-center pt-2"">
 									질문 18번
 									<div>
 										<span class="badge bg-primary rounded-pill pt-2 pe-2"></span>
 									</div>
 								</li>
 							</a>
-							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!">
-								<li class="d-flex justify-content-between align-items-center pt-2">
+							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!" onclick="javascript:clickQestionList(this)" qnum="19>
+								<li class="d-flex justify-content-between align-items-center pt-2"">
 									질문 19번
 									<div>
 										<span class="badge bg-primary rounded-pill pt-2 pe-2"></span>
 									</div>
 								</li>
 							</a>
-							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!">
-								<li class="d-flex justify-content-between align-items-center pt-2">
+							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!" onclick="javascript:clickQestionList(this)" qnum="20>
+								<li class="d-flex justify-content-between align-items-center pt-2"">
 									질문 20번
 									<div>
 										<span class="badge bg-primary rounded-pill pt-2 pe-2"></span>
@@ -359,23 +405,67 @@
 					<!-- Page content wrapper-->
 					<div id="page-content-wrapper" class="bg-white">
 						<!-- Top navigation-->
-						<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+						<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom navbar-header">
 							<div class="container-fluid">
-								<button class="btn btn-primary" id="sidebarToggle">Toggle Menu</button>
-								<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+								<button class="btn btn-primary" id="sidebarToggle">목록 보기</button>
+								<button type="button" class="btn btn-success" onclick="javascript:sendAllData()">견적 산출</button>
 							</div>
 						</nav>
 						<!-- Page content-->
 						<div class="container-fluid">
-							<h1 class="mt-4">Simple Sidebar</h1>
-							<p>The starting state of the menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will change.</p>
-							<p>
-								Make sure to keep all page content within the
-								<code>#page-content-wrapper</code>
-								. The top navbar is optional, and just for demonstration. Just create an element with the
-								<code>#sidebarToggle</code>
-								ID which will toggle the menu when clicked.
-							</p>
+							<h1 class="mt-4">견적산출</h1>
+							<!-- 1번 질문 -->
+							<div class="q-1 fade show">
+								<h2 class="mt-4">질문 1번</h2>
+								<h3 class="mt-3">OS(윈도우) 라이센스가 필요하신가요?</h3>
+								<div class="mt-2 mb-5 row">
+									<div class="col-xxl-2 question-col-3">
+										<input type="radio" class="btn-check" name="btnradio" id="answer-a">
+										<label class="btn btn-outline-secondary w-75" for="answer-a" val="1" qname="프리도스" onclick="javascript:qestionOneBtns(this)" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Free Dos(OS 미설치) : 구매 후 바로 사용하실 수 없고 윈도우를 직접 설치하셔야 합니다. 최적화가 되어있지 않고, 드라이버가 담긴 USB를 제공합니다!"><p class="pt-2 m-0">프리도스</br>0원</p></label>
+									</div>
+									<div class="col-xxl-2 question-col-3">
+										<input type="radio" class="btn-check" name="btnradio" id="answer-b">
+										<label class="btn btn-outline-secondary w-75" for="answer-b" val="2" qname="COEM" onclick="javascript:qestionOneBtns(this)" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="COEM(메인보드 귀속형) : 최적화 작업을 무상 진행합니다. 윈도우는 해당 PC를 폐기하거나 메인보드의 수명이 다하거나 당사 귀책 외의 사항으로 교체 시 라이선스를 재구매하셔야 합니다!"><p class="pt-2 m-0">COEM</br>150,000원</p></label>
+									</div>
+									<div class="col-xxl-2 question-col-3">
+										<input type="radio" class="btn-check" name="btnradio" id="answer-c">
+										<label class="btn btn-outline-secondary w-75" for="answer-c" val="3" qname="FPP" onclick="javascript:qestionOneBtns(this)" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Fpp(라이센스 구매형) : 최적화 작업을 무상 진행합니다. 윈도우는 해당 PC를 폐기하거나 교체 할 경우 라이센스를 유지하고 다른 PC로 이전 가능합니다."><p class="pt-2 m-0">Fpp</br>180,000원</p></label>
+									</div>
+									<div class="col-md-6"></div>
+								</div>
+								<p class="mt-4 mb-0">최적화란?</p>
+								<p>윈도우 최적화, 드라이버 업데이트, 바이오스 설정 및 업데이트, 각 업데이트 내용은 이슈 없는 버전으로 리빌딩합니다.</p>
+							</div>
+
+							<!-- 2번 질문 -->
+							<div class="q-2 fade" style="display: none;">
+								<h2 class="mt-4">질문 2번</h2>
+								<h3 class="mt-3">본체에 투자하실 최대 한도는 얼마인가요? (최대 500만원)</h3>
+								<div class="mt-2 mb-5 row">
+									<div class="col">
+										<div class="input-group has-validation text-end d-flex flex-end justify-content-center mb-5 w-50 calc-input-element">
+										 <input type="text" class="form-control input-field text-end w-50 first-q-input fs-5 pt-2" min="0" max="500" placeholder="ex) 300" id="can-pay-val" aria-describedby="inputGroupPrepend" required oninput="javascript:priceCheck(this)"/>
+										 <span class="input-group-text fs-5 pt-2" id="inputGroupPrepend">만원</span>
+									   </div>
+									</div>
+									<div class="col-md-6"></div>
+								</div>
+							</div>
+
+							<!-- 3번 질문 -->
+							<div class="q-3 fade" style="display: none;">
+								<h2 class="mt-4">질문 3번</h2>
+								<h3 class="mt-3">컴퓨터를 주로 사용하시는 목적은 어떤건가요?? (다중선택 가능)</h3>
+								<div class="mt-2 mb-5 row">
+									<div class="col">
+										<div class="input-group has-validation text-end d-flex flex-end justify-content-center margin-center mb-5 w-50 calc-input-element">
+										 <input type="text" class="form-control input-field text-end w-50 first-q-input fs-5 pt-2" min="0" max="500" placeholder="ex) 300" id="can-pay-val" aria-describedby="inputGroupPrepend" required oninput="javascript:priceCheck(this)"/>
+										 <span class="input-group-text fs-5 pt-2" id="inputGroupPrepend">만원</span>
+									   </div>
+									</div>
+									<div class="col-md-6"></div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
