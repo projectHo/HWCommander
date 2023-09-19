@@ -1,20 +1,32 @@
 $(function() {
-
-    // 모달 버튼 높이
-    setTimeout(() => {
-        var modalBtnWidth = $(".modal-btn").width();
-        var modalBtnPaddingLeft = parseFloat($(".modal-btn").css("padding-left"));
-        var modalBtnPaddingRight = parseFloat($(".modal-btn").css("padding-right"));
-        console.log(modalBtnWidth + modalBtnPaddingLeft + modalBtnPaddingRight);
-        $(".modal-btn").height(modalBtnWidth + modalBtnPaddingLeft + modalBtnPaddingRight);
-    }, 200);
-
-    
     var windowWidth = window.outerWidth;
 
-    if(windowWidth < 768){
-        $(".modal-btn-col").addClass("mt-2");
+    if(windowWidth >= 576){
+        setTimeout(() => {
+            $(".modal-btn-col").children("button").removeClass("w-100").addClass("w-25");
+            $(".modal-btn-col").children("h5").removeClass("w-100 pt-3").addClass("w-25");
+            var modalBtnWidth = $(".modal-btn").width();
+            var modalBtnPaddingLeft = parseFloat($(".modal-btn").css("padding-left"));
+            var modalBtnPaddingRight = parseFloat($(".modal-btn").css("padding-right"));
+            $(".modal-btn").height((modalBtnWidth + modalBtnPaddingLeft + modalBtnPaddingRight)/2);
+        }, 200);
+    }else if(windowWidth < 576){
+        $(".modal-btn-col").children("button").removeClass("w-25").addClass("w-100");
+        $(".modal-btn-col").children("h5").removeClass("w-75").addClass("w-100 pt-3");
     };
+        
+    if(windowWidth < 768){
+        $("#select-date-modal-start-btn").addClass("mt-2");
+        $(".side-empty").css("width","1%");
+        $(".main-box").removeClass("container").css("width","98%");
+        $("#sidebarToggle").attr("onclick","javascript:resizeEsBtn()");
+    }else if(windowWidth >= 768){
+        $(".side-empty").css("width","10%");
+        $(".main-box").css("width","80%");
+        $("#sidebarToggle").removeAttr("onclick","javascript:resizeEsBtn()");
+    }
+    
+
     if(windowWidth < 1400){
         $(".question-col-3").addClass("mt-4");
     };
@@ -25,23 +37,35 @@ $(function() {
     }
 
     $(window).on("resize",function(){
-        // 모달 버튼 높이
-        setTimeout(() => {
-            var modalBtnWidth = $(".modal-btn").width();
-            var modalBtnPaddingLeft = parseFloat($(".modal-btn").css("padding-left"));
-            var modalBtnPaddingRight = parseFloat($(".modal-btn").css("padding-right"));
-            console.log(modalBtnWidth + modalBtnPaddingLeft + modalBtnPaddingRight);
-            $(".modal-btn").height(modalBtnWidth + modalBtnPaddingLeft + modalBtnPaddingRight);
-        }, 200);
-
-
         var windowWidth = window.outerWidth;
+    
+        if(windowWidth >= 576){
+            setTimeout(() => {
+                $(".modal-btn-col").children("button").removeClass("w-100").addClass("w-25");
+                $(".modal-btn-col").children("h5").removeClass("w-100 pt-3").addClass("w-75");
+                var modalBtnWidth = $(".modal-btn").width();
+                var modalBtnPaddingLeft = parseFloat($(".modal-btn").css("padding-left"));
+                var modalBtnPaddingRight = parseFloat($(".modal-btn").css("padding-right"));
+                $(".modal-btn").height((modalBtnWidth + modalBtnPaddingLeft + modalBtnPaddingRight)/2);
+            }, 200);
+        }else if(windowWidth < 576){
+            $(".modal-btn-col").children("button").removeClass("w-25").addClass("w-100");
+            $(".modal-btn-col").children("h5").removeClass("w-75").addClass("w-100 pt-3");
+        };
 
         if(windowWidth < 768){
-            $(".modal-btn-col").addClass("mt-2");
-        }else {
-            $(".modal-btn-col").removeClass("mt-2");
-        };
+            $("#select-date-modal-start-btn").addClass("mt-2");
+            $(".side-empty").css("width","1%");
+            $(".main-box").removeClass("container").css("width","98%");
+            resizeEsBtn();
+            $("#sidebarToggle").attr("onclick","javascript:resizeEsBtn()");
+        }else if(windowWidth >= 768){
+            $("#select-date-modal-start-btn").removeClass("mt-2");
+            $(".side-empty").css("width","10%");
+            $(".main-box").css("width","80%");
+            $("#es-btn").css("display","block");
+            $("#sidebarToggle").removeAttr("onclick","javascript:resizeEsBtn()");
+        }
 
         if(windowWidth < 1400){
             $(".question-col-3").addClass("mt-4");

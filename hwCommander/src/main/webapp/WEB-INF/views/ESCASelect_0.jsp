@@ -30,6 +30,7 @@
 <script src="/resources/js/escaSendData.js"></script>
 <!-- 09.18 반응형 추가 -->
 <script src="/resources/js/ESCA_NEW_Resize.js"></script>
+<link rel="stylesheet" href="/resources/css/escaMQ.css">
 <!-- 09.08 date picker js css 추가 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/js/bootstrap-datepicker.min.js" integrity="sha512-LsnSViqQyaXpD4mBBdRYeP6sRwJiJveh2ZIbW41EBrNmKxgr/LFZIiWT6yr+nycvhvauz8c2nYMhrP80YhG7Cw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/locales/bootstrap-datepicker.ko.min.js" integrity="sha512-L4qpL1ZotXZLLe8Oo0ZyHrj/SweV7CieswUODAAPN/tnqN3PA1P+4qPu5vIryNor6HQ5o22NujIcAZIfyVXwbQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -55,9 +56,6 @@
 			sessionStorage.setItem("data-" + i, "");
 		}
 		$("#ESCA_modal").modal("hide");
-	}
-	function modalSelectDateBtn(){
-
 	}
 	function chooseDate(){
 		$("#time-chooser").removeClass("d-flex").addClass("d-none");
@@ -104,7 +102,17 @@
 		chooseTime();
 		changeTime();
 	}
-
+	// 견적산출 버튼 반응형 이벤트
+	function resizeEsBtn(){
+		if($("body").hasClass("sb-sidenav-toggled")){
+			$("#es-btn").css("display","none");
+		}else {
+			setTimeout(() => {
+				$("#es-btn").css("display","block");    
+			}, 100);
+		}
+	}
+	
 	// 질문 목록 클릭 이벤트
 	function clickQestionList(el){
 		var qnum = $(el).attr("qnum");
@@ -135,6 +143,7 @@
 	function qestionTwoBtns(){
 
 	}
+	
 	function priceCheck(el){
 		if($(el).val() < 0){
 			alert("0원 이상으로 입력해주세요~");
@@ -154,7 +163,7 @@
 	<div class="basic_background w-100">
 		<div class="d-flex">
 			<!-- 빈 영역 -->
-			<div class="h-25 justify-content-start" style="width: 10%!important;"></div>
+			<div class="side-empty"></div>
 			<!-- 작업영역 -->
 
 			<!-- 기본 선택 모달 -->
@@ -166,23 +175,21 @@
 						</div>
 						<div class="modal-body text-center">
 							<h4 class="p-2">견적산출 기준을 정해주세요!</h4>
-							<div class="row pb-3">
-								<div class="col-md text-center d-flex align-items-center modal-btn-col">
-									<button type="button" class="w-25 btn btn-primary modal-btn pb-0" onclick="javascript:modalNewBtn()">
-										새로하기
-									</button>
-									<div class="w-75 ps-3 text-breaks">
-										처음 이용하시거나 과거 견적산출이 필요 없으신 경우 새로 진행합니다.
-									</div>
-								</div>
-								<div class="col-md text-center d-flex align-items-center modal-btn-col">
-									<button type="button" class="w-25 btn btn-primary modal-btn pb-0" data-bs-target="#select-date" data-bs-toggle="modal">
-										날짜선택
-									</button>
-									<div class="w-75 ps-3 text-breaks">
-										견적산출을 했던 날짜를 선택합니다. 날짜 기준으로 다시 견적산출을 진행합니다.
-									</div>
-								</div>
+							<div class="text-center d-sm-flex align-items-center modal-btn-col">
+								<button type="button" class="w-25 btn btn-primary modal-btn pb-0" onclick="javascript:modalNewBtn()">
+									새로하기
+								</button>
+								<h5 class="w-75 ps-3 text-breaks">
+									처음 이용하시거나 과거 견적산출이 필요 없으신 경우 새로 진행합니다.
+								</h5>
+							</div>
+							<div class="text-center d-sm-flex align-items-center mt-2 modal-btn-col">
+								<button type="button" class="w-25 btn btn-primary modal-btn pb-0" data-bs-target="#select-date" data-bs-toggle="modal">
+									날짜선택
+								</button>
+								<h5 class="w-75 ps-3 text-breaks">
+									견적산출을 했던 날짜를 선택합니다. 날짜 기준으로 다시 견적산출을 진행합니다.
+								</h5>
 							</div>
 						</div>
 					</div>
@@ -222,7 +229,7 @@
 									<input type="text" class="pb-0 form-control bg-light" id="date-time-result" disabled>
 								</div>
 								<div class="col-md text-end">
-									<button class="btn btn-primary pb-0 w-50" onclick="javascript:checkResult()">시작하기</button>
+									<button class="btn btn-primary pb-0 w-50" id="select-date-modal-start-btn" onclick="javascript:checkResult()">시작하기</button>
 								</div>
 							</div>
 						</div>
@@ -231,7 +238,7 @@
 			</div>
 
 			<!-- ui 업데이트 시안 -->
-			<div style="width: 80%!important;">
+			<div class="container main-box">
 				<div class="d-flex mt-3 mb-5 rounded" id="wrapper">
 					<!-- Sidebar-->
 					<div class="border-end bg-white" id="sidebar-wrapper">
@@ -403,16 +410,16 @@
 						</ul>
 					</div>
 					<!-- Page content wrapper-->
-					<div id="page-content-wrapper" class="bg-white">
+					<div id="page-content-wrapper" class="bg-white w-100">
 						<!-- Top navigation-->
 						<nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom navbar-header">
 							<div class="container-fluid">
 								<button class="btn btn-primary" id="sidebarToggle">목록 보기</button>
-								<button type="button" class="btn btn-success" onclick="javascript:sendAllData()">견적 산출</button>
+								<button type="button" class="btn btn-success" id="es-btn" onclick="javascript:sendAllData()">견적 산출</button>
 							</div>
 						</nav>
 						<!-- Page content-->
-						<div class="container-fluid">
+						<div class="container-fluid q-box">
 							<h1 class="mt-4">견적산출</h1>
 							<!-- 1번 질문 -->
 							<div class="q-1 fade show">
@@ -433,8 +440,8 @@
 									</div>
 									<div class="col-md-6"></div>
 								</div>
-								<p class="mt-4 mb-0">최적화란?</p>
-								<p>윈도우 최적화, 드라이버 업데이트, 바이오스 설정 및 업데이트, 각 업데이트 내용은 이슈 없는 버전으로 리빌딩합니다.</p>
+								<p class="mt-4 mb-0 q-1-p">최적화란?</p>
+								<p class="q-1-p">윈도우 최적화, 드라이버 업데이트, 바이오스 설정 및 업데이트, 각 업데이트 내용은 이슈 없는 버전으로 리빌딩합니다.</p>
 							</div>
 
 							<!-- 2번 질문 -->
@@ -442,26 +449,11 @@
 								<h2 class="mt-4">질문 2번</h2>
 								<h3 class="mt-3">본체에 투자하실 최대 한도는 얼마인가요? (최대 500만원)</h3>
 								<div class="mt-2 mb-5 row">
-									<div class="col">
-										<div class="input-group has-validation text-end d-flex flex-end justify-content-center mb-5 w-50 calc-input-element">
-										 <input type="text" class="form-control input-field text-end w-50 first-q-input fs-5 pt-2" min="0" max="500" placeholder="ex) 300" id="can-pay-val" aria-describedby="inputGroupPrepend" required oninput="javascript:priceCheck(this)"/>
-										 <span class="input-group-text fs-5 pt-2" id="inputGroupPrepend">만원</span>
-									   </div>
-									</div>
-									<div class="col-md-6"></div>
-								</div>
-							</div>
-
-							<!-- 3번 질문 -->
-							<div class="q-3 fade" style="display: none;">
-								<h2 class="mt-4">질문 3번</h2>
-								<h3 class="mt-3">컴퓨터를 주로 사용하시는 목적은 어떤건가요?? (다중선택 가능)</h3>
-								<div class="mt-2 mb-5 row">
-									<div class="col">
-										<div class="input-group has-validation text-end d-flex flex-end justify-content-center margin-center mb-5 w-50 calc-input-element">
-										 <input type="text" class="form-control input-field text-end w-50 first-q-input fs-5 pt-2" min="0" max="500" placeholder="ex) 300" id="can-pay-val" aria-describedby="inputGroupPrepend" required oninput="javascript:priceCheck(this)"/>
-										 <span class="input-group-text fs-5 pt-2" id="inputGroupPrepend">만원</span>
-									   </div>
+									<div class="col-md">
+										<div class="input-group has-validation text-end d-flex flex-end justify-content-center mb-5 calc-input-element">
+											<input type="text" class="form-control input-field text-end w-50 first-q-input fs-5 pt-2" min="0" max="500" placeholder="ex) 300" id="can-pay-val" aria-describedby="inputGroupPrepend" required oninput="javascript:priceCheck(this)"/>
+											<span class="input-group-text fs-5 pt-2" id="inputGroupPrepend">만원</span>
+										</div>
 									</div>
 									<div class="col-md-6"></div>
 								</div>
@@ -471,7 +463,7 @@
 				</div>
 			</div>
 			<!-- 빈 영역 -->
-			<div class="justify-content-end" style="width: 10%!important;"></div>
+			<div class="side-empty" style="width: 10%!important;"></div>
 		</div>
 	</div>
 	

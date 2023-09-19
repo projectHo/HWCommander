@@ -24,10 +24,6 @@
     width: 15rem;
 }
 
-#page-content-wrapper {
-    min-width: 100vw;
-}
-
 body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
     margin-left: 0;
 }
