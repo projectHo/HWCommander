@@ -38,6 +38,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker3.standalone.min.css" integrity="sha512-t+00JqxGbnKSfg/4We7ulJjd3fGJWsleNNBSXRk9/3417ojFqSmkBfAJ/3+zpTFfGNZyKxPVGwWvaRuGdtpEEA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <script>
+	const loginUser = "${loginUser}";
+
 	$(function(){		
 		$("#ESCA_modal").modal("show");
 		
@@ -47,6 +49,14 @@
 		const tooltipList = tooltipTriggerList.map(function() {
 			return new bootstrap.Tooltip($(this)[0]);
 		}).get();
+
+		for(let i = 0 ; i <= btnList.length ; i++){
+			if(btnList[i].processLgCd == "01"){
+				const games = $("<button></button>").attr("type","button").attr("data-bs-toggle","modal").attr("data-bs-target","#use-collector").addClass("list-group-item list-group-item-action").html(btnList[i].processTypeExclusiveCdNm).attr("id",btnList[i].processTypeExclusiveCd).attr("onclick","javascript:modalOpen(this.id,this)");
+				$(".q3-game").append(games);
+				// btnList[i].processTypeExclusiveCdNm
+			}
+		}
 	})
 
 	// 초반 모달 기능
@@ -115,6 +125,7 @@
 	
 	// 질문 목록 클릭 이벤트
 	function clickQestionList(el){
+		$(".q-base").removeClass("show").css("display","none");
 		var qnum = $(el).attr("qnum");
 		for(var i = 1 ; i<=20 ; i++ ){
 			if( i != qnum){
@@ -140,11 +151,7 @@
 	}
 
 	// 2번질문
-	function qestionTwoBtns(){
-
-	}
-	
-	function priceCheck(el){
+	function qestionTwoBtns(el){
 		if($(el).val() < 0){
 			alert("0원 이상으로 입력해주세요~");
 			$(el).val("");
@@ -155,7 +162,21 @@
 			alert("숫자만 입력해주세요!!");
 			$(el).val("");
 		}
+
+		$(".q2-badge").html("Price : " + $(el).val());
+
+		sessionStorage.setItem("data-1",$(el).val())
 	}
+
+	// 3번 질문
+	function qestionThreeBtns(el){
+
+	}
+	const btnList = JSON.parse(`${processResourceTypeCodeInfoVOList}`);
+	const modalList = JSON.parse(`${processResourceMasterVOList}`);
+	console.log(btnList);
+	console.log(modalList);
+
 </script>
 </head>
 <body>
@@ -175,7 +196,7 @@
 						</div>
 						<div class="modal-body text-center">
 							<h4 class="p-2">견적산출 기준을 정해주세요!</h4>
-							<div class="text-center d-sm-flex align-items-center modal-btn-col">
+							<div class="text-center d-sm-flex align-items-center modal-btn-col new-btn">
 								<button type="button" class="w-25 btn btn-primary modal-btn pb-0" onclick="javascript:modalNewBtn()">
 									새로하기
 								</button>
@@ -188,7 +209,8 @@
 									날짜선택
 								</button>
 								<h5 class="w-75 ps-3 text-breaks">
-									견적산출을 했던 날짜를 선택합니다. 날짜 기준으로 다시 견적산출을 진행합니다.
+									<p>견적산출을 했던 날짜를 선택합니다.</p>
+									<p>날짜 기준으로 다시 견적산출을 진행합니다.</p>
 								</h5>
 							</div>
 						</div>
@@ -257,7 +279,7 @@
 								<li class="d-flex justify-content-between align-items-center pt-2">
 									질문 2번
 									<div>
-										<span class="badge bg-primary rounded-pill pt-2 pe-2"></span>
+										<span class="badge bg-primary rounded-pill pt-2 pe-2 q2-badge"></span>
 										<span class="badge bg-danger rounded-pill pt-2">필수</span>
 									</div>
 								</li>
@@ -266,7 +288,7 @@
 								<li class="d-flex justify-content-between align-items-center pt-2">
 									질문 3번
 									<div>
-										<span class="badge bg-primary rounded-pill pt-2 pe-2"></span>
+										<span class="badge bg-primary rounded-pill pt-2 pe-2 q3-badge"></span>
 										<span class="badge bg-danger rounded-pill pt-2">필수</span>
 									</div>
 								</li>
@@ -421,8 +443,12 @@
 						<!-- Page content-->
 						<div class="container-fluid q-box">
 							<h1 class="mt-4">견적산출</h1>
+							<div class="q-base fade show">
+								<h2 class="mt-4">질문은 총 20개 입니다. 1~3번은 필수 질문입니다!</h2>
+								<h3 class="mt-3">목록의 질문을 클릭해서 질문에 답해주세요!</h3>
+							</div>
 							<!-- 1번 질문 -->
-							<div class="q-1 fade show">
+							<div class="q-1 fade">
 								<h2 class="mt-4">질문 1번</h2>
 								<h3 class="mt-3">OS(윈도우) 라이센스가 필요하신가요?</h3>
 								<div class="mt-2 mb-5 row">
@@ -445,17 +471,52 @@
 							</div>
 
 							<!-- 2번 질문 -->
-							<div class="q-2 fade" style="display: none;">
+							<div class="q-2 fade">
 								<h2 class="mt-4">질문 2번</h2>
 								<h3 class="mt-3">본체에 투자하실 최대 한도는 얼마인가요? (최대 500만원)</h3>
 								<div class="mt-2 mb-5 row">
 									<div class="col-md">
 										<div class="input-group has-validation text-end d-flex flex-end justify-content-center mb-5 calc-input-element">
-											<input type="text" class="form-control input-field text-end w-50 first-q-input fs-5 pt-2" min="0" max="500" placeholder="ex) 300" id="can-pay-val" aria-describedby="inputGroupPrepend" required oninput="javascript:priceCheck(this)"/>
+											<input type="text" class="form-control input-field text-end w-50 first-q-input fs-5 pt-2" min="0" max="500" placeholder="ex) 300" id="can-pay-val" aria-describedby="inputGroupPrepend" required oninput="javascript:qestionTwoBtns(this)"/>
 											<span class="input-group-text fs-5 pt-2" id="inputGroupPrepend">만원</span>
 										</div>
 									</div>
 									<div class="col-md-6"></div>
+								</div>
+							</div>
+
+							<!-- 3번 질문 -->
+							<div class="q-3 fade">
+								<h2 class="mt-4">질문 3번</h2>
+								<h3 class="mt-3">주 사용 목적을 선택해주세요 (다중선택 가능)</h3>
+								<div class="row">
+									<div class="col-md-3">
+										<input class="form-control text-center q3-game-head" type="text" value="게임" disabled readonly>
+									</div>
+									<div class="col-md-3">
+										<input class="form-control text-center q3-work-head" type="text" value="작업" disabled readonly>
+									</div>
+									<div class="col-md-3">
+										<input class="form-control text-center q3-surf-head" type="text" value="서핑" disabled readonly>
+									</div>
+								</div>
+								<div class="row mt-3 ">
+									<div class="col-md-3 text-center">
+										<div class="list-group q3-game" processLgCd="01">
+
+										</div>
+
+									</div>
+									<div class="col-md-3 q3-work" processLgCd="02">
+										<div class="list-group q3-work" processLgCd="02">
+
+										</div>
+									</div>
+									<div class="col-md-3 q3-surf" processLgCd="03">
+										<div class="list-group q3-surf" processLgCd="03">
+
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>

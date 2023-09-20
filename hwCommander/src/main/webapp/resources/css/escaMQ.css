@@ -8,6 +8,18 @@
 }
 
 /* 반응형 */
+@media (max-width : 767px){
+    .q-box .q-1 h3,
+    .q-box .q-1 .q-1-p{
+        width: 390px;
+    }
+}
+@media (max-width : 424px){
+    .q-box .q-1 h3,
+    .q-box .q-1 .q-1-p{
+        width: 342px;
+    }
+}
 
 @media (max-width : 374px){
     .q-box .q-1 h3,
@@ -16,16 +28,4 @@
     }
 }
 
-@media (max-width : 424px){
-    .q-box .q-1 h3,
-    .q-box .q-1 .q-1-p{
-        width: 342px;
-    }
-}
 
-@media (max-width : 767px){
-    .q-box .q-1 h3,
-    .q-box .q-1 .q-1-p{
-        width: 390px;
-    }
-}

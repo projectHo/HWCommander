@@ -1,6 +1,8 @@
 $(function() {
     var windowWidth = window.outerWidth;
-
+    for(var i = 1 ; i<=20 ; i++ ){
+        $(".q-" + i).removeClass("show").css("display","none");
+    }
     if(windowWidth >= 576){
         setTimeout(() => {
             $(".modal-btn-col").children("button").removeClass("w-100").addClass("w-25");
@@ -24,6 +26,7 @@ $(function() {
         $(".side-empty").css("width","10%");
         $(".main-box").css("width","80%");
         $("#sidebarToggle").removeAttr("onclick","javascript:resizeEsBtn()");
+        $(".modal-btn-col.new-btn").addClass("pb-2 border-bottom");
     }
     
 
@@ -65,6 +68,7 @@ $(function() {
             $(".main-box").css("width","80%");
             $("#es-btn").css("display","block");
             $("#sidebarToggle").removeAttr("onclick","javascript:resizeEsBtn()");
+            $(".modal-btn-col.new-btn").addClass("pb-2 border-bottom");
         }
 
         if(windowWidth < 1400){
