@@ -52,9 +52,11 @@
 
 		for(let i = 0 ; i <= btnList.length ; i++){
 			if(btnList[i].processLgCd == "01"){
-				const games = $("<button></button>").attr("type","button").attr("data-bs-toggle","modal").attr("data-bs-target","#use-collector").addClass("list-group-item list-group-item-action").html(btnList[i].processTypeExclusiveCdNm).attr("id",btnList[i].processTypeExclusiveCd).attr("onclick","javascript:modalOpen(this.id,this)");
+				const games = $("<button></button>").attr("type","button").attr("data-bs-toggle","modal").attr("data-bs-target","#q3-modal").addClass("list-group-item list-group-item-action").html(btnList[i].processTypeExclusiveCdNm).attr("id",btnList[i].processTypeExclusiveCd).attr("onclick","javascript:modalOpen(this.id,this)");
 				$(".q3-game").append(games);
-				// btnList[i].processTypeExclusiveCdNm
+			}else if(btnList[i].processLgCd == "02"){
+				const works = $("<button></button>").attr("type","button").attr("data-bs-toggle","modal").attr("data-bs-target","#q3-modal").addClass("list-group-item list-group-item-action").html(btnList[i].processTypeExclusiveCdNm).attr("id",btnList[i].processTypeExclusiveCd).attr("onclick","javascript:modalOpen(this.id,this)");
+				$(".q3-work").append(works);
 			}
 		}
 	})
@@ -174,8 +176,7 @@
 	}
 	const btnList = JSON.parse(`${processResourceTypeCodeInfoVOList}`);
 	const modalList = JSON.parse(`${processResourceMasterVOList}`);
-	console.log(btnList);
-	console.log(modalList);
+
 
 </script>
 </head>
@@ -500,21 +501,62 @@
 										<input class="form-control text-center q3-surf-head" type="text" value="서핑" disabled readonly>
 									</div>
 								</div>
-								<div class="row mt-3 ">
+								<div class="row mt-3">
 									<div class="col-md-3 text-center">
-										<div class="list-group q3-game" processLgCd="01">
-
-										</div>
-
+										<div class="list-group q3-game" processLgCd="01"></div>
 									</div>
-									<div class="col-md-3 q3-work" processLgCd="02">
-										<div class="list-group q3-work" processLgCd="02">
-
-										</div>
+									<div class="col-md-3 text-center">
+										<div class="list-group q3-work" processLgCd="02"></div>
 									</div>
-									<div class="col-md-3 q3-surf" processLgCd="03">
+									<div class="col-md-3 text-center">
 										<div class="list-group q3-surf" processLgCd="03">
+											<button class="list-group-item list-group-item-action" type="button" id="PR999999">서핑</button>
+										</div>
+									</div>
+								</div>
+								<table class="table table-secondary table-striped table-hover mt-3 border rounded q3-table" style="display: none;">
+									<thead>
+										<tr>
+											<th scope="col">장르</th>
+											<th scope="col">비중</th>
+											<th scope="col">이름</th>
+											<th scope="col">삭제</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<th>1</th>
+											<td>1</td>
+											<td>1</td>
+										</tr>
+										<tr>
+											<th>2</th>
+											<td>2</td>
+											<td>2</td>
+										</tr>
+										<tr>
+											<th>3</th>
+											<td>3</td>
+											<td>3</td>
+										</tr>
+									</tbody>
+								  </table>
+							</div>
 
+							<!-- 3번 질문 모달 -->
+							<div class="modal fade" id="q3-modal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<div class="modal-body">
+										...
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+											<button type="button" class="btn btn-primary">Understood</button>
 										</div>
 									</div>
 								</div>
