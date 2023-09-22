@@ -16,17 +16,18 @@
 <!-- 23.06.17 다음 카카오 주소 api 추가 -->
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
+<%
+	String enc_data = String.valueOf(request.getAttribute("enc_data"));
+	String integrity_value = String.valueOf(request.getAttribute("integrity_value"));
+	String token_version_id = String.valueOf(request.getAttribute("token_version_id"));
+%>
+
 <script>
 
 var targetId = null;
 
     $(function() {
-        
 		$('#btn_signUp').on("click", function () {
-        	// todo wonho
-        	alert("현재는 회원가입이 불가능합니다.");
-        	return false;
-        	
         	if(!validationCheck()) {
         		return false;
         	}
@@ -45,8 +46,7 @@ var targetId = null;
         
         // 핸드폰인증
         $('#btn_hpNumber_chk').on("click", function () {
-        	alert("핸드폰인증해");
-        	return false;
+        	hpNumberAuthentication();
 		});
 
 		// 09.08 약관동의
@@ -243,6 +243,17 @@ function findDaumAddr() {
         }
     }).open();
 }
+
+function hpNumberAuthentication() {
+	window.name ="Parent_window";
+	
+	window.open('', 'popupChk', 'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
+	
+	document.form_chk.action = "https://nice.checkplus.co.kr/CheckPlusSafeModel/service.cb";
+	document.form_chk.target = "popupChk";
+	document.form_chk.submit();
+}
+
 </script>
 </head>
 <body>
@@ -286,6 +297,7 @@ function findDaumAddr() {
 				<div class="estimateCalc_background p-5 mb-4" style="width: 70% !important">
 					<div class="w-75 container">
 						<form id="signUp_form">
+							<input type="hidden" id="di" name="di" value="" />
 							<div class="mt-5 row justify-content-center">
 							<!-- <label for="id" class="col-sm-2 col-form-label">아이디</label>
 							<div class="col-sm-5">
@@ -295,7 +307,7 @@ function findDaumAddr() {
 									<span class="input-group-text bg-white pe-1">
 										<svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M5 19C5 16.7909 6.79086 15 9 15H15C17.2091 15 19 16.7909 19 19C19 20.1046 18.1046 21 17 21H7C5.89543 21 5 20.1046 5 19Z" stroke="#000000" stroke-width="0.8399999999999999"></path> <circle cx="12" cy="7" r="4" stroke="#000000" stroke-width="0.8399999999999999"></circle> </g></svg>
 									</span>
-									<input type="text" id="id" class="form-control border-start-0 join-members" placeholder="아이디" required autocomplete="off">
+									<input type="text" id="id" name="id" class="form-control border-start-0 join-members" placeholder="아이디" required autocomplete="off">
 									<button type="button" class="btn btn-outline-secondary" maxlength="25" id="btn_id_dupli_chk">중복확인</button>
 								</div>
 							</div>
@@ -308,7 +320,7 @@ function findDaumAddr() {
 									<span class="input-group-text bg-white pe-1">
 										<svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M12 14.5V16.5M7 10.0288C7.47142 10 8.05259 10 8.8 10H15.2C15.9474 10 16.5286 10 17 10.0288M7 10.0288C6.41168 10.0647 5.99429 10.1455 5.63803 10.327C5.07354 10.6146 4.6146 11.0735 4.32698 11.638C4 12.2798 4 13.1198 4 14.8V16.2C4 17.8802 4 18.7202 4.32698 19.362C4.6146 19.9265 5.07354 20.3854 5.63803 20.673C6.27976 21 7.11984 21 8.8 21H15.2C16.8802 21 17.7202 21 18.362 20.673C18.9265 20.3854 19.3854 19.9265 19.673 19.362C20 18.7202 20 17.8802 20 16.2V14.8C20 13.1198 20 12.2798 19.673 11.638C19.3854 11.0735 18.9265 10.6146 18.362 10.327C18.0057 10.1455 17.5883 10.0647 17 10.0288M7 10.0288V8C7 5.23858 9.23858 3 12 3C14.7614 3 17 5.23858 17 8V10.0288" stroke="#000000" stroke-width="1.176" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
 									</span>
-									<input type="password" id="pw" class="form-control border-start-0 join-members" maxlength="30" placeholder="비밀번호" required>
+									<input type="password" id="pw" name="pw" class="form-control border-start-0 join-members" maxlength="30" placeholder="비밀번호" required>
 								</div>
 							</div>
 							<div class="row justify-content-center">
@@ -320,7 +332,7 @@ function findDaumAddr() {
 									<span class="input-group-text bg-white pe-1">
 										<svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Interface / Check"> <path id="Vector" d="M6 12L10.2426 16.2426L18.727 7.75732" stroke="#000000" stroke-width="1.176" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg>
 									</span>
-									<input type="password" id="pwConfirm" class="form-control border-start-0 join-members" maxlength="30" placeholder="비밀번호 확인" required>
+									<input type="password" id="pwConfirm" name="pwConfirm" class="form-control border-start-0 join-members" maxlength="30" placeholder="비밀번호 확인" required>
 								</div>
 							</div>
 							<div class="row justify-content-center">
@@ -332,7 +344,7 @@ function findDaumAddr() {
 									<span class="input-group-text bg-white pe-1">
 										<svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M5 19C5 16.7909 6.79086 15 9 15H15C17.2091 15 19 16.7909 19 19C19 20.1046 18.1046 21 17 21H7C5.89543 21 5 20.1046 5 19Z" stroke="#000000" stroke-width="0.8399999999999999"></path> <circle cx="12" cy="7" r="4" stroke="#000000" stroke-width="0.8399999999999999"></circle> </g></svg>
 									</span>
-									<input type="text" id="name" class="form-control border-start-0 join-members" placeholder="이름" maxlength="25" required autocomplete="off">
+									<input type="text" id="name" name="name" class="form-control border-start-0 join-members" placeholder="이름" maxlength="25" required autocomplete="off">
 								</div>
 							</div>
 							<div class="row justify-content-center">
@@ -344,7 +356,7 @@ function findDaumAddr() {
 									<span class="input-group-text bg-white pe-1">
 										<svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M21 10H3M16 2V6M8 2V6M10.5 14L12 13V18M10.75 18H13.25M7.8 22H16.2C17.8802 22 18.7202 22 19.362 21.673C19.9265 21.3854 20.3854 20.9265 20.673 20.362C21 19.7202 21 18.8802 21 17.2V8.8C21 7.11984 21 6.27976 20.673 5.63803C20.3854 5.07354 19.9265 4.6146 19.362 4.32698C18.7202 4 17.8802 4 16.2 4H7.8C6.11984 4 5.27976 4 4.63803 4.32698C4.07354 4.6146 3.6146 5.07354 3.32698 5.63803C3 6.27976 3 7.11984 3 8.8V17.2C3 18.8802 3 19.7202 3.32698 20.362C3.6146 20.9265 4.07354 21.3854 4.63803 21.673C5.27976 22 6.11984 22 7.8 22Z" stroke="#000000" stroke-width="1.248" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
 									</span>
-									<input type="text" id="birth" class="form-control border-start-0 join-members" placeholder="생년월일 8자 ex)20220105" maxlength="8" required autocomplete="off">
+									<input type="text" id="birth" name="birth" class="form-control border-start-0 join-members" placeholder="생년월일 8자 ex)20220105" maxlength="8" required autocomplete="off">
 								</div>
 							</div>
 							<div class="row justify-content-center">
@@ -382,7 +394,7 @@ function findDaumAddr() {
 									<span class="input-group-text bg-white pe-1">
 										<svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(180)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M18.9998 17.5V6.5C19.0627 5.37366 18.6774 4.2682 17.9279 3.42505C17.1784 2.5819 16.1258 2.06958 14.9998 2H8.99981C7.87387 2.06958 6.82121 2.5819 6.07175 3.42505C5.32228 4.2682 4.9369 5.37366 4.99982 6.5V17.5C4.9369 18.6263 5.32228 19.7317 6.07175 20.5748C6.82121 21.418 7.87387 21.9303 8.99981 21.9999H14.9998C16.1258 21.9303 17.1784 21.418 17.9279 20.5748C18.6774 19.7317 19.0627 18.6263 18.9998 17.5V17.5Z" stroke="#000000" stroke-width="0.9600000000000002" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M14 5H10" stroke="#000000" stroke-width="0.9600000000000002" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
 									</span>
-									<input type="text" id="hpNumber" class="form-control border-start-0 join-members" placeholder="'-'를 빼고 입력해주세요." maxlength="11" required autocomplete="off">
+									<input type="text" id="hpNumber" name="hpNumber" class="form-control border-start-0 join-members" placeholder="'-'를 빼고 입력해주세요." maxlength="11" required autocomplete="off">
 									<button type="button" class="btn btn-outline-secondary" id="btn_hpNumber_chk">인증하기</button>
 								</div>
 							</div>
@@ -457,16 +469,6 @@ function findDaumAddr() {
 						</form>
 					</div>
 				</div>
-				<!-- 08.26 폰인증 -->
-				
-				<form id="verifyForm" name="form" method="post" action="https://nice.checkplus.co.kr/CheckPlusSafeModel/service.cb">
-					<input type="hidden" id="m" name="m" value="service" />
-					<input type="hidden" id="enc_data" name="enc_data">
-					<input type="hidden" id="token_version_id" name="token_version_id">
-					<input type="hidden" id="integrity_value" name="integrity_value">
-				</form>
-
-
 			</div>
 			<!-- 빈 영역 -->
 			<div class="justify-content-end" style="width: 15%!important;"></div>
@@ -474,6 +476,13 @@ function findDaumAddr() {
 	</div>
 	
 	<%@ include file="./common/footer.jsp" %>
+	
+<form name="form_chk" id="form_chk">
+      <input type="hidden" id="m" name="m" value="service" />
+      <input type="hidden" id="token_version_id" name="token_version_id" value="<%=token_version_id%>" />
+      <input type="hidden" id="enc_data" name="enc_data" value="<%=enc_data%>" />
+      <input type="hidden" id="integrity_value" name="integrity_value" value="<%=integrity_value%>" />
+</form>
 
 </body>
 </html>
