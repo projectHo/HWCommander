@@ -35,6 +35,8 @@
 		$(".recipient-addr").html("${orderMasterVO.recipientRoadAddr}" + " " + "${orderMasterVO.recipientDetailAddr}");
 		if("${orderMasterVO.paymentMethod}" == "Card"){
 			$(".payment-method").html("카드결제");
+		}else{
+			$(".payment-method").html("계좌이체");
 		}
 	})
 	function print(){
@@ -44,7 +46,7 @@
 
 		// 새 창에 복사한 요소 삽입
 		const printWindow = window.open('', '_blank');
-		printWindow.document.write('<html><head><title>Print</title><style> * {color:black; text-decoration:none;}</style></head><body>');
+		printWindow.document.write('<html><head><title>현우의 컴퓨터 공방 주문영수증 - 인쇄하기</title><style> * {color:black; text-decoration:none;}</style></head><body>');
 		printWindow.document.write(elementsToPrint1.html()); // 선택한 요소 삽입
 		printWindow.document.write(elementsToPrint2.html()); // 선택한 요소 삽입
 		printWindow.document.write('</body></html>');
