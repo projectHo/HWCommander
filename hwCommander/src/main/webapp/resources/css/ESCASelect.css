@@ -46,15 +46,23 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
     height: 742.2px;
 }
 
-.list-group-flush::-webkit-scrollbar {
+.list-group-flush::-webkit-scrollbar, .q3-table-container::-webkit-scrollbar{
     width: 8px;
 }
 
-.list-group-flush::-webkit-scrollbar-thumb {
+.list-group-flush::-webkit-scrollbar-thumb, .q3-table-container::-webkit-scrollbar-thumb {
     background: linear-gradient(212deg, rgba(223,34,238,0.8) 3%, rgba(37,180,220,0.8) 89%);
     border-radius: 8px;
 }
 
 .navbar-header{
     padding: 9.6px 0!important;
+}
+
+.q3-modal-items{
+    cursor: pointer;
+}
+.q3-table-container {
+    height: 256px;
+    overflow-y: auto;
 }

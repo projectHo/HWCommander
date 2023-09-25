@@ -38,7 +38,11 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.10.0/css/bootstrap-datepicker3.standalone.min.css" integrity="sha512-t+00JqxGbnKSfg/4We7ulJjd3fGJWsleNNBSXRk9/3417ojFqSmkBfAJ/3+zpTFfGNZyKxPVGwWvaRuGdtpEEA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 <script>
+	// 파라미터 추가사항
 	const loginUser = "${loginUser}";
+	// 정보들
+	const btnList = JSON.parse(`${processResourceTypeCodeInfoVOList}`);
+	const modalList = JSON.parse(`${processResourceMasterVOList}`);
 
 	$(function(){		
 		$("#ESCA_modal").modal("show");
@@ -50,12 +54,13 @@
 			return new bootstrap.Tooltip($(this)[0]);
 		}).get();
 
+		// 3번 질문 기본 세팅
 		for(let i = 0 ; i <= btnList.length ; i++){
 			if(btnList[i].processLgCd == "01"){
-				const games = $("<button></button>").attr("type","button").attr("data-bs-toggle","modal").attr("data-bs-target","#q3-modal").addClass("list-group-item list-group-item-action").html(btnList[i].processTypeExclusiveCdNm).attr("id",btnList[i].processTypeExclusiveCd).attr("onclick","javascript:modalOpen(this.id,this)");
+				const games = $("<button></button>").attr("type","button").attr("data-bs-toggle","modal").attr("data-bs-target","#q3-modal").addClass("list-group-item list-group-item-action").html(btnList[i].processTypeExclusiveCdNm).attr("id",btnList[i].processTypeExclusiveCd).attr("onclick","javascript:qestionThreeBtns(this)");
 				$(".q3-game").append(games);
 			}else if(btnList[i].processLgCd == "02"){
-				const works = $("<button></button>").attr("type","button").attr("data-bs-toggle","modal").attr("data-bs-target","#q3-modal").addClass("list-group-item list-group-item-action").html(btnList[i].processTypeExclusiveCdNm).attr("id",btnList[i].processTypeExclusiveCd).attr("onclick","javascript:modalOpen(this.id,this)");
+				const works = $("<button></button>").attr("type","button").attr("data-bs-toggle","modal").attr("data-bs-target","#q3-modal").addClass("list-group-item list-group-item-action").html(btnList[i].processTypeExclusiveCdNm).attr("id",btnList[i].processTypeExclusiveCd).attr("onclick","javascript:qestionThreeBtns(this)");
 				$(".q3-work").append(works);
 			}
 		}
@@ -114,6 +119,7 @@
 		chooseTime();
 		changeTime();
 	}
+
 	// 견적산출 버튼 반응형 이벤트
 	function resizeEsBtn(){
 		if($("body").hasClass("sb-sidenav-toggled")){
@@ -139,6 +145,7 @@
 		}, 100);
 		$(".q-" + qnum).css("display","block");
 	}
+
 	// 질문 페이지 별 이벤트들
 	// 1번질문
 	function qestionOneBtns(el){
@@ -172,12 +179,76 @@
 
 	// 3번 질문
 	function qestionThreeBtns(el){
+		$("#q3-modal-title").html($(el).html());
+		const q3ModalTbody = $("#q3-modal-tbody");
 
+		let thisGanreCd = $(el).attr("id");
+
+		for(let i = 0 ; i< modalList.length ; i++){
+			if(modalList[i].processTypeExclusiveCd == thisGanreCd){
+				let tr = $(`<tr scope="col" class="q3-modal-items" onclick="javascript:q3ModalItems(this)"></tr>`).attr("id",modalList[i].id);
+				let th = $("<th></th>").html(modalList[i].processName);
+				tr.append(th);
+				q3ModalTbody.append(tr);
+			}
+		}
+	}	
+	function q3ModalItems(el){
+		if($(el).css("color") == "rgb(33, 37, 41)"){
+			$(el).css("color","rgb(255, 0, 0)");
+			savedQ3List.push($(el).attr("id"));
+		}else {
+			$(el).css("color", "rgb(33, 37 ,41)");
+			let id = savedQ3List.indexOf($(el).attr("id"));
+			if(id !== -1){
+				savedQ3List.splice(id, 1);
+			}
+		}
 	}
-	const btnList = JSON.parse(`${processResourceTypeCodeInfoVOList}`);
-	const modalList = JSON.parse(`${processResourceMasterVOList}`);
+	function q3ModalCloseBtn(){
+		setTimeout(() => {
+			$("#q3-modal-tbody").children().remove();	
+		}, 200);
+	}
+	let savedQ3List = [];
+	function q3ModalSaveBtn(){
+		for(let i = 0 ; i < savedQ3List.length ; i++){
+			const q3Tbody = $("#q3-tbody");
+			let tr = $("<tr></tr>");
+			let th = $(`<th scope="row" class="align-middle">asdfasd</th>`);
+			let td1 = $(`<td class="align-middle">wefqwef</td>`);
 
+			let td2 = $("<td ></td>");
+			let td2Input = $(`<input type="text" placeholder="1~100" class="form-control">`)
+			td2.append(td2Input);
+			let td3 = $(`<td></td>`);
+			let button = $(`<button class="btn btn-danger margin-auto" onclick="javascript:q3DeleteBtn(this)">삭제</button>`);
+			td3.append(button);
 
+			tr.append(th).append(td1).append(td2).append(td3);
+			q3Tbody.append(tr);
+			if($("#q3-tbody").children().length !== 0){
+				$(".q3-table").css("display","table");
+				setTimeout(() => {
+					$(".q3-save-btn").css("display","inline-block");
+				}, 100);
+				$(".q3-save-btn").addClass("show");
+			}
+		}
+		setTimeout(() => {
+			$("#q3-modal-tbody").children().remove();	
+		}, 200);
+	}
+	function q3DeleteBtn(el){
+		$(el).parent().parent().remove();
+		if($("#q3-tbody").children().length == "0"){
+			$(".q3-table").css("display","none");
+			setTimeout(() => {
+				$(".q3-save-btn").css("display","none");
+			}, 100);
+			$(".q3-save-btn").removeClass("show");
+		}
+	}
 </script>
 </head>
 <body>
@@ -445,7 +516,7 @@
 						<div class="container-fluid q-box">
 							<h1 class="mt-4">견적산출</h1>
 							<div class="q-base fade show">
-								<h2 class="mt-4">질문은 총 20개 입니다. 1~3번은 필수 질문입니다!</h2>
+								<h2 class="mt-4">질문은 총 20개 이며 1~3번은 필수 질문입니다!</h2>
 								<h3 class="mt-3">목록의 질문을 클릭해서 질문에 답해주세요!</h3>
 							</div>
 							<!-- 1번 질문 -->
@@ -491,56 +562,53 @@
 								<h2 class="mt-4">질문 3번</h2>
 								<h3 class="mt-3">주 사용 목적을 선택해주세요 (다중선택 가능)</h3>
 								<div class="row">
-									<div class="col-md-3">
+									<div class="col-3">
 										<input class="form-control text-center q3-game-head" type="text" value="게임" disabled readonly>
 									</div>
-									<div class="col-md-3">
+									<div class="col-3">
 										<input class="form-control text-center q3-work-head" type="text" value="작업" disabled readonly>
 									</div>
-									<div class="col-md-3">
+									<div class="col-3">
 										<input class="form-control text-center q3-surf-head" type="text" value="서핑" disabled readonly>
 									</div>
 								</div>
 								<div class="row mt-3">
-									<div class="col-md-3 text-center">
+									<div class="col-3 text-center">
 										<div class="list-group q3-game" processLgCd="01"></div>
 									</div>
-									<div class="col-md-3 text-center">
+									<div class="col-3 text-center">
 										<div class="list-group q3-work" processLgCd="02"></div>
 									</div>
-									<div class="col-md-3 text-center">
+									<div class="col-3 text-center">
 										<div class="list-group q3-surf" processLgCd="03">
 											<button class="list-group-item list-group-item-action" type="button" id="PR999999">서핑</button>
 										</div>
+									</div>									
+									<div class="col"></div>
+									<div class="col-2">
+										<div class="list-group">
+											<div class="list-group-item fade">더미</div>
+											<div class="list-group-item fade">더미</div>
+											<div class="list-group-item fade">더미</div>
+											<div class="list-group-item fade">더미</div>
+											<button class="btn btn-primary fade q3-save-btn" style="display: none;">저장</button>
+
+										</div>
 									</div>
 								</div>
-								<table class="table table-secondary table-striped table-hover mt-3 border rounded q3-table" style="display: none;">
-									<thead>
-										<tr>
-											<th scope="col">장르</th>
-											<th scope="col">비중</th>
-											<th scope="col">이름</th>
-											<th scope="col">삭제</th>
-										</tr>
-									</thead>
-									<tbody>
-										<tr>
-											<th>1</th>
-											<td>1</td>
-											<td>1</td>
-										</tr>
-										<tr>
-											<th>2</th>
-											<td>2</td>
-											<td>2</td>
-										</tr>
-										<tr>
-											<th>3</th>
-											<td>3</td>
-											<td>3</td>
-										</tr>
-									</tbody>
-								  </table>
+								<div class="q3-table-container mt-3">
+									<table class="table table-secondary table-striped table-hover border q3-table" style="display: none;">
+										<thead>
+											<tr>
+												<th scope="col" style="width: 15%;">장르</th>
+												<th scope="col">이름</th>
+												<th scope="col" style="width: 10%;">비중</th>
+												<th scope="col" style="width: 7%;">삭제</th>
+											</tr>
+										</thead>
+										<tbody id="q3-tbody"></tbody>
+									</table>
+								</div>
 							</div>
 
 							<!-- 3번 질문 모달 -->
@@ -548,15 +616,28 @@
 								<div class="modal-dialog modal-dialog-centered">
 									<div class="modal-content">
 										<div class="modal-header">
-											<h1 class="modal-title fs-5" id="staticBackdropLabel">Modal title</h1>
-											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+											<h1 class="modal-title fs-5" id="q3-modal-title"></h1>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" onclick="javascript:q3ModalCloseBtn()"></button>
 										</div>
-										<div class="modal-body">
-										...
+										<div class="modal-body" id="q3-modal-body">
+											<table class="table">
+												<thead>
+													<tr>
+														<input type="text" class="form-control" id="q3-modal-search" placeholder="검색어를 입력해주세요">
+													</tr>
+													<tr>
+														<th scope="col">
+															이름
+														</th>
+													</tr>
+												</thead>
+												<tbody id="q3-modal-tbody">
+												</tbody>
+											</table>
 										</div>
 										<div class="modal-footer">
-											<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-											<button type="button" class="btn btn-primary">Understood</button>
+											<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="javascript:q3ModalCloseBtn()">닫기</button>
+											<button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="javascript:q3ModalSaveBtn()">저장</button>
 										</div>
 									</div>
 								</div>
