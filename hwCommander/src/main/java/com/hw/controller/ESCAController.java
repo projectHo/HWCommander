@@ -52,23 +52,6 @@ public class ESCAController {
 	*--------------------------------------------------*/
 	@RequestMapping(value = "/ESCASelect.do", method = RequestMethod.GET)
 	public String goESCASelect(HttpServletRequest request, Model model) {
-		List<ProcessResourceTypeCodeInfoVO> processResourceTypeCodeInfoVOList = processResourceService.getProcessResourceTypeCodeInfoByUseYn("Y");
-		List<ProcessResourceMasterVO> processResourceMasterVOList = processResourceService.getProcessResourceMasterAllList();
-		
-		ObjectMapper mapper = new ObjectMapper();
-		String processResourceMasterVOListJSON = "";
-		String processResourceTypeCodeInfoVOListJSON = "";
-		try {
-			processResourceTypeCodeInfoVOListJSON = mapper.writeValueAsString(processResourceTypeCodeInfoVOList);
-			processResourceMasterVOListJSON = mapper.writeValueAsString(processResourceMasterVOList);
-		} catch (JsonProcessingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		model.addAttribute("processResourceMasterVOList", processResourceMasterVOListJSON);
-		model.addAttribute("processResourceTypeCodeInfoVOList", processResourceTypeCodeInfoVOListJSON);
-
 		return userLoginCheck(request, model, "ESCASelect");
 	}
 	
