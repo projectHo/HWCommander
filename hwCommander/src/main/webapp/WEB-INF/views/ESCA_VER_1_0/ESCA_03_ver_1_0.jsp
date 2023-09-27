@@ -137,8 +137,8 @@
 	}
 	typeText();
 	
-	var myChart ;
 	// hex chart.js
+	var myChart ;
 	function createChart(){
 		var minDataValue = 0; 
 

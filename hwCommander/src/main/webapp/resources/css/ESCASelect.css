@@ -71,3 +71,10 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
     max-width: 80px;
     text-overflow: ellipsis;
 }
+
+.q-4{
+    overflow: hidden;
+}
+.q-4 textarea{
+  height: 300px;
+}
