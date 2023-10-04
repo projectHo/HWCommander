@@ -167,11 +167,22 @@
 		}else {
 			sessionStorage.setItem("data-0",2);
 		}
-		$(".q1-badge").html("OS : " + $(el).attr("qname")).attr("bool","1");
 	}
-
+	function questionOneSaveBtn(){
+		$(".q1-badge").attr("bool","1");
+		if(sessionStorage.getItem("data-0") == 0){
+			$(".q1-badge").html("OS : 프리도스");
+		}else if(sessionStorage.getItem("data-0") == 1){
+			$(".q1-badge").html("OS : COEM");
+		}else if(sessionStorage.getItem("data-0") == 2){
+			$(".q1-badge").html("OS : Fpp");
+		}else {
+			alert("선택 후 저장 해주세요");
+		}
+	}
 	// 2번질문
 	function questionTwoBtns(el){
+		const chkNum = /[0-9]/;
 		if (!$(el).val()){
 			$(".q2-badge").html("Price : " + $(el).val()).attr("bool","0");	
 		}else if($(el).val() < 0){
@@ -180,15 +191,18 @@
 		}else if($(el).val() > 500){
 			alert("500만원 이하로 입력해주세요!");
 			$(el).val("");
-		}else if (isNaN(parseFloat($(el).val())) && $(el).val() != ""){
+		}else if (!chkNum.test($(el).val())){
 			alert("숫자만 입력해주세요!!");
 			$(el).val("");
-		}else{
-			$(".q2-badge").html("Price : " + $(el).val()).attr("bool","1");
 		}
-
-
-		sessionStorage.setItem("data-1",$(el).val())
+	}
+	function questionTwoSaveBtn(){
+		if($("#can-pay-val").val() == ""){
+			alert("값을 입력하신 후 저장 해주세요")
+		}else{
+			$(".q2-badge").html("Price : " + $("#can-pay-val").val()).attr("bool","1");
+			sessionStorage.setItem("data-1", $("#can-pay-val").val())
+		}
 	}
 
 	// 3번 질문
@@ -419,7 +433,7 @@
 			}
 		});
 	}
-	function questionThreeBtns(){
+	function questionThreeSaveBtn(){
 		if(q3ImpBool){
 			$(".q3-badge").html("GR : " + savedQ3List[0].q3ModalName + "...").attr("bool","1");
 			let q3Values = [];
@@ -440,9 +454,6 @@
 		}
 	}
 	// 4번질문
-	function qestionFourBtns(){
-
-	}
 	// hex chart.js
 	var myChart ;
 	function createChart(){
@@ -560,13 +571,21 @@
 			const inputValue = parseFloat(hexInputs[i].value);
 			if(hexInputs[i].value < 0 || hexInputs[i].value>2){
 				alert("0이상 2미만으로 입력해주세요!");
-				hexInputs[i].value = "1.00";
-				myChart.data.datasets[i].data[i] = 1.00;
+				setTimeout(() => {
+					hexInputs[i].value = "1.00";
+					myChart.data.datasets[i].data[i] = 1;
+					myChart.update();
+				}, 1);
+				myChart.data.datasets[0].data[i] = inputValue;
+				$("#hex-val-total").val(parseFloat((Number($("#hex-val-01").val())+Number($("#hex-val-02").val())+Number($("#hex-val-03").val())+Number($("#hex-val-04").val())+Number($("#hex-val-05").val())+Number($("#hex-val-06").val()))/(6)).toFixed(2));
+			}else {
+				$("#hex-val-total").val(parseFloat((Number($("#hex-val-01").val())+Number($("#hex-val-02").val())+Number($("#hex-val-03").val())+Number($("#hex-val-04").val())+Number($("#hex-val-05").val())+Number($("#hex-val-06").val()))/(6)).toFixed(2));
+				myChart.data.datasets[0].data[i] = inputValue;
+				myChart.update();
 			}
-			myChart.data.datasets[0].data[i] = inputValue;
+			
 		}
-		myChart.update();
-		$("#hex-val-total").val(parseFloat((Number($("#hex-val-01").val())+Number($("#hex-val-02").val())+Number($("#hex-val-03").val())+Number($("#hex-val-04").val())+Number($("#hex-val-05").val())+Number($("#hex-val-06").val()))/(6)).toFixed(2));
+		
 	}
 	let prevTotalVal = 1;
 	function totalValue(){
@@ -653,12 +672,33 @@
 		}
 	}
 	
-	function clickReset() {
+	function q4ClickReset() {
 		const hexInputs = $(".hex-input");
 		for(let i = 0 ; i<hexInputs.length; i++){
 			hexInputs[i].value = "1.00";
 		}
 		hexagonType();
+	}
+	function questionFourSaveBtn(){
+		if($("#hex-val-01").val() === "1.00" && $("#hex-val-02").val() === "1.00" && $("#hex-val-03").val() === "1.00" && $("#hex-val-04").val() === "1.00" && $("#hex-val-05").val() === "1.00" && $("#hex-val-06").val() === "1.00"){
+			if(confirm("변동사항이 없습니다! 평균값으로 진행할까요?")){
+				let value = [];
+				for(let i = 0 ; i<$(".hex-input").length; i++){
+					let storageValue = [$(".hex-input")[i].value];
+					value.push(storageValue);
+				}
+				sessionStorage.setItem("data-4",JSON.stringify(value))
+				$(".q3-badge").html("Bu : check");
+			}
+		}else {
+			let value = [];
+			for(let i = 0 ; i<$(".hex-input").length; i++){
+				let storageValue = [$(".hex-input")[i].value];
+				value.push(storageValue);
+			}
+			sessionStorage.setItem("data-3",JSON.stringify(value));
+			$(".q3-badge").html("Bu : check");
+		}
 	}
 </script>
 </head>
@@ -932,7 +972,10 @@
 							</div>
 							<!-- 1번 질문 -->
 							<div class="q-1 fade">
-								<h2 class="mt-4">질문 1번</h2>
+								<h2 class="mt-4 d-flex justify-content-between">
+									<span>질문 1번</span>
+									<button class="btn btn-primary q1-save-btn" onclick="javascript:questionOneSaveBtn()">저장</button>
+								</h2>
 								<h3 class="mt-3">OS(윈도우) 라이센스가 필요하신가요?</h3>
 								<div class="mt-2 mb-5 row">
 									<div class="col-xxl-2 question-col-3">
@@ -955,7 +998,10 @@
 
 							<!-- 2번 질문 -->
 							<div class="q-2 fade">
-								<h2 class="mt-4">질문 2번</h2>
+								<h2 class="mt-4 d-flex justify-content-between">
+									<span>질문 2번</span>
+									<button class="btn btn-primary q2-save-btn" onclick="javascript:questionTwoSaveBtn()">저장</button>
+								</h2>
 								<h3 class="mt-3">본체에 투자하실 최대 한도는 얼마인가요? (최대 500만원)</h3>
 								<div class="mt-2 mb-5 row">
 									<div class="col-md">
@@ -972,7 +1018,7 @@
 							<div class="q-3 fade">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 3번</span>
-									<button class="btn btn-primary fade q3-save-btn" style="display: none;" onclick="javascript:questionThreeBtns()">저장</button>
+									<button class="btn btn-primary q3-save-btn" onclick="javascript:questionThreeSaveBtn()">저장</button>
 								</h2>
 								<h3 class="mt-3">주 사용 목적을 선택해주세요 (다중선택 가능)</h3>
 								<div class="row">
@@ -1049,6 +1095,7 @@
 							<div class="q-4 fade">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 4번</span>
+									<button class="btn btn-primary q4-save-btn" onclick="javascript:questionFourSaveBtn()">저장</button>
 								</h2>
 								<h3 class="mt-3">예산을 세분화하여 편성 해주세요</h3>
 								<div class="row">
@@ -1089,7 +1136,7 @@
 													<div class="hex-text fourth-hex-text w-100 d-flex justify-content-center">
 														<div class="fs-4" onmouseenter="javascript:mouseEnter(this)">소음</div>
 													</div>
-													<svg onclick="javascript:clickReset()" class="reset-svg" fill="#000000" width="40px" height="40px" viewBox="-652.8 -652.8 3225.60 3225.60" xmlns="http://www.w3.org/2000/svg" stroke="#000000" stroke-width="65.28" transform="matrix(-1, 0, 0, -1, 0, 0)rotate(0)"><g id="SVGRepo_bgCarrier" stroke-width="0" transform="translate(0,0), scale(1)"><path transform="translate(-652.8, -652.8), scale(201.6)" fill="url(#gradient)" d="M9.166.33a2.25 2.25 0 00-2.332 0l-5.25 3.182A2.25 2.25 0 00.5 5.436v5.128a2.25 2.25 0 001.084 1.924l5.25 3.182a2.25 2.25 0 002.332 0l5.25-3.182a2.25 2.25 0 001.084-1.924V5.436a2.25 2.25 0 00-1.084-1.924L9.166.33z" strokewidth="0"></path></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#25b4dc " stroke-width="280.32"> <path d="M960 0v213.333c411.627 0 746.667 334.934 746.667 746.667S1371.627 1706.667 960 1706.667 213.333 1371.733 213.333 960c0-197.013 78.4-382.507 213.334-520.747v254.08H640V106.667H53.333V320h191.04C88.64 494.08 0 720.96 0 960c0 529.28 430.613 960 960 960s960-430.72 960-960S1489.387 0 960 0" fill-rule="evenodd"></path> </g><g id="SVGRepo_iconCarrier"> <path d="M960 0v213.333c411.627 0 746.667 334.934 746.667 746.667S1371.627 1706.667 960 1706.667 213.333 1371.733 213.333 960c0-197.013 78.4-382.507 213.334-520.747v254.08H640V106.667H53.333V320h191.04C88.64 494.08 0 720.96 0 960c0 529.28 430.613 960 960 960s960-430.72 960-960S1489.387 0 960 0" fill-rule="evenodd"></path> </g></svg>
+													<svg onclick="javascript:q4ClickReset()" class="reset-svg" fill="#000000" width="40px" height="40px" viewBox="-652.8 -652.8 3225.60 3225.60" xmlns="http://www.w3.org/2000/svg" stroke="#000000" stroke-width="65.28" transform="matrix(-1, 0, 0, -1, 0, 0)rotate(0)"><g id="SVGRepo_bgCarrier" stroke-width="0" transform="translate(0,0), scale(1)"><path transform="translate(-652.8, -652.8), scale(201.6)" fill="url(#gradient)" d="M9.166.33a2.25 2.25 0 00-2.332 0l-5.25 3.182A2.25 2.25 0 00.5 5.436v5.128a2.25 2.25 0 001.084 1.924l5.25 3.182a2.25 2.25 0 002.332 0l5.25-3.182a2.25 2.25 0 001.084-1.924V5.436a2.25 2.25 0 00-1.084-1.924L9.166.33z" strokewidth="0"></path></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#25b4dc " stroke-width="280.32"> <path d="M960 0v213.333c411.627 0 746.667 334.934 746.667 746.667S1371.627 1706.667 960 1706.667 213.333 1371.733 213.333 960c0-197.013 78.4-382.507 213.334-520.747v254.08H640V106.667H53.333V320h191.04C88.64 494.08 0 720.96 0 960c0 529.28 430.613 960 960 960s960-430.72 960-960S1489.387 0 960 0" fill-rule="evenodd"></path> </g><g id="SVGRepo_iconCarrier"> <path d="M960 0v213.333c411.627 0 746.667 334.934 746.667 746.667S1371.627 1706.667 960 1706.667 213.333 1371.733 213.333 960c0-197.013 78.4-382.507 213.334-520.747v254.08H640V106.667H53.333V320h191.04C88.64 494.08 0 720.96 0 960c0 529.28 430.613 960 960 960s960-430.72 960-960S1489.387 0 960 0" fill-rule="evenodd"></path> </g></svg>
 												</div>
 											</div>
 										</div>
@@ -1164,6 +1211,40 @@
 									</div>
 								</div>
 							</div>
+							<!-- 5번질문 -->
+							<div class="q-5 fade">
+								<h2 class="mt-4 d-flex justify-content-between">
+									<span>질문 5번</span>
+									<button class="btn btn-primary q5-save-btn" onclick="javascript:questionFiveSaveBtn()">저장</button>
+								</h2>
+								<h3 class="mt-3">WIFI, 블루투스 옵션이 포함된 PC가 필요하신가요?</h3>
+								<div class="mt-2 mb-5 row">
+									<div class="col-xxl-3">
+										<input type="radio" class="btn-check" name="btnradio" id="answer-a">
+										<label class="btn btn-outline-secondary w-75" for="answer-a" val="1" qname="프리도스" onclick="javascript:questionFiveBtns(this)" ><p class="pt-2 m-0">필요합니다</p></label>
+									</div>
+									<div class="col-xxl-3">
+										<input type="radio" class="btn-check" name="btnradio" id="answer-b">
+										<label class="btn btn-outline-secondary w-75" for="answer-b" val="2" qname="COEM" onclick="javascript:questionFiveBtns(this)" ><p class="pt-2 m-0">필요없습니다</p></label>
+									</div>
+									<div class="col-md-6"></div>
+								</div>
+							</div>
+							<!-- 6번질문 -->
+							<!-- 7번질문 -->
+							<!-- 8번질문 -->
+							<!-- 9번질문 -->
+							<!-- 10번질문 -->
+							<!-- 11번질문 -->
+							<!-- 12번질문 -->
+							<!-- 13번질문 -->
+							<!-- 14번질문 -->
+							<!-- 15번질문 -->
+							<!-- 16번질문 -->
+							<!-- 17번질문 -->
+							<!-- 18번질문 -->
+							<!-- 19번질문 -->
+							<!-- 20번질문 -->
 						</div>
 					</div>
 				</div>
