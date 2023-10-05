@@ -573,19 +573,19 @@
 				alert("0이상 2미만으로 입력해주세요!");
 				setTimeout(() => {
 					hexInputs[i].value = "1.00";
-					myChart.data.datasets[i].data[i] = 1;
+					myChart.data.datasets[0].data[i] = 1;
 					myChart.update();
 				}, 1);
 				myChart.data.datasets[0].data[i] = inputValue;
-				$("#hex-val-total").val(parseFloat((Number($("#hex-val-01").val())+Number($("#hex-val-02").val())+Number($("#hex-val-03").val())+Number($("#hex-val-04").val())+Number($("#hex-val-05").val())+Number($("#hex-val-06").val()))/(6)).toFixed(2));
 			}else {
-				$("#hex-val-total").val(parseFloat((Number($("#hex-val-01").val())+Number($("#hex-val-02").val())+Number($("#hex-val-03").val())+Number($("#hex-val-04").val())+Number($("#hex-val-05").val())+Number($("#hex-val-06").val()))/(6)).toFixed(2));
 				myChart.data.datasets[0].data[i] = inputValue;
 				myChart.update();
 			}
 			
 		}
-		
+		setTimeout(() => {
+			$("#hex-val-total").val(parseFloat((Number($("#hex-val-01").val())+Number($("#hex-val-02").val())+Number($("#hex-val-03").val())+Number($("#hex-val-04").val())+Number($("#hex-val-05").val())+Number($("#hex-val-06").val()))/(6)).toFixed(2));	
+		}, 100);
 	}
 	let prevTotalVal = 1;
 	function totalValue(){
@@ -688,7 +688,7 @@
 					value.push(storageValue);
 				}
 				sessionStorage.setItem("data-4",JSON.stringify(value))
-				$(".q3-badge").html("Bu : check");
+				$(".q4-badge").html("Bu : check");
 			}
 		}else {
 			let value = [];
@@ -696,10 +696,117 @@
 				let storageValue = [$(".hex-input")[i].value];
 				value.push(storageValue);
 			}
-			sessionStorage.setItem("data-3",JSON.stringify(value));
-			$(".q3-badge").html("Bu : check");
+			sessionStorage.setItem("data-4",JSON.stringify(value));
+			$(".q4-badge").html("Bu : check");
 		}
 	}
+	// 5번질문
+	let q5Answers = 0;
+	function questionFiveBtn(el){
+		if($(el).children().html() == "필요합니다"){
+			q5Answers = 0;
+			}else {
+				q5Answers = 1;
+			}
+	}
+	function questionFiveSaveBtn(){
+		if($("#q5-answer1").prop("checked") || $("#q5-answer2").prop("checked")){
+			if(q5Answers == 0){
+				sessionStorage.setItem("data-4",0);
+				$(".q5-badge").html("Wifi : 필요");
+			}else {
+				sessionStorage.setItem("data-4",1);
+				$(".q5-badge").html("Wifi : 불필요");
+			}
+		}
+	}
+	// 6번질문
+	let q6Answers = 0;
+	function questionSixBtn(el){
+		if($(el).children().html() == "Intel"){
+			q6Answers = 0;
+		}else if ($(el).children().html() == "AMD") {
+			q6Answers = 1;
+		}else {
+			q6Answers = 2;
+		}
+	}
+	function questionSixSaveBtn(){
+		if($("#q6-answer1").prop("checked") || $("#q6-answer2").prop("checked") || $("#q6-answer3").prop("checked")){
+			if(q6Answers == 0){
+				sessionStorage.setItem("data-5",0);
+				$(".q6-badge").html("CPU : Intel");
+			}else if(q6Answers == 1){
+				sessionStorage.setItem("data-5",1);
+				$(".q6-badge").html("CPU : AMD");
+			}else {
+				sessionStorage.setItem("data-5",2);
+				$(".q6-badge").html("CPU : 상관없음");
+			}
+		}
+	}
+	// 7번질문
+	let q7Answers = 0;
+	function questionSevenBtn(el){
+		if($(el).children().html() == "필요합니다"){
+			q7Answers = 0;
+		}else if ($(el).children().html() == "상관없음") {
+			q7Answers = 1;
+		}else {
+			q7Answers = 2;
+		}
+	}
+	function questionSevenSaveBtn(){
+		if($("#q7-answer1").prop("checked") || $("#q7-answer2").prop("checked") || $("#q7-answer3").prop("checked")){
+			if(q7Answers == 0){
+				sessionStorage.setItem("data-6",0);
+				$(".q7-badge").html("GPU : 필요");
+			}else if(q7Answers == 1){
+				sessionStorage.setItem("data-6",1);
+				$(".q7-badge").html("GPU : 상관없음");
+			}else {
+				sessionStorage.setItem("data-6",2);
+				$(".q7-badge").html("GPU : 불필요");
+			}
+		}
+	}
+	// 8번질문
+	let q8Answers = 0;
+	function questionEightBtn(el){
+		if($(el).children().html() == "선호합니다"){
+			q8Answers = 0;
+		}else if ($(el).children().html() == "선호하지않습니다") {
+			q8Answers = 1;
+		}else {
+			q8Answers = 2;
+		}
+	}
+	function questionEightSaveBtn(){
+		if($("#q8-answer1").prop("checked") || $("#q8-answer2").prop("checked") || $("#q8-answer3").prop("checked")){
+			if(q8Answers == 0){
+				sessionStorage.setItem("data-6",0);
+				$(".q8-badge").html("Aio : 선호");
+			}else if(q8Answers == 1){
+				sessionStorage.setItem("data-6",1);
+				$(".q8-badge").html("Aio : 비선호");
+			}else {
+				sessionStorage.setItem("data-6",2);
+				$(".q8-badge").html("Aio : 무관");
+			}
+		}
+	}
+	// 9번질문
+	// 10번질문
+	// 11번질문
+	// 12번질문
+	// 13번질문
+	// 14번질문
+	// 15번질문
+	// 16번질문
+	// 17번질문
+	// 18번질문
+	// 19번질문
+	// 20번질문
 </script>
 </head>
 <body>
@@ -828,7 +935,7 @@
 								<li class="d-flex justify-content-between align-items-center pt-2">
 									질문 5번
 									<div class="d-flex">
-										<span class="badge bg-primary rounded-pill pt-2 pe-2"></span>
+										<span class="badge bg-primary rounded-pill pt-2 pe-2 q5-badge"></span>
 									</div>
 								</li>
 							</a>
@@ -836,7 +943,7 @@
 								<li class="d-flex justify-content-between align-items-center pt-2">
 									질문 6번
 									<div class="d-flex">
-										<span class="badge bg-primary rounded-pill pt-2 pe-2"></span>
+										<span class="badge bg-primary rounded-pill pt-2 pe-2 q6-badge"></span>
 									</div>
 								</li>
 							</a>
@@ -844,7 +951,7 @@
 								<li class="d-flex justify-content-between align-items-center pt-2">
 									질문 7번
 									<div class="d-flex">
-										<span class="badge bg-primary rounded-pill pt-2 pe-2"></span>
+										<span class="badge bg-primary rounded-pill pt-2 pe-2 q7-badge"></span>
 									</div>
 								</li>
 							</a>
@@ -852,7 +959,7 @@
 								<li class="d-flex justify-content-between align-items-center pt-2">
 									질문 8번
 									<div class="d-flex">
-										<span class="badge bg-primary rounded-pill pt-2 pe-2"></span>
+										<span class="badge bg-primary rounded-pill pt-2 pe-2 q8-badge"></span>
 									</div>
 								</li>
 							</a>
@@ -860,7 +967,7 @@
 								<li class="d-flex justify-content-between align-items-center pt-2">
 									질문 9번
 									<div class="d-flex">
-										<span class="badge bg-primary rounded-pill pt-2 pe-2"></span>
+										<span class="badge bg-primary rounded-pill pt-2 pe-2 q9-badge"></span>
 									</div>
 								</li>
 							</a>
@@ -868,7 +975,7 @@
 								<li class="d-flex justify-content-between align-items-center pt-2">
 									질문 10번
 									<div class="d-flex">
-										<span class="badge bg-primary rounded-pill pt-2 pe-2"></span>
+										<span class="badge bg-primary rounded-pill pt-2 pe-2 q10-badge"></span>
 									</div>
 								</li>
 							</a>
@@ -876,7 +983,7 @@
 								<li class="d-flex justify-content-between align-items-center pt-2">
 									질문 11번
 									<div class="d-flex">
-										<span class="badge bg-primary rounded-pill pt-2 pe-2"></span>
+										<span class="badge bg-primary rounded-pill pt-2 pe-2 q11-badge"></span>
 									</div>
 								</li>
 							</a>
@@ -884,7 +991,7 @@
 								<li class="d-flex justify-content-between align-items-center pt-2">
 									질문 12번
 									<div class="d-flex">
-										<span class="badge bg-primary rounded-pill pt-2 pe-2"></span>
+										<span class="badge bg-primary rounded-pill pt-2 pe-2 q12-badge"></span>
 									</div>
 								</li>
 							</a>
@@ -892,7 +999,7 @@
 								<li class="d-flex justify-content-between align-items-center pt-2">
 									질문 13번
 									<div class="d-flex">
-										<span class="badge bg-primary rounded-pill pt-2 pe-2"></span>
+										<span class="badge bg-primary rounded-pill pt-2 pe-2 q13-badge"></span>
 									</div>
 								</li>
 							</a>
@@ -900,7 +1007,7 @@
 								<li class="d-flex justify-content-between align-items-center pt-2">
 									질문 14번
 									<div class="d-flex">
-										<span class="badge bg-primary rounded-pill pt-2 pe-2"></span>
+										<span class="badge bg-primary rounded-pill pt-2 pe-2 q14-badge"></span>
 									</div>
 								</li>
 							</a>
@@ -908,7 +1015,7 @@
 								<li class="d-flex justify-content-between align-items-center pt-2">
 									질문 15번
 									<div class="d-flex">
-										<span class="badge bg-primary rounded-pill pt-2 pe-2"></span>
+										<span class="badge bg-primary rounded-pill pt-2 pe-2 q15-badge"></span>
 									</div>
 								</li>
 							</a>
@@ -916,7 +1023,7 @@
 								<li class="d-flex justify-content-between align-items-center pt-2">
 									질문 16번
 									<div class="d-flex">
-										<span class="badge bg-primary rounded-pill pt-2 pe-2"></span>
+										<span class="badge bg-primary rounded-pill pt-2 pe-2 q16-badge"></span>
 									</div>
 								</li>
 							</a>
@@ -924,7 +1031,7 @@
 								<li class="d-flex justify-content-between align-items-center pt-2">
 									질문 17번
 									<div class="d-flex">
-										<span class="badge bg-primary rounded-pill pt-2 pe-2"></span>
+										<span class="badge bg-primary rounded-pill pt-2 pe-2 q17-badge"></span>
 									</div>
 								</li>
 							</a>
@@ -932,7 +1039,7 @@
 								<li class="d-flex justify-content-between align-items-center pt-2">
 									질문 18번
 									<div class="d-flex">
-										<span class="badge bg-primary rounded-pill pt-2 pe-2"></span>
+										<span class="badge bg-primary rounded-pill pt-2 pe-2 q18-badge"></span>
 									</div>
 								</li>
 							</a>
@@ -940,7 +1047,7 @@
 								<li class="d-flex justify-content-between align-items-center pt-2">
 									질문 19번
 									<div class="d-flex">
-										<span class="badge bg-primary rounded-pill pt-2 pe-2"></span>
+										<span class="badge bg-primary rounded-pill pt-2 pe-2 q19-badge"></span>
 									</div>
 								</li>
 							</a>
@@ -948,7 +1055,7 @@
 								<li class="d-flex justify-content-between align-items-center pt-2">
 									질문 20번
 									<div class="d-flex">
-										<span class="badge bg-primary rounded-pill pt-2 pe-2"></span>
+										<span class="badge bg-primary rounded-pill pt-2 pe-2 q20-badge"></span>
 									</div>
 								</li>
 							</a>
@@ -969,6 +1076,8 @@
 							<div class="q-base fade show">
 								<h2 class="mt-4">질문은 총 20개 이며 1~3번은 필수 질문입니다!</h2>
 								<h3 class="mt-3">목록의 질문을 클릭해서 질문에 답해주세요!</h3>
+								<h3 class="mt-3">답변 후 우측 상단에 있는 저장 버튼을 눌러주셔야 정상적으로</h3>
+								<h3 class="mt-3">견적 산출이 진행됩니다.</h3>
 							</div>
 							<!-- 1번 질문 -->
 							<div class="q-1 fade">
@@ -1218,21 +1327,87 @@
 									<button class="btn btn-primary q5-save-btn" onclick="javascript:questionFiveSaveBtn()">저장</button>
 								</h2>
 								<h3 class="mt-3">WIFI, 블루투스 옵션이 포함된 PC가 필요하신가요?</h3>
-								<div class="mt-2 mb-5 row">
+								<div class="mt-3 mb-5 row">
 									<div class="col-xxl-3">
-										<input type="radio" class="btn-check" name="btnradio" id="answer-a">
-										<label class="btn btn-outline-secondary w-75" for="answer-a" val="1" qname="프리도스" onclick="javascript:questionFiveBtns(this)" ><p class="pt-2 m-0">필요합니다</p></label>
+										<input type="radio" class="btn-check" name="btnradio" id="q5-answer1">
+										<label class="btn btn-outline-secondary w-75" for="q5-answer1" onclick="javascript:questionFiveBtn(this)"><p class="pt-1 m-0">필요합니다</p></label>
 									</div>
 									<div class="col-xxl-3">
-										<input type="radio" class="btn-check" name="btnradio" id="answer-b">
-										<label class="btn btn-outline-secondary w-75" for="answer-b" val="2" qname="COEM" onclick="javascript:questionFiveBtns(this)" ><p class="pt-2 m-0">필요없습니다</p></label>
+										<input type="radio" class="btn-check" name="btnradio" id="q5-answer2">
+										<label class="btn btn-outline-secondary w-75" for="q5-answer2" onclick="javascript:questionFiveBtn(this)"><p class="pt-1 m-0">필요없습니다</p></label>
 									</div>
 									<div class="col-md-6"></div>
 								</div>
 							</div>
 							<!-- 6번질문 -->
+							<div class="q-6 fade">
+								<h2 class="mt-4 d-flex justify-content-between">
+									<span>질문 6번</span>
+									<button class="btn btn-primary q6-save-btn" onclick="javascript:questionSixSaveBtn()">저장</button>
+								</h2>
+								<h3 class="mt-3">선호하는 CPU 제조사를 선택해주세요</h3>
+								<div class="mt-3 mb-5 row">
+									<div class="col-xxl-2">
+										<input type="radio" class="btn-check" name="btnradio" id="q6-answer1">
+										<label class="btn btn-outline-secondary w-75" for="q6-answer1" onclick="javascript:questionSixBtn(this)"><p class="pt-1 m-0">Intel</p></label>
+									</div>
+									<div class="col-xxl-2">
+										<input type="radio" class="btn-check" name="btnradio" id="q6-answer2">
+										<label class="btn btn-outline-secondary w-75" for="q6-answer2" onclick="javascript:questionSixBtn(this)"><p class="pt-1 m-0">AMD</p></label>
+									</div>
+									<div class="col-xxl-2">
+										<input type="radio" class="btn-check" name="btnradio" id="q6-answer3">
+										<label class="btn btn-outline-secondary w-75" for="q6-answer3" onclick="javascript:questionSixBtn(this)"><p class="pt-1 m-0">상관없음</p></label>
+									</div>
+									<div class="col-md-6"></div>
+								</div>
+							</div>
 							<!-- 7번질문 -->
+							<div class="q-7 fade">
+								<h2 class="mt-4 d-flex justify-content-between">
+									<span>질문 7번</span>
+									<button class="btn btn-primary q7-save-btn" onclick="javascript:questionSevenSaveBtn()">저장</button>
+								</h2>
+								<h3 class="mt-3">내장그래픽이 필요하십니까?</h3>
+								<div class="mt-3 mb-5 row">
+									<div class="col-xxl-2">
+										<input type="radio" class="btn-check" name="btnradio" id="q7-answer1">
+										<label class="btn btn-outline-secondary w-75" for="q7-answer1" onclick="javascript:questionSevenBtn(this)"><p class="pt-1 m-0">필요합니다</p></label>
+									</div>
+									<div class="col-xxl-2">
+										<input type="radio" class="btn-check" name="btnradio" id="q7-answer2">
+										<label class="btn btn-outline-secondary w-75" for="q7-answer2" onclick="javascript:questionSevenBtn(this)"><p class="pt-1 m-0">상관없음</p></label>
+									</div>
+									<div class="col-xxl-2">
+										<input type="radio" class="btn-check" name="btnradio" id="q7-answer3">
+										<label class="btn btn-outline-secondary w-75" for="q7-answer3" onclick="javascript:questionSevenBtn(this)"><p class="pt-1 m-0">필요없습니다</p></label>
+									</div>
+									<div class="col-md-6"></div>
+								</div>
+							</div>
 							<!-- 8번질문 -->
+							<div class="q-8 fade">
+								<h2 class="mt-4 d-flex justify-content-between">
+									<span>질문 8번</span>
+									<button class="btn btn-primary q8-save-btn" onclick="javascript:questionEightSaveBtn()">저장</button>
+								</h2>
+								<h3 class="mt-3">수냉쿨러를 선호하십니까?</h3>
+								<div class="mt-3 mb-5 row">
+									<div class="col-xxl-2">
+										<input type="radio" class="btn-check" name="btnradio" id="q8-answer1">
+										<label class="btn btn-outline-secondary w-75 h-100" for="q8-answer1" onclick="javascript:questionEightBtn(this)"><p class="pt-1 m-0">선호합니다</p></label>
+									</div>
+									<div class="col-xxl-2">
+										<input type="radio" class="btn-check" name="btnradio" id="q8-answer2">
+										<label class="btn btn-outline-secondary w-75" for="q8-answer2" onclick="javascript:questionEightBtn(this)"><p class="pt-1 m-0">선호하지</br>않습니다</p></label>
+									</div>
+									<div class="col-xxl-2">
+										<input type="radio" class="btn-check" name="btnradio" id="q8-answer3">
+										<label class="btn btn-outline-secondary w-75 h-100" for="q8-answer3" onclick="javascript:questionEightBtn(this)"><p class="pt-1 m-0">상관없음</p></label>
+									</div>
+									<div class="col-md-6"></div>
+								</div>
+							</div>
 							<!-- 9번질문 -->
 							<!-- 10번질문 -->
 							<!-- 11번질문 -->

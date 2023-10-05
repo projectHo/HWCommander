@@ -220,12 +220,13 @@ canvas{
   height: 428px!important;
   z-index: 99;
 }
+
 @media (max-width: 1920px){
   canvas{
-    top: 16%;
-    left: 14%;
-    width: 338px!important;
-    height: 333px!important;
+    top: 16.6%;
+    left: 14.6%;
+    width: 309px!important;
+    height: 303px!important;
     z-index: 99;
   }
   .l-one{

@@ -66,15 +66,3 @@ body.sb-sidenav-toggled #wrapper #sidebar-wrapper {
     height: 256px;
     overflow-y: auto;
 }
-.q3-badge {
-    overflow-x: clip;
-    max-width: 80px;
-    text-overflow: ellipsis;
-}
-
-.q-4{
-    overflow: hidden;
-}
-.q-4 textarea{
-  height: 300px;
-}
