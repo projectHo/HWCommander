@@ -775,7 +775,7 @@
 	function questionEightBtn(el){
 		if($(el).children().html() == "선호합니다"){
 			q8Answers = 0;
-		}else if ($(el).children().html() == "선호하지않습니다") {
+		}else if ($(el).children().html() == "선호하지<br>않습니다") {
 			q8Answers = 1;
 		}else {
 			q8Answers = 2;
@@ -784,22 +784,162 @@
 	function questionEightSaveBtn(){
 		if($("#q8-answer1").prop("checked") || $("#q8-answer2").prop("checked") || $("#q8-answer3").prop("checked")){
 			if(q8Answers == 0){
-				sessionStorage.setItem("data-6",0);
+				sessionStorage.setItem("data-7",0);
 				$(".q8-badge").html("Aio : 선호");
 			}else if(q8Answers == 1){
-				sessionStorage.setItem("data-6",1);
+				sessionStorage.setItem("data-7",1);
 				$(".q8-badge").html("Aio : 비선호");
 			}else {
-				sessionStorage.setItem("data-6",2);
+				sessionStorage.setItem("data-7",2);
 				$(".q8-badge").html("Aio : 무관");
 			}
 		}
 	}
 	// 9번질문
+	// 미구현
+
 	// 10번질문
+	let q10Answers = 0;
+	function questionTenBtn(el){
+		if($(el).children().html() == "DDR4"){
+			q10Answers = 0;
+		}else if ($(el).children().html() == "DDR5") {
+			q10Answers = 1;
+		}else {
+			q10Answers = 2;
+		}
+	}
+	function questionTenSaveBtn(){
+		if($("#q10-answer1").prop("checked") || $("#q10-answer2").prop("checked") || $("#q10-answer3").prop("checked")){
+			if(q10Answers == 0){
+				sessionStorage.setItem("data-9",0);
+				$(".q10-badge").html("RAM : DDR4");
+			}else if(q10Answers == 1){
+				sessionStorage.setItem("data-9",1);
+				$(".q10-badge").html("RAM : DDR5");
+			}else {
+				sessionStorage.setItem("data-9",2);
+				$(".q10-badge").html("RAM : 무관");
+			}
+		}
+	}
 	// 11번질문
+	let q11Answers = 0;
+	function questionElevenBtn(el){
+		if($(el).children().html() == "벌크"){
+			q11Answers = 0;
+		}else if($(el).children().html() == "멀티팩") {
+			q11Answers = 1;
+		}else if($(el).children().html() == "둘다 좋음"){
+			q11Answers = 2;
+		}else {
+			q11Answers = 3;
+		}
+	}
+	function questionElevenSaveBtn(){
+		if($("#q11-answer1").prop("checked") || $("#q11-answer2").prop("checked") || $("#q11-answer3").prop("checked") || $("#q11-answer4").prop("checked")){
+			if(q11Answers == 0){
+				sessionStorage.setItem("data-10",0);
+				$(".q11-badge").html("Pack : Bulk");
+			}else if(q11Answers == 1){
+				sessionStorage.setItem("data-10",1);
+				$(".q11-badge").html("Pack : Multi");
+			}else if(q11Answers == 2) {
+				sessionStorage.setItem("data-10",2);
+				$(".q11-badge").html("Pack : 무관");
+			}else {
+				sessionStorage.setItem("data-10",3);
+				$(".q11-badge").html("Pack : 제외");
+			}
+		}
+	}
 	// 12번질문
+	let q12Answers = 0;
+	function questionTwelveBtn(el){
+		if($(el).children().html() == "예산에 맞게"){
+			q12Answers = 0;
+		}else if($(el).children().html() == "256GB") {
+			q12Answers = 1;
+		}else if($(el).children().html() == "512GB"){
+			q12Answers = 2;
+		}else if($(el).children().html() == "1024GB(1TB)"){
+			q12Answers = 3;
+		}else {
+			q12Answers = 4;
+		}
+	}
+	function questionTwelveSaveBtn(){
+		if($("#q12-answer1").prop("checked") || $("#q12-answer2").prop("checked") || $("#q12-answer3").prop("checked") || $("#q12-answer4").prop("checked") || $("#q12-answer5").prop("checked")){
+			if(q12Answers == 0){
+				sessionStorage.setItem("data-11",0);
+				$(".q12-badge").html("SSD : 예산");
+			}else if(q12Answers == 1){
+				sessionStorage.setItem("data-11",1);
+				$(".q12-badge").html("SSD : 256GB");
+			}else if(q12Answers == 2) {
+				sessionStorage.setItem("data-11",2);
+				$(".q12-badge").html("SSD : 512GB");
+			}else if(q12Answers == 3){
+				sessionStorage.setItem("data-11",3);
+				$(".q12-badge").html("SSD : 1024GB");
+			}else {
+				sessionStorage.setItem("data-11",4);
+				$(".q12-badge").html("SSD : 2048GB");
+			}
+		}
+	}
 	// 13번질문
+	let q13Answers = [];
+	function questionThirteenBtn(el){
+		if($(el).children().html() == "아크릴"){
+			if(!q13Answers.includes("0")){
+				q13Answers.push(0);
+			}
+		}else if($(el).children().html() == "강화유리") {
+			if(!q13Answers.includes("1")){
+				q13Answers.push(1);
+			}
+		}else if($(el).children().html() == "알루미늄"){
+			if(!q13Answers.includes("2")){
+				q13Answers.push(2);
+			}
+		}else if($(el).children().html() == "통철판"){
+			if(!q13Answers.includes("3")){
+				q13Answers.push(3);
+			}
+		}else if($(el).children().html() == "창문형유리"){
+			if(!q13Answers.includes("4")){
+				q13Answers.push(4);
+			}
+		}else {
+			if(!q13Answers.includes("5")){
+				q13Answers.push(5);
+			}
+		}
+	}
+	function questionThirteenSaveBtn(){
+		if($("#q13-answer1").prop("checked") || $("#q13-answer2").prop("checked") || $("#q13-answer3").prop("checked") || $("#q13-answer4").prop("checked") || $("#q13-answer5").prop("checked") || $("#q13-answer6").prop("checked")){
+			if(q13Answers[0] == 0){
+				sessionStorage.setItem("data-12",JSON.stringify(q13Answers));
+				$(".q13-badge").html("Met : 아크릴");
+			}else if(q13Answers[0] == 1){
+				sessionStorage.setItem("data-12",JSON.stringify(q13Answers));
+				$(".q13-badge").html("Met : 강화유리");
+			}else if(q13Answers[0] == 2) {
+				sessionStorage.setItem("data-12",JSON.stringify(q13Answers));
+				$(".q13-badge").html("Met : 알루미늄");
+			}else if(q13Answers[0] == 3){
+				sessionStorage.setItem("data-12",JSON.stringify(q13Answers));
+				$(".q13-badge").html("Met : 통철판");
+			}else if(q13Answers[0] == 4){
+				sessionStorage.setItem("data-12",JSON.stringify(q13Answers));
+				$(".q13-badge").html("Met : 창문형유리");
+			}else {
+				sessionStorage.setItem("data-12",JSON.stringify(q13Answers));
+				$(".q13-badge").html("Met : 무관");
+			}
+		}
+	}
 	// 14번질문
 	// 15번질문
 	// 16번질문
@@ -963,7 +1103,8 @@
 									</div>
 								</li>
 							</a>
-							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!" onclick="javascript:clickQestionList(this)" qnum="9">
+							<!-- 미구현 -->
+							<a class="list-group-item list-group-item-action list-group-item-light p-2 disabled bg-secondary" href="#!" onclick="javascript:clickQestionList(this)" qnum="9">
 								<li class="d-flex justify-content-between align-items-center pt-2">
 									질문 9번
 									<div class="d-flex">
@@ -1035,7 +1176,7 @@
 									</div>
 								</li>
 							</a>
-							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!" onclick="javascript:clickQestionList(this)" qnum="18">
+							<a class="list-group-item list-group-item-action list-group-item-light p-2 disabled bg-secondary" href="#!" onclick="javascript:clickQestionList(this)" qnum="18">
 								<li class="d-flex justify-content-between align-items-center pt-2">
 									질문 18번
 									<div class="d-flex">
@@ -1043,7 +1184,7 @@
 									</div>
 								</li>
 							</a>
-							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!" onclick="javascript:clickQestionList(this)" qnum="19">
+							<a class="list-group-item list-group-item-action list-group-item-light p-2 disabled bg-secondary" href="#!" onclick="javascript:clickQestionList(this)" qnum="19">
 								<li class="d-flex justify-content-between align-items-center pt-2">
 									질문 19번
 									<div class="d-flex">
@@ -1051,7 +1192,7 @@
 									</div>
 								</li>
 							</a>
-							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!" onclick="javascript:clickQestionList(this)" qnum="20">
+							<a class="list-group-item list-group-item-action list-group-item-light p-2 disabled bg-secondary" href="#!" onclick="javascript:clickQestionList(this)" qnum="20">
 								<li class="d-flex justify-content-between align-items-center pt-2">
 									질문 20번
 									<div class="d-flex">
@@ -1409,10 +1550,129 @@
 								</div>
 							</div>
 							<!-- 9번질문 -->
+							<!-- 미구현 -->
 							<!-- 10번질문 -->
+							<div class="q-10 fade">
+								<h2 class="mt-4 d-flex justify-content-between">
+									<span>질문 10번</span>
+									<button class="btn btn-primary q10-save-btn" onclick="javascript:questionTenSaveBtn()">저장</button>
+								</h2>
+								<h3 class="mt-3">메모리(램)카드의 버전을 DDR4, DDR5 중에서 골라주세요</h3>
+								<div class="mt-3 mb-5 row">
+									<div class="col-xxl-2">
+										<input type="radio" class="btn-check" name="btnradio" id="q10-answer1">
+										<label class="btn btn-outline-secondary w-75 h-100" for="q10-answer1" onclick="javascript:questionTenBtn(this)"><p class="pt-1 m-0">DDR4</p></label>
+									</div>
+									<div class="col-xxl-2">
+										<input type="radio" class="btn-check" name="btnradio" id="q10-answer2">
+										<label class="btn btn-outline-secondary w-75" for="q10-answer2" onclick="javascript:questionTenBtn(this)"><p class="pt-1 m-0">DDR5</p></label>
+									</div>
+									<div class="col-xxl-2">
+										<input type="radio" class="btn-check" name="btnradio" id="q10-answer3">
+										<label class="btn btn-outline-secondary w-75 h-100" for="q10-answer3" onclick="javascript:questionTenBtn(this)"><p class="pt-1 m-0">상관없음</p></label>
+									</div>
+									<div class="col-md-6"></div>
+								</div>
+							</div>
 							<!-- 11번질문 -->
+							<div class="q-11 fade">
+								<h2 class="mt-4 d-flex justify-content-between">
+									<span>질문 11번</span>
+									<button class="btn btn-primary q11-save-btn" onclick="javascript:questionElevenSaveBtn()">저장</button>
+								</h2>
+								<h3 class="mt-3">벌크나 멀티팩을 선호 하십니까?</h3>
+								<div class="mt-3 mb-5 row">
+									<div class="col-xxl-2">
+										<input type="radio" class="btn-check" name="btnradio" id="q11-answer1">
+										<label class="btn btn-outline-secondary w-75 h-100" for="q11-answer1" onclick="javascript:questionElevenBtn(this)"><p class="pt-1 m-0">벌크</p></label>
+									</div>
+									<div class="col-xxl-2">
+										<input type="radio" class="btn-check" name="btnradio" id="q11-answer2">
+										<label class="btn btn-outline-secondary w-75" for="q11-answer2" onclick="javascript:questionElevenBtn(this)"><p class="pt-1 m-0">멀티팩</p></label>
+									</div>
+									<div class="col-xxl-2">
+										<input type="radio" class="btn-check" name="btnradio" id="q11-answer3">
+										<label class="btn btn-outline-secondary w-75 h-100" for="q11-answer3" onclick="javascript:questionElevenBtn(this)"><p class="pt-1 m-0">둘다 좋음</p></label>
+									</div>
+									<div class="col-xxl-2">
+										<input type="radio" class="btn-check" name="btnradio" id="q11-answer4">
+										<label class="btn btn-outline-secondary w-75 h-100" for="q11-answer4" onclick="javascript:questionElevenBtn(this)"><p class="pt-1 m-0">둘다 싫음</p></label>
+									</div>
+									<div class="col-md-4"></div>
+								</div>
+							</div>
 							<!-- 12번질문 -->
+							<div class="q-12 fade">
+								<h2 class="mt-4 d-flex justify-content-between">
+									<span>질문 12번</span>
+									<button class="btn btn-primary q12-save-btn" onclick="javascript:questionTwelveSaveBtn()">저장</button>
+								</h2>
+								<h3 class="mt-3">C드라이브(SSD)의 용량을 선택해주세요</h3>
+								<div class="mt-3 mb-5 row">
+									<div class="col-xxl-2">
+										<input type="radio" class="btn-check" name="btnradio" id="q12-answer1">
+										<label class="btn btn-outline-secondary w-75 h-100" for="q12-answer1" onclick="javascript:questionTwelveBtn(this)"><p class="pt-1 m-0">예산에 맞게</p></label>
+									</div>
+									<div class="col-xxl-2">
+										<input type="radio" class="btn-check" name="btnradio" id="q12-answer2">
+										<label class="btn btn-outline-secondary w-75" for="q12-answer2" onclick="javascript:questionTwelveBtn(this)"><p class="pt-1 m-0">256GB</p></label>
+									</div>
+									<div class="col-xxl-2">
+										<input type="radio" class="btn-check" name="btnradio" id="q12-answer3">
+										<label class="btn btn-outline-secondary w-75 h-100" for="q12-answer3" onclick="javascript:questionTwelveBtn(this)"><p class="pt-1 m-0">512GB</p></label>
+									</div>
+									<div class="col-md-6"></div>
+								</div>
+								<div class="mt-3 mb-5 row">
+									<div class="col-xxl-3">
+										<input type="radio" class="btn-check" name="btnradio" id="q12-answer4">
+										<label class="btn btn-outline-secondary w-75 h-100" for="q12-answer4" onclick="javascript:questionTwelveBtn(this)"><p class="pt-1 m-0">1024GB(1TB)</p></label>
+									</div>
+									<div class="col-xxl-3">
+										<input type="radio" class="btn-check" name="btnradio" id="q12-answer5">
+										<label class="btn btn-outline-secondary w-75 h-100" for="q12-answer5" onclick="javascript:questionTwelveBtn(this)"><p class="pt-1 m-0">2048GB(2TB)</p></label>
+									</div>
+									<div class="col-md-6"></div>
+								</div>
+							</div>
 							<!-- 13번질문 -->
+							<div class="q-13 fade">
+								<h2 class="mt-4 d-flex justify-content-between">
+									<span>질문 13번</span>
+									<button class="btn btn-primary q13-save-btn" onclick="javascript:questionThirteenSaveBtn()">저장</button>
+								</h2>
+								<h3 class="mt-3">원하시는 본체 옆판의 소재를 선택해주세요!(다중선택 가능)</h3>
+								<div class="mt-3 mb-5 row">
+									<div class="col-xxl-2">
+										<input type="checkbox" class="btn-check" name="btnradio" id="q13-answer1">
+										<label class="btn btn-outline-secondary w-75 h-100" for="q13-answer1" onclick="javascript:questionThirteenBtn(this)"><p class="pt-1 m-0">아크릴</p></label>
+									</div>
+									<div class="col-xxl-2">
+										<input type="checkbox" class="btn-check" name="btnradio" id="q13-answer2">
+										<label class="btn btn-outline-secondary w-75" for="q13-answer2" onclick="javascript:questionThirteenBtn(this)"><p class="pt-1 m-0">강화유리</p></label>
+									</div>
+									<div class="col-xxl-2">
+										<input type="checkbox" class="btn-check" name="btnradio" id="q13-answer3">
+										<label class="btn btn-outline-secondary w-75 h-100" for="q13-answer3" onclick="javascript:questionThirteenBtn(this)"><p class="pt-1 m-0">알루미늄</p></label>
+									</div>
+									<div class="col-md-6"></div>
+								</div>
+								<div class="mt-3 mb-5 row">
+									<div class="col-xxl-2">
+										<input type="checkbox" class="btn-check" name="btnradio" id="q13-answer4">
+										<label class="btn btn-outline-secondary w-75 h-100" for="q13-answer4" onclick="javascript:questionThirteenBtn(this)"><p class="pt-1 m-0">통철판</p></label>
+									</div>
+									<div class="col-xxl-2">
+										<input type="checkbox" class="btn-check" name="btnradio" id="q13-answer5">
+										<label class="btn btn-outline-secondary w-75 h-100" for="q13-answer5" onclick="javascript:questionThirteenBtn(this)"><p class="pt-1 m-0">창문형유리</p></label>
+									</div>
+									<div class="col-xxl-2">
+										<input type="checkbox" class="btn-check" name="btnradio" id="q13-answer6">
+										<label class="btn btn-outline-secondary w-75 h-100" for="q13-answer6" onclick="javascript:questionThirteenBtn(this)"><p class="pt-1 m-0">상관없음</p></label>
+									</div>
+									<div class="col-md-6"></div>
+								</div>
+							</div>
 							<!-- 14번질문 -->
 							<!-- 15번질문 -->
 							<!-- 16번질문 -->
