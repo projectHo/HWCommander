@@ -83,11 +83,12 @@ function goSignUp() {
         success: function (data) {
         	if(data == 1) {
         		alert("회원가입이 완료되었습니다.\n이메일 인증 후 이용해주세요.");
+        	}else if(data == 2) {
+        		alert("본 사이트는 1인 1계정 원칙입니다.\n이미 가입 된 계정이 있습니다.");
         	}else {
         		alert("회원가입이 정상적으로 처리되지 않았습니다.\n고객센터로 문의해주세요.");
         	}
         	window.location = "/";
-            console.log(data);
         }
     });
 }
@@ -95,8 +96,13 @@ function goSignUp() {
 function validationCheck() {
 	const numberCheck = /^[0-9]+$/;
 	
+	if($('#di').val().trim() == "") {
+		alert("본인인증을 완료해주세요.");
+		return false;
+	}
+	
 	if($('#id').val().trim() == "") {
-		alert("아이디를 입력하세요");
+		alert("아이디를 입력하세요.");
 		$('#id').focus();
 		return false;
 	}
@@ -245,6 +251,12 @@ function findDaumAddr() {
 }
 
 function hpNumberAuthentication() {
+	
+	if($('#di').val().trim() != null && $('#di').val().trim() != "") {
+		alert("이미 정상적으로 인증을 완료하였습니다.");
+		return false;
+	}
+	
 	window.name ="Parent_window";
 	
 	window.open('', 'popupChk', 'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');

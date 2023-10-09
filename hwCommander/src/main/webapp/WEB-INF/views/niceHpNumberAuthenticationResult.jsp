@@ -14,10 +14,8 @@
 <script>
 $(function() {
 	if("0000" == "${resultcode}") {
-		/* 
 		$("#name", opener.document).val("${name}");
 		$("#name", opener.document).prop('readonly', true);
-		 */
 		 
 		$("#birth", opener.document).val("${birthdate}");
 		$("#birth", opener.document).prop('readonly', true);

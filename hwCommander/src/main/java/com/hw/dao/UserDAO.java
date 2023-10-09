@@ -12,4 +12,5 @@ public interface UserDAO {
 	public Integer getMailConfirmChkCount(String id);
 	public List<UserInfoVO> getIdListByMailAndMailKey(UserInfoVO userInfoVO);
 	public UserInfoVO getUserInfoByIdAndPw(UserInfoVO userInfoVO);
+	public Integer getDiDupliChkCount(String di);
 }
