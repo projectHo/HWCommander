@@ -38,6 +38,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.hw.model.OrderMasterVO;
@@ -49,10 +50,12 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
@@ -313,8 +316,21 @@ public class UserController {
 		String resData =   new String(result);
 		JSONObject jsonObject = new JSONObject(resData);
 		
+		String decodeResultName = "";
+		
+		try {
+			decodeResultName = URLDecoder.decode((String) jsonObject.get("utf8_name"), "UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		model.addAttribute("resultcode", jsonObject.get("resultcode"));
-		model.addAttribute("name", jsonObject.get("name"));
+//		model.addAttribute("name", jsonObject.get("name"));
+		model.addAttribute("name", decodeResultName);
 		model.addAttribute("gender", jsonObject.get("gender"));
 		model.addAttribute("mobileno", jsonObject.get("mobileno"));
 		model.addAttribute("birthdate", jsonObject.get("birthdate"));
@@ -476,8 +492,8 @@ public class UserController {
 				
 				JSONObject reqDataJson = new JSONObject();
 				reqDataJson.put("requestno", req_no);
-//				reqDataJson.put("returnurl", "http://localhost:8080/user/niceHpNumberAuthenticationResult.do");
-				reqDataJson.put("returnurl", "http://hwcommander.com/user/niceHpNumberAuthenticationResult.do");
+				reqDataJson.put("returnurl", "http://localhost:8080/user/niceHpNumberAuthenticationResult.do");
+//				reqDataJson.put("returnurl", "http://hwcommander.com/user/niceHpNumberAuthenticationResult.do");
 				reqDataJson.put("sitecode", site_code);
 				reqDataJson.put("methodtype", "get");
 				reqDataJson.put("authtype", "M"); // 휴대폰인증 고정
