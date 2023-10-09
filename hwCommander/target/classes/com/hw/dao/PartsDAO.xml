@@ -346,6 +346,7 @@
 			, multi_bulk
 			, wifi
 			, mc
+			, lim_vrm
 		)
 		VALUES
 		(
@@ -371,6 +372,7 @@
 			, #{multiBulk}
 			, #{wifi}
 			, #{mc}
+			, #{limVrm}
 		)
 	</insert>
 	
@@ -408,6 +410,7 @@
 			, a.wifi                                                                           AS wifi
 			, a.mc                                                                             AS mc
 			, (SELECT MAX(history_seq) FROM parts_mb_history WHERE id = a.id)                  AS partsHistorySeq
+			, a.lim_vrm                                                                        AS limVrm
 		FROM
 			parts_mb a
 		<where>
@@ -441,7 +444,8 @@
 			, updt_dtm            = NOW()        
 			, multi_bulk          = #{multiBulk} 
 			, wifi                = #{wifi}
-			, mc                  = #{mc}            
+			, mc                  = #{mc}
+			, lim_vrm             = #{limVrm}
 		WHERE
 			id = #{id}
 	</update>
@@ -476,6 +480,7 @@
 			, multi_bulk
 			, wifi
 			, mc
+			, lim_vrm
 		)
 		VALUES
 		(
@@ -502,8 +507,55 @@
 			, #{multiBulk}
 			, #{wifi}
 			, #{mc}
+			, #{limVrm}
 		)
 	</insert>
+	
+	<select id="getMbHistoryAllList" resultType="partsMbHistoryVO" parameterType="partsMbHistoryVO">
+		SELECT 
+			a.id                                                                             AS id
+			, a.history_seq                                                                    AS historySeq        
+			, a.parts_name                                                                     AS partsName 
+			, a.parts_price                                                                    AS partsPrice
+			, FORMAT(a.parts_price, 0)                                                         AS partsPriceStr
+			, a.mled_cd                                                                        AS mledCd    
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'COM002' AND cd = a.mled_cd)      AS mledCdNm  
+			, a.mmc_cd                                                                         AS mmcCd     
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT004' AND cd = a.mmc_cd)       AS mmcCdNm   
+			, a.msc_cd                                                                         AS mscCd     
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT005' AND cd = a.msc_cd)       AS mscCdNm   
+			, a.maker_id                                                                       AS makerId    
+			, (SELECT maker_name FROM parts_maker WHERE id = a.maker_id)                       AS makerNm   
+			, a.port                                                                           AS port      
+			, a.scal                                                                           AS scal      
+			, a.bios                                                                           AS bios      
+			, a.cpu_soc_cd                                                                     AS cpuSocCd  
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT007' AND cd = a.cpu_soc_cd)   AS cpuSocCdNm
+			, a.vrm_range                                                                      AS vrmRange  
+			, a.mem_soc_cd                                                                     AS memSocCd  
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT024' AND cd = a.mem_soc_cd)   AS memSocCdNm
+			, a.scs_cd                                                                         AS scsCd     
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT008' AND cd = a.scs_cd)       AS scsCdNm   
+			, a.ff                                                                             AS ff        
+			, a.pl                                                                             AS pl        
+			, a.sata                                                                           AS sata      
+			, a.parts_image                                                                    AS partsImage
+			, a.reg_dtm                                                                        AS regDtm    
+			, a.multi_bulk                                                                     AS multiBulk
+			, a.wifi                                                                           AS wifi
+			, a.mc                                                                             AS mc
+			, a.lim_vrm                                                                        AS limVrm
+		FROM
+			parts_mb_history a
+		<where>
+		    <if test="id != null and id != ''">
+		    	AND a.id = #{id} 
+		    </if>
+		    <if test="historySeq != null and historySeq != ''">
+		    	AND a.history_seq = #{historySeq} 
+		    </if>
+		</where>
+	</select>
 	
 	<select id="getPartsRamVOMaxId" resultType="String">
 		SELECT CONCAT('RAM', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 4)), 0)+1, 6, '0') FROM parts_ram)) AS id FROM DUAL
@@ -662,6 +714,44 @@
 			, #{sd}
 		)
 	</insert>
+	
+	<select id="getRamHistoryAllList" resultType="partsRamHistoryVO" parameterType="partsRamHistoryVO">
+		SELECT 
+			a.id                                                                               AS id
+			, a.history_seq                                                                    AS historySeq          
+			, a.parts_name                                                                     AS partsName   
+			, a.parts_price                                                                    AS partsPrice
+			, FORMAT(a.parts_price, 0)                                                         AS partsPriceStr  
+			, a.rled_cd                                                                        AS rledCd      
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'COM002' AND cd = a.rled_cd)      AS rledCdNm    
+			, a.rmc_cd                                                                         AS rmcCd       
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT010' AND cd = a.rmc_cd)       AS rmcCdNm     
+			, a.rsc_cd                                                                         AS rscCd       
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT011' AND cd = a.rsc_cd)       AS rscCdNm     
+			, a.cl                                                                             AS cl          
+			, a.latency                                                                             AS latency          
+			, a.pr_cd                                                                          AS prCd        
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT012' AND cd = a.pr_cd)        AS prCdNm      
+			, a.mem_soc_cd                                                                     AS memSocCd    
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRT024' AND cd = a.mem_soc_cd)   AS memSocCdNm  
+			, a.ddr4_max_range                                                                 AS ddr4MaxRange
+			, a.ddr5_max_range                                                                 AS ddr5MaxRange
+			, a.parts_image                                                                    AS partsImage  
+			, a.reg_dtm                                                                        AS regDtm      
+			, a.multi_bulk                                                                     AS multiBulk
+			, a.volume                                                                         AS volume
+			, a.sd                                                                             AS sd     
+		FROM
+			parts_ram_history a
+		<where>
+		    <if test="id != null and id != ''">
+		    	AND a.id = #{id} 
+		    </if>
+		    <if test="historySeq != null and historySeq != ''">
+		    	AND a.history_seq = #{historySeq} 
+		    </if>
+		</where>
+	</select>
 	
 	<select id="getPartsPsuVOMaxId" resultType="String">
 		SELECT CONCAT('PSU', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 4)), 0)+1, 6, '0') FROM parts_psu)) AS id FROM DUAL

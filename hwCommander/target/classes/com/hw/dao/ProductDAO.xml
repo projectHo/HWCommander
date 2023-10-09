@@ -21,6 +21,8 @@
 			, reg_dtm
 			, updt_dtm
 			, product_regist_path_cd
+			, windows_name
+			, windows_price
 		)
 		VALUES
 		(
@@ -33,6 +35,8 @@
 			, NOW()
 			, #{updtDtm}
 			, #{productRegistPathCd}
+			, #{windowsName}
+			, #{windowsPrice}
 		)
 	</insert>
 	
@@ -51,6 +55,8 @@
 			, a.product_regist_path_cd                                                          AS productRegistPathCd            
 		FROM
 			product_master a
+		WHERE
+			a.product_regist_path_cd = '01'
 	</select>
 	
 	<insert id="insertProductDetailVO" parameterType="productDetailVO">
@@ -123,7 +129,9 @@
 			, a.updt_dtm                                                                        AS updtDtm
 			, (SELECT COUNT(b.id) AS cnt FROM order_detail b WHERE a.id = b.product_id)         AS orderDetailCnt
 			, a.product_regist_path_cd                                                          AS productRegistPathCd
-			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRO001' AND cd = a.product_regist_path_cd )     AS productRegistPathCdNm            
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'PRO001' AND cd = a.product_regist_path_cd )     AS productRegistPathCdNm
+			, a.windows_name                                                                    AS windowsName
+			, a.windows_price                                                                   AS windowsPrice            
 		FROM
 			product_master a
 		WHERE
@@ -141,7 +149,9 @@
 			, product_description 			= #{productDescription}
 			, product_image       			= #{productImage}      
 			, updt_dtm            			= NOW()
-			, product_regist_path_cd        = #{productRegistPathCd}               
+			, product_regist_path_cd        = #{productRegistPathCd}
+			, windows_name                  = #{windowsName}   
+			, windows_price                 = #{windowsPrice}                  
 		WHERE
 			id = #{id}
 	</update>

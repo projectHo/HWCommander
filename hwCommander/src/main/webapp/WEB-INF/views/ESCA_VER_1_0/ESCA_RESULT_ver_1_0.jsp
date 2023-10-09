@@ -224,19 +224,26 @@
 	function boxHeadInput(){
 		$("#id-input").val("ID : " + "${loginUser.id}");
 
-		const currentDate = new Date();
-		const year = currentDate.getFullYear();
-		const month = String(currentDate.getMonth() + 1).padStart(2, "0");
-		const day = String(currentDate.getDate()).padStart(2, "0");
-		const formattedDate = year + "-" + month + "-" + day;
-		$("#date-input").val("Date : " + formattedDate);
+		if(sessionStorage.getItem("targetData") == ""){
+			const currentDate = new Date();
+			const year = currentDate.getFullYear();
+			const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+			const day = String(currentDate.getDate()).padStart(2, "0");
+			const hours = currentDate.getHours();
+			const minutes = currentDate.getMinutes();
+			const seconds = currentDate.getSeconds();
+			const formattedDate = year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
+			$("#date-input").val("Date : " + formattedDate);
+		}else {
+			$("#date-input").val("Date : " + sessionStorage.getItem("targetData"));
+		}
 
 		const urlString = location.href;
 		const matchedId = urlString.match(/userId%2C([^%]+)/);
-		const aa = matchedId[1];
-		if("${loginUser.id}" != aa){
+		const recommenderName = matchedId[1];
+		if("${loginUser.id}" != recommenderName){
 			$("#recommender-input").parent().css("display","block");
-			$("#recommender-input").val("추천인 ID : "+ aa).css("display","block");
+			$("#recommender-input").val("추천인 ID : "+ recommenderName).css("display","block");
 		}
 	}
 </script>
@@ -279,9 +286,9 @@
 								<input type="text" class="form-control pb-0 ps-3 w-100" id="recommender-input" value="추천인 : 오류" style="background-color: #fff;" disabled>
 							</div>
 						</div>
-						<div class="col-md-2">
+						<div class="col-md-3">
 							<div class="input-group w-100">
-								<input type="text" class="form-control pb-0 ps-3" id="date-input"aria-label="Text input with checkbox" value="Date : 0000-00-00" style="background-color: #fff;" disabled>
+								<input type="text" class="form-control pb-0 ps-3 text-center" id="date-input"aria-label="Text input with checkbox" value="Date : 0000-00-00" style="background-color: #fff;" disabled>
 							</div>
 						</div>
 					</div>
