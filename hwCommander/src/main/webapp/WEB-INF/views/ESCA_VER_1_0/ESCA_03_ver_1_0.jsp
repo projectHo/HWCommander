@@ -137,8 +137,8 @@
 	}
 	typeText();
 	
-	var myChart ;
 	// hex chart.js
+	var myChart ;
 	function createChart(){
 		var minDataValue = 0; 
 
@@ -255,7 +255,7 @@
 			if(hexInputs[i].value < 0 || hexInputs[i].value>2){
 				alert("0이상 2미만으로 입력해주세요!");
 				hexInputs[i].value = "1.00";
-				myChart.data.datasets[i].data[i] = 1.00;
+				myChart.data.datasets[i].data[i] = 1;
 			}
 			myChart.data.datasets[0].data[i] = inputValue;
 		}

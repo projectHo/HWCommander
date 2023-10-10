@@ -1783,10 +1783,31 @@ public class ESCAServiceImpl implements ESCAService {
 				}
 			}
 			
+			// test 23.09.15
+//			if(partsGpuHistoryVOList.get(gpuIndex).getId().equals("GPU000169")
+//					) {
+//				System.out.println("################# 드러오냐 #########################");
+//			}
+			
 			/*--------------------------------------------------
 			 - 15-3. Cooler Value 기준 소거처리부 
 			*--------------------------------------------------*/
 			for(int i = partsCoolerHistoryVOList.size()-1; i >= 1; i--) {
+				// test 23.09.15
+//				if(partsGpuHistoryVOList.get(gpuIndex).getId().equals("GPU000169")) {
+//					if(partsCoolerHistoryVOList.get(i).getId().equals("COOLER000001")) {
+//						System.out.println("################# 드러오냐 #########################");
+//					}
+//					if(partsCoolerHistoryVOList.get(i).getId().equals("COOLER000003")) {
+//						System.out.println("################# 드러오냐 #########################");
+//					}
+//					if(partsCoolerHistoryVOList.get(i).getId().equals("COOLER000005")) {
+//						System.out.println("################# 드러오냐 #########################");
+//					}
+//					if(partsCoolerHistoryVOList.get(i).getId().equals("COOLER000046")) {
+//						System.out.println("################# 드러오냐 #########################");
+//					}
+//				}
 				int targetIndex = i-1;
 				
 				BigDecimal value1 = partsCoolerHistoryVOList.get(targetIndex).getCoolerValue();
@@ -2220,6 +2241,16 @@ public class ESCAServiceImpl implements ESCAService {
 //					if(gpuIndex == 0 && cpuIndex == 0 && mbIndex == 2) {
 //						System.out.println("################# SYSO 결과출력 START #########################");
 //					}
+					
+					// test 23.09.15
+//					if(partsGpuHistoryVOList.get(gpuIndex).getId().equals("GPU000169")
+//							&& partsCpuHistoryVOList.get(cpuIndex).getId().equals("CPU000002")
+//							&& partsMbHistoryVOList.get(mbIndex).getId().equals("MB000002")
+////							&& partsCoolerHistoryVOList.get(coolerIndex).getId().equals("COOLER000005")
+//							) {
+//						System.out.println("################# 드러오냐 #########################");
+//					}
+					
 					/*--------------------------------------------------
 					 - 24-1. 24번백업데이터 기준으로 데이터복원처리
 					*--------------------------------------------------*/
@@ -2797,6 +2828,16 @@ public class ESCAServiceImpl implements ESCAService {
 //									}
 //									if(mbIndex == 3) {
 //										System.out.println("################# SYSO 결과출력 START #########################");
+//									}
+									
+									
+									// test 23.09.15
+//									if(partsGpuHistoryVOList.get(gpuIndex).getId().equals("GPU000169")
+//											&& partsCpuHistoryVOList.get(cpuIndex).getId().equals("CPU000002")
+//											&& partsMbHistoryVOList.get(mbIndex).getId().equals("MB000002")
+//											&& partsCoolerHistoryVOList.get(coolerIndex).getId().equals("COOLER000005")
+//											) {
+//										System.out.println("################# 드러오냐 #########################");
 //									}
 									
 									/*--------------------------------------------------
