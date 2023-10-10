@@ -29,11 +29,20 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Integer signUpLogic(UserInfoVO userInfoVO) {
 		int result = 0;
-		userInfoVO.setUserTypeCd("02");
-		userInfoVO.setMailConfirm("N");
-		userDAO.insertUserInfo(userInfoVO);
-		sendMailByMailConfirm(userInfoVO);
-		result = 1;
+		int diChkCount = 0; 
+		
+		diChkCount = userDAO.getDiDupliChkCount(userInfoVO.getDi());
+		
+		if(diChkCount > 0) {
+			result = 2;
+		}else {
+			userInfoVO.setUserTypeCd("02");
+			userInfoVO.setMailConfirm("N");
+			userDAO.insertUserInfo(userInfoVO);
+			sendMailByMailConfirm(userInfoVO);
+			result = 1;
+		}
+		
 		return result;
 	}
 	

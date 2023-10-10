@@ -21,4 +21,5 @@ public class UserInfoVO {
 	private String mailConfirm;
 	private String regDtm;
 	private String updtDtm;
+	private String di;
 }
