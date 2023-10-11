@@ -652,7 +652,6 @@
 		}
 		myChart.update();
 	}
-	// explane-area
 	function mouseEnter(elem){
 		const elemHtml = $(elem).html();
 		if(elemHtml === "발열"){
@@ -687,7 +686,7 @@
 					let storageValue = [$(".hex-input")[i].value];
 					value.push(storageValue);
 				}
-				sessionStorage.setItem("data-4",JSON.stringify(value))
+				sessionStorage.setItem("data-3",JSON.stringify(value))
 				$(".q4-badge").html("Bu : check");
 			}
 		}else {
@@ -696,7 +695,7 @@
 				let storageValue = [$(".hex-input")[i].value];
 				value.push(storageValue);
 			}
-			sessionStorage.setItem("data-4",JSON.stringify(value));
+			sessionStorage.setItem("data-3",JSON.stringify(value));
 			$(".q4-badge").html("Bu : check");
 		}
 	}
@@ -773,9 +772,9 @@
 	// 8번질문
 	let q8Answers = 0;
 	function questionEightBtn(el){
-		if($(el).children().html() == "선호합니다"){
+		if($(el).children().html() == "선호"){
 			q8Answers = 0;
-		}else if ($(el).children().html() == "선호하지<br>않습니다") {
+		}else if ($(el).children().html() == "비선호") {
 			q8Answers = 1;
 		}else {
 			q8Answers = 2;
@@ -938,6 +937,7 @@
 	}
 	function questionThirteenSaveBtn(){
 		if($("#q13-answer1").prop("checked") || $("#q13-answer2").prop("checked") || $("#q13-answer3").prop("checked") || $("#q13-answer4").prop("checked") || $("#q13-answer5").prop("checked") || $("#q13-answer6").prop("checked")){
+			q13Answers.sort();
 			if(q13Answers[0] == 0){
 				$(".q13-badge").html("Met : 아크릴");
 			}else if(q13Answers[0] == 1){
@@ -951,7 +951,6 @@
 			}else {
 				$(".q13-badge").html("Met : 무관");
 			}
-			q13Answers.sort();
 			sessionStorage.setItem("data-12",JSON.stringify(q13Answers));
 
 		}
@@ -1012,7 +1011,84 @@
 		}
 	}
 	// 15번질문
+	let q15Answers = 0;
+	function questionFifteenBtn(el){
+		if($(el).children().html() == "전체"){
+			q15Answers = 0;
+		}else if ($(el).children().html() == "상단") {
+			q15Answers = 1;
+		}else {
+			q15Answers = 2;
+		}
+	}
+	function questionFifteenSaveBtn(){
+		if($("#q15-answer1").prop("checked") || $("#q15-answer2").prop("checked") || $("#q15-answer3").prop("checked")){
+			if(q15Answers == 0){
+				sessionStorage.setItem("data-14",0);
+				$(".q15-badge").html("Fan : 전체");
+			}else if(q15Answers == 1){
+				sessionStorage.setItem("data-14",1);
+				$(".q15-badge").html("Fan : 상단");
+			}else {
+				sessionStorage.setItem("data-14",2);
+				$(".q15-badge").html("Fan : 기본");
+			}
+		}
+	}
 	// 16번질문
+	let q16Answers = [];
+	function questionSixteenBtn(el){
+		if($(el).attr("data-value") === "0" || $(el).attr("data-value") === "1" || $(el).attr("data-value") === "2"){
+			if(q16Answers[0] === "3" || q16Answers[0] === "4"){
+				q16Answers = [];
+				$("#q16-answer4").prop("checked",false);
+				$("#q16-answer5").prop("checked",false);
+			}
+			if($(el).siblings().prop("checked") === false){
+				if(!q16Answers.includes($(el).attr("data-value"))){
+					q16Answers.push($(el).attr("data-value"));
+				}
+			}else if($(el).siblings().prop("checked") === true){
+				var index = q16Answers.indexOf($(el).attr("data-value"));
+				if(index !== -1){
+					q16Answers.splice(index,1);
+				}
+			}
+		}else if ($(el).attr("data-value") === "3" || $(el).attr("data-value") === "4"){
+			q16Answers = [];
+			if($(el).attr("data-value") === "3"){
+				$("#q16-answer1").prop("checked",false);
+				$("#q16-answer2").prop("checked",false);
+				$("#q16-answer3").prop("checked",false);
+				$("#q16-answer5").prop("checked",false);
+				q16Answers.push($(el).attr("data-value"));
+			}else if ($(el).attr("data-value") === "4"){
+				$("#q16-answer1").prop("checked",false);
+				$("#q16-answer2").prop("checked",false);
+				$("#q16-answer3").prop("checked",false);
+				$("#q16-answer4").prop("checked",false);
+				q16Answers.push($(el).attr("data-value"));
+			}
+		}
+	}
+	function questionSixteenSaveBtn(){
+		if($("#q16-answer1").prop("checked") || $("#q16-answer2").prop("checked") || $("#q16-answer3").prop("checked") || $("#q16-answer4").prop("checked") || $("#q16-answer5").prop("checked")){
+			q16Answers.sort();
+			if(q16Answers[0] == "0"){
+				$(".q16-badge").html("LED : LED");
+			}else if(q16Answers[0] == "1"){
+				$(".q16-badge").html("LED : RGB");
+			}else if(q16Answers[0] == "2"){
+				$(".q16-badge").html("LED : ARGB");
+			}else if(q16Answers[0] == "3"){
+				$(".q16-badge").html("LED : 무관");
+			}else if(q16Answers[0] == "4"){
+				$(".q16-badge").html("LED : 모두제외");
+			}
+			
+			sessionStorage.setItem("data-15",JSON.stringify(q16Answers));
+		}
+	}
 	// 17번질문
 	// 18번질문
 	// 19번질문
@@ -1793,7 +1869,62 @@
 								</div>
 							</div>
 							<!-- 15번질문 -->
+							<div class="q-15 fade">
+								<h2 class="mt-4 d-flex justify-content-between">
+									<span>질문 15번</span>
+									<button class="btn btn-primary q15-save-btn" onclick="javascript:questionFifteenSaveBtn()">저장</button>
+								</h2>
+								<h3 class="mt-3">케이스에 팬을 추가할까요?</h3>
+								<div class="mt-3 mb-5 row">
+									<div class="col-xxl-2">
+										<input type="radio" class="btn-check" name="btnradio" id="q15-answer1">
+										<label class="btn btn-outline-secondary w-75" for="q15-answer1" onclick="javascript:questionFifteenBtn(this)"><p class="pt-1 m-0">전체</p></label>
+									</div>
+									<div class="col-xxl-2">
+										<input type="radio" class="btn-check" name="btnradio" id="q15-answer2">
+										<label class="btn btn-outline-secondary w-75" for="q15-answer2" onclick="javascript:questionFifteenBtn(this)"><p class="pt-1 m-0">상단</p></label>
+									</div>
+									<div class="col-xxl-2">
+										<input type="radio" class="btn-check" name="btnradio" id="q15-answer3">
+										<label class="btn btn-outline-secondary w-75" for="q15-answer3" onclick="javascript:questionFifteenBtn(this)"><p class="pt-1 m-0">기본</p></label>
+									</div>
+									<div class="col-md-6"></div>
+								</div>
+							</div>
 							<!-- 16번질문 -->
+							<div class="q-16 fade">
+								<h2 class="mt-4 d-flex justify-content-between">
+									<span>질문 16번</span>
+									<button class="btn btn-primary q16-save-btn" onclick="javascript:questionSixteenSaveBtn()">저장</button>
+								</h2>
+								<h3 class="mt-3">본체에 LED를 선택해주세요(다중선택)</h3>
+								<div class="mt-3 mb-5 row">
+									<div class="col-xxl-2">
+										<input type="checkbox" class="btn-check" name="btnradio" id="q16-answer1">
+										<label class="btn btn-outline-secondary w-75 h-100" for="q16-answer1" data-value="0" onclick="javascript:questionSixteenBtn(this)"><p class="pt-1 m-0">LED</p></label>
+									</div>
+									<div class="col-xxl-2">
+										<input type="checkbox" class="btn-check" name="btnradio" id="q16-answer2">
+										<label class="btn btn-outline-secondary w-75" for="q16-answer2" data-value="1" onclick="javascript:questionSixteenBtn(this)"><p class="pt-1 m-0">RGB</p></label>
+									</div>
+									<div class="col-xxl-2">
+										<input type="checkbox" class="btn-check" name="btnradio" id="q16-answer3">
+										<label class="btn btn-outline-secondary w-75 h-100" for="q16-answer3" data-value="2" onclick="javascript:questionSixteenBtn(this)"><p class="pt-1 m-0">ARGB</p></label>
+									</div>
+									<div class="col-md-6"></div>
+								</div>
+								<div class="mt-3 mb-5 row">
+									<div class="col-xxl-2">
+										<input type="checkbox" class="btn-check" name="btnradio" id="q16-answer4">
+										<label class="btn btn-outline-secondary w-75 h-100" for="q16-answer4" data-value="3" onclick="javascript:questionSixteenBtn(this)"><p class="pt-1 m-0">상관없음</p></label>
+									</div>
+									<div class="col-xxl-2">
+										<input type="checkbox" class="btn-check" name="btnradio" id="q16-answer5">
+										<label class="btn btn-outline-secondary w-75 h-100" for="q16-answer5" data-value="4" onclick="javascript:questionSixteenBtn(this)"><p class="pt-1 m-0">모두제외</p></label>
+									</div>
+									<div class="col-xxl"></div>
+								</div>
+							</div>
 							<!-- 17번질문 -->
 							<!-- 18번질문 -->
 							<!-- 19번질문 -->

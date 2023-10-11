@@ -27,6 +27,7 @@
 			, mail_confirm
 			, reg_dtm
 			, updt_dtm
+			, di
 		)
 		VALUES
 		(
@@ -46,6 +47,7 @@
 			, #{mailConfirm}
 			, NOW()
 			, #{updtDtm}
+			, #{di}
 		)
 	</insert>
 	
@@ -88,10 +90,15 @@
 			, mail_key                AS mailKey    
 			, mail_confirm            AS mailConfirm
 			, reg_dtm                 AS regDtm     
-			, updt_dtm                AS updtDtm    
+			, updt_dtm                AS updtDtm
+			, di                      AS di    
 		FROM
 			user_info
 		WHERE id = #{id} 
 		AND pw = SHA2(#{pw}, 256)
+	</select>
+	
+	<select id="getDiDupliChkCount" resultType="Integer" parameterType="String">
+		SELECT COUNT(1) AS di_cnt FROM user_info WHERE di = #{di}
 	</select>
 </mapper>
