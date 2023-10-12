@@ -292,12 +292,12 @@
 			}else {
 				th = $(`<th scope="row" class="align-middle q3-th-ganre"></th>`).html(savedQ3List[i].q3ModalGanre).attr("id",$(".q3-modal-title").attr("id"));
 			}
-			let td1 = $(`<td class="align-middle"></td>`).html(savedQ3List[i].q3ModalName).attr("id",savedQ3List[i].q3ModalId);
+			let td1 = $(`<td class="align-middle q3-td-name"></td>`).html(savedQ3List[i].q3ModalName).attr("id",savedQ3List[i].q3ModalId);
 			let td2 = $("<td></td>");
-			let td2Input = $(`<input type="text" placeholder="1~100" class="form-control q3-imp-input" oninput="javascript:q3InputCheck(this)">`)
+			let td2Input = $(`<input type="text" placeholder="1~100" class="form-control q3-imp-input px-2" oninput="javascript:q3InputCheck(this)">`)
 			td2.append(td2Input);
 			let td3 = $(`<td></td>`);
-			let button = $(`<button class="btn btn-danger margin-auto" onclick="javascript:q3DeleteBtn(this)">삭제</button>`);
+			let button = $(`<button class="btn btn-danger q3-td-button margin-auto" onclick="javascript:q3DeleteBtn(this)">삭제</button>`);
 			td3.append(button);
 			tr.append(th).append(td1).append(td2).append(td3);
 			q3Tbody.append(tr);
@@ -1314,7 +1314,7 @@
 									</div>
 								</li>
 							</a>
-							<a class="list-group-item list-group-item-action list-group-item-light p-2" href="#!" onclick="javascript:clickQestionList(this)" qnum="17">
+							<a class="list-group-item list-group-item-action list-group-item-light p-2 disabled bg-secondary" href="#!" onclick="javascript:clickQestionList(this)" qnum="17">
 								<li class="d-flex justify-content-between align-items-center pt-2">
 									질문 17번
 									<div class="d-flex">
@@ -1359,15 +1359,15 @@
 						</nav>
 						<!-- Page content-->
 						<div class="container-fluid q-box">
-							<h1 class="mt-4">견적산출</h1>
-							<div class="q-base fade show">
+							<h1 class="mt-4 q-top">견적산출</h1>
+							<div class="q-base q-box fade show">
 								<h2 class="mt-4">질문은 총 20개 이며 1~3번은 필수 질문입니다!</h2>
 								<h3 class="mt-3">목록의 질문을 클릭해서 질문에 답해주세요!</h3>
 								<h3 class="mt-3">답변 후 우측 상단에 있는 저장 버튼을 눌러주셔야 정상적으로</h3>
 								<h3 class="mt-3">견적 산출이 진행됩니다.</h3>
 							</div>
 							<!-- 1번 질문 -->
-							<div class="q-1 fade">
+							<div class="q-1 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 1번</span>
 									<button class="btn btn-primary q1-save-btn" onclick="javascript:questionOneSaveBtn()">저장</button>
@@ -1393,7 +1393,7 @@
 							</div>
 
 							<!-- 2번 질문 -->
-							<div class="q-2 fade">
+							<div class="q-2 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 2번</span>
 									<button class="btn btn-primary q2-save-btn" onclick="javascript:questionTwoSaveBtn()">저장</button>
@@ -1411,7 +1411,7 @@
 							</div>
 
 							<!-- 3번 질문 -->
-							<div class="q-3 fade">
+							<div class="q-3 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 3번</span>
 									<button class="btn btn-primary q3-save-btn" onclick="javascript:questionThreeSaveBtn()">저장</button>
@@ -1445,10 +1445,10 @@
 									<table class="table table-secondary table-striped table-hover border q3-table" style="display: none;">
 										<thead>
 											<tr>
-												<th scope="col" style="width: 15%;">장르</th>
-												<th scope="col">이름</th>
-												<th scope="col" style="width: 10%;">비중</th>
-												<th scope="col" style="width: 7%;"></th>
+												<th scope="col" class="q3-head-ganre">장르</th>
+												<th scope="col" class="q3-head-name">이름</th>
+												<th scope="col" class="q3-head-rate">비중</th>
+												<th scope="col" class="q3-head-delete"></th>
 											</tr>
 										</thead>
 										<tbody id="q3-tbody"></tbody>
@@ -1488,7 +1488,7 @@
 								</div>
 							</div>
 							<!-- 4번질문 -->
-							<div class="q-4 fade">
+							<div class="q-4 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 4번</span>
 									<button class="btn btn-primary q4-save-btn" onclick="javascript:questionFourSaveBtn()">저장</button>
@@ -1608,7 +1608,7 @@
 								</div>
 							</div>
 							<!-- 5번질문 -->
-							<div class="q-5 fade">
+							<div class="q-5 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 5번</span>
 									<button class="btn btn-primary q5-save-btn" onclick="javascript:questionFiveSaveBtn()">저장</button>
@@ -1627,7 +1627,7 @@
 								</div>
 							</div>
 							<!-- 6번질문 -->
-							<div class="q-6 fade">
+							<div class="q-6 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 6번</span>
 									<button class="btn btn-primary q6-save-btn" onclick="javascript:questionSixSaveBtn()">저장</button>
@@ -1650,7 +1650,7 @@
 								</div>
 							</div>
 							<!-- 7번질문 -->
-							<div class="q-7 fade">
+							<div class="q-7 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 7번</span>
 									<button class="btn btn-primary q7-save-btn" onclick="javascript:questionSevenSaveBtn()">저장</button>
@@ -1673,7 +1673,7 @@
 								</div>
 							</div>
 							<!-- 8번질문 -->
-							<div class="q-8 fade">
+							<div class="q-8 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 8번</span>
 									<button class="btn btn-primary q8-save-btn" onclick="javascript:questionEightSaveBtn()">저장</button>
@@ -1698,7 +1698,7 @@
 							<!-- 9번질문 -->
 							<!-- 미구현 -->
 							<!-- 10번질문 -->
-							<div class="q-10 fade">
+							<div class="q-10 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 10번</span>
 									<button class="btn btn-primary q10-save-btn" onclick="javascript:questionTenSaveBtn()">저장</button>
@@ -1721,7 +1721,7 @@
 								</div>
 							</div>
 							<!-- 11번질문 -->
-							<div class="q-11 fade">
+							<div class="q-11 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 11번</span>
 									<button class="btn btn-primary q11-save-btn" onclick="javascript:questionElevenSaveBtn()">저장</button>
@@ -1748,7 +1748,7 @@
 								</div>
 							</div>
 							<!-- 12번질문 -->
-							<div class="q-12 fade">
+							<div class="q-12 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 12번</span>
 									<button class="btn btn-primary q12-save-btn" onclick="javascript:questionTwelveSaveBtn()">저장</button>
@@ -1782,7 +1782,7 @@
 								</div>
 							</div>
 							<!-- 13번질문 -->
-							<div class="q-13 fade">
+							<div class="q-13 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 13번</span>
 									<button class="btn btn-primary q13-save-btn" onclick="javascript:questionThirteenSaveBtn()">저장</button>
@@ -1820,7 +1820,7 @@
 								</div>
 							</div>
 							<!-- 14번질문 -->
-							<div class="q-14 fade">
+							<div class="q-14 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 14번</span>
 									<button class="btn btn-primary q14-save-btn" onclick="javascript:questionFourteenSaveBtn()">저장</button>
@@ -1869,7 +1869,7 @@
 								</div>
 							</div>
 							<!-- 15번질문 -->
-							<div class="q-15 fade">
+							<div class="q-15 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 15번</span>
 									<button class="btn btn-primary q15-save-btn" onclick="javascript:questionFifteenSaveBtn()">저장</button>
@@ -1892,7 +1892,7 @@
 								</div>
 							</div>
 							<!-- 16번질문 -->
-							<div class="q-16 fade">
+							<div class="q-16 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 16번</span>
 									<button class="btn btn-primary q16-save-btn" onclick="javascript:questionSixteenSaveBtn()">저장</button>

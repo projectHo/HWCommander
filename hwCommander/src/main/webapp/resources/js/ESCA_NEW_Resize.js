@@ -3,6 +3,14 @@ $(function() {
     for(var i = 1 ; i<=20 ; i++ ){
         $(".q-" + i).removeClass("show").css("display","none");
     }
+    if(windowWidth < 425){
+        setTimeout(() => {
+            $("#PRTEC06").html("2D");
+            $("#PRTEC07").html("3D");
+            $("#PRTEC09").html("영상");
+            $("#PRTEC10").html("문서");
+        }, 200);
+    }
     if(windowWidth >= 576){
         setTimeout(() => {
             $(".modal-btn-col").children("button").removeClass("w-100").addClass("w-25");
