@@ -34,6 +34,45 @@
     .q3-td-button{
         width: 54px;
     }
+    canvas {
+        top: 20%;
+        left: 14%;
+        width: 178px!important;
+        height: 175px!important;
+    }
+    .first-hex-text {
+        top: -2%;
+    }
+    .second-hex-text {
+        top: 23%;
+        left: -9%;
+        width: 288px!important;
+    }
+    .third-hex-text {
+        top: 74%;
+        left: -11%;
+        width: 279px;
+    }
+    .fourth-hex-text {
+        bottom: -14%;
+    }
+    .reset-svg {
+        bottom: -12%;
+    }
+    .l-one {
+        top: 14px;
+    }
+    .l-two {
+        top: 6px;
+        left: -6px;
+    }
+    .l-three {
+        top: 22px;
+        left: -5px;
+    }
+    #wrapper {
+        width: 313px;
+    }
 }
 
 @media (min-width : 375px){
@@ -53,6 +92,43 @@
     }
     .q3-td-button{
         width: 54px;
+    }
+    canvas {
+        top: 18%;
+        left: 14%;
+        width: 217px!important;
+        height: 215px!important;
+    }
+    .first-hex-text {
+        top: 0%;
+    }
+    .second-hex-text {
+        left: -5%;
+        width: 330px!important;
+    }
+    .third-hex-text {
+        left: -6%;
+        width: 318px;
+    }
+    .fourth-hex-text {
+        bottom: -11%;
+    }
+    .reset-svg {
+        bottom: -10%;
+    }
+    .l-one {
+        top: 11px;
+    }
+    .l-two {
+        top: 1px;
+        left: -8px;
+    }
+    .l-three {
+        top: 20px;
+        left: -7px;
+    }
+    #wrapper {
+        width: 367.5px;
     }
 }
 
@@ -74,6 +150,43 @@
     .q3-td-button{
         width: 54px;
     }
+    canvas {
+        top: 17%;
+        left: 14%;
+        width: 256px!important;
+        height: 251px!important;
+    }
+    .first-hex-text {
+        top: 1%;
+    }
+    .second-hex-text {
+        left: -1%;
+        width: 359px!important;
+    }
+    .third-hex-text {
+        left: -7%;
+        width: 365px;
+    }
+    .fourth-hex-text {
+        bottom: -9%;
+    }
+    .reset-svg {
+        bottom: -7%;
+    }
+    .l-one {
+        top: 9px;
+    }
+    .l-two {
+        top: -3px;
+        left: -9px;
+    }
+    .l-three {
+        top: 20px;
+        left: -9px;
+    }
+    #wrapper {
+        width: 416.5px;
+    }
 }
 
 @media (min-width : 768px){
@@ -93,6 +206,41 @@
     }
     .q3-td-button{
         width: 54px;
+    }
+    canvas {
+        top: 15%;
+        left: 14%;
+        width: 385px!important;
+        height: 378px!important;
+    }
+    .first-hex-text {
+        top: 3%;
+    }
+    .second-hex-text {
+        left: 1%;
+    }
+    .third-hex-text {
+        left: -3%;
+    }
+    .fourth-hex-text {
+        bottom: -6%;
+    }
+    .reset-svg {
+        bottom: -5%;
+    }
+    .l-one {
+        top: 3px;
+    }
+    .l-two {
+        top: -14px;
+        left: -12px;
+    }
+    .l-three {
+        top: 20px;
+        left: -12px;
+    }
+    #wrapper {
+        width: 590px;
     }
 }
 
@@ -114,6 +262,13 @@
     .q3-td-button{
         width: 54px;
     }
+    canvas {
+        width: 360px!important;
+        height: 355px!important;
+    }
+    #wrapper {
+        width: 795px;
+    }
 }
 
 @media (min-width : 1440px){
@@ -134,6 +289,43 @@
     .q3-td-button{
         width: 54px;
     }
+    canvas {
+        top: 17%;
+        width: 274px!important;
+        height: 267px!important;
+    }
+    .first-hex-text {
+        top: 0%;
+    }
+    .second-hex-text {
+        left: -1%;
+        width: 390px!important;
+    }
+    .third-hex-text {
+        left: -6%;
+        width: 390px!important;
+
+    }
+    .fourth-hex-text {
+        bottom: -9%;
+    }
+    .reset-svg {
+        bottom: -8%;
+    }
+    .l-one {
+        top: 8px;
+    }
+    .l-two {
+        top: -5px;
+        left: -9px;
+    }
+    .l-three {
+        top: 19px;
+        left: -9px;
+    }
+    #wrapper {
+        width: 1128px;
+    }
 }
 @media (min-width : 1920px){
     .q-top, .q-box {
@@ -152,6 +344,41 @@
     }
     .q3-td-button{
         width: 54px;
+    }
+    canvas {
+        top: 16%;
+        left: 14%;
+        width: 338px!important;
+        height: 330px!important;
+    }
+    .first-hex-text {
+        top: 2%;
+    }
+    .second-hex-text {
+        left: 1%;
+    }
+    .third-hex-text {
+        left: -3%;
+    }
+    .fourth-hex-text {
+        bottom: -6%;
+    }
+    .reset-svg {
+        bottom: -4%;
+    }
+    .l-one {
+        top: 5px;
+    }
+    .l-two {
+        top: -10px;
+        left: -12px;
+    }
+    .l-three {
+        top: 20px;
+        left: -11px;
+    }
+    #wrapper {
+        width: 1296px;
     }
 }
 
@@ -172,5 +399,8 @@
     }
     .q3-td-button{
         width: 54px;
+    }
+    #wrapper {
+        width: 1296px;
     }
 }
