@@ -423,7 +423,7 @@
 			}
 			if(q3Total >= 101){
 				alert("총합 100 이하로 입력해주세요.");
-				$(".q3-imp-input").val("");
+				$(this).val("");
 				return false;
 			}
 			if(q3Total === 100){
@@ -431,6 +431,7 @@
 			}else {
 				q3ImpBool = false;
 			}
+		
 		});
 	}
 	function questionThreeSaveBtn(){
