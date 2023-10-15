@@ -296,7 +296,7 @@
 						<div class="card mb-3">
 							<div class="row g-0">
 							  <div class="col-md-4 pt-3 ps-2">
-								<!-- <img src="..." class="img-fluid rounded-start" style="box-shadow: 1px 1px gray;"alt="..."> -->
+								<img src="${productMaster.productImage}" class="img-fluid rounded-start" alt="...">
 							  </div>
 							  <div class="col-md-8">
 								<div class="card-body">
