@@ -47,6 +47,17 @@
 	const modalList = JSON.parse(`${processResourceMasterVOList}`);
 
 	$(function(){		
+		if(sessionStorage.getItem("set") == "0"){
+			sessionStorage.setItem("targetData","")
+			for(let i = 0; i<=19 ; i++){
+				sessionStorage.setItem("data-" + i, "");
+			}
+		}else if(sessionStorage.getItem("set") == "1"){
+			$("#ESCA_modal").modal("show");
+		}
+		
+
+
 		// bootstrap tooltip base
 		const tooltipTriggerList = $('[data-bs-toggle="tooltip"]');
 		const tooltipList = tooltipTriggerList.map(function() {

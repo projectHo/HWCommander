@@ -52,6 +52,14 @@ public class ESCAController {
 	*--------------------------------------------------*/
 	@RequestMapping(value = "/ESCASelect.do", method = RequestMethod.GET)
 	public String goESCASelect(HttpServletRequest request, Model model) {
+		return userLoginCheck(request, model, "ESCASelect");
+	}
+	
+	/*--------------------------------------------------
+	 - 견적산출 Ver1.0
+	*--------------------------------------------------*/
+	@RequestMapping(value = "/ESCA_00_ver_1_0.do", method = RequestMethod.GET)
+	public String goESCA_00_ver_1_0(HttpServletRequest request, Model model) {
 		List<ProcessResourceTypeCodeInfoVO> processResourceTypeCodeInfoVOList = processResourceService.getProcessResourceTypeCodeInfoByUseYn("Y");
 		List<ProcessResourceMasterVO> processResourceMasterVOList = processResourceService.getProcessResourceMasterAllList();
 		
@@ -69,14 +77,6 @@ public class ESCAController {
 		model.addAttribute("processResourceMasterVOList", processResourceMasterVOListJSON);
 		model.addAttribute("processResourceTypeCodeInfoVOList", processResourceTypeCodeInfoVOListJSON);
 
-		return userLoginCheck(request, model, "ESCASelect");
-	}
-	
-	/*--------------------------------------------------
-	 - 견적산출 Ver1.0
-	*--------------------------------------------------*/
-	@RequestMapping(value = "/ESCA_00_ver_1_0.do", method = RequestMethod.GET)
-	public String goESCA_00_ver_1_0(HttpServletRequest request, Model model) {
 		return userLoginCheck(request, model, "ESCA_VER_1_0/ESCA_00_ver_1_0");
 	}
 

@@ -242,7 +242,7 @@ $(function() {
         }else if(windowWidth >= 768){
             $("#select-date-modal-start-btn").removeClass("mt-2");
             $(".side-empty").css("width","10%");
-            $(".main-box").css("width","80%");
+            $(".main-box").css("width","80%").addClass("container");
             $("#es-btn").css("display","block");
             $("#sidebarToggle").removeAttr("onclick","javascript:resizeEsBtn()");
             $(".modal-btn-col.new-btn").addClass("pb-2 border-bottom");
