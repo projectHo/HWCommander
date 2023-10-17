@@ -265,7 +265,23 @@ public class UserController {
 		
 		return userLoginCheck(request, model, "userReceipt");
 	}
-	
+
+	/*--------------------------------------------------
+	 - 마이페이지
+	*--------------------------------------------------*/
+	@RequestMapping(value = "/myPage.do", method = RequestMethod.GET)
+	public String goMyPage(HttpServletRequest request, Model model) {
+		HttpSession httpSession = request.getSession();
+		UserInfoVO user = (UserInfoVO) httpSession.getAttribute("loginUser");
+		
+		List<OrderMasterVO> orderMasterVOList = orderService.getOrderMasterListByOrdererUserId(user.getId());
+		
+		model.addAttribute("loginUser", user);
+		model.addAttribute("orderMasterVOList", orderMasterVOList);
+		
+		return userLoginCheck(request, model, "myPage");
+	}
+
 	/*--------------------------------------------------
 	 - private method
 	*--------------------------------------------------*/

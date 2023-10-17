@@ -1,0 +1,16 @@
+.accordion-button-single.accordion-button::after {
+    display: none!important;
+}
+.order-tbody {
+    height: 400px;
+    overflow-y: auto;
+}
+
+.order-tbody::-webkit-scrollbar{
+    width: 8px;
+}
+
+.order-tbody::-webkit-scrollbar-thumb{
+    background: linear-gradient(212deg, rgba(223,34,238,0.8) 3%, rgba(37,180,220,0.8) 89%);
+    border-radius: 8px;
+}

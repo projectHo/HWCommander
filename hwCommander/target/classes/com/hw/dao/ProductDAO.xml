@@ -320,6 +320,7 @@
 			, a.multi_bulk                                                                     AS multiBulk
 			, a.wifi                                                                           AS wifi
 			, a.mc                                                                             AS mc
+			, a.lim_vrm                                                                        AS limVrm
 		FROM
 			parts_mb_history a
 		WHERE

@@ -39,7 +39,7 @@ function logout() {
 
 function goMyPage() {
 	if(loginCheck()) {
-		alert("준비중");
+		location.href ="/user/myPage.do";
 	}
 }
 
