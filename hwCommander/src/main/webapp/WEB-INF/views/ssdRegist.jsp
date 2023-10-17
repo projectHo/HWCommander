@@ -152,9 +152,8 @@ function validationCheck() {
                             </a>
                             <a class="nav-link" href="makerManagement.do">MAKER</a>
                             <div class="sb-sidenav-menu-heading">완본체관리</div>
-                            <a class="nav-link" href="productManagement.do">
-								Product
-                            </a>
+                            <a class="nav-link" href="productManagement.do">Product(폐기예정)</a>
+                            <a class="nav-link" href="banpumManagement.do">Banpum</a>
                             <div class="sb-sidenav-menu-heading">Process Resource</div>
                             <a class="nav-link" href="resourceTypeCodeManagement.do">
 								Type Code

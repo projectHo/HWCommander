@@ -19,7 +19,7 @@ public class ProductMasterVO {
 	private int windowsPrice;
 	
 	//necessity column
-	private String eventMallInfo;
+	private String productMallInfo;
 	private String productPriceStr;
 	private String productDescriptionStr;
 	private String productDetailListStr;

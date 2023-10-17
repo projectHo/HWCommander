@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - Category(Master) Update</title>
+<title>현우의 컴퓨터 공방 - Banpum</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <!-- Bootstrap CSS -->
@@ -17,76 +17,40 @@
 
 <link href="/resources/css/sbAdmin-styles.css" rel="stylesheet" />
 <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-        
+
+<!-- dataTables CDN -->
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+<link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet"/>
+
+<!-- cookie js -->
+<script src="/resources/js/getSetCookie.js"></script>
+
 <script>
     $(function() {
-    	dataSetting();
+    	$("#banpumListTable").DataTable({
+    		displayLength : setDisplayLength()
+    	    , bAutoWidth : false
+    	    , columnDefs : [
+	    	    {targets : 0, width : "30%"}
+	    	    , {targets : 1, width : "10%"}
+	    	    , {targets : 2, width : "60%"}
+	    	    , {targets : 3, visible : false} // id
+    	    ]
+    	});
     	
-    	$("#processLgCd").attr("disabled", true);
-    	$("#processTypeExclusiveCd").attr("disabled", true);
-    	$("#viewId").attr("disabled", true);
+    	$("#banpumListTable").on('click', 'tbody tr', function () {
+    		var row = $("#banpumListTable").DataTable().row($(this)).data();
+    		var banpumId = row[3];
+    		location.href = "banpumInfo.do?banpumId="+banpumId;
+    	});
     	
-        $('#btn_master_update').on("click", function () {
-        	
-    		if("${selectData.detailHistoryCnt}" > 0) {
-    			alert("Resource Data가 등록된 이력이 존재하여 수정할 수 없습니다.");
-    			return false;
-    		}
-    		
-        	if(!validationCheck()) {
-        		return false;
-        	}
-        	
-        	if(confirm("수정 하시겠습니까?")) {
-        		goMasterUpdate();
-        	}
-        });
-        
+        window.addEventListener('unload', function() {
+        	setCookie('displayLength', $("select[name=banpumListTable_length]").val(), {'max-age': 1800});
+       	});
     });
-    
-function dataSetting() {
-	$("#processTypeExclusiveCd").val("${selectData.processTypeExclusiveCd}");
-	$("#processLgCd").val("${selectData.processLgCd}");
-	$("#processName").val("${selectData.processName}");
-	$("#viewId").val("${selectData.id}");
-
-	$("#id").val("${selectData.id}");
-}
-    
-function goMasterUpdate() {
-    var form = $("#master_update_form").serialize();
-    
-    $.ajax({
-        type: "post",
-        url: "/admin/resourceMasterUpdateLogic.do",
-        data: form,
-        dataType: 'json',
-        success: function (data) {
-        	if(data == 1) {
-        		alert("수정완료");
-        	}else {
-        		alert("수정실패");
-        	}
-        	window.location = "resourceMasterManagement.do";
-            console.log(data);
-        }
-    });
-}
-
-function validationCheck() {
-	if("" == $('#processName').val().trim() || null == $('#processName').val().trim()) {
-		alert("Process Name을 입력하세요.");
-		$('#processName').focus();
-		return false;
-	}
-	
-	return true;
-}
-
-function goDetailRegist() {
-	location.href="resourceDetailRegist.do?id="+$('#id').val();
-}
 </script>
+
 </head>
     <body class="sb-nav-fixed">
         <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark">
@@ -164,73 +128,51 @@ function goDetailRegist() {
             <div id="layoutSidenav_content">
 				<main>
                     <div class="container-fluid px-4">
-                        <h1 class="mt-4">Category(Master) Update</h1>
+                        <h1 class="mt-4">Banpum</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="main.do">Admin Page</a></li>
-                            <li class="breadcrumb-item"><a href="resourceMasterManagement.do">Category(Master)</a></li>
-                            <li class="breadcrumb-item active">Category(Master) Update</li>
+                            <li class="breadcrumb-item active">Banpum</li>
                         </ol>
                         <div class="card mb-4">
                             <div class="card-body">
-                                Category(Master)를  수정합니다.
+                                Banpum을 관리합니다. 조회, 추가, 수정 작업을 할 수 있습니다.
                             </div>
                         </div>
                         <div class="card mb-4">
+                            <div class="card-header">
+								<div class="d-flex">
+								  <div class="me-auto d-flex align-items-center">Search Banpum</div>
+								  <div>
+								  	<a class="btn btn-secondary btn-sm" href="banpumRegist.do">등록</a>
+								  </div>
+								</div>
+                            </div>
                             <div class="card-body">
-                                <p class="mb-0">Resource Data(Detail)가 등록된 이력이 존재하면 수정할 수 없습니다.</p>
-                                <p class="mb-0">Go Resource Data 버튼을 클릭하여 본 Category(Master)의 Resource Data(Detail) 등록화면으로 이동할 수 있습니다.</p>
+                                <table id="banpumListTable" class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>banpum name</th>
+                                            <th>banpum price</th>
+                                            <th>banpum description</th>
+                                            
+                                            <!-- 안보이는부분 -->
+                                            <th>ID</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+										<c:forEach var="item" items="${banpumList}">
+											<tr>
+	                                            <td>${item.banpumName}</td>
+	                                            <td>${item.banpumPrice}</td>
+	                                            <td>${item.banpumDescription}</td>
+	                                            
+	                                            <!-- 안보이는부분 -->
+	                                            <td>${item.id}</td>
+                                        	</tr>
+										</c:forEach>
+                                    </tbody>
+                                </table>
                             </div>
-                        </div>
-                        <div class="card mb-4">
-							<div class="card-body">
-                               <form id="master_update_form">
-                                   <input type="hidden" id="id" name="id">
-                                   <div class="row mb-3">
-                                       <div class="col-md-3">
-                                           <div class="form-floating mb-3 mb-md-0">
-                                               <input class="form-control" id="viewId" name="viewId" type="text" placeholder="Enter viewId"/>
-                                               <label for="viewId">Id</label>
-                                           </div>
-                                       </div>
-                                       <div class="col-md-3">
-                                           <div class="form-floating">
-												<select class="form-select pt-4" id="processLgCd" name="processLgCd">
-												  <option value="00" selected>-선택-</option>
-												  <c:forEach var="item" items="${process_lg_cd}">
-													  <option value="${item.cd}">${item.nm}</option>
-												  </c:forEach>
-												</select>
-												<label for="processLgCd">Process Large Code</label>
-                                           </div>
-                                       </div>
-                                       <div class="col-md-3">
-                                           <div class="form-floating">
-												<select class="form-select pt-4" id="processTypeExclusiveCd" name="processTypeExclusiveCd">
-												  <option value="00" selected>-선택-</option>
-												  <c:forEach var="item" items="${resourceTypeCodeList}">
-													  <option value="${item.processTypeExclusiveCd}">${item.processTypeExclusiveCdNm}</option>
-												  </c:forEach>
-												</select>
-												<label for="processTypeExclusiveCd">Process Type Exclusive Code</label>
-                                           </div>
-                                       </div>
-                                       <div class="col-md-3">
-                                           <div class="form-floating mb-3 mb-md-0">
-                                               <input class="form-control" id="processName" name="processName" type="text" placeholder="Enter processName" maxlength="25"/>
-                                               <label for="processName">Process Name</label>
-                                           </div>
-                                       </div>
-                                   </div>
-                                   
-                                   <div class="mt-4 mb-0">
-                                       <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_master_update">Update</a></div>
-                                   </div>
-                                   
-                                   <div class="mt-4 mb-0">
-                                       <div class="d-grid"><a class="btn btn-secondary btn-block" onclick="javascript:goDetailRegist()">Go Resource Data</a></div>
-                                   </div>
-                               </form>
-                           </div>
                         </div>
                     </div>
                 </main>

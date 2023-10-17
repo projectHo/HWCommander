@@ -2,6 +2,7 @@ package com.hw.dao;
 
 import java.util.List;
 
+import com.hw.model.BanpumMasterVO;
 import com.hw.model.PartsCaseHistoryVO;
 import com.hw.model.PartsCoolerHistoryVO;
 import com.hw.model.PartsCpuHistoryVO;
@@ -13,7 +14,6 @@ import com.hw.model.PartsPsuHistoryVO;
 import com.hw.model.PartsRamHistoryVO;
 import com.hw.model.PartsSfHistoryVO;
 import com.hw.model.PartsSsdHistoryVO;
-import com.hw.model.ProcessResourceDetailHistoryVO;
 import com.hw.model.ProductDetailVO;
 import com.hw.model.ProductMasterVO;
 
@@ -28,7 +28,7 @@ public interface ProductDAO {
 	public List<ProductDetailVO> getProductDetailById(String id);
 	public Integer deleteProductDetailVO(ProductDetailVO productDetailVO);
 	
-	public List<ProductMasterVO> getEventMallList();
+	public List<ProductMasterVO> getProductMallList();
 	
 	/*--------------------------------------------------
 	 - 견적산출 시 필요한 부품리스트 이력테이블에서 시점조회
@@ -44,4 +44,13 @@ public interface ProductDAO {
 	public List<PartsSsdHistoryVO> getSsdHistoryAllListByTargetDate(String targetDate);
 	public List<PartsSfHistoryVO> getSfHistoryAllListByTargetDate(String targetDate);
 	public List<PartsMakerHistoryVO> getMakerHistoryAllListByTargetDate(String targetDate);
+	
+	/*--------------------------------------------------
+	 - 반품몰 추가
+	*--------------------------------------------------*/
+	public List<BanpumMasterVO> getBanpumMasterAllList();
+	public String getBanpumMasterVOMaxId();
+	public Integer insertBanpumMasterVO(BanpumMasterVO productMasterVO);
+	public BanpumMasterVO getBanpumMasterById(String id);
+	public Integer updateBanpumMasterVO(BanpumMasterVO productMasterVO);
 }

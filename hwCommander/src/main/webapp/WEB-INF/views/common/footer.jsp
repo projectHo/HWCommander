@@ -25,7 +25,7 @@
 						  <a class="nav-link text-secondary" href="/termsOfService.do">이용약관</a>
 						  <a class="nav-link text-secondary" href="/personalInformationProcessingPolicy.do">개인정보처리방침</a>
 						  <a class="nav-link text-secondary" href="https://www.kca.go.kr/" target="_blank">소비자보호원</a>
-						  <a class="nav-link text-secondary" href="https://usr.ecmc.or.kr/main.do" target="_blank">전재거래분쟁조정위원회</a>
+						  <a class="nav-link text-secondary" href="https://usr.ecmc.or.kr/main.do" target="_blank">전자거래분쟁조정위원회</a>
 						</nav>
 					</div>
 					<div class="col">
