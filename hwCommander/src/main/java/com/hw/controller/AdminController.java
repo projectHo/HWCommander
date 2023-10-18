@@ -25,6 +25,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hw.model.BanpumMasterVO;
 import com.hw.model.OrderDetailVO;
 import com.hw.model.OrderMasterVO;
 import com.hw.model.PartsCaseVO;
@@ -629,7 +630,6 @@ public class AdminController {
 		return productService.productUpdateLogic(productMasterVO, productDetailVOList);
 	}
 	
-	
 	/*--------------------------------------------------
 	 - PROCESS RESOURCE(Type Code)
 	*--------------------------------------------------*/
@@ -1112,6 +1112,45 @@ public class AdminController {
 	@ResponseBody
 	public Integer updateWaybillNumber(OrderMasterVO orderMasterVO) {
 		return orderService.updateWaybillNumber(orderMasterVO);
+	}
+	
+	/*--------------------------------------------------
+	 - BANPUM
+	*--------------------------------------------------*/
+	@RequestMapping(value = "/banpumManagement.do", method = RequestMethod.GET)
+	public String goBanpumManagement(HttpServletRequest request, Model model) {
+		model.addAttribute("banpumList", productService.getBanpumMasterAllList());
+		return adminLoginCheck(request, model, "banpumManagement");
+	}
+	
+	@RequestMapping(value = "/banpumRegist.do", method = RequestMethod.GET)
+	public String goBanpumRegist(HttpServletRequest request, Model model) {
+		return adminLoginCheck(request, model, "banpumRegist");
+	}
+	
+	@RequestMapping(value = "/banpumRegistLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer banpumRegistLogic(BanpumMasterVO banpumMasterVO) {
+		return productService.banpumRegistLogic(banpumMasterVO);
+	}
+	
+	@RequestMapping(value = "/banpumInfo.do", method = RequestMethod.GET)
+	public String goBanpumInfo(HttpServletRequest request, Model model, @RequestParam(value = "banpumId", required = true) String banpumId) {
+		model.addAttribute("selectMasterData", productService.getBanpumMasterById(banpumId));
+		return adminLoginCheck(request, model, "banpumInfo");
+	}
+	
+	@RequestMapping(value = "/banpumUpdate.do", method = RequestMethod.GET)
+	public String goBanpumUpdate(HttpServletRequest request, Model model, @RequestParam(value = "banpumId", required = true) String banpumId) {
+		model.addAttribute("selectMasterData", productService.getBanpumMasterById(banpumId));
+		return adminLoginCheck(request, model, "banpumUpdate");
+	}
+	
+
+	@RequestMapping(value = "/banpumUpdateLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer banpumUpdateLogic(BanpumMasterVO banpumMasterVO) {
+		return productService.banpumUpdateLogic(banpumMasterVO);
 	}
 	
 	private String adminLoginCheck(HttpServletRequest request, Model model, String url) {

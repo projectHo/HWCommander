@@ -62,19 +62,20 @@ public class HomeController {
 		return "personalInformationProcessingPolicy";
 	}
 	
-	@RequestMapping(value = "/eventMall.do", method = RequestMethod.GET)
-	public String goEventMall(Model model) {
-		model.addAttribute("eventMallList", productService.getEventMallList());
-		return "eventMall";
+	@RequestMapping(value = "/productMall.do", method = RequestMethod.GET)
+	public String goProductMall(Model model) {
+		model.addAttribute("productMallList", productService.getProductMallList());
+		return "productMall";
 	}
 	
-	@RequestMapping(value = "/eventMallDetail.do", method = RequestMethod.GET)
-	public String goEventMallDetail(Model model, @RequestParam(value = "productId", required = true) String productId, @SessionAttribute(name = "loginUser", required = false)UserInfoVO userInfoVO) {
+	@RequestMapping(value = "/productMallDetail.do", method = RequestMethod.GET)
+	public String goProductMallDetail(Model model, @RequestParam(value = "productId", required = true) String productId, @SessionAttribute(name = "loginUser", required = false)UserInfoVO userInfoVO) {
 		model.addAttribute("loginUser", userInfoVO);
 		model.addAttribute("productMaster", productService.getProductMasterById(productId));
 		model.addAttribute("productDetail", productService.getProductDetailById(productId));
-		return "eventMallDetail";
+		return "productMallDetail";
 	}
+	
 	@RequestMapping(value = "/userBanpumMall.do", method = RequestMethod.GET)
 	public String goUserBanmpumMall(Model model) {
 		return "userBanpumMall";
@@ -86,6 +87,7 @@ public class HomeController {
 		model.addAttribute("productDetail", productService.getProductDetailById(productId));
 		return "userBanpumMall";
 	}
+	
 	/*--------------------------------------------------
 	 - private method
 	*--------------------------------------------------*/

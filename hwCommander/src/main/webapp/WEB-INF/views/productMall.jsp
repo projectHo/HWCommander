@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - 이벤트 몰</title>
+<title>현우의 컴퓨터 공방 - 완본체 몰</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <!-- Bootstrap CSS -->
@@ -22,7 +22,8 @@
 
 <script>
     $(function() {
-    	$('#eventMallListTable').DataTable({ 
+    	
+    	$('#productMallListTable').DataTable({ 
     	    bAutoWidth: false,
     	    columnDefs: [
     	    { width: "30%", targets : 0 },
@@ -31,15 +32,15 @@
     	 });
     	
     	/* 
-    	$("#eventMallListTable").on('click', 'tbody tr', function () {
-    	    var row = $("#eventMallListTable").DataTable().row($(this)).data();
+    	$("#productMallListTable").on('click', 'tbody tr', function () {
+    	    var row = $("#productMallListTable").DataTable().row($(this)).data();
     	    console.log(row);
     	});
     	 */
     	 
-    	$("#eventMallListTable").on('click', 'tbody tr img', function () {
+    	$("#productMallListTable").on('click', 'tbody tr img', function () {
     		var productId = $(this).attr("name");
-    		location.href = "/eventMallDetail.do?productId="+productId;
+    		location.href = "/productMallDetail.do?productId="+productId;
     	});
     	
     	
@@ -73,11 +74,11 @@
 					<div class="card mb-4">
                     	<div class="card-header">
 							<div class="d-flex">
-								<div class="me-auto d-flex align-items-center">이벤트 몰</div>
+								<div class="me-auto d-flex align-items-center">완본체 몰</div>
 							</div>
 						</div>
 						<div class="card-body">
-							<table id="eventMallListTable" class="table">
+							<table id="productMallListTable" class="table">
 								<thead>
 									<tr>
 										<th>상품이미지</th>
@@ -85,7 +86,7 @@
 									</tr>
 								</thead>
 								<tbody>
-									<c:forEach var="item" items="${eventMallList}">
+									<c:forEach var="item" items="${productMallList}">
 										<tr>
                                             <td>
                                             	<%-- 임시 몰루이미지 
@@ -93,7 +94,7 @@
                                             	 --%>
                                             	<img class="img-fluid rounded mx-auto d-block" src="${item.productImage}" alt="" style="cursor:pointer; width:350px; height:350px; object-fit:contain;" name="${item.id}">
                                             </td>
-                                            <td>${item.eventMallInfo}</td>
+                                            <td>${item.productMallInfo}</td>
                                        	</tr>
 									</c:forEach>
 								</tbody>

@@ -5,7 +5,7 @@
 <%@page import="java.util.*"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - 이벤트 몰</title>
+<title>현우의 컴퓨터 공방 - OrderSheet</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <!-- Bootstrap CSS -->

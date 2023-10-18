@@ -5,11 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.hw.dao.ProcessResourceDAO;
 import com.hw.dao.ProductDAO;
+import com.hw.model.BanpumMasterVO;
 import com.hw.model.ProductDetailVO;
 import com.hw.model.ProductMasterVO;
-import com.hw.service.PartsService;
 import com.hw.service.ProductService;
 
 @Service
@@ -48,8 +47,8 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
-	public List<ProductMasterVO> getEventMallList() {
-		return productDAO.getEventMallList();
+	public List<ProductMasterVO> getProductMallList() {
+		return productDAO.getProductMallList();
 	}
 	
 	@Override
@@ -82,6 +81,33 @@ public class ProductServiceImpl implements ProductService {
 		}
 
 		updateResult = productDAO.updateProductMasterVO(productMasterVO);
+		return updateResult;
+	}
+	
+	@Override
+	public List<BanpumMasterVO> getBanpumMasterAllList() {
+		return productDAO.getBanpumMasterAllList();
+	}
+	
+	@Override
+	public Integer banpumRegistLogic(BanpumMasterVO banpumMasterVO) {
+		int insertResult = 0;
+		String maxId = productDAO.getBanpumMasterVOMaxId();
+		banpumMasterVO.setId(maxId);
+		insertResult = productDAO.insertBanpumMasterVO(banpumMasterVO);
+		return insertResult;
+	}
+	
+	@Override
+	public BanpumMasterVO getBanpumMasterById(String id) {
+		return productDAO.getBanpumMasterById(id);
+	}
+	
+	@Override
+	public Integer banpumUpdateLogic(BanpumMasterVO banpumMasterVO) {
+		int updateResult = 0;
+		String targetId = banpumMasterVO.getId();
+		updateResult = productDAO.updateBanpumMasterVO(banpumMasterVO);
 		return updateResult;
 	}
 }
