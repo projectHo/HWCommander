@@ -1,10 +1,10 @@
 function sendAllData(){
     // 2버전추가사항
-    // if($(".q1-badge").attr("bool") != "1" || $(".q2-badge").attr("bool") != "1" || $(".q3-badge").attr("bool") != "1"){
-    //     alert("1~3번 질문은 필수 질문입니다.");
-    //     return false;
-    // }else {
-
+    if($(".q1-badge").attr("bool") != "1" || $(".q2-badge").attr("bool") != "1" || $(".q3-badge").attr("bool") != "1"){
+        alert("1~3번 질문은 필수 질문입니다.");
+        return false;
+    }else {
+        $("#loading-modal").modal("show");
         let index1 = 0;
         let index2 = 0;
         let index3 = 0;
@@ -157,5 +157,5 @@ function sendAllData(){
         var baseUrl = "/ESCA/ESCA_RESULT_ver_1_0.do";
         var fullUrl = baseUrl + "?" + urlParams;
         location.href = baseUrl + "?resultString=" + encodeURIComponent(urlParams);
-    // }
+    }
 }

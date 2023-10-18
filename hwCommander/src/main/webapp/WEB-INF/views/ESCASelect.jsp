@@ -68,13 +68,13 @@
 	}
 	function clickAnswerBtn(el){
 		if($(el).children().html() == "새로하기"){
-			for(let i = 0; i<=19 ; i++){
+			for(let i = 1; i<=19 ; i++){
 				sessionStorage.setItem("data-" + i, "");
 			}
 			sessionStorage.setItem("targetData" , "");
 			location.href = "/ESCA/ESCA_00_ver_1_0.do";	
 		}else if($(el).children().html() == "과거기준"){
-			$("#select-modal").modal("show");
+			$("#select-modal").modal("show");			
 		}else {
 			location.href = "/";
 		}
@@ -113,7 +113,7 @@
 			alert("날짜를 선택해주세요!");
 		}else {
 			sessionStorage.setItem("targetData",$("#date-time-result").val())
-			for(let i = 0; i<=19 ; i++){
+			for(let i = 1; i<=19 ; i++){
 				sessionStorage.setItem("data-" + i, "");
 			}
 			location.href = "/ESCA/ESCA_00_ver_1_0.do";

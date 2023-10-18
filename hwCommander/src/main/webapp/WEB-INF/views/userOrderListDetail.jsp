@@ -336,13 +336,9 @@
 			userInfoObject[key] = value;
 		}
 		$(".user-name").html(userInfoObject.name);
-		if($(".order-state").html() == "출고" || $(".order-state").html() == "배송 출발" || $(".order-state").html() == "배송 완료"){
+		if(Number("${orderMasterVO.orderStateCd}") >= 7){
 			$(".btn-s").attr("data-bs-toggle","tooltip").attr("data-bs-placement","right").attr("data-bs-title","배송 단계부터는 수정이 불가능합니다!").css("cursor","not-allowed").attr("onclick","");
 			$("input").attr("disabled","disabled");
-		}else if ($(".order-state").html() == "환불 요청"){
-			$(".btn-s").attr("data-bs-toggle","tooltip").attr("data-bs-placement","right").attr("data-bs-title","환불 요청 진행중입니다!").css("cursor","not-allowed").attr("onclick","");
-			$("input").attr("disabled","disabled");
-
 		}
 
 		// 부트스트랩 툴팁

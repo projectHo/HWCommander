@@ -1899,6 +1899,17 @@
 					</div>
 				</div>
 			</div>
+			<!-- 로딩화면 -->
+			<div class="modal fade" id="loading-modal" aria-hidden="true" aria-labelledby="select-date" tabindex="-1" data-bs-backdrop="static" data-bs-keyboard="false">
+				<div class="modal-dialog modal-dialog-centered modal-sm">
+					<div class="modal-content">
+						<div class="d-flex align-items-center p-2 ps-3 pe-3">
+							<div class="pt-2">로딩중입니다. 잠시만 기다려주세요</div>
+							<div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
+						</div>
+					</div>
+				</div>
+			</div>
 			<!-- 빈 영역 -->
 			<div class="side-empty"></div>
 		</div>

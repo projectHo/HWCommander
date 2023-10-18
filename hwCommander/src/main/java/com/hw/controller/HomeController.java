@@ -76,6 +76,18 @@ public class HomeController {
 		return "productMallDetail";
 	}
 	
+	@RequestMapping(value = "/userBanpumMall.do", method = RequestMethod.GET)
+	public String goUserBanmpumMall(Model model) {
+		return "userBanpumMall";
+	}
+	@RequestMapping(value = "/userBanpumMall.do", method = RequestMethod.GET)
+	public String goUserBanmpumMallDetail(Model model, @RequestParam(value = "productId", required = true) String productId, @SessionAttribute(name = "loginUser", required = false)UserInfoVO userInfoVO) {
+		model.addAttribute("loginUser", userInfoVO);
+		model.addAttribute("productMaster", productService.getProductMasterById(productId));
+		model.addAttribute("productDetail", productService.getProductDetailById(productId));
+		return "userBanpumMall";
+	}
+	
 	/*--------------------------------------------------
 	 - private method
 	*--------------------------------------------------*/
