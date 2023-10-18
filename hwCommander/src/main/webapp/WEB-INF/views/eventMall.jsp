@@ -22,7 +22,6 @@
 
 <script>
     $(function() {
-    	
     	$('#eventMallListTable').DataTable({ 
     	    bAutoWidth: false,
     	    columnDefs: [

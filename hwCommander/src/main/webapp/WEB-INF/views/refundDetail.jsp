@@ -336,9 +336,10 @@
 			userInfoObject[key] = value;
 		}
 		$(".user-name").html(userInfoObject.name);
-		if(Number("${orderMasterVO.orderStateCd}") >= 7){
-			$(".btn-s").attr("data-bs-toggle","tooltip").attr("data-bs-placement","right").attr("data-bs-title","배송 단계부터는 수정이 불가능합니다!").css("cursor","not-allowed").attr("onclick","");
+		if (Number("${orderMasterVO.orderStateCd}") >= 9){
+			$(".btn-s").attr("data-bs-toggle","tooltip").attr("data-bs-placement","right").attr("data-bs-title","환불 요청 진행중입니다!").css("cursor","not-allowed").attr("onclick","");
 			$("input").attr("disabled","disabled");
+
 		}
 
 		// 부트스트랩 툴팁
@@ -365,13 +366,8 @@
 					<div class="buttons mb-3 d-flex justify-content-md-between">
 						<h2 class="mb-3">
 							<span class="user-name"></span>
-							<b>님의 주문 상세내역</b>
+							<b>님의 환불 상세내역</b>
 						</h2>
-						<div class="mt-2">
-							<button class="btn btn-outline-primary me-md-2" type="button" onclick="javascript:clickStatusBtn()">현황 확인</button>
-							<button class="btn btn-outline-success me-md-2" type="button" onclick="javascript:requestVideoBtn()">영상 요청</button>
-							<button class="btn btn-outline-danger" type="button" onclick="javascript:requestRefundBtn()">환불 요청</button>
-						</div>	
 					</div>
 					<table class="table table-secondary table-bordered" style="border-collapse: separate;">
 						<tbody>
