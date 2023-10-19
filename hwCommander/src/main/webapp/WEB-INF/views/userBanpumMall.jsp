@@ -21,6 +21,7 @@
 <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet"/>
 
 <script>
+    let aa = "${banpumMasterList}";
     $(function() {
         $('#banpunMallListTable').DataTable({ 
     	    bAutoWidth: false,
@@ -35,10 +36,10 @@
     		// 페이징 기능 숨기기
     		paging: true
     	 });
-    	// $("#banpunMallListTable").on('click', 'tbody tr img', function () {
-    	// 	var productId = $(this).attr("name");
-    	// 	location.href = "/userbanMallDetail.do?productId="+productId;
-    	// });
+    	$("#banpunMallListTable").on('click', 'tbody tr img', function () {
+    		var banpumId = $(this).attr("name");
+    		location.href = "/userBanpumMallDetail.do?banpumMallId="+banpumId;
+    	});
     });
 </script>
 </head>
@@ -59,7 +60,46 @@
                         </tr>
                     </thead>
                     <tbody>
-
+                        <c:forEach var="item" items="${banpumMasterList}">
+                            <tr>
+                                <td>
+                                    <div class="row">
+                                        <div class="col">
+                                            <img src="..." alt="..." style="cursor:pointer; width:100px; height:100px; object-fit:contain;" name="${item.id}">
+                                        </div>
+                                        <div class="col">
+                                            <img src="..." alt="..." style="cursor:pointer; width:100px; height:100px; object-fit:contain;" name="${item.id}">
+                                        </div>
+                                        <div class="col">
+                                            <img src="..." alt="..." style="cursor:pointer; width:100px; height:100px; object-fit:contain;" name="${item.id}">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <img src="..." alt="..." style="cursor:pointer; width:100px; height:100px; object-fit:contain;" name="${item.id}">
+                                        </div>
+                                        <div class="col">
+                                            <img src="..." alt="..." style="cursor:pointer; width:100px; height:100px; object-fit:contain;" name="${item.id}">
+                                        </div>
+                                        <div class="col">
+                                            <img src="..." alt="..." style="cursor:pointer; width:100px; height:100px; object-fit:contain;" name="${item.id}">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <img src="..." alt="..." style="cursor:pointer; width:100px; height:100px; object-fit:contain;" name="${item.id}">
+                                        </div>
+                                        <div class="col">
+                                            <img src="..." alt="..." style="cursor:pointer; width:100px; height:100px; object-fit:contain;" name="${item.id}">
+                                        </div>
+                                        <div class="col">
+                                            <img src="..." alt="..." style="cursor:pointer; width:100px; height:100px; object-fit:contain;" name="${item.id}">
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>${item.banpumDescription}</td>
+                            </tr>
+                        </c:forEach>
                     </tbody>
                 </table>
 			</div>
