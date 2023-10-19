@@ -207,6 +207,7 @@ function validationCheck() {
                         <div class="card mb-4">
 							<div class="card-body">
                                <form id="banpum_update_form">
+                                   <input type="hidden" id="id" name="id">
                                    <div class="form-floating mb-3">
                                        <input class="form-control" id="banpumName" name="banpumName" type="text" placeholder="Enter banpumName"/>
                                        <label for="banpumName">banpum Name</label>

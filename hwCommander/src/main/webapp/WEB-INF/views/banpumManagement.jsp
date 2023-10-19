@@ -32,16 +32,18 @@
     		displayLength : setDisplayLength()
     	    , bAutoWidth : false
     	    , columnDefs : [
-	    	    {targets : 0, width : "30%"}
+	    	    {targets : 0, width : "20%"}
 	    	    , {targets : 1, width : "10%"}
-	    	    , {targets : 2, width : "60%"}
-	    	    , {targets : 3, visible : false} // id
+	    	    , {targets : 2, width : "10%"}
+	    	    , {targets : 3, width : "10%"}
+	    	    , {targets : 4, width : "50%"}
+	    	    , {targets : 5, visible : false} // id
     	    ]
     	});
     	
     	$("#banpumListTable").on('click', 'tbody tr', function () {
     		var row = $("#banpumListTable").DataTable().row($(this)).data();
-    		var banpumId = row[3];
+    		var banpumId = row[5];
     		location.href = "banpumInfo.do?banpumId="+banpumId;
     	});
     	
@@ -153,6 +155,8 @@
                                         <tr>
                                             <th>banpum name</th>
                                             <th>banpum price</th>
+                                            <th>banpum qty</th>
+                                            <th>exposure yn</th>
                                             <th>banpum description</th>
                                             
                                             <!-- 안보이는부분 -->
@@ -164,6 +168,8 @@
 											<tr>
 	                                            <td>${item.banpumName}</td>
 	                                            <td>${item.banpumPrice}</td>
+	                                            <td>${item.banpumQty}</td>
+	                                            <td>${item.exposureYn}</td>
 	                                            <td>${item.banpumDescription}</td>
 	                                            
 	                                            <!-- 안보이는부분 -->

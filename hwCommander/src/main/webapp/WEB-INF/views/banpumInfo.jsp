@@ -21,6 +21,13 @@
 <script>
 
     $(function() {
+    	// disalbed 처리부
+    	$("#banpumName").attr("disabled", true);
+    	$("#banpumPrice").attr("disabled", true);
+    	$("#banpumQty").attr("disabled", true);
+    	$("#exposureYn").attr("disabled", true);
+    	$("#banpumDescription").attr("disabled", true);
+    	
     	dataSetting();
         $('#btn_go_update').on("click", function () {
         	location.href = "banpumUpdate.do?banpumId="+"${selectMasterData.id}";
@@ -36,7 +43,7 @@ function dataSetting() {
 	var banpumDescriptionStr = "${selectMasterData.banpumDescriptionStr}";
 	var replace_result = banpumDescriptionStr.replace(/(<br>|<br\/>|<br \/>)/g, '\r\n');
 	$("#banpumDescription").val(replace_result);
-	
+
 	$("#banpumImage1").val("${selectMasterData.banpumImage1}");
 	$("#banpumImage2").val("${selectMasterData.banpumImage2}");
 	$("#banpumImage3").val("${selectMasterData.banpumImage3}");
@@ -150,6 +157,21 @@ function dataSetting() {
 							<div class="card-body">
                                <form id="banpum_info_form">
                                    <input type="hidden" id="id" name="id">
+                                   <input type="hidden" id="banpumImage1" name="banpumImage1"/>
+                                   <input type="hidden" id="banpumImage2" name="banpumImage2"/>
+                                   <input type="hidden" id="banpumImage3" name="banpumImage3"/>
+                                   <input type="hidden" id="banpumImage4" name="banpumImage4"/>
+                                   <input type="hidden" id="banpumImage5" name="banpumImage5"/>
+                                   <input type="hidden" id="banpumImage6" name="banpumImage6"/>
+                                   <input type="hidden" id="banpumImage7" name="banpumImage7"/>
+                                   <input type="hidden" id="banpumImage8" name="banpumImage8"/>
+                                   <input type="hidden" id="banpumImage9" name="banpumImage9"/>
+                                   <input type="hidden" id="banpumImage10" name="banpumImage10"/>
+                                   <input type="hidden" id="banpumImage11" name="banpumImage11"/>
+                                   <input type="hidden" id="banpumImage12" name="banpumImage12"/>
+                                   <input type="hidden" id="banpumImage13" name="banpumImage13"/>
+                                   <input type="hidden" id="banpumImage14" name="banpumImage14"/>
+                                   <input type="hidden" id="banpumImage15" name="banpumImage15"/>
                                    
 									<div class="form-floating mb-3">
                                        <input class="form-control" id="banpumName" name="banpumName" type="text" placeholder="Enter banpumName"/>
@@ -185,80 +207,142 @@ function dataSetting() {
                                        <textarea class="form-control" id="banpumDescription" name="banpumDescription" style="height: 200px;"></textarea>
                                    </div>
                                    
-                                   <div class="form-floating mb-3">
-                                       <input class="form-control" id="banpumImage1" name="banpumImage1" type="text" placeholder="Enter banpumImage1"/>
-                                       <label for="banpumImage1">banpumImage1</label>
-                                   </div>
-                                   
-                                   <div class="form-floating mb-3">
-                                       <input class="form-control" id="banpumImage2" name="banpumImage2" type="text" placeholder="Enter banpumImage2"/>
-                                       <label for="banpumImage2">banpumImage2</label>
-                                   </div>
-                                   
-                                   <div class="form-floating mb-3">
-                                       <input class="form-control" id="banpumImage3" name="banpumImage3" type="text" placeholder="Enter banpumImage3"/>
-                                       <label for="banpumImage3">banpumImage3</label>
-                                   </div>
-                                   
-                                   <div class="form-floating mb-3">
-                                       <input class="form-control" id="banpumImage4" name="banpumImage4" type="text" placeholder="Enter banpumImage4"/>
-                                       <label for="banpumImage4">banpumImage4</label>
-                                   </div>
-                                   
-                                   <div class="form-floating mb-3">
-                                       <input class="form-control" id="banpumImage5" name="banpumImage5" type="text" placeholder="Enter banpumImage5"/>
-                                       <label for="banpumImage5">banpumImage5</label>
-                                   </div>
-                                   
-                                   <div class="form-floating mb-3">
-                                       <input class="form-control" id="banpumImage6" name="banpumImage6" type="text" placeholder="Enter banpumImage6"/>
-                                       <label for="banpumImage6">banpumImage6</label>
-                                   </div>
-                                   
-                                   <div class="form-floating mb-3">
-                                       <input class="form-control" id="banpumImage7" name="banpumImage7" type="text" placeholder="Enter banpumImage7"/>
-                                       <label for="banpumImage7">banpumImage7</label>
-                                   </div>
-                                   
-                                   <div class="form-floating mb-3">
-                                       <input class="form-control" id="banpumImage8" name="banpumImage8" type="text" placeholder="Enter banpumImage8"/>
-                                       <label for="banpumImage8">banpumImage8</label>
-                                   </div>
-                                   
-                                   <div class="form-floating mb-3">
-                                       <input class="form-control" id="banpumImage9" name="banpumImage9" type="text" placeholder="Enter banpumImage9"/>
-                                       <label for="banpumImage9">banpumImage9</label>
-                                   </div>
-                                   
-                                   <div class="form-floating mb-3">
-                                       <input class="form-control" id="banpumImage10" name="banpumImage10" type="text" placeholder="Enter banpumImage10"/>
-                                       <label for="banpumImage10">banpumImage10</label>
-                                   </div>
-                                   
-                                   <div class="form-floating mb-3">
-                                       <input class="form-control" id="banpumImage11" name="banpumImage11" type="text" placeholder="Enter banpumImage11"/>
-                                       <label for="banpumImage11">banpumImage11</label>
-                                   </div>
-                                   
-                                   <div class="form-floating mb-3">
-                                       <input class="form-control" id="banpumImage12" name="banpumImage12" type="text" placeholder="Enter banpumImage12"/>
-                                       <label for="banpumImage12">banpumImage12</label>
-                                   </div>
-                                   
-                                   <div class="form-floating mb-3">
-                                       <input class="form-control" id="banpumImage13" name="banpumImage13" type="text" placeholder="Enter banpumImage13"/>
-                                       <label for="banpumImage13">banpumImage13</label>
-                                   </div>
-                                   
-                                   <div class="form-floating mb-3">
-                                       <input class="form-control" id="banpumImage14" name="banpumImage14" type="text" placeholder="Enter banpumImage14"/>
-                                       <label for="banpumImage14">banpumImage14</label>
-                                   </div>
-                                   
-                                   <div class="form-floating mb-3">
-                                       <input class="form-control" id="banpumImage15" name="banpumImage15" type="text" placeholder="Enter banpumImage15"/>
-                                       <label for="banpumImage15">banpumImage15</label>
-                                   </div>
+									<!-- Gallery -->
+									<div class="row mb-4">
+									  <div class="col-lg-4 col-md-4">
+									  	<label for="banpumImage1">banpumImage1</label>
+									    <img
+									      src="${selectMasterData.banpumImage1}"
+									      class="w-100 shadow-1-strong rounded"
+									      alt="banpumImage1"
+									    />
+									  </div>
+									  <div class="col-lg-4 col-md-4">
+									  	<label for="banpumImage1">banpumImage2</label>
+									    <img
+									      src="${selectMasterData.banpumImage2}"
+									      class="w-100 shadow-1-strong rounded"
+									      alt="banpumImage2"
+									    />
+									  </div>
+									  <div class="col-lg-4 col-md-4">
+									  	<label for="banpumImage3">banpumImage3</label>
+									    <img
+									      src="${selectMasterData.banpumImage3}"
+									      class="w-100 shadow-1-strong rounded"
+									      alt="banpumImage3"
+									    />
+									  </div>
+									</div>
+									
+									<div class="row mb-4">
+									  <div class="col-lg-4 col-md-4">
+									  	<label for="banpumImage4">banpumImage4</label>
+									    <img
+									      src="${selectMasterData.banpumImage4}"
+									      class="w-100 shadow-1-strong rounded"
+									      alt="banpumImage4"
+									    />
+									  </div>
+									  <div class="col-lg-4 col-md-4">
+									  	<label for="banpumImage5">banpumImage5</label>
+									    <img
+									      src="${selectMasterData.banpumImage5}"
+									      class="w-100 shadow-1-strong rounded"
+									      alt="banpumImage5"
+									    />
+									  </div>
+									  <div class="col-lg-4 col-md-4">
+									  	<label for="banpumImage6">banpumImage6</label>
+									    <img
+									      src="${selectMasterData.banpumImage6}"
+									      class="w-100 shadow-1-strong rounded"
+									      alt="banpumImage6"
+									    />
+									  </div>
+									</div>
+									
+									<div class="row mb-4">
+									  <div class="col-lg-4 col-md-4">
+									  	<label for="banpumImage7">banpumImage7</label>
+									    <img
+									      src="${selectMasterData.banpumImage7}"
+									      class="w-100 shadow-1-strong rounded"
+									      alt="banpumImage7"
+									    />
+									  </div>
+									  <div class="col-lg-4 col-md-4">
+									  	<label for="banpumImage8">banpumImage8</label>
+									    <img
+									      src="${selectMasterData.banpumImage8}"
+									      class="w-100 shadow-1-strong rounded"
+									      alt="banpumImage8"
+									    />
+									  </div>
+									  <div class="col-lg-4 col-md-4">
+									  	<label for="banpumImage9">banpumImage9</label>
+									    <img
+									      src="${selectMasterData.banpumImage9}"
+									      class="w-100 shadow-1-strong rounded"
+									      alt="banpumImage9"
+									    />
+									  </div>
+									</div>
+									
+									<div class="row mb-4">
+									  <div class="col-lg-4 col-md-4">
+									  	<label for="banpumImage10">banpumImage10</label>
+									    <img
+									      src="${selectMasterData.banpumImage10}"
+									      class="w-100 shadow-1-strong rounded"
+									      alt="banpumImage10"
+									    />
+									  </div>
+									  <div class="col-lg-4 col-md-4">
+									  	<label for="banpumImage11">banpumImage11</label>
+									    <img
+									      src="${selectMasterData.banpumImage11}"
+									      class="w-100 shadow-1-strong rounded"
+									      alt="banpumImage11"
+									    />
+									  </div>
+									  <div class="col-lg-4 col-md-4">
+									  	<label for="banpumImage12">banpumImage12</label>
+									    <img
+									      src="${selectMasterData.banpumImage12}"
+									      class="w-100 shadow-1-strong rounded"
+									      alt="banpumImage12"
+									    />
+									  </div>
+									</div>
+									
+									<div class="row mb-4">
+									  <div class="col-lg-4 col-md-4">
+									  	<label for="banpumImage13">banpumImage13</label>
+									    <img
+									      src="${selectMasterData.banpumImage13}"
+									      class="w-100 shadow-1-strong rounded"
+									      alt="banpumImage13"
+									    />
+									  </div>
+									  <div class="col-lg-4 col-md-4">
+									  	<label for="banpumImage14">banpumImage14</label>
+									    <img
+									      src="${selectMasterData.banpumImage14}"
+									      class="w-100 shadow-1-strong rounded"
+									      alt="banpumImage14"
+									    />
+									  </div>
+									  <div class="col-lg-4 col-md-4">
+									  	<label for="banpumImage15">banpumImage15</label>
+									    <img
+									      src="${selectMasterData.banpumImage15}"
+									      class="w-100 shadow-1-strong rounded"
+									      alt="banpumImage15"
+									    />
+									  </div>
+									</div>
+									<!-- Gallery -->
                                    
                                    <div class="mt-4 mb-0">
                                        <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_go_update">Update 화면으로 이동</a></div>
