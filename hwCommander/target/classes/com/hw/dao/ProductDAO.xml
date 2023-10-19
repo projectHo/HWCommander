@@ -92,7 +92,7 @@
 		)
 	</insert>
 	
-	<select id="getEventMallList" resultType="productMasterVO">
+	<select id="getProductMallList" resultType="productMasterVO">
 		SELECT 
 			a.id                                                                             	AS id                
 			, a.product_name                                                                    AS productName       
@@ -102,9 +102,9 @@
 			, a.product_image                                                                   AS productImage      
 			, a.reg_dtm                                                                         AS regDtm            
 			, a.updt_dtm                                                                        AS updtDtm
-			<!-- , CONCAT(a.product_name, '&lt;br&gt;', FORMAT(a.product_price, 0), '원&lt;br&gt;', REPLACE(a.product_description, '\n', '&lt;br&gt;')) AS eventMallInfo -->
+			<!-- , CONCAT(a.product_name, '&lt;br&gt;', FORMAT(a.product_price, 0), '원&lt;br&gt;', REPLACE(a.product_description, '\n', '&lt;br&gt;')) AS productMallInfo -->
 			<![CDATA[
-			, CONCAT('<b>', a.product_name, '</b><br><br>', FORMAT(a.product_price, 0), '원<br><br>', REPLACE(a.product_description, '\n', '<br>')) AS eventMallInfo
+			, CONCAT('<b>', a.product_name, '</b><br><br>', FORMAT(a.product_price, 0), '원<br><br>', REPLACE(a.product_description, '\n', '<br>')) AS productMallInfo
 			]]>
 		FROM
 			product_master a
@@ -732,5 +732,163 @@
 					GROUP BY id 
 				)
 	</select>
+
+
+	
+	<select id="getBanpumMasterVOMaxId" resultType="String">
+		SELECT CONCAT('BANPUM', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 7)), 0)+1, 6, '0') FROM banpum_master)) AS id FROM DUAL
+	</select>
+	
+	<insert id="insertBanpumMasterVO" parameterType="banpumMasterVO">
+		INSERT INTO banpum_master
+		(
+			id
+			, banpum_name
+			, banpum_price
+			, banpum_qty
+			, banpum_description
+			, exposure_yn
+			, banpum_image1
+			, banpum_image2
+			, banpum_image3
+			, banpum_image4
+			, banpum_image5
+			, banpum_image6
+			, banpum_image7
+			, banpum_image8
+			, banpum_image9
+			, banpum_image10
+			, banpum_image11
+			, banpum_image12
+			, banpum_image13
+			, banpum_image14
+			, banpum_image15
+			, reg_dtm
+			, updt_dtm
+		)
+		VALUES
+		(
+			#{id}
+			, #{banpumName}
+			, #{banpumPrice}
+			, #{banpumQty}
+			, #{banpumDescription}
+			, #{exposureYn}
+			, #{banpumImage1}
+			, #{banpumImage2}
+			, #{banpumImage3}
+			, #{banpumImage4}
+			, #{banpumImage5}
+			, #{banpumImage6}
+			, #{banpumImage7}
+			, #{banpumImage8}
+			, #{banpumImage9}
+			, #{banpumImage10}
+			, #{banpumImage11}
+			, #{banpumImage12}
+			, #{banpumImage13}
+			, #{banpumImage14}
+			, #{banpumImage15}
+			, NOW()
+			, #{updtDtm}
+		)
+	</insert>
+	
+	<select id="getBanpumMasterAllList" resultType="banpumMasterVO">
+		SELECT 
+			a.id                                                                              AS id               
+			, a.banpum_name                                                                   AS banpumName       
+			, a.banpum_price                                                                  AS banpumPrice
+			, CONCAT(FORMAT(a.banpum_price, 0), '원')                                           AS banpumPriceStr      
+			, a.banpum_qty                                                                    AS banpumQty        
+			, a.banpum_description                                                            AS banpumDescription
+			, a.exposure_yn                                                                   AS exposureYn       
+			, a.banpum_image1                                                                 AS banpumImage1     
+			, a.banpum_image2                                                                 AS banpumImage2     
+			, a.banpum_image3                                                                 AS banpumImage3     
+			, a.banpum_image4                                                                 AS banpumImage4     
+			, a.banpum_image5                                                                 AS banpumImage5     
+			, a.banpum_image6                                                                 AS banpumImage6     
+			, a.banpum_image7                                                                 AS banpumImage7     
+			, a.banpum_image8                                                                 AS banpumImage8     
+			, a.banpum_image9                                                                 AS banpumImage9     
+			, a.banpum_image10                                                                AS banpumImage10    
+			, a.banpum_image11                                                                AS banpumImage11    
+			, a.banpum_image12                                                                AS banpumImage12    
+			, a.banpum_image13                                                                AS banpumImage13    
+			, a.banpum_image14                                                                AS banpumImage14    
+			, a.banpum_image15                                                                AS banpumImage15    
+			, a.reg_dtm                                                                       AS regDtm           
+			, a.updt_dtm                                                                      AS updtDtm          
+		FROM
+			banpum_master a
+		WHERE
+			a.exposure_yn = 'Y'
+	</select>
+	
+	<select id="getBanpumMasterById" parameterType="String" resultType="banpumMasterVO">
+		SELECT 
+			a.id                                                                              AS id               
+			, a.banpum_name                                                                   AS banpumName       
+			, a.banpum_price                                                                  AS banpumPrice
+			, CONCAT(FORMAT(a.banpum_price, 0), '원')                                           AS banpumPriceStr      
+			, a.banpum_qty                                                                    AS banpumQty        
+			, a.banpum_description                                                            AS banpumDescription
+			<![CDATA[
+			, REPLACE(a.banpum_description, '\n', '<br>')                                      AS banpumDescriptionStr
+			]]>
+			, a.exposure_yn                                                                   AS exposureYn       
+			, a.banpum_image1                                                                 AS banpumImage1     
+			, a.banpum_image2                                                                 AS banpumImage2     
+			, a.banpum_image3                                                                 AS banpumImage3     
+			, a.banpum_image4                                                                 AS banpumImage4     
+			, a.banpum_image5                                                                 AS banpumImage5     
+			, a.banpum_image6                                                                 AS banpumImage6     
+			, a.banpum_image7                                                                 AS banpumImage7     
+			, a.banpum_image8                                                                 AS banpumImage8     
+			, a.banpum_image9                                                                 AS banpumImage9     
+			, a.banpum_image10                                                                AS banpumImage10    
+			, a.banpum_image11                                                                AS banpumImage11    
+			, a.banpum_image12                                                                AS banpumImage12    
+			, a.banpum_image13                                                                AS banpumImage13    
+			, a.banpum_image14                                                                AS banpumImage14    
+			, a.banpum_image15                                                                AS banpumImage15    
+			, a.reg_dtm                                                                       AS regDtm           
+			, a.updt_dtm                                                                      AS updtDtm          
+		FROM
+			banpum_master a
+		WHERE
+			a.id = #{id}
+	</select>
+	
+	<update id="updateBanpumMasterVO" parameterType="banpumMasterVO">
+		UPDATE
+			banpum_master
+		SET
+			id                        = #{id}               
+			, banpum_name             = #{banpumName}       
+			, banpum_price            = #{banpumPrice}      
+			, banpum_qty              = #{banpumQty}        
+			, banpum_description      = #{banpumDescription}
+			, exposure_yn             = #{exposureYn}       
+			, banpum_image1           = #{banpumImage1}     
+			, banpum_image2           = #{banpumImage2}     
+			, banpum_image3           = #{banpumImage3}     
+			, banpum_image4           = #{banpumImage4}     
+			, banpum_image5           = #{banpumImage5}     
+			, banpum_image6           = #{banpumImage6}     
+			, banpum_image7           = #{banpumImage7}     
+			, banpum_image8           = #{banpumImage8}     
+			, banpum_image9           = #{banpumImage9}     
+			, banpum_image10          = #{banpumImage10}    
+			, banpum_image11          = #{banpumImage11}    
+			, banpum_image12          = #{banpumImage12}    
+			, banpum_image13          = #{banpumImage13}    
+			, banpum_image14          = #{banpumImage14}    
+			, banpum_image15          = #{banpumImage15}    
+			, updt_dtm                = NOW()                              
+		WHERE
+			id = #{id}
+	</update>
 	
 </mapper>

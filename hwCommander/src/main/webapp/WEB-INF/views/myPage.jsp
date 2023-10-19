@@ -421,7 +421,7 @@
 						<!-- 회원 탈퇴 -->
 							<div class="card-body fade card-list card-secession-detail">
 								<h2 class="card-title">Hwcommander</h2>
-								<h6 class="card-subtitle mb-2 text-muted">${loginUser.name}님의 문의사항</h6>
+								<h6 class="card-subtitle mb-2 text-muted">${loginUser.name}님</h6>
 								<p class="card-text">
 									<div class="form-floating mb-3 col-6 mx-auto mt-5">
 										<input type="text" class="form-control" id="id">

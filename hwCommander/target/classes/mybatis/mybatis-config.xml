@@ -50,6 +50,9 @@
 		<typeAlias alias="productDetailVO" type="com.hw.model.ProductDetailVO"></typeAlias>
 		<typeAlias alias="productMasterVO" type="com.hw.model.ProductMasterVO"></typeAlias>
 		
+		<!-- 반품 몰-->
+		<typeAlias alias="banpumMasterVO" type="com.hw.model.BanpumMasterVO"></typeAlias>
+		
 		<typeAlias alias="userInfoVO" type="com.hw.model.UserInfoVO"></typeAlias>
       </typeAliases>
 </configuration>

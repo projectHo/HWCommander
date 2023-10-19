@@ -18,6 +18,8 @@
 <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 
 <script>
+	let aa = "${banpumMaster}";
+	let bb = "${banpumDetail}";
     $(function() {
     	
     });
@@ -32,7 +34,7 @@ function goCart() {
 
 function goDirectOrder() {
 	if(loginCheck()) {
-		location.href = "/order/sheet.do?accessRoute=direct&productIds="+"${productMaster.id}";
+		location.href = "/order/sheet.do?accessRoute=direct&banpumMallIds="+"${banpumMaster.id}";
 	}
 }
 
@@ -68,12 +70,12 @@ function loginCheck() {
 							    <!-- 임시 몰루이미지
 							      <img class="img-fluid rounded mx-auto d-block" src="/resources/img/tempImage_600x600.png">
 							     -->  
-							      <img class="img-fluid rounded mx-auto d-block" src="${productMaster.productImage}" style="width:600px; height:600px; object-fit:contain;">
+							      <img class="img-fluid rounded mx-auto d-block" src="${banpumMaster.banpumImage1}" style="width:600px; height:600px; object-fit:contain;">
 							    </div>
 							    <div class="col-7">
-							    	<p class="h1 mb-5">${productMaster.productName}</p>
-							    	<p class="h3 mb-5">${productMaster.productPriceStr}</p>
-							    	<p class="h3 mb-5">${productMaster.productDescriptionStr}</p>
+							    	<p class="h1 mb-5">${banpumMaster.banpumName}</p>
+							    	<p class="h3 mb-5">${banpumMaster.banpumPriceStr}</p>
+							    	<p class="h3 mb-5">${banpumMaster.banpumDescriptionStr}</p>
 							    	<p class="h4 mb">배송 기간 : 영업일 기준 약 2일 소요</p>
 							    	<p class="h4 mb">택배사 : 우체국 택배</p>
 							    	<p class="h4 mb-5">배송비 : 무료</p>
@@ -85,9 +87,9 @@ function loginCheck() {
 							    <div class="col-5">
 							    	<p class="h3 mt-3 mb-3">제품 상세 정보</p>
 									<ul class="list-unstyled">
-									<c:forEach var="item" items="${productDetail}">
+									<!-- <c:forEach var="item" items="${banpumDetail}">
 										<li>${item.partsTypeCdNm} : ${item.partsName}</li>
-									</c:forEach>
+									</c:forEach> -->
 									</ul>
 							    </div>
 							    <div class="col-7">
