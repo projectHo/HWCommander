@@ -17,7 +17,7 @@
     
 function goCartPage() {
 	if(loginCheck()) {
-		alert("준비중");
+		location.href = "/user/estimateStorage.do?id=" + "${loginUser.id}";
 	}
 }
 
@@ -93,7 +93,7 @@ function loginCheck() {
 									<c:if test="${loginUser == null}">
 										<a class="nav-link" href="/user/login.do">로그인</a>
 										<span class="navbar-text">|</span>
-								        <a class="nav-link" href="javascript:goCartPage()">장바구니</a>
+								        <a class="nav-link" href="javascript:goCartPage()">견적저장소</a>
 								        <span class="navbar-text">|</span>
 								        <a class="nav-link" href="javascript:goOrderListPage()">주문내역</a>
 								        <span class="navbar-text">|</span>
@@ -105,7 +105,7 @@ function loginCheck() {
 										<span class="navbar-text">|</span>
 										<a class="nav-link" href="javascript:goMyPage()">MyPage</a>
 							        	<span class="navbar-text">|</span>
-								        <a class="nav-link" href="javascript:goCartPage()">장바구니</a>
+								        <a class="nav-link" href="javascript:goCartPage()">견적저장소</a>
 								        <span class="navbar-text">|</span>
 								        <a class="nav-link" href="javascript:goOrderListPage()">주문내역</a>
 								        <span class="navbar-text">|</span>
