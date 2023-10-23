@@ -152,24 +152,28 @@
 	function questionOneBtns(el){
 		if($(el).attr("val") == "1"){
 			sessionStorage.setItem("data-0",0);
+			$(".q1-badge").html("OS : 프리도스");
 		}else if($(el).attr("val") == "2"){
 			sessionStorage.setItem("data-0",1);
+			$(".q1-badge").html("OS : COEM");
 		}else {
 			sessionStorage.setItem("data-0",2);
-		}
-	}
-	function questionOneSaveBtn(){
-		$(".q1-badge").attr("bool","1");
-		if(sessionStorage.getItem("data-0") == 0){
-			$(".q1-badge").html("OS : 프리도스");
-		}else if(sessionStorage.getItem("data-0") == 1){
-			$(".q1-badge").html("OS : COEM");
-		}else if(sessionStorage.getItem("data-0") == 2){
 			$(".q1-badge").html("OS : Fpp");
-		}else {
-			alert("선택 후 저장 해주세요");
 		}
+		$(".q1-badge").attr("bool","1");
 	}
+	// function questionOneSaveBtn(){
+	// 	$(".q1-badge").attr("bool","1");
+	// 	if(sessionStorage.getItem("data-0") == 0){
+	// 		$(".q1-badge").html("OS : 프리도스");
+	// 	}else if(sessionStorage.getItem("data-0") == 1){
+	// 		$(".q1-badge").html("OS : COEM");
+	// 	}else if(sessionStorage.getItem("data-0") == 2){
+	// 		$(".q1-badge").html("OS : Fpp");
+	// 	}else {
+	// 		alert("선택 후 저장 해주세요");
+	// 	}
+	// }
 	// 2번질문
 	function questionTwoBtns(el){
 		const chkNum = /[0-9]/;
@@ -184,19 +188,21 @@
 		}else if (!chkNum.test($(el).val())){
 			alert("숫자만 입력해주세요!!");
 			$(el).val("");
-		}
-	}
-	function questionTwoSaveBtn(){
-		if($("#can-pay-val").val() == ""){
-			alert("값을 입력하신 후 저장 해주세요")
-		}else{
+		}else {
 			$(".q2-badge").html("Price : " + $("#can-pay-val").val()).attr("bool","1");
-			sessionStorage.setItem("data-1", $("#can-pay-val").val())
+			sessionStorage.setItem("data-1", $("#can-pay-val").val());
 		}
 	}
+	// function questionTwoSaveBtn(){
+	// 	if($("#can-pay-val").val() == ""){
+	// 		alert("값을 입력하신 후 저장 해주세요")
+	// 	}else{
+	// 		$(".q2-badge").html("Price : " + $("#can-pay-val").val()).attr("bool","1");
+	// 		sessionStorage.setItem("data-1", $("#can-pay-val").val())
+	// 	}
+	// }
 
 	// 3번 질문
-	let q3ImpBool = false;
 	function qestionThreeBtns(el){
 		$(".q3-modal-title").html($(el).html()).attr("id",$(el).attr("id"));
 		const q3ModalTbody = $("#q3-modal-tbody");
@@ -284,7 +290,7 @@
 			}
 			let td1 = $(`<td class="align-middle q3-td-name"></td>`).html(savedQ3List[i].q3ModalName).attr("id",savedQ3List[i].q3ModalId);
 			let td2 = $("<td></td>");
-			let td2Input = $(`<input type="text" placeholder="1~100" class="form-control q3-imp-input px-2" oninput="javascript:q3InputCheck(this)">`)
+			let td2Input = $(`<input type="text" class="form-control q3-imp-input px-2" oninput="javascript:q3InputCheck(this)">`)
 			td2.append(td2Input);
 			let td3 = $(`<td></td>`);
 			let button = $(`<button class="btn btn-danger q3-td-button margin-auto" onclick="javascript:q3DeleteBtn(this)">삭제</button>`);
@@ -403,25 +409,48 @@
 	let q3Total = 0;
 	function q3InputCheck(el){
 		q3Total = 0;
+		for(let i = 0; i<$(".q3-imp-input").length; i++){
+			if($(".q3-imp-input").eq(i).val() == ""){
+				$(".q3-badge").html("").attr("bool","0");
+			}else {
+				let val = Number($(".q3-imp-input").eq(i).val());
+				q3Total+=val;
+				$(".q3-badge").html("GR : " + savedQ3List[0].q3ModalName + "...").attr("bool","1");
+				let q3Values = [];
+				for (let i = 0; i< savedQ3List.length ; i++){
+					let q3Value = [];
+					q3Value.push(savedQ3List[i].q3ModalId);
+					q3Value.push(100 * $(".q3-imp-input").eq(i).val()/q3Total);
+					if($(".q3-th-ganre").eq(i).attr("id") == null){
+						q3Value.push("");	
+					}else {
+						q3Value.push($(".q3-th-ganre").eq(i).attr("id"));
+					}
+					q3Values.push(q3Value);
+				}
+				sessionStorage.setItem("data-2",JSON.stringify(q3Values));
+			}
+		}
 		$(".q3-imp-input").each(function(){
 			let val = Number($(this).val());
 			q3Total += val;
-			if($(this).val() == "0"){
-				alert("0 이상 입력해주세요.");
-				$(this).val("");
-				return false;
-			}
-			if(q3Total >= 101){
-				alert("총합 100 이하로 입력해주세요.");
-				$(this).val("");
-				return false;
-			}
-			if(q3Total === 100){
-				q3ImpBool = true;
-			}else {
-				q3ImpBool = false;
-			}
-		
+			// if($(this).val() == "0"){
+			// 	alert("0 이상 입력해주세요.");
+			// 	$(this).val("");
+			// 	return false;
+			// }
+			// if(q3Total >= 101){
+			// 	alert("총합 100 이하로 입력해주세요.");
+			// 	$(this).val("");
+			// 	return false;
+			// }
+
+			// if(q3Total === 100){
+			// 	q3ImpBool = true;
+			// }else {
+			// 	q3ImpBool = false;
+			// }
+			
 		});
 	}
 	function questionThreeSaveBtn(){
@@ -577,6 +606,14 @@
 		setTimeout(() => {
 			$("#hex-val-total").val(parseFloat((Number($("#hex-val-01").val())+Number($("#hex-val-02").val())+Number($("#hex-val-03").val())+Number($("#hex-val-04").val())+Number($("#hex-val-05").val())+Number($("#hex-val-06").val()))/(6)).toFixed(2));	
 		}, 100);
+
+		let value = [];
+		for(let i = 0 ; i<$(".hex-input").length; i++){
+			let storageValue = [$(".hex-input")[i].value];
+			value.push(storageValue);
+		}
+		sessionStorage.setItem("data-3",JSON.stringify(value));
+		$(".q4-badge").html("Bu : check");
 	}
 	let prevTotalVal = 1;
 	function totalValue(){
@@ -642,6 +679,14 @@
 			prevTotalVal = totalVal;
 		}
 		myChart.update();
+
+		let value = [];
+		for(let i = 0 ; i<$(".hex-input").length; i++){
+			let storageValue = [$(".hex-input")[i].value];
+			value.push(storageValue);
+		}
+		sessionStorage.setItem("data-3",JSON.stringify(value));
+		$(".q4-badge").html("Bu : check");
 	}
 	function mouseEnter(elem){
 		const elemHtml = $(elem).html();
@@ -669,122 +714,144 @@
 		}
 		hexagonType();
 	}
-	function questionFourSaveBtn(){
-		if($("#hex-val-01").val() === "1.00" && $("#hex-val-02").val() === "1.00" && $("#hex-val-03").val() === "1.00" && $("#hex-val-04").val() === "1.00" && $("#hex-val-05").val() === "1.00" && $("#hex-val-06").val() === "1.00"){
-			if(confirm("변동사항이 없습니다! 평균값으로 진행할까요?")){
-				let value = [];
-				for(let i = 0 ; i<$(".hex-input").length; i++){
-					let storageValue = [$(".hex-input")[i].value];
-					value.push(storageValue);
-				}
-				sessionStorage.setItem("data-3",JSON.stringify(value))
-				$(".q4-badge").html("Bu : check");
-			}
-		}else {
-			let value = [];
-			for(let i = 0 ; i<$(".hex-input").length; i++){
-				let storageValue = [$(".hex-input")[i].value];
-				value.push(storageValue);
-			}
-			sessionStorage.setItem("data-3",JSON.stringify(value));
-			$(".q4-badge").html("Bu : check");
-		}
-	}
+	// function questionFourSaveBtn(){
+	// 	if($("#hex-val-01").val() === "1.00" && $("#hex-val-02").val() === "1.00" && $("#hex-val-03").val() === "1.00" && $("#hex-val-04").val() === "1.00" && $("#hex-val-05").val() === "1.00" && $("#hex-val-06").val() === "1.00"){
+	// 		if(confirm("변동사항이 없습니다! 평균값으로 진행할까요?")){
+	// 			let value = [];
+	// 			for(let i = 0 ; i<$(".hex-input").length; i++){
+	// 				let storageValue = [$(".hex-input")[i].value];
+	// 				value.push(storageValue);
+	// 			}
+	// 			sessionStorage.setItem("data-3",JSON.stringify(value))
+	// 			$(".q4-badge").html("Bu : check");
+	// 		}
+	// 	}else {
+	// 		let value = [];
+	// 		for(let i = 0 ; i<$(".hex-input").length; i++){
+	// 			let storageValue = [$(".hex-input")[i].value];
+	// 			value.push(storageValue);
+	// 		}
+	// 		sessionStorage.setItem("data-3",JSON.stringify(value));
+	// 		$(".q4-badge").html("Bu : check");
+	// 	}
+	// }
 	// 5번질문
 	let q5Answers = 0;
 	function questionFiveBtn(el){
 		if($(el).children().html() == "필요합니다"){
-			q5Answers = 0;
+			// q5Answers = 0;
+			sessionStorage.setItem("data-4",0);
+			$(".q5-badge").html("Wifi : 필요");
 			}else {
-				q5Answers = 1;
-			}
-	}
-	function questionFiveSaveBtn(){
-		if($("#q5-answer1").prop("checked") || $("#q5-answer2").prop("checked")){
-			if(q5Answers == 0){
-				sessionStorage.setItem("data-4",0);
-				$(".q5-badge").html("Wifi : 필요");
-			}else {
+				// q5Answers = 1;
 				sessionStorage.setItem("data-4",1);
 				$(".q5-badge").html("Wifi : 불필요");
 			}
-		}
 	}
+	// function questionFiveSaveBtn(){
+	// 	if($("#q5-answer1").prop("checked") || $("#q5-answer2").prop("checked")){
+	// 		if(q5Answers == 0){
+	// 			sessionStorage.setItem("data-4",0);
+	// 			$(".q5-badge").html("Wifi : 필요");
+	// 		}else {
+	// 			sessionStorage.setItem("data-4",1);
+	// 			$(".q5-badge").html("Wifi : 불필요");
+	// 		}
+	// 	}
+	// }
 	// 6번질문
 	let q6Answers = 0;
 	function questionSixBtn(el){
 		if($(el).children().html() == "Intel"){
-			q6Answers = 0;
+			// q6Answers = 0;
+			sessionStorage.setItem("data-5",0);
+			$(".q6-badge").html("CPU : Intel");
 		}else if ($(el).children().html() == "AMD") {
-			q6Answers = 1;
+			// q6Answers = 1;
+			sessionStorage.setItem("data-5",1);
+			$(".q6-badge").html("CPU : AMD");
 		}else {
-			q6Answers = 2;
+			// q6Answers = 2;
+			sessionStorage.setItem("data-5",2);
+			$(".q6-badge").html("CPU : 상관없음");
 		}
 	}
-	function questionSixSaveBtn(){
-		if($("#q6-answer1").prop("checked") || $("#q6-answer2").prop("checked") || $("#q6-answer3").prop("checked")){
-			if(q6Answers == 0){
-				sessionStorage.setItem("data-5",0);
-				$(".q6-badge").html("CPU : Intel");
-			}else if(q6Answers == 1){
-				sessionStorage.setItem("data-5",1);
-				$(".q6-badge").html("CPU : AMD");
-			}else {
-				sessionStorage.setItem("data-5",2);
-				$(".q6-badge").html("CPU : 상관없음");
-			}
-		}
-	}
+	// function questionSixSaveBtn(){
+	// 	if($("#q6-answer1").prop("checked") || $("#q6-answer2").prop("checked") || $("#q6-answer3").prop("checked")){
+	// 		if(q6Answers == 0){
+	// 			sessionStorage.setItem("data-5",0);
+	// 			$(".q6-badge").html("CPU : Intel");
+	// 		}else if(q6Answers == 1){
+	// 			sessionStorage.setItem("data-5",1);
+	// 			$(".q6-badge").html("CPU : AMD");
+	// 		}else {
+	// 			sessionStorage.setItem("data-5",2);
+	// 			$(".q6-badge").html("CPU : 상관없음");
+	// 		}
+	// 	}
+	// }
 	// 7번질문
 	let q7Answers = 0;
 	function questionSevenBtn(el){
 		if($(el).children().html() == "필요합니다"){
-			q7Answers = 0;
+			// q7Answers = 0;
+			sessionStorage.setItem("data-6",0);
+			$(".q7-badge").html("GPU : 필요");
 		}else if ($(el).children().html() == "상관없음") {
-			q7Answers = 1;
+			// q7Answers = 1;
+			sessionStorage.setItem("data-6",1);
+			$(".q7-badge").html("GPU : 상관없음");
 		}else {
-			q7Answers = 2;
+			// q7Answers = 2;
+			sessionStorage.setItem("data-6",2);
+			$(".q7-badge").html("GPU : 불필요");
 		}
 	}
-	function questionSevenSaveBtn(){
-		if($("#q7-answer1").prop("checked") || $("#q7-answer2").prop("checked") || $("#q7-answer3").prop("checked")){
-			if(q7Answers == 0){
-				sessionStorage.setItem("data-6",0);
-				$(".q7-badge").html("GPU : 필요");
-			}else if(q7Answers == 1){
-				sessionStorage.setItem("data-6",1);
-				$(".q7-badge").html("GPU : 상관없음");
-			}else {
-				sessionStorage.setItem("data-6",2);
-				$(".q7-badge").html("GPU : 불필요");
-			}
-		}
-	}
+	// function questionSevenSaveBtn(){
+	// 	if($("#q7-answer1").prop("checked") || $("#q7-answer2").prop("checked") || $("#q7-answer3").prop("checked")){
+	// 		if(q7Answers == 0){
+	// 			sessionStorage.setItem("data-6",0);
+	// 			$(".q7-badge").html("GPU : 필요");
+	// 		}else if(q7Answers == 1){
+	// 			sessionStorage.setItem("data-6",1);
+	// 			$(".q7-badge").html("GPU : 상관없음");
+	// 		}else {
+	// 			sessionStorage.setItem("data-6",2);
+	// 			$(".q7-badge").html("GPU : 불필요");
+	// 		}
+	// 	}
+	// }
 	// 8번질문
 	let q8Answers = 0;
 	function questionEightBtn(el){
 		if($(el).children().html() == "선호"){
-			q8Answers = 0;
+			// q8Answers = 0;
+			sessionStorage.setItem("data-7",0);
+			$(".q8-badge").html("Aio : 선호");
 		}else if ($(el).children().html() == "비선호") {
-			q8Answers = 1;
+			// q8Answers = 1;
+			sessionStorage.setItem("data-7",1);
+			$(".q8-badge").html("Aio : 비선호");
 		}else {
-			q8Answers = 2;
+			// q8Answers = 2;
+			sessionStorage.setItem("data-7",2);
+			$(".q8-badge").html("Aio : 무관");
 		}
 	}
-	function questionEightSaveBtn(){
-		if($("#q8-answer1").prop("checked") || $("#q8-answer2").prop("checked") || $("#q8-answer3").prop("checked")){
-			if(q8Answers == 0){
-				sessionStorage.setItem("data-7",0);
-				$(".q8-badge").html("Aio : 선호");
-			}else if(q8Answers == 1){
-				sessionStorage.setItem("data-7",1);
-				$(".q8-badge").html("Aio : 비선호");
-			}else {
-				sessionStorage.setItem("data-7",2);
-				$(".q8-badge").html("Aio : 무관");
-			}
-		}
-	}
+	// function questionEightSaveBtn(){
+	// 	if($("#q8-answer1").prop("checked") || $("#q8-answer2").prop("checked") || $("#q8-answer3").prop("checked")){
+	// 		if(q8Answers == 0){
+	// 			sessionStorage.setItem("data-7",0);
+	// 			$(".q8-badge").html("Aio : 선호");
+	// 		}else if(q8Answers == 1){
+	// 			sessionStorage.setItem("data-7",1);
+	// 			$(".q8-badge").html("Aio : 비선호");
+	// 		}else {
+	// 			sessionStorage.setItem("data-7",2);
+	// 			$(".q8-badge").html("Aio : 무관");
+	// 		}
+	// 	}
+	// }
 	// 9번질문
 	// 미구현
 
@@ -792,92 +859,116 @@
 	let q10Answers = 0;
 	function questionTenBtn(el){
 		if($(el).children().html() == "DDR4"){
-			q10Answers = 0;
+			// q10Answers = 0;
+			sessionStorage.setItem("data-9",0);
+			$(".q10-badge").html("RAM : DDR4");
 		}else if ($(el).children().html() == "DDR5") {
-			q10Answers = 1;
+			// q10Answers = 1;
+			sessionStorage.setItem("data-9",1);
+			$(".q10-badge").html("RAM : DDR5");
 		}else {
-			q10Answers = 2;
+			// q10Answers = 2;
+			sessionStorage.setItem("data-9",2);
+			$(".q10-badge").html("RAM : 무관");
 		}
 	}
-	function questionTenSaveBtn(){
-		if($("#q10-answer1").prop("checked") || $("#q10-answer2").prop("checked") || $("#q10-answer3").prop("checked")){
-			if(q10Answers == 0){
-				sessionStorage.setItem("data-9",0);
-				$(".q10-badge").html("RAM : DDR4");
-			}else if(q10Answers == 1){
-				sessionStorage.setItem("data-9",1);
-				$(".q10-badge").html("RAM : DDR5");
-			}else {
-				sessionStorage.setItem("data-9",2);
-				$(".q10-badge").html("RAM : 무관");
-			}
-		}
-	}
+	// function questionTenSaveBtn(){
+	// 	if($("#q10-answer1").prop("checked") || $("#q10-answer2").prop("checked") || $("#q10-answer3").prop("checked")){
+	// 		if(q10Answers == 0){
+	// 			sessionStorage.setItem("data-9",0);
+	// 			$(".q10-badge").html("RAM : DDR4");
+	// 		}else if(q10Answers == 1){
+	// 			sessionStorage.setItem("data-9",1);
+	// 			$(".q10-badge").html("RAM : DDR5");
+	// 		}else {
+	// 			sessionStorage.setItem("data-9",2);
+	// 			$(".q10-badge").html("RAM : 무관");
+	// 		}
+	// 	}
+	// }
 	// 11번질문
 	let q11Answers = 0;
 	function questionElevenBtn(el){
 		if($(el).children().html() == "벌크"){
-			q11Answers = 0;
+			// q11Answers = 0;
+			sessionStorage.setItem("data-10",0);
+			$(".q11-badge").html("Pack : Bulk");
 		}else if($(el).children().html() == "멀티팩") {
-			q11Answers = 1;
+			// q11Answers = 1;
+			sessionStorage.setItem("data-10",1);
+			$(".q11-badge").html("Pack : Multi");
 		}else if($(el).children().html() == "둘다 좋음"){
-			q11Answers = 2;
+			// q11Answers = 2;
+			sessionStorage.setItem("data-10",2);
+			$(".q11-badge").html("Pack : 무관");
 		}else {
-			q11Answers = 3;
+			// q11Answers = 3;
+			sessionStorage.setItem("data-10",3);
+			$(".q11-badge").html("Pack : 제외");
 		}
 	}
-	function questionElevenSaveBtn(){
-		if($("#q11-answer1").prop("checked") || $("#q11-answer2").prop("checked") || $("#q11-answer3").prop("checked") || $("#q11-answer4").prop("checked")){
-			if(q11Answers == 0){
-				sessionStorage.setItem("data-10",0);
-				$(".q11-badge").html("Pack : Bulk");
-			}else if(q11Answers == 1){
-				sessionStorage.setItem("data-10",1);
-				$(".q11-badge").html("Pack : Multi");
-			}else if(q11Answers == 2) {
-				sessionStorage.setItem("data-10",2);
-				$(".q11-badge").html("Pack : 무관");
-			}else {
-				sessionStorage.setItem("data-10",3);
-				$(".q11-badge").html("Pack : 제외");
-			}
-		}
-	}
+	// function questionElevenSaveBtn(){
+	// 	if($("#q11-answer1").prop("checked") || $("#q11-answer2").prop("checked") || $("#q11-answer3").prop("checked") || $("#q11-answer4").prop("checked")){
+	// 		if(q11Answers == 0){
+	// 			sessionStorage.setItem("data-10",0);
+	// 			$(".q11-badge").html("Pack : Bulk");
+	// 		}else if(q11Answers == 1){
+	// 			sessionStorage.setItem("data-10",1);
+	// 			$(".q11-badge").html("Pack : Multi");
+	// 		}else if(q11Answers == 2) {
+	// 			sessionStorage.setItem("data-10",2);
+	// 			$(".q11-badge").html("Pack : 무관");
+	// 		}else {
+	// 			sessionStorage.setItem("data-10",3);
+	// 			$(".q11-badge").html("Pack : 제외");
+	// 		}
+	// 	}
+	// }
 	// 12번질문
 	let q12Answers = 0;
 	function questionTwelveBtn(el){
 		if($(el).children().html() == "예산에 맞게"){
-			q12Answers = 0;
+			// q12Answers = 0;
+			sessionStorage.setItem("data-11",0);
+			$(".q12-badge").html("SSD : 예산");
 		}else if($(el).children().html() == "256GB") {
-			q12Answers = 1;
+			// q12Answers = 1;
+			sessionStorage.setItem("data-11",1);
+			$(".q12-badge").html("SSD : 256GB");
 		}else if($(el).children().html() == "512GB"){
-			q12Answers = 2;
+			// q12Answers = 2;
+			sessionStorage.setItem("data-11",2);
+			$(".q12-badge").html("SSD : 512GB");
 		}else if($(el).children().html() == "1024GB(1TB)"){
-			q12Answers = 3;
+			// q12Answers = 3;
+			sessionStorage.setItem("data-11",3);
+			$(".q12-badge").html("SSD : 1024GB");
 		}else {
-			q12Answers = 4;
+			// q12Answers = 4;
+			sessionStorage.setItem("data-11",4);
+			$(".q12-badge").html("SSD : 2048GB");
 		}
 	}
-	function questionTwelveSaveBtn(){
-		if($("#q12-answer1").prop("checked") || $("#q12-answer2").prop("checked") || $("#q12-answer3").prop("checked") || $("#q12-answer4").prop("checked") || $("#q12-answer5").prop("checked")){
-			if(q12Answers == 0){
-				sessionStorage.setItem("data-11",0);
-				$(".q12-badge").html("SSD : 예산");
-			}else if(q12Answers == 1){
-				sessionStorage.setItem("data-11",1);
-				$(".q12-badge").html("SSD : 256GB");
-			}else if(q12Answers == 2) {
-				sessionStorage.setItem("data-11",2);
-				$(".q12-badge").html("SSD : 512GB");
-			}else if(q12Answers == 3){
-				sessionStorage.setItem("data-11",3);
-				$(".q12-badge").html("SSD : 1024GB");
-			}else {
-				sessionStorage.setItem("data-11",4);
-				$(".q12-badge").html("SSD : 2048GB");
-			}
-		}
-	}
+	// function questionTwelveSaveBtn(){
+	// 	if($("#q12-answer1").prop("checked") || $("#q12-answer2").prop("checked") || $("#q12-answer3").prop("checked") || $("#q12-answer4").prop("checked") || $("#q12-answer5").prop("checked")){
+	// 		if(q12Answers == 0){
+	// 			sessionStorage.setItem("data-11",0);
+	// 			$(".q12-badge").html("SSD : 예산");
+	// 		}else if(q12Answers == 1){
+	// 			sessionStorage.setItem("data-11",1);
+	// 			$(".q12-badge").html("SSD : 256GB");
+	// 		}else if(q12Answers == 2) {
+	// 			sessionStorage.setItem("data-11",2);
+	// 			$(".q12-badge").html("SSD : 512GB");
+	// 		}else if(q12Answers == 3){
+	// 			sessionStorage.setItem("data-11",3);
+	// 			$(".q12-badge").html("SSD : 1024GB");
+	// 		}else {
+	// 			sessionStorage.setItem("data-11",4);
+	// 			$(".q12-badge").html("SSD : 2048GB");
+	// 		}
+	// 	}
+	// }
 	// 13번질문
 	let q13Answers = [];
 	function questionThirteenBtn(el){
@@ -890,28 +981,83 @@
 				if($(el).children().html() === "아크릴"){
 					if(!q13Answers.includes("0")){
 						q13Answers.push("0");
+						if(q13Answers[0] == 0){
+							$(".q13-badge").html("Met : 아크릴");
+						}
 					}
 				}else if ($(el).children().html() === "강화유리"){
 					if(!q13Answers.includes("1")){
 						q13Answers.push("1");
+						if(q13Answers[0] == 1){
+							$(".q13-badge").html("Met : 강화유리");
+						}
 					}
 				}else if($(el).children().html() === "알루미늄"){
 					if(!q13Answers.includes("2")){
 						q13Answers.push("2");
+						if(q13Answers[0] == 2){
+							$(".q13-badge").html("Met : 알루미늄");
+						}
 					}
 				}else if($(el).children().html() === "통철판"){
 					if(!q13Answers.includes("3")){
 						q13Answers.push("3");
+						if(q13Answers[0] == 3){
+							$(".q13-badge").html("Met : 통철판");
+						}
 					}
 				}else if($(el).children().html() === "창문형유리"){
 					if(!q13Answers.includes("4")){
 						q13Answers.push("4");
+						if(q13Answers[0] == 4){
+							$(".q13-badge").html("Met : 창문형유리");
+						}
+					}
+				}
+				q13Answers.sort();
+				if(q13Answers.length > 1){
+					if(q13Answers[0] == 0){
+						$(".q13-badge").html("Met : 아크릴 ...");
+					}else if(q13Answers[0] == 1){
+						$(".q13-badge").html("Met : 강화유리 ...");
+					}else if(q13Answers[0] == 2){
+						$(".q13-badge").html("Met : 알루미늄 ...");
+					}else if(q13Answers[0] == 3){
+						$(".q13-badge").html("Met : 통철판 ...");
+					}else if(q13Answers[0] == 4){
+						$(".q13-badge").html("Met : 창문형유리 ...");
 					}
 				}
 			}else if($(el).prev().prop("checked") === true){
 				var index = q13Answers.indexOf($(el).attr("data-value"));
 				if(index !== -1){
 					q13Answers.splice(index,1);
+				}
+				q13Answers.sort();
+				if(q13Answers.length > 1){
+					if(q13Answers[0] == 0){
+						$(".q13-badge").html("Met : 아크릴 ...");
+					}else if(q13Answers[0] == 1){
+						$(".q13-badge").html("Met : 강화유리 ...");
+					}else if(q13Answers[0] == 2){
+						$(".q13-badge").html("Met : 알루미늄 ...");
+					}else if(q13Answers[0] == 3){
+						$(".q13-badge").html("Met : 통철판 ...");
+					}else if(q13Answers[0] == 4){
+						$(".q13-badge").html("Met : 창문형유리 ...");
+					}
+				}else if(q13Answers.length == 1){
+					if(q13Answers[0] == 0){
+						$(".q13-badge").html("Met : 아크릴");
+					}else if(q13Answers[0] == 1){
+						$(".q13-badge").html("Met : 강화유리");
+					}else if(q13Answers[0] == 2){
+						$(".q13-badge").html("Met : 알루미늄");
+					}else if(q13Answers[0] == 3){
+						$(".q13-badge").html("Met : 통철판");
+					}else if(q13Answers[0] == 4){
+						$(".q13-badge").html("Met : 창문형유리");
+					}
 				}
 			}
 		}else {
@@ -923,29 +1069,31 @@
 				$("#q13-answer3").prop("checked",false);
 				$("#q13-answer4").prop("checked",false);
 				$("#q13-answer5").prop("checked",false);
-			}
-		}
-	}
-	function questionThirteenSaveBtn(){
-		if($("#q13-answer1").prop("checked") || $("#q13-answer2").prop("checked") || $("#q13-answer3").prop("checked") || $("#q13-answer4").prop("checked") || $("#q13-answer5").prop("checked") || $("#q13-answer6").prop("checked")){
-			q13Answers.sort();
-			if(q13Answers[0] == 0){
-				$(".q13-badge").html("Met : 아크릴");
-			}else if(q13Answers[0] == 1){
-				$(".q13-badge").html("Met : 강화유리");
-			}else if(q13Answers[0] == 2) {
-				$(".q13-badge").html("Met : 알루미늄");
-			}else if(q13Answers[0] == 3){
-				$(".q13-badge").html("Met : 통철판");
-			}else if(q13Answers[0] == 4){
-				$(".q13-badge").html("Met : 창문형유리");
-			}else {
 				$(".q13-badge").html("Met : 무관");
 			}
-			sessionStorage.setItem("data-12",JSON.stringify(q13Answers));
-
 		}
+		sessionStorage.setItem("data-12",JSON.stringify(q13Answers));
 	}
+	// function questionThirteenSaveBtn(){
+	// 	if($("#q13-answer1").prop("checked") || $("#q13-answer2").prop("checked") || $("#q13-answer3").prop("checked") || $("#q13-answer4").prop("checked") || $("#q13-answer5").prop("checked") || $("#q13-answer6").prop("checked")){
+	// 		q13Answers.sort();
+	// 		if(q13Answers[0] == 0){
+	// 			$(".q13-badge").html("Met : 아크릴");
+	// 		}else if(q13Answers[0] == 1){
+	// 			$(".q13-badge").html("Met : 강화유리");
+	// 		}else if(q13Answers[0] == 2) {
+	// 			$(".q13-badge").html("Met : 알루미늄");
+	// 		}else if(q13Answers[0] == 3){
+	// 			$(".q13-badge").html("Met : 통철판");
+	// 		}else if(q13Answers[0] == 4){
+	// 			$(".q13-badge").html("Met : 창문형유리");
+	// 		}else {
+	// 			$(".q13-badge").html("Met : 무관");
+	// 		}
+	// 		sessionStorage.setItem("data-12",JSON.stringify(q13Answers));
+
+	// 	}
+	// }
 	// 14번질문
 	let q14Answers = [];
 	function questionFourteenBtn(el){
@@ -958,25 +1106,28 @@
 			$(".q14-count-container").css("display","flex");
 			$(".q14-count-hdd").val("").focus();
 		}
-	}
-	function questionFourteenSaveBtn(){
-		if($("#q14-answer1").prop("checked") || $("#q14-answer2").prop("checked") || $("#q14-answer3").prop("checked") || $("#q14-answer4").prop("checked") || $("#q14-answer5").prop("checked") || $("#q14-answer6").prop("checked")){
-			if($("#q14-answer1").prop("checked")){
-				$(".q14-badge").html("HDD : 1024GB * " + $(".q14-count-hdd").val());
-			}else if($("#q14-answer2").prop("checked")){
-				$(".q14-badge").html("HDD : 2048GB * " + $(".q14-count-hdd").val());
-			}else if($("#q14-answer3").prop("checked")){
-				$(".q14-badge").html("HDD : 4096GB * " + $(".q14-count-hdd").val());
-			}else if($("#q14-answer4").prop("checked")){
-				$(".q14-badge").html("HDD : 6144GB * " + $(".q14-count-hdd").val());
-			}else if($("#q14-answer5").prop("checked")){
-				$(".q14-badge").html("HDD : 8192GB * " + $(".q14-count-hdd").val());
-			}else if($("#q14-answer6").prop("checked")){
-				$(".q14-badge").html("HDD : 필요없음");
-			}
-			sessionStorage.setItem("data-13",JSON.stringify(q14Answers));
+		if($("#q14-answer6").prop("checked")){
+			$(".q14-badge").html("HDD : 필요없음");
 		}
 	}
+	// function questionFourteenSaveBtn(){
+	// 	if($("#q14-answer1").prop("checked") || $("#q14-answer2").prop("checked") || $("#q14-answer3").prop("checked") || $("#q14-answer4").prop("checked") || $("#q14-answer5").prop("checked") || $("#q14-answer6").prop("checked")){
+	// 		if($("#q14-answer1").prop("checked")){
+	// 			$(".q14-badge").html("HDD : 1024GB * " + $(".q14-count-hdd").val());
+	// 		}else if($("#q14-answer2").prop("checked")){
+	// 			$(".q14-badge").html("HDD : 2048GB * " + $(".q14-count-hdd").val());
+	// 		}else if($("#q14-answer3").prop("checked")){
+	// 			$(".q14-badge").html("HDD : 4096GB * " + $(".q14-count-hdd").val());
+	// 		}else if($("#q14-answer4").prop("checked")){
+	// 			$(".q14-badge").html("HDD : 6144GB * " + $(".q14-count-hdd").val());
+	// 		}else if($("#q14-answer5").prop("checked")){
+	// 			$(".q14-badge").html("HDD : 8192GB * " + $(".q14-count-hdd").val());
+	// 		}else if($("#q14-answer6").prop("checked")){
+	// 			$(".q14-badge").html("HDD : 필요없음");
+	// 		}
+	// 		sessionStorage.setItem("data-13",JSON.stringify(q14Answers));
+	// 	}
+	// }
 	function questionFourteenHddInput(){
 		if(isNaN($(".q14-count-hdd").val())){
 			alert("숫자만 입력해주세요!!");
@@ -986,46 +1137,58 @@
 			if($("#q14-answer1").prop("checked")){
 				q14Answers.push("0");
 				q14Answers.push($(".q14-count-hdd").val());
+				$(".q14-badge").html("HDD : 1024GB * " + $(".q14-count-hdd").val());
 			}else if($("#q14-answer2").prop("checked")){
 				q14Answers.push("1");
 				q14Answers.push($(".q14-count-hdd").val());
+				$(".q14-badge").html("HDD : 2048GB * " + $(".q14-count-hdd").val());
 			}else if($("#q14-answer3").prop("checked")){
 				q14Answers.push("2");
 				q14Answers.push($(".q14-count-hdd").val());
+				$(".q14-badge").html("HDD : 4096GB * " + $(".q14-count-hdd").val());
 			}else if($("#q14-answer4").prop("checked")){
 				q14Answers.push("3");
 				q14Answers.push($(".q14-count-hdd").val());
+				$(".q14-badge").html("HDD : 6144GB * " + $(".q14-count-hdd").val());
 			}else if($("#q14-answer5").prop("checked")){
 				q14Answers.push("4");
 				q14Answers.push($(".q14-count-hdd").val());
+				$(".q14-badge").html("HDD : 8192GB * " + $(".q14-count-hdd").val());
 			}
 		}
+		sessionStorage.setItem("data-13",JSON.stringify(q14Answers));
 	}
 	// 15번질문
 	let q15Answers = 0;
 	function questionFifteenBtn(el){
 		if($(el).children().html() == "전체"){
-			q15Answers = 0;
+			// q15Answers = 0;
+			sessionStorage.setItem("data-14",0);
+			$(".q15-badge").html("Fan : 전체");
 		}else if ($(el).children().html() == "상단") {
-			q15Answers = 1;
+			// q15Answers = 1;
+			sessionStorage.setItem("data-14",1);
+			$(".q15-badge").html("Fan : 상단");
 		}else {
-			q15Answers = 2;
+			// q15Answers = 2;
+			sessionStorage.setItem("data-14",2);
+			$(".q15-badge").html("Fan : 기본");
 		}
 	}
-	function questionFifteenSaveBtn(){
-		if($("#q15-answer1").prop("checked") || $("#q15-answer2").prop("checked") || $("#q15-answer3").prop("checked")){
-			if(q15Answers == 0){
-				sessionStorage.setItem("data-14",0);
-				$(".q15-badge").html("Fan : 전체");
-			}else if(q15Answers == 1){
-				sessionStorage.setItem("data-14",1);
-				$(".q15-badge").html("Fan : 상단");
-			}else {
-				sessionStorage.setItem("data-14",2);
-				$(".q15-badge").html("Fan : 기본");
-			}
-		}
-	}
+	// function questionFifteenSaveBtn(){
+	// 	if($("#q15-answer1").prop("checked") || $("#q15-answer2").prop("checked") || $("#q15-answer3").prop("checked")){
+	// 		if(q15Answers == 0){
+	// 			sessionStorage.setItem("data-14",0);
+	// 			$(".q15-badge").html("Fan : 전체");
+	// 		}else if(q15Answers == 1){
+	// 			sessionStorage.setItem("data-14",1);
+	// 			$(".q15-badge").html("Fan : 상단");
+	// 		}else {
+	// 			sessionStorage.setItem("data-14",2);
+	// 			$(".q15-badge").html("Fan : 기본");
+	// 		}
+	// 	}
+	// }
 	// 16번질문
 	let q16Answers = [];
 	function questionSixteenBtn(el){
@@ -1045,6 +1208,23 @@
 					q16Answers.splice(index,1);
 				}
 			}
+			q16Answers.sort();
+			if(q16Answers[0] == "0"){
+				if(q16Answers.length > 1){
+					$(".q16-badge").html("LED : LED ...");
+				}else {
+					$(".q16-badge").html("LED : LED");
+				}
+			}
+			else if(q16Answers[0] == "1"){
+				if(q16Answers.length > 1){
+					$(".q16-badge").html("LED : RGB ...");
+				}else {
+					$(".q16-badge").html("LED : RGB");
+				}
+			}else if(q16Answers[0] == "2"){
+				$(".q16-badge").html("LED : ARGB");
+			}
 		}else if ($(el).attr("data-value") === "3" || $(el).attr("data-value") === "4"){
 			q16Answers = [];
 			if($(el).attr("data-value") === "3"){
@@ -1053,33 +1233,36 @@
 				$("#q16-answer3").prop("checked",false);
 				$("#q16-answer5").prop("checked",false);
 				q16Answers.push($(el).attr("data-value"));
+				$(".q16-badge").html("LED : 무관");
 			}else if ($(el).attr("data-value") === "4"){
 				$("#q16-answer1").prop("checked",false);
 				$("#q16-answer2").prop("checked",false);
 				$("#q16-answer3").prop("checked",false);
 				$("#q16-answer4").prop("checked",false);
 				q16Answers.push($(el).attr("data-value"));
-			}
-		}
-	}
-	function questionSixteenSaveBtn(){
-		if($("#q16-answer1").prop("checked") || $("#q16-answer2").prop("checked") || $("#q16-answer3").prop("checked") || $("#q16-answer4").prop("checked") || $("#q16-answer5").prop("checked")){
-			q16Answers.sort();
-			if(q16Answers[0] == "0"){
-				$(".q16-badge").html("LED : LED");
-			}else if(q16Answers[0] == "1"){
-				$(".q16-badge").html("LED : RGB");
-			}else if(q16Answers[0] == "2"){
-				$(".q16-badge").html("LED : ARGB");
-			}else if(q16Answers[0] == "3"){
-				$(".q16-badge").html("LED : 무관");
-			}else if(q16Answers[0] == "4"){
 				$(".q16-badge").html("LED : 모두제외");
 			}
-			
-			sessionStorage.setItem("data-15",JSON.stringify(q16Answers));
 		}
+		sessionStorage.setItem("data-15",JSON.stringify(q16Answers));
 	}
+	// function questionSixteenSaveBtn(){
+	// 	if($("#q16-answer1").prop("checked") || $("#q16-answer2").prop("checked") || $("#q16-answer3").prop("checked") || $("#q16-answer4").prop("checked") || $("#q16-answer5").prop("checked")){
+	// 		q16Answers.sort();
+	// 		if(q16Answers[0] == "0"){
+	// 			$(".q16-badge").html("LED : LED");
+	// 		}else if(q16Answers[0] == "1"){
+	// 			$(".q16-badge").html("LED : RGB");
+	// 		}else if(q16Answers[0] == "2"){
+	// 			$(".q16-badge").html("LED : ARGB");
+	// 		}else if(q16Answers[0] == "3"){
+	// 			$(".q16-badge").html("LED : 무관");
+	// 		}else if(q16Answers[0] == "4"){
+	// 			$(".q16-badge").html("LED : 모두제외");
+	// 		}
+			
+	// 		sessionStorage.setItem("data-15",JSON.stringify(q16Answers));
+	// 	}
+	// }
 	// 17번질문
 	// 18번질문
 	// 19번질문
@@ -1352,7 +1535,7 @@
 							<div class="q-1 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 1번</span>
-									<button class="btn btn-primary q1-save-btn" onclick="javascript:questionOneSaveBtn()">저장</button>
+									<!-- <button class="btn btn-primary q1-save-btn" onclick="javascript:questionOneSaveBtn()">저장</button> -->
 								</h2>
 								<h3 class="mt-3">OS(윈도우) 라이센스가 필요하신가요?</h3>
 								<div class="mt-2 mb-5 row">
@@ -1378,7 +1561,7 @@
 							<div class="q-2 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 2번</span>
-									<button class="btn btn-primary q2-save-btn" onclick="javascript:questionTwoSaveBtn()">저장</button>
+									<!-- <button class="btn btn-primary q2-save-btn" onclick="javascript:questionTwoSaveBtn()">저장</button> -->
 								</h2>
 								<h3 class="mt-3">본체에 투자하실 최대 한도는 얼마인가요? (최대 500만원)</h3>
 								<div class="mt-2 mb-5 row">
@@ -1396,7 +1579,7 @@
 							<div class="q-3 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 3번</span>
-									<button class="btn btn-primary q3-save-btn" onclick="javascript:questionThreeSaveBtn()">저장</button>
+									<!-- <button class="btn btn-primary q3-save-btn" onclick="javascript:questionThreeSaveBtn()">저장</button> -->
 								</h2>
 								<h3 class="mt-3">주 사용 목적을 선택해주세요 (다중선택 가능)</h3>
 								<div class="row">
@@ -1473,7 +1656,7 @@
 							<div class="q-4 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 4번</span>
-									<button class="btn btn-primary q4-save-btn" onclick="javascript:questionFourSaveBtn()">저장</button>
+									<!-- <button class="btn btn-primary q4-save-btn" onclick="javascript:questionFourSaveBtn()">저장</button> -->
 								</h2>
 								<h3 class="mt-3">예산을 세분화하여 편성 해주세요</h3>
 								<div class="row">
@@ -1593,7 +1776,7 @@
 							<div class="q-5 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 5번</span>
-									<button class="btn btn-primary q5-save-btn" onclick="javascript:questionFiveSaveBtn()">저장</button>
+									<!-- <button class="btn btn-primary q5-save-btn" onclick="javascript:questionFiveSaveBtn()">저장</button> -->
 								</h2>
 								<h3 class="mt-3">WIFI, 블루투스 옵션이 포함된 PC가 필요하신가요?</h3>
 								<div class="mt-3 mb-5 row">
@@ -1611,7 +1794,7 @@
 							<div class="q-6 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 6번</span>
-									<button class="btn btn-primary q6-save-btn" onclick="javascript:questionSixSaveBtn()">저장</button>
+									<!-- <button class="btn btn-primary q6-save-btn" onclick="javascript:questionSixSaveBtn()">저장</button> -->
 								</h2>
 								<h3 class="mt-3">선호하는 CPU 제조사를 선택해주세요</h3>
 								<div class="mt-3 mb-5 row">
@@ -1633,7 +1816,7 @@
 							<div class="q-7 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 7번</span>
-									<button class="btn btn-primary q7-save-btn" onclick="javascript:questionSevenSaveBtn()">저장</button>
+									<!-- <button class="btn btn-primary q7-save-btn" onclick="javascript:questionSevenSaveBtn()">저장</button> -->
 								</h2>
 								<h3 class="mt-3">내장그래픽이 필요하십니까?</h3>
 								<div class="mt-3 mb-5 row">
@@ -1655,7 +1838,7 @@
 							<div class="q-8 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 8번</span>
-									<button class="btn btn-primary q8-save-btn" onclick="javascript:questionEightSaveBtn()">저장</button>
+									<!-- <button class="btn btn-primary q8-save-btn" onclick="javascript:questionEightSaveBtn()">저장</button> -->
 								</h2>
 								<h3 class="mt-3">수냉쿨러를 선호하십니까?</h3>
 								<div class="mt-3 mb-5 row">
@@ -1679,7 +1862,7 @@
 							<div class="q-10 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 10번</span>
-									<button class="btn btn-primary q10-save-btn" onclick="javascript:questionTenSaveBtn()">저장</button>
+									<!-- <button class="btn btn-primary q10-save-btn" onclick="javascript:questionTenSaveBtn()">저장</button> -->
 								</h2>
 								<h3 class="mt-3">메모리(램)카드의 버전을 DDR4, DDR5 중에서 골라주세요</h3>
 								<div class="mt-3 mb-5 row">
@@ -1701,7 +1884,7 @@
 							<div class="q-11 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 11번</span>
-									<button class="btn btn-primary q11-save-btn" onclick="javascript:questionElevenSaveBtn()">저장</button>
+									<!-- <button class="btn btn-primary q11-save-btn" onclick="javascript:questionElevenSaveBtn()">저장</button> -->
 								</h2>
 								<h3 class="mt-3">벌크나 멀티팩을 선호 하십니까?</h3>
 								<div class="mt-3 mb-5 row">
@@ -1727,7 +1910,7 @@
 							<div class="q-12 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 12번</span>
-									<button class="btn btn-primary q12-save-btn" onclick="javascript:questionTwelveSaveBtn()">저장</button>
+									<!-- <button class="btn btn-primary q12-save-btn" onclick="javascript:questionTwelveSaveBtn()">저장</button> -->
 								</h2>
 								<h3 class="mt-3">C드라이브(SSD)의 용량을 선택해주세요</h3>
 								<div class="mt-3 row">
@@ -1759,7 +1942,7 @@
 							<div class="q-13 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 13번</span>
-									<button class="btn btn-primary q13-save-btn" onclick="javascript:questionThirteenSaveBtn()">저장</button>
+									<!-- <button class="btn btn-primary q13-save-btn" onclick="javascript:questionThirteenSaveBtn()">저장</button> -->
 								</h2>
 								<h3 class="mt-3">원하시는 본체 옆판의 소재를 선택해주세요!(다중선택 가능)</h3>
 								<div class="mt-3 row">
@@ -1795,7 +1978,7 @@
 							<div class="q-14 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 14번</span>
-									<button class="btn btn-primary q14-save-btn" onclick="javascript:questionFourteenSaveBtn()">저장</button>
+									<!-- <button class="btn btn-primary q14-save-btn" onclick="javascript:questionFourteenSaveBtn()">저장</button> -->
 								</h2>
 								<h3 class="mt-3">HDD를 선택해주세요</h3>
 								<div class="mt-3 row">
@@ -1841,7 +2024,7 @@
 							<div class="q-15 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 15번</span>
-									<button class="btn btn-primary q15-save-btn" onclick="javascript:questionFifteenSaveBtn()">저장</button>
+									<!-- <button class="btn btn-primary q15-save-btn" onclick="javascript:questionFifteenSaveBtn()">저장</button> -->
 								</h2>
 								<h3 class="mt-3">케이스에 팬을 추가할까요?</h3>
 								<div class="mt-3 mb-5 row">
@@ -1863,7 +2046,7 @@
 							<div class="q-16 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 16번</span>
-									<button class="btn btn-primary q16-save-btn" onclick="javascript:questionSixteenSaveBtn()">저장</button>
+									<!-- <button class="btn btn-primary q16-save-btn" onclick="javascript:questionSixteenSaveBtn()">저장</button> -->
 								</h2>
 								<h3 class="mt-3">본체에 LED를 선택해주세요(다중선택)</h3>
 								<div class="mt-3 row">

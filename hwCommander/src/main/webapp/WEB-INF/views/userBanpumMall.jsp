@@ -8,6 +8,7 @@
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 <link rel="stylesheet" href="/resources/css/main.css">
+<link rel="stylesheet" href="/resources/css/estimateCalculationOneCss.css">
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -34,12 +35,24 @@
     		// 정렬 기능 숨기기
     		ordering: false,
     		// 페이징 기능 숨기기
-    		paging: true
+    		paging: true,
+            language : {
+                "search" : "검색 : ",
+                "paginate" : {
+                    "previous" : "이전",
+                    "next" : "다음"
+                }
+            },
     	 });
     	$("#banpunMallListTable").on('click', 'tbody tr img', function () {
     		var banpumId = $(this).attr("name");
     		location.href = "/userBanpumMallDetail.do?banpumMallId="+banpumId;
     	});
+        $('#banpunMallListTable').on('page.dt', function () {
+            $('html, body').animate({
+                scrollTop: $("#banpumMallTop").offset().top - 100
+            }, 10);
+        });
     });
 </script>
 </head>
@@ -50,8 +63,8 @@
 		<div class="d-flex">
 			<!-- 빈 영역 -->
 			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
-			<div class="bg-light rounded p-5" style="width: 70%!important;">
-                <h2 class="d-flex justify-content-center">반품몰</h2>
+			<div class="estimateCalc_background rounded p-5" style="width: 70%!important;" id="banpumMallTop">
+                <h2 class="mt-4 d-flex justify-content-center">반품몰</h2>
 				<table id="banpunMallListTable" class="table table-hover" style="width:100%">
                     <thead>
                         <tr>
@@ -100,6 +113,70 @@
                                 <td>${item.banpumDescription}</td>
                             </tr>
                         </c:forEach>
+                        <tr>
+                            <td>123</td>
+                            <td>123</td>
+                        </tr>
+                        <tr>
+                            <td>123</td>
+                            <td>123</td>
+                        </tr>
+                        <tr>
+                            <td>123</td>
+                            <td>123</td>
+                        </tr>
+                        <tr>
+                            <td>123</td>
+                            <td>123</td>
+                        </tr>
+                        <tr>
+                            <td>123</td>
+                            <td>123</td>
+                        </tr>
+                        <tr>
+                            <td>123</td>
+                            <td>123</td>
+                        </tr>
+                        <tr>
+                            <td>123</td>
+                            <td>123</td>
+                        </tr>
+                        <tr>
+                            <td>123</td>
+                            <td>123</td>
+                        </tr>
+                        <tr>
+                            <td>123</td>
+                            <td>123</td>
+                        </tr>
+                        <tr>
+                            <td>123</td>
+                            <td>123</td>
+                        </tr>
+                        <tr>
+                            <td>123</td>
+                            <td>123</td>
+                        </tr>
+                        <tr>
+                            <td>123</td>
+                            <td>123</td>
+                        </tr>
+                        <tr>
+                            <td>123</td>
+                            <td>123</td>
+                        </tr>
+                        <tr>
+                            <td>123</td>
+                            <td>123</td>
+                        </tr>
+                        <tr>
+                            <td>123</td>
+                            <td>123</td>
+                        </tr>
+                        <tr>
+                            <td>123</td>
+                            <td>123</td>
+                        </tr>
                     </tbody>
                 </table>
 			</div>
