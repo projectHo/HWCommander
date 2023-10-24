@@ -794,7 +794,7 @@
 		)
 	</insert>
 	
-	<select id="getBanpumMasterAllList" resultType="banpumMasterVO">
+	<select id="getBanpumMasterAllList" resultType="banpumMasterVO" parameterType="banpumMasterVO">
 		SELECT 
 			a.id                                                                              AS id               
 			, a.banpum_name                                                                   AS banpumName       
@@ -822,10 +822,11 @@
 			, a.updt_dtm                                                                      AS updtDtm          
 		FROM
 			banpum_master a
-			<!-- 
-		WHERE
-			a.exposure_yn = 'Y'
-			 -->
+		<where>
+		    <if test="exposureYn != null and exposureYn != ''">
+		    	AND a.exposure_yn = #{exposureYn} 
+		    </if>
+		</where>
 	</select>
 	
 	<select id="getBanpumMasterById" parameterType="String" resultType="banpumMasterVO">

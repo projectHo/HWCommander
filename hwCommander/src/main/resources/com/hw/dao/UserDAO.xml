@@ -101,4 +101,64 @@
 	<select id="getDiDupliChkCount" resultType="Integer" parameterType="String">
 		SELECT COUNT(1) AS di_cnt FROM user_info WHERE di = #{di}
 	</select>
+	
+	<select id="getUserEscasStorageAllList" resultType="userEscasStorageVO" parameterType="userEscasStorageVO">
+		SELECT 
+			a.user_id                                                                         AS userId                 
+			, a.seq                                                                             AS seq                    
+			, a.escas_storage_description                                                       AS escasStorageDescription
+			, a.escas_url_parameter                                                             AS escasUrlParameter      
+			, a.escas_logic_version                                                             AS escasLogicVersion      
+			, a.reg_dtm                                                                         AS regDtm                 
+			, a.updt_dtm                                                                        AS updtDtm                        
+		FROM
+			user_escas_storage a
+		<where>
+		    <if test="userId != null and userId != ''">
+		    	AND a.user_id = #{userId} 
+		    </if>
+		</where>
+	</select>
+	
+	<select id="getUserEscasStorageVOMaxSeq" resultType="Integer" parameterType="String">
+		SELECT IFNULL(MAX(seq), 0)+1 AS seq FROM user_escas_storage WHERE user_id = #{userId} 
+	</select>
+	
+	<insert id="insertUserEscasStorageVO" parameterType="userEscasStorageVO">
+		INSERT INTO user_escas_storage
+		(
+			user_id
+			, seq
+			, escas_storage_description
+			, escas_url_parameter
+			, escas_logic_version
+			, reg_dtm
+			, updt_dtm
+		)
+		VALUES
+		(
+			#{userId}
+			, #{seq}
+			, #{escasStorageDescription}
+			, #{escasUrlParameter}
+			, #{escasLogicVersion}
+			, NOW()
+			, #{updtDtm}
+		)
+	</insert>
+	
+	<update id="updateBanpumMasterVO" parameterType="banpumMasterVO">
+		UPDATE
+			user_escas_storage
+		SET
+			user_id                          = #{userId}                 
+			, seq                            = #{seq}                    
+			, escas_storage_description      = #{escasStorageDescription}
+			, escas_url_parameter            = #{escasUrlParameter}      
+			, escas_logic_version            = #{escasLogicVersion}      
+			, updt_dtm                       = NOW()                                          
+		WHERE
+			user_id = #{userId}
+	</update>
+
 </mapper>

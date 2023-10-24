@@ -48,9 +48,9 @@ public interface ProductDAO {
 	/*--------------------------------------------------
 	 - 반품몰 추가
 	*--------------------------------------------------*/
-	public List<BanpumMasterVO> getBanpumMasterAllList();
+	public List<BanpumMasterVO> getBanpumMasterAllList(BanpumMasterVO banpumMasterVO);
 	public String getBanpumMasterVOMaxId();
-	public Integer insertBanpumMasterVO(BanpumMasterVO productMasterVO);
+	public Integer insertBanpumMasterVO(BanpumMasterVO banpumMasterVO);
 	public BanpumMasterVO getBanpumMasterById(String id);
-	public Integer updateBanpumMasterVO(BanpumMasterVO productMasterVO);
+	public Integer updateBanpumMasterVO(BanpumMasterVO banpumMasterVO);
 }
