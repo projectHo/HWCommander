@@ -52,9 +52,6 @@
 
 	// 환불 내역
 	function clickRefundList(el){
-		let orderNumber = $(el).find(".item-id").html();
-		objectNum = encodeURIComponent(orderNumber);
-		location.href = "/user/refundDetail.do?id=" + objectNum;
 	}
 	function clickRefundDetail(){
 		$(".card-list").removeClass("show").css("display","none");
@@ -71,6 +68,14 @@
 		setTimeout(() => {
 			$(".card-inquiry-detail").addClass("show");
 		}, 100);;
+	}
+
+	
+	// 견적저장소
+	function clickEstimateStorageDetail(){
+		if(loginCheck()) {
+			location.href = "/user/estimateStorage.do?id=" + "${loginUser.id}";
+		}
 	}
 	// 내 정보
 	function clickUserInfoDetail(){
@@ -133,6 +138,17 @@
 		setTimeout(() => {
 			$(".card-secession-detail").addClass("show");
 		}, 100);
+	}
+
+	function loginCheck() {
+		var check = false;
+		if("${loginUser}" == "") {
+			alert("로그인 후 이용해주세요.");
+			location.href = "/user/login.do";
+		}else {
+			check = true;
+		}
+		return check;
 	}
 	$(function(){
 		$(".card-list").removeClass("show").css("display","none");
@@ -204,8 +220,8 @@
 							</div>
 							<div class="accordion-item">
 								<h2 class="accordion-header" id="flush-headingOne">
-									<button class="accordion-button accordion-button-single collapsed" type="button" onclick="javascript:alert('준비중입니다.')">
-										장바구니
+									<button class="accordion-button accordion-button-single collapsed" type="button" onclick="javascript:clickEstimateStorageDetail()">
+										견적 저장소
 									</button>
 								</h2>
 							</div>

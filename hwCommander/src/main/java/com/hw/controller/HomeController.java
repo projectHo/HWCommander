@@ -85,7 +85,6 @@ public class HomeController {
 	public String goUserBanmpumMallDetail(Model model, @RequestParam(value = "banpumMallId", required = true) String productId, @SessionAttribute(name = "loginUser", required = false)UserInfoVO userInfoVO) {
 		model.addAttribute("loginUser", userInfoVO);
 		model.addAttribute("banpumMaster", productService.getBanpumMasterById(productId));
-		// model.addAttribute("banpumDetail", productService.getBanpumDetailById(productId));
 		return "userBanpumMallDetail";
 	}
 	

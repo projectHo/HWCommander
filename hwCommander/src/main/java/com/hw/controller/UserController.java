@@ -283,10 +283,10 @@ public class UserController {
 	}
 
 	/*--------------------------------------------------
-	 - 환불 상세페이지
+	 - 견적 저장소
 	*--------------------------------------------------*/
-	@RequestMapping(value = "/refundDetail.do", method = RequestMethod.GET)
-	public String goRefundDetail(HttpServletRequest request
+	@RequestMapping(value = "/estimateStorage.do", method = RequestMethod.GET)
+	public String goEstimateStorage(HttpServletRequest request
 			, Model model
 			, @RequestParam(value = "id", required = true) String id) {
 		
@@ -294,10 +294,8 @@ public class UserController {
 		UserInfoVO user = (UserInfoVO) httpSession.getAttribute("loginUser");
 		
 		model.addAttribute("loginUser", user);
-		model.addAttribute("orderMasterVO", orderService.getOrderMasterById(id));
-		model.addAttribute("orderDetailVOList", orderService.getOrderDetailListById(id));
-		
-		return userLoginCheck(request, model, "refundDetail");
+
+		return userLoginCheck(request, model, "estimateStorage");
 	}
 	/*--------------------------------------------------
 	 - private method
