@@ -76,15 +76,19 @@
 						</thead>
 						<tbody class="table-group-divider">
 							<c:forEach var="item" items="${orderMasterVOList}">
-								<tr style="border-color: transparent; cursor: pointer;" onclick="javascript:clickOrderList(this)">
-									<a href="javascript:goOrderListDetailPage()">
-										<td scope="row">${item.orderDateStr}</td>
-										<td>${item.orderName}</td>
-										<td class="item-id">${item.id}</td>
-										<td>${item.totOrderPriceStr}</td>
-										<td>${item.orderStateCdNm}</td>
-									</a>
-								</tr>
+								<c:choose>
+									<c:when test="${item.orderStateCd < 09}">
+										<tr style="border-color: transparent; cursor: pointer;" onclick="javascript:clickOrderList(this)">
+											<a href="javascript:goOrderListDetailPage()">
+												<td scope="row">${item.orderDateStr}</td>
+												<td>${item.orderName}</td>
+												<td class="item-id">${item.id}</td>
+												<td>${item.totOrderPriceStr}</td>
+												<td>${item.orderStateCdNm}</td>
+											</a>
+										</tr>
+									</c:when>
+								</c:choose>
 							</c:forEach>
 						</tbody>
 					</table>
