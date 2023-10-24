@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 import com.hw.dao.UserDAO;
 import com.hw.mail.MailHandler;
 import com.hw.mail.TempKey;
+import com.hw.model.BanpumMasterVO;
+import com.hw.model.PartsGpuVO;
+import com.hw.model.UserEscasStorageVO;
 import com.hw.model.UserInfoVO;
 import com.hw.service.UserService;
 
@@ -83,6 +86,44 @@ public class UserServiceImpl implements UserService {
 			result.setMailConfirm("fail");
 		}
 		return result;
+	}
+	
+	@Override
+	public List<UserEscasStorageVO> getUserEscasStorageAllList() {
+		UserEscasStorageVO searchVO = new UserEscasStorageVO();
+		searchVO.setUserId(null);
+		return userDAO.getUserEscasStorageAllList(searchVO);
+	}
+	
+	@Override
+	public Integer userEscasStorageRegistLogic(UserEscasStorageVO userEscasStorageVO) {
+		int insertResult = 0;
+		int maxSeq = userDAO.getUserEscasStorageVOMaxSeq(userEscasStorageVO.getUserId());
+		userEscasStorageVO.setSeq(maxSeq);
+		insertResult = userDAO.insertUserEscasStorageVO(userEscasStorageVO);
+		return insertResult;
+	}
+	
+	@Override
+	public UserEscasStorageVO getBanpumMasterByUserId(String userId) {
+		UserEscasStorageVO resultVO = null;
+		UserEscasStorageVO searchVO = new UserEscasStorageVO();
+		
+		searchVO.setUserId(userId);
+		List<UserEscasStorageVO> resultList = userDAO.getUserEscasStorageAllList(searchVO);
+		
+		if(resultList.size() != 0) {
+			resultVO = resultList.get(0);
+		}
+		
+		return resultVO;
+	}
+	
+	@Override
+	public Integer userEscasStorageUpdateLogic(UserEscasStorageVO userEscasStorageVO) {
+		int updateResult = 0;
+		updateResult = userDAO.updateUserEscasStorageVO(userEscasStorageVO);
+		return updateResult;
 	}
 	
 	private void sendMailByMailConfirm(UserInfoVO userInfoVO) {

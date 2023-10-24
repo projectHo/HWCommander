@@ -86,7 +86,9 @@ public class ProductServiceImpl implements ProductService {
 	
 	@Override
 	public List<BanpumMasterVO> getBanpumMasterAllList() {
-		return productDAO.getBanpumMasterAllList();
+		BanpumMasterVO searchVO = new BanpumMasterVO();
+		searchVO.setExposureYn(null);
+		return productDAO.getBanpumMasterAllList(searchVO);
 	}
 	
 	@Override
@@ -106,8 +108,14 @@ public class ProductServiceImpl implements ProductService {
 	@Override
 	public Integer banpumUpdateLogic(BanpumMasterVO banpumMasterVO) {
 		int updateResult = 0;
-		String targetId = banpumMasterVO.getId();
 		updateResult = productDAO.updateBanpumMasterVO(banpumMasterVO);
 		return updateResult;
+	}
+	
+	@Override
+	public List<BanpumMasterVO> getBanpumMasterAllListByExposureYn(String exposureYn) {
+		BanpumMasterVO searchVO = new BanpumMasterVO();
+		searchVO.setExposureYn(exposureYn);
+		return productDAO.getBanpumMasterAllList(searchVO);
 	}
 }
