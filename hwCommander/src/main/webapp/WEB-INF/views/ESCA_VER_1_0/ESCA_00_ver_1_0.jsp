@@ -2087,7 +2087,7 @@
 				<div class="modal-dialog modal-dialog-centered modal-sm">
 					<div class="modal-content">
 						<div class="d-flex align-items-center p-2 ps-3 pe-3">
-							<div class="pt-2">로딩중입니다. 잠시만 기다려주세요</div>
+							<div class="pt-2">알고리즘이 부품을 추천중입니다!<br>최적의 견적을 추천드릴게요!</div>
 							<div class="spinner-border ms-auto" role="status" aria-hidden="true"></div>
 						</div>
 					</div>
