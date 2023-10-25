@@ -17,11 +17,19 @@
 <meta name="author" content="" />
 <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 
+<!-- 10.25 swiper 추가 & 단독 css 추가 -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+<link rel="stylesheet" href="/resources/css/banpumMallDetail.css">
 <script>
-	let aa = "${banpumMaster}";
-	let bb = "${banpumDetail}";
     $(function() {
-    	
+		var swiper = new Swiper(".mySwiper", {
+			grabCursor: true,
+			pagination: {
+				el: ".swiper-pagination",
+				dynamicBullets: true,
+			},
+		});
     });
     
 function goTermsOfService() {
@@ -66,31 +74,77 @@ function loginCheck() {
 						<div class="card-body">				
 							<div class="container">
 							  <div class="row">
-							    <div class="col-5">
+							    <div class="col-5" id="images">
 							    <!-- 임시 몰루이미지
 							      <img class="img-fluid rounded mx-auto d-block" src="/resources/img/tempImage_600x600.png">
 							     -->  
-							      <img class="img-fluid rounded mx-auto d-block" src="${banpumMaster.banpumImage1}" style="width:600px; height:600px; object-fit:contain;">
+								  <div class="swiper mySwiper">
+									<div class="swiper-wrapper">
+										<div class="swiper-slide">
+											<img src="${banpumMaster.banpumImage1}" alt="">
+										</div>
+										<div class="swiper-slide">
+											<img src="${banpumMaster.banpumImage2}" alt="">
+										</div>
+										<div class="swiper-slide">
+											<img src="${banpumMaster.banpumImage3}" alt="">
+										</div>
+										<div class="swiper-slide">
+											<img src="${banpumMaster.banpumImage4}" alt="">
+										</div>
+										<div class="swiper-slide">
+											<img src="${banpumMaster.banpumImage5}" alt="">
+										</div>
+										<div class="swiper-slide">
+											<img src="${banpumMaster.banpumImage6}" alt="">
+										</div>
+										<div class="swiper-slide">
+											<img src="${banpumMaster.banpumImage7}" alt="">
+										</div>
+										<div class="swiper-slide">
+											<img src="${banpumMaster.banpumImage8}" alt="">
+										</div>
+										<div class="swiper-slide">
+											<img src="${banpumMaster.banpumImage9}" alt="">
+										</div>
+										<div class="swiper-slide">
+											<img src="${banpumMaster.banpumImage10}" alt="">
+										</div>
+										<div class="swiper-slide">
+											<img src="${banpumMaster.banpumImage11}" alt="">
+										</div>
+										<div class="swiper-slide">
+											<img src="${banpumMaster.banpumImage12}" alt="">
+										</div>
+										<div class="swiper-slide">
+											<img src="${banpumMaster.banpumImage13}" alt="">
+										</div>
+										<div class="swiper-slide">
+											<img src="${banpumMaster.banpumImage14}" alt="">
+										</div>
+										<div class="swiper-slide">
+											<img src="${banpumMaster.banpumImage15}" alt="">
+										</div>
+									</div>
+									<div class="swiper-pagination"></div>
+								  </div>
 							    </div>
 							    <div class="col-7">
-							    	<p class="h1 mb-5">${banpumMaster.banpumName}</p>
-							    	<p class="h3 mb-5">${banpumMaster.banpumPriceStr}</p>
-							    	<p class="h3 mb-5">${banpumMaster.banpumDescriptionStr}</p>
-							    	<p class="h4 mb">배송 기간 : 영업일 기준 약 2일 소요</p>
-							    	<p class="h4 mb">택배사 : 우체국 택배</p>
-							    	<p class="h4 mb-5">배송비 : 무료</p>
-							    	<p class="h4 mb-5">도서산간 지역의 경우 배송이 제한되거나 추가요금이 발생할 수 있습니다.</p>
-							    	<p class="h4 mb">﻿AS 기준은 각 부품의 유통사 규정에 따르며 해당 쇼핑몰에서 1년간 무상 AS를 지원해드립니다.</p>
+							    	<p class="h1 mb-4">${banpumMaster.banpumName}</p>
+							    	<p class="h3 mb-4">가격 : ${banpumMaster.banpumPriceStr}</p>
+							    	<p class="h3">상세 정보</p>
+									<p class="h5 mb-4">${banpumMaster.banpumDescriptionStr}</p>
+							    	<p class="h4">배송 기간 : 영업일 기준 약 2일 소요</p>
+							    	<p class="h4">택배사 : 우체국 택배</p>
+							    	<p class="h4 mb-3">배송비 : 무료</p>
+							    	<p class="h6">도서산간 지역의 경우 배송이 제한되거나 추가요금이 발생할 수 있습니다.</p>
+							    	<p class="h6">﻿AS 기준은 각 부품의 유통사 규정에 따르며 해당 쇼핑몰에서 1년간 무상 AS를 지원해드립니다.</p>
 							    </div>
 							  </div>
 							  <div class="row">
 							    <div class="col-5">
-							    	<p class="h3 mt-3 mb-3">제품 상세 정보</p>
-									<ul class="list-unstyled">
-									<!-- <c:forEach var="item" items="${banpumDetail}">
-										<li>${item.partsTypeCdNm} : ${item.partsName}</li>
-									</c:forEach> -->
-									</ul>
+							    	<!-- <p class="h3 mt-3 mb-3">제품 상세 정보</p>
+									<p class="h3 mb-5">${banpumMaster.banpumDescriptionStr}</p> -->
 							    </div>
 							    <div class="col-7">
 							    </div>

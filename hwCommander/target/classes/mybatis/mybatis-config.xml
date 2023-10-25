@@ -53,6 +53,7 @@
 		<!-- 반품 몰-->
 		<typeAlias alias="banpumMasterVO" type="com.hw.model.BanpumMasterVO"></typeAlias>
 		
+		<typeAlias alias="userEscasStorageVO" type="com.hw.model.UserEscasStorageVO"></typeAlias>
 		<typeAlias alias="userInfoVO" type="com.hw.model.UserInfoVO"></typeAlias>
       </typeAliases>
 </configuration>

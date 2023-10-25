@@ -21,8 +21,11 @@
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet"/>
 
+<!-- 10.25 swiper 추가 & 단독 css 추가  -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+<link rel="stylesheet" href="/resources/css/banpumMall.css">
 <script>
-    let aa = "${banpumMasterList}";
     $(function() {
         $('#banpunMallListTable').DataTable({ 
     	    bAutoWidth: false,
@@ -44,7 +47,7 @@
                 }
             },
     	 });
-    	$("#banpunMallListTable").on('click', 'tbody tr img', function () {
+    	$("#banpunMallListTable").on('click', 'tbody tr', function () {
     		var banpumId = $(this).attr("name");
     		location.href = "/userBanpumMallDetail.do?banpumMallId="+banpumId;
     	});
@@ -53,6 +56,14 @@
                 scrollTop: $("#banpumMallTop").offset().top - 100
             }, 10);
         });
+
+        var swiper = new Swiper(".mySwiper", {
+            grabCursor: true,
+			pagination: {
+				el: ".swiper-pagination",
+				dynamicBullets: true,
+			},
+		});
     });
 </script>
 </head>
@@ -68,115 +79,72 @@
 				<table id="banpunMallListTable" class="table table-hover" style="width:100%">
                     <thead>
                         <tr>
-                            <th>상품이미지</th>
-                            <th>상품정보</th>
+                            <th style="width: 30%;">상품이미지</th>
+                            <th style="width: 70%;">상품정보</th>
                         </tr>
                     </thead>
                     <tbody>
                         <c:forEach var="item" items="${banpumMasterList}">
-                            <tr>
+                            <tr name="${item.id}">
                                 <td>
-                                    <div class="row">
-                                        <div class="col">
-                                            <img src="..." alt="..." style="cursor:pointer; width:100px; height:100px; object-fit:contain;" name="${item.id}">
+                                    <div class="swiper mySwiper">
+                                        <div class="swiper-wrapper">
+                                            <div class="swiper-slide">
+                                                <img src="${item.banpumImage1}" alt="">
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <img src="${item.banpumImage2}" alt="">
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <img src="${item.banpumImage3}" alt="">
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <img src="${item.banpumImage4}" alt="">
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <img src="${item.banpumImage5}" alt="">
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <img src="${item.banpumImage6}" alt="">
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <img src="${item.banpumImage7}" alt="">
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <img src="${item.banpumImage8}" alt="">
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <img src="${item.banpumImage9}" alt="">
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <img src="${item.banpumImage10}" alt="">
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <img src="${item.banpumImage11}" alt="">
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <img src="${item.banpumImage12}" alt="">
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <img src="${item.banpumImage13}" alt="">
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <img src="${item.banpumImage14}" alt="">
+                                            </div>
+                                            <div class="swiper-slide">
+                                                <img src="${item.banpumImage15}" alt="">
+                                            </div>
                                         </div>
-                                        <div class="col">
-                                            <img src="..." alt="..." style="cursor:pointer; width:100px; height:100px; object-fit:contain;" name="${item.id}">
-                                        </div>
-                                        <div class="col">
-                                            <img src="..." alt="..." style="cursor:pointer; width:100px; height:100px; object-fit:contain;" name="${item.id}">
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <img src="..." alt="..." style="cursor:pointer; width:100px; height:100px; object-fit:contain;" name="${item.id}">
-                                        </div>
-                                        <div class="col">
-                                            <img src="..." alt="..." style="cursor:pointer; width:100px; height:100px; object-fit:contain;" name="${item.id}">
-                                        </div>
-                                        <div class="col">
-                                            <img src="..." alt="..." style="cursor:pointer; width:100px; height:100px; object-fit:contain;" name="${item.id}">
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <img src="..." alt="..." style="cursor:pointer; width:100px; height:100px; object-fit:contain;" name="${item.id}">
-                                        </div>
-                                        <div class="col">
-                                            <img src="..." alt="..." style="cursor:pointer; width:100px; height:100px; object-fit:contain;" name="${item.id}">
-                                        </div>
-                                        <div class="col">
-                                            <img src="..." alt="..." style="cursor:pointer; width:100px; height:100px; object-fit:contain;" name="${item.id}">
-                                        </div>
+                                        <div class="swiper-pagination"></div>
                                     </div>
                                 </td>
-                                <td>${item.banpumDescription}</td>
+                                <td>
+                                    <p>이름 : ${item.banpumName}</p>
+                                    <p>가격 : ${item.banpumPriceStr}</p>
+                                    <p>설명 : ${item.banpumDescription}</p>
+                                </td>
                             </tr>
                         </c:forEach>
-                        <tr>
-                            <td>123</td>
-                            <td>123</td>
-                        </tr>
-                        <tr>
-                            <td>123</td>
-                            <td>123</td>
-                        </tr>
-                        <tr>
-                            <td>123</td>
-                            <td>123</td>
-                        </tr>
-                        <tr>
-                            <td>123</td>
-                            <td>123</td>
-                        </tr>
-                        <tr>
-                            <td>123</td>
-                            <td>123</td>
-                        </tr>
-                        <tr>
-                            <td>123</td>
-                            <td>123</td>
-                        </tr>
-                        <tr>
-                            <td>123</td>
-                            <td>123</td>
-                        </tr>
-                        <tr>
-                            <td>123</td>
-                            <td>123</td>
-                        </tr>
-                        <tr>
-                            <td>123</td>
-                            <td>123</td>
-                        </tr>
-                        <tr>
-                            <td>123</td>
-                            <td>123</td>
-                        </tr>
-                        <tr>
-                            <td>123</td>
-                            <td>123</td>
-                        </tr>
-                        <tr>
-                            <td>123</td>
-                            <td>123</td>
-                        </tr>
-                        <tr>
-                            <td>123</td>
-                            <td>123</td>
-                        </tr>
-                        <tr>
-                            <td>123</td>
-                            <td>123</td>
-                        </tr>
-                        <tr>
-                            <td>123</td>
-                            <td>123</td>
-                        </tr>
-                        <tr>
-                            <td>123</td>
-                            <td>123</td>
-                        </tr>
                     </tbody>
                 </table>
 			</div>
