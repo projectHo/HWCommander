@@ -21,6 +21,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.hw.model.BanpumMasterVO;
 import com.hw.model.OrderDetailVO;
 import com.hw.model.OrderMasterVO;
 import com.hw.model.ProductDetailVO;
@@ -50,27 +51,39 @@ public class OrderController {
 		
 		UserInfoVO loginUser = (UserInfoVO) httpSession.getAttribute("loginUser");
 		
+		// 23.10.26 현재 비즈니스모델은 [견적산출결과에서 구매] or [반품몰에서 구매] 로만 구성되어있으며
+		// 프로토타입의 장바구니(catr)가 폐기되면서 견적저장실(escas storage)이 그 자리를 대체하고
+		// 견적저장실에서 구매로 이어지는 경우에는 [견적산출결과에서 구매] 방식을 채택하기에 분기를 변경함.
+		// accessRoute == [견적산출결과에서 구매] == "direct"
+		// accessRoute == [반품몰에서 구매] == "banpum"
 		if("direct".equals(accessRoute)) {
-			// order 1건에 product 1건이라는 전제임. product가 여러건일 때(ex. cart)아래 else에서 처리
-			List<ProductMasterVO> productMasterVOList = new ArrayList<>();
-			productMasterVOList.add(productService.getProductMasterById(productIds));
 			
-			List<List<ProductDetailVO>> productDetailVOListList = new ArrayList<>();
-			productDetailVOListList.add(productService.getProductDetailById(productIds));
+			ProductMasterVO productMasterVO = new ProductMasterVO();
+			productMasterVO = productService.getProductMasterById(productIds);
 			
-			model.addAttribute("productList", productMasterVOList);
-			model.addAttribute("productDetailList", productDetailVOListList);
-			model.addAttribute("orderName", productMasterVOList.get(0).getProductName());
+			List<ProductDetailVO> productDetailVOList = new ArrayList<>();
+			productDetailVOList = productService.getProductDetailById(productIds);
 			
-			request.setAttribute("productPrice", productMasterVOList.get(0).getProductPrice());
-		}else {
-			// todo wonho Cart
-			// jsp idlist.join(", ")
-			model.addAttribute("productList", null);
-			model.addAttribute("orderName", "~~~외 ~~건");
+			model.addAttribute("productMasterVO", productMasterVO);
+			model.addAttribute("productDetailVOList", productDetailVOList);
+			model.addAttribute("orderName", productMasterVO.getProductName());
+			
+			request.setAttribute("productPrice", productMasterVO.getProductPrice());
+			
+		}else if("banpum".equals(accessRoute)) {
+			
+			BanpumMasterVO banpumMasterVO = new BanpumMasterVO();
+			banpumMasterVO = productService.getBanpumMasterById(productIds);
+			
+			model.addAttribute("banpumMasterVO", banpumMasterVO);
+			model.addAttribute("orderName", banpumMasterVO.getBanpumName());
+			
+			request.setAttribute("productPrice", banpumMasterVO.getBanpumPrice());
 		}
 		
 		request.setAttribute("orderId", orderService.getOrderMasterVOUniqueId());
+		
+		model.addAttribute("accessRoute", accessRoute);
 		model.addAttribute("loginUser", loginUser);
 		
 		if(null == loginUser) {
