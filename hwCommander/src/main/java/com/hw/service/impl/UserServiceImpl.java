@@ -105,7 +105,7 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public UserEscasStorageVO getBanpumMasterByUserId(String userId) {
+	public UserEscasStorageVO getUserEscasStorageVOByUserId(String userId) {
 		UserEscasStorageVO resultVO = null;
 		UserEscasStorageVO searchVO = new UserEscasStorageVO();
 		

@@ -16,6 +16,6 @@ public interface UserService {
 	
 	public List<UserEscasStorageVO> getUserEscasStorageAllList();
 	public Integer userEscasStorageRegistLogic(UserEscasStorageVO userEscasStorageVO);
-	public UserEscasStorageVO getBanpumMasterByUserId(String userId);
+	public UserEscasStorageVO getUserEscasStorageVOByUserId(String userId);
 	public Integer userEscasStorageUpdateLogic(UserEscasStorageVO userEscasStorageVO);
 }
