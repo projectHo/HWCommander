@@ -226,6 +226,10 @@ public class ESCAController {
 			
 			model.addAttribute("productMbDetailInfo", partsService.getPartsMbHistoryVOByIdAndHistorySeq(partsMbHistoryVO));
 			model.addAttribute("productRamDetailInfo", partsService.getPartsRamHistoryVOByIdAndHistorySeq(partsRamHistoryVO));
+			
+			// 23.10.26 user_secas_storage table에 저장될 데이터 추가
+			model.addAttribute("escasUrlParameter", resultString);
+			model.addAttribute("escasLogicVersion", "1_0");
 		}else {
 			model.addAttribute("productMaster", null);
 			model.addAttribute("productDetail", null);
