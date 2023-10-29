@@ -294,10 +294,36 @@ public class UserController {
 		HttpSession httpSession = request.getSession();
 		UserInfoVO user = (UserInfoVO) httpSession.getAttribute("loginUser");
 		
+		// 23.10.30 user_escas_storage 조회리스트 추가
+		List<UserEscasStorageVO> userEscasStorageVOList = userService.getUserEscasStorageVOByUserId(id);
+		model.addAttribute("userEscasStorageVOList", userEscasStorageVOList);
+
 		model.addAttribute("loginUser", user);
 
 		return userLoginCheck(request, model, "estimateStorage");
 	}
+	
+	// 23.10.30 user_escas_storage insert를 위함
+	@RequestMapping(value = "/escaStorageRegistLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer escaStorageRegistLogic(UserEscasStorageVO userEscasStorageVO) {
+		return userService.userEscasStorageRegistLogic(userEscasStorageVO);
+	}
+	
+	// 23.10.30 user_escas_storage 50개(max) 넘었을 때 밀어내기 등록을 위함
+	@RequestMapping(value = "/escaStorageMaxRegistLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer escaStorageMaxRegistLogic(UserEscasStorageVO userEscasStorageVO) {
+		return userService.userEscasStorageRegistLogic(userEscasStorageVO);
+	}
+	
+	// 23.10.30 user_escas_storage delete를 위함
+	@RequestMapping(value = "/escaStorageDeleteLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer escaStorageDeleteLogic(UserEscasStorageVO userEscasStorageVO) {
+		return userService.userEscasStorageDeleteLogic(userEscasStorageVO);
+	}
+	
 	/*--------------------------------------------------
 	 - private method
 	*--------------------------------------------------*/

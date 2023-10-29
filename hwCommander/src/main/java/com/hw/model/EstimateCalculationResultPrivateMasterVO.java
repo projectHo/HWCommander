@@ -8,4 +8,5 @@ public class EstimateCalculationResultPrivateMasterVO {
 	private String errMsg;
 	private EstimateCalculationResultPrivateDetailVO selectProduct;
 	private String createProductId;
+	private String targetUserId;
 }

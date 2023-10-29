@@ -148,7 +148,7 @@
 		)
 	</insert>
 	
-	<update id="updateBanpumMasterVO" parameterType="banpumMasterVO">
+	<update id="updateUserEscasStorageVO" parameterType="userEscasStorageVO">
 		UPDATE
 			user_escas_storage
 		SET
@@ -161,5 +161,14 @@
 		WHERE
 			user_id = #{userId}
 	</update>
+	
+	<delete id="deleteUserEscasStorageVO" parameterType="userEscasStorageVO">
+		DELETE
+		FROM
+			user_escas_storage
+		WHERE
+			user_id = #{userId}
+			AND seq = #{seq}
+	</delete>
 
 </mapper>

@@ -22,9 +22,11 @@ import com.hw.model.PartsMbHistoryVO;
 import com.hw.model.PartsRamHistoryVO;
 import com.hw.model.ProcessResourceMasterVO;
 import com.hw.model.ProcessResourceTypeCodeInfoVO;
+import com.hw.model.UserEscasStorageVO;
 import com.hw.model.UserInfoVO;
 import com.hw.service.ProcessResourceService;
 import com.hw.service.ProductService;
+import com.hw.service.UserService;
 import com.hw.service.ESCAService;
 import com.hw.service.PartsService;
 
@@ -46,6 +48,9 @@ public class ESCAController {
 
 	@Autowired
     private ProcessResourceService processResourceService;
+	
+	@Autowired
+    private UserService userService;
 	
 	/*--------------------------------------------------
 	 - 견적산출(ESCA = Estimate Calculation)
@@ -230,6 +235,12 @@ public class ESCAController {
 			// 23.10.26 user_secas_storage table에 저장될 데이터 추가
 			model.addAttribute("escasUrlParameter", resultString);
 			model.addAttribute("escasLogicVersion", "1_0");
+			
+			// 23.10.30 user_escas_storage 조회리스트 추가(50개기준 분기처리를 위함)
+			String userId = estimateCalculationResultPrivateMasterVO.getTargetUserId();
+			List<UserEscasStorageVO> userEscasStorageVOList = userService.getUserEscasStorageVOByUserId(userId);
+			model.addAttribute("userEscasStorageVOList", userEscasStorageVOList);
+			
 		}else {
 			model.addAttribute("productMaster", null);
 			model.addAttribute("productDetail", null);

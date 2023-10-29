@@ -105,18 +105,13 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public UserEscasStorageVO getUserEscasStorageVOByUserId(String userId) {
-		UserEscasStorageVO resultVO = null;
+	public List<UserEscasStorageVO> getUserEscasStorageVOByUserId(String userId) {
 		UserEscasStorageVO searchVO = new UserEscasStorageVO();
 		
 		searchVO.setUserId(userId);
 		List<UserEscasStorageVO> resultList = userDAO.getUserEscasStorageAllList(searchVO);
 		
-		if(resultList.size() != 0) {
-			resultVO = resultList.get(0);
-		}
-		
-		return resultVO;
+		return resultList;
 	}
 	
 	@Override
@@ -124,6 +119,33 @@ public class UserServiceImpl implements UserService {
 		int updateResult = 0;
 		updateResult = userDAO.updateUserEscasStorageVO(userEscasStorageVO);
 		return updateResult;
+	}
+	
+	@Override
+	public Integer userEscasStorageMaxRegistLogic(UserEscasStorageVO userEscasStorageVO) {
+		int insertResult = 0;
+		int maxSize = 50;
+		
+		List<UserEscasStorageVO> userEscasStorageVOList = getUserEscasStorageVOByUserId(userEscasStorageVO.getUserId());
+		
+		if(maxSize != userEscasStorageVOList.size()) {
+			return -1;
+		}else {
+			// max delete 후 받은 vo insert
+			UserEscasStorageVO deleteUserEscasStorageVO = userEscasStorageVOList.get(userEscasStorageVOList.size()-1);
+			userDAO.deleteUserEscasStorageVO(deleteUserEscasStorageVO);
+			
+			insertResult = userDAO.insertUserEscasStorageVO(userEscasStorageVO);
+			return insertResult;
+		}
+	}
+	
+	@Override
+	public Integer userEscasStorageDeleteLogic(UserEscasStorageVO userEscasStorageVO) {
+		int deleteResult = 0;
+		userDAO.deleteUserEscasStorageVO(userEscasStorageVO);
+		deleteResult = 1;
+		return deleteResult;
 	}
 	
 	private void sendMailByMailConfirm(UserInfoVO userInfoVO) {

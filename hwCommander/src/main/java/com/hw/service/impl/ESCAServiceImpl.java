@@ -124,7 +124,7 @@ public class ESCAServiceImpl implements ESCAService {
 		/*--------------------------------------------------
 		 - 0-3. 견적산출 대상 유저 id 선언 및 초기화
 		*--------------------------------------------------*/
-		String targetId = null;
+		String targetUserId = null;
 		
 		/*--------------------------------------------------
 		 - 0-4. 견적산출화면으로부터 넘어온 text 데이터화
@@ -477,7 +477,7 @@ public class ESCAServiceImpl implements ESCAService {
 			
 			return estimateCalculationResultPrivateMasterVO;
 		}else {
-			targetId = nameValueArray[1];
+			targetUserId = nameValueArray[1];
 		}
 	
 		// etc(targetDate) index=20
@@ -3295,7 +3295,7 @@ public class ESCAServiceImpl implements ESCAService {
 				productMasterVO.setProductName("견적산출 자동등록 완본체");
 //				productMasterVO.setProductPrice(productPrice);
 				productMasterVO.setProductQty(1);
-				productMasterVO.setProductDescription("targetId:"+targetId);
+				productMasterVO.setProductDescription("targetUserId:"+targetUserId);
 				productMasterVO.setProductImage(partsCaseVO.getPartsImage());
 				productMasterVO.setProductRegistPathCd("02");
 				
@@ -3309,6 +3309,8 @@ public class ESCAServiceImpl implements ESCAService {
 				productDAO.insertProductMasterVO(productMasterVO);
 			}
 		} // 47번 if else end
+		
+		estimateCalculationResultPrivateMasterVO.setTargetUserId(targetUserId);
 		
 		return estimateCalculationResultPrivateMasterVO;
 	}
