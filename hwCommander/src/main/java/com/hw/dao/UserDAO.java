@@ -19,4 +19,5 @@ public interface UserDAO {
 	public Integer getUserEscasStorageVOMaxSeq(String userId);
 	public Integer insertUserEscasStorageVO(UserEscasStorageVO userEscasStorageVO);
 	public Integer updateUserEscasStorageVO(UserEscasStorageVO userEscasStorageVO);
+	public void deleteUserEscasStorageVO(UserEscasStorageVO userEscasStorageVO);
 }

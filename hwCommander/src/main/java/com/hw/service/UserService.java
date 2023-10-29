@@ -16,6 +16,8 @@ public interface UserService {
 	
 	public List<UserEscasStorageVO> getUserEscasStorageAllList();
 	public Integer userEscasStorageRegistLogic(UserEscasStorageVO userEscasStorageVO);
-	public UserEscasStorageVO getUserEscasStorageVOByUserId(String userId);
+	public List<UserEscasStorageVO> getUserEscasStorageVOByUserId(String userId);
 	public Integer userEscasStorageUpdateLogic(UserEscasStorageVO userEscasStorageVO);
+	public Integer userEscasStorageMaxRegistLogic(UserEscasStorageVO userEscasStorageVO);
+	public Integer userEscasStorageDeleteLogic(UserEscasStorageVO userEscasStorageVO);
 }
