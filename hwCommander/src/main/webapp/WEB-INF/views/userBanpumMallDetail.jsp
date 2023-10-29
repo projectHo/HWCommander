@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="/resources/css/main.css">
 <link rel="stylesheet" href="/resources/css/estimateCalculationOneCss.css">
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -17,19 +18,10 @@
 <meta name="author" content="" />
 <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 
-<!-- 10.25 swiper 추가 & 단독 css 추가 -->
-<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
 <link rel="stylesheet" href="/resources/css/banpumMallDetail.css">
 <script>
     $(function() {
-		var swiper = new Swiper(".mySwiper", {
-			grabCursor: true,
-			pagination: {
-				el: ".swiper-pagination",
-				dynamicBullets: true,
-			},
-		});
+
     });
     
 function goTermsOfService() {
@@ -42,7 +34,7 @@ function goCart() {
 
 function goDirectOrder() {
 	if(loginCheck()) {
-		location.href = "/order/sheet.do?accessRoute=direct&banpumMallIds="+"${banpumMaster.id}";
+		location.href = "/order/sheet.do?accessRoute=banpum&productIds="+"${banpumMaster.id}";
 	}
 }
 
@@ -56,7 +48,6 @@ function loginCheck() {
 	}
 	return check;
 }
-
 </script>
 </head>
 <body>
@@ -78,56 +69,38 @@ function loginCheck() {
 							    <!-- 임시 몰루이미지
 							      <img class="img-fluid rounded mx-auto d-block" src="/resources/img/tempImage_600x600.png">
 							     -->  
-								  <div class="swiper mySwiper">
-									<div class="swiper-wrapper">
-										<div class="swiper-slide">
-											<img src="${banpumMaster.banpumImage1}" alt="">
+									<div id="banpumMallDetailIndicators" class="carousel carousel-dark slide" data-bs-ride="true">
+										<div class="carousel-indicators">
+											<button type="button" data-bs-target="#banpumMallDetailIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+											<c:forEach var="i" begin="2" end="15">
+												<c:set var="key" value="banpumImage${i}" />
+												<c:if test="${not empty banpumMaster[key]}">
+													<button type="button" data-bs-target="#banpumMallDetailIndicators" data-bs-slide-to="${i-1}" aria-label="Slide ${i}"></button>
+												</c:if>
+											</c:forEach>
 										</div>
-										<div class="swiper-slide">
-											<img src="${banpumMaster.banpumImage2}" alt="">
+										<div class="carousel-inner">
+											<div class="carousel-item active">
+												<img src="${banpumMaster.banpumImage1}" class="d-block w-100 h-100" alt="...">
+											</div>
+											<c:forEach var="i" begin="2" end="15">
+												<c:set var="key" value="banpumImage${i}" />
+												<c:if test="${not empty banpumMaster[key]}">
+													<div class="carousel-item">
+														<img src="${banpumMaster[key]}" class="d-block w-100 h-100" alt="...">
+													</div>
+												</c:if>
+											</c:forEach>
 										</div>
-										<div class="swiper-slide">
-											<img src="${banpumMaster.banpumImage3}" alt="">
-										</div>
-										<div class="swiper-slide">
-											<img src="${banpumMaster.banpumImage4}" alt="">
-										</div>
-										<div class="swiper-slide">
-											<img src="${banpumMaster.banpumImage5}" alt="">
-										</div>
-										<div class="swiper-slide">
-											<img src="${banpumMaster.banpumImage6}" alt="">
-										</div>
-										<div class="swiper-slide">
-											<img src="${banpumMaster.banpumImage7}" alt="">
-										</div>
-										<div class="swiper-slide">
-											<img src="${banpumMaster.banpumImage8}" alt="">
-										</div>
-										<div class="swiper-slide">
-											<img src="${banpumMaster.banpumImage9}" alt="">
-										</div>
-										<div class="swiper-slide">
-											<img src="${banpumMaster.banpumImage10}" alt="">
-										</div>
-										<div class="swiper-slide">
-											<img src="${banpumMaster.banpumImage11}" alt="">
-										</div>
-										<div class="swiper-slide">
-											<img src="${banpumMaster.banpumImage12}" alt="">
-										</div>
-										<div class="swiper-slide">
-											<img src="${banpumMaster.banpumImage13}" alt="">
-										</div>
-										<div class="swiper-slide">
-											<img src="${banpumMaster.banpumImage14}" alt="">
-										</div>
-										<div class="swiper-slide">
-											<img src="${banpumMaster.banpumImage15}" alt="">
-										</div>
+										<button class="carousel-control-prev" type="button" data-bs-target="#banpumMallDetailIndicators" data-bs-slide="prev">
+											<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+											<span class="visually-hidden">Previous</span>
+										</button>
+										<button class="carousel-control-next" type="button" data-bs-target="#banpumMallDetailIndicators" data-bs-slide="next">
+											<span class="carousel-control-next-icon" aria-hidden="true"></span>
+											<span class="visually-hidden">Next</span>
+										</button>
 									</div>
-									<div class="swiper-pagination"></div>
-								  </div>
 							    </div>
 							    <div class="col-7">
 							    	<p class="h1 mb-4">${banpumMaster.banpumName}</p>
@@ -157,7 +130,7 @@ function loginCheck() {
 							    <div class="col-7 mb-3">
 									<div class="d-grid gap-2 d-md-flex justify-content-md-end">
 										<button class="btn btn-primary btn-lg me-md-2" type="button" onclick="javascript:goTermsOfService()">이용약관</button>
-										<button class="btn btn-primary btn-lg me-md-2" type="button" onclick="javascript:goCart()">장바구니</button>
+										<!-- <button class="btn btn-primary btn-lg me-md-2" type="button" onclick="javascript:goCart()">장바구니</button> -->
 										<button class="btn btn-primary btn-lg" type="button" onclick="javascript:goDirectOrder()">주문하기</button>
 									</div>
 							    </div>

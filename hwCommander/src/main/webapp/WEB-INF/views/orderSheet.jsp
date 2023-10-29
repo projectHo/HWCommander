@@ -68,6 +68,7 @@
 %>
 
 <script>
+	let aa = "${accessRoute}"
     $(function() {
     	$('#productListInfoTable').DataTable({ 
     	    bAutoWidth: false,
@@ -443,126 +444,151 @@ function recDupliChk(id) {
 						</thead>
 						<tbody>
 							<!-- 완본체몰 -->
-							<c:if test="${productType == 'P'}">
-								<c:forEach var="item" items="${productList}">
-									<tr class="order-items">
-										<td>
-											<input type="hidden" name="id" value="<%=oid%>">
-											<input type="hidden" name="productId" value="${item.id}">
-											<input type="hidden" name="productPrice" value="${item.productPrice}">
-											<!-- todo wonho 지금은 장바구니쪽 로직이 없으므로 수량 1로 고정함. -->
-											<input type="hidden" name="productOrderQty" value="1">
-											
-											<input type="hidden" name="productName" value="${item.productName}">
-											
-											
-											<%-- 임시 몰루이미지 
-											<img class="img-fluid rounded mx-auto d-block" src="/resources/img/tempImage_600x600.png">
-											--%>
-											<img class="img-fluid rounded d-block" src="${item.productImage}" alt="" style="cursor:pointer; width:200px; height:200px; object-fit:contain;">
-										</td>
-										<td class="align-middle pb-0">
-											<div class="row pt-2">
-												<div class="col fs-4">
-													${item.productName}
-												</div>
+							<c:if test="${accessRoute == 'direct'}">
+								<tr class="order-items">
+									<td>
+										<input type="hidden" name="id" value="<%=oid%>">
+										<input type="hidden" name="productId" value="${productMasterVO.id}">
+										<input type="hidden" name="productPrice" value="${productMasterVO.productPrice}">
+										<!-- todo wonho 지금은 장바구니쪽 로직이 없으므로 수량 1로 고정함. -->
+										<input type="hidden" name="productOrderQty" value="1">
+										
+										<input type="hidden" name="productName" value="${productMasterVO.productName}">
+										
+										
+										<%-- 임시 몰루이미지 
+										<img class="img-fluid rounded mx-auto d-block" src="/resources/img/tempImage_600x600.png">
+										--%>
+										<img class="img-fluid rounded d-block" src="${productMasterVO.productImage}" alt="" style="cursor:pointer; width:200px; height:200px; object-fit:contain;">
+									</td>
+									<td class="align-middle pb-0">
+										<div class="row pt-2">
+											<div class="col fs-4">
+												${productMasterVO.productName}
 											</div>
-											<div class="row pt-2">
-												<h5 class="col mb-0">
-													부품 상세
-												</h5>
+										</div>
+										<div class="row pt-2">
+											<h5 class="col mb-0">
+												부품 상세
+											</h5>
+										</div>
+										<div class="row p-2">
+											<div class="col" id="product-detail-box">
+												<c:choose>
+													<c:when test="${productMasterVO.windowsName == 'COEM'}">
+														<p class="mb-1">윈도우 : 메인보드 귀속형(${item.windowsName})</p>
+													</c:when>
+													<c:when test="${productMasterVO.windowsName == 'FPP'}">
+														<p class="mb-1">윈도우 : 구매형(${item.windowsName})</p>
+													</c:when>
+													<c:otherwise>
+														<p class="mb-1">윈도우 : 미포함</p>
+													</c:otherwise>
+												</c:choose>
+												<p class="mb-1">메인보드 : ${productDetailVOList[2].partsName}</p>
+												<p class="mb-1">파워 : ${productDetailVOList[5].partsName}</p>
+												<p class="mb-1">CPU : ${productDetailVOList[1].partsName}</p>
+												<p class="mb-1">그래픽카드 : ${productDetailVOList[0].partsName}</p> 
+												<p class="mb-1">램 : ${productDetailVOList[6].partsName}</p>
+												<p class="mb-1">저장장치 : (${productDetailVOList[7].partsTypeCdNm}) ${productDetailVOList[7].partsName}</p>
+												<p class="mb-1">케이스 : ${productDetailVOList[4].partsName}</p>
+												<p class="mb-0">쿨러 : ${productDetailVOList[3].partsName}</p>
 											</div>
-											<div class="row p-2">
-												<div class="col" id="product-detail-box">
-													<c:choose>
-														<c:when test="${item.windowsName == 'COEM'}">
-															<p class="mb-1">윈도우 : 메인보드 귀속형(${item.windowsName})</p>
-														</c:when>
-														<c:when test="${item.windowsName == 'FPP'}">
-															<p class="mb-1">윈도우 : 구매형(${item.windowsName})</p>
-														</c:when>
-														<c:otherwise>
-															<p class="mb-1">윈도우 : 미포함</p>
-														</c:otherwise>
-													</c:choose>
-													<c:forEach var="items" items="${productDetailList}">
-														<p class="mb-1">메인보드 : ${items[2].partsName}</p>
-														<p class="mb-1">파워 : ${items[5].partsName}</p>
-														<p class="mb-1">CPU : ${items[1].partsName}</p>
-														<p class="mb-1">그래픽카드 : ${items[0].partsName}</p> 
-														<p class="mb-1">램 : ${items[6].partsName}</p>
-														<p class="mb-1">저장장치 : (${items[7].partsTypeCdNm}) ${items[7].partsName}</p>
-														<p class="mb-1">케이스 : ${items[4].partsName}</p>
-														<p class="mb-0">쿨러 : ${items[3].partsName}</p>
-													</c:forEach>
-												</div>
+										</div>
+										
+									</td>
+									<td class="align-middle">
+										<p class="p-2">${productMasterVO.productPriceStr}</p>
+										<p class="p-2">
+											<div class="form-check">
+												<input class="form-check-input" type="checkbox" value="" id="add-box">
+												<label class="form-check-label pt-1" for="add-box">
+													제품 박스 추가(+5,000원)
+												</label>
 											</div>
-											
-										</td>
-										<td class="align-middle">
-											<p class="p-2">${item.productPriceStr}</p>
-											<p class="p-2">
-												<div class="form-check">
-													<input class="form-check-input" type="checkbox" value="" id="add-box">
-													<label class="form-check-label pt-1" for="add-box">
-														제품 박스 추가(+5,000원)
-													</label>
-												</div>
-											</p>
-										</td>
-									</tr>
-								</c:forEach>
+										</p>
+									</td>
+								</tr>
 							</c:if>
-							<c:if test="${productType == 'B'}">
-								<c:forEach var="item" items="${ban}">
-									<tr class="order-items">
-										<td>
-											<input type="hidden" name="id" value="<%=oid%>">
-											<input type="hidden" name="productId" value="${item.id}">
-											<input type="hidden" name="productPrice" value="${item.banpumPrice}">
-											<!-- todo wonho 지금은 장바구니쪽 로직이 없으므로 수량 1로 고정함. -->
-											<input type="hidden" name="productOrderQty" value="1">
-											
-											<input type="hidden" name="productName" value="${item.banpumName}">
-											
-											
-											<%-- 임시 몰루이미지 
-											<img class="img-fluid rounded mx-auto d-block" src="/resources/img/tempImage_600x600.png">
-											--%>
-											<!-- 이미지 추가 방식 변경예정 -->
-											<img class="img-fluid rounded d-block" src="${item.productImage}" alt="" style="cursor:pointer; width:200px; height:200px; object-fit:contain;">
-										</td>
-										<td class="align-middle pb-0">
-											<div class="row pt-2">
-												<div class="col fs-4">
-													${item.banpumName}
-												</div>
+							<c:if test="${accessRoute == 'banpum'}">
+								<tr class="order-items">
+									<td>
+										<input type="hidden" name="id" value="<%=oid%>">
+										<input type="hidden" name="productId" value="${banpumMasterVO.id}">
+										<input type="hidden" name="productPrice" value="${banpumMasterVO.banpumPrice}">
+										<!-- todo wonho 지금은 장바구니쪽 로직이 없으므로 수량 1로 고정함. -->
+										<input type="hidden" name="productOrderQty" value="1">
+										
+										<input type="hidden" name="productName" value="${banpumMasterVO.banpumName}">
+										
+										
+										<%-- 임시 몰루이미지 
+										<img class="img-fluid rounded mx-auto d-block" src="/resources/img/tempImage_600x600.png">
+										--%>
+										<!-- 이미지 추가 방식 변경예정 -->
+										<div id="banpumMallOrderIndicators" class="carousel carousel-dark slide" data-bs-ride="true" style="width:280px; height:280px; object-fit:contain;">
+											<div class="carousel-indicators">
+												<button type="button" data-bs-target="#banpumMallOrderIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+												<c:forEach var="i" begin="2" end="15">
+													<c:set var="key" value="banpumImage${i}" />
+													<c:if test="${not empty  banpumMasterVO[key]}">
+														<button type="button" data-bs-target="#banpumMallOrderIndicators" data-bs-slide-to="${i-1}" aria-label="Slide ${i}"></button>
+													</c:if>
+												</c:forEach>
 											</div>
-											<div class="row pt-2">
-												<h5 class="col mb-0">
-													부품 상세
-												</h5>
-											</div>
-											<div class="row p-2">
-												<div class="col" id="product-detail-box">
-													<p class="mb-1">${items.banpumDescriptionStr}</p>
+											<div class="carousel-inner">
+												<div class="carousel-item active">
+													<img src="${banpumMasterVO.banpumImage1}" class="d-block w-100 h-100" alt="...">
 												</div>
+												<c:forEach var="i" begin="2" end="15">
+													<c:set var="key" value="banpumImage${i}" />
+													<c:if test="${not empty banpumMasterVO[key]}">
+														<div class="carousel-item">
+															<img src="${banpumMasterVO[key]}" class="d-block w-100 h-100" alt="...">
+														</div>
+													</c:if>
+												</c:forEach>
 											</div>
-											
-										</td>
-										<td class="align-middle">
-											<p class="p-2">${item.banpumPriceStr}</p>
-											<p class="p-2">
-												<div class="form-check">
-													<input class="form-check-input" type="checkbox" value="" id="add-box">
-													<label class="form-check-label pt-1" for="add-box">
-														제품 박스 추가(+5,000원)
-													</label>
-												</div>
-											</p>
-										</td>
-									</tr>
-								</c:forEach>
+											<button class="carousel-control-prev" type="button" data-bs-target="#banpumMallOrderIndicators" data-bs-slide="prev">
+												<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+												<span class="visually-hidden">Previous</span>
+											</button>
+											<button class="carousel-control-next" type="button" data-bs-target="#banpumMallOrderIndicators" data-bs-slide="next">
+												<span class="carousel-control-next-icon" aria-hidden="true"></span>
+												<span class="visually-hidden">Next</span>
+											</button>
+										</div>
+									</td>
+									<td class="align-middle pb-0">
+										<div class="row pt-2">
+											<div class="col fs-4">
+												${banpumMasterVO.banpumName}
+											</div>
+										</div>
+										<div class="row pt-2">
+											<h5 class="col mb-0">
+												부품 상세
+											</h5>
+										</div>
+										<div class="row p-2">
+											<div class="col" id="product-detail-box">
+												<p class="mb-1">${banpumMasterVO.banpumDescriptionStr}</p>
+											</div>
+										</div>
+										
+									</td>
+									<td class="align-middle">
+										<p class="p-2">${banpumMasterVO.banpumPriceStr}</p>
+										<p class="p-2">
+											<div class="form-check">
+												<input class="form-check-input" type="checkbox" value="" id="add-box">
+												<label class="form-check-label pt-1" for="add-box">
+													제품 박스 추가(+5,000원)
+												</label>
+											</div>
+										</p>
+									</td>
+								</tr>
 							</c:if>
 						</tbody>
 					</table>

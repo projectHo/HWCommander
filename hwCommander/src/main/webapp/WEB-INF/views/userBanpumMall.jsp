@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
@@ -21,9 +22,6 @@
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet"/>
 
-<!-- 10.25 swiper 추가 & 단독 css 추가  -->
-<script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
 <link rel="stylesheet" href="/resources/css/banpumMall.css">
 <script>
     $(function() {
@@ -56,14 +54,6 @@
                 scrollTop: $("#banpumMallTop").offset().top - 100
             }, 10);
         });
-
-        var swiper = new Swiper(".mySwiper", {
-            grabCursor: true,
-			pagination: {
-				el: ".swiper-pagination",
-				dynamicBullets: true,
-			},
-		});
     });
 </script>
 </head>
@@ -87,58 +77,32 @@
                         <c:forEach var="item" items="${banpumMasterList}">
                             <tr name="${item.id}">
                                 <td>
-                                    <div class="swiper mySwiper">
-                                        <div class="swiper-wrapper">
-                                            <div class="swiper-slide">
-                                                <img src="${item.banpumImage1}" alt="">
+                                    <div id="banpumMallIndicators${item.id}" class="carousel carousel-dark slide" data-bs-ride="true" style="width:350px; height:350px;">
+                                        <div class="carousel-indicators">
+                                            <button type="button" data-bs-target="#banpumMallIndicators${item.id}" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                            <c:forEach var="i" begin="2" end="15">
+                                                <c:set var="key" value="banpumImage${i}" />
+                                                <c:if test="${not empty item[key]}">
+                                                    <button type="button" data-bs-target="#banpumMallIndicators${item.id}" data-bs-slide-to="${i-1}" aria-label="Slide ${i}"></button>
+                                                </c:if>
+                                            </c:forEach>
+                                        </div>    
+                                        <div class="carousel-inner">
+                                            <div class="carousel-item active">
+                                                <img src="${item.banpumImage1}" class="d-block w-100 h-100" alt="...">
                                             </div>
-                                            <div class="swiper-slide">
-                                                <img src="${item.banpumImage2}" alt="">
-                                            </div>
-                                            <div class="swiper-slide">
-                                                <img src="${item.banpumImage3}" alt="">
-                                            </div>
-                                            <div class="swiper-slide">
-                                                <img src="${item.banpumImage4}" alt="">
-                                            </div>
-                                            <div class="swiper-slide">
-                                                <img src="${item.banpumImage5}" alt="">
-                                            </div>
-                                            <div class="swiper-slide">
-                                                <img src="${item.banpumImage6}" alt="">
-                                            </div>
-                                            <div class="swiper-slide">
-                                                <img src="${item.banpumImage7}" alt="">
-                                            </div>
-                                            <div class="swiper-slide">
-                                                <img src="${item.banpumImage8}" alt="">
-                                            </div>
-                                            <div class="swiper-slide">
-                                                <img src="${item.banpumImage9}" alt="">
-                                            </div>
-                                            <div class="swiper-slide">
-                                                <img src="${item.banpumImage10}" alt="">
-                                            </div>
-                                            <div class="swiper-slide">
-                                                <img src="${item.banpumImage11}" alt="">
-                                            </div>
-                                            <div class="swiper-slide">
-                                                <img src="${item.banpumImage12}" alt="">
-                                            </div>
-                                            <div class="swiper-slide">
-                                                <img src="${item.banpumImage13}" alt="">
-                                            </div>
-                                            <div class="swiper-slide">
-                                                <img src="${item.banpumImage14}" alt="">
-                                            </div>
-                                            <div class="swiper-slide">
-                                                <img src="${item.banpumImage15}" alt="">
-                                            </div>
+                                            <c:forEach var="i" begin="2" end="15">
+                                                <c:set var="key" value="banpumImage${i}" />
+                                                <c:if test="${not empty item[key]}">
+                                                    <div class="carousel-item">
+                                                        <img src="${item[key]}" class="d-block w-100 h-100" alt="...">
+                                                    </div>
+                                                </c:if>
+                                            </c:forEach>
                                         </div>
-                                        <div class="swiper-pagination"></div>
                                     </div>
                                 </td>
-                                <td>
+                                <td class="td-caption">
                                     <p>이름 : ${item.banpumName}</p>
                                     <p>가격 : ${item.banpumPriceStr}</p>
                                     <p>설명 : ${item.banpumDescription}</p>

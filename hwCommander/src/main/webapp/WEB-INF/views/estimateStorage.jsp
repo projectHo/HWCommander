@@ -25,11 +25,29 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 <script>
+	let aa = "${userEscasStorageVOList}";
 	$(function(){
 		// 부트스트랩 툴팁
 		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
 		const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 	})
+
+	function clickEscaBtn(el) {
+		var param = $(el).parent().parent().attr("param");
+
+		location.href = "/ESCA/ESCA_RESULT_ver_1_0.do?resultString=" + param;
+	}
+	function clickEscaDeleteBtn(el) {
+		var param = $(el).parent().parent().attr("param");
+
+		if(confirm("정말로 삭제하시겠습니까?")){
+			
+			
+			alert("삭제되었습니다");
+		}else {
+			return false;
+		}
+	}
 </script>
 </head>
 <body>
@@ -52,74 +70,9 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<th scope="row" class="border-end pt-4">
-								1
-								<br>
-								<div class="version mt-2 border-top pt-2">ver.01</div>
-							</th>
-							<td class="border-end">내용ㅇ용ㅇ오옹</td>
-							<td class="d-flex flex-column gap-2">
-								<button class="btn btn-outline-primary">
-									견적 산출하기
-								</button>
-								<button class="btn btn-outline-danger">
-									삭제
-								</button>
-							</td>
-						</tr>
-						<tr>
-							<th scope="row" class="border-end pt-4">
-								2
-								<br>
-								<div class="version mt-2 border-top pt-2">ver.02</div>
-							</th>
-							<td class="border-end">내용ㅇ용ㅇ오옹2222222222</td>
-							<td class="d-flex flex-column gap-2">
-								<button class="btn btn-outline-primary">
-									견적 산출하기
-								</button>
-								<button class="btn btn-outline-danger">
-									삭제
-								</button>
-							</td>
-						</tr>
-						<tr>
-							<th scope="row" class="border-end pt-4">
-								3
-								<br>
-								<div class="version mt-2 border-top pt-2">ver.01</div>
-							</th>
-							<td class="border-end">내용ㅇ용ㅇ오옹333333333333333333333</td>
-							<td class="d-flex flex-column gap-2">
-								<button class="btn btn-outline-primary">
-									견적 산출하기
-								</button>
-								<button class="btn btn-outline-danger">
-									삭제
-								</button>
-							</td>
-						</tr>
+						
 					</tbody>
 				</table>
-				<!-- <div class="row source border-top border-bottom p-2">
-					<div class="col-1 border-end d-flex align-items-center justify-content-center">
-						1
-					</div>
-					<div class="col-9 border-end">
-						<div class="my-auto">
-							견적 내용(url parameter / login ver.)
-						</div>
-					</div>
-					<div class="col-2 d-flex flex-column gap-2">
-						<button class="btn btn-primary">
-							견적 산출하기
-						</button>
-						<button class="btn btn-danger">
-							삭제
-						</button>
-					</div>
-				</div> -->
 	 		</div>
 			
 			<!-- 빈 영역 -->

@@ -115,7 +115,8 @@
 			user_escas_storage a
 		<where>
 		    <if test="userId != null and userId != ''">
-		    	AND a.user_id = #{userId} 
+		    	AND a.user_id = #{userId}
+		    	ORDER BY a.reg_dtm DESC 
 		    </if>
 		</where>
 	</select>
