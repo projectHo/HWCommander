@@ -39,7 +39,7 @@ function login() {
         		// 로그인 성공
         		//location.href = "/";
 				if(document.referrer.includes("/user/signUp.do")){
-					location.href = "/";
+					location.href = "/mainInfo.do";
 				}else {
 					location.href = document.referrer;
 				}

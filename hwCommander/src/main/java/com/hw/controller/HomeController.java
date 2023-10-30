@@ -46,7 +46,14 @@ public class HomeController {
 		
 		return "main";
 	}
-	
+	@RequestMapping(value = "/mainInfo.do", method = RequestMethod.GET)
+	public String goMainInfo(@SessionAttribute(name = "loginUser", required = false)UserInfoVO userInfoVO, Model model) {
+		
+		model.addAttribute("loginUser", userInfoVO);
+		
+		return "mainInfo";
+	}
+
 	@RequestMapping(value = "/aboutUs.do", method = RequestMethod.GET)
 	public String goAboutUs(Model model) {
 		return "aboutUs";

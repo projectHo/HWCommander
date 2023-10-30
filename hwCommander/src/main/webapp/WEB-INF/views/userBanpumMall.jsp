@@ -1,4 +1,5 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
@@ -21,8 +22,8 @@
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet"/>
 
+<link rel="stylesheet" href="/resources/css/banpumMall.css">
 <script>
-    let aa = "${banpumMasterList}";
     $(function() {
         $('#banpunMallListTable').DataTable({ 
     	    bAutoWidth: false,
@@ -44,7 +45,7 @@
                 }
             },
     	 });
-    	$("#banpunMallListTable").on('click', 'tbody tr img', function () {
+    	$("#banpunMallListTable").on('click', 'tbody tr', function () {
     		var banpumId = $(this).attr("name");
     		location.href = "/userBanpumMallDetail.do?banpumMallId="+banpumId;
     	});
@@ -68,115 +69,46 @@
 				<table id="banpunMallListTable" class="table table-hover" style="width:100%">
                     <thead>
                         <tr>
-                            <th>상품이미지</th>
-                            <th>상품정보</th>
+                            <th style="width: 30%;">상품이미지</th>
+                            <th style="width: 70%;">상품정보</th>
                         </tr>
                     </thead>
                     <tbody>
                         <c:forEach var="item" items="${banpumMasterList}">
-                            <tr>
+                            <tr name="${item.id}">
                                 <td>
-                                    <div class="row">
-                                        <div class="col">
-                                            <img src="..." alt="..." style="cursor:pointer; width:100px; height:100px; object-fit:contain;" name="${item.id}">
-                                        </div>
-                                        <div class="col">
-                                            <img src="..." alt="..." style="cursor:pointer; width:100px; height:100px; object-fit:contain;" name="${item.id}">
-                                        </div>
-                                        <div class="col">
-                                            <img src="..." alt="..." style="cursor:pointer; width:100px; height:100px; object-fit:contain;" name="${item.id}">
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <img src="..." alt="..." style="cursor:pointer; width:100px; height:100px; object-fit:contain;" name="${item.id}">
-                                        </div>
-                                        <div class="col">
-                                            <img src="..." alt="..." style="cursor:pointer; width:100px; height:100px; object-fit:contain;" name="${item.id}">
-                                        </div>
-                                        <div class="col">
-                                            <img src="..." alt="..." style="cursor:pointer; width:100px; height:100px; object-fit:contain;" name="${item.id}">
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <img src="..." alt="..." style="cursor:pointer; width:100px; height:100px; object-fit:contain;" name="${item.id}">
-                                        </div>
-                                        <div class="col">
-                                            <img src="..." alt="..." style="cursor:pointer; width:100px; height:100px; object-fit:contain;" name="${item.id}">
-                                        </div>
-                                        <div class="col">
-                                            <img src="..." alt="..." style="cursor:pointer; width:100px; height:100px; object-fit:contain;" name="${item.id}">
+                                    <div id="banpumMallIndicators${item.id}" class="carousel carousel-dark slide" data-bs-ride="true" style="width:350px; height:350px;">
+                                        <div class="carousel-indicators">
+                                            <button type="button" data-bs-target="#banpumMallIndicators${item.id}" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                            <c:forEach var="i" begin="2" end="15">
+                                                <c:set var="key" value="banpumImage${i}" />
+                                                <c:if test="${not empty item[key]}">
+                                                    <button type="button" data-bs-target="#banpumMallIndicators${item.id}" data-bs-slide-to="${i-1}" aria-label="Slide ${i}"></button>
+                                                </c:if>
+                                            </c:forEach>
+                                        </div>    
+                                        <div class="carousel-inner">
+                                            <div class="carousel-item active">
+                                                <img src="${item.banpumImage1}" class="d-block w-100 h-100" alt="...">
+                                            </div>
+                                            <c:forEach var="i" begin="2" end="15">
+                                                <c:set var="key" value="banpumImage${i}" />
+                                                <c:if test="${not empty item[key]}">
+                                                    <div class="carousel-item">
+                                                        <img src="${item[key]}" class="d-block w-100 h-100" alt="...">
+                                                    </div>
+                                                </c:if>
+                                            </c:forEach>
                                         </div>
                                     </div>
                                 </td>
-                                <td>${item.banpumDescription}</td>
+                                <td class="td-caption">
+                                    <p>이름 : ${item.banpumName}</p>
+                                    <p>가격 : ${item.banpumPriceStr}</p>
+                                    <p>설명 : ${item.banpumDescription}</p>
+                                </td>
                             </tr>
                         </c:forEach>
-                        <tr>
-                            <td>123</td>
-                            <td>123</td>
-                        </tr>
-                        <tr>
-                            <td>123</td>
-                            <td>123</td>
-                        </tr>
-                        <tr>
-                            <td>123</td>
-                            <td>123</td>
-                        </tr>
-                        <tr>
-                            <td>123</td>
-                            <td>123</td>
-                        </tr>
-                        <tr>
-                            <td>123</td>
-                            <td>123</td>
-                        </tr>
-                        <tr>
-                            <td>123</td>
-                            <td>123</td>
-                        </tr>
-                        <tr>
-                            <td>123</td>
-                            <td>123</td>
-                        </tr>
-                        <tr>
-                            <td>123</td>
-                            <td>123</td>
-                        </tr>
-                        <tr>
-                            <td>123</td>
-                            <td>123</td>
-                        </tr>
-                        <tr>
-                            <td>123</td>
-                            <td>123</td>
-                        </tr>
-                        <tr>
-                            <td>123</td>
-                            <td>123</td>
-                        </tr>
-                        <tr>
-                            <td>123</td>
-                            <td>123</td>
-                        </tr>
-                        <tr>
-                            <td>123</td>
-                            <td>123</td>
-                        </tr>
-                        <tr>
-                            <td>123</td>
-                            <td>123</td>
-                        </tr>
-                        <tr>
-                            <td>123</td>
-                            <td>123</td>
-                        </tr>
-                        <tr>
-                            <td>123</td>
-                            <td>123</td>
-                        </tr>
                     </tbody>
                 </table>
 			</div>

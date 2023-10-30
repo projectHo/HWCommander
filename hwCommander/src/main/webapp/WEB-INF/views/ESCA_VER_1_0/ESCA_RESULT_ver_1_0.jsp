@@ -155,7 +155,7 @@
 	}
 
 	function clickSaveBtn(){
-		alert("미구현");
+		$("#modal-description").modal("show");
 	}
 
 	let differencePrices = [];
@@ -244,6 +244,57 @@
 		if("${loginUser.id}" != recommenderName){
 			$("#recommender-input").parent().css("display","block");
 			$("#recommender-input").val("추천인 ID : "+ recommenderName).css("display","block");
+		}
+	}
+	function descriptionInput(el){
+		if($(el).val().length > 20){
+			alert("20자 이내로 입력해주세요!");
+			$(el).val("");
+		}
+	}
+	function goSaveBtn(){
+		if("${userEscasStorageVOList.size()}" == 50){
+			if(confirm("저장된 견적이 50개 이상입니다. 가장 오래된 견적을 삭제 후 저장하시겠습니까?")){
+				$.ajax({
+				type: "post",
+				url: "/user/escaStorageMaxRegistLogic.do",
+				data: {
+					userId : "${loginUser.id}",
+					escasStorageDescription: $("#modal-description").find("input").val(),
+					escasUrlParameter: "${escasUrlParameter}",
+					escasLogicVersion: "${escasLogicVersion}"
+				},
+				dataType: "json",
+				success: function() {
+					alert("성공적으로 저장되었습니다.");
+					location.href = "/user/estimateStorage.do?id=" + "${loginUser.id}";
+				},
+				error: function() {
+					alert("저장에 실패했습니다.");
+				}
+			})	
+			}else {
+				return false;
+			}
+		}else {
+			$.ajax({
+				type: "post",
+				url: "/user/escaStorageRegistLogic.do",
+				data: {
+					userId : "${loginUser.id}",
+					escasStorageDescription: $("#modal-description").find("input").val(),
+					escasUrlParameter: "${escasUrlParameter}",
+					escasLogicVersion: "${escasLogicVersion}"
+				},
+				dataType: "json",
+				success: function() {
+					alert("성공적으로 저장되었습니다.");
+					location.href = "/user/estimateStorage.do?id=" + "${loginUser.id}";
+				},
+				error: function() {
+					alert("저장에 실패했습니다.");
+				}
+			})
 		}
 	}
 </script>
@@ -355,11 +406,27 @@
 						<button type="button" class="form-control" onclick="javascript:clickCaptureBtn()">캡쳐하기</button>
 					</div>
 					<div class="col">
-						<button type="submit" class="form-control" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="질문에 대한 답변들을 저장합니다. 추후 견적 산출시 현재 견적과 다를 수 있으니 참고 부탁드립니다!!" onclick="javascript:clickSaveBtn()">질문저장</button>
+						<button type="button" class="form-control" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="질문에 대한 답변들을 저장합니다. 추후 견적 산출시 현재 견적과 다를 수 있으니 참고 부탁드립니다!!" onclick="javascript:clickSaveBtn()">질문저장</button>
 					</div>
 				</div>
 	 		</div>
-			
+			<div class="modal fade" data-bs-backdrop="static" id="modal-description" tabindex="-1" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h1 class="modal-title fs-5">질문 저장하기</h1>
+						</div>
+						<div class="modal-body">
+							<h3 class="text-center">견적의 이름을 입력해주세요!</h3>
+							<input type="text" class="form-control" placeholder="최대 20자" oninput="javascript:descriptionInput(this)">
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+							<button type="button" class="btn btn-primary" onclick="javascript:goSaveBtn()">저장</button>
+						</div>
+					</div>
+				</div>
+			</div>
 			<!-- 빈 영역 -->
 			<div class="justify-content-end" style="width: 15%!important;"></div>
 		</div>
@@ -372,7 +439,7 @@
 			<img class="img-fluid" src="/resources/img/layer-26.png" alt="">
 		</div>
 	</div>
-	
+	<input type="hidden" name="${userEscasStorageVOList.size()}" class="storage-size">
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </body>
 </html>

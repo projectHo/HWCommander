@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="/resources/css/main.css">
 <link rel="stylesheet" href="/resources/css/estimateCalculationOneCss.css">
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -17,11 +18,10 @@
 <meta name="author" content="" />
 <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
 
+<link rel="stylesheet" href="/resources/css/banpumMallDetail.css">
 <script>
-	let aa = "${banpumMaster}";
-	let bb = "${banpumDetail}";
     $(function() {
-    	
+
     });
     
 function goTermsOfService() {
@@ -34,7 +34,7 @@ function goCart() {
 
 function goDirectOrder() {
 	if(loginCheck()) {
-		location.href = "/order/sheet.do?accessRoute=direct&banpumMallIds="+"${banpumMaster.id}";
+		location.href = "/order/sheet.do?accessRoute=banpum&productIds="+"${banpumMaster.id}";
 	}
 }
 
@@ -48,7 +48,6 @@ function loginCheck() {
 	}
 	return check;
 }
-
 </script>
 </head>
 <body>
@@ -66,31 +65,59 @@ function loginCheck() {
 						<div class="card-body">				
 							<div class="container">
 							  <div class="row">
-							    <div class="col-5">
+							    <div class="col-5" id="images">
 							    <!-- 임시 몰루이미지
 							      <img class="img-fluid rounded mx-auto d-block" src="/resources/img/tempImage_600x600.png">
 							     -->  
-							      <img class="img-fluid rounded mx-auto d-block" src="${banpumMaster.banpumImage1}" style="width:600px; height:600px; object-fit:contain;">
+									<div id="banpumMallDetailIndicators" class="carousel carousel-dark slide" data-bs-ride="true">
+										<div class="carousel-indicators">
+											<button type="button" data-bs-target="#banpumMallDetailIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+											<c:forEach var="i" begin="2" end="15">
+												<c:set var="key" value="banpumImage${i}" />
+												<c:if test="${not empty banpumMaster[key]}">
+													<button type="button" data-bs-target="#banpumMallDetailIndicators" data-bs-slide-to="${i-1}" aria-label="Slide ${i}"></button>
+												</c:if>
+											</c:forEach>
+										</div>
+										<div class="carousel-inner">
+											<div class="carousel-item active">
+												<img src="${banpumMaster.banpumImage1}" class="d-block w-100 h-100" alt="...">
+											</div>
+											<c:forEach var="i" begin="2" end="15">
+												<c:set var="key" value="banpumImage${i}" />
+												<c:if test="${not empty banpumMaster[key]}">
+													<div class="carousel-item">
+														<img src="${banpumMaster[key]}" class="d-block w-100 h-100" alt="...">
+													</div>
+												</c:if>
+											</c:forEach>
+										</div>
+										<button class="carousel-control-prev" type="button" data-bs-target="#banpumMallDetailIndicators" data-bs-slide="prev">
+											<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+											<span class="visually-hidden">Previous</span>
+										</button>
+										<button class="carousel-control-next" type="button" data-bs-target="#banpumMallDetailIndicators" data-bs-slide="next">
+											<span class="carousel-control-next-icon" aria-hidden="true"></span>
+											<span class="visually-hidden">Next</span>
+										</button>
+									</div>
 							    </div>
 							    <div class="col-7">
-							    	<p class="h1 mb-5">${banpumMaster.banpumName}</p>
-							    	<p class="h3 mb-5">${banpumMaster.banpumPriceStr}</p>
-							    	<p class="h3 mb-5">${banpumMaster.banpumDescriptionStr}</p>
-							    	<p class="h4 mb">배송 기간 : 영업일 기준 약 2일 소요</p>
-							    	<p class="h4 mb">택배사 : 우체국 택배</p>
-							    	<p class="h4 mb-5">배송비 : 무료</p>
-							    	<p class="h4 mb-5">도서산간 지역의 경우 배송이 제한되거나 추가요금이 발생할 수 있습니다.</p>
-							    	<p class="h4 mb">﻿AS 기준은 각 부품의 유통사 규정에 따르며 해당 쇼핑몰에서 1년간 무상 AS를 지원해드립니다.</p>
+							    	<p class="h1 mb-4">${banpumMaster.banpumName}</p>
+							    	<p class="h3 mb-4">가격 : ${banpumMaster.banpumPriceStr}</p>
+							    	<p class="h3">상세 정보</p>
+									<p class="h5 mb-4">${banpumMaster.banpumDescriptionStr}</p>
+							    	<p class="h4">배송 기간 : 영업일 기준 약 2일 소요</p>
+							    	<p class="h4">택배사 : 우체국 택배</p>
+							    	<p class="h4 mb-3">배송비 : 무료</p>
+							    	<p class="h6">도서산간 지역의 경우 배송이 제한되거나 추가요금이 발생할 수 있습니다.</p>
+							    	<p class="h6">﻿AS 기준은 각 부품의 유통사 규정에 따르며 해당 쇼핑몰에서 1년간 무상 AS를 지원해드립니다.</p>
 							    </div>
 							  </div>
 							  <div class="row">
 							    <div class="col-5">
-							    	<p class="h3 mt-3 mb-3">제품 상세 정보</p>
-									<ul class="list-unstyled">
-									<!-- <c:forEach var="item" items="${banpumDetail}">
-										<li>${item.partsTypeCdNm} : ${item.partsName}</li>
-									</c:forEach> -->
-									</ul>
+							    	<!-- <p class="h3 mt-3 mb-3">제품 상세 정보</p>
+									<p class="h3 mb-5">${banpumMaster.banpumDescriptionStr}</p> -->
 							    </div>
 							    <div class="col-7">
 							    </div>
@@ -103,7 +130,7 @@ function loginCheck() {
 							    <div class="col-7 mb-3">
 									<div class="d-grid gap-2 d-md-flex justify-content-md-end">
 										<button class="btn btn-primary btn-lg me-md-2" type="button" onclick="javascript:goTermsOfService()">이용약관</button>
-										<button class="btn btn-primary btn-lg me-md-2" type="button" onclick="javascript:goCart()">장바구니</button>
+										<!-- <button class="btn btn-primary btn-lg me-md-2" type="button" onclick="javascript:goCart()">장바구니</button> -->
 										<button class="btn btn-primary btn-lg" type="button" onclick="javascript:goDirectOrder()">주문하기</button>
 									</div>
 							    </div>
