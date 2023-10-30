@@ -314,7 +314,7 @@ public class UserController {
 	@RequestMapping(value = "/escaStorageMaxRegistLogic.do", method = RequestMethod.POST)
 	@ResponseBody
 	public Integer escaStorageMaxRegistLogic(UserEscasStorageVO userEscasStorageVO) {
-		return userService.userEscasStorageRegistLogic(userEscasStorageVO);
+		return userService.userEscasStorageMaxRegistLogic(userEscasStorageVO);
 	}
 	
 	// 23.10.30 user_escas_storage delete를 위함
