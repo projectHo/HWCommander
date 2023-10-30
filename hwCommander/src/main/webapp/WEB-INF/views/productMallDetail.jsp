@@ -101,7 +101,7 @@ function loginCheck() {
 							    <div class="col-7 mb-3">
 									<div class="d-grid gap-2 d-md-flex justify-content-md-end">
 										<button class="btn btn-primary btn-lg me-md-2" type="button" onclick="javascript:goTermsOfService()">이용약관</button>
-										<!-- <button class="btn btn-primary btn-lg me-md-2" type="button" onclick="javascript:goCart()">장바구니</button> -->
+										<button class="btn btn-primary btn-lg me-md-2" type="button" onclick="javascript:goCart()">장바구니</button>
 										<button class="btn btn-primary btn-lg" type="button" onclick="javascript:goDirectOrder()">주문하기</button>
 									</div>
 							    </div>
