@@ -135,7 +135,7 @@ public class UserServiceImpl implements UserService {
 			UserEscasStorageVO deleteUserEscasStorageVO = userEscasStorageVOList.get(userEscasStorageVOList.size()-1);
 			userDAO.deleteUserEscasStorageVO(deleteUserEscasStorageVO);
 			
-			insertResult = userDAO.insertUserEscasStorageVO(userEscasStorageVO);
+			insertResult = userEscasStorageRegistLogic(userEscasStorageVO);
 			return insertResult;
 		}
 	}

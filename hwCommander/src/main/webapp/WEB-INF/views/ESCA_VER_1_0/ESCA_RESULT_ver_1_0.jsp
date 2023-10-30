@@ -253,12 +253,13 @@
 		}
 	}
 	function goSaveBtn(){
-		if(aaa.length > 50){
-			if(confirm("저장된 견적이 50개 이상입니다.<br>가장 오래된 견적을 삭제 후 저장하시겠습니까?")){
+		if("${userEscasStorageVOList.size()}" == 50){
+			if(confirm("저장된 견적이 50개 이상입니다. 가장 오래된 견적을 삭제 후 저장하시겠습니까?")){
 				$.ajax({
 				type: "post",
-				url: "",
+				url: "/user/escaStorageMaxRegistLogic.do",
 				data: {
+					userId : "${loginUser.id}",
 					escasStorageDescription: $("#modal-description").find("input").val(),
 					escasUrlParameter: "${escasUrlParameter}",
 					escasLogicVersion: "${escasLogicVersion}"
@@ -266,6 +267,7 @@
 				dataType: "json",
 				success: function() {
 					alert("성공적으로 저장되었습니다.");
+					location.href = "/user/estimateStorage.do?id=" + "${loginUser.id}";
 				},
 				error: function() {
 					alert("저장에 실패했습니다.");
@@ -277,8 +279,9 @@
 		}else {
 			$.ajax({
 				type: "post",
-				url: "",
+				url: "/user/escaStorageRegistLogic.do",
 				data: {
+					userId : "${loginUser.id}",
 					escasStorageDescription: $("#modal-description").find("input").val(),
 					escasUrlParameter: "${escasUrlParameter}",
 					escasLogicVersion: "${escasLogicVersion}"
@@ -286,6 +289,7 @@
 				dataType: "json",
 				success: function() {
 					alert("성공적으로 저장되었습니다.");
+					location.href = "/user/estimateStorage.do?id=" + "${loginUser.id}";
 				},
 				error: function() {
 					alert("저장에 실패했습니다.");
@@ -435,7 +439,7 @@
 			<img class="img-fluid" src="/resources/img/layer-26.png" alt="">
 		</div>
 	</div>
-	
+	<input type="hidden" name="${userEscasStorageVOList.size()}" class="storage-size">
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </body>
 </html>

@@ -25,7 +25,7 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 <script>
-	let aa = "${userEscasStorageVOList}";
+	let aa = "${userEscasStorageVOList.size()}";
 	$(function(){
 		// 부트스트랩 툴팁
 		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
@@ -35,15 +35,32 @@
 	function clickEscaBtn(el) {
 		var param = $(el).parent().parent().attr("param");
 
-		location.href = "/ESCA/ESCA_RESULT_ver_1_0.do?resultString=" + param;
+		location.href = "/ESCA/ESCA_RESULT_ver_1_0.do?resultString=" + encodeURI(param);
 	}
 	function clickEscaDeleteBtn(el) {
 		var param = $(el).parent().parent().attr("param");
-
+		var seq = $(el).parent().parent().find(".seq").attr("name");
+		console.log(seq);
 		if(confirm("정말로 삭제하시겠습니까?")){
+			$.ajax({
+				type: "post",
+				url: "/user/escaStorageDeleteLogic.do",
+				data: {
+					userId : "${loginUser.id}",
+					seq : seq,
+				},
+				dataType: "json",
+				success: function(response) {
+					alert("삭제되었습니다");
+					location.reload();
+				},
+				error: function() {
+					alert("삭제 실패했습니다.");
+				}
+			})
 			
 			
-			alert("삭제되었습니다");
+			
 		}else {
 			return false;
 		}
@@ -64,13 +81,30 @@
 				<table class="table table-hover">
 					<thead>
 						<tr>
-							<th scope="col" class="col-1 border-end">#</th>
-							<th scope="col" class="col-9 border-end">견적 내용</th>
+							<th scope="col" class="col-2 border-end">번호 / 버전</th>
+							<th scope="col" class="col-8 border-end">견적 이름</th>
 							<th scope="col" class="col-2">선택</th>
 						</tr>
 					</thead>
 					<tbody>
-						
+						<c:forEach var="item" items="${userEscasStorageVOList}">
+							<tr param="${item.escasUrlParameter}">
+								<th scope="row" class="border-end pt-4 seq" name="${item.seq}">
+									 ${item.seq} / ver : ${item.escasLogicVersion}
+								</th>
+								<td id="description" class="border-end" name="${item.escasStorageDescription}">
+									${item.escasStorageDescription}
+								</td>
+								<td class="d-flex gap-2">
+									<button class="btn btn-outline-primary w-50" onclick="clickEscaBtn(this)">
+										견적산출
+									</button>
+									<button class="btn btn-outline-danger w-50" onclick="clickEscaDeleteBtn(this)">
+										삭제
+									</button>
+								</td>
+							</tr>
+						</c:forEach>
 					</tbody>
 				</table>
 	 		</div>
