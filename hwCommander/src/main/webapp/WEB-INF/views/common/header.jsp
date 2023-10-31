@@ -139,6 +139,9 @@ function loginCheck() {
 						    <div class="collapse navbar-collapse justify-content-around">
 						      <div class="navbar-nav">
 						        <h3><a class="nav-link mx-5" href="/aboutUs.do">회사소개</a></h3>
+								<!--
+						        <h3><a class="nav-link mx-5" href="/productMall.do">완본체 몰(폐기예정)</a></h3>
+						        -->
 						        <h3><a class="nav-link mx-5" href="/userBanpumMall.do">이벤트몰</a></h3>
 						        <h3><a class="nav-link mx-5" href="javascript:alert('준비중')">모니터추천</a></h3>
 						        <h3><a class="nav-link mx-5" href="javascript:alert('준비중')">게시판</a></h3>

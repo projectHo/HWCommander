@@ -85,7 +85,7 @@ public class HomeController {
 	
 	@RequestMapping(value = "/userBanpumMall.do", method = RequestMethod.GET)
 	public String goUserBanmpumMall(Model model) {
-		model.addAttribute("banpumMasterList", productService.getBanpumMasterAllList());
+		model.addAttribute("banpumMasterList", productService.getBanpumMasterAllListByExposureYn("Y"));
 		return "userBanpumMall";
 	}
 	@RequestMapping(value = "/userBanpumMallDetail.do", method = RequestMethod.GET)
