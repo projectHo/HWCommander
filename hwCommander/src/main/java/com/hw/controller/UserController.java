@@ -550,8 +550,8 @@ public class UserController {
 				
 				JSONObject reqDataJson = new JSONObject();
 				reqDataJson.put("requestno", req_no);
-				reqDataJson.put("returnurl", "http://localhost:8080/user/niceHpNumberAuthenticationResult.do");
-//				reqDataJson.put("returnurl", "http://hwcommander.com/user/niceHpNumberAuthenticationResult.do");
+//				reqDataJson.put("returnurl", "http://localhost:8080/user/niceHpNumberAuthenticationResult.do");
+				reqDataJson.put("returnurl", "http://hwcommander.com/user/niceHpNumberAuthenticationResult.do");
 				reqDataJson.put("sitecode", site_code);
 				reqDataJson.put("methodtype", "get");
 				reqDataJson.put("authtype", "M"); // 휴대폰인증 고정
