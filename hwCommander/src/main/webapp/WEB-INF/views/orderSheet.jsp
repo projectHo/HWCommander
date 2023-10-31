@@ -732,12 +732,12 @@ function recDupliChk(id) {
 		
 	<!-- todo wonho 로컬테스트 -->
 	<%-- 
-	<input type="hidden" name="returnUrl" value="http://localhost:8080/order/inicisPayReturn.do">
-	<input type="hidden" name="closeUrl" value="http://localhost:8080/order/inicisPayClose.do?id=<%=oid%>">
+	<input type="hidden" name="returnUrl" value="https://localhost:8080/order/inicisPayReturn.do">
+	<input type="hidden" name="closeUrl" value="https://localhost:8080/order/inicisPayClose.do?id=<%=oid%>">
 	 --%>
 	<!-- todo wonho 운영 -->
-	<input type="hidden" name="returnUrl" value="http://hwcommander.com/order/inicisPayReturn.do">
-	<input type="hidden" name="closeUrl" value="http://hwcommander.com/order/inicisPayClose.do?id=<%=oid%>">
+	<input type="hidden" name="returnUrl" value="https://hwcommander.com/order/inicisPayReturn.do">
+	<input type="hidden" name="closeUrl" value="https://hwcommander.com/order/inicisPayClose.do?id=<%=oid%>">
 </form>
 
 </body>
