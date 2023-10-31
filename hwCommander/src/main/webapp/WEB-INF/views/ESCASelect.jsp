@@ -72,6 +72,7 @@
 				sessionStorage.setItem("data-" + i, "");
 			}
 			sessionStorage.setItem("targetData" , "");
+			sessionStorage.setItem("pay","y");
 			location.href = "/ESCA/ESCA_00_ver_1_0.do";	
 		}else if($(el).children().html() == "과거기준"){
 			$("#select-modal").modal("show");			
@@ -117,6 +118,7 @@
 				sessionStorage.setItem("data-" + i, "");
 			}
 			location.href = "/ESCA/ESCA_00_ver_1_0.do";
+			sessionStorage.setItem("pay","n");
 		}
 	}
 	function resetTime(){
