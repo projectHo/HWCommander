@@ -134,7 +134,7 @@ public class UserServiceImpl implements UserService {
 			// max delete 후 받은 vo insert
 			UserEscasStorageVO deleteUserEscasStorageVO = userEscasStorageVOList.get(userEscasStorageVOList.size()-1);
 			userDAO.deleteUserEscasStorageVO(deleteUserEscasStorageVO);
-			
+
 			insertResult = userEscasStorageRegistLogic(userEscasStorageVO);
 			return insertResult;
 		}
