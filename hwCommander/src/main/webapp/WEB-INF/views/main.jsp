@@ -134,7 +134,7 @@
             if (btnElement){
               setTimeout(() => {
                 btnElement.classList.add("show");
-              }, 5000);
+              }, 1000);
             }
           },
           slideChange: function () {
@@ -153,7 +153,7 @@
               btnElement.style.display = "block";
               setTimeout(() => {
                 btnElement.classList.add("show");
-              }, 5000);
+              }, 1000);
             }
           }
         }
@@ -214,27 +214,27 @@
           <div class="swiper-wrapper">
             <div class="swiper-slide">
               <video muted class="swiper-video main-video" src="/resources/mp4/main-banner.mp4" type="video/mp4" onended="javascript:videoReplay(this)"></video>
-              <button class="btn btn-primary btn-lg fade" onclick="javascript:goMainBtn()">바로가기</button>
+              <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2" onclick="javascript:goMainBtn()">바로가기</button>
             </div>
             <div class="swiper-slide">
               <video muted class="swiper-video" src="/resources/mp4/esca-banner.mp4" type="video/mp4"></video>
-              <button class="btn btn-primary btn-lg fade" onclick="javascript:goEscaBtn()">바로가기</button>
+              <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2" onclick="javascript:goEscaBtn()">바로가기</button>
             </div>
             <div class="swiper-slide">
               <video muted class="swiper-video banpum-mall-video" src="/resources/mp4/banpumMall-banner.mp4" type="video/mp4" onended="javascript:videoReplay(this)"></video>
-              <button class="btn btn-primary btn-lg fade" onclick="javascript:goEventMallBtn()">바로가기</button>
+              <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2" onclick="javascript:goEventMallBtn()">바로가기</button>
             </div>
             <div class="swiper-slide">
               <video muted class="swiper-video my-page-video" src="/resources/mp4/myPage-banner.mp4" type="video/mp4" onended="javascript:videoReplay(this)"></video>
-              <button class="btn btn-primary btn-lg fade" onclick="javascript:goMyPageBtn()">바로가기</button>
+              <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2" onclick="javascript:goMyPageBtn()">바로가기</button>
             </div>
             <div class="swiper-slide">
               <video muted class="swiper-video" src="/resources/mp4/escaStorage-banner.mp4" type="video/mp4"></video>
-              <button class="btn btn-primary btn-lg fade" onclick="javascript:goStorageBtn()">바로가기</button>
+              <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2" onclick="javascript:goStorageBtn()">바로가기</button>
             </div>
             <div class="swiper-slide">
               <video muted class="swiper-video costomer-service-video" src="/resources/mp4/customerService-banner.mp4" type="video/mp4" onended="javascript:videoReplay(this)"></video>
-              <button class="btn btn-primary btn-lg fade" onclick="javascript:goServiceBtn()">바로가기</button>
+              <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2" onclick="javascript:goServiceBtn()">바로가기</button>
             </div>
             <div class="swiper-slide flex-column">
               <div class="footer_background w-100 h-100 p-5">

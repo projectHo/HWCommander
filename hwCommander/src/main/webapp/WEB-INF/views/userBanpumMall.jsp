@@ -33,10 +33,9 @@
     	    ],
             lengthChange: false,
             info: false,
-    		// 정렬 기능 숨기기
     		ordering: false,
-    		// 페이징 기능 숨기기
     		paging: true,
+            pageLength : 5,
             language : {
                 "search" : "검색 : ",
                 "paginate" : {
@@ -64,53 +63,54 @@
 		<div class="d-flex">
 			<!-- 빈 영역 -->
 			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
-			<div class="estimateCalc_background rounded p-5" style="width: 70%!important;" id="banpumMallTop">
-                <h2 class="mt-4 d-flex justify-content-center">반품몰</h2>
-				<table id="banpunMallListTable" class="table table-hover" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th style="width: 30%;">상품이미지</th>
-                            <th style="width: 70%;">상품정보</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:forEach var="item" items="${banpumMasterList}">
-                            <tr name="${item.id}">
-                                <td>
-                                    <div id="banpumMallIndicators${item.id}" class="carousel carousel-dark slide" data-bs-ride="true" style="width:350px; height:350px;">
-                                        <div class="carousel-indicators">
-                                            <button type="button" data-bs-target="#banpumMallIndicators${item.id}" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                                            <c:forEach var="i" begin="2" end="15">
-                                                <c:set var="key" value="banpumImage${i}" />
-                                                <c:if test="${not empty item[key]}">
-                                                    <button type="button" data-bs-target="#banpumMallIndicators${item.id}" data-bs-slide-to="${i-1}" aria-label="Slide ${i}"></button>
-                                                </c:if>
-                                            </c:forEach>
-                                        </div>    
-                                        <div class="carousel-inner">
-                                            <div class="carousel-item active">
-                                                <img src="${item.banpumImage1}" class="d-block w-100 h-100" alt="...">
-                                            </div>
-                                            <c:forEach var="i" begin="2" end="15">
-                                                <c:set var="key" value="banpumImage${i}" />
-                                                <c:if test="${not empty item[key]}">
-                                                    <div class="carousel-item">
-                                                        <img src="${item[key]}" class="d-block w-100 h-100" alt="...">
-                                                    </div>
-                                                </c:if>
-                                            </c:forEach>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="td-caption">
-                                    <p>이름 : ${item.banpumName}</p>
-                                    <p>가격 : ${item.banpumPriceStr}</p>
-                                    <p>설명 : ${item.banpumDescription}</p>
-                                </td>
+			<div class="event-mall-background rounded p-5" style="width: 70%!important;" id="banpumMallTop">
+                <div class="p-5">
+                    <table id="banpunMallListTable" class="table table-hover" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th style="width: 30%;">상품이미지</th>
+                                <th style="width: 70%;">상품정보</th>
                             </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <c:forEach var="item" items="${banpumMasterList}">
+                                <tr name="${item.id}">
+                                    <td>
+                                        <div id="banpumMallIndicators${item.id}" class="carousel carousel-dark slide w-100" data-bs-ride="true">
+                                            <div class="carousel-indicators">
+                                                <button type="button" data-bs-target="#banpumMallIndicators${item.id}" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                                <c:forEach var="i" begin="2" end="15">
+                                                    <c:set var="key" value="banpumImage${i}" />
+                                                    <c:if test="${not empty item[key]}">
+                                                        <button type="button" data-bs-target="#banpumMallIndicators${item.id}" data-bs-slide-to="${i-1}" aria-label="Slide ${i}"></button>
+                                                    </c:if>
+                                                </c:forEach>
+                                            </div>    
+                                            <div class="carousel-inner">
+                                                <div class="carousel-item active">
+                                                    <img src="${item.banpumImage1}" class="d-block w-100 h-100" alt="...">
+                                                </div>
+                                                <c:forEach var="i" begin="2" end="15">
+                                                    <c:set var="key" value="banpumImage${i}" />
+                                                    <c:if test="${not empty item[key]}">
+                                                        <div class="carousel-item">
+                                                            <img src="${item[key]}" class="d-block w-100 h-100" alt="...">
+                                                        </div>
+                                                    </c:if>
+                                                </c:forEach>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td class="td-caption">
+                                        <p>이름 : ${item.banpumName}</p>
+                                        <p>가격 : ${item.banpumPriceStr}</p>
+                                        <p>설명 : ${item.banpumDescription}</p>
+                                    </td>
+                                </tr>
+                            </c:forEach>
+                        </tbody>
+                    </table>
+                </div>
 			</div>
 			<!-- 빈 영역 -->
 			<div class="justify-content-end" style="width: 15%!important;"></div>

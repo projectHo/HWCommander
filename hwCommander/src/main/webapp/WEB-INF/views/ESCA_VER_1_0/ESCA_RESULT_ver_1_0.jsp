@@ -151,7 +151,11 @@
 	}
 	function clickOrderBtn() {
 		// 09.06 오류 상태 추가 및 램 변경시 업데이트 로직 추가 필요
-		location.href = "/order/sheet.do?accessRoute=direct&productIds="+"${productMaster.id}";
+		if(sessionStorage.getItem("pay") == "y"){
+			location.href = "/order/sheet.do?accessRoute=direct&productIds="+"${productMaster.id}";
+		}else {
+			alert("과거 견적 기준으로는 구매하실 수 없습니다!");
+		}
 	}
 
 	function clickSaveBtn(){
@@ -212,11 +216,13 @@
 	}
 	function modalButtons(el){
 		if($(el).hasClass("btn-secondary")){
-			location.href = "/";
+			location.href = "/mainInfo.do";
+			sessionStorage.clear();
 		}else {
-			for(let i = 0; i<=19 ; i++){
-				sessionStorage.setItem("data-" + i, "");
-			}
+			// for(let i = 0; i<=19 ; i++){
+			// 	sessionStorage.setItem("data-" + i, "");
+			// }
+			sessionStorage.clear();
 			location.href = "/ESCA/ESCASelect.do";
 		}
 	}
