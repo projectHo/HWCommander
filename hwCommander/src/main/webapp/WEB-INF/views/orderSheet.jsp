@@ -68,8 +68,13 @@
 %>
 
 <script>
-	let aa = "${accessRoute}"
     $(function() {
+		// bootstrap 툴팁
+		const tooltipTriggerList = $('[data-bs-toggle="tooltip"]');
+		const tooltipList = tooltipTriggerList.map(function() {
+			return new bootstrap.Tooltip($(this)[0]);
+		}).get();
+
     	$('#productListInfoTable').DataTable({ 
     	    bAutoWidth: false,
     	    columnDefs: [
@@ -704,6 +709,7 @@ function recDupliChk(id) {
 								<label class="form-check-label pt-1" for="payment-method-account-transfer">계좌이체</label>
 							</div>
 						</div>
+						<img class="goni-img" src="/resources/img/goni.png" alt="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="저희는 노동치 이상의 수익을 요구하지 않습니다. 결제 수단에 따라 차액을 마진으로 생각하지 않으며, 계좌이체를 결제 수단으로 이용함에 따라 발생하는 카드수수료 차액만큼을 할인가로 적용해드립니다." >
 					</div>
 					<div class="d-grid p-3">
 						<a class="btn btn-secondary btn-block" id="btn_check_out" onclick="javascript:btnCheckOutClick()">결제하기</a>

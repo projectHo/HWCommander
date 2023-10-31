@@ -20,3 +20,13 @@
     border-top: 1px dashed gray;
     border-bottom: 1px dashed gray;
 }
+
+.goni-img {
+    width: 250px;
+    height: 250px;
+    position: absolute;
+    bottom: 12%;
+    right: 20%;
+    opacity: 0.7;
+    cursor: pointer;
+}

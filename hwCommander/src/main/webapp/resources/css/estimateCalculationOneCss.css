@@ -4,9 +4,15 @@
 }
 .estimateCalc_background {
 	background-image: url(/resources/img/layer-8-copy-7-450x60.png);
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+.event-mall-background {
+  background-image: url(/resources/img/event-back.png);
+  background-position: top;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 .input-field {
   border: none;
