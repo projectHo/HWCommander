@@ -140,3 +140,11 @@ html,
         top: 7%;
         right: 5%;
       }
+
+      @media (min-width: 1921px) {
+        .swiper-slide .btn{
+          width: 180px;
+          height: 80px;
+        }
+      }
+      

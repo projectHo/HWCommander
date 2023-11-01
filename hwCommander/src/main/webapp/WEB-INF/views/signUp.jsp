@@ -482,6 +482,19 @@ function hpNumberAuthentication() {
 								</div>
 							</div>
 							<div class="row justify-content-center">
+								<!-- <label for="hpNumber" class="col-sm-2 col-form-label">휴대폰번호</label>
+								<div class="col-sm-5">
+									<input type="text" class="form-control" id="hpNumber" name="hpNumber" placeholder="'-'를 빼고 입력해주세요." maxlength="11" required>
+								</div> -->
+								<div class="input-group mb-3 w-50">
+									<span class="input-group-text bg-white pe-1">
+										<svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(180)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M18.9998 17.5V6.5C19.0627 5.37366 18.6774 4.2682 17.9279 3.42505C17.1784 2.5819 16.1258 2.06958 14.9998 2H8.99981C7.87387 2.06958 6.82121 2.5819 6.07175 3.42505C5.32228 4.2682 4.9369 5.37366 4.99982 6.5V17.5C4.9369 18.6263 5.32228 19.7317 6.07175 20.5748C6.82121 21.418 7.87387 21.9303 8.99981 21.9999H14.9998C16.1258 21.9303 17.1784 21.418 17.9279 20.5748C18.6774 19.7317 19.0627 18.6263 18.9998 17.5V17.5Z" stroke="#000000" stroke-width="0.9600000000000002" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M14 5H10" stroke="#000000" stroke-width="0.9600000000000002" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+									</span>
+									<input type="text" id="hpNumber" name="hpNumber" class="form-control border-start-0 join-members" placeholder="'-'를 빼고 입력해주세요." maxlength="11" required autocomplete="off">
+									<button type="button" class="btn btn-outline-secondary" id="btn_hpNumber_chk">인증하기</button>
+								</div>
+							</div>
+							<div class="row justify-content-center">
 								<!-- <label for="name" class="col-sm-2 col-form-label">이름</label>
 								<div class="col-sm-5">
 									<input type="text" class="form-control" id="name" name="name" maxlength="25" required>
@@ -529,19 +542,6 @@ function hpNumberAuthentication() {
 										<label class="btn btn-outline-secondary w-100 join-members" for="sexCd2">여자</label>
 									</div>
 									<div class="col-1"></div>
-								</div>
-							</div>
-							<div class="row justify-content-center">
-								<!-- <label for="hpNumber" class="col-sm-2 col-form-label">휴대폰번호</label>
-								<div class="col-sm-5">
-									<input type="text" class="form-control" id="hpNumber" name="hpNumber" placeholder="'-'를 빼고 입력해주세요." maxlength="11" required>
-								</div> -->
-								<div class="input-group mb-3 w-50">
-									<span class="input-group-text bg-white pe-1">
-										<svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" transform="rotate(180)"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M18.9998 17.5V6.5C19.0627 5.37366 18.6774 4.2682 17.9279 3.42505C17.1784 2.5819 16.1258 2.06958 14.9998 2H8.99981C7.87387 2.06958 6.82121 2.5819 6.07175 3.42505C5.32228 4.2682 4.9369 5.37366 4.99982 6.5V17.5C4.9369 18.6263 5.32228 19.7317 6.07175 20.5748C6.82121 21.418 7.87387 21.9303 8.99981 21.9999H14.9998C16.1258 21.9303 17.1784 21.418 17.9279 20.5748C18.6774 19.7317 19.0627 18.6263 18.9998 17.5V17.5Z" stroke="#000000" stroke-width="0.9600000000000002" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M14 5H10" stroke="#000000" stroke-width="0.9600000000000002" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
-									</span>
-									<input type="text" id="hpNumber" name="hpNumber" class="form-control border-start-0 join-members" placeholder="'-'를 빼고 입력해주세요." maxlength="11" required autocomplete="off">
-									<button type="button" class="btn btn-outline-secondary" id="btn_hpNumber_chk">인증하기</button>
 								</div>
 							</div>
 							<div class="row justify-content-center">

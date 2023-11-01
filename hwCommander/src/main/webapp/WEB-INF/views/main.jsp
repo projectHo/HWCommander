@@ -34,9 +34,9 @@
       var btns = $("button");
       btns.removeClass("show").css("display","none");
     }
-    function goMainBtn(){
-      location.href = "/mainInfo.do";
-    }
+    // function goMainBtn(){
+    //   location.href = "/";
+    // }
     function goEscaBtn(){
       if(loginCheck()) {
         location.href = "/ESCA/ESCASelect.do";
@@ -169,8 +169,8 @@
         <!-- 비로그인 퀵메뉴 -->
         <c:if test="${loginUser == null}">
           <ul class="list-group list-group-flush bg-none quick">
-            <li class="list-group-item bg-transparent p-2"><h2>퀵메뉴</h2></li>
-            <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goMainBtn()">메인</li>
+            <li class="list-group-item bg-transparent p-4 pt-3 fixed-top text-start pb-1"><h2>MENU</h2></li>
+            <!-- <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goMainBtn()">메인</li> -->
             <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goEventMallBtn()">이벤트몰</li>
             <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goEscaBtn()">견적산출</li>
             
@@ -183,8 +183,8 @@
         <!-- 고객 로그인 퀵메뉴 -->
         <c:if test="${loginUser != null && loginUser.mailConfirm == 'Y' && loginUser.userTypeCd == '02'}">
           <ul class="list-group list-group-flush bg-none">
-            <li class="list-group-item bg-transparent p-2"><h2>퀵메뉴</h2></li>
-            <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goMainBtn()">메인</li>
+            <li class="list-group-item bg-transparent p-4 pt-3 fixed-top text-start pb-1"><h2>MENU</h2></li>
+            <!-- <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goMainBtn()">메인</li> -->
             <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goEventMallBtn()">이벤트몰</li>
             <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goEscaBtn()">견적산출</li>
             <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goStorageBtn()">견적 저장소</li>
@@ -198,8 +198,8 @@
         <!-- 관리자 로그인 퀵메뉴 -->
         <c:if test="${loginUser != null && loginUser.userTypeCd == '01'}">
           <ul class="list-group list-group-flush bg-none">
-            <li class="list-group-item bg-transparent p-2"><h2>퀵메뉴</h2></li>
-            <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goMainBtn()">메인</li>
+            <li class="list-group-item bg-transparent p-4 pt-3 fixed-top text-start pb-1"><h2>MENU</h2></li>
+            <!-- <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goMainBtn()">메인</li> -->
             <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goAdminBtn()">AdminPage</li>
           </ul>
         </c:if>
@@ -214,7 +214,18 @@
           <div class="swiper-wrapper">
             <div class="swiper-slide">
               <video muted class="swiper-video main-video" src="/resources/mp4/main-banner.mp4" type="video/mp4" onended="javascript:videoReplay(this)"></video>
-              <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2" onclick="javascript:goMainBtn()">바로가기</button>
+              <!-- 비로그인 버튼 -->
+              <c:if test="${loginUser == null}">
+                <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2" onclick="javascript:goLogin()">로그인</button>
+              </c:if>
+              <!-- 고객 로그인 버튼 -->
+              <c:if test="${loginUser != null && loginUser.mailConfirm == 'Y' && loginUser.userTypeCd == '02'}">
+                <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2" onclick="javascript:logout()">로그아웃</button>
+              </c:if>
+              <!-- 관리자 로그인 버튼 -->
+              <c:if test="${loginUser != null && loginUser.userTypeCd == '01'}">
+                <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2" onclick="javascript:logout()">로그아웃</button>
+              </c:if>
             </div>
             <div class="swiper-slide">
               <video muted class="swiper-video" src="/resources/mp4/esca-banner.mp4" type="video/mp4"></video>
@@ -279,7 +290,7 @@
                     <div class="w-100 row align-items-center mt-4">
                       <div class="col">
                         <div class="d-flex justify-content-center">
-                          <a href="/mainInfo.do">
+                          <a href="/">
                           <!-- 2023.05.20 로고수정
                             <img width="300" height="167" src="/resources/img/cropped-cpLogo-300x167.png">
                              -->

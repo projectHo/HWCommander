@@ -216,7 +216,7 @@
 	}
 	function modalButtons(el){
 		if($(el).hasClass("btn-secondary")){
-			location.href = "/mainInfo.do";
+			location.href = "/";
 			sessionStorage.clear();
 		}else {
 			// for(let i = 0; i<=19 ; i++){

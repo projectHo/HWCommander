@@ -74,7 +74,7 @@ function loginCheck() {
 					<div class="col"></div>
 					<div class="col mt-3">
 						<div class="d-flex justify-content-center">
-							<a href="/mainInfo.do">
+							<a href="/">
 							<!-- 2023.05.20 로고수정
 								<img width="300" height="167" src="/resources/img/cropped-cpLogo-300x167.png">
 							 -->	
