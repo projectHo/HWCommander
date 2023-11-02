@@ -34,9 +34,6 @@
       var btns = $("button");
       btns.removeClass("show").css("display","none");
     }
-    // function goMainBtn(){
-    //   location.href = "/";
-    // }
     function goEscaBtn(){
       if(loginCheck()) {
         location.href = "/ESCA/ESCASelect.do";
@@ -84,6 +81,14 @@
       }
       return check;
     }
+    function stopVideo(el){
+      $(el).pause();
+    }
+    function mypagePartVideoPlay (){
+      let video = $(".my-page-video-monitor");
+      video.css("opacity","1");
+      video.trigger("play");
+    }
     $(function(){
       var menuButton = $('.menu-button');
       var openMenu = function () {
@@ -125,12 +130,12 @@
         on: {
           init : function (){
             var btnElement = $(this.slides[0]).find('button')[0];
-            var firstVideo = $(this.slides[0]).find('video')[0];
-            if (firstVideo) {
-              firstVideo.onloadeddata = function() {
-                  firstVideo.play();
-              };
-            }
+            // var firstVideo = $(this.slides[0]).find('video')[0];
+            // if (firstVideo) {
+            //   firstVideo.onloadeddata = function() {
+            //       firstVideo.play();
+            //   };
+            // }
             if (btnElement){
               setTimeout(() => {
                 btnElement.classList.add("show");
@@ -140,23 +145,23 @@
           slideChange: function () {
               resetVideos();
               resetBtns();
-            // 현재 활성화된 슬라이드 찾기
-            var activeSlide = this.slides[this.activeIndex];
-            // 활성화된 슬라이드 내부의 video 태그 찾기
-            var videoElement = $(activeSlide).find('video')[0];
-            var btnElement = $(activeSlide).find('button')[0];
-            // video 태그가 발견되면 autoplay 속성 활성화
-            if (videoElement) {
-                videoElement.play();
-            }
-            if (btnElement){
-              btnElement.style.display = "block";
-              setTimeout(() => {
-                btnElement.classList.add("show");
-              }, 1000);
+              var activeSlide = this.slides[this.activeIndex];
+              var videoElement = $(activeSlide).find('video')[0];
+              var btnElement = $(activeSlide).find('button')[0];
+              var monitorVideo = $(".my-page-video-monitor");
+              $(".my-page-video-monitor").css("opacity","0").trigger("pause");
+              monitorVideo.get(0).currentTime = 0;
+              if (videoElement) {
+                  videoElement.play();
+              }
+              if (btnElement){
+                btnElement.style.display = "block";
+                setTimeout(() => {
+                  btnElement.classList.add("show");
+                }, 1000);
+              }
             }
           }
-        }
       })
     });
     </script>
@@ -202,6 +207,10 @@
             <!-- <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goMainBtn()">메인</li> -->
             <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goAdminBtn()">AdminPage</li>
           </ul>
+          <ul class="list-group list-group-flush flex-row bg-none fixed-bottom">
+            <li class="list-group-item list-group-item-action bg-transparent p-3 border-end border-dark border-bottom-0" style="--bs-border-opacity: .2;" onclick="javascript:logout()">로그아웃</li>
+            <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goMyPageBtn()">마이페이지</li>
+          </ul>
         </c:if>
       </div>
       <div class="swiper-slide content">
@@ -213,7 +222,9 @@
         <div class="swiper main-swiper">
           <div class="swiper-wrapper">
             <div class="swiper-slide">
-              <video muted class="swiper-video main-video" src="/resources/mp4/main-banner.mp4" type="video/mp4" onended="javascript:videoReplay(this)"></video>
+              <!-- <video muted class="swiper-video main-video" src="/resources/mp4/main-banner.mp4" type="video/mp4" onended="javascript:videoReplay(this)"></video> -->
+              <video autoplay muted class="swiper-video main-video main-video-text" src="/resources/mp4/main-text.mp4" type="video/mp4"></video>
+              <video muted autoplay loop class="swiper-video main-video" src="/resources/mp4/main-com.mp4" type="video/mp4" onended="javascript:videoReplay(this)"></video>
               <!-- 비로그인 버튼 -->
               <c:if test="${loginUser == null}">
                 <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2" onclick="javascript:goLogin()">로그인</button>
@@ -228,23 +239,26 @@
               </c:if>
             </div>
             <div class="swiper-slide">
-              <video muted class="swiper-video" src="/resources/mp4/esca-banner.mp4" type="video/mp4"></video>
+              <video muted class="swiper-video" src="/resources/mp4/esca-video.mp4" type="video/mp4"></video>
               <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2" onclick="javascript:goEscaBtn()">바로가기</button>
             </div>
             <div class="swiper-slide">
-              <video muted class="swiper-video banpum-mall-video" src="/resources/mp4/banpumMall-banner.mp4" type="video/mp4" onended="javascript:videoReplay(this)"></video>
+              <!-- <video muted class="swiper-video banpum-mall-video" src="/resources/mp4/banpumMall-banner.mp4" type="video/mp4" onended="javascript:videoReplay(this)"></video> -->
+              <video muted autoplay class="swiper-video banpum-mall-video banpum-mall-video-text" src="/resources/mp4/banpumMall-text.mp4" type="video/mp4"></video>
+              <video muted autoplay loop class="swiper-video banpum-mall-video" src="/resources/mp4/banpumMall-video.mp4" type="video/mp4" onended="javascript:videoReplay(this)"></video>
               <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2" onclick="javascript:goEventMallBtn()">바로가기</button>
             </div>
             <div class="swiper-slide">
-              <video muted class="swiper-video my-page-video" src="/resources/mp4/myPage-banner.mp4" type="video/mp4" onended="javascript:videoReplay(this)"></video>
+              <video muted autoplay class="swiper-video my-page-video" src="/resources/mp4/mypage-video.mp4" type="video/mp4" onended="javascript:mypagePartVideoPlay()"></video>
+              <video muted class="swiper-video my-page-video-monitor" src="/resources/mp4/mypage-monitor.mp4" type="video/mp4" onended="javascript:videoReplay(this)"></video>
               <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2" onclick="javascript:goMyPageBtn()">바로가기</button>
             </div>
             <div class="swiper-slide">
-              <video muted class="swiper-video" src="/resources/mp4/escaStorage-banner.mp4" type="video/mp4"></video>
+              <video muted class="swiper-video" src="/resources/mp4/esca-storage.mp4" type="video/mp4"></video>
               <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2" onclick="javascript:goStorageBtn()">바로가기</button>
             </div>
             <div class="swiper-slide">
-              <video muted class="swiper-video costomer-service-video" src="/resources/mp4/customerService-banner.mp4" type="video/mp4" onended="javascript:videoReplay(this)"></video>
+              <video muted class="swiper-video costomer-service-video" src="/resources/mp4/customer-video.mp4" type="video/mp4"></video>
               <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2" onclick="javascript:goServiceBtn()">바로가기</button>
             </div>
             <div class="swiper-slide flex-column">

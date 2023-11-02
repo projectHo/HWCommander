@@ -293,20 +293,25 @@
 			}else if("${orderMasterVO.orderStateCd}" === "10"){
 				alert("환불 완료된 주문입니다!");
 			}else {
-				$.ajax({
-					type: "post",
-					url: "/user/orderRefundRequestToAdminLogic.do",
-					data: {
-						id: $(".order-num").html()
-					},
-					dataType: "json",
-					success: function(response) {
-						alert("정상적으로 요청했습니다!");
-					},
-					error: function(xhr, status, error) {
-						alert("요청에 실패했습니다.. 다시 입력해주세요!");
-					}
-				});
+				// 수량 체크 추가
+				if(aa.lengh >= 2){
+					// 수량 입력 모달 추가
+				}else {
+					$.ajax({
+						type: "post",
+						url: "/user/orderRefundRequestToAdminLogic.do",
+						data: {
+							id: $(".order-num").html()
+						},
+						dataType: "json",
+						success: function(response) {
+							alert("정상적으로 요청했습니다!");
+						},
+						error: function(xhr, status, error) {
+							alert("요청에 실패했습니다.. 다시 입력해주세요!");
+						}
+					});
+				}
 			}
 		}else {
 			alert("아직 결제 전입니다! 결제 후 이용해주세요~!");
