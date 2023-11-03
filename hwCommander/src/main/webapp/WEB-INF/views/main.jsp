@@ -223,8 +223,8 @@
           <div class="swiper-wrapper">
             <div class="swiper-slide">
               <!-- <video muted class="swiper-video main-video" src="/resources/mp4/main-banner.mp4" type="video/mp4" onended="javascript:videoReplay(this)"></video> -->
-              <video autoplay muted class="swiper-video main-video main-video-text" src="/resources/mp4/main-text.mp4" type="video/mp4"></video>
-              <video muted autoplay loop class="swiper-video main-video" src="/resources/mp4/main-com.mp4" type="video/mp4" onended="javascript:videoReplay(this)"></video>
+              <video autoplay muted class="swiper-video main-video-one" src="/resources/mp4/mainvideo-text.mp4" type="video/mp4"></video>
+              <video muted autoplay loop class="swiper-video main-video-two" src="/resources/mp4/mainvideo-com.mp4" type="video/mp4" onended="javascript:videoReplay(this)"></video>
               <!-- 비로그인 버튼 -->
               <c:if test="${loginUser == null}">
                 <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2" onclick="javascript:goLogin()">로그인</button>
@@ -238,27 +238,27 @@
                 <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2" onclick="javascript:logout()">로그아웃</button>
               </c:if>
             </div>
-            <div class="swiper-slide">
-              <video muted class="swiper-video" src="/resources/mp4/esca-video.mp4" type="video/mp4"></video>
+            <div class="swiper-slide w-100">
+              <video muted class="swiper-video w-100 " src="/resources/mp4/esca-video.mp4" type="video/mp4"></video>
               <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2" onclick="javascript:goEscaBtn()">바로가기</button>
             </div>
             <div class="swiper-slide">
               <!-- <video muted class="swiper-video banpum-mall-video" src="/resources/mp4/banpumMall-banner.mp4" type="video/mp4" onended="javascript:videoReplay(this)"></video> -->
-              <video muted autoplay class="swiper-video banpum-mall-video banpum-mall-video-text" src="/resources/mp4/banpumMall-text.mp4" type="video/mp4"></video>
-              <video muted autoplay loop class="swiper-video banpum-mall-video" src="/resources/mp4/banpumMall-video.mp4" type="video/mp4" onended="javascript:videoReplay(this)"></video>
+              <video muted autoplay class="swiper-video banpum-mall-video-one" src="/resources/mp4/banpum-text.mp4" type="video/mp4"></video>
+              <video muted autoplay loop class="swiper-video banpum-mall-video w-100" src="/resources/mp4/banpum-video.mp4" type="video/mp4" onended="javascript:videoReplay(this)"></video>
               <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2" onclick="javascript:goEventMallBtn()">바로가기</button>
             </div>
             <div class="swiper-slide">
-              <video muted autoplay class="swiper-video my-page-video" src="/resources/mp4/mypage-video.mp4" type="video/mp4" onended="javascript:mypagePartVideoPlay()"></video>
-              <video muted class="swiper-video my-page-video-monitor" src="/resources/mp4/mypage-monitor.mp4" type="video/mp4" onended="javascript:videoReplay(this)"></video>
+              <video muted autoplay class="swiper-video w-100 my-page-video" src="/resources/mp4/mypage-video.mp4" type="video/mp4" onended="javascript:mypagePartVideoPlay()"></video>
+              <video muted autoplay class="swiper-video my-page-video-monitor" src="/resources/mp4/mypage-monitor.mp4" type="video/mp4" onended="javascript:videoReplay(this)"></video>
               <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2" onclick="javascript:goMyPageBtn()">바로가기</button>
             </div>
             <div class="swiper-slide">
-              <video muted class="swiper-video" src="/resources/mp4/esca-storage.mp4" type="video/mp4"></video>
+              <video muted autoplay class="swiper-video w-100" src="/resources/mp4/esca-storage.mp4" type="video/mp4"></video>
               <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2" onclick="javascript:goStorageBtn()">바로가기</button>
             </div>
             <div class="swiper-slide">
-              <video muted class="swiper-video costomer-service-video" src="/resources/mp4/customer-video.mp4" type="video/mp4"></video>
+              <video muted autoplay class="swiper-video costomer-service-vide w-100" src="/resources/mp4/customer-video.mp4" type="video/mp4"></video>
               <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2" onclick="javascript:goServiceBtn()">바로가기</button>
             </div>
             <div class="swiper-slide flex-column">

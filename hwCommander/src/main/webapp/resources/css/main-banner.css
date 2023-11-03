@@ -29,8 +29,6 @@ body {
 
 .swiper-slide video {
   display: block;
-  width: 100%;
-  height: 100%;
   object-fit: cover;
 }
 
@@ -145,35 +143,37 @@ body {
   cursor: pointer;
 }
 
-.main-video-text {
-  z-index: 1;
-  width: 952px!important;
-  position: absolute;
-  left: 0%;
+.swiper-video {
+  height: 100%;
 }
 
-.banpum-mall-video-text {
+.main-video-one {
   position: absolute;
-  width: 1080px!important;
-  height: 400px!important;
-  top: 0%;
+  left: -0.1%;
 }
+.main-video-two {
+  position: absolute;
+  right: -0.1%;
+}
+.banpum-mall-video-one {
+  position: absolute;
+  right: 10%;
+  top: 0%;
+  height: 480px;
+}
+
 .my-page-video-monitor {
   position: absolute;
-  width: 1170px!important;
-  right: 0%;
+  width: 1184px!important;
+  right: -0.7%;
   opacity: 0;
 }
-
 @media (min-width: 1921px) {
   .swiper-slide .btn{
     width: 180px;
     height: 80px;
   }
-  .main-video-text {
-    width: 1236px!important;
-  }
   .my-page-video-monitor {
-    width: 1563px!important;
+    width: 1580px!important;
   }
 }
