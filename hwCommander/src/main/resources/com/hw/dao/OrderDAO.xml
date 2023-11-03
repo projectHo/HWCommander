@@ -222,6 +222,8 @@
 			, product_price
 			, product_order_qty
 			, reg_dtm
+			, box_qty
+			, box_tot_price
 		)
 		VALUES
 		(
@@ -231,6 +233,8 @@
 			, #{productPrice}
 			, #{productOrderQty}
 			, NOW()
+			, #{boxQty}
+			, #{boxTotPrice}
 		)
 	</insert>
 	
@@ -249,6 +253,8 @@
 			, a.product_id                                                                         AS productId      
 			, a.product_price                                                                      AS productPrice   
 			, a.product_order_qty                                                                  AS productOrderQty
+			, a.box_qty                                                                            AS boxQty
+			, a.box_tot_price                                                                      AS boxTotPrice
 			, a.reg_dtm                                                                            AS regDtm
 			, b.product_name                                                                       AS productName
 			, b.product_description                                                                AS productDescription
@@ -263,5 +269,106 @@
 		    </if>
 		</where>
 	</select>
+	
+	
+	<select id="getRefundInfoVOMaxId" resultType="String">
+		SELECT CONCAT('REFUND', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 7)), 0)+1, 9, '0') FROM refund_info)) AS id FROM DUAL
+	</select>
+	
+	<select id="getRefundInfoAllList" resultType="refundInfoVO"  parameterType="refundInfoVO">
+		SELECT 
+			a.id                                                                                   AS id                   
+			, a.order_id                                                                           AS orderId              
+			, a.order_seq                                                                          AS orderSeq             
+			, a.product_id                                                                         AS productId            
+			, a.product_price                                                                      AS productPrice         
+			, a.refund_qty                                                                         AS refundQty            
+			, a.tot_refund_price                                                                   AS totRefundPrice       
+			, a.refund_state_cd                                                                    AS refundStateCd        
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'ORD004' AND cd = a.refund_state_cd)  AS refundStateCdNm
+			, a.refund_reason_cd                                                                   AS refundReasonCd       
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'ORD003' AND cd = a.refund_reason_cd) AS refundReasonCdNm
+			, a.refund_reason_user_write                                                           AS refundReasonUserWrite
+			, a.refund_content                                                                     AS refundContent        
+			, a.refund_remarks                                                                     AS refundRemarks        
+			, a.reg_dtm                                                                            AS regDtm               
+			, a.updt_dtm                                                                           AS updtDtm              
+		FROM
+			refund_info a
+		<where>
+		    <if test="id != null and id != ''">
+		    	AND a.id = #{id}
+		    </if>
+		    <if test="orderId != null and orderId != ''">
+		    	AND a.order_id = #{orderId}
+		    </if>
+		    <if test="orderSeq != null and orderSeq != ''">
+		    	AND a.order_seq = #{orderSeq}
+		    </if>
+		</where>
+	</select>
+	
+	<insert id="insertRefundInfoVO" parameterType="refundInfoVO">
+		INSERT INTO refund_info
+		(
+			id
+			, order_id
+			, order_seq
+			, product_id
+			, product_price
+			, refund_qty
+			, tot_refund_price
+			, refund_state_cd
+			, refund_reason_cd
+			, refund_reason_user_write
+			, refund_content
+			, refund_remarks
+			, reg_dtm
+		)
+		VALUES
+		(
+			#{id}
+			, #{orderId}
+			, #{orderSeq}
+			, #{productId}
+			, #{productPrice}
+			, #{refundQty}
+			, #{totRefundPrice}
+			, #{refundStateCd}
+			, #{refundReasonCd}
+			, #{refundReasonUserWrite}
+			, #{refundContent}
+			, #{refundRemarks}
+			, NOW()
+		)
+	</insert>
+	
+	<update id="updateRefundInfoVO" parameterType="refundInfoVO">
+		UPDATE
+			refund_info
+		SET
+			order_id                             = #{orderId}              
+			, order_seq                          = #{orderSeq}             
+			, product_id                         = #{productId}            
+			, product_price                      = #{productPrice}         
+			, refund_qty                         = #{refundQty}            
+			, tot_refund_price                   = #{totRefundPrice}       
+			, refund_state_cd                    = #{refundStateCd}        
+			, refund_reason_cd                   = #{refundReasonCd}       
+			, refund_reason_user_write           = #{refundReasonUserWrite}
+			, refund_content                     = #{refundContent}        
+			, refund_remarks                     = #{refundRemarks}        
+			, updt_dtm                           = NOW()                   
+		WHERE
+			id = #{id}
+	</update>
+	
+	<delete id="deleteRefundInfoVO" parameterType="String">
+		DELETE
+		FROM
+			refund_info
+		WHERE
+			id = #{id}
+	</delete>
 	
 </mapper>

@@ -46,16 +46,26 @@ public class OrderController {
 	public String goSheet(Model model
 			, HttpServletRequest request
 			, @RequestParam(value = "accessRoute", required = true) String accessRoute
-			, @RequestParam(value = "productIds", required = true) String productIds) {
+			, @RequestParam(value = "productIds", required = true) String productIds
+			, @RequestParam(value = "orderQtys", required = true) String orderQtys
+			, @RequestParam(value = "boxQtys", required = true) String boxQtys) {
 		HttpSession httpSession = request.getSession();
 		
 		UserInfoVO loginUser = (UserInfoVO) httpSession.getAttribute("loginUser");
+
+		// 23.11.04 쎄하다...ㅋㅋ 한 주문건 내에 여러 제품 구매 시 아래 컨트롤러 로직부터 화면까지 싹 바꿔야함.(23.10.26 시점 이전 롤백 및 추가구현 필요)
+//		String[] productIdsArray = productIds.split(",");
+//		String[] orderQtysArray = orderQtys.split(",");
+//		String[] boxQtysArray = boxQtys.split(",");
 		
 		// 23.10.26 현재 비즈니스모델은 [견적산출결과에서 구매] or [반품몰에서 구매] 로만 구성되어있으며
 		// 프로토타입의 장바구니(catr)가 폐기되면서 견적저장실(escas storage)이 그 자리를 대체하고
 		// 견적저장실에서 구매로 이어지는 경우에는 [견적산출결과에서 구매] 방식을 채택하기에 분기를 변경함.
 		// accessRoute == [견적산출결과에서 구매] == "direct"
 		// accessRoute == [반품몰에서 구매] == "banpum"
+		int productPrice = 0;
+		int totOrderPrice = 0;
+		String orderName = "";
 		if("direct".equals(accessRoute)) {
 			
 			ProductMasterVO productMasterVO = new ProductMasterVO();
@@ -66,9 +76,9 @@ public class OrderController {
 			
 			model.addAttribute("productMasterVO", productMasterVO);
 			model.addAttribute("productDetailVOList", productDetailVOList);
-			model.addAttribute("orderName", productMasterVO.getProductName());
 			
-			request.setAttribute("productPrice", productMasterVO.getProductPrice());
+			orderName = productMasterVO.getProductName();
+			productPrice = productMasterVO.getProductPrice()*Integer.parseInt(orderQtys);
 			
 		}else if("banpum".equals(accessRoute)) {
 			
@@ -76,15 +86,24 @@ public class OrderController {
 			banpumMasterVO = productService.getBanpumMasterById(productIds);
 			
 			model.addAttribute("banpumMasterVO", banpumMasterVO);
-			model.addAttribute("orderName", banpumMasterVO.getBanpumName());
 			
-			request.setAttribute("productPrice", banpumMasterVO.getBanpumPrice());
+			orderName = banpumMasterVO.getBanpumName();
+			productPrice = banpumMasterVO.getBanpumPrice()*Integer.parseInt(orderQtys);
+			
 		}
 		
+		int boxTotPrice = 5000*Integer.parseInt(boxQtys);
+		totOrderPrice = productPrice+boxTotPrice;
+		
 		request.setAttribute("orderId", orderService.getOrderMasterVOUniqueId());
+		request.setAttribute("totOrderPrice", totOrderPrice);
 		
 		model.addAttribute("accessRoute", accessRoute);
 		model.addAttribute("loginUser", loginUser);
+		model.addAttribute("orderName", orderName);
+		model.addAttribute("orderQtys", orderQtys);
+		model.addAttribute("boxQtys", boxQtys);
+		model.addAttribute("boxTotPrice", boxTotPrice);
 		
 		if(null == loginUser) {
 			return "redirect:/user/login.do";

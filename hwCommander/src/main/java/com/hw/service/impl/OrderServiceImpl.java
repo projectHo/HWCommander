@@ -10,6 +10,7 @@ import com.hw.dao.OrderDAO;
 import com.hw.model.OrderDetailVO;
 import com.hw.model.OrderMasterHistoryVO;
 import com.hw.model.OrderMasterVO;
+import com.hw.model.RefundInfoVO;
 import com.hw.service.OrderService;
 
 @Service
@@ -18,6 +19,9 @@ public class OrderServiceImpl implements OrderService {
 	@Autowired
     private OrderDAO orderDAO;
 	
+	/*--------------------------------------------------
+	 - order_master, order_detail
+	*--------------------------------------------------*/
 	@Override
 	public String getOrderMasterVOUniqueId() {
 		String id = null;
@@ -271,6 +275,76 @@ public class OrderServiceImpl implements OrderService {
 		return orderDAO.getOrderDetailAllList(searchVO);
 	}
 	
+	/*--------------------------------------------------
+	 - refund_info
+	*--------------------------------------------------*/
+	@Override
+	public List<RefundInfoVO> getRefundInfoAllList() {
+		RefundInfoVO searchVO = new RefundInfoVO();
+		return orderDAO.getRefundInfoAllList(searchVO);
+	}
+	
+	@Override
+	public RefundInfoVO getRefundInfoById(String id) {
+		RefundInfoVO resultVO = null;
+		RefundInfoVO searchVO = new RefundInfoVO();
+		
+		searchVO.setId(id);
+		List<RefundInfoVO> resultList = orderDAO.getRefundInfoAllList(searchVO);
+		
+		if(resultList.size() != 0) {
+			resultVO = resultList.get(0);
+		}
+		
+		return resultVO;
+	}
+	
+	@Override
+	public List<RefundInfoVO> getRefundInfoByOrderId(String orderId) {
+		RefundInfoVO searchVO = new RefundInfoVO();
+		
+		searchVO.setOrderId(orderId);
+		List<RefundInfoVO> resultList = orderDAO.getRefundInfoAllList(searchVO);
+		
+		return resultList;
+	}
+	
+	@Override
+	public List<RefundInfoVO> getRefundInfoByOrderIdAndOrderSeq(String orderId, int orderSeq) {
+		RefundInfoVO searchVO = new RefundInfoVO();
+		
+		searchVO.setOrderId(orderId);
+		searchVO.setOrderSeq(orderSeq);
+		List<RefundInfoVO> resultList = orderDAO.getRefundInfoAllList(searchVO);
+		
+		return resultList;
+	}
+	
+	@Override
+	public Integer refundInfoRegistLogic(RefundInfoVO refundInfoVO) {
+		int result = 0;
+		result = orderDAO.insertRefundInfoVO(refundInfoVO);
+		return result;
+	}
+	
+	@Override
+	public Integer refundInfoUpdateLogic(RefundInfoVO refundInfoVO) {
+		int result = 0;
+		result = orderDAO.updateRefundInfoVO(refundInfoVO);
+		return result;
+	}
+	
+	@Override
+	public Integer refundInfoDeleteLogic(String id) {
+		int result = 0;
+		orderDAO.deleteRefundInfoVO(id);
+		result = 1;
+		return result;
+	}
+	
+	/*--------------------------------------------------
+	 - private method
+	*--------------------------------------------------*/
 	private OrderMasterHistoryVO orderMasterVOToOrderMasterHistoryVO(OrderMasterVO orderMasterVO) {
 		OrderMasterHistoryVO orderMasterHistoryVO = new OrderMasterHistoryVO();
 		

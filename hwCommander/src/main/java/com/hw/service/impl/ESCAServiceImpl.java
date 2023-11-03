@@ -3294,7 +3294,9 @@ public class ESCAServiceImpl implements ESCAService {
 				productMasterVO.setId(maxId);
 				productMasterVO.setProductName("견적산출 자동등록 완본체");
 //				productMasterVO.setProductPrice(productPrice);
-				productMasterVO.setProductQty(1);
+//				productMasterVO.setProductQty(1);
+				// 23.11.02 완본체 견적산출자동등록 수량 999개로 정함.
+				productMasterVO.setProductQty(999);
 				productMasterVO.setProductDescription("targetUserId:"+targetUserId);
 				productMasterVO.setProductImage(partsCaseVO.getPartsImage());
 				productMasterVO.setProductRegistPathCd("02");

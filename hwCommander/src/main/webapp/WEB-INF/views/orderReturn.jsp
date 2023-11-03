@@ -153,27 +153,32 @@
 <script language="javascript" type="text/javascript" src="https://stdpay.inicis.com/stdjs/INIStdPay.js" charset="UTF-8"></script>
 <script type="text/javascript">
 $(function() {
-	var ajaxData = {
-		id : $("#moid").val()
-	};
 	
-    $.ajax({
-        type: "post",
-        url: "/order/inicisPayComplete.do",
-        data: ajaxData,
-        dataType: 'json',
-        success: function (data) {
-        	
-        	console.log(data);
-        	
-        	if(data == 2) {
-        		alert("주문이 완료되었습니다.\n감사합니다.");
-        		location.href = "/";
-        	}else {
-        		alert("결제 후 주문상태변경에 오류가 발생했습니다.\n 관리자에게 문의하세요.");
-        	}
-        }
-    });
+	if("0000" == $("#resultCode").val()) {
+		
+		var ajaxData = {
+				id : $("#moid").val()
+		};
+			
+	    $.ajax({
+	        type: "post",
+	        url: "/order/inicisPayComplete.do",
+	        data: ajaxData,
+	        dataType: 'json',
+	        success: function (data) {
+	        	
+	        	console.log(data);
+	        	
+	        	if(data == 2) {
+	        		alert("주문이 완료되었습니다.\n감사합니다.");
+	        		location.href = "/";
+	        	}else {
+	        		alert("결제 후 주문상태변경에 오류가 발생했습니다.\n 관리자에게 문의하세요.");
+	        	}
+	        }
+	    });
+	}
+
 });
 
 </script>
