@@ -4,8 +4,12 @@ import java.util.List;
 
 import com.hw.model.OrderDetailVO;
 import com.hw.model.OrderMasterVO;
+import com.hw.model.RefundInfoVO;
 
 public interface OrderService {
+	/*--------------------------------------------------
+	 - order_master, order_detail
+	*--------------------------------------------------*/
 	public String getOrderMasterVOUniqueId();
 	public Integer orderRegistLogic(OrderMasterVO orderMasterVO, List<OrderDetailVO> orderDetailVOList);
 	public void orderAllDeleteLogic(String id);
@@ -23,4 +27,16 @@ public interface OrderService {
 	public Integer updateDeliveryRequest(OrderMasterVO orderMasterVO);
 	
 	public List<OrderDetailVO> getOrderDetailListById(String id);
+	
+	/*--------------------------------------------------
+	 - refund_info
+	*--------------------------------------------------*/
+	public List<RefundInfoVO> getRefundInfoAllList();
+	public RefundInfoVO getRefundInfoById(String id);
+	public List<RefundInfoVO> getRefundInfoByOrderId(String orderId);
+	// DB 구조 상 해당 조회조건으로 여러 건이 존재할 수 있어서 return 형식을 List로 잡았으나 로직 상 1건만 조회되어야 함.
+	public List<RefundInfoVO> getRefundInfoByOrderIdAndOrderSeq(String orderId, int orderSeq);
+	public Integer refundInfoRegistLogic(RefundInfoVO refundInfoVO);
+	public Integer refundInfoUpdateLogic(RefundInfoVO refundInfoVO);
+	public Integer refundInfoDeleteLogic(String id);
 }

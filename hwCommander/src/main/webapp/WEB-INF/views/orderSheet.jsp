@@ -55,7 +55,7 @@
 	String oid			= String.valueOf(request.getAttribute("orderId"));	// 가맹점 주문번호(가맹점에서 직접 설정)
 	
 	
-	String price				= String.valueOf(request.getAttribute("productPrice")); // 상품가격(특수기호 제외, 가맹점에서 직접 설정)
+	String price				= String.valueOf(request.getAttribute("totOrderPrice")); // 상품가격(특수기호 제외, 가맹점에서 직접 설정)
 	
 	Map<String, String> signParam = new HashMap<String, String>();
 
@@ -132,7 +132,7 @@ function btnCheckOutClick() {
 	if($("#payment-method-card").prop("checked") == true){
 		var orderRegistFormArray = [];
 		
-		var totOrderPrice = 0;
+		//var totOrderPrice = 0;
 		$('#productListInfoTable tr').each(function (index) {
 			if(0 != index) {
 				// orderDetail Set
@@ -140,12 +140,15 @@ function btnCheckOutClick() {
 					id : $(this).find('input[name=id]').val(),
 					productId : $(this).find('input[name=productId]').val(),
 					productPrice : $(this).find('input[name=productPrice]').val(),
-					productOrderQty : $(this).find('input[name=productOrderQty]').val()
+					//productOrderQty : $(this).find('input[name=productOrderQty]').val()
+					productOrderQty : "${orderQtys}",
+					boxQty : "${boxQtys}",
+					boxTotPrice : "${boxTotPrice}"
 				};
 				orderRegistFormArray.push(item);
 				
 				//totOrderPrice set
-				totOrderPrice += parseInt($(this).find('input[name=productPrice]').val());
+				//totOrderPrice += parseInt($(this).find('input[name=productPrice]').val());
 			}
 		});
 		
@@ -157,7 +160,8 @@ function btnCheckOutClick() {
 		var orderMasterVO = {
 			id : $('input[name=oid]').val(),
 			orderName : "${orderName}",
-			totOrderPrice : totOrderPrice,
+			//totOrderPrice : totOrderPrice,
+			totOrderPrice : $("#inicis_price").val(),
 			orderStateCd : "01",
 			ordererUserId : "${loginUser.id}",
 			ordererName : $("#ordererName").val(),
@@ -206,7 +210,6 @@ function btnCheckOutClick() {
 	}else if($("#payment-method-account-transfer").prop("checked") == true) {
 		var orderRegistFormArray = [];
 		
-		var totOrderPrice = 0;
 		$('#productListInfoTable tr').each(function (index) {
 			if(0 != index) {
 				// orderDetail Set
@@ -214,12 +217,11 @@ function btnCheckOutClick() {
 					id : $(this).find('input[name=id]').val(),
 					productId : $(this).find('input[name=productId]').val(),
 					productPrice : $(this).find('input[name=productPrice]').val(),
-					productOrderQty : $(this).find('input[name=productOrderQty]').val()
+					productOrderQty : "${orderQtys}",
+					boxQty : "${boxQtys}",
+					boxTotPrice : "${boxTotPrice}"
 				};
 				orderRegistFormArray.push(item);
-				
-				//totOrderPrice set
-				totOrderPrice += parseInt($(this).find('input[name=productPrice]').val());
 			}
 		});
 		
@@ -231,7 +233,7 @@ function btnCheckOutClick() {
 		var orderMasterVO = {
 			id : $('input[name=oid]').val(),
 			orderName : "${orderName}",
-			totOrderPrice : totOrderPrice,
+			totOrderPrice : $("#inicis_price").val(),
 			orderStateCd : "01",
 			ordererUserId : "${loginUser.id}",
 			ordererName : $("#ordererName").val(),

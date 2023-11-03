@@ -11,6 +11,8 @@ public class OrderDetailVO {
 	private int productOrderQty;
 	private String regDtm;
 	private String updtDtm;
+	private int boxQty;
+	private int boxTotPrice;
 	
 	// ProductMasterVO Data
 	private String productName;

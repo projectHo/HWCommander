@@ -6,8 +6,12 @@ import com.hw.model.OrderDetailVO;
 import com.hw.model.OrderMasterHistoryVO;
 import com.hw.model.OrderMasterVO;
 import com.hw.model.ProcessResourceMasterVO;
+import com.hw.model.RefundInfoVO;
 
 public interface OrderDAO {
+	/*--------------------------------------------------
+	 - order_master, order_detail
+	*--------------------------------------------------*/
 	public String getOrderMasterVOUniqueId();
 	public Integer getOrderMasterVOIdDupliChkCount(String id);
 	public Integer insertOrderMasterVO(OrderMasterVO OrderMasterVO);
@@ -22,4 +26,13 @@ public interface OrderDAO {
 	public List<OrderDetailVO> getOrderDetailAllList(OrderDetailVO orderDetailVO);
 	public Integer insertOrderDetailVO(OrderDetailVO orderDetailVO);
 	public void deleteOrderDetailVO(String id);
+	
+	/*--------------------------------------------------
+	 - refund_info
+	*--------------------------------------------------*/
+	public String getRefundInfoVOMaxId();
+	public List<RefundInfoVO> getRefundInfoAllList(RefundInfoVO refundInfoVO);
+	public Integer insertRefundInfoVO(RefundInfoVO refundInfoVO);
+	public Integer updateRefundInfoVO(RefundInfoVO refundInfoVO);
+	public void deleteRefundInfoVO(String id);
 }
