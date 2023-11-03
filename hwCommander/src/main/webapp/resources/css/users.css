@@ -21,6 +21,18 @@
     border-bottom: 1px dashed gray;
 }
 
+.goni-wrap {
+    width: 500px;
+    height: 300px;
+    position: absolute;
+    top: 48%;
+    right: 3%;
+}
+.goni-wrap p {
+    position: absolute;
+    left: 12%;
+    cursor: pointer;
+}
 .goni-img {
     width: 250px;
     height: 250px;
@@ -28,5 +40,12 @@
     bottom: 12%;
     right: 20%;
     opacity: 0.7;
+}
+
+.goni-speech {
+    position: absolute;
+    z-index: 1;
+    top: -21%;
+    left: 10%;
     cursor: pointer;
 }
