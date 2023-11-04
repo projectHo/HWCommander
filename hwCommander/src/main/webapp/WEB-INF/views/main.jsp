@@ -209,7 +209,6 @@
           </ul>
           <ul class="list-group list-group-flush flex-row bg-none fixed-bottom">
             <li class="list-group-item list-group-item-action bg-transparent p-3 border-end border-dark border-bottom-0" style="--bs-border-opacity: .2;" onclick="javascript:logout()">로그아웃</li>
-            <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goMyPageBtn()">마이페이지</li>
           </ul>
         </c:if>
       </div>
