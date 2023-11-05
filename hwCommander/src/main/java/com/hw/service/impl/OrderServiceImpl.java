@@ -315,9 +315,20 @@ public class OrderServiceImpl implements OrderService {
 	}
 	
 	@Override
-	public Integer refundInfoRegistLogic(RefundInfoVO refundInfoVO) {
+	public Integer refundInfoRegistLogic(RefundInfoVO refundInfoVO, String orderStateCd) {
 		int result = 0;
-		result = orderDAO.insertRefundInfoVO(refundInfoVO);
+		
+		OrderMasterVO orderMasterVO = new OrderMasterVO();
+		orderMasterVO.setId(refundInfoVO.getOrderId());
+		orderMasterVO.setOrderStateCd(orderStateCd);
+		
+		int updateResult = updateOrderStateCd(orderMasterVO);
+		
+		if(2 == updateResult) {
+			// update 성공 시 refund_info insert
+			result = orderDAO.insertRefundInfoVO(refundInfoVO);
+		}
+
 		return result;
 	}
 	
