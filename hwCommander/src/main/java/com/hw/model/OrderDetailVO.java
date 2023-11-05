@@ -18,4 +18,16 @@ public class OrderDetailVO {
 	private String productName;
 	private String productDescription;
 	private String productImage;
+	
+	// RefundInfoVO Data
+	private String refundId;
+	private int refundQty;
+	private int totRefundPrice;
+	private String refundStateCd;
+	private String refundStateCdNm;
+	private String refundReasonCd;
+	private String refundReasonCdNm;
+	private String refundReasonUserWrite;
+	private String refundContent;
+	private String refundRemarks;
 }

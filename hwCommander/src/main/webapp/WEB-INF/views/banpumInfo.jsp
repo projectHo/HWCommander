@@ -30,7 +30,25 @@
     	
     	dataSetting();
         $('#btn_go_update').on("click", function () {
-        	location.href = "banpumUpdate.do?banpumId="+"${selectMasterData.id}";
+        	if("0" != "${orderCnt}") {
+            	if(confirm("이 제품은 주문건에 포함된 내역이 존재합니다.\n수정 시 소비자에게 혼란을 야기할 수 있습니다.\n그래도 수정 하시겠습니까?")) {
+            		location.href = "banpumUpdate.do?banpumId="+"${selectMasterData.id}";
+            	}
+        	}else {
+        		// "0" == "${orderCnt}"
+        		location.href = "banpumUpdate.do?banpumId="+"${selectMasterData.id}";
+        	}
+        });
+        
+        $('#btn_delete').on("click", function () {
+        	if("0" != "${orderCnt}") {
+        		alert("이 제품은 주문건에 포함된 내역이 존재하여 삭제할 수 없습니다.");
+        	}else {
+        		// "0" == "${orderCnt}"
+				if(confirm("정말 삭제하시겠습니까?")) {
+					banpumDeleteLogic();
+            	}
+        	}
         });
     });
     
@@ -61,6 +79,27 @@ function dataSetting() {
 	$("#banpumImage15").val("${selectMasterData.banpumImage15}");
 	
 	$("#id").val("${selectMasterData.id}");
+}
+
+function banpumDeleteLogic() {
+	var ajaxData = {
+		id : "${selectMasterData.id}"
+	};
+	
+    $.ajax({
+        type: "post",
+        url: "/admin/banpumDeleteLogic.do",
+        data: ajaxData,
+        dataType: 'json',
+        success: function (data) {
+        	if(data == 1) {
+        		alert("삭제완료");
+        	}else {
+        		alert("삭제실패");
+        	}
+        	window.location = "banpumManagement.do";
+        }
+    });
 }
     
 
@@ -347,6 +386,11 @@ function dataSetting() {
                                    <div class="mt-4 mb-0">
                                        <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_go_update">Update 화면으로 이동</a></div>
                                    </div>
+                                   
+                                   <div class="mt-4 mb-0">
+                                       <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_delete">Delete</a></div>
+                                   </div>
+                                   
                                </form>
                            </div>
                         </div>

@@ -53,4 +53,5 @@ public interface ProductDAO {
 	public Integer insertBanpumMasterVO(BanpumMasterVO banpumMasterVO);
 	public BanpumMasterVO getBanpumMasterById(String id);
 	public Integer updateBanpumMasterVO(BanpumMasterVO banpumMasterVO);
+	public void deleteBanpumMasterVO(String id);
 }

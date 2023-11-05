@@ -1,6 +1,7 @@
 package com.hw.controller;
 
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,6 +96,8 @@ public class OrderController {
 		int boxTotPrice = 5000*Integer.parseInt(boxQtys);
 		totOrderPrice = productPrice+boxTotPrice;
 		
+		DecimalFormat df = new DecimalFormat("###,###");
+		
 		request.setAttribute("orderId", orderService.getOrderMasterVOUniqueId());
 		request.setAttribute("totOrderPrice", totOrderPrice);
 		
@@ -104,6 +107,8 @@ public class OrderController {
 		model.addAttribute("orderQtys", orderQtys);
 		model.addAttribute("boxQtys", boxQtys);
 		model.addAttribute("boxTotPrice", boxTotPrice);
+		model.addAttribute("totOrderPriceStr", df.format(totOrderPrice));
+		model.addAttribute("boxTotPriceStr", df.format(boxTotPrice));
 		
 		if(null == loginUser) {
 			return "redirect:/user/login.do";
@@ -127,6 +132,13 @@ public class OrderController {
 		orderDetailVOList = objectMapper.readValue(orderDetailVOListString, new TypeReference<List<OrderDetailVO>>() {});
 		
 		return orderService.orderRegistLogic(orderMasterVO, orderDetailVOList);
+	}
+	
+	@RequestMapping(value = "/orderDeleteLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer orderDeleteLogic(
+			@RequestParam(value = "id", required = true) String id) {
+		return orderService.orderAllDeleteLogic(id);
 	}
 	
 	@RequestMapping(value = "/inicisPayReturn.do", method = RequestMethod.POST)

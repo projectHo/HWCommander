@@ -19,4 +19,5 @@ public interface ProductService {
 	public BanpumMasterVO getBanpumMasterById(String id);
 	public Integer banpumUpdateLogic(BanpumMasterVO banpumMasterVO);
 	public List<BanpumMasterVO> getBanpumMasterAllListByExposureYn(String exposureYn);
+	public Integer banpumDeleteLogic(String id);
 }
