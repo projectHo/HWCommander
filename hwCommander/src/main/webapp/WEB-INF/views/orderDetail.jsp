@@ -30,7 +30,10 @@ function dataSetting() {
 	$("#viewId").val("${selectMasterData.id}");
 	$("#orderDateStr").val("${selectMasterData.orderDateStr}");
 	$("#orderName").val("${selectMasterData.orderName}");
+	$("#totOrderPriceStr").val("${selectMasterData.totOrderPriceStr}");
 	$("#orderStateCd").val("${selectMasterData.orderStateCd}");
+	$("#ordererUserId").val("${selectMasterData.ordererUserId}");
+	$("#ordererName").val("${selectMasterData.ordererName}");
 	$("#ordererHpNumber").val("${selectMasterData.ordererHpNumber}");
 	$("#ordererMail").val("${selectMasterData.ordererMail}");
 	$("#recipientName").val("${selectMasterData.recipientName}");
@@ -145,6 +148,10 @@ function waybillNumberUpdate() {
 	}
 }
 
+function goRefundUpdate(refundId) {
+	location.href = "refundUpdate.do?id="+refundId;
+}
+
 </script>
 </head>
     <body class="sb-nav-fixed">
@@ -234,32 +241,30 @@ function waybillNumberUpdate() {
                                 Order 상세정보
                             </div>
                         </div>
-                        <form id="order_detail_form">
+                        <form id="order_master_form">
                         	<div class="card mb-4">
                                <div class="card-body">
                                    <input type="hidden" id="id" name="id">
                                    <div class="row mb-3">
-                                       <div class="col-md-6">
+                                       <div class="col-md-3">
                                            <div class="form-floating">
                                                <input class="form-control" id="viewId" name="viewId" type="text" placeholder="Enter viewId" disabled/>
                                                <label for="viewId">주문번호</label>
                                            </div>
                                        </div>
-                                       <div class="col-md-6">
+                                       <div class="col-md-3">
                                            <div class="form-floating">
                                                <input class="form-control" id="orderDateStr" name="orderDateStr" type="text" placeholder="Enter orderDateStr" disabled/>
                                                <label for="orderDateStr">주문날짜</label>
                                            </div>
                                        </div>
-                                   </div>
-                                   <div class="row mb-3">
-                                       <div class="col-md-6">
+                                       <div class="col-md-3">
                                            <div class="form-floating">
-                                               <input class="form-control" id="orderName" name="orderName" type="text" placeholder="Enter orderName" disabled/>
-                                               <label for="orderName">주문자</label>
+                                               <input class="form-control" id="totOrderPriceStr" name="totOrderPriceStr" type="text" placeholder="Enter totOrderPriceStr" disabled/>
+                                               <label for="totOrderPriceStr">총 주문금액</label>
                                            </div>
                                        </div>
-                                       <div class="col-md-5">
+                                       <div class="col-md-2">
                                            <div class="form-floating">
 												<select class="form-select pt-4" id="orderStateCd" name="orderStateCd">
 												  <option value="00" selected>-선택-</option>
@@ -271,27 +276,45 @@ function waybillNumberUpdate() {
                                            </div>
                                        </div>
                                        <div class="col-md-1">
-                                           <div class="form-floating mt-1">
+                                           <div class="form-floating mt-1 float-end">
 												<a class="btn btn-secondary btn-lg" id="btn_order_state_cd_update" onclick="javascript:orderStateCdUpdate()">Update</a>
                                            </div>
                                        </div>
                                    </div>
                                    <div class="row mb-3">
-                                       <div class="col-md-6">
+                                       <div class="col-md-3">
                                            <div class="form-floating">
-                                               <input class="form-control" id="ordererHpNumber" name="ordererHpNumber" type="text" placeholder="Enter ordererHpNumber" disabled/>
-                                               <label for="ordererHpNumber">연락처</label>
+                                               <input class="form-control" id="ordererUserId" name="ordererUserId" type="text" placeholder="Enter ordererUserId" disabled/>
+                                               <label for="ordererUserId">주문자ID</label>
                                            </div>
                                        </div>
-                                       <div class="col-md-6">
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+                                               <input class="form-control" id="ordererName" name="ordererName" type="text" placeholder="Enter ordererName" disabled/>
+                                               <label for="ordererName">주문자명</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+                                               <input class="form-control" id="ordererHpNumber" name="ordererHpNumber" type="text" placeholder="Enter ordererHpNumber" disabled/>
+                                               <label for="ordererHpNumber">주문자 휴대폰번호</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
                                            <div class="form-floating">
                                                <input class="form-control" id="ordererMail" name="ordererMail" type="text" placeholder="Enter ordererMail" disabled/>
-                                               <label for="ordererMail">이메일주소</label>
+                                               <label for="ordererMail">주문자 이메일</label>
                                            </div>
                                        </div>
                                    </div>
                                    <div class="row mb-3">
-                                       <div class="col-md-5">
+                                       <div class="col-md-6">
+                                           <div class="form-floating">
+                                               <input class="form-control" id="orderName" name="orderName" type="text" placeholder="Enter orderName" disabled/>
+                                               <label for="orderName">주문이름</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-2">
                                            <div class="form-floating">
 												<select class="form-select pt-4" id="videoRequestCd" name="videoRequestCd">
 												  <option value="00" selected>-선택-</option>
@@ -303,19 +326,18 @@ function waybillNumberUpdate() {
                                            </div>
                                        </div>
                                        <div class="col-md-1">
-                                           <div class="form-floating mt-1">
+                                           <div class="form-floating mt-1 float-end">
 												<a class="btn btn-secondary btn-lg" id="btn_video_request_cd_update" onclick="javascript:videoRequestUpdate()">Update</a>
                                            </div>
                                        </div>
-                                       
-                                       <div class="col-md-5">
+                                       <div class="col-md-2">
                                            <div class="form-floating">
                                                <input class="form-control" id="waybillNumber" name="waybillNumber" type="text" placeholder="Enter waybillNumber"/>
                                                <label for="waybillNumber">송장번호</label>
                                            </div>
                                        </div>
                                        <div class="col-md-1">
-                                           <div class="form-floating mt-1">
+                                           <div class="form-floating mt-1 float-end">
 												<a class="btn btn-secondary btn-lg" id="btn_waybill_number_update" onclick="javascript:waybillNumberUpdate()">Update</a>
                                            </div>
                                        </div>
@@ -389,6 +411,130 @@ function waybillNumberUpdate() {
                                    </div>
                                </div>
                         	</div>
+                        </form>
+                        
+                        <!-- 상품정보  order_detail & refund_info-->
+                        <form id="order_detail_and_refund_info_form">
+                        	<c:forEach var="item" items="${selectDetailAndRefundData}" varStatus="status">
+								<div class="card mb-4">
+	                               <div class="card-body">
+	                                   <input type="hidden" id="seq_${status.index}" name="seq" value="${item.seq}">
+	                                   <div class="row">
+	                                   		<label>주문제품 _${status.count}</label>
+	                                   </div>
+	                                   <div class="row mb-3">
+	                                       <div class="col-md-3">
+	                                           <div class="form-floating">
+	                                               <input class="form-control" id="productId_${status.index}" name="productId" type="text" value="${item.productId}" placeholder="Enter productId" disabled/>
+	                                               <label for="productId">제품ID</label>
+	                                           </div>
+	                                       </div>
+	                                       <div class="col-md-3">
+	                                           <div class="form-floating">
+	                                               <input class="form-control" id="productName_${status.index}" name="productName" type="text" value="${item.productName}" placeholder="Enter productName" disabled/>
+	                                               <label for="productName">제품명</label>
+	                                           </div>
+	                                       </div>
+	                                       <div class="col-md-3">
+	                                           <div class="form-floating">
+	                                               <input class="form-control" id="productPrice_${status.index}" name="productPrice" type="text" value="${item.productPrice}" placeholder="Enter productPrice" disabled/>
+	                                               <label for="productPrice">제품가격</label>
+	                                           </div>
+	                                       </div>
+	                                       <div class="col-md-3">
+	                                           <div class="form-floating">
+	                                               <input class="form-control" id="productOrderQty_${status.index}" name="productOrderQty" type="text" value="${item.productOrderQty}" placeholder="Enter productOrderQty" disabled/>
+	                                               <label for="productOrderQty">제품주문수량</label>
+	                                           </div>
+	                                       </div>
+	                                   </div>
+	                                   <div class="row mb-3">
+	                                       <div class="col-md-3">
+	                                           <div class="form-floating">
+	                                               <input class="form-control" id="boxQty_${status.index}" name="boxQty" type="text" value="${item.boxQty}" placeholder="Enter boxQty" disabled/>
+	                                               <label for="boxQty">제품박스수량</label>
+	                                           </div>
+	                                       </div>
+	                                       <div class="col-md-3">
+	                                           <div class="form-floating">
+	                                               <input class="form-control" id="boxTotPrice_${status.index}" name="boxTotPrice" type="text" value="${item.boxTotPrice}" placeholder="Enter boxTotPrice" disabled/>
+	                                               <label for="boxTotPrice">제품박스 총 금액</label>
+	                                           </div>
+	                                       </div>
+	                                   </div>
+	                                   <div class="row">
+	                                   		<label>주문제품 _${status.count}에 대한 환불정보</label>
+	                                   </div>
+										<c:if test="${item.refundId == null}">
+											<div class="row mb-3">
+												<label>환불정보가 없습니다.</label>
+											</div>
+										</c:if>
+										<c:if test="${item.refundId != null}">
+		                                   <div class="row mb-3">
+		                                       <div class="col-md-3">
+		                                           <div class="form-floating">
+		                                               <input class="form-control" id="refundId_${status.index}" name="refundId" type="text" value="${item.refundId}" placeholder="Enter refundId" disabled/>
+		                                               <label for="refundId">환불ID</label>
+		                                           </div>
+		                                       </div>
+		                                       <div class="col-md-3">
+		                                           <div class="form-floating">
+		                                               <input class="form-control" id="refundQty_${status.index}" name="refundQty" type="text" value="${item.refundQty}" placeholder="Enter refundQty" disabled/>
+		                                               <label for="refundQty">환불수량</label>
+		                                           </div>
+		                                       </div>
+		                                       <div class="col-md-3">
+		                                           <div class="form-floating">
+		                                               <input class="form-control" id="totRefundPrice_${status.index}" name="totRefundPrice" type="text" value="${item.totRefundPrice}" placeholder="Enter totRefundPrice" disabled/>
+		                                               <label for="totRefundPrice">총 환불금액</label>
+		                                           </div>
+		                                       </div>
+		                                       <div class="col-md-3">
+		                                           <div class="form-floating">
+		                                               <input class="form-control" id="refundStateCdNm_${status.index}" name="refundStateCdNm" type="text" value="${item.refundStateCdNm}" placeholder="Enter refundStateCdNm" disabled/>
+		                                               <label for="refundStateCdNm">환불상태코드명</label>
+		                                           </div>
+		                                       </div>
+	                                       </div>
+	                                       <div class="row">
+		                                       <div class="col-md-3">
+		                                           <div class="form-floating">
+		                                               <input class="form-control" id="refundReasonCdNm_${status.index}" name="refundReasonCdNm" type="text" value="${item.refundReasonCdNm}" placeholder="Enter refundReasonCdNm" disabled/>
+		                                               <label for="refundReasonCdNm">환불사유코드명</label>
+		                                           </div>
+		                                       </div>
+		                                       <div class="col-md-3">
+		                                           <div class="form-floating">
+		                                               <input class="form-control" id="refundReasonUserWrite_${status.index}" name="refundReasonUserWrite" type="text" value="${item.refundReasonUserWrite}" placeholder="Enter refundReasonUserWrite" disabled/>
+		                                               <label for="refundReasonUserWrite">환불사유 구매자 직접입력</label>
+		                                           </div>
+		                                       </div>
+		                                       <div class="col-md-3">
+		                                           <div class="form-floating">
+		                                               <input class="form-control" id="refundContent_${status.index}" name="refundContent" type="text" value="${item.refundContent}" placeholder="Enter refundContent" disabled/>
+		                                               <label for="refundContent">환불내용</label>
+		                                           </div>
+		                                       </div>
+		                                       <div class="col-md-3">
+		                                           <div class="form-floating">
+		                                               <input class="form-control" id="refundRemarks_${status.index}" name="refundRemarks" type="text" value="${item.refundRemarks}" placeholder="Enter refundRemarks" disabled/>
+		                                               <label for="refundRemarks">환불비고</label>
+		                                           </div>
+		                                       </div>
+		                                   </div>
+		                                   <div class="row mb-3">
+		                                       <div class="col-md-12">
+		                                           <div class="form-floating mt-2 float-end">
+		                                               <a class="btn btn-secondary btn-sm" id="btn_go_refund_update" onclick="javascript:goRefundUpdate('${item.refundId}')">Go Update Page</a>
+		                                           </div>
+		                                       </div>
+		                                   </div>
+										</c:if>
+	                                   
+	                               </div>
+	                        	</div>
+                        	</c:forEach>
                         </form>
                     </div>
                 </main>

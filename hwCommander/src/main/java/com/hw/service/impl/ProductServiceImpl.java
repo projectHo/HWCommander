@@ -118,4 +118,12 @@ public class ProductServiceImpl implements ProductService {
 		searchVO.setExposureYn(exposureYn);
 		return productDAO.getBanpumMasterAllList(searchVO);
 	}
+	
+	@Override
+	public Integer banpumDeleteLogic(String id) {
+		int deleteResult = 0;
+		productDAO.deleteBanpumMasterVO(id);
+		deleteResult = 1;
+		return deleteResult;
+	}
 }

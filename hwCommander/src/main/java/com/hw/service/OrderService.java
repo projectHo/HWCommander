@@ -12,7 +12,7 @@ public interface OrderService {
 	*--------------------------------------------------*/
 	public String getOrderMasterVOUniqueId();
 	public Integer orderRegistLogic(OrderMasterVO orderMasterVO, List<OrderDetailVO> orderDetailVOList);
-	public void orderAllDeleteLogic(String id);
+	public Integer orderAllDeleteLogic(String id);
 	public List<OrderMasterVO> getOrderMasterAllList();
 	public OrderMasterVO getOrderMasterById(String id);
 	public List<OrderMasterVO> getOrderMasterListByOrdererUserId(String ordererUserId);
@@ -27,6 +27,8 @@ public interface OrderService {
 	public Integer updateDeliveryRequest(OrderMasterVO orderMasterVO);
 	
 	public List<OrderDetailVO> getOrderDetailListById(String id);
+	public List<OrderDetailVO> getOrderDetailListByProductId(String productId);
+	public List<OrderDetailVO> getOrderDetailAndRefundInfoListById(String id);
 	
 	/*--------------------------------------------------
 	 - refund_info

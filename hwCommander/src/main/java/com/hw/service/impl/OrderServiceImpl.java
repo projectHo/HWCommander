@@ -64,10 +64,13 @@ public class OrderServiceImpl implements OrderService {
 	}
 	
 	@Override
-	public void orderAllDeleteLogic(String id) {
+	public Integer orderAllDeleteLogic(String id) {
+		int result = 0;
 		orderDAO.deleteOrderMasterVO(id);
 		orderDAO.deleteOrderMasterHistoryVO(id);
 		orderDAO.deleteOrderDetailVO(id);
+		result = 1;
+		return result;
 	}
 	
 	@Override
@@ -254,6 +257,18 @@ public class OrderServiceImpl implements OrderService {
 		return orderDAO.getOrderDetailAllList(searchVO);
 	}
 	
+	@Override
+	public List<OrderDetailVO> getOrderDetailListByProductId(String productId) {
+		OrderDetailVO searchVO = new OrderDetailVO();
+		searchVO.setProductId(productId);
+		return orderDAO.getOrderDetailAllList(searchVO);
+	}
+	
+	@Override
+	public List<OrderDetailVO> getOrderDetailAndRefundInfoListById(String id) {
+		return orderDAO.getOrderDetailAndRefundInfoListById(id);
+	}
+	
 	/*--------------------------------------------------
 	 - refund_info
 	*--------------------------------------------------*/
@@ -309,7 +324,15 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public Integer refundInfoUpdateLogic(RefundInfoVO refundInfoVO) {
 		int result = 0;
-		result = orderDAO.updateRefundInfoVO(refundInfoVO);
+		
+		RefundInfoVO updateVO = getRefundInfoById(refundInfoVO.getId());
+		// admin page에서 수정 가능한 항목들
+		updateVO.setTotRefundPrice(refundInfoVO.getTotRefundPrice());
+		updateVO.setRefundStateCd(refundInfoVO.getRefundStateCd());
+		updateVO.setRefundContent(refundInfoVO.getRefundContent());
+		updateVO.setRefundRemarks(refundInfoVO.getRefundRemarks());
+		
+		result = orderDAO.updateRefundInfoVO(updateVO);
 		return result;
 	}
 	

@@ -21,4 +21,7 @@ public class RefundInfoVO {
 	private String refundRemarks;
 	private String regDtm;
 	private String updtDtm;
+	
+	//necessity column
+	private String refundContentStr;
 }

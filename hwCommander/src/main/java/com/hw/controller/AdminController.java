@@ -44,6 +44,7 @@ import com.hw.model.ProcessResourceMasterVO;
 import com.hw.model.ProcessResourceTypeCodeInfoVO;
 import com.hw.model.ProductDetailVO;
 import com.hw.model.ProductMasterVO;
+import com.hw.model.RefundInfoVO;
 import com.hw.model.UserInfoVO;
 import com.hw.service.CommonService;
 import com.hw.service.OrderService;
@@ -1086,13 +1087,11 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/orderDetail.do", method = RequestMethod.GET)
-	public String goOrderUpdate(HttpServletRequest request, Model model, @RequestParam(value = "id", required = true) String id) {
-		
+	public String goOrderDetail(HttpServletRequest request, Model model, @RequestParam(value = "id", required = true) String id) {
 		model.addAttribute("order_state_cd", commonService.getComnCdDetailList("ORD001"));
 		model.addAttribute("video_request_cd", commonService.getComnCdDetailList("ORD002"));
-		
 		model.addAttribute("selectMasterData", orderService.getOrderMasterById(id));
-		model.addAttribute("selectDetailData", orderService.getOrderDetailListById(id));
+		model.addAttribute("selectDetailAndRefundData", orderService.getOrderDetailAndRefundInfoListById(id));
 		return adminLoginCheck(request, model, "orderDetail");
 	}
 	
@@ -1112,6 +1111,20 @@ public class AdminController {
 	@ResponseBody
 	public Integer updateWaybillNumber(OrderMasterVO orderMasterVO) {
 		return orderService.updateWaybillNumber(orderMasterVO);
+	}
+	
+	@RequestMapping(value = "/refundUpdate.do", method = RequestMethod.GET)
+	public String goRefundUpdate(HttpServletRequest request, Model model, @RequestParam(value = "id", required = true) String id) {
+		model.addAttribute("refund_reason_cd", commonService.getComnCdDetailList("ORD003"));
+		model.addAttribute("refund_state_cd", commonService.getComnCdDetailList("ORD004"));
+		model.addAttribute("selectRefundInfoData", orderService.getRefundInfoById(id));
+		return adminLoginCheck(request, model, "refundUpdate");
+	}
+	
+	@RequestMapping(value = "/refundUpdateLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer refundUpdateLogic(RefundInfoVO refundInfoVO) {
+		return orderService.refundInfoUpdateLogic(refundInfoVO);
 	}
 	
 	/*--------------------------------------------------
@@ -1136,6 +1149,8 @@ public class AdminController {
 	
 	@RequestMapping(value = "/banpumInfo.do", method = RequestMethod.GET)
 	public String goBanpumInfo(HttpServletRequest request, Model model, @RequestParam(value = "banpumId", required = true) String banpumId) {
+		List<OrderDetailVO> orderDetailVOList = orderService.getOrderDetailListByProductId(banpumId);
+		model.addAttribute("orderCnt", orderDetailVOList.size());
 		model.addAttribute("selectMasterData", productService.getBanpumMasterById(banpumId));
 		return adminLoginCheck(request, model, "banpumInfo");
 	}
@@ -1145,12 +1160,17 @@ public class AdminController {
 		model.addAttribute("selectMasterData", productService.getBanpumMasterById(banpumId));
 		return adminLoginCheck(request, model, "banpumUpdate");
 	}
-	
 
 	@RequestMapping(value = "/banpumUpdateLogic.do", method = RequestMethod.POST)
 	@ResponseBody
 	public Integer banpumUpdateLogic(BanpumMasterVO banpumMasterVO) {
 		return productService.banpumUpdateLogic(banpumMasterVO);
+	}
+	
+	@RequestMapping(value = "/banpumDeleteLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer banpumDeleteLogic(String id) {
+		return productService.banpumDeleteLogic(id);
 	}
 	
 	private String adminLoginCheck(HttpServletRequest request, Model model, String url) {

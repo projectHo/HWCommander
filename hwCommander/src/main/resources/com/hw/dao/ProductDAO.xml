@@ -894,4 +894,12 @@
 			id = #{id}
 	</update>
 	
+	<delete id="deleteBanpumMasterVO" parameterType="String">
+		DELETE
+		FROM
+			banpum_master
+		WHERE
+			id = #{id}
+	</delete>
+	
 </mapper>
