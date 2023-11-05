@@ -428,6 +428,7 @@ function recDupliChk(id) {
     });
 }
 
+let aa = "${banpumMasterVO}";
 
 </script>
 </head>
@@ -506,14 +507,6 @@ function recDupliChk(id) {
 									</td>
 									<td class="align-middle">
 										<p class="p-2">${productMasterVO.productPriceStr}</p>
-										<p class="p-2">
-											<div class="form-check">
-												<input class="form-check-input" type="checkbox" value="" id="add-box">
-												<label class="form-check-label pt-1" for="add-box">
-													제품 박스 추가(+5,000원)
-												</label>
-											</div>
-										</p>
 									</td>
 								</tr>
 							</c:if>
@@ -584,16 +577,13 @@ function recDupliChk(id) {
 										</div>
 										
 									</td>
-									<td class="align-middle">
-										<p class="p-2">${banpumMasterVO.banpumPriceStr}</p>
-										<p class="p-2">
-											<div class="form-check">
-												<input class="form-check-input" type="checkbox" value="" id="add-box">
-												<label class="form-check-label pt-1" for="add-box">
-													제품 박스 추가(+5,000원)
-												</label>
-											</div>
-										</p>
+									<td class="align-middle text-center">
+										<div class="p-2">
+											<p class="p-2 border-bottom">주문 내역</p>
+											<p class="p-2 border-bottom">상품 가격 : ${orderQtys}개, 개당${banpumMasterVO.banpumPriceStr}</p>
+											<p class="p-2 border-bottom">박스 추가 : ${boxQtys}개, 총 ${boxTotPrice}원</p>
+											<h4 class="p-2"> 총 금액 : ${totOrderPrice}원</h4>
+										</div>
 									</td>
 								</tr>
 							</c:if>

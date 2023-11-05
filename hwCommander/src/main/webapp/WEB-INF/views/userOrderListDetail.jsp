@@ -110,6 +110,7 @@
 				dataType: "json",
 				success: function(response) {
 					alert("정상적으로 삭제됐습니다!");
+					location.reload();
 				},
 				error: function(xhr, status, error) {
 					alert("수정에 실패했습니다.. 다시 입력해주세요!");
@@ -132,6 +133,7 @@
 				dataType: "json",
 				success: function(response) {
 					alert("정상적으로 수정됐습니다!");
+					location.reload();
 				},
 				error: function(xhr, status, error) {
 					alert("수정에 실패했습니다.. 다시 입력해주세요!");
@@ -162,6 +164,7 @@
 				dataType: "json",
 				success: function(response) {
 					alert("정상적으로 수정됐습니다!");
+					location.reload();
 				},
 				error: function(xhr, status, error) {
 					alert("수정에 실패했습니다.. 다시 입력해주세요!");
@@ -183,6 +186,7 @@
 					dataType: "json",
 					success: function(response) {
 						alert("정상적으로 삭제되었습니다!");
+						location.reload();
 					},
 					error: function(xhr, status, error) {
 						alert("수정에 실패했습니다.. 다시 입력해주세요!");
@@ -202,6 +206,7 @@
 				dataType: "json",
 				success: function(response) {
 					alert("정상적으로 수정됐습니다!");
+					location.reload();
 				},
 				error: function(xhr, status, error) {
 					alert("수정에 실패했습니다.. 다시 입력해주세요!");
@@ -223,6 +228,7 @@
 					dataType: "json",
 					success: function(response) {
 						alert("정상적으로 삭제되었습니다!");
+						location.reload();
 					},
 					error: function(xhr, status, error) {
 						alert("수정에 실패했습니다.. 다시 입력해주세요!");
@@ -242,6 +248,7 @@
 				dataType: "json",
 				success: function(response) {
 					alert("정상적으로 수정됐습니다!");
+					location.reload();
 				},
 				error: function(xhr, status, error) {
 					alert("수정에 실패했습니다.. 다시 입력해주세요!");
@@ -276,6 +283,7 @@
 					dataType: "json",
 					success: function(response) {
 						alert("정상적으로 요청했습니다! 회원가입시 입력해주신 이메일로 완료되는 순서대로 보내드릴게요!");
+						location.reload();
 					},
 					error: function(xhr, status, error) {
 						alert("요청에 실패했습니다.. 다시 입력해주세요!");
@@ -306,6 +314,7 @@
 						dataType: "json",
 						success: function(response) {
 							alert("정상적으로 요청했습니다!");
+							location.reload();
 						},
 						error: function(xhr, status, error) {
 							alert("요청에 실패했습니다.. 다시 입력해주세요!");

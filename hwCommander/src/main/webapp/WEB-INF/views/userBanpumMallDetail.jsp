@@ -20,6 +20,8 @@
 
 <link rel="stylesheet" href="/resources/css/banpumMallDetail.css">
 <script>
+
+	let aa = "${banpumMaster}";
     $(function() {
 
     });
@@ -34,7 +36,7 @@ function goCart() {
 
 function goDirectOrder() {
 	if(loginCheck()) {
-		location.href = "/order/sheet.do?accessRoute=banpum&productIds="+"${banpumMaster.id}";
+		location.href = "/order/sheet.do?accessRoute=banpum&productIds="+"${banpumMaster.id}&orderQtys="+ $("#orderQtys").val() +"&boxQtys=" + $("#boxQtys").val();
 	}
 }
 
@@ -47,6 +49,52 @@ function loginCheck() {
 		check = true;
 	}
 	return check;
+}
+function onOrder(){
+	if("${banpumMaster.banpumQty}" > 1){
+		$("#banpumQModal").modal("show");
+	}else {
+		if(confirm("사용된 제품들의 박스를 추가할까요?")){
+			if(loginCheck()) {
+				location.href = "/order/sheet.do?accessRoute=banpum&productIds="+"${banpumMaster.id}&orderQtys=1&boxQtys=1";
+			}	
+		}else {
+			if(loginCheck()) {
+				location.href = "/order/sheet.do?accessRoute=banpum&productIds="+"${banpumMaster.id}&orderQtys=1&boxQtys=0";
+			}
+		}
+	}
+}
+const numberCheck = /^[0-9]+$/;	
+function orderQtysCheck(el){
+	if($(el).val().length>=1){
+		if(!numberCheck.test($(el).val())){
+			alert("숫자만 입력해주세요!");
+			$(el).val("").focus();
+		}else if($(el).val() > Number("${banpumMaster.banpumQty}")){
+			$(el).val("${banpumMaster.banpumQty}");
+			$(el).next("p").addClass("show");
+			setTimeout(() => {
+				$(el).next("p").removeClass("show");
+			}, 2000);
+		}
+	}
+}
+let orderQtys = $("#orderQtys").val();
+function boxQtysCheck(el){
+	orderQtys = $("#orderQtys").val();
+	if($(el).val().length>=1){
+		if(!numberCheck.test($(el).val())){
+			alert("숫자만 입력해주세요!");
+			$(el).val("").focus();
+		}else if($(el).val() > Number(orderQtys)){
+			$(el).val(orderQtys);
+			$(el).next("p").html("주문수량이 " + orderQtys + "개 입니다").addClass("show");
+			setTimeout(() => {
+				$(el).next("p").removeClass("show");
+			}, 2000);
+		}
+	}
 }
 </script>
 </head>
@@ -131,12 +179,41 @@ function loginCheck() {
 									<div class="d-grid gap-2 d-md-flex justify-content-md-end">
 										<button class="btn btn-primary btn-lg me-md-2" type="button" onclick="javascript:goTermsOfService()">이용약관</button>
 										<!-- <button class="btn btn-primary btn-lg me-md-2" type="button" onclick="javascript:goCart()">장바구니</button> -->
-										<button class="btn btn-primary btn-lg" type="button" onclick="javascript:goDirectOrder()">주문하기</button>
+										<button class="btn btn-primary btn-lg" type="button" onclick="javascript:onOrder()">주문하기</button>
 									</div>
 							    </div>
 							  </div>
 							  
-							  
+							  <!-- 수량 박스체크 모달 -->
+							  <div class="modal fade" id="banpumQModal" tabindex="-1" aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered">
+								  <div class="modal-content">
+									<div class="modal-header">
+										<h2>주문 수량을 입력해주세요</h2>
+									  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										<div class="row p-2">
+											<div class="col">
+												제품 수량
+												<input type="text" class="form-control" id="orderQtys" placeholder="최대 ${banpumMaster.banpumQty}개" oninput="javascript:orderQtysCheck(this)">
+												<p class="text-danger fade mt-2 mb-0">재고가 ${banpumMaster.banpumQty}개 입니다</p>
+											</div>
+											<div class="col">
+												사용된 제품 박스
+												<input type="number" class="form-control" id="boxQtys" placeholder="주문 수량 이하로 입력해주세요" oninput="javascript:boxQtysCheck(this)">
+												<p class="text-danger fade mt-2 mb-0"></p>
+											</div>
+										</div>
+									</div>
+									<div class="modal-footer">
+									  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+									  <button type="button" class="btn btn-primary" onclick="javascript:goDirectOrder()">주문하기</button>
+									</div>
+								  </div>
+								</div>
+							  </div>
+
 							</div>
 						</div>
 					</div>
