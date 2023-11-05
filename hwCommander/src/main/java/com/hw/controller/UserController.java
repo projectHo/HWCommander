@@ -41,7 +41,11 @@ import org.springframework.web.client.RestTemplate;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hw.model.OrderMasterVO;
+import com.hw.model.RefundInfoVO;
 import com.hw.model.UserEscasStorageVO;
 import com.hw.model.UserInfoVO;
 import com.hw.service.OrderService;
@@ -198,13 +202,28 @@ public class UserController {
 		return orderService.updateVideoRequestCd(orderMasterVO);
 	}
 	
-	@RequestMapping(value = "/orderRefundRequestToAdminLogic.do", method = RequestMethod.POST)
+//	23.11.05 refund_info 로직이 구현완료됨으로써 기존 order_master에 orderStateCd 직접변경 하던 로직 폐기 
+//	@RequestMapping(value = "/orderRefundRequestToAdminLogic.do", method = RequestMethod.POST)
+//	@ResponseBody
+//	public Integer orderRefundRequestToAdminLogic(String id) {
+//		OrderMasterVO orderMasterVO = new OrderMasterVO();
+//		orderMasterVO.setId(id);
+//		orderMasterVO.setOrderStateCd("09");
+//		return orderService.updateOrderStateCd(orderMasterVO);
+//	}
+	
+	@RequestMapping(value = "/refundInfoRegistLogic.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Integer orderRefundRequestToAdminLogic(String id) {
-		OrderMasterVO orderMasterVO = new OrderMasterVO();
-		orderMasterVO.setId(id);
-		orderMasterVO.setOrderStateCd("09");
-		return orderService.updateOrderStateCd(orderMasterVO);
+	public Integer refundInfoRegistLogic(
+			@RequestParam(value = "refundInfoVO", required = true) String refundInfoVOString
+			, @RequestParam(value = "orderStateCd", required = true) String orderStateCd) throws JsonMappingException, JsonProcessingException {
+		
+		RefundInfoVO refundInfoVO = new RefundInfoVO();
+		ObjectMapper objectMapper = new ObjectMapper();
+		
+		refundInfoVO = objectMapper.readValue(refundInfoVOString, RefundInfoVO.class);
+		
+		return orderService.refundInfoRegistLogic(refundInfoVO, orderStateCd);
 	}
 	
 	@RequestMapping(value = "/orderUpdateRecipientHpNumber2Logic.do", method = RequestMethod.POST)

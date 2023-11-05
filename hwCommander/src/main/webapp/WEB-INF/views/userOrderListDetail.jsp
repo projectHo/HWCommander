@@ -25,6 +25,7 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 <script>
+	let aaa = "${orderDetailVOList[0]}";
 	// 데이터 불러오기
 	var Pattern = /\((.*?)\)/;
 	var masterInfoMatch = Pattern.exec("${orderMasterVO}");
@@ -294,7 +295,60 @@
 			alert("아직 결제 전입니다! 결제 후 이용해주세요~!");
 		}
 	}
+	function scrollTerms(elem){
+		var scrollTop = $(elem).scrollTop();
+		console.log(scrollTop);
+		var innerHeight = $(elem).innerHeight();
+		console.log(innerHeight);
+		var scrollHeight = $(elem).prop('scrollHeight');
+		console.log(scrollHeight);
+		if (scrollTop + innerHeight >= scrollHeight) {
+			$("#agree-terms").removeClass("btn-outline-primary").addClass("btn-primary").attr("disabled",false);
+		}
+	}
+	let aa = "${orderDetailVOList[0].productOrderQty}"
 	function requestRefundBtn(){
+		var form = new FormData();
+	
+		if("${orderDetailVOList[0].productOrderQty}" == 1){
+			var refundInfoVO = {
+				id : "${orderMasterVO.ordererUserId}",
+				orderId : "${orderDetailVOList[0].id}",
+				productId : "${orderDetailVOList[0].productId}",
+				productPrice : "${orderDetailVOList[0].productPrice}",
+				refundQty : 1,
+				totRefundPrice : "${orderMasterVO.totOrderPrice}",
+				refundStateCd : "01",
+				refundStateCdNm : "환불 신청",
+				refundReasonCd : "99",
+				refundReasonCdNm : "기타",
+				refundReasonUserWrite : $("#refundReason").val(),
+			};
+			let orderStateCd = "09";
+
+			form.append("refundInfoVO",JSON.stringify(refundInfoVO));
+			form.append("orderStateCd",orderStateCd);
+
+			if(confirm("환불 요청하시겠습니까?")){
+				$.ajax({
+					type: "post",
+					url: "/user/refundInfoRegistLogic.do",
+					data: form,
+					processData: false,
+        			contentType: false,
+					success: function(response) {
+						alert("정상적으로 요청했습니다!");
+						location.reload();
+					},
+					error: function(xhr, status, error) {
+						alert("요청에 실패했습니다.. 다시 입력해주세요!");
+						console.log(error);
+					}
+				});
+			}else {
+				return false;
+			}
+		}
 		if("${orderMasterVO.orderStateCd}" != "01"){
 			if("${orderMasterVO.orderStateCd}" === '09'){
 				alert("환불 진행중입니다!");
@@ -302,14 +356,15 @@
 				alert("환불 완료된 주문입니다!");
 			}else {
 				// 수량 체크 추가
-				if(aa.lengh >= 2){
-					// 수량 입력 모달 추가
+				if("${orderDetailVOList[0].productOrderQty}" >= 2){
+					// 수량 입력 추가
 				}else {
 					$.ajax({
 						type: "post",
-						url: "/user/orderRefundRequestToAdminLogic.do",
+						url: "/user/refundInfoRegistLogic.do",
 						data: {
-							id: $(".order-num").html()
+							id: $(".order-num").html(),
+
 						},
 						dataType: "json",
 						success: function(response) {
@@ -326,13 +381,39 @@
 			alert("아직 결제 전입니다! 결제 후 이용해주세요~!");
 		}
 	}
-
+	function cancleOrderBtn(){
+		if(confirm("정말 취소 하시겠습니까?")){
+			$.ajax({
+				type: "post",
+				url: "/order/orderDeleteLogic.do",
+				data: {
+					id: "${orderMasterVO.id}"
+				},
+				dataType: "json",
+				success: function(response) {
+					alert("정상적으로 삭제했습니다!");
+					location.href = "/user/myPage.do";
+				},
+				error: function(xhr, status, error) {
+					alert("삭제를 실패했습니다. 다시 시도해주세요");
+					location.reload();
+				}
+			});
+		}else {
+			return false;
+		}
+	}
 	function checkHp(){
 		const numberCheck = /^[0-9]+$/;	
 		if ($('.recipient-next-hp').val().length>=1 && !numberCheck.test($('.recipient-next-hp').val())) {
 			alert("휴대폰번호는 숫자만 입력 가능합니다.");
 			$('.recipient-next-hp').val("");
 			$('.recipient-next-hp').focus();
+		}
+	}
+	function refundCount(el){
+		if(Number($(el).val()) > Number("${orderDetailVOList[0].productOrderQty}")){
+			$(el).val("${orderDetailVOList[0].productOrderQty}").focus();
 		}
 	}
 	$(function(){
@@ -382,9 +463,14 @@
 							<b>님의 주문 상세내역</b>
 						</h2>
 						<div class="mt-2">
-							<button class="btn btn-outline-primary me-md-2" type="button" onclick="javascript:clickStatusBtn()">현황 확인</button>
-							<button class="btn btn-outline-success me-md-2" type="button" onclick="javascript:requestVideoBtn()">영상 요청</button>
-							<button class="btn btn-outline-danger" type="button" onclick="javascript:requestRefundBtn()">환불 요청</button>
+							<c:if test="${orderMasterVO.orderStateCd == 1}">
+								<button class="btn btn-outline-success me-md-2" type="button" onclick="javascript:cancleOrderBtn()">주문 취소</button>
+							</c:if>
+							<c:if test="${orderMasterVO.orderStateCd > 1}">
+								<button class="btn btn-outline-primary me-md-2" type="button" onclick="javascript:clickStatusBtn()">현황 확인</button>
+								<button class="btn btn-outline-success me-md-2" type="button" onclick="javascript:requestVideoBtn()">영상 요청</button>
+								<button class="btn btn-outline-danger" type="button" data-bs-toggle="modal" data-bs-target="#refundTermModal">환불 요청</button>
+							</c:if>
 						</div>	
 					</div>
 					<table class="table table-secondary table-bordered" style="border-collapse: separate;">
@@ -496,9 +582,67 @@
 							</tr>
 						</tbody>
 					</table>
-					<div class="d-flex align-items-center justify-content-center">
-						
-					</div>
+					<!-- 환불 약관 모달 -->
+					<div class="modal fade" id="refundTermModal" aria-hidden="true" tabindex="-1">
+						<div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+						  <div class="modal-content">
+							<div class="modal-header">
+							  <h1 class="modal-title fs-5">환불 약관</h1>
+							  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							</div>
+							<div class="modal-body" onscroll="javascript:scrollTerms(this)">
+								<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt vero impedit nobis, ipsam iusto fugiat laboriosam rem nesciunt quidem eum veniam aspernatur autem maiores? Consectetur nam tempore autem sequi dolores.</p>
+								<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt vero impedit nobis, ipsam iusto fugiat laboriosam rem nesciunt quidem eum veniam aspernatur autem maiores? Consectetur nam tempore autem sequi dolores.</p>
+								<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt vero impedit nobis, ipsam iusto fugiat laboriosam rem nesciunt quidem eum veniam aspernatur autem maiores? Consectetur nam tempore autem sequi dolores.</p>
+								<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt vero impedit nobis, ipsam iusto fugiat laboriosam rem nesciunt quidem eum veniam aspernatur autem maiores? Consectetur nam tempore autem sequi dolores.</p>
+								<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt vero impedit nobis, ipsam iusto fugiat laboriosam rem nesciunt quidem eum veniam aspernatur autem maiores? Consectetur nam tempore autem sequi dolores.</p>
+								<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt vero impedit nobis, ipsam iusto fugiat laboriosam rem nesciunt quidem eum veniam aspernatur autem maiores? Consectetur nam tempore autem sequi dolores.</p>
+								<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt vero impedit nobis, ipsam iusto fugiat laboriosam rem nesciunt quidem eum veniam aspernatur autem maiores? Consectetur nam tempore autem sequi dolores.</p>
+								<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt vero impedit nobis, ipsam iusto fugiat laboriosam rem nesciunt quidem eum veniam aspernatur autem maiores? Consectetur nam tempore autem sequi dolores.</p>
+								<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt vero impedit nobis, ipsam iusto fugiat laboriosam rem nesciunt quidem eum veniam aspernatur autem maiores? Consectetur nam tempore autem sequi dolores.</p>
+								<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt vero impedit nobis, ipsam iusto fugiat laboriosam rem nesciunt quidem eum veniam aspernatur autem maiores? Consectetur nam tempore autem sequi dolores.</p>
+								<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt vero impedit nobis, ipsam iusto fugiat laboriosam rem nesciunt quidem eum veniam aspernatur autem maiores? Consectetur nam tempore autem sequi dolores.</p>
+								<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt vero impedit nobis, ipsam iusto fugiat laboriosam rem nesciunt quidem eum veniam aspernatur autem maiores? Consectetur nam tempore autem sequi dolores.</p>
+								<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Incidunt vero impedit nobis, ipsam iusto fugiat laboriosam rem nesciunt quidem eum veniam aspernatur autem maiores? Consectetur nam tempore autem sequi dolores.</p>
+							</div>
+							<div class="modal-footer">
+							  <button class="btn btn-primary" id="agree-terms" data-bs-target="#refundModal" data-bs-toggle="modal" disabled>약관 동의</button>
+							</div>
+						  </div>
+						</div>
+					  </div>
+					<!-- 환불 모달 -->
+					<div class="modal fade" id="refundModal" tabindex="-1" aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered modal-lg">
+						  <div class="modal-content">
+							<div class="modal-header">
+							  <h1 class="modal-title fs-5">환불 요청</h1>
+							  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+							</div>
+							<div class="modal-body">
+								<div class="form-floating mb-3">
+									<input type="text" class="form-control" id="refundCount" placeholder="" oninput="javascript:refundCount(this)">
+									<label for="refundCount">환불 수량 (최대 ${orderDetailVOList[0].productOrderQty}개)</label>
+								</div>
+								<div class="form-floating mb-3">
+									<input type="text" class="form-control" id="refundReason" placeholder="">
+									<label for="refundReason">환불 사유</label>
+								</div>
+
+								<!-- <p>환불 수량</p>
+								<p><input type="text" id="refundCount" placeholder="최대 개"></p>
+								<p>
+									환불 사유를 입력해주세요
+							  		<textarea class="form-control" id="refundReason" cols="30" rows="10"></textarea>
+								</p> -->
+							</div>
+							<div class="modal-footer">
+							  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+							  <button type="button" class="btn btn-danger" onclick="javascript:requestRefundBtn()">환불 요청</button>
+							</div>
+						  </div>
+						</div>
+					  </div>
 				</div>
 	 		</div>
 			

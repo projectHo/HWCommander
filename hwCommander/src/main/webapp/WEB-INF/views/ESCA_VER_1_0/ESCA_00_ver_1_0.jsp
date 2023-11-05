@@ -1416,8 +1416,9 @@
 							</a>
 							<!-- 미구현 -->
 							<a class="list-group-item list-group-item-action list-group-item-light p-2 disabled bg-secondary" href="#!" onclick="javascript:clickQestionList(this)" qnum="9">
-								<li class="d-flex justify-content-between align-items-center pt-2">
-									질문 9번
+								<li class="d-flex justify-content-between align-items-center pt-2 text-light">
+									<!-- 질문 9번 -->
+									미구현
 									<div class="d-flex">
 										<span class="badge bg-primary rounded-pill pt-2 pe-2 q9-badge"></span>
 									</div>
@@ -1480,32 +1481,32 @@
 								</li>
 							</a>
 							<a class="list-group-item list-group-item-action list-group-item-light p-2 disabled bg-secondary" href="#!" onclick="javascript:clickQestionList(this)" qnum="17">
-								<li class="d-flex justify-content-between align-items-center pt-2">
-									질문 17번
+								<li class="d-flex justify-content-between align-items-center pt-2 text-light">
+									미구현
 									<div class="d-flex">
 										<span class="badge bg-primary rounded-pill pt-2 pe-2 q17-badge"></span>
 									</div>
 								</li>
 							</a>
 							<a class="list-group-item list-group-item-action list-group-item-light p-2 disabled bg-secondary" href="#!" onclick="javascript:clickQestionList(this)" qnum="18">
-								<li class="d-flex justify-content-between align-items-center pt-2">
-									질문 18번
+								<li class="d-flex justify-content-between align-items-center pt-2 text-light">
+									미구현
 									<div class="d-flex">
 										<span class="badge bg-primary rounded-pill pt-2 pe-2 q18-badge"></span>
 									</div>
 								</li>
 							</a>
 							<a class="list-group-item list-group-item-action list-group-item-light p-2 disabled bg-secondary" href="#!" onclick="javascript:clickQestionList(this)" qnum="19">
-								<li class="d-flex justify-content-between align-items-center pt-2">
-									질문 19번
+								<li class="d-flex justify-content-between align-items-center pt-2 text-light">
+									미구현
 									<div class="d-flex">
 										<span class="badge bg-primary rounded-pill pt-2 pe-2 q19-badge"></span>
 									</div>
 								</li>
 							</a>
 							<a class="list-group-item list-group-item-action list-group-item-light p-2 disabled bg-secondary" href="#!" onclick="javascript:clickQestionList(this)" qnum="20">
-								<li class="d-flex justify-content-between align-items-center pt-2">
-									질문 20번
+								<li class="d-flex justify-content-between align-items-center pt-2 text-light">
+									미구현
 									<div class="d-flex">
 										<span class="badge bg-primary rounded-pill pt-2 pe-2 q20-badge"></span>
 									</div>
@@ -1528,8 +1529,6 @@
 							<div class="q-base q-box fade show">
 								<h2 class="mt-4">질문은 총 20개 이며 1~3번은 필수 질문입니다!</h2>
 								<h3 class="mt-3">목록의 질문을 클릭해서 질문에 답해주세요!</h3>
-								<h3 class="mt-3">답변 후 우측 상단에 있는 저장 버튼을 눌러주셔야 정상적으로</h3>
-								<h3 class="mt-3">견적 산출이 진행됩니다.</h3>
 							</div>
 							<!-- 1번 질문 -->
 							<div class="q-1 fade q-box">

@@ -178,7 +178,7 @@
 				let li = $("<li></li>");
 				let button = $("<button></button>").addClass("dropdown-item").attr("cd",i).attr("nb",ramRufIndex).attr("type","button").attr("onclick","javascript:clickChangeRam(this)").html(ramResult[i][0].partsName + "(" + differencePrices[ramRufIndex-1] + ")");
 				li.append(button);
-				$(".dropdown-menu").append(li);
+				$(".dropdown-menu.ram").append(li);
 				ramRufIndex++;
 			}
 		}
@@ -354,6 +354,7 @@
 							<div class="row g-0">
 							  <div class="col-md-4 pt-3 ps-2">
 								<img src="${productMaster.productImage}" class="img-fluid rounded-start" alt="...">
+								<p class="p-2">제품 견본 이미지는 케이스의 외관을 보여드리기 위함입니다. 내장제품의 형태가 상이하니 케이스의 형태만 확인하여 선택 부탁드립니다.</p>
 							  </div>
 							  <div class="col-md-8">
 								<div class="card-body">
@@ -361,13 +362,21 @@
 										<div class="col">
 											<h4 class="card-title position-relative result-index">제품 상세 정보</h4>
 										</div>
-										<div class="col text-end">
+										<div class="col d-flex gap-2 justify-content-end">
 											<div class="dropdown">
 												<button class="btn btn-secondary dropdown-toggle change-ram-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 													Ram 변경하기
 												</button>
-												<ul class="dropdown-menu">
+												<ul class="dropdown-menu ram">
 													<li><button class="dropdown-item" cd="0" type="button" onclick="clickChangeRam(this)">추천 램으로 돌아가기</button></li>
+												</ul>
+											</div>
+											<div class="dropdown">
+												<button class="btn btn-secondary dropdown-toggle change-case-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+													케이스 변경하기
+												</button>
+												<ul class="dropdown-menu">
+													<li></li>
 												</ul>
 											</div>
 										</div>
