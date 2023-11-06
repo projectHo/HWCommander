@@ -331,9 +331,11 @@ public class UserController {
 		UserInfoVO user = (UserInfoVO) httpSession.getAttribute("loginUser");
 		
 		List<OrderMasterVO> orderMasterVOList = orderService.getOrderMasterListByOrdererUserId(user.getId());
+		List<RefundInfoVO> refundInfoVOList = orderService.getRefundInfoByUserId(user.getId());
 		
 		model.addAttribute("loginUser", user);
 		model.addAttribute("orderMasterVOList", orderMasterVOList);
+		model.addAttribute("refundInfoVOList", refundInfoVOList);
 		
 		return userLoginCheck(request, model, "myPage");
 	}
