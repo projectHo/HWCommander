@@ -28,8 +28,6 @@
 	// 주문 현황
 	let objectNum;
 	let objStateCd;
-	let aa = "${loginUser}";
-	let bb= "${orderMasterVOList}";
 	function goOrderListDetailPage(){
 		if(objStateCd > 6){
 			alert("상태가 배송단계로 넘어갔을 경우 배송지 변경은 불가합니다!");
@@ -52,6 +50,9 @@
 
 	// 환불 내역
 	function clickRefundList(el){
+		if(loginCheck()) {
+			location.href = "/user/refundInfo.do?id=" + $(el).find(".item-id").attr("name");
+		}
 	}
 	function clickRefundDetail(){
 		$(".card-list").removeClass("show").css("display","none");
@@ -150,6 +151,7 @@
 		}
 		return check;
 	}
+	
 	$(function(){
 		$(".card-list").removeClass("show").css("display","none");
 	})
@@ -307,20 +309,20 @@
 										</tr>
 									</thead>
 									<tbody>
-										<c:forEach var="item" items="${orderMasterVOList}">
-											<c:choose>
-												<c:when test="${item.orderStateCd >= 09}">
-													<tr style="cursor: pointer;" onclick="javascript:clickRefundList(this)">
-														<a href="javascript:goOrderListDetailPage()">
-															<td scope="row">${item.orderDateStr}</td>
-															<td>${item.orderName}</td>
-															<td class="item-id">${item.id}</td>
-															<td>${item.totOrderPriceStr}</td>
-															<td class="item-cd" cd="${item.orderStateCd}">${item.orderStateCdNm}</td>
-														</a>
-													</tr>
-												</c:when>
-											</c:choose>
+										<c:forEach var="item" items="${refundInfoVOList}">
+											<tr style="cursor: pointer;" onclick="javascript:clickRefundList(this)">
+												<a href="javascript:goOrderListDetailPage()">
+													<c:forEach var="orderItem" items="${orderMasterVOList}">
+														<c:if test="${orderItem.id == item.orderId}">
+															<td scope="row">${orderItem.orderDateStr}</td>
+															<td>${orderItem.orderName}</td>
+														</c:if>
+													</c:forEach>
+													<td class="item-id" name="${item.id}">${item.orderId}</td>
+													<td>${item.totRefundPrice}원</td>
+													<td class="item-cd" cd="${item.refundStateCd}">${item.refundStateCdNm}</td>
+												</a>
+											</tr>
 										</c:forEach>
 									</tbody>
 								</table>

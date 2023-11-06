@@ -41,4 +41,5 @@ public interface OrderService {
 	public Integer refundInfoRegistLogic(RefundInfoVO refundInfoVO, String orderStateCd);
 	public Integer refundInfoUpdateLogic(RefundInfoVO refundInfoVO);
 	public Integer refundInfoDeleteLogic(String id);
+	public List<RefundInfoVO> getRefundInfoByUserId(String userId);
 }

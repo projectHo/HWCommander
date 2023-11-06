@@ -36,4 +36,6 @@ public interface OrderDAO {
 	public Integer insertRefundInfoVO(RefundInfoVO refundInfoVO);
 	public Integer updateRefundInfoVO(RefundInfoVO refundInfoVO);
 	public void deleteRefundInfoVO(String id);
+	public List<RefundInfoVO> getRefundInfoListByOrderIds(String[] orderIds);
+	
 }

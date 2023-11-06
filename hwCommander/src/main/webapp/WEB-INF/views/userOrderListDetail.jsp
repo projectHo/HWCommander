@@ -308,20 +308,26 @@
 	}
 	let aa = "${orderDetailVOList[0].productOrderQty}"
 	function requestRefundBtn(){
+		if(refundCd == null){
+			alert("환불 사유를 선택해주세요");
+			return false;
+		}
+		if($("#refundReason").val() == ""){
+			alert("환불 사유를 입력해주세요");
+			return false;
+		}
 		var form = new FormData();
 	
 		if("${orderDetailVOList[0].productOrderQty}" == 1){
 			var refundInfoVO = {
-				id : "${orderMasterVO.ordererUserId}",
 				orderId : "${orderDetailVOList[0].id}",
+				orderSeq : "${orderDetailVOList[0].seq}",
 				productId : "${orderDetailVOList[0].productId}",
 				productPrice : "${orderDetailVOList[0].productPrice}",
 				refundQty : 1,
 				totRefundPrice : "${orderMasterVO.totOrderPrice}",
 				refundStateCd : "01",
-				refundStateCdNm : "환불 신청",
-				refundReasonCd : "99",
-				refundReasonCdNm : "기타",
+				refundReasonCd : refundCd,
 				refundReasonUserWrite : $("#refundReason").val(),
 			};
 			let orderStateCd = "09";
@@ -349,36 +355,52 @@
 				return false;
 			}
 		}
-		if("${orderMasterVO.orderStateCd}" != "01"){
-			if("${orderMasterVO.orderStateCd}" === '09'){
-				alert("환불 진행중입니다!");
-			}else if("${orderMasterVO.orderStateCd}" === "10"){
-				alert("환불 완료된 주문입니다!");
-			}else {
-				// 수량 체크 추가
-				if("${orderDetailVOList[0].productOrderQty}" >= 2){
-					// 수량 입력 추가
-				}else {
-					$.ajax({
-						type: "post",
-						url: "/user/refundInfoRegistLogic.do",
-						data: {
-							id: $(".order-num").html(),
+		// if("${orderMasterVO.orderStateCd}" != "01"){
+		// 	if("${orderMasterVO.orderStateCd}" === '09'){
+		// 		alert("환불 진행중입니다!");
+		// 	}else if("${orderMasterVO.orderStateCd}" === "10"){
+		// 		alert("환불 완료된 주문입니다!");
+		// 	}else {
+		// 		// 수량 체크 추가
+		// 		if("${orderDetailVOList[0].productOrderQty}" >= 2){
+		// 			// 수량 입력 추가
+		// 		}else {
+		// 			$.ajax({
+		// 				type: "post",
+		// 				url: "/user/refundInfoRegistLogic.do",
+		// 				data: {
+		// 					id: $(".order-num").html(),
 
-						},
-						dataType: "json",
-						success: function(response) {
-							alert("정상적으로 요청했습니다!");
-							location.reload();
-						},
-						error: function(xhr, status, error) {
-							alert("요청에 실패했습니다.. 다시 입력해주세요!");
-						}
-					});
-				}
-			}
+		// 				},
+		// 				dataType: "json",
+		// 				success: function(response) {
+		// 					alert("정상적으로 요청했습니다!");
+		// 					location.reload();
+		// 				},
+		// 				error: function(xhr, status, error) {
+		// 					alert("요청에 실패했습니다.. 다시 입력해주세요!");
+		// 				}
+		// 			});
+		// 		}
+		// 	}
+		// }else {
+		// 	alert("아직 결제 전입니다! 결제 후 이용해주세요~!");
+		// }
+	}
+	let refundCd;
+	function refundResonDropdownBtn(el){
+		if($(el).attr("cd") == "01"){
+			$(".refund-reson-title").html($(el).html());
+			refundCd = $(el).attr("cd");
+		}else if($(el).attr("cd") == "02"){
+			$(".refund-reson-title").html($(el).html());
+			refundCd = $(el).attr("cd");
+		}else if($(el).attr("cd") == "03"){
+			$(".refund-reson-title").html($(el).html());
+			refundCd = $(el).attr("cd");
 		}else {
-			alert("아직 결제 전입니다! 결제 후 이용해주세요~!");
+			$(".refund-reson-title").html($(el).html());
+			refundCd = $(el).attr("cd");
 		}
 	}
 	function cancleOrderBtn(){
@@ -613,28 +635,35 @@
 					  </div>
 					<!-- 환불 모달 -->
 					<div class="modal fade" id="refundModal" tabindex="-1" aria-hidden="true">
-						<div class="modal-dialog modal-dialog-centered modal-lg">
+						<div class="modal-dialog modal-dialog-centered">
 						  <div class="modal-content">
 							<div class="modal-header">
 							  <h1 class="modal-title fs-5">환불 요청</h1>
 							  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 							</div>
 							<div class="modal-body">
-								<div class="form-floating mb-3">
-									<input type="text" class="form-control" id="refundCount" placeholder="" oninput="javascript:refundCount(this)">
-									<label for="refundCount">환불 수량 (최대 ${orderDetailVOList[0].productOrderQty}개)</label>
-								</div>
-								<div class="form-floating mb-3">
-									<input type="text" class="form-control" id="refundReason" placeholder="">
-									<label for="refundReason">환불 사유</label>
-								</div>
-
-								<!-- <p>환불 수량</p>
-								<p><input type="text" id="refundCount" placeholder="최대 개"></p>
-								<p>
-									환불 사유를 입력해주세요
-							  		<textarea class="form-control" id="refundReason" cols="30" rows="10"></textarea>
-								</p> -->
+								<!-- 단일 -->
+								<c:if test="${orderDetailVOList[0].productOrderQty == 1}">
+									<div class="dropdown w-50 mb-3">
+										<button class="btn btn-secondary dropdown-toggle refund-reson-title w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+											환불 사유
+										</button>
+										<ul class="dropdown-menu">
+											<li><a class="dropdown-item" href="#" cd="01" onclick="javascript:refundResonDropdownBtn(this)">소비자 귀책</a></li>
+											<li><a class="dropdown-item" href="#" cd="02" onclick="javascript:refundResonDropdownBtn(this)">생산자 귀책</a></li>
+											<li><a class="dropdown-item" href="#" cd="03" onclick="javascript:refundResonDropdownBtn(this)">배송지 귀책</a></li>
+											<li><a class="dropdown-item" href="#" cd="99" onclick="javascript:refundResonDropdownBtn(this)">기타(직접입력)</a></li>
+										</ul>
+									</div>
+									<div class="form-floating mb-3">
+										<input type="text" class="form-control" id="refundReason" placeholder="" autocomplete="off">
+										<label for="refundReason">환불 사유</label>
+									</div>
+								</c:if>
+								<!-- 복수 -->
+								<c:if test="${orderDetailVOList[0].productOrderQty > 1}">
+									
+								</c:if>
 							</div>
 							<div class="modal-footer">
 							  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>

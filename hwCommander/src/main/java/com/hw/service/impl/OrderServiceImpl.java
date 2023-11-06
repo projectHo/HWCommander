@@ -325,6 +325,8 @@ public class OrderServiceImpl implements OrderService {
 		int updateResult = updateOrderStateCd(orderMasterVO);
 		
 		if(2 == updateResult) {
+			String refundMaxId = orderDAO.getRefundInfoVOMaxId();
+			refundInfoVO.setId(refundMaxId);
 			// update 성공 시 refund_info insert
 			result = orderDAO.insertRefundInfoVO(refundInfoVO);
 		}
@@ -353,6 +355,22 @@ public class OrderServiceImpl implements OrderService {
 		orderDAO.deleteRefundInfoVO(id);
 		result = 1;
 		return result;
+	}
+	
+	@Override
+	public List<RefundInfoVO> getRefundInfoByUserId(String userId) {
+		// 유저아이디로 order master 조회
+		List<OrderMasterVO> orderMasterVOList =  getOrderMasterListByOrdererUserId(userId);
+		// order id 여러개로 in처리 쿼리 적용
+		String[] orderIds = new String[orderMasterVOList.size()];
+		
+		for(int i = 0; i < orderMasterVOList.size(); i++) {
+			orderIds[i] = orderMasterVOList.get(i).getId();
+		}
+		
+		List<RefundInfoVO> resultList = orderDAO.getRefundInfoListByOrderIds(orderIds);
+		
+		return resultList;
 	}
 	
 	/*--------------------------------------------------

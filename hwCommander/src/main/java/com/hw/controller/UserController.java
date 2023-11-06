@@ -226,6 +226,44 @@ public class UserController {
 		return orderService.refundInfoRegistLogic(refundInfoVO, orderStateCd);
 	}
 	
+	/*--------------------------------------------------
+	 - 환불내역
+	*--------------------------------------------------*/
+	@RequestMapping(value = "/refundInfoList.do", method = RequestMethod.GET)
+	public String goRefundInfoList(HttpServletRequest request, Model model) {
+		
+		HttpSession httpSession = request.getSession();
+		UserInfoVO user = (UserInfoVO) httpSession.getAttribute("loginUser");
+		
+		List<RefundInfoVO> refundInfoVOList = orderService.getRefundInfoByUserId(user.getId());
+		
+		model.addAttribute("loginUser", user);
+		model.addAttribute("refundInfoVOList", refundInfoVOList);
+		
+		return userLoginCheck(request, model, "userRefundInfoList");
+	}
+	
+	/*--------------------------------------------------
+	 - 환불정보
+	*--------------------------------------------------*/
+	@RequestMapping(value = "/refundInfo.do", method = RequestMethod.GET)
+	public String goRefundInfo(HttpServletRequest request
+			, Model model
+			, @RequestParam(value = "id", required = true) String id) {
+		
+		HttpSession httpSession = request.getSession();
+		UserInfoVO user = (UserInfoVO) httpSession.getAttribute("loginUser");
+		
+		RefundInfoVO refundInfoVO = orderService.getRefundInfoById(id);
+		OrderMasterVO orderMasterVO = orderService.getOrderMasterById(refundInfoVO.getOrderId());
+		
+		model.addAttribute("loginUser", user);
+		model.addAttribute("refundInfoVO", refundInfoVO);
+		model.addAttribute("orderMasterVO", orderMasterVO);
+		
+		return userLoginCheck(request, model, "userRefundInfo");
+	}
+	
 	@RequestMapping(value = "/orderUpdateRecipientHpNumber2Logic.do", method = RequestMethod.POST)
 	@ResponseBody
 	public Integer orderUpdateRecipientHpNumber2Logic(OrderMasterVO orderMasterVO) {
@@ -295,9 +333,11 @@ public class UserController {
 		UserInfoVO user = (UserInfoVO) httpSession.getAttribute("loginUser");
 		
 		List<OrderMasterVO> orderMasterVOList = orderService.getOrderMasterListByOrdererUserId(user.getId());
+		List<RefundInfoVO> refundInfoVOList = orderService.getRefundInfoByUserId(user.getId());
 		
 		model.addAttribute("loginUser", user);
 		model.addAttribute("orderMasterVOList", orderMasterVOList);
+		model.addAttribute("refundInfoVOList", refundInfoVOList);
 		
 		return userLoginCheck(request, model, "myPage");
 	}
