@@ -47,7 +47,7 @@
 	let index = 0;
 	function typeText() {
 		const inputElement = $("#typingInput");
-		const text = "저희 홈페이지에서 견적산출을 해본 적 있으신가요?";
+		const text = "사용하실 로직을 선택해주세요";
 		if (index < text.length) {
 			inputElement.val(function(i, val) {
 			return val + text.charAt(index);
@@ -67,14 +67,14 @@
 		});
 	}
 	function clickAnswerBtn(el){
-		if($(el).children().html() == "새로하기"){
+		if($(el).children().html() == "최신 버전"){
 			for(let i = 1; i<=19 ; i++){
 				sessionStorage.setItem("data-" + i, "");
 			}
 			sessionStorage.setItem("targetData" , "");
 			sessionStorage.setItem("pay","y");
 			location.href = "/ESCA/ESCA_00_ver_1_0.do";	
-		}else if($(el).children().html() == "과거기준"){
+		}else if($(el).children().html() == "이전 버전"){
 			$("#select-modal").modal("show");			
 		}else {
 			location.href = "/";
@@ -190,11 +190,11 @@
 				   <div class="row pb-3">
 					   <div class="col-md d-flex justify-content-center">
 						   <input type="radio" class="btn-check" name="btnradio" id="answer-a">
-						   <label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickAnswerBtn(this)" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="처음 이용하시거나 과거 견적산출이 필요 없으신 경우 새로 진행합니다."><p class="pt-2 m-0">새로하기</p></label>
+						   <label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickAnswerBtn(this)" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="처음 이용하시거나 과거 견적산출이 필요 없으신 경우 새로 진행합니다."><p class="pt-2 m-0">최신 버전</p></label>
 					   </div>
 					   <div class="col-md d-flex justify-content-center">
 						   <input type="radio" class="btn-check" name="btnradio" id="answer-b">
-						   <label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickAnswerBtn(this)" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="견적산출을 했던 날짜를 선택합니다. 날짜 기준으로 다시 견적산출을 진행합니다."><p class="pt-2 m-0">과거기준</p></label>
+						   <label class="btn btn-outline-secondary w-75" for="answer-b" onclick="javascript:clickAnswerBtn(this)" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="지정하신 날짜에 등록된 데이터베이스와 로직을 기준으로 견적산출을 진행합니다. 단, 해당 견적으로 구매는 불가합니다."><p class="pt-2 m-0">이전 버전</p></label>
 					   </div>
 				   </div>
 				</div>

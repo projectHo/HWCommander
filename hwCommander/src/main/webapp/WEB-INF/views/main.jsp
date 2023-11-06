@@ -123,9 +123,9 @@
         slidesPerView: 1,
         spaceBetween: 0,
         mousewheel: true,
-        scrollbar: {
-          el: ".swiper-scrollbar",
-          hide: true,
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true,
         },
         on: {
           init : function (){
@@ -162,6 +162,19 @@
               }
             }
           }
+      })
+
+      var windowWidth = window.outerWidth;
+      if(windowWidth > 1920){
+        $(".slide-btns").addClass("fs-3");
+      }
+      $(window).on("resize",function(){
+        if(windowWidth < 1921){
+          $(".slide-btns").removeClass("fs-3");
+        }
+        if(windowWidth > 1920){
+          $(".slide-btns").addClass("fs-3");
+        }
       })
     });
     </script>
@@ -226,39 +239,39 @@
               <video muted autoplay loop class="swiper-video main-video-two" src="/resources/mp4/mainvideo-com.mp4" type="video/mp4" onended="javascript:videoReplay(this)"></video>
               <!-- 비로그인 버튼 -->
               <c:if test="${loginUser == null}">
-                <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2" onclick="javascript:goLogin()">로그인</button>
+                <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2 slide-btns" onclick="javascript:goLogin()">로그인</button>
               </c:if>
               <!-- 고객 로그인 버튼 -->
               <c:if test="${loginUser != null && loginUser.mailConfirm == 'Y' && loginUser.userTypeCd == '02'}">
-                <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2" onclick="javascript:logout()">로그아웃</button>
+                <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2 slide-btns" onclick="javascript:logout()">로그아웃</button>
               </c:if>
               <!-- 관리자 로그인 버튼 -->
               <c:if test="${loginUser != null && loginUser.userTypeCd == '01'}">
-                <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2" onclick="javascript:logout()">로그아웃</button>
+                <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2 slide-btns" onclick="javascript:logout()">로그아웃</button>
               </c:if>
             </div>
             <div class="swiper-slide w-100">
               <video muted class="swiper-video w-100 " src="/resources/mp4/esca-video.mp4" type="video/mp4"></video>
-              <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2" onclick="javascript:goEscaBtn()">바로가기</button>
+              <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2 slide-btns" onclick="javascript:goEscaBtn()">바로가기</button>
             </div>
             <div class="swiper-slide">
               <!-- <video muted class="swiper-video banpum-mall-video" src="/resources/mp4/banpumMall-banner.mp4" type="video/mp4" onended="javascript:videoReplay(this)"></video> -->
               <video muted autoplay class="swiper-video banpum-mall-video-one" src="/resources/mp4/banpum-text.mp4" type="video/mp4"></video>
               <video muted autoplay loop class="swiper-video banpum-mall-video w-100" src="/resources/mp4/banpum-video.mp4" type="video/mp4" onended="javascript:videoReplay(this)"></video>
-              <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2" onclick="javascript:goEventMallBtn()">바로가기</button>
+              <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2 slide-btns" onclick="javascript:goEventMallBtn()">바로가기</button>
             </div>
             <div class="swiper-slide">
               <video muted autoplay class="swiper-video w-100 my-page-video" src="/resources/mp4/mypage-video.mp4" type="video/mp4" onended="javascript:mypagePartVideoPlay()"></video>
               <video muted autoplay class="swiper-video my-page-video-monitor" src="/resources/mp4/mypage-monitor.mp4" type="video/mp4" onended="javascript:videoReplay(this)"></video>
-              <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2" onclick="javascript:goMyPageBtn()">바로가기</button>
+              <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2 slide-btns" onclick="javascript:goMyPageBtn()">바로가기</button>
             </div>
             <div class="swiper-slide">
               <video muted autoplay class="swiper-video w-100" src="/resources/mp4/esca-storage.mp4" type="video/mp4"></video>
-              <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2" onclick="javascript:goStorageBtn()">바로가기</button>
+              <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2 slide-btns" onclick="javascript:goStorageBtn()">바로가기</button>
             </div>
             <div class="swiper-slide">
               <video muted autoplay class="swiper-video costomer-service-vide w-100" src="/resources/mp4/customer-video.mp4" type="video/mp4"></video>
-              <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2" onclick="javascript:goServiceBtn()">바로가기</button>
+              <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2 slide-btns" onclick="javascript:goServiceBtn()">바로가기</button>
             </div>
             <div class="swiper-slide flex-column">
               <div class="footer_background w-100 h-100 p-5">
@@ -326,7 +339,7 @@
                       <div class="col">
                         <nav class="nav flex-column">
                           <h4><b>현우의 컴퓨터 공방</b></h4>
-                          <a class="nav-link disabled text-dark" href="#">대표 : 이해창 | tel. 010-7625-0475</a>
+                          <a class="nav-link disabled text-dark" href="#">대표 : 이해창 | tel. 010-7625-0478</a>
                           <a class="nav-link disabled text-dark" href="#">사업자등록번호: 829-36-00813</a>
                           <a class="nav-link disabled text-dark" href="#">서울시 용산구 보광로 110, 2층 현우의 컴퓨터 공방</a>
                           <a class="nav-link disabled text-dark" href="#">E-mail : pcvirusson@hanmail.net</a>
@@ -342,7 +355,7 @@
               </div>
             </div>
           </div>
-          <div class="swiper-scrollbar"></div>
+          <div class="swiper-pagination"></div>
         </div>
       </div>
     </div>

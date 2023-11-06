@@ -143,6 +143,11 @@ body {
   cursor: pointer;
 }
 
+.swiper-pagination-bullet {
+  width: 15px;
+  height: 15px;
+}
+
 .swiper-video {
   height: 100%;
 }
@@ -175,5 +180,9 @@ body {
   }
   .my-page-video-monitor {
     width: 1580px!important;
+  }
+  .swiper-pagination-bullet {
+    width: 20px;
+    height: 20px;
   }
 }
