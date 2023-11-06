@@ -349,7 +349,8 @@
 			, a.product_id                                                                         AS productId            
 			, a.product_price                                                                      AS productPrice         
 			, a.refund_qty                                                                         AS refundQty            
-			, a.tot_refund_price                                                                   AS totRefundPrice       
+			, a.tot_refund_price                                                                   AS totRefundPrice
+			, FORMAT(a.tot_refund_price, 0)                                                        AS totRefundPriceStr       
 			, a.refund_state_cd                                                                    AS refundStateCd        
 			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'ORD004' AND cd = a.refund_state_cd)  AS refundStateCdNm
 			, a.refund_reason_cd                                                                   AS refundReasonCd       
@@ -448,7 +449,8 @@
 			, a.product_id                                                                         AS productId            
 			, a.product_price                                                                      AS productPrice         
 			, a.refund_qty                                                                         AS refundQty            
-			, a.tot_refund_price                                                                   AS totRefundPrice       
+			, a.tot_refund_price                                                                   AS totRefundPrice
+			, FORMAT(a.tot_refund_price, 0)                                                        AS totRefundPriceStr             
 			, a.refund_state_cd                                                                    AS refundStateCd        
 			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'ORD004' AND cd = a.refund_state_cd)  AS refundStateCdNm
 			, a.refund_reason_cd                                                                   AS refundReasonCd       

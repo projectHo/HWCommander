@@ -24,4 +24,5 @@ public class RefundInfoVO {
 	
 	//necessity column
 	private String refundContentStr;
+	private String totRefundPriceStr;
 }

@@ -255,9 +255,11 @@ public class UserController {
 		UserInfoVO user = (UserInfoVO) httpSession.getAttribute("loginUser");
 		
 		RefundInfoVO refundInfoVO = orderService.getRefundInfoById(id);
+		OrderMasterVO orderMasterVO = orderService.getOrderMasterById(refundInfoVO.getOrderId());
 		
 		model.addAttribute("loginUser", user);
 		model.addAttribute("refundInfoVO", refundInfoVO);
+		model.addAttribute("orderMasterVO", orderMasterVO);
 		
 		return userLoginCheck(request, model, "userRefundInfo");
 	}
