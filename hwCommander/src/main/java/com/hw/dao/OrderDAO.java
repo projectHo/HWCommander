@@ -28,6 +28,8 @@ public interface OrderDAO {
 	public void deleteOrderDetailVO(String id);
 	public List<OrderDetailVO> getOrderDetailAndRefundInfoListById(String id);
 	
+	public OrderMasterHistoryVO getMaxOrderMasterHistoryInOrderStateCdRefundExceptById(String id);
+	
 	/*--------------------------------------------------
 	 - refund_info
 	*--------------------------------------------------*/

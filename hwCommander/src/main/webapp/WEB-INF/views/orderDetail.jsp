@@ -486,18 +486,24 @@ function goRefundUpdate(refundId) {
 		                                       </div>
 		                                       <div class="col-md-3">
 		                                           <div class="form-floating">
-		                                               <input class="form-control" id="totRefundPrice_${status.index}" name="totRefundPrice" type="text" value="${item.totRefundPrice}" placeholder="Enter totRefundPrice" disabled/>
-		                                               <label for="totRefundPrice">총 환불금액</label>
+		                                               <input class="form-control" id="requestRefundPrice_${status.index}" name="requestRefundPrice" type="text" value="${item.requestRefundPrice}" placeholder="Enter requestRefundPrice" disabled/>
+		                                               <label for="requestRefundPrice">신청 환불금액</label>
 		                                           </div>
 		                                       </div>
+		                                       <div class="col-md-3">
+		                                           <div class="form-floating">
+		                                               <input class="form-control" id="determinRefundPrice_${status.index}" name="determinRefundPrice" type="text" value="${item.determinRefundPrice}" placeholder="Enter determinRefundPrice" disabled/>
+		                                               <label for="determinRefundPrice">결정 환불금액</label>
+		                                           </div>
+		                                       </div>
+	                                       </div>
+	                                       <div class="row mb-3">
 		                                       <div class="col-md-3">
 		                                           <div class="form-floating">
 		                                               <input class="form-control" id="refundStateCdNm_${status.index}" name="refundStateCdNm" type="text" value="${item.refundStateCdNm}" placeholder="Enter refundStateCdNm" disabled/>
 		                                               <label for="refundStateCdNm">환불상태코드명</label>
 		                                           </div>
 		                                       </div>
-	                                       </div>
-	                                       <div class="row">
 		                                       <div class="col-md-3">
 		                                           <div class="form-floating">
 		                                               <input class="form-control" id="refundReasonCdNm_${status.index}" name="refundReasonCdNm" type="text" value="${item.refundReasonCdNm}" placeholder="Enter refundReasonCdNm" disabled/>
@@ -516,10 +522,18 @@ function goRefundUpdate(refundId) {
 		                                               <label for="refundContent">환불내용</label>
 		                                           </div>
 		                                       </div>
+		                                   </div>
+	                                       <div class="row">
 		                                       <div class="col-md-3">
 		                                           <div class="form-floating">
 		                                               <input class="form-control" id="refundRemarks_${status.index}" name="refundRemarks" type="text" value="${item.refundRemarks}" placeholder="Enter refundRemarks" disabled/>
 		                                               <label for="refundRemarks">환불비고</label>
+		                                           </div>
+		                                       </div>
+		                                       <div class="col-md-3">
+		                                           <div class="form-floating">
+		                                               <input class="form-control" id="refundPartialAgreeContent_${status.index}" name="refundPartialAgreeContent" type="text" value="${item.refundPartialAgreeContent}" placeholder="Enter refundPartialAgreeContent" disabled/>
+		                                               <label for="refundPartialAgreeContent">환불부분동의내용</label>
 		                                           </div>
 		                                       </div>
 		                                   </div>

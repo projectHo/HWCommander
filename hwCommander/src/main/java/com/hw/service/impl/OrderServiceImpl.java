@@ -340,20 +340,37 @@ public class OrderServiceImpl implements OrderService {
 		
 		RefundInfoVO updateVO = getRefundInfoById(refundInfoVO.getId());
 		// admin page에서 수정 가능한 항목들
-		updateVO.setTotRefundPrice(refundInfoVO.getTotRefundPrice());
+//		updateVO.setTotRefundPrice(refundInfoVO.getTotRefundPrice());
+		updateVO.setDeterminRefundPrice(refundInfoVO.getDeterminRefundPrice());
 		updateVO.setRefundStateCd(refundInfoVO.getRefundStateCd());
 		updateVO.setRefundContent(refundInfoVO.getRefundContent());
 		updateVO.setRefundRemarks(refundInfoVO.getRefundRemarks());
+		updateVO.setRefundPartialAgreeContent(refundInfoVO.getRefundPartialAgreeContent());
 		
 		result = orderDAO.updateRefundInfoVO(updateVO);
 		return result;
 	}
 	
 	@Override
-	public Integer refundInfoDeleteLogic(String id) {
+	public Integer refundInfoDeleteLogic(String id, String orderId) {
 		int result = 0;
-		orderDAO.deleteRefundInfoVO(id);
-		result = 1;
+		
+		// order id로 환불상태가 환불과 부분환불 관련 4개코드를 제외하고 가장 마지막 history의 상태값을 조회함.
+		OrderMasterHistoryVO orderMasterHistoryVO = orderDAO.getMaxOrderMasterHistoryInOrderStateCdRefundExceptById(orderId);
+		String orderStateCd = orderMasterHistoryVO.getOrderStateCd();
+		
+		OrderMasterVO orderMasterVO = new OrderMasterVO();
+		orderMasterVO.setId(orderId);
+		orderMasterVO.setOrderStateCd(orderStateCd);
+		
+		int updateResult = updateOrderStateCd(orderMasterVO);
+		
+		if(2 == updateResult) {
+			// update 성공 시 refund_info delete
+			orderDAO.deleteRefundInfoVO(id);
+			result = 1;
+		}
+		
 		return result;
 	}
 	

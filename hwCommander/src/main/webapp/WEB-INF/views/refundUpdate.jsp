@@ -40,25 +40,31 @@ function dataSetting() {
 	$("#productId").val("${selectRefundInfoData.productId}");
 	$("#productPrice").val("${selectRefundInfoData.productPrice}");
 	$("#refundQty").val("${selectRefundInfoData.refundQty}");
-	$("#totRefundPrice").val("${selectRefundInfoData.totRefundPrice}");
+	$("#requestRefundPrice").val("${selectRefundInfoData.requestRefundPrice}");
 	$("#refundStateCd").val("${selectRefundInfoData.refundStateCd}");
 	$("#refundReasonCd").val("${selectRefundInfoData.refundReasonCd}");
 	$("#refundReasonUserWrite").val("${selectRefundInfoData.refundReasonUserWrite}");
 	
 	var refundContentStr = "${selectRefundInfoData.refundContentStr}";
-	var replace_result = refundContentStr.replace(/(<br>|<br\/>|<br \/>)/g, '\r\n');
-	$("#refundContent").val(replace_result);
+	var refundRemarksStr = "${selectRefundInfoData.refundRemarksStr}";
+	var refundPartialAgreeContentStr = "${selectRefundInfoData.refundPartialAgreeContentStr}";
 	
-	$("#refundRemarks").val("${selectRefundInfoData.refundRemarks}");
+	var replace_result1 = refundContentStr.replace(/(<br>|<br\/>|<br \/>)/g, '\r\n');
+	var replace_result2 = refundRemarksStr.replace(/(<br>|<br\/>|<br \/>)/g, '\r\n');
+	var replace_result3 = refundPartialAgreeContentStr.replace(/(<br>|<br\/>|<br \/>)/g, '\r\n');
+	
+	$("#refundContent").val(replace_result1);
+	$("#refundRemarks").val(replace_result2);
+	$("#refundPartialAgreeContent").val(replace_result3);
 	
 	$("#id").val("${selectRefundInfoData.id}");
 }
 
 function validationCheck() {
 	
-	if($('#totRefundPrice').val() == "" || $('#totRefundPrice').val() == null) {
-		alert("총 환불금액을 입력하세요.");
-		$('#totRefundPrice').focus();
+	if($('#determinRefundPrice').val() == "" || $('#determinRefundPrice').val() == null) {
+		alert("결정환불금액을 입력하세요.");
+		$('#determinRefundPrice').focus();
 		return false;
 	}
 	
@@ -226,10 +232,18 @@ function refundUpdateLogic() {
                                        </div>
                                        <div class="col-md-3">
                                            <div class="form-floating">
-                                               <input class="form-control" id="totRefundPrice" name="totRefundPrice" type="text" placeholder="Enter totRefundPrice"/>
-                                               <label for="totRefundPrice">총 환불금액</label>
+                                               <input class="form-control" id="requestRefundPrice" name="requestRefundPrice" type="text" placeholder="Enter requestRefundPrice" disabled/>
+                                               <label for="requestRefundPrice">신청 환불금액</label>
                                            </div>
                                        </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+                                               <input class="form-control" id="determinRefundPrice" name="determinRefundPrice" type="text" placeholder="Enter determinRefundPrice"/>
+                                               <label for="determinRefundPrice">결정 환불금액</label>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   <div class="row mb-3">
                                        <div class="col-md-3">
                                            <div class="form-floating">
 												<select class="form-select pt-4" id="refundStateCd" name="refundStateCd">
@@ -241,8 +255,6 @@ function refundUpdateLogic() {
 												<label for="refundStateCd">환불상태</label>
                                            </div>
                                        </div>
-                                   </div>
-                                   <div class="row mb-3">
                                        <div class="col-md-3">
                                            <div class="form-floating">
 												<select class="form-select pt-4" id="refundReasonCd" name="refundReasonCd" disabled>
@@ -254,7 +266,7 @@ function refundUpdateLogic() {
 												<label for="refundReasonCd">환불사유</label>
                                            </div>
                                        </div>
-                                       <div class="col-md-9">
+                                       <div class="col-md-6">
                                            <div class="form-floating">
                                                <input class="form-control" id="refundReasonUserWrite" name="refundReasonUserWrite" type="text" placeholder="Enter refundReasonUserWrite" disabled/>
                                                <label for="refundReasonUserWrite">환불사유 구매자 직접입력</label>
@@ -265,13 +277,13 @@ function refundUpdateLogic() {
                                        <span class="input-group-text">환불내용</span>
                                        <textarea class="form-control" id="refundContent" name="refundContent" style="height: 200px;"></textarea>
                                    </div>
-                                   <div class="row mb-3">
-                                       <div class="col-md-12">
-                                           <div class="form-floating">
-                                               <input class="form-control" id="refundRemarks" name="refundRemarks" type="text" placeholder="Enter refundRemarks"/>
-                                               <label for="refundRemarks">환불비고</label>
-                                           </div>
-                                       </div>
+                                   <div class="input-group mb-3">
+                                       <span class="input-group-text">환불비고</span>
+                                       <textarea class="form-control" id="refundRemarks" name="refundRemarks" style="height: 200px;"></textarea>
+                                   </div>
+                                   <div class="input-group mb-3">
+                                       <span class="input-group-text">환불부분동의내용</span>
+                                       <textarea class="form-control" id="refundPartialAgreeContent" name="refundPartialAgreeContent" style="height: 200px;"></textarea>
                                    </div>
                                    <div class="mt-4 mb-0">
                                        <div class="d-grid"><a class="btn btn-secondary btn-block" id="btn_refund_update">Update</a></div>
