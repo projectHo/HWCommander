@@ -283,6 +283,12 @@ function validationCheck() {
                                                <label for="apu">APU</label>
                                            </div>
                                        </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+                                               <input class="form-control" id="clSoc" name="clSoc" type="text" placeholder="Enter clSoc" />
+                                               <label for="clSoc">CL SOC</label>
+                                           </div>
+                                       </div>
                                    </div>
 
                                    <div class="mt-4 mb-0">

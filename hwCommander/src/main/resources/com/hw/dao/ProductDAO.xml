@@ -260,6 +260,7 @@
 			, a.reg_dtm                                                                        AS regDtm      
 			, a.multi_bulk                                                                     AS multiBulk
 			, a.apu                                                                            AS apu
+			, a.cl_soc                                                                         AS clSoc
 		FROM
 			parts_cpu_history a
 		WHERE
@@ -537,6 +538,7 @@
 			, a.parts_image                                                                    AS partsImage
 			, a.reg_dtm                                                                        AS regDtm    
 			, a.multi_bulk                                                                     AS multiBulk
+			, a.cl_soc                                                                         AS clSoc
 		FROM
 			parts_cooler_history a
 		WHERE

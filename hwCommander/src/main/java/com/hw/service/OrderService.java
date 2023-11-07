@@ -37,6 +37,7 @@ public interface OrderService {
 	public RefundInfoVO getRefundInfoById(String id);
 	public List<RefundInfoVO> getRefundInfoByOrderId(String orderId);
 	// DB 구조 상 해당 조회조건으로 여러 건이 존재할 수 있어서 return 형식을 List로 잡았으나 로직 상 1건만 조회되어야 함.
+	// 23.11.06 협의로 인해 로직 DB구조 설계한 대로 여러 건 조회 가능(한 제품에 대해 여러 환불건 존재 가능함.)
 	public List<RefundInfoVO> getRefundInfoByOrderIdAndOrderSeq(String orderId, int orderSeq);
 	public Integer refundInfoRegistLogic(RefundInfoVO refundInfoVO, String orderStateCd);
 	public Integer refundInfoUpdateLogic(RefundInfoVO refundInfoVO);

@@ -202,68 +202,6 @@ public class UserController {
 		return orderService.updateVideoRequestCd(orderMasterVO);
 	}
 	
-//	23.11.05 refund_info 로직이 구현완료됨으로써 기존 order_master에 orderStateCd 직접변경 하던 로직 폐기 
-//	@RequestMapping(value = "/orderRefundRequestToAdminLogic.do", method = RequestMethod.POST)
-//	@ResponseBody
-//	public Integer orderRefundRequestToAdminLogic(String id) {
-//		OrderMasterVO orderMasterVO = new OrderMasterVO();
-//		orderMasterVO.setId(id);
-//		orderMasterVO.setOrderStateCd("09");
-//		return orderService.updateOrderStateCd(orderMasterVO);
-//	}
-	
-	@RequestMapping(value = "/refundInfoRegistLogic.do", method = RequestMethod.POST)
-	@ResponseBody
-	public Integer refundInfoRegistLogic(
-			@RequestParam(value = "refundInfoVO", required = true) String refundInfoVOString
-			, @RequestParam(value = "orderStateCd", required = true) String orderStateCd) throws JsonMappingException, JsonProcessingException {
-		
-		RefundInfoVO refundInfoVO = new RefundInfoVO();
-		ObjectMapper objectMapper = new ObjectMapper();
-		
-		refundInfoVO = objectMapper.readValue(refundInfoVOString, RefundInfoVO.class);
-		
-		return orderService.refundInfoRegistLogic(refundInfoVO, orderStateCd);
-	}
-	
-	/*--------------------------------------------------
-	 - 환불내역
-	*--------------------------------------------------*/
-	@RequestMapping(value = "/refundInfoList.do", method = RequestMethod.GET)
-	public String goRefundInfoList(HttpServletRequest request, Model model) {
-		
-		HttpSession httpSession = request.getSession();
-		UserInfoVO user = (UserInfoVO) httpSession.getAttribute("loginUser");
-		
-		List<RefundInfoVO> refundInfoVOList = orderService.getRefundInfoByUserId(user.getId());
-		
-		model.addAttribute("loginUser", user);
-		model.addAttribute("refundInfoVOList", refundInfoVOList);
-		
-		return userLoginCheck(request, model, "userRefundInfoList");
-	}
-	
-	/*--------------------------------------------------
-	 - 환불정보
-	*--------------------------------------------------*/
-	@RequestMapping(value = "/refundInfo.do", method = RequestMethod.GET)
-	public String goRefundInfo(HttpServletRequest request
-			, Model model
-			, @RequestParam(value = "id", required = true) String id) {
-		
-		HttpSession httpSession = request.getSession();
-		UserInfoVO user = (UserInfoVO) httpSession.getAttribute("loginUser");
-		
-		RefundInfoVO refundInfoVO = orderService.getRefundInfoById(id);
-		OrderMasterVO orderMasterVO = orderService.getOrderMasterById(refundInfoVO.getOrderId());
-		
-		model.addAttribute("loginUser", user);
-		model.addAttribute("refundInfoVO", refundInfoVO);
-		model.addAttribute("orderMasterVO", orderMasterVO);
-		
-		return userLoginCheck(request, model, "userRefundInfo");
-	}
-	
 	@RequestMapping(value = "/orderUpdateRecipientHpNumber2Logic.do", method = RequestMethod.POST)
 	@ResponseBody
 	public Integer orderUpdateRecipientHpNumber2Logic(OrderMasterVO orderMasterVO) {
@@ -340,6 +278,74 @@ public class UserController {
 		model.addAttribute("refundInfoVOList", refundInfoVOList);
 		
 		return userLoginCheck(request, model, "myPage");
+	}
+	
+//	23.11.05 refund_info 로직이 구현완료됨으로써 기존 order_master에 orderStateCd 직접변경 하던 로직 폐기 
+//	@RequestMapping(value = "/orderRefundRequestToAdminLogic.do", method = RequestMethod.POST)
+//	@ResponseBody
+//	public Integer orderRefundRequestToAdminLogic(String id) {
+//		OrderMasterVO orderMasterVO = new OrderMasterVO();
+//		orderMasterVO.setId(id);
+//		orderMasterVO.setOrderStateCd("09");
+//		return orderService.updateOrderStateCd(orderMasterVO);
+//	}
+	
+	@RequestMapping(value = "/refundInfoRegistLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer refundInfoRegistLogic(
+			@RequestParam(value = "refundInfoVO", required = true) String refundInfoVOString
+			, @RequestParam(value = "orderStateCd", required = true) String orderStateCd) throws JsonMappingException, JsonProcessingException {
+		
+		RefundInfoVO refundInfoVO = new RefundInfoVO();
+		ObjectMapper objectMapper = new ObjectMapper();
+		
+		refundInfoVO = objectMapper.readValue(refundInfoVOString, RefundInfoVO.class);
+		
+		return orderService.refundInfoRegistLogic(refundInfoVO, orderStateCd);
+	}
+	
+	/*--------------------------------------------------
+	 - 환불내역
+	*--------------------------------------------------*/
+	@RequestMapping(value = "/refundInfoList.do", method = RequestMethod.GET)
+	public String goRefundInfoList(HttpServletRequest request, Model model) {
+		
+		HttpSession httpSession = request.getSession();
+		UserInfoVO user = (UserInfoVO) httpSession.getAttribute("loginUser");
+		
+		List<RefundInfoVO> refundInfoVOList = orderService.getRefundInfoByUserId(user.getId());
+		
+		model.addAttribute("loginUser", user);
+		model.addAttribute("refundInfoVOList", refundInfoVOList);
+		
+		return userLoginCheck(request, model, "userRefundInfoList");
+	}
+	
+	/*--------------------------------------------------
+	 - 환불정보
+	*--------------------------------------------------*/
+	@RequestMapping(value = "/refundInfo.do", method = RequestMethod.GET)
+	public String goRefundInfo(HttpServletRequest request
+			, Model model
+			, @RequestParam(value = "id", required = true) String id) {
+		
+		HttpSession httpSession = request.getSession();
+		UserInfoVO user = (UserInfoVO) httpSession.getAttribute("loginUser");
+		
+		RefundInfoVO refundInfoVO = orderService.getRefundInfoById(id);
+		OrderMasterVO orderMasterVO = orderService.getOrderMasterById(refundInfoVO.getOrderId());
+		
+		model.addAttribute("loginUser", user);
+		model.addAttribute("refundInfoVO", refundInfoVO);
+		model.addAttribute("orderMasterVO", orderMasterVO);
+		
+		return userLoginCheck(request, model, "userRefundInfo");
+	}
+	
+	@RequestMapping(value = "/refundDeleteLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer refundDeleteLogic(@RequestParam(value = "id", required = true) String id) {
+		return orderService.refundInfoDeleteLogic(id);
 	}
 
 	/*--------------------------------------------------

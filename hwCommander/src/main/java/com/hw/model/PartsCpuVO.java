@@ -25,6 +25,7 @@ public class PartsCpuVO {
 	private String updtDtm;
 	private int multiBulk;
 	private String apu;
+	private String clSoc;
 	
 	private int partsHistorySeq;
 }

@@ -948,9 +948,12 @@ public class ESCAServiceImpl implements ESCAService {
 		
 		// 모든제품 for 돌려야함.
 		for(int i = partsGpuHistoryVOList.size()-1; i >= 0; i--) {
-			if(0 >= partsGpuHistoryVOList.get(i).getPartsPrice()
-					|| checkPrice < partsGpuHistoryVOList.get(i).getPartsPrice()) {
-				partsGpuHistoryVOList.remove(i);
+			// 23.11.07 추가 gled_cd 00이 아닐때만 금액으로 소거로직 적용하지 않음 gled_cd = 00 = 내장그래픽
+			if(!"00".equals(partsGpuHistoryVOList.get(i).getGledCd())) {
+				if(0 >= partsGpuHistoryVOList.get(i).getPartsPrice()
+						|| checkPrice < partsGpuHistoryVOList.get(i).getPartsPrice()) {
+					partsGpuHistoryVOList.remove(i);
+				}
 			}
 		}
 		
@@ -1222,6 +1225,11 @@ public class ESCAServiceImpl implements ESCAService {
 		
 		// Gpu 소거로직 START
 		for(int i = partsGpuHistoryVOList.size()-1; i >= 1; i--) {
+			// 23.11.07 추가 gled_cd 00이면 value소거로직 건너뛰도록 함. gled_cd = 00 = 내장그래픽
+			if("00".equals(partsGpuHistoryVOList.get(i).getGledCd())) {
+				continue;
+			}
+			
 			int targetIndex = i-1;
 			
 			BigDecimal value1 = partsGpuHistoryVOList.get(targetIndex).getGpuValue();
@@ -2103,6 +2111,19 @@ public class ESCAServiceImpl implements ESCAService {
 			}
 			
 			/*--------------------------------------------------
+			 - 16-1. 선택된 GPU가 gled_cd = 00 = APU 일 때
+			 - CPU List에서 apu column과 값이 같지 않은 경우 소거처리
+			 - 23.11.07 추가 
+			*--------------------------------------------------*/
+			String gpuName = partsGpuHistoryVOList.get(gpuIndex).getPartsName();
+			
+			for(int i = partsCpuHistoryVOList.size()-1; i >= 0; i--) {
+				if(!gpuName.equals(partsCpuHistoryVOList.get(i).getApu())) {
+					partsCpuHistoryVOList.remove(i);
+				}
+			}
+			
+			/*--------------------------------------------------
 			 - 17. VC=<Price인 CPU제품을 모두 소거한다. 
 			*--------------------------------------------------*/
 			for(int i = partsCpuHistoryVOList.size()-1; i >= 0; i--) {
@@ -2341,6 +2362,111 @@ public class ESCAServiceImpl implements ESCAService {
 					}
 				}
 				
+				/*--------------------------------------------------
+				 - 23-2. 선택된 CPU의 cl_soc ⊂ COOLER cl_soc가 아닌 모든 제품을 소거한다.
+				 - cl_soc = 14자리수 2진법 (최소 4자리)
+				 - 23.11.07 추가
+				*--------------------------------------------------*/
+				String cpuClSoc = String.format("%014d", Integer.parseInt(partsCpuHistoryVOList.get(cpuIndex).getClSoc()));
+				int cpuClSoc1 = Integer.parseInt(cpuClSoc.substring(0, 1));
+				int cpuClSoc2 = Integer.parseInt(cpuClSoc.substring(1, 2));
+				int cpuClSoc3 = Integer.parseInt(cpuClSoc.substring(2, 3));
+				int cpuClSoc4 = Integer.parseInt(cpuClSoc.substring(3, 4));
+				int cpuClSoc5 = Integer.parseInt(cpuClSoc.substring(4, 5));
+				int cpuClSoc6 = Integer.parseInt(cpuClSoc.substring(5, 6));
+				int cpuClSoc7 = Integer.parseInt(cpuClSoc.substring(6, 7));
+				int cpuClSoc8 = Integer.parseInt(cpuClSoc.substring(7, 8));
+				int cpuClSoc9 = Integer.parseInt(cpuClSoc.substring(8, 9));
+				int cpuClSoc10 = Integer.parseInt(cpuClSoc.substring(9, 10));
+				int cpuClSoc11 = Integer.parseInt(cpuClSoc.substring(10, 11));
+				int cpuClSoc12 = Integer.parseInt(cpuClSoc.substring(11, 12));
+				int cpuClSoc13 = Integer.parseInt(cpuClSoc.substring(12, 13));
+				int cpuClSoc14 = Integer.parseInt(cpuClSoc.substring(13, 14));
+				
+				for(int i = partsCoolerHistoryVOList.size()-1; i >= 0; i--) {
+					String coolerClSoc = String.format("%014d", Integer.parseInt(partsCoolerHistoryVOList.get(i).getClSoc()));
+					int coolerClSoc1 = Integer.parseInt(coolerClSoc.substring(0, 1));
+					int coolerClSoc2 = Integer.parseInt(coolerClSoc.substring(1, 2));
+					int coolerClSoc3 = Integer.parseInt(coolerClSoc.substring(2, 3));
+					int coolerClSoc4 = Integer.parseInt(coolerClSoc.substring(3, 4));
+					int coolerClSoc5 = Integer.parseInt(coolerClSoc.substring(4, 5));
+					int coolerClSoc6 = Integer.parseInt(coolerClSoc.substring(5, 6));
+					int coolerClSoc7 = Integer.parseInt(coolerClSoc.substring(6, 7));
+					int coolerClSoc8 = Integer.parseInt(coolerClSoc.substring(7, 8));
+					int coolerClSoc9 = Integer.parseInt(coolerClSoc.substring(8, 9));
+					int coolerClSoc10 = Integer.parseInt(coolerClSoc.substring(9, 10));
+					int coolerClSoc11 = Integer.parseInt(coolerClSoc.substring(10, 11));
+					int coolerClSoc12 = Integer.parseInt(coolerClSoc.substring(11, 12));
+					int coolerClSoc13 = Integer.parseInt(coolerClSoc.substring(12, 13));
+					int coolerClSoc14 = Integer.parseInt(coolerClSoc.substring(13, 14));
+					
+					int subset = 0;
+
+					//같은 자릿수에 대해서 쿨러의 인자가 같거나 더 커야함
+					if(cpuClSoc1 <= coolerClSoc1) {
+						subset = 1;
+					}
+					
+					if(cpuClSoc2 <= coolerClSoc2) {
+						subset = 1;
+					}
+					
+					if(cpuClSoc3 <= coolerClSoc3) {
+						subset = 1;
+					}
+					
+					if(cpuClSoc4 <= coolerClSoc4) {
+						subset = 1;
+					}
+					
+					if(cpuClSoc4 <= coolerClSoc4) {
+						subset = 1;
+					}
+					
+					if(cpuClSoc5 <= coolerClSoc5) {
+						subset = 1;
+					}
+					
+					if(cpuClSoc6 <= coolerClSoc6) {
+						subset = 1;
+					}
+					
+					if(cpuClSoc7 <= coolerClSoc7) {
+						subset = 1;
+					}
+					
+					if(cpuClSoc8 <= coolerClSoc8) {
+						subset = 1;
+					}
+					
+					if(cpuClSoc9 <= coolerClSoc9) {
+						subset = 1;
+					}
+					
+					if(cpuClSoc10 <= coolerClSoc10) {
+						subset = 1;
+					}
+					
+					if(cpuClSoc11 <= coolerClSoc11) {
+						subset = 1;
+					}
+					
+					if(cpuClSoc12 <= coolerClSoc12) {
+						subset = 1;
+					}
+					
+					if(cpuClSoc13 <= coolerClSoc13) {
+						subset = 1;
+					}
+					
+					if(cpuClSoc14 <= coolerClSoc14) {
+						subset = 1;
+					}
+					
+					if(subset == 0) {
+						partsCoolerHistoryVOList.remove(i);
+					}
+				}
 				
 				/*--------------------------------------------------
 				 - 24. 남은 MB제품의 개수를 limγ라 한다.
