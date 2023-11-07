@@ -183,9 +183,7 @@
 						<div class="col-md-8 d-flex p-2">
 							<input id="typingInput" class="form-control text-center pt-3 fs-5" type="text" readonly aria-label="본체 예상 한도" disabled />
 						</div>
-						<div class="col-md-2 d-flex flex-column-reverse">
-							<img src="/resources/img/important-message.svg" class="important-img mb-2 ms-4 pe-2" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="버튼에 마우스를 올리면 설명이 나와요!" style="cursor:pointer">
-						</div>
+						<div class="col-md-2"></div>
 					</div>
 				   <div class="row pb-3">
 					   <div class="col-md d-flex justify-content-center">

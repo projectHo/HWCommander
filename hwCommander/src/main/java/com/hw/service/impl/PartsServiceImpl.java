@@ -168,6 +168,7 @@ public class PartsServiceImpl implements PartsService {
 			partsCpuHistoryVO.setPartsImage(partsCpuVO.getPartsImage());
 			partsCpuHistoryVO.setMultiBulk(partsCpuVO.getMultiBulk());
 			partsCpuHistoryVO.setApu(partsCpuVO.getApu());
+			partsCpuHistoryVO.setClSoc(partsCpuVO.getClSoc());
 			
 			result += partsDAO.insertPartsCpuHistoryVO(partsCpuHistoryVO);
 		}
@@ -223,6 +224,7 @@ public class PartsServiceImpl implements PartsService {
 			partsCpuHistoryVO.setPartsImage(partsCpuVO.getPartsImage());
 			partsCpuHistoryVO.setMultiBulk(partsCpuVO.getMultiBulk());
 			partsCpuHistoryVO.setApu(partsCpuVO.getApu());
+			partsCpuHistoryVO.setClSoc(partsCpuVO.getClSoc());
 			
 			result += partsDAO.insertPartsCpuHistoryVO(partsCpuHistoryVO);
 		}
@@ -686,6 +688,7 @@ public class PartsServiceImpl implements PartsService {
 			partsCoolerHistoryVO.setIt(partsCoolerVO.getIt());
 			partsCoolerHistoryVO.setPartsImage(partsCoolerVO.getPartsImage());
 			partsCoolerHistoryVO.setMultiBulk(partsCoolerVO.getMultiBulk());
+			partsCoolerHistoryVO.setClSoc(partsCoolerVO.getClSoc());
 
 			result += partsDAO.insertPartsCoolerHistoryVO(partsCoolerHistoryVO);
 		}
@@ -743,6 +746,7 @@ public class PartsServiceImpl implements PartsService {
 			partsCoolerHistoryVO.setIt(partsCoolerVO.getIt());
 			partsCoolerHistoryVO.setPartsImage(partsCoolerVO.getPartsImage());
 			partsCoolerHistoryVO.setMultiBulk(partsCoolerVO.getMultiBulk());
+			partsCoolerHistoryVO.setClSoc(partsCoolerVO.getClSoc());
 
 			result += partsDAO.insertPartsCoolerHistoryVO(partsCoolerHistoryVO);
 		}

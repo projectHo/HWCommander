@@ -48,7 +48,9 @@
       }
     }
     function goStorageBtn(){
-      location.href = "/user/estimateStorage.do?id=" + "${loginUser.id}";
+      if(loginCheck()) {
+        location.href = "/user/estimateStorage.do?id=" + "${loginUser.id}";
+      }
     }
     function goServiceBtn(){
       if(loginCheck()) {
@@ -130,12 +132,6 @@
         on: {
           init : function (){
             var btnElement = $(this.slides[0]).find('button')[0];
-            // var firstVideo = $(this.slides[0]).find('video')[0];
-            // if (firstVideo) {
-            //   firstVideo.onloadeddata = function() {
-            //       firstVideo.play();
-            //   };
-            // }
             if (btnElement){
               setTimeout(() => {
                 btnElement.classList.add("show");
@@ -188,7 +184,6 @@
         <c:if test="${loginUser == null}">
           <ul class="list-group list-group-flush bg-none quick">
             <li class="list-group-item bg-transparent p-4 pt-3 fixed-top text-start pb-1"><h2>MENU</h2></li>
-            <!-- <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goMainBtn()">메인</li> -->
             <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goEventMallBtn()">이벤트몰</li>
             <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goEscaBtn()">견적산출</li>
             
@@ -202,7 +197,6 @@
         <c:if test="${loginUser != null && loginUser.mailConfirm == 'Y' && loginUser.userTypeCd == '02'}">
           <ul class="list-group list-group-flush bg-none">
             <li class="list-group-item bg-transparent p-4 pt-3 fixed-top text-start pb-1"><h2>MENU</h2></li>
-            <!-- <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goMainBtn()">메인</li> -->
             <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goEventMallBtn()">이벤트몰</li>
             <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goEscaBtn()">견적산출</li>
             <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goStorageBtn()">견적 저장소</li>
@@ -217,7 +211,6 @@
         <c:if test="${loginUser != null && loginUser.userTypeCd == '01'}">
           <ul class="list-group list-group-flush bg-none">
             <li class="list-group-item bg-transparent p-4 pt-3 fixed-top text-start pb-1"><h2>MENU</h2></li>
-            <!-- <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goMainBtn()">메인</li> -->
             <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goAdminBtn()">AdminPage</li>
           </ul>
           <ul class="list-group list-group-flush flex-row bg-none fixed-bottom">
@@ -234,7 +227,6 @@
         <div class="swiper main-swiper">
           <div class="swiper-wrapper">
             <div class="swiper-slide">
-              <!-- <video muted class="swiper-video main-video" src="/resources/mp4/main-banner.mp4" type="video/mp4" onended="javascript:videoReplay(this)"></video> -->
               <video autoplay muted class="swiper-video main-video-one" src="/resources/mp4/mainvideo-text.mp4" type="video/mp4"></video>
               <video muted autoplay loop class="swiper-video main-video-two" src="/resources/mp4/mainvideo-com.mp4" type="video/mp4" onended="javascript:videoReplay(this)"></video>
               <!-- 비로그인 버튼 -->
@@ -255,7 +247,6 @@
               <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2 slide-btns" onclick="javascript:goEscaBtn()">바로가기</button>
             </div>
             <div class="swiper-slide">
-              <!-- <video muted class="swiper-video banpum-mall-video" src="/resources/mp4/banpumMall-banner.mp4" type="video/mp4" onended="javascript:videoReplay(this)"></video> -->
               <video muted autoplay class="swiper-video banpum-mall-video-one" src="/resources/mp4/banpum-text.mp4" type="video/mp4"></video>
               <video muted autoplay loop class="swiper-video banpum-mall-video w-100" src="/resources/mp4/banpum-video.mp4" type="video/mp4" onended="javascript:videoReplay(this)"></video>
               <button class="btn btn-primary btn-lg fade p-4 pt-3 pb-2 slide-btns" onclick="javascript:goEventMallBtn()">바로가기</button>
@@ -317,9 +308,6 @@
                       <div class="col">
                         <div class="d-flex justify-content-center">
                           <a href="/">
-                          <!-- 2023.05.20 로고수정
-                            <img width="300" height="167" src="/resources/img/cropped-cpLogo-300x167.png">
-                             -->
                             <img width="274" height="190" src="/resources/img/comlogo09-821x569.png">
                           </a>
                         </div>

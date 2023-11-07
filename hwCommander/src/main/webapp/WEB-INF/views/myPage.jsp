@@ -28,8 +28,10 @@
 	// 주문 현황
 	let objectNum;
 	let objStateCd;
+	let aa = "${orderMasterVOList}";
+	let bb = "${refundInfoVOList}";
 	function goOrderListDetailPage(){
-		if(objStateCd > 6){
+		if(objStateCd > 6 && objStateCd < 8){
 			alert("상태가 배송단계로 넘어갔을 경우 배송지 변경은 불가합니다!");
 		}
 		location.href = "/user/orderListDetail.do?id=" + objectNum;
@@ -94,31 +96,7 @@
 			$('.recipient-next-hp').focus();
 		}
 	}
-	function infoSaveAddrBtn(){
-		if($(".recipient-detail-addr").val() === ""){
-			alert("상세 주소를 입력해주세요!");
-			$(".recipient-detail-addr").focus();
-		}else{
-			$.ajax({
-				type: "post",
-				url: "/user/orderUpdateAddrsLogic.do",
-				data: {
-					id: $(".order-num").html(),
-					recipientJibunAddr: $(".recipient-jibun-addr").val(),
-					recipientRoadAddr: $(".recipient-road-addr").val(),
-					recipientDetailAddr: $(".recipient-detail-addr").val(),
-					recipientZipcode: $(".recipient-zip-code").val()
-				},
-				dataType: "json",
-				success: function(response) {
-					alert("정상적으로 수정됐습니다!");
-				},
-				error: function(xhr, status, error) {
-					alert("수정에 실패했습니다.. 다시 입력해주세요!");
-				}
-			});
-		}
-	}
+	
 	function findDaumAddr() {
 		new daum.Postcode({
 			oncomplete: function(data) {
@@ -130,6 +108,7 @@
 		}).open();
 	}
 	function editAddrBtn(){
+		alert("준비중");
 		findDaumAddr();
 	}
 	// 회원 탈퇴
@@ -268,13 +247,13 @@
 										<tbody>
 											<c:forEach var="item" items="${orderMasterVOList}">
 												<c:choose>
-        											<c:when test="${item.orderStateCd < 09}">
+        											<c:when test="${item.orderStateCd < 09 || item.orderStateCd == 11}">
 														<tr style="cursor: pointer;" onclick="javascript:clickOrderList(this)">
 															<a href="javascript:goOrderListDetailPage()">
 																<td scope="row">${item.orderDateStr}</td>
 																<td>${item.orderName}</td>
 																<td class="item-id">${item.id}</td>
-																<td>${item.totOrderPriceStr}</td>
+																<td>${item.totOrderPriceStr}원</td>
 																<td class="item-cd" cd="${item.orderStateCd}">${item.orderStateCdNm}</td>
 															</a>
 														</tr>
@@ -319,8 +298,12 @@
 														</c:if>
 													</c:forEach>
 													<td class="item-id" name="${item.id}">${item.orderId}</td>
-													<td>${item.totRefundPrice}원</td>
-													<td class="item-cd" cd="${item.refundStateCd}">${item.refundStateCdNm}</td>
+													<td>${item.requestRefundPrice}원</td>
+													<c:forEach var="orderItem" items="${orderMasterVOList}">
+														<c:if test="${orderItem.id == item.orderId}">
+															<td class="item-cd" cd="${item.refundStateCd}">${orderItem.orderStateCdNm}</td>
+														</c:if>
+													</c:forEach>
 												</a>
 											</tr>
 										</c:forEach>
@@ -351,7 +334,7 @@
 								<h2 class="card-title">Hwcommander</h2>
 								<h6 class="card-subtitle mb-2 text-muted">${loginUser.name}님의 문의사항</h6>
 								<p class="card-text">고객센터 전화를 통해 문의해주시기 바랍니다.</p>
-								<a href="tel:010-7625-0478" class="card-link">010-7625-0478</a>
+								<p><span>고객센터 : <a href="tel:010-7625-0478" class="card-link">010-7625-0478</a></span></p>								
 							</div>
 						<!-- 리뷰 관리 -->
 							<div class="card-body fade card-list">
@@ -385,7 +368,7 @@
 												<td>
 													<div class="input-group">
 														<input maxlength="11" type="text" class="form-control recipient-next-hp" aria-label="Recipient's another hpNumber" aria-describedby="button-addon" onclick="javascript:infoCheckHp()" value="${loginUser.hpNumber}">
-														<button class="btn btn-outline-secondary btn-s" type="button" id="button-addon">휴대폰 인증</button>
+														<button class="btn btn-outline-secondary btn-s" type="button" id="button-addon" onclick="javascript:editAddrBtn()">인증하기</button>
 													</div>
 												</td>
 											</tr>
@@ -415,22 +398,22 @@
 												<td>
 													<div class="input-group">
 														<input type="text" class="form-control recipient-detail-addr" aria-label="Recipient's Detail addr" aria-describedby="button-addon3" value="${loginUser.detailAddr}">
-														<button class="btn btn-outline-secondary btn-s" type="button" id="button-addon3" onclick="javascript:infoSaveAddrBtn()">저장</button>
+														<button class="btn btn-outline-secondary btn-s" type="button" id="button-addon3" onclick="javascript:editAddrBtn()">저장</button>
 													</div>
 												</td>
-											</tr>
-											<tr>
-												<th scope="row" class="align-middle">가입일</th>
-												<td>${loginUser.regDtm}</td>
 											</tr>
 											<tr>
 												<th scope="row" class="align-middle">E-mail</th>
 												<td>
 													<div class="input-group">
 														<input type="text" class="form-control" aria-label="Recipient's delivery required" aria-describedby="button-addon5" value="${loginUser.mail}">
-														<button class="btn btn-outline-secondary btn-s" type="button" id="button-addon5" onclick="javascript:editDeliveryReqBtn()">저장</button>
+														<button class="btn btn-outline-secondary btn-s" type="button" id="button-addon5" onclick="javascript:editAddrBtn()">인증하기</button>
 													</div>
 												</td>
+											</tr>
+											<tr>
+												<th scope="row" class="align-middle">가입일</th>
+												<td>${loginUser.regDtm}</td>
 											</tr>
 										</tbody>
 									</table>
@@ -442,11 +425,11 @@
 								<h6 class="card-subtitle mb-2 text-muted">${loginUser.name}님</h6>
 								<p class="card-text">
 									<div class="form-floating mb-3 col-6 mx-auto mt-5">
-										<input type="text" class="form-control" id="id">
+										<input type="text" class="form-control" id="id" placeholder="">
 										<label for="floatingInput">ID</label>
 									</div>
 									<div class="form-floating mb-5 col-6 mx-auto">
-										<input type="password" class="form-control" id="pw">
+										<input type="password" class="form-control" id="pw" placeholder="">
 										<label for="floatingPassword">Password</label>
 									</div>
 									<div class="d-flex justify-content-center">

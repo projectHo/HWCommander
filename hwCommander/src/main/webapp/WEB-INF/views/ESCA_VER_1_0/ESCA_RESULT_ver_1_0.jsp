@@ -364,7 +364,8 @@
 										</div>
 										<div class="col d-flex gap-2 justify-content-end">
 											<div class="dropdown">
-												<button class="btn btn-secondary dropdown-toggle change-ram-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+												<!-- data-bs-toggle="dropdown" -->
+												<button class="btn btn-secondary dropdown-toggle change-ram-btn" type="button" aria-expanded="false" onclick="javascript:alert('준비중입니다')">
 													Ram 변경하기
 												</button>
 												<ul class="dropdown-menu ram">
@@ -372,7 +373,7 @@
 												</ul>
 											</div>
 											<div class="dropdown">
-												<button class="btn btn-secondary dropdown-toggle change-case-btn" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+												<button class="btn btn-secondary dropdown-toggle change-case-btn" type="button" aria-expanded="false" onclick="javascript:alert('준비중입니다')">
 													케이스 변경하기
 												</button>
 												<ul class="dropdown-menu">

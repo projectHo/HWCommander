@@ -297,17 +297,21 @@
 	}
 	function scrollTerms(elem){
 		var scrollTop = $(elem).scrollTop();
-		console.log(scrollTop);
 		var innerHeight = $(elem).innerHeight();
-		console.log(innerHeight);
 		var scrollHeight = $(elem).prop('scrollHeight');
-		console.log(scrollHeight);
 		if (scrollTop + innerHeight >= scrollHeight) {
 			$("#agree-terms").removeClass("btn-outline-primary").addClass("btn-primary").attr("disabled",false);
 		}
 	}
-	let aa = "${orderDetailVOList[0].productOrderQty}"
 	function requestRefundBtn(){
+		if($("#refundCount").val() == ""){
+			alert("환불 수량을 입력해주세요");
+			return false;
+		}
+		if($("#refundBoxCount").val() == ""){
+			alert("박스 수량을 입력해주세요");
+			return false;
+		}
 		if(refundCd == null){
 			alert("환불 사유를 선택해주세요");
 			return false;
@@ -316,6 +320,7 @@
 			alert("환불 사유를 입력해주세요");
 			return false;
 		}
+		
 		var form = new FormData();
 	
 		if("${orderDetailVOList[0].productOrderQty}" == 1){
@@ -331,6 +336,59 @@
 				refundReasonUserWrite : $("#refundReason").val(),
 			};
 			let orderStateCd = "09";
+
+			form.append("refundInfoVO",JSON.stringify(refundInfoVO));
+			form.append("orderStateCd",orderStateCd);
+
+			if(confirm("환불 요청하시겠습니까?")){
+				$.ajax({
+					type: "post",
+					url: "/user/refundInfoRegistLogic.do",
+					data: form,
+					processData: false,
+        			contentType: false,
+					success: function(response) {
+						alert("정상적으로 요청했습니다!");
+						location.reload();
+					},
+					error: function(xhr, status, error) {
+						alert("요청에 실패했습니다.. 다시 입력해주세요!");
+						console.log(error);
+					}
+				});
+			}else {
+				return false;
+			}
+		}
+		if("${orderDetailVOList[0].productOrderQty}" > 1){
+			let orderStateCd;
+			let productPrice;
+			let boxPrice;
+			let totRefundPrice;
+			if("${orderDetailVOList[0].productOrderQty}" == $("#refundCount").val()){
+				orderStateCd = "09";
+				productPrice = "${orderDetailVOList[0].productPrice}" * $("#refundCount").val();
+				boxPrice = 5000 * $("#refundBoxCount").val();
+				totRefundPrice = productPrice + boxPrice;
+			}else {
+				orderStateCd = "11";
+				productPrice = "${orderDetailVOList[0].productPrice}" * $("#refundCount").val();
+				boxPrice = 5000 * $("#refundBoxCount").val();
+				totRefundPrice = productPrice + boxPrice;
+			}
+			totRefundPrice = String(totRefundPrice);
+			var refundInfoVO = {
+				orderId : "${orderDetailVOList[0].id}",
+				orderSeq : "${orderDetailVOList[0].seq}",
+				productId : "${orderDetailVOList[0].productId}",
+				productPrice : "${orderDetailVOList[0].productPrice}",
+				refundQty : $("#refundCount").val(),
+				totRefundPrice : totRefundPrice,
+				refundStateCd : "01",
+				refundReasonCd : refundCd,
+				refundReasonUserWrite : $("#refundReason").val(),
+			};
+			
 
 			form.append("refundInfoVO",JSON.stringify(refundInfoVO));
 			form.append("orderStateCd",orderStateCd);
@@ -434,9 +492,38 @@
 		}
 	}
 	function refundCount(el){
-		if(Number($(el).val()) > Number("${orderDetailVOList[0].productOrderQty}")){
-			$(el).val("${orderDetailVOList[0].productOrderQty}").focus();
+		if("${orderDetailVOList[0].boxQty}" != "0"){
+			if(Number($(el).val()) > Number("${orderDetailVOList[0].productOrderQty}")){
+				$(el).val("${orderDetailVOList[0].productOrderQty}").focus();
+				$("#refundBoxCount").val("${orderDetailVOList[0].boxQty}");
+			}
+			if(Number($(el).val()) == Number("${orderDetailVOList[0].productOrderQty}")){
+				$("#refundBoxCount").val("${orderDetailVOList[0].boxQty}");
+			}
+			if(Number("${orderDetailVOList[0].productOrderQty}") - Number($(el).val()) > Number("${orderDetailVOList[0].boxQty}")){
+				let box = Number("${orderDetailVOList[0].boxQty}") - (Number("${orderDetailVOList[0].productOrderQty}") - Number($(el).val()));
+				$("#refundBoxCount").val(String(box));
+			}
+		}else {
+			$("#refundBoxCount").val("${orderDetailVOList[0].boxQty}");
 		}
+	}
+	function refundBoxCount(el){
+		if("${orderDetailVOList[0].boxQty}" != "0"){
+			if(Number($(el).val()) > Number("${orderDetailVOList[0].boxQty}")){
+				$(el).val("${orderDetailVOList[0].boxQty}").focus();
+			}
+			if(Number($("#refundCount").val()) == Number("${orderDetailVOList[0].productOrderQty}")){
+				$(el).val("${orderDetailVOList[0].boxQty}");
+			}
+			if(Number("${orderDetailVOList[0].productOrderQty}") - Number($("#refundCount").val()) > Number("${orderDetailVOList[0].boxQty}")){
+				let box = Number("${orderDetailVOList[0].boxQty}") - (Number("${orderDetailVOList[0].productOrderQty}") - Number($("#refundCount").val()));
+				$("#refundBoxCount").val(String(box));
+			}
+		}else {
+			$("#refundBoxCount").val("${orderDetailVOList[0].boxQty}");
+		}
+		
 	}
 	$(function(){
 		loadData();
@@ -453,7 +540,7 @@
 			userInfoObject[key] = value;
 		}
 		$(".user-name").html(userInfoObject.name);
-		if(Number("${orderMasterVO.orderStateCd}") >= 7){
+		if(Number("${orderMasterVO.orderStateCd}") == 6 || Number("${orderMasterVO.orderStateCd}") == 7){
 			$(".btn-s").attr("data-bs-toggle","tooltip").attr("data-bs-placement","right").attr("data-bs-title","배송 단계부터는 수정이 불가능합니다!").css("cursor","not-allowed").attr("onclick","");
 			$("input").attr("disabled","disabled");
 		}
@@ -652,7 +739,7 @@
 											<li><a class="dropdown-item" href="#" cd="01" onclick="javascript:refundResonDropdownBtn(this)">소비자 귀책</a></li>
 											<li><a class="dropdown-item" href="#" cd="02" onclick="javascript:refundResonDropdownBtn(this)">생산자 귀책</a></li>
 											<li><a class="dropdown-item" href="#" cd="03" onclick="javascript:refundResonDropdownBtn(this)">배송지 귀책</a></li>
-											<li><a class="dropdown-item" href="#" cd="99" onclick="javascript:refundResonDropdownBtn(this)">기타(직접입력)</a></li>
+											<li><a class="dropdown-item" href="#" cd="99" onclick="javascript:refundResonDropdownBtn(this)">기타</a></li>
 										</ul>
 									</div>
 									<div class="form-floating mb-3">
@@ -662,7 +749,35 @@
 								</c:if>
 								<!-- 복수 -->
 								<c:if test="${orderDetailVOList[0].productOrderQty > 1}">
-									
+									<div class="d-flex gap-2">
+										<div class="w-50 mb-5">
+											<div class="form-floating">
+												<input type="text" class="form-control" id="refundCount" autocomplete="off" oninput="javascript:refundCount(this)">
+												<label for="refundCount">환불 수량(최대 ${orderDetailVOList[0].productOrderQty}개)</label>
+											</div>
+										</div>
+										<div class="w-50 mb-5">
+											<div class="form-floating">
+												<input type="text" class="form-control" id="refundBoxCount" autocomplete="off" oninput="javascript:refundBoxCount(this)">
+												<label for="refundBoxCount">박스 수량(최대 ${orderDetailVOList[0].boxQty}개)</label>
+											</div>
+										</div>
+									</div>
+									<div class="dropdown w-50 mb-3">
+										<button class="btn btn-secondary dropdown-toggle refund-reson-title w-100 h-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+											환불 사유
+										</button>
+										<ul class="dropdown-menu">
+											<li><a class="dropdown-item" href="#" cd="01" onclick="javascript:refundResonDropdownBtn(this)">소비자 귀책</a></li>
+											<li><a class="dropdown-item" href="#" cd="02" onclick="javascript:refundResonDropdownBtn(this)">생산자 귀책</a></li>
+											<li><a class="dropdown-item" href="#" cd="03" onclick="javascript:refundResonDropdownBtn(this)">배송지 귀책</a></li>
+											<li><a class="dropdown-item" href="#" cd="99" onclick="javascript:refundResonDropdownBtn(this)">기타</a></li>
+										</ul>
+									</div>
+									<div class="form-floating mb-3">
+										<input type="text" class="form-control" id="refundReason" placeholder="" autocomplete="off">
+										<label for="refundReason">환불 사유</label>
+									</div>
 								</c:if>
 							</div>
 							<div class="modal-footer">

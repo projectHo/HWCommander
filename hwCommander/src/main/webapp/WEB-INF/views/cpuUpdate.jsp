@@ -46,6 +46,7 @@ function dataSetting() {
 	$("#ddr5MaxRange").val("${selectData.ddr5MaxRange}");
 	$("#multiBulk").val("${selectData.multiBulk}");
 	$("#apu").val("${selectData.apu}");
+	$("#clSoc").val("${selectData.clSoc}");
 	
 	$("#id").val("${selectData.id}");
 	$("#partsImage").val("${selectData.partsImage}");
@@ -301,6 +302,12 @@ function validationCheck() {
                                            <div class="form-floating">
                                                <input class="form-control" id="apu" name="apu" type="text" placeholder="Enter apu" />
                                                <label for="apu">APU</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+                                               <input class="form-control" id="clSoc" name="clSoc" type="text" placeholder="Enter clSoc" />
+                                               <label for="clSoc">CL SOC</label>
                                            </div>
                                        </div>
                                    </div>

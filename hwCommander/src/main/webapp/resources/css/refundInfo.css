@@ -1,0 +1,14 @@
+.refund-min-height {
+    min-height: 40px;
+}
+
+.refund-info-scrollable {
+    max-height: 200px;
+    overflow-y: auto;
+}
+.table {
+    border-collapse : separate;
+}
+tr th {
+    width: 20%;
+}
