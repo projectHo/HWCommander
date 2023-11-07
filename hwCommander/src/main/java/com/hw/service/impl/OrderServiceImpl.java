@@ -361,14 +361,19 @@ public class OrderServiceImpl implements OrderService {
 	public List<RefundInfoVO> getRefundInfoByUserId(String userId) {
 		// 유저아이디로 order master 조회
 		List<OrderMasterVO> orderMasterVOList =  getOrderMasterListByOrdererUserId(userId);
-		// order id 여러개로 in처리 쿼리 적용
-		String[] orderIds = new String[orderMasterVOList.size()];
+		List<RefundInfoVO> resultList = null;
 		
-		for(int i = 0; i < orderMasterVOList.size(); i++) {
-			orderIds[i] = orderMasterVOList.get(i).getId();
+		//23.11.07 추가 order건이 있을 경우에만 로직 진행하며 없는 userId인 경우 null값 return
+		if(0 < orderMasterVOList.size()) {
+			// order id 여러개로 in처리 쿼리 적용
+			String[] orderIds = new String[orderMasterVOList.size()];
+			
+			for(int i = 0; i < orderMasterVOList.size(); i++) {
+				orderIds[i] = orderMasterVOList.get(i).getId();
+			}
+			
+			resultList = orderDAO.getRefundInfoListByOrderIds(orderIds);
 		}
-		
-		List<RefundInfoVO> resultList = orderDAO.getRefundInfoListByOrderIds(orderIds);
 		
 		return resultList;
 	}
