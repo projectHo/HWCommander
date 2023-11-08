@@ -343,7 +343,7 @@
               </div>
             </div>
           </div>
-          <div class="swiper-pagination"></div>
+          <div class="swiper-pagination me-4"></div>
         </div>
       </div>
     </div>

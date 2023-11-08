@@ -28,8 +28,6 @@
 	// 주문 현황
 	let objectNum;
 	let objStateCd;
-	let aa = "${orderMasterVOList}";
-	let bb = "${refundInfoVOList}";
 	function goOrderListDetailPage(){
 		if(objStateCd > 6 && objStateCd < 8){
 			alert("상태가 배송단계로 넘어갔을 경우 배송지 변경은 불가합니다!");
@@ -109,7 +107,7 @@
 	}
 	function editAddrBtn(){
 		alert("준비중");
-		findDaumAddr();
+		// findDaumAddr();
 	}
 	// 회원 탈퇴
 	function clickSecessionDetail(){

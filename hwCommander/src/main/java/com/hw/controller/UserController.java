@@ -344,8 +344,10 @@ public class UserController {
 	
 	@RequestMapping(value = "/refundDeleteLogic.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Integer refundDeleteLogic(@RequestParam(value = "id", required = true) String id) {
-		return orderService.refundInfoDeleteLogic(id);
+	public Integer refundDeleteLogic(
+			@RequestParam(value = "id", required = true) String id
+			, @RequestParam(value = "orderId", required = true) String orderId) {
+		return orderService.refundInfoDeleteLogic(id, orderId);
 	}
 
 	/*--------------------------------------------------

@@ -324,13 +324,19 @@
 		var form = new FormData();
 	
 		if("${orderDetailVOList[0].productOrderQty}" == 1){
+			let productPrice;
+			let boxPrice;
+			let requestRefundPrice;
+			productPrice = "${orderDetailVOList[0].productPrice}";
+			boxPrice = Number("${orderDetailVOList[0].boxQty}") * 5000;
+			requestRefundPrice = Number(productPrice) + Number(boxPrice);
 			var refundInfoVO = {
 				orderId : "${orderDetailVOList[0].id}",
 				orderSeq : "${orderDetailVOList[0].seq}",
 				productId : "${orderDetailVOList[0].productId}",
 				productPrice : "${orderDetailVOList[0].productPrice}",
 				refundQty : 1,
-				totRefundPrice : "${orderMasterVO.totOrderPrice}",
+				requestRefundPrice : requestRefundPrice,
 				refundStateCd : "01",
 				refundReasonCd : refundCd,
 				refundReasonUserWrite : $("#refundReason").val(),
@@ -383,7 +389,7 @@
 				productId : "${orderDetailVOList[0].productId}",
 				productPrice : "${orderDetailVOList[0].productPrice}",
 				refundQty : $("#refundCount").val(),
-				totRefundPrice : totRefundPrice,
+				requestRefundPrice : totRefundPrice,
 				refundStateCd : "01",
 				refundReasonCd : refundCd,
 				refundReasonUserWrite : $("#refundReason").val(),

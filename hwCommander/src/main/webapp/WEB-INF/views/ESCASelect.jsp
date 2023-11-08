@@ -136,6 +136,7 @@
 		  <div class="modal-content">
 			<div class="modal-header justify-content-center">
 			  <h1 class="modal-title fs-5 pt-2">과거견적 조회하기</h1>
+			  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body pt-0">
 				<div class="row">

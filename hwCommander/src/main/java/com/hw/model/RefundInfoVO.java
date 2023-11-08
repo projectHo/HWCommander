@@ -11,7 +11,8 @@ public class RefundInfoVO {
 	private String productId;
 	private int productPrice;
 	private int refundQty;
-	private int totRefundPrice;
+	private int requestRefundPrice;
+	private int determinRefundPrice;
 	private String refundStateCd;
 	private String refundStateCdNm;
 	private String refundReasonCd;
@@ -21,8 +22,12 @@ public class RefundInfoVO {
 	private String refundRemarks;
 	private String regDtm;
 	private String updtDtm;
+	private String refundPartialAgreeContent;
 	
 	//necessity column
 	private String refundContentStr;
-	private String totRefundPriceStr;
+	private String refundRemarksStr;
+	private String refundPartialAgreeContentStr;
+	private String requestRefundPriceStr;
+	private String determinRefundPriceStr;
 }

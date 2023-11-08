@@ -22,7 +22,8 @@ public class OrderDetailVO {
 	// RefundInfoVO Data
 	private String refundId;
 	private int refundQty;
-	private int totRefundPrice;
+	private int requestRefundPrice;
+	private int determinRefundPrice;
 	private String refundStateCd;
 	private String refundStateCdNm;
 	private String refundReasonCd;
@@ -30,4 +31,5 @@ public class OrderDetailVO {
 	private String refundReasonUserWrite;
 	private String refundContent;
 	private String refundRemarks;
+	private String refundPartialAgreeContent;
 }

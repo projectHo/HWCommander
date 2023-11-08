@@ -304,7 +304,8 @@
 			, b.product_image                                                                      AS productImage
 			, c.id                                                                                 AS refundId
 			, c.refund_qty                                                                         AS refundQty
-			, c.tot_refund_price                                                                   AS totRefundPrice
+			, c.request_refund_price                                                                   AS requestRefundPrice
+			, c.determin_refund_price                                                                   AS determinRefundPrice
 			, c.refund_state_cd                                                                    AS refundStateCd
 			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'ORD004' AND cd = c.refund_state_cd)  AS refundStateCdNm
 			, c.refund_reason_cd                                                                   AS refundReasonCd
@@ -312,6 +313,7 @@
 			, c.refund_reason_user_write                                                           AS refundReasonUserWrite
 			, c.refund_content                                                                     AS refundContent
 			, c.refund_remarks                                                                     AS refundRemarks
+			, c.refund_partial_agree_content                                                       AS refundPartialAgreeContent
 		FROM
 			order_detail a
 			LEFT OUTER JOIN 
@@ -349,18 +351,24 @@
 			, a.product_id                                                                         AS productId            
 			, a.product_price                                                                      AS productPrice         
 			, a.refund_qty                                                                         AS refundQty            
-			, a.tot_refund_price                                                                   AS totRefundPrice
-			, FORMAT(a.tot_refund_price, 0)                                                        AS totRefundPriceStr       
+			, a.request_refund_price                                                                   AS requestRefundPrice
+			, FORMAT(a.request_refund_price, 0)                                                        AS requestRefundPriceStr
+			, a.determin_refund_price                                                                   AS determinRefundPrice
+			, FORMAT(a.determin_refund_price, 0)                                                        AS determinRefundPriceStr       
 			, a.refund_state_cd                                                                    AS refundStateCd        
 			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'ORD004' AND cd = a.refund_state_cd)  AS refundStateCdNm
 			, a.refund_reason_cd                                                                   AS refundReasonCd       
 			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'ORD003' AND cd = a.refund_reason_cd) AS refundReasonCdNm
 			, a.refund_reason_user_write                                                           AS refundReasonUserWrite
 			, a.refund_content                                                                     AS refundContent
+			, a.refund_remarks                                                                     AS refundRemarks
+			, a.refund_partial_agree_content                                                       AS refundPartialAgreeContent
 			<![CDATA[
 			, REPLACE(REPLACE(a.refund_content  , '\n', '<br>'), '\r', '')               AS refundContentStr
+			, REPLACE(REPLACE(a.refund_remarks  , '\n', '<br>'), '\r', '')               AS refundRemarksStr
+			, REPLACE(REPLACE(a.refund_partial_agree_content  , '\n', '<br>'), '\r', '')               AS refundPartialAgreeContentStr
 			]]>
-			, a.refund_remarks                                                                     AS refundRemarks        
+			        
 			, a.reg_dtm                                                                            AS regDtm               
 			, a.updt_dtm                                                                           AS updtDtm              
 		FROM
@@ -387,12 +395,14 @@
 			, product_id
 			, product_price
 			, refund_qty
-			, tot_refund_price
+			, request_refund_price
+			, determin_refund_price
 			, refund_state_cd
 			, refund_reason_cd
 			, refund_reason_user_write
 			, refund_content
 			, refund_remarks
+			, refund_partial_agree_content
 			, reg_dtm
 		)
 		VALUES
@@ -403,12 +413,14 @@
 			, #{productId}
 			, #{productPrice}
 			, #{refundQty}
-			, #{totRefundPrice}
+			, #{requestRefundPrice}
+			, #{determinRefundPrice}
 			, #{refundStateCd}
 			, #{refundReasonCd}
 			, #{refundReasonUserWrite}
 			, #{refundContent}
 			, #{refundRemarks}
+			, #{refundPartialAgreeContent}
 			, NOW()
 		)
 	</insert>
@@ -422,12 +434,14 @@
 			, product_id                         = #{productId}            
 			, product_price                      = #{productPrice}         
 			, refund_qty                         = #{refundQty}            
-			, tot_refund_price                   = #{totRefundPrice}       
+			, request_refund_price                   = #{requestRefundPrice}
+			, determin_refund_price                   = #{determinRefundPrice}       
 			, refund_state_cd                    = #{refundStateCd}        
 			, refund_reason_cd                   = #{refundReasonCd}       
 			, refund_reason_user_write           = #{refundReasonUserWrite}
 			, refund_content                     = #{refundContent}        
-			, refund_remarks                     = #{refundRemarks}        
+			, refund_remarks                     = #{refundRemarks}
+			, refund_partial_agree_content                     = #{refundPartialAgreeContent}        
 			, updt_dtm                           = NOW()                   
 		WHERE
 			id = #{id}
@@ -449,18 +463,23 @@
 			, a.product_id                                                                         AS productId            
 			, a.product_price                                                                      AS productPrice         
 			, a.refund_qty                                                                         AS refundQty            
-			, a.tot_refund_price                                                                   AS totRefundPrice
-			, FORMAT(a.tot_refund_price, 0)                                                        AS totRefundPriceStr             
+			, a.request_refund_price                                                                   AS requestRefundPrice
+			, FORMAT(a.request_refund_price, 0)                                                        AS requestRefundPriceStr
+			, a.determin_refund_price                                                                   AS determinRefundPrice
+			, FORMAT(a.determin_refund_price, 0)                                                        AS determinRefundPriceStr             
 			, a.refund_state_cd                                                                    AS refundStateCd        
 			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'ORD004' AND cd = a.refund_state_cd)  AS refundStateCdNm
 			, a.refund_reason_cd                                                                   AS refundReasonCd       
 			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'ORD003' AND cd = a.refund_reason_cd) AS refundReasonCdNm
 			, a.refund_reason_user_write                                                           AS refundReasonUserWrite
 			, a.refund_content                                                                     AS refundContent
+			, a.refund_remarks                                                                     AS refundRemarks
+			, a.refund_partial_agree_content                                                                     AS refundPartialAgreeContent
 			<![CDATA[
 			, REPLACE(REPLACE(a.refund_content  , '\n', '<br>'), '\r', '')               AS refundContentStr
+			, REPLACE(REPLACE(a.refund_remarks  , '\n', '<br>'), '\r', '')               AS refundRemarksStr
+			, REPLACE(REPLACE(a.refund_partial_agree_content  , '\n', '<br>'), '\r', '')               AS refundPartialAgreeContentStr
 			]]>
-			, a.refund_remarks                                                                     AS refundRemarks        
 			, a.reg_dtm                                                                            AS regDtm               
 			, a.updt_dtm                                                                           AS updtDtm              
 		FROM
@@ -470,6 +489,28 @@
 	        <foreach collection="array" item="item" open="(" close=")" index="index" separator=",">
 	            #{item}
 	        </foreach>
+	</select>
+	
+	<select id="getMaxOrderMasterHistoryInOrderStateCdRefundExceptById" resultType="refundInfoVO"  parameterType="String">
+		SELECT
+			a.order_state_cd                                                                       AS orderStateCd 
+		FROM
+			order_master_history a
+		WHERE
+			a.id = #{id}
+			AND a.history_seq =
+			(
+				SELECT
+					MAX(z.history_seq)
+				FROM
+					order_master_history z
+				WHERE 
+					z.id = #{id}
+					<![CDATA[
+					AND z.order_state_cd < 09
+					]]>
+				GROUP BY z.id
+			)
 	</select>
 	
 </mapper>

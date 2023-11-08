@@ -20,7 +20,31 @@
 
 <link rel="stylesheet" href="/resources/css/refundInfo.css">
 <script>
-    let aa = "${refundInfoVO}"
+    function cancleRefundBtn(){
+        if(confirm("환불요청을 취소하시겠습니까?")){
+            $.ajax({
+                type: "post",
+                url: "/user/refundDeleteLogic.do",
+                data: {
+                    id: "${loginUser.id}",
+                    orderId: "${orderMasterVO.id}"
+                },
+                dataType: "json",
+                success: function(response) {
+                    alert("정상적으로 취소되었습니다!");
+                    if(loginCheck()) {
+                        location.href ="/user/myPage.do";
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert("요청 실패했습니다.. 다시 시도해주세요!");
+                    location.reload();
+                }
+            });
+        }else {
+            return false;
+        }
+    }
     $(function() {
         for(let i = 1; i <= 5; i++){
             var padI = i.toString().padStart(2, '0');
@@ -31,7 +55,7 @@
         if("${refundInfoVO.refundStateCd}" == "04" || "${refundInfoVO.refundStateCd}" == "05"){
             $(".refund-state").eq(3).remove();
         }
-        if("${refundInfoVO.requestRefundPrice}" != "${refundInfoVO.determinRefundPrice}"){
+        if("${refundInfoVO.requestRefundPrice}" != "${refundInfoVO.determinRefundPrice}" && Number("${refundInfoVO.refundStateCd}") >= Number("02")){
             $("#secondTermsModal").modal("show");
         }
     })
@@ -67,7 +91,7 @@
                                 <button class="btn btn-outline-dark h-100 me-5 refund-state" disabled type="button">환불금<br>입금</button>
                             </c:if>
                             <c:if test="${refundInfoVO.refundStateCd == 1}">
-                                <button class="btn btn-outline-primary" type="button" onclick="javascript:clickRefundCancle()">환불 취소</button>
+                                <button class="btn btn-outline-primary" type="button" onclick="javascript:cancleRefundBtn()">환불 취소</button>
                             </c:if>
 						</div>
 					</div>
@@ -93,8 +117,8 @@
                                 </tr>
                             </c:if>
                             <tr>
-                                <th>환불 금액</th>
-                                <td>${refundInfoVO.requestRefundPrice}원</td>
+                                <th>환불 요청금액</th>
+                                <td>${refundInfoVO.requestRefundPriceStr}원</td>
                             </tr>
                             <tr>
                                 <th>환불 사유</th>
@@ -103,6 +127,10 @@
                             <tr>
                                 <th>환불 상세사유</th>
                                 <td>${refundInfoVO.refundReasonUserWrite}</td>
+                            </tr>
+                            <tr>
+                                <th>환불 결정금액</th>
+                                <td>${refundInfoVO.determinRefundPriceStr}원</td>
                             </tr>
                             <tr>
                                 <th>상태</th>
@@ -131,6 +159,7 @@
                                 <th>비고</th>
                                 <td>
                                     <div class="refund-info-scrollable">
+                                        ${refundInfoVO.refundRemarksStr}
                                     </div>
                                 </td>
                             </tr>
@@ -139,17 +168,17 @@
 				</div>
 	 		</div>
 			<!-- 2차동의 모달 -->
-            <div class="modal fade" id="secondTermsModal" tabindex="-1" aria-hidden="true">
-                <div class="modal-dialog">
+            <div class="modal fade" id="secondTermsModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h1 class="modal-title fs-5">환불심사 결과 동의서</h1>
                         </div>
                         <div class="modal-body">
-                            ...
+                            ${refundInfoVO.refundPartialAgreeContentStr}
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary">비동의</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">비동의</button>
                             <button type="button" class="btn btn-primary">동의</button>
                         </div>
                     </div>

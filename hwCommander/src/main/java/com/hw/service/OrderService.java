@@ -41,6 +41,6 @@ public interface OrderService {
 	public List<RefundInfoVO> getRefundInfoByOrderIdAndOrderSeq(String orderId, int orderSeq);
 	public Integer refundInfoRegistLogic(RefundInfoVO refundInfoVO, String orderStateCd);
 	public Integer refundInfoUpdateLogic(RefundInfoVO refundInfoVO);
-	public Integer refundInfoDeleteLogic(String id);
+	public Integer refundInfoDeleteLogic(String id, String orderId);
 	public List<RefundInfoVO> getRefundInfoByUserId(String userId);
 }
