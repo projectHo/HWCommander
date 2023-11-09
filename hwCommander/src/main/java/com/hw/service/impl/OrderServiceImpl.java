@@ -346,7 +346,14 @@ public class OrderServiceImpl implements OrderService {
 		updateVO.setRefundContent(refundInfoVO.getRefundContent());
 		updateVO.setRefundRemarks(refundInfoVO.getRefundRemarks());
 		updateVO.setRefundPartialAgreeContent(refundInfoVO.getRefundPartialAgreeContent());
+		
+		// user page에서 수정 가능한 항목들
+		updateVO.setRefundReasonCd(refundInfoVO.getRefundReasonCd());
+		updateVO.setRefundReasonUserWrite(refundInfoVO.getRefundReasonUserWrite());
+		
+		// 둘다 가능
 		updateVO.setRefundPartialAgreeCd(refundInfoVO.getRefundPartialAgreeCd());
+		
 		
 		result = orderDAO.updateRefundInfoVO(updateVO);
 		return result;

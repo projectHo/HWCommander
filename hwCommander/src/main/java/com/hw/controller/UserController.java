@@ -349,6 +349,12 @@ public class UserController {
 			, @RequestParam(value = "orderId", required = true) String orderId) {
 		return orderService.refundInfoDeleteLogic(id, orderId);
 	}
+	
+	@RequestMapping(value = "/refundUpdateLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer refundUpdateLogic(RefundInfoVO refundInfoVO) {
+		return orderService.refundInfoUpdateLogic(refundInfoVO);
+	}
 
 	/*--------------------------------------------------
 	 - 견적 저장소
