@@ -314,6 +314,8 @@
 			, c.refund_content                                                                     AS refundContent
 			, c.refund_remarks                                                                     AS refundRemarks
 			, c.refund_partial_agree_content                                                       AS refundPartialAgreeContent
+			, c.refund_partial_agree_cd                                                            AS refundPartialAgreeCd
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'ORD005' AND cd = c.refund_partial_agree_cd) AS refundPartialAgreeCdNm
 		FROM
 			order_detail a
 			LEFT OUTER JOIN 
@@ -368,7 +370,8 @@
 			, REPLACE(REPLACE(a.refund_remarks  , '\n', '<br>'), '\r', '')               AS refundRemarksStr
 			, REPLACE(REPLACE(a.refund_partial_agree_content  , '\n', '<br>'), '\r', '')               AS refundPartialAgreeContentStr
 			]]>
-			        
+			, a.refund_partial_agree_cd                                                            AS refundPartialAgreeCd
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'ORD005' AND cd = a.refund_partial_agree_cd) AS refundPartialAgreeCdNm
 			, a.reg_dtm                                                                            AS regDtm               
 			, a.updt_dtm                                                                           AS updtDtm              
 		FROM
@@ -403,6 +406,7 @@
 			, refund_content
 			, refund_remarks
 			, refund_partial_agree_content
+			, refund_partial_agree_cd
 			, reg_dtm
 		)
 		VALUES
@@ -421,6 +425,7 @@
 			, #{refundContent}
 			, #{refundRemarks}
 			, #{refundPartialAgreeContent}
+			, #{refundPartialAgreeCd}
 			, NOW()
 		)
 	</insert>
@@ -441,7 +446,8 @@
 			, refund_reason_user_write           = #{refundReasonUserWrite}
 			, refund_content                     = #{refundContent}        
 			, refund_remarks                     = #{refundRemarks}
-			, refund_partial_agree_content                     = #{refundPartialAgreeContent}        
+			, refund_partial_agree_content                     = #{refundPartialAgreeContent}
+			, refund_partial_agree_cd                     = #{refundPartialAgreeCd}        
 			, updt_dtm                           = NOW()                   
 		WHERE
 			id = #{id}
@@ -480,6 +486,8 @@
 			, REPLACE(REPLACE(a.refund_remarks  , '\n', '<br>'), '\r', '')               AS refundRemarksStr
 			, REPLACE(REPLACE(a.refund_partial_agree_content  , '\n', '<br>'), '\r', '')               AS refundPartialAgreeContentStr
 			]]>
+			, a.refund_partial_agree_cd                                                            AS refundPartialAgreeCd
+			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'ORD005' AND cd = a.refund_partial_agree_cd) AS refundPartialAgreeCdNm
 			, a.reg_dtm                                                                            AS regDtm               
 			, a.updt_dtm                                                                           AS updtDtm              
 		FROM

@@ -23,6 +23,8 @@ public class RefundInfoVO {
 	private String regDtm;
 	private String updtDtm;
 	private String refundPartialAgreeContent;
+	private String refundPartialAgreeCd;
+	private String refundPartialAgreeCdNm;
 	
 	//necessity column
 	private String refundContentStr;

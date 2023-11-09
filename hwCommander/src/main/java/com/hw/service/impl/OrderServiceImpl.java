@@ -346,6 +346,7 @@ public class OrderServiceImpl implements OrderService {
 		updateVO.setRefundContent(refundInfoVO.getRefundContent());
 		updateVO.setRefundRemarks(refundInfoVO.getRefundRemarks());
 		updateVO.setRefundPartialAgreeContent(refundInfoVO.getRefundPartialAgreeContent());
+		updateVO.setRefundPartialAgreeCd(refundInfoVO.getRefundPartialAgreeCd());
 		
 		result = orderDAO.updateRefundInfoVO(updateVO);
 		return result;

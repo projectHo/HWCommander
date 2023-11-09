@@ -35,12 +35,14 @@
     
 function dataSetting() {
 	$("#viewId").val("${selectRefundInfoData.id}");
+	$("#viewRefundPartialAgreeCd").val("${selectRefundInfoData.refundPartialAgreeCd}");
 	$("#orderId").val("${selectRefundInfoData.orderId}");
 	$("#orderSeq").val("${selectRefundInfoData.orderSeq}");
 	$("#productId").val("${selectRefundInfoData.productId}");
 	$("#productPrice").val("${selectRefundInfoData.productPrice}");
 	$("#refundQty").val("${selectRefundInfoData.refundQty}");
 	$("#requestRefundPrice").val("${selectRefundInfoData.requestRefundPrice}");
+	$("#determinRefundPrice").val("${selectRefundInfoData.determinRefundPrice}");
 	$("#refundStateCd").val("${selectRefundInfoData.refundStateCd}");
 	$("#refundReasonCd").val("${selectRefundInfoData.refundReasonCd}");
 	$("#refundReasonUserWrite").val("${selectRefundInfoData.refundReasonUserWrite}");
@@ -58,6 +60,7 @@ function dataSetting() {
 	$("#refundPartialAgreeContent").val(replace_result3);
 	
 	$("#id").val("${selectRefundInfoData.id}");
+	$("#refundPartialAgreeCd").val("${selectRefundInfoData.refundPartialAgreeCd}");
 }
 
 function validationCheck() {
@@ -72,6 +75,24 @@ function validationCheck() {
 		alert("환불상태를 선택하세요.");
 		$('#refundStateCd').focus();
 		return false;
+	}
+	
+	if($('#requestRefundPrice').val() != $('#determinRefundPrice').val()) {
+		// 신청환불금액과 결정환불금액이 다를경우
+		if($('#refundPartialAgreeContent').val() == "" || $('#refundPartialAgreeContent').val() == null) {
+			alert("신청금액과 결정금액이 다릅니다.\n환불부분동의내용을 입력하세요.");
+			$('#refundPartialAgreeContent').focus();
+			return false;
+		}
+		$('#refundPartialAgreeCd').val(null);
+	}else {
+		// 신청환불금액과 결정환불금액이 같을경우
+		if($('#refundPartialAgreeContent').val() != "" && $('#refundPartialAgreeContent').val() != null) {
+			alert("신청금액과 결정금액이 같습니다.\n환불부분동의내용을 제거해주하세요.");
+			$('#refundPartialAgreeContent').focus();
+			return false;
+		}
+		$('#refundPartialAgreeCd').val("01");
 	}
 	
 	return true;
@@ -186,8 +207,15 @@ function refundUpdateLogic() {
                                 Refund Update
                             </div>
                         </div>
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <p class="mb-0">신청환불금액과 결정환불금액이 다를 경우 환불부분동의내용은 필수입력항목이며 환불부분동의코드(사용자입력값)은 null로 초기화됩니다.</p>
+                                <p class="mb-0">신청환불금액과 결정환불금액이 같을 경우 환불부분동의내용은 입력할 수 없으며 환불부분동의코드(사용자입력값)은 자동으로 CODE ORD005의 01(미해당)으로 세팅됩니다.</p>
+                            </div>
+                        </div>
                         <form id="refund_update_form">
                         	<input type="hidden" id="id" name="id">
+                        	<input type="hidden" id="refundPartialAgreeCd" name="refundPartialAgreeCd">
                         	<div class="card mb-4">
                                <div class="card-body">
                                    <div class="row mb-3">
@@ -266,10 +294,21 @@ function refundUpdateLogic() {
 												<label for="refundReasonCd">환불사유</label>
                                            </div>
                                        </div>
-                                       <div class="col-md-6">
+                                       <div class="col-md-3">
                                            <div class="form-floating">
                                                <input class="form-control" id="refundReasonUserWrite" name="refundReasonUserWrite" type="text" placeholder="Enter refundReasonUserWrite" disabled/>
                                                <label for="refundReasonUserWrite">환불사유 구매자 직접입력</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+												<select class="form-select pt-4" id="viewRefundPartialAgreeCd" name="viewRefundPartialAgreeCd" disabled>
+												  <option value="00" selected>-선택-</option>
+												  <c:forEach var="item" items="${refund_partial_agree_cd}">
+													  <option value="${item.cd}">${item.nm}</option>
+												  </c:forEach>
+												</select>
+												<label for="viewRefundPartialAgreeCd">환불부분동의코드</label>
                                            </div>
                                        </div>
                                    </div>

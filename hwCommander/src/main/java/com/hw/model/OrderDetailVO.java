@@ -32,4 +32,6 @@ public class OrderDetailVO {
 	private String refundContent;
 	private String refundRemarks;
 	private String refundPartialAgreeContent;
+	private String refundPartialAgreeCd;
+	private String refundPartialAgreeCdNm;
 }
