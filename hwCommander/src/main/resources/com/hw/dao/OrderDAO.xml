@@ -491,7 +491,7 @@
 	        </foreach>
 	</select>
 	
-	<select id="getMaxOrderMasterHistoryInOrderStateCdRefundExceptById" resultType="refundInfoVO"  parameterType="String">
+	<select id="getMaxOrderMasterHistoryInOrderStateCdRefundExceptById" resultType="orderMasterHistoryVO"  parameterType="String">
 		SELECT
 			a.order_state_cd                                                                       AS orderStateCd 
 		FROM

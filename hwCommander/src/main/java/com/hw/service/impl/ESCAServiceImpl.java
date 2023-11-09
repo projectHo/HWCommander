@@ -2115,11 +2115,13 @@ public class ESCAServiceImpl implements ESCAService {
 			 - CPU List에서 apu column과 값이 같지 않은 경우 소거처리
 			 - 23.11.07 추가 
 			*--------------------------------------------------*/
-			String gpuName = partsGpuHistoryVOList.get(gpuIndex).getPartsName();
-			
-			for(int i = partsCpuHistoryVOList.size()-1; i >= 0; i--) {
-				if(!gpuName.equals(partsCpuHistoryVOList.get(i).getApu())) {
-					partsCpuHistoryVOList.remove(i);
+			if("00".equals(partsGpuHistoryVOList.get(gpuIndex).getGledCd())) {
+				String gpuName = partsGpuHistoryVOList.get(gpuIndex).getPartsName();
+				
+				for(int i = partsCpuHistoryVOList.size()-1; i >= 0; i--) {
+					if(!gpuName.equals(partsCpuHistoryVOList.get(i).getApu())) {
+						partsCpuHistoryVOList.remove(i);
+					}
 				}
 			}
 			
