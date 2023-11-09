@@ -349,6 +349,18 @@ public class UserController {
 			, @RequestParam(value = "orderId", required = true) String orderId) {
 		return orderService.refundInfoDeleteLogic(id, orderId);
 	}
+	
+	@RequestMapping(value = "/updateRefundReasonCdAndUserWrite.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer updateRefundReasonCdAndUserWrite(RefundInfoVO refundInfoVO) {
+		return orderService.updateRefundReasonCdAndUserWrite(refundInfoVO);
+	}
+	
+	@RequestMapping(value = "/updateRefundPartialAgreeCd.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer updateRefundPartialAgreeCd(RefundInfoVO refundInfoVO) {
+		return orderService.updateRefundPartialAgreeCd(refundInfoVO);
+	}
 
 	/*--------------------------------------------------
 	 - 견적 저장소

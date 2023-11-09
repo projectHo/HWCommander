@@ -1117,6 +1117,7 @@ public class AdminController {
 	public String goRefundUpdate(HttpServletRequest request, Model model, @RequestParam(value = "id", required = true) String id) {
 		model.addAttribute("refund_reason_cd", commonService.getComnCdDetailList("ORD003"));
 		model.addAttribute("refund_state_cd", commonService.getComnCdDetailList("ORD004"));
+		model.addAttribute("refund_partial_agree_cd", commonService.getComnCdDetailList("ORD005"));
 		model.addAttribute("selectRefundInfoData", orderService.getRefundInfoById(id));
 		return adminLoginCheck(request, model, "refundUpdate");
 	}
@@ -1124,7 +1125,7 @@ public class AdminController {
 	@RequestMapping(value = "/refundUpdateLogic.do", method = RequestMethod.POST)
 	@ResponseBody
 	public Integer refundUpdateLogic(RefundInfoVO refundInfoVO) {
-		return orderService.refundInfoUpdateLogic(refundInfoVO);
+		return orderService.refundInfoUpdateLogicForAdmin(refundInfoVO);
 	}
 	
 	/*--------------------------------------------------

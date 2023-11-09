@@ -40,7 +40,9 @@ public interface OrderService {
 	// 23.11.06 협의로 인해 로직 DB구조 설계한 대로 여러 건 조회 가능(한 제품에 대해 여러 환불건 존재 가능함.)
 	public List<RefundInfoVO> getRefundInfoByOrderIdAndOrderSeq(String orderId, int orderSeq);
 	public Integer refundInfoRegistLogic(RefundInfoVO refundInfoVO, String orderStateCd);
-	public Integer refundInfoUpdateLogic(RefundInfoVO refundInfoVO);
+	public Integer refundInfoUpdateLogicForAdmin(RefundInfoVO refundInfoVO);
 	public Integer refundInfoDeleteLogic(String id, String orderId);
 	public List<RefundInfoVO> getRefundInfoByUserId(String userId);
+	public Integer updateRefundReasonCdAndUserWrite(RefundInfoVO refundInfoVO);
+	public Integer updateRefundPartialAgreeCd(RefundInfoVO refundInfoVO);
 }

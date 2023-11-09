@@ -20,13 +20,14 @@
 
 <link rel="stylesheet" href="/resources/css/refundInfo.css">
 <script>
+    let a = "${refundInfoVO}"
     function cancleRefundBtn(){
         if(confirm("환불요청을 취소하시겠습니까?")){
             $.ajax({
                 type: "post",
                 url: "/user/refundDeleteLogic.do",
                 data: {
-                    id: "${loginUser.id}",
+                    id: "${refundInfoVO.id}",
                     orderId: "${orderMasterVO.id}"
                 },
                 dataType: "json",
@@ -38,11 +39,97 @@
                 },
                 error: function(xhr, status, error) {
                     alert("요청 실패했습니다.. 다시 시도해주세요!");
+                    console.log(error);
                     location.reload();
                 }
             });
         }else {
             return false;
+        }
+    }
+    function disAgreeTerms(){
+        let refundPartialAgreeCd = "03";
+        if(confirm("부분 환불에 동의하지 않으시면 추가심사가 필요합니다.")){
+            $.ajax({
+                type: "post",
+                url: "/user/updateRefundPartialAgreeCd.do",
+                data: {
+                    id: "${refundInfoVO.id}",
+                    refundPartialAgreeCd: refundPartialAgreeCd
+                },
+                dataType: "json",
+                success: function() {
+                    alert("처리가 완료되었습니다.");
+                    if(loginCheck()) {
+                        location.reload();
+                    }
+                },
+                error: function() {
+                    alert("요청 실패했습니다.. 다시 시도해주세요!");
+                    location.reload();
+                }
+            });
+        }else {
+            return false;
+        }
+    }
+    function agreeTerms(){
+        let refundPartialAgreeCd = "02";
+        if(confirm("동의하시면 안내드린 내용으로 환불 처리 됩니다!")){
+            $.ajax({
+                type: "post",
+                url: "/user/updateRefundPartialAgreeCd.do",
+                data: {
+                    id: "${refundInfoVO.id}",
+                    refundPartialAgreeCd: refundPartialAgreeCd
+                },
+                dataType: "json",
+                success: function() {
+                    alert("처리가 완료되었습니다.");
+                    if(loginCheck()) {
+                        location.reload();
+                    }
+                },
+                error: function() {
+                    alert("요청 실패했습니다.. 다시 시도해주세요!");
+                    location.reload();
+                }
+            });
+        }else {
+            return false;
+        }
+    }
+    let refundReasonCd;
+    let refundReasonUserWrite = null;
+    function changeRefundReason(el){
+        $.ajax({
+            type: "post",
+            url: "/user/updateRefundReasonCdAndUserWrite.do",
+            data: {
+                id: "${refundInfoVO.id}",
+                refundReasonCd: refundReasonCd,
+                refundReasonUserWrite: refundReasonUserWrite,
+            },
+            dataType: "json",
+            success: function() {
+                alert("수정 완료되었습니다.");
+                if(loginCheck()) {
+                    location.reload();
+                }
+            },
+            error: function() {
+                alert("수정 실패했습니다.. 다시 시도해주세요!");
+                location.reload();
+            }
+        });
+    }
+    function refundReasonDropdownBtn(el){
+        $(".refund-reason-title").html($(el).html());
+        refundReasonCd = $(el).attr("cd");
+        if($(el).attr("cd") == "99"){
+            $(".reason-user-write").addClass("show");
+        }else {
+            $(".reason-user-write").removeClass("show");
         }
     }
     $(function() {
@@ -121,8 +208,8 @@
                                 <td>${refundInfoVO.requestRefundPriceStr}원</td>
                             </tr>
                             <tr>
-                                <th>환불 사유</th>
-                                <td>${refundInfoVO.refundReasonCdNm}</td>
+                                <th class="d-flex w-100 justify-content-between align-items-center"><span class="align-middle">환불 사유</span><button class="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#changeRefundReasonModal">수정</button></th>
+                                <td class="align-middle">${refundInfoVO.refundReasonCdNm}</td>
                             </tr>
                             <tr>
                                 <th>환불 상세사유</th>
@@ -178,8 +265,40 @@
                             ${refundInfoVO.refundPartialAgreeContentStr}
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">비동의</button>
-                            <button type="button" class="btn btn-primary">동의</button>
+                            <button type="button" class="btn btn-secondary" onclick="javascript:disAgreeTerms()">비동의</button>
+                            <button type="button" class="btn btn-primary" onclick="javascript:agreeTerms()">동의</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 환불사유 수정모달 -->
+            <div class="modal fade" id="changeRefundReasonModal" data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5">환불사유 수정하기</h1>
+                        </div>
+                        <div class="modal-body">
+                            <button class="btn btn-outline-dark dropdown-toggle refund-reason-title w-50 mb-3" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                환불 사유
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="javascript:void(0);" cd="01" onclick="javascript:refundReasonDropdownBtn(this)">단순변심</a></li>
+                                <li><a class="dropdown-item" href="javascript:void(0);" cd="01" onclick="javascript:refundReasonDropdownBtn(this)">개봉시 파손</a></li>
+                                <li><a class="dropdown-item" href="javascript:void(0);" cd="01" onclick="javascript:refundReasonDropdownBtn(this)">사용 중 문제 발생</a></li>
+                                <li><a class="dropdown-item" href="javascript:void(0);" cd="02" onclick="javascript:refundReasonDropdownBtn(this)">오배송</a></li>
+                                <li><a class="dropdown-item" href="javascript:void(0);" cd="02" onclick="javascript:refundReasonDropdownBtn(this)">구성품 누락</a></li>
+                                <li><a class="dropdown-item" href="javascript:void(0);" cd="03" onclick="javascript:refundReasonDropdownBtn(this)">도착 시 파손</a></li>
+                                <li><a class="dropdown-item" href="javascript:void(0);" cd="99" onclick="javascript:refundReasonDropdownBtn(this)">기타</a></li>
+                            </ul>
+                            <div class="form-floating mb-3 fade reason-user-write">
+                                <input type="text" class="form-control" id="refundReason" placeholder="" autocomplete="off">
+                                <label for="refundReason">환불 상세사유</label>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                            <button type="button" class="btn btn-primary" onclick="javascript:changeRefundReason()">수정</button>
                         </div>
                     </div>
                 </div>

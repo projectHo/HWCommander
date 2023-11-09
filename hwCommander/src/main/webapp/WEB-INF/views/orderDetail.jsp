@@ -536,6 +536,12 @@ function goRefundUpdate(refundId) {
 		                                               <label for="refundPartialAgreeContent">환불부분동의내용</label>
 		                                           </div>
 		                                       </div>
+		                                       <div class="col-md-3">
+		                                           <div class="form-floating">
+		                                               <input class="form-control" id="refundPartialAgreeCdNm_${status.index}" name="refundPartialAgreeCdNm" type="text" value="${item.refundPartialAgreeCdNm}" placeholder="Enter refundPartialAgreeCdNm" disabled/>
+		                                               <label for="refundPartialAgreeCdNm">환불부분동의코드명</label>
+		                                           </div>
+		                                       </div>
 		                                   </div>
 		                                   <div class="row mb-3">
 		                                       <div class="col-md-12">

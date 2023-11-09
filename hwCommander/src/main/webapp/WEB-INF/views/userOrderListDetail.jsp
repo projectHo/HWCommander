@@ -303,6 +303,7 @@
 			$("#agree-terms").removeClass("btn-outline-primary").addClass("btn-primary").attr("disabled",false);
 		}
 	}
+	let refundReasonUserWrite = null;
 	function requestRefundBtn(){
 		if($("#refundCount").val() == ""){
 			alert("환불 수량을 입력해주세요");
@@ -316,7 +317,7 @@
 			alert("환불 사유를 선택해주세요");
 			return false;
 		}
-		if($("#refundReason").val() == ""){
+		if($("#refundReason").parent().hasClass("show") && $("#refundReason").val() == ""){
 			alert("환불 사유를 입력해주세요");
 			return false;
 		}
@@ -339,7 +340,7 @@
 				requestRefundPrice : requestRefundPrice,
 				refundStateCd : "01",
 				refundReasonCd : refundCd,
-				refundReasonUserWrite : $("#refundReason").val(),
+				refundReasonUserWrite : refundReasonUserWrite,
 			};
 			let orderStateCd = "09";
 
@@ -355,10 +356,11 @@
         			contentType: false,
 					success: function(response) {
 						alert("정상적으로 요청했습니다!");
-						location.reload();
+						location.href = "/user/myPage.do";
 					},
 					error: function(xhr, status, error) {
 						alert("요청에 실패했습니다.. 다시 입력해주세요!");
+						location.reload();
 						console.log(error);
 					}
 				});
@@ -392,7 +394,7 @@
 				requestRefundPrice : totRefundPrice,
 				refundStateCd : "01",
 				refundReasonCd : refundCd,
-				refundReasonUserWrite : $("#refundReason").val(),
+				refundReasonUserWrite : refundReasonUserWrite,
 			};
 			
 
@@ -408,7 +410,7 @@
         			contentType: false,
 					success: function(response) {
 						alert("정상적으로 요청했습니다!");
-						location.reload();
+						location.href = "/user/myPage.do";
 					},
 					error: function(xhr, status, error) {
 						alert("요청에 실패했습니다.. 다시 입력해주세요!");
@@ -419,53 +421,19 @@
 				return false;
 			}
 		}
-		// if("${orderMasterVO.orderStateCd}" != "01"){
-		// 	if("${orderMasterVO.orderStateCd}" === '09'){
-		// 		alert("환불 진행중입니다!");
-		// 	}else if("${orderMasterVO.orderStateCd}" === "10"){
-		// 		alert("환불 완료된 주문입니다!");
-		// 	}else {
-		// 		// 수량 체크 추가
-		// 		if("${orderDetailVOList[0].productOrderQty}" >= 2){
-		// 			// 수량 입력 추가
-		// 		}else {
-		// 			$.ajax({
-		// 				type: "post",
-		// 				url: "/user/refundInfoRegistLogic.do",
-		// 				data: {
-		// 					id: $(".order-num").html(),
-
-		// 				},
-		// 				dataType: "json",
-		// 				success: function(response) {
-		// 					alert("정상적으로 요청했습니다!");
-		// 					location.reload();
-		// 				},
-		// 				error: function(xhr, status, error) {
-		// 					alert("요청에 실패했습니다.. 다시 입력해주세요!");
-		// 				}
-		// 			});
-		// 		}
-		// 	}
-		// }else {
-		// 	alert("아직 결제 전입니다! 결제 후 이용해주세요~!");
-		// }
 	}
 	let refundCd;
-	function refundResonDropdownBtn(el){
-		if($(el).attr("cd") == "01"){
-			$(".refund-reson-title").html($(el).html());
-			refundCd = $(el).attr("cd");
-		}else if($(el).attr("cd") == "02"){
-			$(".refund-reson-title").html($(el).html());
-			refundCd = $(el).attr("cd");
-		}else if($(el).attr("cd") == "03"){
-			$(".refund-reson-title").html($(el).html());
-			refundCd = $(el).attr("cd");
+	function refundReasonDropdownBtn(el){
+		$(".refund-reason-title").html($(el).html());
+		refundCd = $(el).attr("cd");
+		if($(el).attr("cd") == "99"){
+			$(".refund-user-write").addClass("show");
 		}else {
-			$(".refund-reson-title").html($(el).html());
-			refundCd = $(el).attr("cd");
+			$(".refund-user-write").removeClass("show");
 		}
+	}
+	function refundReasonUserWriteText(el){
+		refundReasonUserWrite = String($(el).val());
 	}
 	function cancleOrderBtn(){
 		if(confirm("정말 취소 하시겠습니까?")){
@@ -581,10 +549,14 @@
 							<c:if test="${orderMasterVO.orderStateCd == 1}">
 								<button class="btn btn-outline-success me-md-2" type="button" onclick="javascript:cancleOrderBtn()">주문 취소</button>
 							</c:if>
-							<c:if test="${orderMasterVO.orderStateCd > 1}">
+							<c:if test="${orderMasterVO.orderStateCd > 1 && orderMasterVO.orderStateCd != 11}">
 								<button class="btn btn-outline-primary me-md-2" type="button" onclick="javascript:clickStatusBtn()">현황 확인</button>
 								<button class="btn btn-outline-success me-md-2" type="button" onclick="javascript:requestVideoBtn()">영상 요청</button>
 								<button class="btn btn-outline-danger" type="button" data-bs-toggle="modal" data-bs-target="#refundTermModal">환불 요청</button>
+							</c:if>
+							<c:if test="${orderMasterVO.orderStateCd == 11}">
+								<button class="btn btn-outline-primary me-md-2" type="button" onclick="javascript:clickStatusBtn()">현황 확인</button>
+								<button class="btn btn-outline-success me-md-2" type="button" onclick="javascript:requestVideoBtn()">영상 요청</button>
 							</c:if>
 						</div>	
 					</div>
@@ -738,18 +710,21 @@
 								<!-- 단일 -->
 								<c:if test="${orderDetailVOList[0].productOrderQty == 1}">
 									<div class="dropdown w-50 mb-3">
-										<button class="btn btn-secondary dropdown-toggle refund-reson-title w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+										<button class="btn btn-outline-dark dropdown-toggle refund-reason-title w-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 											환불 사유
 										</button>
 										<ul class="dropdown-menu">
-											<li><a class="dropdown-item" href="#" cd="01" onclick="javascript:refundResonDropdownBtn(this)">소비자 귀책</a></li>
-											<li><a class="dropdown-item" href="#" cd="02" onclick="javascript:refundResonDropdownBtn(this)">생산자 귀책</a></li>
-											<li><a class="dropdown-item" href="#" cd="03" onclick="javascript:refundResonDropdownBtn(this)">배송지 귀책</a></li>
-											<li><a class="dropdown-item" href="#" cd="99" onclick="javascript:refundResonDropdownBtn(this)">기타</a></li>
+											<li><a class="dropdown-item" href="javascript:void(0);" cd="01" onclick="javascript:refundReasonDropdownBtn(this)">단순변심</a></li>
+											<li><a class="dropdown-item" href="javascript:void(0);" cd="01" onclick="javascript:refundReasonDropdownBtn(this)">개봉시 파손</a></li>
+											<li><a class="dropdown-item" href="javascript:void(0);" cd="01" onclick="javascript:refundReasonDropdownBtn(this)">사용 중 문제 발생</a></li>
+											<li><a class="dropdown-item" href="javascript:void(0);" cd="02" onclick="javascript:refundReasonDropdownBtn(this)">오배송</a></li>
+											<li><a class="dropdown-item" href="javascript:void(0);" cd="02" onclick="javascript:refundReasonDropdownBtn(this)">구성품 누락</a></li>
+											<li><a class="dropdown-item" href="javascript:void(0);" cd="03" onclick="javascript:refundReasonDropdownBtn(this)">도착 시 파손</a></li>
+											<li><a class="dropdown-item" href="javascript:void(0);" cd="99" onclick="javascript:refundReasonDropdownBtn(this)">기타</a></li>
 										</ul>
 									</div>
-									<div class="form-floating mb-3">
-										<input type="text" class="form-control" id="refundReason" placeholder="" autocomplete="off">
+									<div class="form-floating mb-3 refund-user-write fade">
+										<input type="text" class="form-control" id="refundReason" placeholder="" autocomplete="off" oninput="javascript:refundReasonUserWriteText(this)">
 										<label for="refundReason">환불 사유</label>
 									</div>
 								</c:if>
@@ -770,18 +745,21 @@
 										</div>
 									</div>
 									<div class="dropdown w-50 mb-3">
-										<button class="btn btn-secondary dropdown-toggle refund-reson-title w-100 h-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+										<button class="btn btn-secondary dropdown-toggle refund-reason-title w-100 h-100" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 											환불 사유
 										</button>
 										<ul class="dropdown-menu">
-											<li><a class="dropdown-item" href="#" cd="01" onclick="javascript:refundResonDropdownBtn(this)">소비자 귀책</a></li>
-											<li><a class="dropdown-item" href="#" cd="02" onclick="javascript:refundResonDropdownBtn(this)">생산자 귀책</a></li>
-											<li><a class="dropdown-item" href="#" cd="03" onclick="javascript:refundResonDropdownBtn(this)">배송지 귀책</a></li>
-											<li><a class="dropdown-item" href="#" cd="99" onclick="javascript:refundResonDropdownBtn(this)">기타</a></li>
+											<li><a class="dropdown-item" href="javascript:void(0);" cd="01" onclick="javascript:refundReasonDropdownBtn(this)">단순변심</a></li>
+											<li><a class="dropdown-item" href="javascript:void(0);" cd="01" onclick="javascript:refundReasonDropdownBtn(this)">개봉시 파손</a></li>
+											<li><a class="dropdown-item" href="javascript:void(0);" cd="01" onclick="javascript:refundReasonDropdownBtn(this)">사용 중 문제 발생</a></li>
+											<li><a class="dropdown-item" href="javascript:void(0);" cd="02" onclick="javascript:refundReasonDropdownBtn(this)">오배송</a></li>
+											<li><a class="dropdown-item" href="javascript:void(0);" cd="02" onclick="javascript:refundReasonDropdownBtn(this)">구성품 누락</a></li>
+											<li><a class="dropdown-item" href="javascript:void(0);" cd="03" onclick="javascript:refundReasonDropdownBtn(this)">도착 시 파손</a></li>
+											<li><a class="dropdown-item" href="javascript:void(0);" cd="99" onclick="javascript:refundReasonDropdownBtn(this)">기타(직접입력)</a></li>
 										</ul>
 									</div>
-									<div class="form-floating mb-3">
-										<input type="text" class="form-control" id="refundReason" placeholder="" autocomplete="off">
+									<div class="form-floating refund-user-write mb-3 fade">
+										<input type="text" class="form-control" id="refundReason" placeholder="" autocomplete="off" oninput="javascript:refundReasonUserWriteText(this)">
 										<label for="refundReason">환불 사유</label>
 									</div>
 								</c:if>
