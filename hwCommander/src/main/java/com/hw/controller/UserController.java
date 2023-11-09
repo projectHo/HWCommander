@@ -350,10 +350,16 @@ public class UserController {
 		return orderService.refundInfoDeleteLogic(id, orderId);
 	}
 	
-	@RequestMapping(value = "/refundUpdateLogic.do", method = RequestMethod.POST)
+	@RequestMapping(value = "/updateRefundReasonCdAndUserWrite.do", method = RequestMethod.POST)
 	@ResponseBody
-	public Integer refundUpdateLogic(RefundInfoVO refundInfoVO) {
-		return orderService.refundInfoUpdateLogic(refundInfoVO);
+	public Integer updateRefundReasonCdAndUserWrite(RefundInfoVO refundInfoVO) {
+		return orderService.updateRefundReasonCdAndUserWrite(refundInfoVO);
+	}
+	
+	@RequestMapping(value = "/updateRefundPartialAgreeCd.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer updateRefundPartialAgreeCd(RefundInfoVO refundInfoVO) {
+		return orderService.updateRefundPartialAgreeCd(refundInfoVO);
 	}
 
 	/*--------------------------------------------------

@@ -1125,7 +1125,7 @@ public class AdminController {
 	@RequestMapping(value = "/refundUpdateLogic.do", method = RequestMethod.POST)
 	@ResponseBody
 	public Integer refundUpdateLogic(RefundInfoVO refundInfoVO) {
-		return orderService.refundInfoUpdateLogic(refundInfoVO);
+		return orderService.refundInfoUpdateLogicForAdmin(refundInfoVO);
 	}
 	
 	/*--------------------------------------------------

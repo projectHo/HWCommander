@@ -335,25 +335,42 @@ public class OrderServiceImpl implements OrderService {
 	}
 	
 	@Override
-	public Integer refundInfoUpdateLogic(RefundInfoVO refundInfoVO) {
+	public Integer refundInfoUpdateLogicForAdmin(RefundInfoVO refundInfoVO) {
 		int result = 0;
 		
 		RefundInfoVO updateVO = getRefundInfoById(refundInfoVO.getId());
-		// admin page에서 수정 가능한 항목들
 //		updateVO.setTotRefundPrice(refundInfoVO.getTotRefundPrice());
 		updateVO.setDeterminRefundPrice(refundInfoVO.getDeterminRefundPrice());
 		updateVO.setRefundStateCd(refundInfoVO.getRefundStateCd());
 		updateVO.setRefundContent(refundInfoVO.getRefundContent());
 		updateVO.setRefundRemarks(refundInfoVO.getRefundRemarks());
 		updateVO.setRefundPartialAgreeContent(refundInfoVO.getRefundPartialAgreeContent());
+		updateVO.setRefundPartialAgreeCd(refundInfoVO.getRefundPartialAgreeCd());
 		
-		// user page에서 수정 가능한 항목들
+		result = orderDAO.updateRefundInfoVO(updateVO);
+		return result;
+	}
+	
+	@Override
+	public Integer updateRefundReasonCdAndUserWrite(RefundInfoVO refundInfoVO) {
+		int result = 0;
+		
+		RefundInfoVO updateVO = getRefundInfoById(refundInfoVO.getId());
+		
 		updateVO.setRefundReasonCd(refundInfoVO.getRefundReasonCd());
 		updateVO.setRefundReasonUserWrite(refundInfoVO.getRefundReasonUserWrite());
 		
-		// 둘다 가능
-		updateVO.setRefundPartialAgreeCd(refundInfoVO.getRefundPartialAgreeCd());
+		result = orderDAO.updateRefundInfoVO(updateVO);
+		return result;
+	}
+	
+	@Override
+	public Integer updateRefundPartialAgreeCd(RefundInfoVO refundInfoVO) {
+		int result = 0;
 		
+		RefundInfoVO updateVO = getRefundInfoById(refundInfoVO.getId());
+		
+		updateVO.setRefundPartialAgreeCd(refundInfoVO.getRefundPartialAgreeCd());
 		
 		result = orderDAO.updateRefundInfoVO(updateVO);
 		return result;
