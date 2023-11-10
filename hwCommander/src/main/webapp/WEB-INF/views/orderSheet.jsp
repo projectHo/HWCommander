@@ -68,6 +68,7 @@
 %>
 
 <script>
+	let a = "${productMasterVO}"
     $(function() {
 		// bootstrap 툴팁
 		const tooltipTriggerList = $('[data-bs-toggle="tooltip"]');
@@ -427,9 +428,6 @@ function recDupliChk(id) {
         }
     });
 }
-
-let aa = "${banpumMasterVO}";
-
 </script>
 </head>
 <body class="order-sheet-body">
@@ -484,10 +482,10 @@ let aa = "${banpumMasterVO}";
 											<div class="col" id="product-detail-box">
 												<c:choose>
 													<c:when test="${productMasterVO.windowsName == 'COEM'}">
-														<p class="mb-1">윈도우 : 메인보드 귀속형(${item.windowsName})</p>
+														<p class="mb-1">윈도우 : 메인보드 귀속형(${productMasterVO.windowsName})</p>
 													</c:when>
 													<c:when test="${productMasterVO.windowsName == 'FPP'}">
-														<p class="mb-1">윈도우 : 구매형(${item.windowsName})</p>
+														<p class="mb-1">윈도우 : 구매형(${productMasterVO.windowsName})</p>
 													</c:when>
 													<c:otherwise>
 														<p class="mb-1">윈도우 : 미포함</p>
@@ -505,8 +503,13 @@ let aa = "${banpumMasterVO}";
 										</div>
 										
 									</td>
-									<td class="align-middle">
-										<p class="p-2">${productMasterVO.productPriceStr}</p>
+									<td class="align-middle text-center">
+										<div class="p-2">
+											<p class="p-2 border-bottom fs-4">주문 내역</p>
+											<p class="p-2 border-bottom">상품 가격 : ${orderQtys}개, 개당${productMasterVO.productPriceStr}</p>
+											<p class="p-2 border-bottom">박스 추가 : ${boxQtys}개, 총 ${boxTotPriceStr}원</p>
+											<h4 class="p-2"> 총 금액 : ${totOrderPriceStr}원</h4>
+										</div>
 									</td>
 								</tr>
 							</c:if>
@@ -579,7 +582,7 @@ let aa = "${banpumMasterVO}";
 									</td>
 									<td class="align-middle text-center">
 										<div class="p-2">
-											<p class="p-2 border-bottom">주문 내역</p>
+											<p class="p-2 border-bottom fs-4">주문 내역</p>
 											<p class="p-2 border-bottom">상품 가격 : ${orderQtys}개, 개당${banpumMasterVO.banpumPriceStr}</p>
 											<p class="p-2 border-bottom">박스 추가 : ${boxQtys}개, 총 ${boxTotPrice}원</p>
 											<h4 class="p-2"> 총 금액 : ${totOrderPrice}원</h4>

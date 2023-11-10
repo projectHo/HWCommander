@@ -280,6 +280,20 @@ public class UserController {
 		return userLoginCheck(request, model, "myPage");
 	}
 	
+	@RequestMapping(value = "/idAndPwCheck.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Boolean idAndPwCheck(HttpServletRequest request, UserInfoVO userInfoVO) {
+		boolean loginCheck = false;
+		
+		UserInfoVO resultVO = userService.getUserInfoByIdAndPw(userInfoVO);
+		
+		if(null != resultVO.getId()) {
+			loginCheck = true;
+		}
+		
+		return loginCheck;
+	}
+	
 //	23.11.05 refund_info 로직이 구현완료됨으로써 기존 order_master에 orderStateCd 직접변경 하던 로직 폐기 
 //	@RequestMapping(value = "/orderRefundRequestToAdminLogic.do", method = RequestMethod.POST)
 //	@ResponseBody

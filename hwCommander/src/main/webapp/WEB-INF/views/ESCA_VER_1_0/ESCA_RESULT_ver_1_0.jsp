@@ -149,15 +149,52 @@
 		location.href = "/ESCA/ESCASelect.do";
 		sessionStorage.clear();
 	}
+	let orderQtys;
+	let boxQtys;
 	function clickOrderBtn() {
 		// 09.06 오류 상태 추가 및 램 변경시 업데이트 로직 추가 필요
 		if(sessionStorage.getItem("pay") == "y"){
-			location.href = "/order/sheet.do?accessRoute=direct&productIds="+"${productMaster.id}";
+			location.href = "/order/sheet.do?accessRoute=direct&productIds="+"${productMaster.id}"+"&orderQtys="+orderQtys+"&boxQtys="+boxQtys;
 		}else {
 			alert("과거 견적 기준으로는 구매하실 수 없습니다!");
 		}
 	}
-
+	function clickSingleOrderBtn(){
+		if(sessionStorage.getItem("pay") == "y"){
+			if(confirm("사용된 제품 박스를 추가할까요? (5,000원)")){
+				location.href = "/order/sheet.do?accessRoute=direct&productIds="+"${productMaster.id}"+"&orderQtys=1&boxQtys=1";
+			}else {
+				location.href = "/order/sheet.do?accessRoute=direct&productIds="+"${productMaster.id}"+"&orderQtys=1&boxQtys=0";
+			}
+		}else {
+			alert("과거 견적 기준으로는 구매하실 수 없습니다!");
+		}
+	}
+	const numberCheck = /^[0-9]+$/;
+	function orderCount(el){
+		if($(el).val().length>=1 && !numberCheck.test($(el).val())){
+			alert("숫자만 입력해주세요");
+			$(el).val("");
+			return false;
+		}
+		if(Number($(el).val()) >= Number("${productMaster.productQty}")){
+			$("#orderCount").val("${productMaster.productQty}");
+		}
+		orderQtys = $(el).val();
+		console.log(orderQtys);
+	}
+	function orderBoxCount(el){
+		if($(el).val().length>=1 && !numberCheck.test($(el).val())){
+			alert("숫자만 입력해주세요");
+			$(el).val("");
+			return false;
+		}
+		if(Number($(el).val()) > $("#orderCount").val()){
+			$(el).val($("#orderCount").val());
+		}
+		boxQtys = $(el).val();
+		console.log(boxQtys);
+	}
 	function clickSaveBtn(){
 		$("#modal-description").modal("show");
 	}
@@ -392,6 +429,7 @@
 										<p class="card-text mb-0 fw-bold pb-1">CASE : <span class="fw-normal case-text">오류</span></p>
 										<p class="card-text mb-0 fw-bold">PSU : <span class="fw-normal psu-text">오류</span></p>
 										<p class="card-text mb-0 fw-bold">RAM : <span class="fw-normal ram-text">오류</span></p>
+										<p class="card-text mb-0 fw-bold">OS : <span class="fw-normal">${productMaster.windowsName}</span></p>
 									</div>
 									<!-- <h4 class="card-title">제품 설명</h4>
 									<div class="container mb-3">
@@ -416,7 +454,12 @@
 					</div>
 					<div class="col-3"></div>
 					<div class="col">
-						<button type="button" class="form-control" onclick="javascript:clickOrderBtn()">주문하기</button>
+						<c:if test="${productMaster.productQty > 1}">
+							<button type="button" class="form-control" data-bs-toggle="modal" data-bs-target="#orderCheck">주문하기</button>
+						</c:if>
+						<c:if test="${productMaster.productQty == 1}">
+							<button type="button" class="form-control" onclick="javascript:clickSingleOrderBtn()">주문하기</button>
+						</c:if>
 					</div>
 					<div class="col">
 						<button type="button" class="form-control" onclick="javascript:clickCaptureBtn()">캡쳐하기</button>
@@ -446,7 +489,37 @@
 			<!-- 빈 영역 -->
 			<div class="justify-content-end" style="width: 15%!important;"></div>
 		</div>
-		
+		<!-- 주문 수량 모달 -->
+		<div class="modal fade" id="orderCheck" tabindex="-1" data-bs-keyboard="false" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5">주문 수량확인</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<div class="d-flex gap-2">
+							<div class="w-50">
+								<div class="form-floating">
+									<input type="text" class="form-control" id="orderCount" autocomplete="off" oninput="javascript:orderCount(this)">
+									<label for="orderCount">주문 수량(최대 ${productMaster.productQty}개)</label>
+								</div>
+							</div>
+							<div class="w-50">
+								<div class="form-floating">
+									<input type="text" class="form-control" id="orderBoxCount" autocomplete="off" oninput="javascript:orderBoxCount(this)">
+									<label for="orderBoxCount">박스 추가수량(개당 5,000원)</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+						<button type="button" class="btn btn-primary" onclick="javascript:clickOrderBtn()">주문하기</button>
+					</div>
+				</div>
+			</div>
+		</div>
 		<!-- 2022.11.16 디자인이미지 추가 -->
 		<div class="mt-5 mx-5" style="height: 15%!important;">
 			<img class="img-fluid float-end" src="/resources/img/layer-34-1200x107.png" alt="">

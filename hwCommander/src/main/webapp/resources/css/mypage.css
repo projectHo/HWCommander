@@ -14,3 +14,7 @@
     background: linear-gradient(212deg, rgba(223,34,238,0.8) 3%, rgba(37,180,220,0.8) 89%);
     border-radius: 8px;
 }
+
+#myPw {
+    font-family: sans-serif;
+}

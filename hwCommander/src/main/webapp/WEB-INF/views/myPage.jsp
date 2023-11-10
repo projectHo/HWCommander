@@ -79,12 +79,50 @@
 		}
 	}
 	// 내 정보
+	function checkMyInfo(){
+		$.ajax({
+				type: "post",
+				url: "/user/idAndPwCheck.do",
+				data: {
+					id: $("#myId").val(),
+					pw: $("#myPw").val()
+				},
+				dataType: "json",
+				success: function(response) {
+					if (response === true) {
+						$(".card-list").removeClass("show").css("display","none");
+						$(".card-user-info-detail").css("display","block")
+						setTimeout(() => {
+							$(".card-user-info-detail").addClass("show");
+							$(".card-user-info").remove();
+						}, 100);
+					} else {
+						alert("아이디 비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
+					}
+					
+				},
+				error: function(xhr, status, error) {
+					alert("통신에 실패했습니다. 다시 시도해주세요.");
+					location.reload();
+				}
+			});
+	}
 	function clickUserInfoDetail(){
-		$(".card-list").removeClass("show").css("display","none");
-		$(".card-user-info-detail").css("display","block")
-		setTimeout(() => {
-			$(".card-user-info-detail").addClass("show");
-		}, 100);
+		if($(".card-user-info").length > 0){
+			$(".card-list").removeClass("show").css("display","none");
+			$(".card-user-info").css("display","block")
+			setTimeout(() => {
+				$(".card-user-info").addClass("show");
+			}, 100);
+			console.log("1")
+		}else {
+			$(".card-list").removeClass("show").css("display","none");
+			$(".card-user-info-detail").css("display","block")
+			setTimeout(() => {
+				$(".card-user-info-detail").addClass("show");
+			}, 100);
+			console.log("2")
+		}
 	}
 	function infoCheckHp(){
 		const numberCheck = /^[0-9]+$/;	
@@ -131,6 +169,7 @@
 	
 	$(function(){
 		$(".card-list").removeClass("show").css("display","none");
+		$(".card-order-detail").css("display","block").addClass("show");
 	})
 </script>
 </head>
@@ -148,11 +187,11 @@
 						<div class="accordion accordion-flush" id="accordionFlushExample">
 							<div class="accordion-item">
 								<h2 class="accordion-header" id="flush-headingOne">
-									<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false">
+									<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="true">
 										구매 정보
 									</button>
 								</h2>
-								<div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+								<div id="flush-collapseOne" class="accordion-collapse collapse show" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
 									<div class="accordion-body">
 										<div class="list-group list-group-flush">
 											<a href="javascript:void(0)" class="list-group-item list-group-item-action" onclick="javascript:clickOrderDetail()">
@@ -344,6 +383,24 @@
 							</div>
 						
 
+						<!-- 사전확인 -->
+							<div class="card-body fade card-list card-user-info">
+								<h2 class="card-title">Hwcommander</h2>
+								<h6 class="card-subtitle mb-2 text-muted">${loginUser.name}님</h6>
+								<p class="card-text">
+									<div class="form-floating mb-3 col-6 mx-auto mt-5">
+										<input type="text" class="form-control" id="myId" placeholder="">
+										<label for="floatingInput">ID</label>
+									</div>
+									<div class="form-floating mb-5 col-6 mx-auto">
+										<input type="password" class="form-control" id="myPw" placeholder="">
+										<label for="floatingPassword">Password</label>
+									</div>
+									<div class="d-flex justify-content-center">
+										<button type="button" class="btn btn-outline-secondary" onclick="javascript:checkMyInfo()">확인</button>
+									</div>
+								</p>
+							</div>
 						<!-- 내 정보 -->
 							<div class="card-body fade card-list card-user-info-detail">
 								<h2 class="card-title">Hwcommander</h2>
