@@ -7,17 +7,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.hw.dao.OrderDAO;
+import com.hw.model.BanpumMasterVO;
 import com.hw.model.OrderDetailVO;
 import com.hw.model.OrderMasterHistoryVO;
 import com.hw.model.OrderMasterVO;
+import com.hw.model.ProductMasterVO;
 import com.hw.model.RefundInfoVO;
 import com.hw.service.OrderService;
+import com.hw.service.ProductService;
 
 @Service
 public class OrderServiceImpl implements OrderService {
 	
 	@Autowired
     private OrderDAO orderDAO;
+	
+	@Autowired
+    private ProductService productService;
 	
 	/*--------------------------------------------------
 	 - order_master, order_detail
@@ -58,6 +64,27 @@ public class OrderServiceImpl implements OrderService {
 			OrderMasterHistoryVO orderMasterHistoryVO = orderMasterVOToOrderMasterHistoryVO(orderMasterVO);
 			orderMasterHistoryVO.setHistoryContents("최초등록");
 			result += orderDAO.insertOrderMasterHistoryVO(orderMasterHistoryVO);
+		}
+		
+		if (2 == result) {
+			// 23.11.10 product or banpum qty 감산로직 추가
+			for(int i = 0; i < orderDetailVOList.size(); i++) {
+				OrderDetailVO orderDetailVO = orderDetailVOList.get(i);
+				String productId = orderDetailVO.getProductId();
+				if("PRODUCT".equals(productId.substring(0, 7))) {
+					// product 인 경우
+					ProductMasterVO productMasterVO = new ProductMasterVO();
+					productMasterVO.setId(productId);
+					productMasterVO.setProductQty(orderDetailVO.getProductOrderQty());
+					productService.UpdateProductQty(productMasterVO);
+				}else {
+					// banpum 인 경우
+					BanpumMasterVO banpumMasterVO = new BanpumMasterVO();
+					banpumMasterVO.setId(productId);
+					banpumMasterVO.setBanpumQty(orderDetailVO.getProductOrderQty());
+					productService.UpdateBanpumQty(banpumMasterVO);
+				}
+			}
 		}
 		
 		return result;

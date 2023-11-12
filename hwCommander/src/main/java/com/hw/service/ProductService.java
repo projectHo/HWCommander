@@ -13,6 +13,7 @@ public interface ProductService {
 	public ProductMasterVO getProductMasterById(String id);
 	public List<ProductDetailVO> getProductDetailById(String id);
 	public Integer productUpdateLogic(ProductMasterVO productMasterVO, List<ProductDetailVO> productDetailVOList);
+	public Integer UpdateProductQty(ProductMasterVO productMasterVO);
 	
 	public List<BanpumMasterVO> getBanpumMasterAllList();
 	public Integer banpumRegistLogic(BanpumMasterVO banpumMasterVO);
@@ -20,4 +21,5 @@ public interface ProductService {
 	public Integer banpumUpdateLogic(BanpumMasterVO banpumMasterVO);
 	public List<BanpumMasterVO> getBanpumMasterAllListByExposureYn(String exposureYn);
 	public Integer banpumDeleteLogic(String id);
+	public Integer UpdateBanpumQty(BanpumMasterVO banpumMasterVO);
 }

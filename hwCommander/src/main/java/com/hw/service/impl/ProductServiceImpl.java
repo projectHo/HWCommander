@@ -85,6 +85,17 @@ public class ProductServiceImpl implements ProductService {
 	}
 	
 	@Override
+	public Integer UpdateProductQty(ProductMasterVO productMasterVO) {
+		int updateResult = 0;
+		ProductMasterVO targetProductMasterVO = getProductMasterById(productMasterVO.getId());
+		
+		targetProductMasterVO.setProductQty(productMasterVO.getProductQty());
+		updateResult = productDAO.updateProductMasterVO(targetProductMasterVO);
+				
+		return updateResult;
+	}
+	
+	@Override
 	public List<BanpumMasterVO> getBanpumMasterAllList() {
 		BanpumMasterVO searchVO = new BanpumMasterVO();
 		searchVO.setExposureYn(null);
@@ -125,5 +136,16 @@ public class ProductServiceImpl implements ProductService {
 		productDAO.deleteBanpumMasterVO(id);
 		deleteResult = 1;
 		return deleteResult;
+	}
+	
+	@Override
+	public Integer UpdateBanpumQty(BanpumMasterVO banpumMasterVO) {
+		int updateResult = 0;
+		BanpumMasterVO targetBanpumMasterVO = getBanpumMasterById(banpumMasterVO.getId());
+		
+		targetBanpumMasterVO.setBanpumQty(banpumMasterVO.getBanpumQty());
+		updateResult = productDAO.updateBanpumMasterVO(targetBanpumMasterVO);
+				
+		return updateResult;
 	}
 }
