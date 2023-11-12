@@ -100,37 +100,50 @@
         }
     }
     let refundReasonCd;
-    let refundReasonUserWrite = null;
+    let refundReasonUserWriteText = null;
     function changeRefundReason(el){
-        $.ajax({
-            type: "post",
-            url: "/user/updateRefundReasonCdAndUserWrite.do",
-            data: {
-                id: "${refundInfoVO.id}",
-                refundReasonCd: refundReasonCd,
-                refundReasonUserWrite: refundReasonUserWrite,
-            },
-            dataType: "json",
-            success: function() {
-                alert("수정 완료되었습니다.");
-                if(loginCheck()) {
-                    location.reload();
-                }
-            },
-            error: function() {
-                alert("수정 실패했습니다.. 다시 시도해주세요!");
-                location.reload();
+        if(refundReasonCd == "99" && refundReasonUserWriteText == null){
+            alert("상세사유를 입력해주세요");
+            return false;
+        }else {
+            if(confirm("수정하시겠습니까?")){
+                $.ajax({
+                    type: "post",
+                    url: "/user/updateRefundReasonCdAndUserWrite.do",
+                    data: {
+                        id: "${refundInfoVO.id}",
+                        refundReasonCd: refundReasonCd,
+                        refundReasonUserWrite: refundReasonUserWriteText,
+                    },
+                    dataType: "json",
+                    success: function() {
+                        alert("수정 완료되었습니다.");
+                        if(loginCheck()) {
+                            location.reload();
+                        }
+                    },
+                    error: function() {
+                        alert("수정 실패했습니다.. 다시 시도해주세요!");
+                        location.reload();
+                    }
+                });
+            }else {
+                return false;
             }
-        });
+        }
     }
     function refundReasonDropdownBtn(el){
         $(".refund-reason-title").html($(el).html());
         refundReasonCd = $(el).attr("cd");
         if($(el).attr("cd") == "99"){
-            $(".reason-user-write").addClass("show");
+            $(".reason-user-write").removeClass("d-none").addClass("show");
         }else {
-            $(".reason-user-write").removeClass("show");
+            $(".reason-user-write").removeClass("show").addClass("d-none");
         }
+    }
+    function refundReasonUserWrite(el){
+        refundReasonUserWriteText = $(el).val();
+        console.log(refundReasonUserWriteText);
     }
     $(function() {
         for(let i = 1; i <= 5; i++){
@@ -291,8 +304,8 @@
                                 <li><a class="dropdown-item" href="javascript:void(0);" cd="03" onclick="javascript:refundReasonDropdownBtn(this)">도착 시 파손</a></li>
                                 <li><a class="dropdown-item" href="javascript:void(0);" cd="99" onclick="javascript:refundReasonDropdownBtn(this)">기타</a></li>
                             </ul>
-                            <div class="form-floating mb-3 fade reason-user-write">
-                                <input type="text" class="form-control" id="refundReason" placeholder="" autocomplete="off">
+                            <div class="form-floating mb-3 fade reason-user-write d-none">
+                                <input type="text" class="form-control" id="refundReason" placeholder="" autocomplete="off" oninput="javascript:refundReasonUserWrite(this)">
                                 <label for="refundReason">환불 상세사유</label>
                             </div>
                         </div>
