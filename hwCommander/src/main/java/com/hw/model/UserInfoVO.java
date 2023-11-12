@@ -22,4 +22,6 @@ public class UserInfoVO {
 	private String regDtm;
 	private String updtDtm;
 	private String di;
+	private String delYn;
+	private String delDtm;
 }
