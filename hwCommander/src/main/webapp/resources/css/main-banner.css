@@ -173,6 +173,11 @@ body {
   right: -0.7%;
   opacity: 0;
 }
+
+.tooltip-inner {
+  font-size: 16px;
+}
+
 @media (min-width: 1921px) {
   .swiper-slide .btn{
     width: 180px;
@@ -185,4 +190,24 @@ body {
     width: 20px;
     height: 20px;
   }
+  .bar {
+    width: 92px;
+    height: 15px;
+  }
+  .cross .bar:nth-of-type(1) {
+    transform: translateY(25px) rotate(-30deg);
+  }
+  .cross .bar:nth-of-type(3) {
+    transform: translateY(-25px) rotate(30deg);
+  }
+  .cross:hover .bar:nth-of-type(1) {
+    transform: translateY(12.5px) rotate(-21.5deg);
+  }
+  .cross:hover .bar:nth-of-type(3) {
+    transform: translateY(-9.5px) rotate(17.5deg);
+  }
+  .tooltip-inner {
+    font-size: 24px;
+  }
 }
+
