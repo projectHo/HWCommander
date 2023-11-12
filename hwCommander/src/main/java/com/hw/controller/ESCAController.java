@@ -208,6 +208,16 @@ public class ESCAController {
 			, Model model
 			, @RequestParam(value = "resultString", required = true) String resultString ) {
 		
+		// 23.11.12 로직 진입 전 체크하도록 변경
+		HttpSession httpSession = request.getSession();
+		UserInfoVO user = (UserInfoVO) httpSession.getAttribute("loginUser");
+		
+		if(null == user) {
+			model.addAttribute("msg", "로그인 후에 견적산출이 가능합니다.");
+			model.addAttribute("url", "/user/login.do");
+			return "redirect";
+		}
+		
 		// 견적산출 로직 호출
 		EstimateCalculationResultPrivateMasterVO estimateCalculationResultPrivateMasterVO 
 		= eSCAService.ESCA_VER_1_0(resultString);
@@ -261,7 +271,8 @@ public class ESCAController {
 		// 08.17 test
 		model.addAttribute("partsRam", partsService.getRamAllList());
 		// end
-		return userLoginCheck(request, model, "ESCA_VER_1_0/ESCA_RESULT_ver_1_0");
+		
+		return "ESCA_VER_1_0/ESCA_RESULT_ver_1_0";
 	}
 	
 	/*--------------------------------------------------
