@@ -28,7 +28,7 @@ public interface OrderService {
 	
 	public List<OrderDetailVO> getOrderDetailListById(String id);
 	public List<OrderDetailVO> getOrderDetailListByProductId(String productId);
-	public List<OrderDetailVO> getOrderDetailAndRefundInfoListById(String id);
+	public List<OrderDetailVO> getOrderDetailAndRefundInfoListByOrderId(String orderId);
 	
 	/*--------------------------------------------------
 	 - refund_info

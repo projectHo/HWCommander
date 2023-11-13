@@ -1090,8 +1090,10 @@ public class AdminController {
 	public String goOrderDetail(HttpServletRequest request, Model model, @RequestParam(value = "id", required = true) String id) {
 		model.addAttribute("order_state_cd", commonService.getComnCdDetailList("ORD001"));
 		model.addAttribute("video_request_cd", commonService.getComnCdDetailList("ORD002"));
-		model.addAttribute("selectMasterData", orderService.getOrderMasterById(id));
-		model.addAttribute("selectDetailAndRefundData", orderService.getOrderDetailAndRefundInfoListById(id));
+		
+		model.addAttribute("orderMasterVO", orderService.getOrderMasterById(id));
+		model.addAttribute("orderDetailVOList", orderService.getOrderDetailAndRefundInfoListByOrderId(id));
+		
 		return adminLoginCheck(request, model, "orderDetail");
 	}
 	

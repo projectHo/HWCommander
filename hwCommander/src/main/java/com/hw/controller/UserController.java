@@ -79,7 +79,6 @@ public class UserController {
 	@Autowired
     private OrderService orderService;
 	
-	
 	/*--------------------------------------------------
 	 - 회원가입 및 로그인
 	*--------------------------------------------------*/
@@ -161,6 +160,37 @@ public class UserController {
 		}
 		model.addAttribute("loginUser", null);
 		return "redirect:/";
+	}
+	
+	/*--------------------------------------------------
+	 - 회원탈퇴로직
+	*--------------------------------------------------*/
+	@RequestMapping(value = "/tempDeleteAccountLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer tempDeleteAccountLogic(UserInfoVO userInfoVO) {
+		return userService.tempDeleteAccountLogic(userInfoVO);
+	}
+	
+	/*--------------------------------------------------
+	 - 회원정보수정페이지
+	*--------------------------------------------------*/
+	@RequestMapping(value = "/infoUpdate.do", method = RequestMethod.GET)
+	public String goInfoUpdate(HttpServletRequest request, Model model) {
+		HttpSession httpSession = request.getSession();
+		UserInfoVO user = (UserInfoVO) httpSession.getAttribute("loginUser");
+		
+		model.addAttribute("loginUser", user);
+		
+		return userLoginCheck(request, model, "userInfoUpdate");
+	}
+	
+	/*--------------------------------------------------
+	 - 회원정보수정로직
+	*--------------------------------------------------*/
+	@RequestMapping(value = "/userInfoUpdateLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer userInfoUpdateLogic(UserInfoVO userInfoVO) {
+		return userService.userInfoUpdateLogic(userInfoVO);
 	}
 	
 	/*--------------------------------------------------

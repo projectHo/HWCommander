@@ -13,6 +13,8 @@ public interface UserService {
 	public Integer getMailConfirmChkCount(String id);
 	public Integer mailConfirmLogic(UserInfoVO userInfoVO);
 	public UserInfoVO getUserInfoByIdAndPw(UserInfoVO userInfoVO);
+	public Integer tempDeleteAccountLogic(UserInfoVO userInfoVO);
+	public Integer userInfoUpdateLogic(UserInfoVO userInfoVO);
 	
 	public List<UserEscasStorageVO> getUserEscasStorageAllList();
 	public Integer userEscasStorageRegistLogic(UserEscasStorageVO userEscasStorageVO);
