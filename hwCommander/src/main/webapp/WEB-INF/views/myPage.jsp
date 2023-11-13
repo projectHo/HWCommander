@@ -25,6 +25,16 @@
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script>
+	function loginCheck() {
+		var check = false;
+		if("${loginUser}" == "") {
+			alert("로그인 후 이용해주세요.");
+			location.href = "/user/login.do";
+		}else {
+			check = true;
+		}
+		return check;
+	}
 	// 주문 현황
 	let objectNum;
 	let objStateCd;
@@ -155,18 +165,9 @@
 			$(".card-secession-detail").addClass("show");
 		}, 100);
 	}
-
-	function loginCheck() {
-		var check = false;
-		if("${loginUser}" == "") {
-			alert("로그인 후 이용해주세요.");
-			location.href = "/user/login.do";
-		}else {
-			check = true;
-		}
-		return check;
+	function secessionBtn(){
+		alert("준비중입니다. 고객센터로 문의해주세요");
 	}
-	
 	$(function(){
 		$(".card-list").removeClass("show").css("display","none");
 		$(".card-order-detail").css("display","block").addClass("show");
@@ -488,7 +489,7 @@
 										<label for="floatingPassword">Password</label>
 									</div>
 									<div class="d-flex justify-content-center">
-										<button type="button" class="btn btn-outline-secondary">회원 탈퇴</button>
+										<button type="button" class="btn btn-outline-secondary" onclick="javascript:secessionBtn()">회원 탈퇴</button>
 									</div>
 								</p>
 							</div>

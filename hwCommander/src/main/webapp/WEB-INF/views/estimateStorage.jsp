@@ -25,7 +25,6 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 <script>
-	let aa = "${userEscasStorageVOList.size()}";
 	$(function(){
 		// 부트스트랩 툴팁
 		const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
@@ -34,13 +33,12 @@
 
 	function clickEscaBtn(el) {
 		var param = $(el).parent().parent().attr("param");
-
+		sessionStorage.setItem("pay","y");
 		location.href = "/ESCA/ESCA_RESULT_ver_1_0.do?resultString=" + encodeURI(param);
 	}
 	function clickEscaDeleteBtn(el) {
 		var param = $(el).parent().parent().attr("param");
 		var seq = $(el).parent().parent().find(".seq").attr("name");
-		console.log(seq);
 		if(confirm("정말로 삭제하시겠습니까?")){
 			$.ajax({
 				type: "post",
@@ -55,12 +53,10 @@
 					location.reload();
 				},
 				error: function() {
-					alert("삭제 실패했습니다.");
+					alert("삭제 실패했습니다. 다시 시도해주세요");
+					location.reload();
 				}
 			})
-			
-			
-			
 		}else {
 			return false;
 		}

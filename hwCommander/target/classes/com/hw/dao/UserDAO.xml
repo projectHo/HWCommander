@@ -28,6 +28,8 @@
 			, reg_dtm
 			, updt_dtm
 			, di
+			, del_yn
+			, del_dtm
 		)
 		VALUES
 		(
@@ -48,6 +50,8 @@
 			, NOW()
 			, #{updtDtm}
 			, #{di}
+			, 'N'
+			, #{delDtm}
 		)
 	</insert>
 	
@@ -96,6 +100,7 @@
 			user_info
 		WHERE id = #{id} 
 		AND pw = SHA2(#{pw}, 256)
+		AND del_yn = 'N'
 	</select>
 	
 	<select id="getDiDupliChkCount" resultType="Integer" parameterType="String">

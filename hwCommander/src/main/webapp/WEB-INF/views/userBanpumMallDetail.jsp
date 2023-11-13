@@ -53,16 +53,13 @@ function loginCheck() {
 function onOrder(){
 	if("${banpumMaster.banpumQty}" > 1){
 		$("#banpumQModal").modal("show");
-	}else {
-		if(confirm("사용된 제품들의 박스를 추가할까요?")){
-			if(loginCheck()) {
-				location.href = "/order/sheet.do?accessRoute=banpum&productIds="+"${banpumMaster.id}&orderQtys=1&boxQtys=1";
-			}	
-		}else {
-			if(loginCheck()) {
-				location.href = "/order/sheet.do?accessRoute=banpum&productIds="+"${banpumMaster.id}&orderQtys=1&boxQtys=0";
-			}
-		}
+	}else if("${banpumMaster.banpumQty}" == 1){
+		$("#banpumSModal").modal("show");
+	}
+}
+function goSingleOrder(el){
+	if(loginCheck()) {
+		location.href = "/order/sheet.do?accessRoute=banpum&productIds="+"${banpumMaster.id}&orderQtys=1"+"&boxQtys="+$(el).attr("box");
 	}
 }
 const numberCheck = /^[0-9]+$/;	
@@ -213,7 +210,26 @@ function boxQtysCheck(el){
 								  </div>
 								</div>
 							  </div>
-
+							  <!-- 재고 1개 주문시 박스추가여부 모달 -->
+							  <div class="modal fade" id="banpumSModal" tabindex="-1" aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered">
+								  <div class="modal-content">
+									<div class="modal-header">
+										<h2>주문하기</h2>
+									  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										<div class="row p-2">
+											사용된 제품들의 박스를 추가할까요?(5,000원)
+										</div>
+									</div>
+									<div class="modal-footer">
+									  <button type="button" class="btn btn-secondary" box="0" onclick="javascript:goSingleOrder(this)">아니요</button>
+									  <button type="button" class="btn btn-primary" box="1" onclick="javascript:goSingleOrder(this)">네</button>
+									</div>
+								  </div>
+								</div>
+							  </div>
 							</div>
 						</div>
 					</div>

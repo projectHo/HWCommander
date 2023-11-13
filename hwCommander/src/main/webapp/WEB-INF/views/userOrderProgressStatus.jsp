@@ -85,7 +85,7 @@
 	})
 
 	function noticeYet(){
-		alert("아직 해당 단계가 아닙니다!");
+		
 	}
 
 	var Pattern = /\((.*?)\)/;
@@ -130,7 +130,7 @@
 	}
 	function clickBoxThree(){
 		// 제품 신품상태 개봉 영상이 담김(클라우드 연동이 되기 전까진 유저가 적을 수 있는 메일 입력칸 생성 후 파일발송 / 클라우드 연동 후엔 영상이 재생 가능한 페이지 혹은 파일 다운로드가 가능한 페이지 만들기)
-		location.href = "/order/orderStateCd03Page.do?id=" + masterInfoObject.id;
+		// location.href = "/order/orderStateCd03Page.do?id=" + masterInfoObject.id;
 	}
 	function clickBoxFour(){
 		// 조립 완료 시의 사진 포함(클라우드 연동이 되기 전까진 유저가 적을 수 있는 메일 입력칸 생성 후 Admin이 회사용 메일로 직접 파일발송 / 클라우드 연동 후엔 Admin의 사진파일 게시 가능한 페이지 만들기)
@@ -192,7 +192,7 @@
 					<div class="progress status-progress">
 						<div class="progress-bar status-progress-bar bg-danger" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
 					</div>
-					<div class="box text-center status-box d-flex align-items-center justify-content-center" id="box-4" onmouseenter="javascript:mouseInBox(this)" onmouseleave="javascript:mouseOutBox(this)" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="주문하신 컴퓨터를 조립 중입니다. 제품 공수 완료 탭에서 신품 인증에 관련한 자료들이 있으니 확인해주시면 감사하겠습니다." onclick="javascript:clickBoxFour()">
+					<div class="box text-center status-box d-flex align-items-center justify-content-center" id="box-4" onmouseenter="javascript:mouseInBox(this)" onmouseleave="javascript:mouseOutBox(this)" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="주문하신 컴퓨터를 조립 중입니다. 주문 상세페이지에서 영상 요청을 해주시면 인증하신 이메일로 영상을 보내드립니다!" onclick="javascript:clickBoxFour()">
 						<span class="fw-bold text-white">조립 중</span>
 					</div>
 					<div class="progress status-progress">
