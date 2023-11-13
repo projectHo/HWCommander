@@ -247,8 +247,8 @@ public class ESCAController {
 			model.addAttribute("escasLogicVersion", "1_0");
 			
 			// 23.10.30 user_escas_storage 조회리스트 추가(50개기준 분기처리를 위함)
-			String userId = estimateCalculationResultPrivateMasterVO.getTargetUserId();
-			List<UserEscasStorageVO> userEscasStorageVOList = userService.getUserEscasStorageVOByUserId(userId);
+//			String userId = estimateCalculationResultPrivateMasterVO.getTargetUserId();
+			List<UserEscasStorageVO> userEscasStorageVOList = userService.getUserEscasStorageVOByUserId(user.getId());
 			model.addAttribute("userEscasStorageVOList", userEscasStorageVOList);
 			
 		}else {
