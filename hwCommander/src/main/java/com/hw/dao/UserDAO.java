@@ -14,6 +14,8 @@ public interface UserDAO {
 	public List<UserInfoVO> getIdListByMailAndMailKey(UserInfoVO userInfoVO);
 	public UserInfoVO getUserInfoByIdAndPw(UserInfoVO userInfoVO);
 	public Integer getDiDupliChkCount(String di);
+	public Integer tempDeleteAccountLogic(UserInfoVO userInfoVO);
+	public Integer userInfoUpdateLogic(UserInfoVO userInfoVO);
 	
 	public List<UserEscasStorageVO> getUserEscasStorageAllList(UserEscasStorageVO userEscasStorageVO);
 	public Integer getUserEscasStorageVOMaxSeq(String userId);

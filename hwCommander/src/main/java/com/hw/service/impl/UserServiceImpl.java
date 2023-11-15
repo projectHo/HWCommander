@@ -89,6 +89,16 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	public Integer tempDeleteAccountLogic(UserInfoVO userInfoVO) {
+		return userDAO.tempDeleteAccountLogic(userInfoVO);
+	}
+	
+	@Override
+	public Integer userInfoUpdateLogic(UserInfoVO userInfoVO) {
+		return userDAO.userInfoUpdateLogic(userInfoVO);
+	}
+	
+	@Override
 	public List<UserEscasStorageVO> getUserEscasStorageAllList() {
 		UserEscasStorageVO searchVO = new UserEscasStorageVO();
 		searchVO.setUserId(null);

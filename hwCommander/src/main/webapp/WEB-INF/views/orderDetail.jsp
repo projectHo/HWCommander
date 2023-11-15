@@ -27,32 +27,32 @@ var firstVideoRequestCd;
     });
     
 function dataSetting() {
-	$("#viewId").val("${selectMasterData.id}");
-	$("#orderDateStr").val("${selectMasterData.orderDateStr}");
-	$("#orderName").val("${selectMasterData.orderName}");
-	$("#totOrderPriceStr").val("${selectMasterData.totOrderPriceStr}");
-	$("#orderStateCd").val("${selectMasterData.orderStateCd}");
-	$("#ordererUserId").val("${selectMasterData.ordererUserId}");
-	$("#ordererName").val("${selectMasterData.ordererName}");
-	$("#ordererHpNumber").val("${selectMasterData.ordererHpNumber}");
-	$("#ordererMail").val("${selectMasterData.ordererMail}");
-	$("#recipientName").val("${selectMasterData.recipientName}");
-	$("#recipientHpNumber").val("${selectMasterData.recipientHpNumber}");
-	$("#recipientHpNumber2").val("${selectMasterData.recipientHpNumber2}");
-	$("#recipientZipcode").val("${selectMasterData.recipientZipcode}");
-	$("#recipientJibunAddr").val("${selectMasterData.recipientJibunAddr}");
-	$("#recipientRoadAddr").val("${selectMasterData.recipientRoadAddr}");
-	$("#recipientDetailAddr").val("${selectMasterData.recipientDetailAddr}");
-	$("#orderRequest").val("${selectMasterData.orderRequest}");
-	$("#deliveryRequest").val("${selectMasterData.deliveryRequest}");
-	$("#paymentMethod").val("${selectMasterData.paymentMethod}");
-	$("#videoRequestCd").val("${selectMasterData.videoRequestCd}");
-	$("#waybillNumber").val("${selectMasterData.waybillNumber}");
+	$("#viewId").val("${orderMasterVO.id}");
+	$("#orderDateStr").val("${orderMasterVO.orderDateStr}");
+	$("#orderName").val("${orderMasterVO.orderName}");
+	$("#totOrderPriceStr").val("${orderMasterVO.totOrderPriceStr}");
+	$("#orderStateCd").val("${orderMasterVO.orderStateCd}");
+	$("#ordererUserId").val("${orderMasterVO.ordererUserId}");
+	$("#ordererName").val("${orderMasterVO.ordererName}");
+	$("#ordererHpNumber").val("${orderMasterVO.ordererHpNumber}");
+	$("#ordererMail").val("${orderMasterVO.ordererMail}");
+	$("#recipientName").val("${orderMasterVO.recipientName}");
+	$("#recipientHpNumber").val("${orderMasterVO.recipientHpNumber}");
+	$("#recipientHpNumber2").val("${orderMasterVO.recipientHpNumber2}");
+	$("#recipientZipcode").val("${orderMasterVO.recipientZipcode}");
+	$("#recipientJibunAddr").val("${orderMasterVO.recipientJibunAddr}");
+	$("#recipientRoadAddr").val("${orderMasterVO.recipientRoadAddr}");
+	$("#recipientDetailAddr").val("${orderMasterVO.recipientDetailAddr}");
+	$("#orderRequest").val("${orderMasterVO.orderRequest}");
+	$("#deliveryRequest").val("${orderMasterVO.deliveryRequest}");
+	$("#paymentMethod").val("${orderMasterVO.paymentMethod}");
+	$("#videoRequestCd").val("${orderMasterVO.videoRequestCd}");
+	$("#waybillNumber").val("${orderMasterVO.waybillNumber}");
 	
-	$("#id").val("${selectMasterData.id}");
+	$("#id").val("${orderMasterVO.id}");
 	
-	firstOrderStateCd = "${selectMasterData.orderStateCd}";
-	firstVideoRequestCd = "${selectMasterData.videoRequestCd}";
+	firstOrderStateCd = "${orderMasterVO.orderStateCd}";
+	firstVideoRequestCd = "${orderMasterVO.videoRequestCd}";
 }
 
 function orderStateCdUpdate() {
@@ -415,35 +415,35 @@ function goRefundUpdate(refundId) {
                         
                         <!-- 상품정보  order_detail & refund_info-->
                         <form id="order_detail_and_refund_info_form">
-                        	<c:forEach var="item" items="${selectDetailAndRefundData}" varStatus="status">
+                        	<c:forEach var="orderDetailVO" items="${orderDetailVOList}" varStatus="status1">
 								<div class="card mb-4">
 	                               <div class="card-body">
-	                                   <input type="hidden" id="seq_${status.index}" name="seq" value="${item.seq}">
+	                                   <input type="hidden" id="seq_${status1.index}" name="seq" value="${orderDetailVO.seq}">
 	                                   <div class="row">
-	                                   		<label>주문제품 _${status.count}</label>
+	                                   		<label>주문제품 _${status1.count}</label>
 	                                   </div>
 	                                   <div class="row mb-3">
 	                                       <div class="col-md-3">
 	                                           <div class="form-floating">
-	                                               <input class="form-control" id="productId_${status.index}" name="productId" type="text" value="${item.productId}" placeholder="Enter productId" disabled/>
+	                                               <input class="form-control" id="productId_${status1.index}" name="productId" type="text" value="${orderDetailVO.productId}" placeholder="Enter productId" disabled/>
 	                                               <label for="productId">제품ID</label>
 	                                           </div>
 	                                       </div>
 	                                       <div class="col-md-3">
 	                                           <div class="form-floating">
-	                                               <input class="form-control" id="productName_${status.index}" name="productName" type="text" value="${item.productName}" placeholder="Enter productName" disabled/>
+	                                               <input class="form-control" id="productName_${status1.index}" name="productName" type="text" value="${orderDetailVO.productName}" placeholder="Enter productName" disabled/>
 	                                               <label for="productName">제품명</label>
 	                                           </div>
 	                                       </div>
 	                                       <div class="col-md-3">
 	                                           <div class="form-floating">
-	                                               <input class="form-control" id="productPrice_${status.index}" name="productPrice" type="text" value="${item.productPrice}" placeholder="Enter productPrice" disabled/>
+	                                               <input class="form-control" id="productPrice_${status1.index}" name="productPrice" type="text" value="${orderDetailVO.productPrice}" placeholder="Enter productPrice" disabled/>
 	                                               <label for="productPrice">제품가격</label>
 	                                           </div>
 	                                       </div>
 	                                       <div class="col-md-3">
 	                                           <div class="form-floating">
-	                                               <input class="form-control" id="productOrderQty_${status.index}" name="productOrderQty" type="text" value="${item.productOrderQty}" placeholder="Enter productOrderQty" disabled/>
+	                                               <input class="form-control" id="productOrderQty_${status1.index}" name="productOrderQty" type="text" value="${orderDetailVO.productOrderQty}" placeholder="Enter productOrderQty" disabled/>
 	                                               <label for="productOrderQty">제품주문수량</label>
 	                                           </div>
 	                                       </div>
@@ -451,105 +451,111 @@ function goRefundUpdate(refundId) {
 	                                   <div class="row mb-3">
 	                                       <div class="col-md-3">
 	                                           <div class="form-floating">
-	                                               <input class="form-control" id="boxQty_${status.index}" name="boxQty" type="text" value="${item.boxQty}" placeholder="Enter boxQty" disabled/>
+	                                               <input class="form-control" id="boxQty_${status1.index}" name="boxQty" type="text" value="${orderDetailVO.boxQty}" placeholder="Enter boxQty" disabled/>
 	                                               <label for="boxQty">제품박스수량</label>
 	                                           </div>
 	                                       </div>
 	                                       <div class="col-md-3">
 	                                           <div class="form-floating">
-	                                               <input class="form-control" id="boxTotPrice_${status.index}" name="boxTotPrice" type="text" value="${item.boxTotPrice}" placeholder="Enter boxTotPrice" disabled/>
+	                                               <input class="form-control" id="boxTotPrice_${status1.index}" name="boxTotPrice" type="text" value="${orderDetailVO.boxTotPrice}" placeholder="Enter boxTotPrice" disabled/>
 	                                               <label for="boxTotPrice">제품박스 총 금액</label>
 	                                           </div>
 	                                       </div>
 	                                   </div>
 	                                   <div class="row">
-	                                   		<label>주문제품 _${status.count}에 대한 환불정보</label>
+	                                   		<label>주문제품 _${status1.count}에 대한 환불정보 </label>
 	                                   </div>
-										<c:if test="${item.refundId == null}">
+										<c:if test="${empty orderDetailVO.refundInfoVOList}">
 											<div class="row mb-3">
 												<label>환불정보가 없습니다.</label>
 											</div>
 										</c:if>
-										<c:if test="${item.refundId != null}">
-		                                   <div class="row mb-3">
-		                                       <div class="col-md-3">
-		                                           <div class="form-floating">
-		                                               <input class="form-control" id="refundId_${status.index}" name="refundId" type="text" value="${item.refundId}" placeholder="Enter refundId" disabled/>
-		                                               <label for="refundId">환불ID</label>
-		                                           </div>
+										
+										<c:if test="${not empty orderDetailVO.refundInfoVOList}">
+											<c:forEach var="refundInfoVO" items="${orderDetailVO.refundInfoVOList}" varStatus="status2">
+												<div class="row">
+	                                   				<label>환불정보_${status2.count} </label>
+                                   				</div>
+			                                   <div class="row mb-3">
+			                                       <div class="col-md-3">
+			                                           <div class="form-floating">
+			                                               <input class="form-control" id="refundId_${status1.index}_${status2.index}" name="refundId" type="text" value="${refundInfoVO.id}" placeholder="Enter refundId" disabled/>
+			                                               <label for="refundId">환불ID</label>
+			                                           </div>
+			                                       </div>
+			                                       <div class="col-md-3">
+			                                           <div class="form-floating">
+			                                               <input class="form-control" id="refundQty_${status1.index}_${status2.index}" name="refundQty" type="text" value="${refundInfoVO.refundQty}" placeholder="Enter refundQty" disabled/>
+			                                               <label for="refundQty">환불수량</label>
+			                                           </div>
+			                                       </div>
+			                                       <div class="col-md-3">
+			                                           <div class="form-floating">
+			                                               <input class="form-control" id="requestRefundPrice_${status1.index}_${status2.index}" name="requestRefundPrice" type="text" value="${refundInfoVO.requestRefundPrice}" placeholder="Enter requestRefundPrice" disabled/>
+			                                               <label for="requestRefundPrice">신청 환불금액</label>
+			                                           </div>
+			                                       </div>
+			                                       <div class="col-md-3">
+			                                           <div class="form-floating">
+			                                               <input class="form-control" id="determinRefundPrice_${status1.index}_${status2.index}" name="determinRefundPrice" type="text" value="${refundInfoVO.determinRefundPrice}" placeholder="Enter determinRefundPrice" disabled/>
+			                                               <label for="determinRefundPrice">결정 환불금액</label>
+			                                           </div>
+			                                       </div>
 		                                       </div>
-		                                       <div class="col-md-3">
-		                                           <div class="form-floating">
-		                                               <input class="form-control" id="refundQty_${status.index}" name="refundQty" type="text" value="${item.refundQty}" placeholder="Enter refundQty" disabled/>
-		                                               <label for="refundQty">환불수량</label>
-		                                           </div>
-		                                       </div>
-		                                       <div class="col-md-3">
-		                                           <div class="form-floating">
-		                                               <input class="form-control" id="requestRefundPrice_${status.index}" name="requestRefundPrice" type="text" value="${item.requestRefundPrice}" placeholder="Enter requestRefundPrice" disabled/>
-		                                               <label for="requestRefundPrice">신청 환불금액</label>
-		                                           </div>
-		                                       </div>
-		                                       <div class="col-md-3">
-		                                           <div class="form-floating">
-		                                               <input class="form-control" id="determinRefundPrice_${status.index}" name="determinRefundPrice" type="text" value="${item.determinRefundPrice}" placeholder="Enter determinRefundPrice" disabled/>
-		                                               <label for="determinRefundPrice">결정 환불금액</label>
-		                                           </div>
-		                                       </div>
-	                                       </div>
-	                                       <div class="row mb-3">
-		                                       <div class="col-md-3">
-		                                           <div class="form-floating">
-		                                               <input class="form-control" id="refundStateCdNm_${status.index}" name="refundStateCdNm" type="text" value="${item.refundStateCdNm}" placeholder="Enter refundStateCdNm" disabled/>
-		                                               <label for="refundStateCdNm">환불상태코드명</label>
-		                                           </div>
-		                                       </div>
-		                                       <div class="col-md-3">
-		                                           <div class="form-floating">
-		                                               <input class="form-control" id="refundReasonCdNm_${status.index}" name="refundReasonCdNm" type="text" value="${item.refundReasonCdNm}" placeholder="Enter refundReasonCdNm" disabled/>
-		                                               <label for="refundReasonCdNm">환불사유코드명</label>
-		                                           </div>
-		                                       </div>
-		                                       <div class="col-md-3">
-		                                           <div class="form-floating">
-		                                               <input class="form-control" id="refundReasonUserWrite_${status.index}" name="refundReasonUserWrite" type="text" value="${item.refundReasonUserWrite}" placeholder="Enter refundReasonUserWrite" disabled/>
-		                                               <label for="refundReasonUserWrite">환불사유 구매자 직접입력</label>
-		                                           </div>
-		                                       </div>
-		                                       <div class="col-md-3">
-		                                           <div class="form-floating">
-		                                               <input class="form-control" id="refundContent_${status.index}" name="refundContent" type="text" value="${item.refundContent}" placeholder="Enter refundContent" disabled/>
-		                                               <label for="refundContent">환불내용</label>
-		                                           </div>
-		                                       </div>
-		                                   </div>
-	                                       <div class="row">
-		                                       <div class="col-md-3">
-		                                           <div class="form-floating">
-		                                               <input class="form-control" id="refundRemarks_${status.index}" name="refundRemarks" type="text" value="${item.refundRemarks}" placeholder="Enter refundRemarks" disabled/>
-		                                               <label for="refundRemarks">환불비고</label>
-		                                           </div>
-		                                       </div>
-		                                       <div class="col-md-3">
-		                                           <div class="form-floating">
-		                                               <input class="form-control" id="refundPartialAgreeContent_${status.index}" name="refundPartialAgreeContent" type="text" value="${item.refundPartialAgreeContent}" placeholder="Enter refundPartialAgreeContent" disabled/>
-		                                               <label for="refundPartialAgreeContent">환불부분동의내용</label>
-		                                           </div>
-		                                       </div>
-		                                       <div class="col-md-3">
-		                                           <div class="form-floating">
-		                                               <input class="form-control" id="refundPartialAgreeCdNm_${status.index}" name="refundPartialAgreeCdNm" type="text" value="${item.refundPartialAgreeCdNm}" placeholder="Enter refundPartialAgreeCdNm" disabled/>
-		                                               <label for="refundPartialAgreeCdNm">환불부분동의코드명</label>
-		                                           </div>
-		                                       </div>
-		                                   </div>
-		                                   <div class="row mb-3">
-		                                       <div class="col-md-12">
-		                                           <div class="form-floating mt-2 float-end">
-		                                               <a class="btn btn-secondary btn-sm" id="btn_go_refund_update" onclick="javascript:goRefundUpdate('${item.refundId}')">Go Update Page</a>
-		                                           </div>
-		                                       </div>
-		                                   </div>
+		                                       <div class="row mb-3">
+			                                       <div class="col-md-3">
+			                                           <div class="form-floating">
+			                                               <input class="form-control" id="refundStateCdNm_${status1.index}_${status2.index}" name="refundStateCdNm" type="text" value="${refundInfoVO.refundStateCdNm}" placeholder="Enter refundStateCdNm" disabled/>
+			                                               <label for="refundStateCdNm">환불상태코드명</label>
+			                                           </div>
+			                                       </div>
+			                                       <div class="col-md-3">
+			                                           <div class="form-floating">
+			                                               <input class="form-control" id="refundReasonCdNm_${status1.index}_${status2.index}" name="refundReasonCdNm" type="text" value="${refundInfoVO.refundReasonCdNm}" placeholder="Enter refundReasonCdNm" disabled/>
+			                                               <label for="refundReasonCdNm">환불사유코드명</label>
+			                                           </div>
+			                                       </div>
+			                                       <div class="col-md-3">
+			                                           <div class="form-floating">
+			                                               <input class="form-control" id="refundReasonUserWrite_${status1.index}_${status2.index}" name="refundReasonUserWrite" type="text" value="${refundInfoVO.refundReasonUserWrite}" placeholder="Enter refundReasonUserWrite" disabled/>
+			                                               <label for="refundReasonUserWrite">환불사유 구매자 직접입력</label>
+			                                           </div>
+			                                       </div>
+			                                       <div class="col-md-3">
+			                                           <div class="form-floating">
+			                                               <input class="form-control" id="refundContent_${status1.index}_${status2.index}" name="refundContent" type="text" value="${refundInfoVO.refundContent}" placeholder="Enter refundContent" disabled/>
+			                                               <label for="refundContent">환불내용</label>
+			                                           </div>
+			                                       </div>
+			                                   </div>
+		                                       <div class="row">
+			                                       <div class="col-md-3">
+			                                           <div class="form-floating">
+			                                               <input class="form-control" id="refundRemarks_${status1.index}_${status2.index}" name="refundRemarks" type="text" value="${refundInfoVO.refundRemarks}" placeholder="Enter refundRemarks" disabled/>
+			                                               <label for="refundRemarks">환불비고</label>
+			                                           </div>
+			                                       </div>
+			                                       <div class="col-md-3">
+			                                           <div class="form-floating">
+			                                               <input class="form-control" id="refundPartialAgreeContent_${status1.index}_${status2.index}" name="refundPartialAgreeContent" type="text" value="${refundInfoVO.refundPartialAgreeContent}" placeholder="Enter refundPartialAgreeContent" disabled/>
+			                                               <label for="refundPartialAgreeContent">환불부분동의내용</label>
+			                                           </div>
+			                                       </div>
+			                                       <div class="col-md-3">
+			                                           <div class="form-floating">
+			                                               <input class="form-control" id="refundPartialAgreeCdNm_${status1.index}_${status2.index}" name="refundPartialAgreeCdNm" type="text" value="${refundInfoVO.refundPartialAgreeCdNm}" placeholder="Enter refundPartialAgreeCdNm" disabled/>
+			                                               <label for="refundPartialAgreeCdNm">환불부분동의코드명</label>
+			                                           </div>
+			                                       </div>
+			                                   </div>
+			                                   <div class="row">
+			                                       <div class="col-md-12">
+			                                           <div class="form-floating mt-2 float-end">
+			                                               <a class="btn btn-secondary btn-sm" id="btn_go_refund_update" onclick="javascript:goRefundUpdate('${refundInfoVO.id}')">Go Update Page</a>
+			                                           </div>
+			                                       </div>
+			                                   </div>
+		                                   </c:forEach>
 										</c:if>
 	                                   
 	                               </div>

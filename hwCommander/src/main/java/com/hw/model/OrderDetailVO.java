@@ -1,5 +1,9 @@
 package com.hw.model;
 
+
+
+import java.util.List;
+
 import lombok.Data;
 
 @Data
@@ -20,18 +24,21 @@ public class OrderDetailVO {
 	private String productImage;
 	
 	// RefundInfoVO Data
-	private String refundId;
-	private int refundQty;
-	private int requestRefundPrice;
-	private int determinRefundPrice;
-	private String refundStateCd;
-	private String refundStateCdNm;
-	private String refundReasonCd;
-	private String refundReasonCdNm;
-	private String refundReasonUserWrite;
-	private String refundContent;
-	private String refundRemarks;
-	private String refundPartialAgreeContent;
-	private String refundPartialAgreeCd;
-	private String refundPartialAgreeCdNm;
+//	private String refundId;
+//	private int refundQty;
+//	private int requestRefundPrice;
+//	private int determinRefundPrice;
+//	private String refundStateCd;
+//	private String refundStateCdNm;
+//	private String refundReasonCd;
+//	private String refundReasonCdNm;
+//	private String refundReasonUserWrite;
+//	private String refundContent;
+//	private String refundRemarks;
+//	private String refundPartialAgreeContent;
+//	private String refundPartialAgreeCd;
+//	private String refundPartialAgreeCdNm;
+	
+	// 23.11.13 order_detail : refund_info = 1:1 -> 1:N
+	private List<RefundInfoVO> refundInfoVOList;
 }

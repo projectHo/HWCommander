@@ -262,8 +262,8 @@
 		FROM
 			order_detail a
 			LEFT OUTER JOIN 
-			-- product_master b
-			-- 23.11.04 order_detail 조회 시 product_master 테이블과 banpum_master 테이블 전부를 참조하도록 수정함.
+			<!-- product_master b -->
+			<!-- 23.11.04 order_detail 조회 시 product_master 테이블과 banpum_master 테이블 전부를 참조하도록 수정함. -->
 			(
 			 SELECT z.id AS id
 				, z.product_name AS product_name
@@ -287,58 +287,6 @@
 		    	AND a.product_id = #{productId}
 		    </if>
 		</where>
-	</select>
-	
-	<select id="getOrderDetailAndRefundInfoListById" resultType="orderDetailVO"  parameterType="String">
-		SELECT 
-			a.id                                                                                   AS id             
-			, a.seq                                                                                AS seq            
-			, a.product_id                                                                         AS productId      
-			, a.product_price                                                                      AS productPrice   
-			, a.product_order_qty                                                                  AS productOrderQty
-			, a.box_qty                                                                            AS boxQty
-			, a.box_tot_price                                                                      AS boxTotPrice
-			, a.reg_dtm                                                                            AS regDtm
-			, b.product_name                                                                       AS productName
-			, b.product_description                                                                AS productDescription
-			, b.product_image                                                                      AS productImage
-			, c.id                                                                                 AS refundId
-			, c.refund_qty                                                                         AS refundQty
-			, c.request_refund_price                                                                   AS requestRefundPrice
-			, c.determin_refund_price                                                                   AS determinRefundPrice
-			, c.refund_state_cd                                                                    AS refundStateCd
-			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'ORD004' AND cd = c.refund_state_cd)  AS refundStateCdNm
-			, c.refund_reason_cd                                                                   AS refundReasonCd
-			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'ORD003' AND cd = c.refund_reason_cd) AS refundReasonCdNm
-			, c.refund_reason_user_write                                                           AS refundReasonUserWrite
-			, c.refund_content                                                                     AS refundContent
-			, c.refund_remarks                                                                     AS refundRemarks
-			, c.refund_partial_agree_content                                                       AS refundPartialAgreeContent
-			, c.refund_partial_agree_cd                                                            AS refundPartialAgreeCd
-			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'ORD005' AND cd = c.refund_partial_agree_cd) AS refundPartialAgreeCdNm
-		FROM
-			order_detail a
-			LEFT OUTER JOIN 
-				(
-				 SELECT z.id AS id
-					, z.product_name AS product_name
-					, z.product_description AS product_description
-					, z.product_image AS product_image
-				FROM product_master z
-				UNION ALL
-				SELECT x.id AS id
-					, x.banpum_name AS product_name
-					, x.banpum_description AS product_description
-					, x.banpum_image1 AS product_image
-				FROM banpum_master x
-				 ) b
-			ON a.product_id = b.id
-			LEFT OUTER JOIN
-				refund_info c
-			ON a.id = c.order_id
-			AND a.seq = c.order_seq
-		WHERE
-			a.id = #{id}
 	</select>
 	
 	<select id="getRefundInfoVOMaxId" resultType="String">

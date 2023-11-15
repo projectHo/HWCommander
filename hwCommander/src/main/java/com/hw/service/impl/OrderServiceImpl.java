@@ -292,8 +292,16 @@ public class OrderServiceImpl implements OrderService {
 	}
 	
 	@Override
-	public List<OrderDetailVO> getOrderDetailAndRefundInfoListById(String id) {
-		return orderDAO.getOrderDetailAndRefundInfoListById(id);
+	public List<OrderDetailVO> getOrderDetailAndRefundInfoListByOrderId(String orderId) {
+		List<OrderDetailVO> returnList = this.getOrderDetailListById(orderId);
+		
+		// 23.11.13 order_detail : refund_info = 1:1 -> 1:N
+		for(int i = 0; i < returnList.size(); i++) {
+			List<RefundInfoVO> refundInfoVOList = this.getRefundInfoByOrderIdAndOrderSeq(orderId, returnList.get(i).getSeq());
+			returnList.get(i).setRefundInfoVOList(refundInfoVOList);
+		}
+		
+		return returnList;
 	}
 	
 	/*--------------------------------------------------

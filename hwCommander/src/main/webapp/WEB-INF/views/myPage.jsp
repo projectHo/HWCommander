@@ -24,6 +24,11 @@
 <link rel="stylesheet" href="/resources/css/mypage.css">
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<%
+	String enc_data = String.valueOf(request.getAttribute("enc_data"));
+	String integrity_value = String.valueOf(request.getAttribute("integrity_value"));
+	String token_version_id = String.valueOf(request.getAttribute("token_version_id"));
+%>
 <script>
 	function loginCheck() {
 		var check = false;
@@ -91,31 +96,31 @@
 	// 내 정보
 	function checkMyInfo(){
 		$.ajax({
-				type: "post",
-				url: "/user/idAndPwCheck.do",
-				data: {
-					id: $("#myId").val(),
-					pw: $("#myPw").val()
-				},
-				dataType: "json",
-				success: function(response) {
-					if (response === true) {
-						$(".card-list").removeClass("show").css("display","none");
-						$(".card-user-info-detail").css("display","block")
-						setTimeout(() => {
-							$(".card-user-info-detail").addClass("show");
-							$(".card-user-info").remove();
-						}, 100);
-					} else {
-						alert("아이디 비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
-					}
-					
-				},
-				error: function(xhr, status, error) {
-					alert("통신에 실패했습니다. 다시 시도해주세요.");
-					location.reload();
+			type: "post",
+			url: "/user/idAndPwCheck.do",
+			data: {
+				id: $("#myId").val(),
+				pw: $("#myPw").val()
+			},
+			dataType: "json",
+			success: function(response) {
+				if (response === true) {
+					$(".card-list").removeClass("show").css("display","none");
+					$(".card-user-info-detail").css("display","block")
+					setTimeout(() => {
+						$(".card-user-info-detail").addClass("show");
+						$(".card-user-info").remove();
+					}, 100);
+				} else {
+					alert("아이디 비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
 				}
-			});
+				
+			},
+			error: function(xhr, status, error) {
+				alert("통신에 실패했습니다. 다시 시도해주세요.");
+				location.reload();
+			}
+		});
 	}
 	function clickUserInfoDetail(){
 		if($(".card-user-info").length > 0){
@@ -124,14 +129,12 @@
 			setTimeout(() => {
 				$(".card-user-info").addClass("show");
 			}, 100);
-			console.log("1")
 		}else {
 			$(".card-list").removeClass("show").css("display","none");
 			$(".card-user-info-detail").css("display","block")
 			setTimeout(() => {
 				$(".card-user-info-detail").addClass("show");
 			}, 100);
-			console.log("2")
 		}
 	}
 	function infoCheckHp(){
@@ -153,9 +156,86 @@
 			}
 		}).open();
 	}
+	function changeUserInfoBtn(){
+		// location.href ="/user/infoUpdate.do";
+		$(".u-i-o").addClass("fade").addClass("d-none");
+		$(".u-i-t").removeClass("d-none");
+		setTimeout(() => {
+			$(".u-i-t").addClass("show");
+		}, 100);
+
+		$(".changeable-u-info").prev().addClass("d-none");
+		$(".changeable-u-info").removeClass("d-none");
+		setTimeout(() => {
+			$(".changeable-u-info").addClass("show");
+		}, 100);
+	}
+	function userInfoChangeCancle(){
+		$(".u-i-t").removeClass("show").addClass("d-none");
+		$(".u-i-o").removeClass("d-none");
+		setTimeout(() => {
+			$(".u-i-o").addClass("show");
+		}, 100);
+
+		$(".changeable-u-info").prev().removeClass("d-none");
+		$(".changeable-u-info").addClass("d-none");
+		setTimeout(() => {
+			$(".changeable-u-info").removeClass("show");
+		}, 100);
+	}
+	function hpNumberAuthentication() {
+		if($('#di').val().trim() != null && $('#di').val().trim() != "") {
+			alert("이미 정상적으로 인증을 완료하였습니다.");
+			return false;
+		}
+		
+		window.name ="Parent_window";
+		
+		window.open('', 'popupChk', 'width=500, height=550, top=100, left=100, fullscreen=no, menubar=no, status=no, toolbar=no, titlebar=yes, location=no, scrollbar=no');
+		
+		document.form_chk.action = "https://nice.checkplus.co.kr/CheckPlusSafeModel/service.cb";
+		document.form_chk.target = "popupChk";
+		document.form_chk.submit();
+	}
 	function editAddrBtn(){
-		alert("준비중");
-		// findDaumAddr();
+		findDaumAddr();
+	}
+	function UserInfoChangeSave(){
+		if(confirm("수정 하시겠습니까?")){
+			$.ajax({
+				type: "post",
+				url: "/user/userInfoUpdateLogic.do",
+				data: {
+					id: "${loginUser.id}",
+					pw: "${loginUser.pw}",
+					sexCd: "${loginUser.sexCd}",
+					name: "${loginUser.name}",
+					birth: "${loginUser.birth}",
+					hpNumber: $('.recipient-next-hp').val(),
+					jibunAddr: $(".recipient-jibun-addr").val(),
+					roadAddr: $(".recipient-road-addr").val(),
+					detailAddr: $(".recipient-detail-addr").val(),
+					zipcode: $(".recipient-zip-code").val(),
+					mail: $(".recipient-mail-addr").val(),
+					mailKey: "${loginUser.mailKey}",
+					mailConfirm: "${loginUser.mailConfirm}",
+					regDtm: "${loginUser.regDtm}",
+					updtDtm: "${loginUser.updtDtm}",
+					di: "${loginUser.di}",
+				},
+				dataType: "json",
+				success: function(response) {
+					alert("정상적으로 수정되었습니다! 수정된 내용이 보이지 않으시면 재 로그인 해주세요!");
+					location.reload();				
+				},
+				error: function(xhr, status, error) {
+					alert("통신에 실패했습니다. 다시 시도해주세요.");
+					location.reload();
+				}
+			});
+		}else {
+			return false;
+		}
 	}
 	// 회원 탈퇴
 	function clickSecessionDetail(){
@@ -166,7 +246,22 @@
 		}, 100);
 	}
 	function secessionBtn(){
-		alert("준비중입니다. 고객센터로 문의해주세요");
+		$.ajax({
+			type: "post",
+			url: "/user/tempDeleteAccountLogic.do",
+			data: {
+				id: "${loginUser.id}"
+			},
+			dataType: "json",
+			success: function(){
+				alert("탈퇴 신청이 완료되었습니다. 메인화면으로 이동합니다.");
+				location.href = "/user/logoutLogic.do";
+			},
+			error: function() {
+				alert("신청 실패했습니다. 다시 시도해주세요.");
+				location.reload();
+			}
+		})
 	}
 	$(function(){
 		$(".card-list").removeClass("show").css("display","none");
@@ -405,7 +500,18 @@
 						<!-- 내 정보 -->
 							<div class="card-body fade card-list card-user-info-detail">
 								<h2 class="card-title">Hwcommander</h2>
-								<h6 class="card-subtitle mb-2 text-muted">${loginUser.name}님의 회원정보</h6>
+								<h6 class="card-subtitle mb-2 text-muted d-flex justify-content-between">
+									<span>
+										${loginUser.name}님의 회원정보
+									</span>
+									<span class="u-i-o">
+										<button class="btn btn-outline-success btn-sm" onclick="javascript:changeUserInfoBtn()">수정</button>
+									</span>
+									<span class="u-i-t d-none fade">
+										<button class="btn btn-outline-danger btn-sm" onclick="javascript:userInfoChangeCancle()">취소</button>
+										<button class="btn btn-outline-primary btn-sm" onclick="javascript:UserInfoChangeSave()">저장</button>
+									</span>
+								</h6>
 								<p class="card-text order-tbody">
 									<table class="table table-light" style="border-collapse: separate;">
 										<thead>
@@ -422,16 +528,22 @@
 											<tr>
 												<th scope="row" class="align-middle">휴대폰 번호</th>
 												<td>
-													<div class="input-group">
-														<input maxlength="11" type="text" class="form-control recipient-next-hp" aria-label="Recipient's another hpNumber" aria-describedby="button-addon" onclick="javascript:infoCheckHp()" value="${loginUser.hpNumber}">
-														<button class="btn btn-outline-secondary btn-s" type="button" id="button-addon" onclick="javascript:editAddrBtn()">인증하기</button>
-													</div>
+													<span>
+														${loginUser.hpNumber}
+													</span>
+													<!-- <div class="input-group changeable-u-info d-none fade">
+														<input maxlength="11" type="text" class="form-control recipient-next-hp" aria-describedby="button-addon" oninput="javascript:infoCheckHp()" value="${loginUser.hpNumber}">
+														<button class="btn btn-outline-secondary btn-s" type="button" id="button-addon" onclick="javascript:hpNumberAuthentication()">인증하기</button>
+													</div> -->
 												</td>
 											</tr>
 											<tr>
 												<th scope="row" class="align-middle">주소</th>
 												<td>
-													<div class="input-group">
+													<span>
+														${loginUser.zipcode}
+													</span>
+													<div class="input-group changeable-u-info d-none fade">
 														<input type="text" class="form-control recipient-zip-code" aria-label="Recipient's addr" aria-describedby="button-addon2" readonly="readonly" value="${loginUser.zipcode}">
 														<button class="btn btn-outline-secondary btn-s" type="button" id="button-addon2" onclick="javascript:editAddrBtn()">찾기</button>
 													</div>
@@ -440,30 +552,41 @@
 											<tr>
 												<th scope="row" class="align-middle">지번주소</th>
 												<td>
-													<input type="text" class="form-control recipient-jibun-addr" aria-label="Recipient's Ji addr" readonly="readonly" value="${loginUser.jibunAddr}">
+													<span>
+														${loginUser.jibunAddr}
+													</span>
+													<input type="text" class="form-control recipient-jibun-addr changeable-u-info d-none fade" aria-label="Recipient's Ji addr" readonly="readonly" value="${loginUser.jibunAddr}">
 												</td>
 											</tr>
 											<tr>
 												<th scope="row" class="align-middle">도로명주소</th>
 												<td>
-													<input type="text" class="form-control recipient-road-addr" aria-label="Recipient's Road addr" readonly="readonly" value="${loginUser.roadAddr}">
+													<span>
+														${loginUser.roadAddr}
+													</span>
+													<input type="text" class="form-control recipient-road-addr changeable-u-info d-none fade" aria-label="Recipient's Road addr" readonly="readonly" value="${loginUser.roadAddr}">
 												</td>
 											</tr>
 											<tr>
 												<th scope="row" class="align-middle">상세주소</th>
 												<td>
-													<div class="input-group">
+													<span>
+														${loginUser.detailAddr}
+													</span>
+													<div class="input-group changeable-u-info d-none fade">
 														<input type="text" class="form-control recipient-detail-addr" aria-label="Recipient's Detail addr" aria-describedby="button-addon3" value="${loginUser.detailAddr}">
-														<button class="btn btn-outline-secondary btn-s" type="button" id="button-addon3" onclick="javascript:editAddrBtn()">저장</button>
 													</div>
 												</td>
 											</tr>
 											<tr>
 												<th scope="row" class="align-middle">E-mail</th>
 												<td>
-													<div class="input-group">
-														<input type="text" class="form-control" aria-label="Recipient's delivery required" aria-describedby="button-addon5" value="${loginUser.mail}">
-														<button class="btn btn-outline-secondary btn-s" type="button" id="button-addon5" onclick="javascript:editAddrBtn()">인증하기</button>
+													<span>
+														${loginUser.mail}
+													</span>
+													<div class="input-group changeable-u-info d-none fade">
+														<input type="text" class="form-control recipient-mail-addr" aria-label="Recipient's delivery required" aria-describedby="button-addon5" value="${loginUser.mail}">
+														<button class="btn btn-outline-secondary btn-s" type="button" id="button-addon5" onclick="javascript:changeMailAddr()">인증하기</button>
 													</div>
 												</td>
 											</tr>
@@ -484,14 +607,29 @@
 										<input type="text" class="form-control" id="id" placeholder="">
 										<label for="floatingInput">ID</label>
 									</div>
-									<div class="form-floating mb-5 col-6 mx-auto">
-										<input type="password" class="form-control" id="pw" placeholder="">
-										<label for="floatingPassword">Password</label>
-									</div>
 									<div class="d-flex justify-content-center">
-										<button type="button" class="btn btn-outline-secondary" onclick="javascript:secessionBtn()">회원 탈퇴</button>
+										<button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#secessionModal">회원 탈퇴</button>
 									</div>
 								</p>
+							</div>
+							<div class="modal fade" id="secessionModal" tabindex="-1" aria-hidden="true">
+								<div class="modal-dialog modal-dialog-centered">
+									<div class="modal-content">
+										<div class="modal-header">
+											<h2>회원 탈퇴</h2>
+											<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+										</div>
+										<div class="modal-body">
+											<div class="row p-2">
+												정말 회원 탈퇴 하시겠습니까?<br>회원 탈퇴 신청시 개인정보 보호법에 따라 1년간 정보 보관 후 폐기합니다.
+											</div>
+										</div>
+										<div class="modal-footer">
+											<button type="button" class="btn btn-secondary" box="0" data-bs-dismiss="modal">취소</button>
+											<button type="button" class="btn btn-primary" box="1" onclick="javascript:secessionBtn()">탈퇴</button>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -511,7 +649,14 @@
 			<img class="img-fluid" src="/resources/img/layer-26.png" alt="">
 		</div>
 	</div>
-	
+
+	<input type="hidden" id="di" name="di" value="" />
+	<form name="form_chk" id="form_chk">
+		<input type="hidden" id="m" name="m" value="service" />
+		<input type="hidden" id="token_version_id" name="token_version_id" value="<%=token_version_id%>" />
+		<input type="hidden" id="enc_data" name="enc_data" value="<%=enc_data%>" />
+		<input type="hidden" id="integrity_value" name="integrity_value" value="<%=integrity_value%>" />
+  </form>
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 	
 </body>
