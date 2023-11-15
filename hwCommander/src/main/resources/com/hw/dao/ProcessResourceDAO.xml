@@ -93,7 +93,7 @@
 			, a.process_lg_cd                                                                   AS processLgCd       
 			, (SELECT nm FROM comn_cd_detail WHERE comn_cd = 'COM004' AND cd = a.process_lg_cd) AS processLgCdNm
 			, a.process_type_exclusive_cd                                                       AS processTypeExclusiveCd
-			-- 공통코드가 아님. 사용자가 변경할 수 있는 process_resource_type_cd_info table 참조함.
+			<!-- 공통코드가 아님. 사용자가 변경할 수 있는 process_resource_type_cd_info table 참조함. -->
 			, (SELECT process_type_exclusive_cd_nm FROM process_resource_type_cd_info WHERE process_type_exclusive_cd = a.process_type_exclusive_cd) AS processTypeExclusiveCdNm
 			, a.process_name                                                                    AS processName
 			, a.reg_dtm                                                                         AS regDtm            

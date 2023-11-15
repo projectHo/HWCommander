@@ -116,7 +116,7 @@
 			user_info
 		SET
 			pw                       = #{pw}
-			-- , user_type_cd           = #{userTypeCd}
+			<!-- , user_type_cd           = #{userTypeCd} -->
 			, sex_cd                 = #{sexCd}
 			, name                   = #{name}
 			, birth                  = #{birth}
@@ -130,8 +130,11 @@
 			, mail_confirm           = #{mailConfirm}
 			, updt_dtm               = NOW()
 			, di                     = #{di}
+			<!-- 어차피 tempDeleteAccountLogic 에서 탈퇴처리 하니 기본 userInfo update query에서는 
+			삭제 함. 이렇게되면 복구처리는 따로 query랑 logic 생성해줘야함.
 			, del_yn                 = #{delYn}
 			, del_dtm                = #{delDtm}
+			 -->
 		WHERE
 			id = #{id}
 	</update>

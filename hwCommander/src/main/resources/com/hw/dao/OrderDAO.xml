@@ -262,8 +262,8 @@
 		FROM
 			order_detail a
 			LEFT OUTER JOIN 
-			-- product_master b
-			-- 23.11.04 order_detail 조회 시 product_master 테이블과 banpum_master 테이블 전부를 참조하도록 수정함.
+			<!-- product_master b -->
+			<!-- 23.11.04 order_detail 조회 시 product_master 테이블과 banpum_master 테이블 전부를 참조하도록 수정함. -->
 			(
 			 SELECT z.id AS id
 				, z.product_name AS product_name
