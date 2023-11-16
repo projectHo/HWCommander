@@ -156,33 +156,7 @@
 			}
 		}).open();
 	}
-	function changeUserInfoBtn(){
-		// location.href ="/user/infoUpdate.do";
-		$(".u-i-o").addClass("fade").addClass("d-none");
-		$(".u-i-t").removeClass("d-none");
-		setTimeout(() => {
-			$(".u-i-t").addClass("show");
-		}, 100);
-
-		$(".changeable-u-info").prev().addClass("d-none");
-		$(".changeable-u-info").removeClass("d-none");
-		setTimeout(() => {
-			$(".changeable-u-info").addClass("show");
-		}, 100);
-	}
-	function userInfoChangeCancle(){
-		$(".u-i-t").removeClass("show").addClass("d-none");
-		$(".u-i-o").removeClass("d-none");
-		setTimeout(() => {
-			$(".u-i-o").addClass("show");
-		}, 100);
-
-		$(".changeable-u-info").prev().removeClass("d-none");
-		$(".changeable-u-info").addClass("d-none");
-		setTimeout(() => {
-			$(".changeable-u-info").removeClass("show");
-		}, 100);
-	}
+	
 	function hpNumberAuthentication() {
 		if($('#di').val().trim() != null && $('#di').val().trim() != "") {
 			alert("이미 정상적으로 인증을 완료하였습니다.");
@@ -500,18 +474,7 @@
 						<!-- 내 정보 -->
 							<div class="card-body fade card-list card-user-info-detail">
 								<h2 class="card-title">Hwcommander</h2>
-								<h6 class="card-subtitle mb-2 text-muted d-flex justify-content-between">
-									<span>
-										${loginUser.name}님의 회원정보
-									</span>
-									<span class="u-i-o">
-										<button class="btn btn-outline-success btn-sm" onclick="javascript:changeUserInfoBtn()">수정</button>
-									</span>
-									<span class="u-i-t d-none fade">
-										<button class="btn btn-outline-danger btn-sm" onclick="javascript:userInfoChangeCancle()">취소</button>
-										<button class="btn btn-outline-primary btn-sm" onclick="javascript:UserInfoChangeSave()">저장</button>
-									</span>
-								</h6>
+								<h6 class="card-subtitle mb-2 text-muted d-flex justify-content-between">${loginUser.name}님의 회원정보</h6>
 								<p class="card-text order-tbody">
 									<table class="table table-light" style="border-collapse: separate;">
 										<thead>
@@ -526,19 +489,45 @@
 												<td>${loginUser.birth}</td>
 											</tr>
 											<tr>
-												<th scope="row" class="align-middle">휴대폰 번호</th>
+												<th scope="row" class="align-middle">
+													<div class="d-flex justify-content-between align-items-center">
+														<span>
+															휴대폰 번호
+														</span>
+														<span class="change-phone btn-first">
+															<button class="btn btn-outline-success btn-sm" onclick="javascript:changeUserInfoBtn()">수정</button>
+														</span>
+														<span class="change-phone btn-second d-none fade">
+															<button class="btn btn-outline-danger btn-sm" onclick="javascript:userInfoChangeCancle()">취소</button>
+															<button class="btn btn-outline-primary btn-sm" onclick="javascript:UserInfoChangeSave()">저장</button>
+														</span>
+													</div>
+												</th>
 												<td>
 													<span>
 														${loginUser.hpNumber}
 													</span>
-													<!-- <div class="input-group changeable-u-info d-none fade">
+													<div class="input-group changeable-u-info d-none fade">
 														<input maxlength="11" type="text" class="form-control recipient-next-hp" aria-describedby="button-addon" oninput="javascript:infoCheckHp()" value="${loginUser.hpNumber}">
 														<button class="btn btn-outline-secondary btn-s" type="button" id="button-addon" onclick="javascript:hpNumberAuthentication()">인증하기</button>
-													</div> -->
+													</div>
 												</td>
 											</tr>
 											<tr>
-												<th scope="row" class="align-middle">주소</th>
+												<th scope="row" class="align-middle">
+													<div class="d-flex justify-content-between align-items-center">
+														<span>
+															주소
+														</span>
+														<span class="change-addr btn-first">
+															<button class="btn btn-outline-success btn-sm" onclick="javascript:changeUserInfoBtn()">수정</button>
+														</span>
+														<span class="change-addr btn-first fade d-none">
+															<button class="btn btn-outline-danger btn-sm" onclick="javascript:userInfoChangeCancle()">취소</button>
+															<button class="btn btn-outline-primary btn-sm" onclick="javascript:UserInfoChangeSave()">저장</button>
+														</span>
+													</div>
+												</th>
 												<td>
 													<span>
 														${loginUser.zipcode}
@@ -579,15 +568,28 @@
 												</td>
 											</tr>
 											<tr>
-												<th scope="row" class="align-middle">E-mail</th>
+												<th scope="row" class="align-middle">
+													<div class="d-flex justify-content-between align-items-center">
+														<span>
+															E-mail
+														</span>
+														<span class="change-email btn-first">
+															<button class="btn btn-outline-success btn-sm" onclick="javascript:changeUserInfoBtn()">수정</button>
+														</span>
+														<span class="change-email btn-first fade d-none">
+															<button class="btn btn-outline-danger btn-sm" onclick="javascript:userInfoChangeCancle()">취소</button>
+															<button class="btn btn-outline-primary btn-sm" onclick="javascript:UserInfoChangeSave()">저장</button>
+														</span>
+													</div>
+												</th>
 												<td>
 													<span>
 														${loginUser.mail}
 													</span>
-													<div class="input-group changeable-u-info d-none fade">
+													<!-- <div class="input-group changeable-u-info d-none fade">
 														<input type="text" class="form-control recipient-mail-addr" aria-label="Recipient's delivery required" aria-describedby="button-addon5" value="${loginUser.mail}">
 														<button class="btn btn-outline-secondary btn-s" type="button" id="button-addon5" onclick="javascript:changeMailAddr()">인증하기</button>
-													</div>
+													</div> -->
 												</td>
 											</tr>
 											<tr>
