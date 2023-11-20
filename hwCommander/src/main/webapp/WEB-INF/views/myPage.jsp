@@ -174,6 +174,56 @@
 	function editAddrBtn(){
 		findDaumAddr();
 	}
+	function changeCancleBtn(){
+		$(".phone-container").removeClass("d-none");
+		$(".addr-container").removeClass("d-none");
+		$(".email-container").removeClass("d-none");
+		$(".btn-first").removeClass("d-none");
+		$(".btn-second").removeClass("show").addClass("d-none");
+
+		setTimeout(() => {
+			$(".phone-container").addClass("show");
+			$(".addr-container").addClass("show");
+			$(".email-container").addClass("show");
+			$(".btn-first").addClass("show");
+		}, 50);
+
+	}
+	function changePhoneInfoBtn(el){
+		$(el).parent().addClass("fade").addClass("d-none");
+		$(el).parent().next().removeClass("d-none");
+		$(".addr-container").addClass("fade");
+		$(".email-container").addClass("fade");
+		setTimeout(() => {
+			$(el).parent().next().addClass("show");
+			$(".addr-container").addClass("d-none");
+			$(".email-container").addClass("d-none");
+		}, 50);
+	}
+	function changeMailInfoBtn(el){
+		$(el).parent().addClass("fade").addClass("d-none");
+		$(el).parent().next().removeClass("d-none");
+		$(".phone-container").addClass("fade");
+		$(".addr-container").addClass("fade");
+		setTimeout(() => {
+			$(el).parent().next().addClass("show");
+			$(".phone-container").addClass("d-none");
+			$(".addr-container").addClass("d-none");
+		}, 50);
+		$(".changeable-email-info").prev().addClass("d-none").addClass("fade");
+		$(".changeable-email-info").removeClass("d-none").addClass("show");
+	}
+	function changeAddrInfoBtn(el){
+		$(el).parent().addClass("fade").addClass("d-none");
+		$(el).parent().next().removeClass("d-none");
+		$(".phone-container").addClass("fade");
+		$(".email-container").addClass("fade");
+		setTimeout(() => {
+			$(el).parent().next().addClass("show");
+			$(".addr-container").addClass("d-none");
+			$(".email-container").addClass("d-none");
+		}, 50);
+	}
 	function UserInfoChangeSave(){
 		if(confirm("수정 하시겠습니까?")){
 			$.ajax({
@@ -200,6 +250,43 @@
 				dataType: "json",
 				success: function(response) {
 					alert("정상적으로 수정되었습니다! 수정된 내용이 보이지 않으시면 재 로그인 해주세요!");
+					location.reload();				
+				},
+				error: function(xhr, status, error) {
+					alert("통신에 실패했습니다. 다시 시도해주세요.");
+					location.reload();
+				}
+			});
+		}else {
+			return false;
+		}
+	}
+	function changeMailAddr(){
+		if(confirm("수정 하시겠습니까?")){
+			$.ajax({
+				type: "post",
+				url: "/user/userMailInfoUpdateLogic.do",
+				data: {
+					id: "${loginUser.id}",
+					pw: "${loginUser.pw}",
+					sexCd: "${loginUser.sexCd}",
+					name: "${loginUser.name}",
+					birth: "${loginUser.birth}",
+					hpNumber: $('.recipient-next-hp').val(),
+					jibunAddr: $(".recipient-jibun-addr").val(),
+					roadAddr: $(".recipient-road-addr").val(),
+					detailAddr: $(".recipient-detail-addr").val(),
+					zipcode: $(".recipient-zip-code").val(),
+					mail: $(".recipient-mail-addr").val(),
+					mailKey: "${loginUser.mailKey}",
+					mailConfirm: "N",
+					regDtm: "${loginUser.regDtm}",
+					updtDtm: "${loginUser.updtDtm}",
+					di: "${loginUser.di}",
+				},
+				dataType: "json",
+				success: function(response) {
+					alert("이메일 인증 후 정상 반영됩니다! 이메일 인증을 해주세요");
 					location.reload();				
 				},
 				error: function(xhr, status, error) {
@@ -494,12 +581,14 @@
 														<span>
 															휴대폰 번호
 														</span>
-														<span class="change-phone btn-first">
-															<button class="btn btn-outline-success btn-sm" onclick="javascript:changeUserInfoBtn()">수정</button>
-														</span>
-														<span class="change-phone btn-second d-none fade">
-															<button class="btn btn-outline-danger btn-sm" onclick="javascript:userInfoChangeCancle()">취소</button>
-															<button class="btn btn-outline-primary btn-sm" onclick="javascript:UserInfoChangeSave()">저장</button>
+														<span class="phone-container">
+															<span class="change-phone btn-first">
+																<button class="btn btn-outline-success btn-sm" onclick="javascript:changePhoneInfoBtn(this)">수정</button>
+															</span>
+															<span class="change-phone btn-second d-none fade">
+																<button class="btn btn-outline-danger btn-sm" onclick="javascript:changeCancleBtn()">취소</button>
+																<button class="btn btn-outline-primary btn-sm" onclick="javascript:UserInfoChangeSave()">저장</button>
+															</span>
 														</span>
 													</div>
 												</th>
@@ -519,12 +608,14 @@
 														<span>
 															주소
 														</span>
-														<span class="change-addr btn-first">
-															<button class="btn btn-outline-success btn-sm" onclick="javascript:changeUserInfoBtn()">수정</button>
-														</span>
-														<span class="change-addr btn-first fade d-none">
-															<button class="btn btn-outline-danger btn-sm" onclick="javascript:userInfoChangeCancle()">취소</button>
-															<button class="btn btn-outline-primary btn-sm" onclick="javascript:UserInfoChangeSave()">저장</button>
+														<span class="addr-container">
+															<span class="change-addr btn-first">
+																<button class="btn btn-outline-success btn-sm" onclick="javascript:changeUserInfoBtn()">수정</button>
+															</span>
+															<span class="change-addr btn-second fade d-none">
+																<button class="btn btn-outline-danger btn-sm" onclick="javascript:userInfoChangeCancle()">취소</button>
+																<button class="btn btn-outline-primary btn-sm" onclick="javascript:UserInfoChangeSave()">저장</button>
+															</span>
 														</span>
 													</div>
 												</th>
@@ -573,12 +664,14 @@
 														<span>
 															E-mail
 														</span>
-														<span class="change-email btn-first">
-															<button class="btn btn-outline-success btn-sm" onclick="javascript:changeUserInfoBtn()">수정</button>
-														</span>
-														<span class="change-email btn-first fade d-none">
-															<button class="btn btn-outline-danger btn-sm" onclick="javascript:userInfoChangeCancle()">취소</button>
-															<button class="btn btn-outline-primary btn-sm" onclick="javascript:UserInfoChangeSave()">저장</button>
+														<span class="email-container">
+															<span class="change-email btn-first">
+																<button class="btn btn-outline-success btn-sm" onclick="javascript:changeMailInfoBtn(this)">수정</button>
+															</span>
+															<span class="change-email btn-second fade d-none">
+																<button class="btn btn-outline-danger btn-sm" onclick="javascript:changeCancleBtn()">취소</button>
+																<button class="btn btn-outline-primary btn-sm" onclick="javascript:changeMailAddr()">저장</button>
+															</span>
 														</span>
 													</div>
 												</th>
@@ -586,10 +679,10 @@
 													<span>
 														${loginUser.mail}
 													</span>
-													<!-- <div class="input-group changeable-u-info d-none fade">
+													<div class="input-group changeable-email-info d-none fade">
 														<input type="text" class="form-control recipient-mail-addr" aria-label="Recipient's delivery required" aria-describedby="button-addon5" value="${loginUser.mail}">
 														<button class="btn btn-outline-secondary btn-s" type="button" id="button-addon5" onclick="javascript:changeMailAddr()">인증하기</button>
-													</div> -->
+													</div>
 												</td>
 											</tr>
 											<tr>

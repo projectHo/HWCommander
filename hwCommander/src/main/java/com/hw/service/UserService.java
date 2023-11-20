@@ -15,6 +15,7 @@ public interface UserService {
 	public UserInfoVO getUserInfoByIdAndPw(UserInfoVO userInfoVO);
 	public Integer tempDeleteAccountLogic(UserInfoVO userInfoVO);
 	public Integer userInfoUpdateLogic(UserInfoVO userInfoVO);
+	public Integer userMailInfoUpdateLogic(UserInfoVO userInfoVO);
 	
 	public List<UserEscasStorageVO> getUserEscasStorageAllList();
 	public Integer userEscasStorageRegistLogic(UserEscasStorageVO userEscasStorageVO);

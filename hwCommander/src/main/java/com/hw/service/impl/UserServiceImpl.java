@@ -97,6 +97,17 @@ public class UserServiceImpl implements UserService {
 	public Integer userInfoUpdateLogic(UserInfoVO userInfoVO) {
 		return userDAO.userInfoUpdateLogic(userInfoVO);
 	}
+
+	@Override
+	public Integer userMailInfoUpdateLogic(UserInfoVO userInfoVO) {
+		int result = 0;
+
+		userDAO.userInfoUpdateLogic(userInfoVO);
+		sendMailByMailConfirm(userInfoVO);
+		result = 1;
+		
+		return result;
+	}
 	
 	@Override
 	public List<UserEscasStorageVO> getUserEscasStorageAllList() {
