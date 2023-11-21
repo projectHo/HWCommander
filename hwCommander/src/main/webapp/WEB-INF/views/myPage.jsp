@@ -180,7 +180,8 @@
 		$(".email-container").removeClass("d-none");
 		$(".btn-first").removeClass("d-none");
 		$(".btn-second").removeClass("show").addClass("d-none");
-
+		$(".base-info").removeClass("d-none").addClass("show");
+		$(".changeable-info").removeClass("show").addClass("d-none");
 		setTimeout(() => {
 			$(".phone-container").addClass("show");
 			$(".addr-container").addClass("show");
@@ -199,6 +200,8 @@
 			$(".addr-container").addClass("d-none");
 			$(".email-container").addClass("d-none");
 		}, 50);
+		$(".changeable-phone-info").prev().addClass("d-none").addClass("fade");
+		$(".changeable-phone-info").removeClass("d-none").addClass("show");
 	}
 	function changeMailInfoBtn(el){
 		$(el).parent().addClass("fade").addClass("d-none");
@@ -220,9 +223,11 @@
 		$(".email-container").addClass("fade");
 		setTimeout(() => {
 			$(el).parent().next().addClass("show");
-			$(".addr-container").addClass("d-none");
+			$(".phone-container").addClass("d-none");
 			$(".email-container").addClass("d-none");
 		}, 50);
+		$(".changeable-addr-info").prev().addClass("d-none").addClass("fade");
+		$(".changeable-addr-info").removeClass("d-none").addClass("show");
 	}
 	function UserInfoChangeSave(){
 		if(confirm("수정 하시겠습니까?")){
@@ -262,6 +267,24 @@
 		}
 	}
 	function changeMailAddr(){
+		if($('.recipient-mail-addr').val().trim() == "" || $('.recipient-mail-addr').val().trim() == null) {
+			alert("이메일을 입력하세요.");
+			$('.recipient-mail-addr').focus();
+			return false;
+		}
+		
+		const mailCheckRegExp = new RegExp("([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\"\(\[\]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\[[\t -Z^-~]*])");
+
+		if (!mailCheckRegExp.test($('.recipient-mail-addr').val())) {
+			alert("올바른 이메일을 입력하세요.");
+			$('.recipient-mail-addr').focus();
+			return false;
+		}
+
+		if("${loginUser.mail}" == $(".recipient-mail-addr").val()){
+			alert("변경된 내용이 없습니다. 다시 확인해주세요");
+			return false;
+		}
 		if(confirm("수정 하시겠습니까?")){
 			$.ajax({
 				type: "post",
@@ -583,20 +606,20 @@
 														</span>
 														<span class="phone-container">
 															<span class="change-phone btn-first">
-																<button class="btn btn-outline-success btn-sm" onclick="javascript:changePhoneInfoBtn(this)">수정</button>
+																<button class="btn btn-outline-success btn-sm pb-0 pt-1" onclick="javascript:changePhoneInfoBtn(this)">수정</button>
 															</span>
 															<span class="change-phone btn-second d-none fade">
-																<button class="btn btn-outline-danger btn-sm" onclick="javascript:changeCancleBtn()">취소</button>
-																<button class="btn btn-outline-primary btn-sm" onclick="javascript:UserInfoChangeSave()">저장</button>
+																<button class="btn btn-outline-danger btn-sm pb-0 pt-1" onclick="javascript:changeCancleBtn()">취소</button>
+																<button class="btn btn-outline-primary btn-sm pb-0 pt-1" onclick="javascript:UserInfoChangeSave()">저장</button>
 															</span>
 														</span>
 													</div>
 												</th>
-												<td>
-													<span>
+												<td class="align-middle">
+													<span class="base-info">
 														${loginUser.hpNumber}
 													</span>
-													<div class="input-group changeable-u-info d-none fade">
+													<div class="input-group changeable-info changeable-phone-info d-none fade">
 														<input maxlength="11" type="text" class="form-control recipient-next-hp" aria-describedby="button-addon" oninput="javascript:infoCheckHp()" value="${loginUser.hpNumber}">
 														<button class="btn btn-outline-secondary btn-s" type="button" id="button-addon" onclick="javascript:hpNumberAuthentication()">인증하기</button>
 													</div>
@@ -610,20 +633,20 @@
 														</span>
 														<span class="addr-container">
 															<span class="change-addr btn-first">
-																<button class="btn btn-outline-success btn-sm" onclick="javascript:changeUserInfoBtn()">수정</button>
+																<button class="btn btn-outline-success btn-sm pb-0 pt-1" onclick="javascript:changeAddrInfoBtn(this)">수정</button>
 															</span>
 															<span class="change-addr btn-second fade d-none">
-																<button class="btn btn-outline-danger btn-sm" onclick="javascript:userInfoChangeCancle()">취소</button>
-																<button class="btn btn-outline-primary btn-sm" onclick="javascript:UserInfoChangeSave()">저장</button>
+																<button class="btn btn-outline-danger btn-sm pb-0 pt-1" onclick="javascript:changeCancleBtn()">취소</button>
+																<button class="btn btn-outline-primary btn-sm pb-0 pt-1" onclick="javascript:UserInfoChangeSave()">저장</button>
 															</span>
 														</span>
 													</div>
 												</th>
-												<td>
-													<span>
+												<td class="align-middle">
+													<span class="base-info">
 														${loginUser.zipcode}
 													</span>
-													<div class="input-group changeable-u-info d-none fade">
+													<div class="input-group changeable-info changeable-addr-info d-none fade">
 														<input type="text" class="form-control recipient-zip-code" aria-label="Recipient's addr" aria-describedby="button-addon2" readonly="readonly" value="${loginUser.zipcode}">
 														<button class="btn btn-outline-secondary btn-s" type="button" id="button-addon2" onclick="javascript:editAddrBtn()">찾기</button>
 													</div>
@@ -632,30 +655,29 @@
 											<tr>
 												<th scope="row" class="align-middle">지번주소</th>
 												<td>
-													<span>
+													<span class="base-info">
 														${loginUser.jibunAddr}
 													</span>
-													<input type="text" class="form-control recipient-jibun-addr changeable-u-info d-none fade" aria-label="Recipient's Ji addr" readonly="readonly" value="${loginUser.jibunAddr}">
+													<input type="text" class="form-control recipient-jibun-addr changeable-info changeable-addr-info d-none fade" aria-label="Recipient's Ji addr" readonly="readonly" value="${loginUser.jibunAddr}">
 												</td>
 											</tr>
 											<tr>
 												<th scope="row" class="align-middle">도로명주소</th>
 												<td>
-													<span>
+													<span class="base-info">
 														${loginUser.roadAddr}
 													</span>
-													<input type="text" class="form-control recipient-road-addr changeable-u-info d-none fade" aria-label="Recipient's Road addr" readonly="readonly" value="${loginUser.roadAddr}">
+													<input type="text" class="form-control recipient-road-addr changeable-info changeable-addr-info d-none fade" aria-label="Recipient's Road addr" readonly="readonly" value="${loginUser.roadAddr}">
 												</td>
 											</tr>
 											<tr>
 												<th scope="row" class="align-middle">상세주소</th>
 												<td>
-													<span>
+													<span class="base-info">
 														${loginUser.detailAddr}
 													</span>
-													<div class="input-group changeable-u-info d-none fade">
-														<input type="text" class="form-control recipient-detail-addr" aria-label="Recipient's Detail addr" aria-describedby="button-addon3" value="${loginUser.detailAddr}">
-													</div>
+													<input type="text" class="form-control recipient-detail-addr changeable-info changeable-addr-info d-none fade" aria-label="Recipient's Detail addr" aria-describedby="button-addon3" value="${loginUser.detailAddr}">
+													
 												</td>
 											</tr>
 											<tr>
@@ -666,22 +688,21 @@
 														</span>
 														<span class="email-container">
 															<span class="change-email btn-first">
-																<button class="btn btn-outline-success btn-sm" onclick="javascript:changeMailInfoBtn(this)">수정</button>
+																<button class="btn btn-outline-success btn-sm pb-0 pt-1" onclick="javascript:changeMailInfoBtn(this)">수정</button>
 															</span>
 															<span class="change-email btn-second fade d-none">
-																<button class="btn btn-outline-danger btn-sm" onclick="javascript:changeCancleBtn()">취소</button>
-																<button class="btn btn-outline-primary btn-sm" onclick="javascript:changeMailAddr()">저장</button>
+																<button class="btn btn-outline-danger btn-sm pb-0 pt-1" onclick="javascript:changeCancleBtn()">취소</button>
+																<button class="btn btn-outline-primary btn-sm pb-0 pt-1" onclick="javascript:changeMailAddr()">저장</button>
 															</span>
 														</span>
 													</div>
 												</th>
-												<td>
-													<span>
+												<td class="align-middle">
+													<span class="base-info">
 														${loginUser.mail}
 													</span>
-													<div class="input-group changeable-email-info d-none fade">
+													<div class="input-group changeable-info changeable-email-info d-none fade">
 														<input type="text" class="form-control recipient-mail-addr" aria-label="Recipient's delivery required" aria-describedby="button-addon5" value="${loginUser.mail}">
-														<button class="btn btn-outline-secondary btn-s" type="button" id="button-addon5" onclick="javascript:changeMailAddr()">인증하기</button>
 													</div>
 												</td>
 											</tr>
