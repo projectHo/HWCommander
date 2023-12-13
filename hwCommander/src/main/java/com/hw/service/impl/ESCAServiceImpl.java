@@ -1,5 +1,7 @@
 package com.hw.service.impl;
 
+// 12.14 반올림 추가
+import java.math.RoundingMode;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -1078,6 +1080,87 @@ public class ESCAServiceImpl implements ESCAService {
 		
 		
 		// gpu value 연산
+
+		// GSV 배열 데이터 작성
+		BigDecimal[] gpuFBigDecimalArray = new BigDecimal[401];
+
+		for(int i = 0; i < gpuFBigDecimalArray.length; i++){
+			gpuFBigDecimalArray[i] = BigDecimal.ZERO;
+		}
+
+		gpuFBigDecimalArray[0] = new BigDecimal("1");
+		gpuFBigDecimalArray[25] = new BigDecimal("160");
+		gpuFBigDecimalArray[30] = new BigDecimal("560");
+		gpuFBigDecimalArray[33] = new BigDecimal("576");
+		gpuFBigDecimalArray[39] = new BigDecimal("592");
+		gpuFBigDecimalArray[43] = new BigDecimal("656");
+		gpuFBigDecimalArray[45] = new BigDecimal("752");
+		gpuFBigDecimalArray[50] = new BigDecimal("768");
+		gpuFBigDecimalArray[52] = new BigDecimal("784");
+		gpuFBigDecimalArray[55] = new BigDecimal("800");
+		gpuFBigDecimalArray[60] = new BigDecimal("816");
+		gpuFBigDecimalArray[61] = new BigDecimal("832");
+		gpuFBigDecimalArray[66] = new BigDecimal("848");
+		gpuFBigDecimalArray[78] = new BigDecimal("928");
+		gpuFBigDecimalArray[86] = new BigDecimal("944");
+		gpuFBigDecimalArray[90] = new BigDecimal("960");
+		gpuFBigDecimalArray[100] = new BigDecimal("1792");
+		gpuFBigDecimalArray[104] = new BigDecimal("1840");
+		gpuFBigDecimalArray[110] = new BigDecimal("2048");
+		gpuFBigDecimalArray[122] = new BigDecimal("2064");
+		gpuFBigDecimalArray[130] = new BigDecimal("2080");
+		gpuFBigDecimalArray[400] = new BigDecimal("6400");
+
+		int[] gpuFValues = {1, 160, 560, 576, 592, 656, 752, 768, 784, 800, 816, 832, 848, 928, 944, 960, 1792, 1840, 2048, 2064, 2080, 6400};
+		int[] gpuFIndexes = {0, 25, 30, 33, 39, 43, 45, 50, 52, 55, 60, 61, 66, 78, 86, 90, 100, 104, 110, 122, 130, 400};
+		for (int j = 0; j < gpuFIndexes.length - 1; j++) {
+			int startIndex = gpuFIndexes[j];
+			int endIndex = gpuFIndexes[j + 1];
+			BigDecimal startValue = new BigDecimal(gpuFValues[j]);
+			BigDecimal endValue = j + 1 < gpuFValues.length ? new BigDecimal(gpuFValues[j + 1]) : BigDecimal.ZERO;
+			BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), RoundingMode.HALF_UP);
+
+			for(int i = startIndex + 1; i < endIndex; i++){
+				gpuFBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
+			}
+		}
+		// GPUAS 배열 데이터 작성
+		BigDecimal[] gpuGBigDecimalArray = new BigDecimal[401];
+
+		for(int i = 0; i < gpuGBigDecimalArray.length; i++){
+			gpuGBigDecimalArray[i] = BigDecimal.ZERO;
+		}
+
+		gpuGBigDecimalArray[0] = new BigDecimal("1");
+		gpuGBigDecimalArray[10] = new BigDecimal("168");
+		gpuGBigDecimalArray[20] = new BigDecimal("171");
+		gpuGBigDecimalArray[40] = new BigDecimal("174");
+		gpuGBigDecimalArray[52] = new BigDecimal("177");
+		gpuGBigDecimalArray[55] = new BigDecimal("180");
+		gpuGBigDecimalArray[70] = new BigDecimal("183");
+		gpuGBigDecimalArray[80] = new BigDecimal("186");
+		gpuGBigDecimalArray[85] = new BigDecimal("189");
+		gpuGBigDecimalArray[100] = new BigDecimal("195");
+		gpuGBigDecimalArray[110] = new BigDecimal("198");
+		gpuGBigDecimalArray[140] = new BigDecimal("204");
+		gpuGBigDecimalArray[170] = new BigDecimal("510");
+		gpuGBigDecimalArray[200] = new BigDecimal("600");
+		gpuGBigDecimalArray[400] = new BigDecimal("1200");
+
+		int[] gpuGValues = {1, 168, 171, 174, 177, 180, 183, 186, 189, 195, 198, 204, 510, 600, 1200};
+		int[] gpuGIndexes = {0, 10, 20, 40, 52, 55, 70, 80, 85, 100, 110, 140, 170, 200, 400};
+		for (int j = 0; j < gpuGIndexes.length - 1; j++) {
+			int startIndex = gpuGIndexes[j];
+			int endIndex = gpuGIndexes[j + 1];
+			BigDecimal startValue = new BigDecimal(gpuGValues[j]);
+			BigDecimal endValue = j + 1 < gpuGValues.length ? new BigDecimal(gpuGValues[j + 1]) : BigDecimal.ZERO;
+			BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), RoundingMode.HALF_UP);
+
+			for(int i = startIndex + 1; i < endIndex; i++){
+				gpuGBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
+			}
+		}
+		
 		for(int i = 0; i < partsGpuHistoryVOList.size(); i++) {
 			PartsGpuHistoryVO partsGpuHistoryVO = partsGpuHistoryVOList.get(i);
 			
@@ -1559,6 +1642,82 @@ public class ESCAServiceImpl implements ESCAService {
 			 - [calculation6] 1+[calculation3]+[calculation4]+[calculation5]
 			 - Cooler Value = [calculation1]*[calculation6]
 			*--------------------------------------------------*/
+			// CLAS 배열 데이터 작성
+			BigDecimal[] clFBigDecimalArray = new BigDecimal[401];
+
+			for(int i = 0; i < clFBigDecimalArray.length; i++){
+				clFBigDecimalArray[i] = BigDecimal.ZERO;
+			}
+
+			clFBigDecimalArray[0] = new BigDecimal("1");
+			clFBigDecimalArray[12] = new BigDecimal("12");
+			clFBigDecimalArray[24] = new BigDecimal("24");
+			clFBigDecimalArray[36] = new BigDecimal("69");
+			clFBigDecimalArray[70] = new BigDecimal("73");
+			clFBigDecimalArray[96] = new BigDecimal("74");
+			clFBigDecimalArray[120] = new BigDecimal("80");
+			clFBigDecimalArray[144] = new BigDecimal("81");
+			clFBigDecimalArray[192] = new BigDecimal("192");
+			clFBigDecimalArray[400] = new BigDecimal("600");
+
+			int[] clFValues = {1, 12, 24, 69, 73, 74, 80, 81, 192, 600};
+			int[] clFIndexes = {0, 12, 24, 36, 70, 96, 120, 144, 192, 400};
+
+			for (int j = 0; j < clFIndexes.length - 1; j++) {
+				int startIndex = clFIndexes[j];
+				int endIndex = clFIndexes[j + 1];
+				BigDecimal startValue = new BigDecimal(clFValues[j]);
+				BigDecimal endValue = j + 1 < clFValues.length ? new BigDecimal(clFValues[j + 1]) : BigDecimal.ZERO;
+				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), RoundingMode.HALF_UP);
+
+				for(int i = startIndex + 1; i < endIndex; i++){
+					clFBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
+				}
+			}
+			// Thermal 배열 대이터 작성
+			BigDecimal[] clGBigDecimalArray = new BigDecimal[401];
+
+			for(int i = 0; i < clGBigDecimalArray.length; i++){
+				clGBigDecimalArray[i] = BigDecimal.ZERO;
+			}
+
+			clGBigDecimalArray[0] = new BigDecimal("1");
+			clGBigDecimalArray[40] = new BigDecimal("200");
+			clGBigDecimalArray[55] = new BigDecimal("210");
+			clGBigDecimalArray[60] = new BigDecimal("260");
+			clGBigDecimalArray[65] = new BigDecimal("270");
+			clGBigDecimalArray[72] = new BigDecimal("320");
+			clGBigDecimalArray[75] = new BigDecimal("330");
+			clGBigDecimalArray[80] = new BigDecimal("440");
+			clGBigDecimalArray[83] = new BigDecimal("480");
+			clGBigDecimalArray[90] = new BigDecimal("490");
+			clGBigDecimalArray[92] = new BigDecimal("500");
+			clGBigDecimalArray[110] = new BigDecimal("510");
+			clGBigDecimalArray[120] = new BigDecimal("640");
+			clGBigDecimalArray[130] = new BigDecimal("710");
+			clGBigDecimalArray[144] = new BigDecimal("840");
+			clGBigDecimalArray[150] = new BigDecimal("870");
+			clGBigDecimalArray[166] = new BigDecimal("1200");
+			clGBigDecimalArray[169] = new BigDecimal("1250");
+			clGBigDecimalArray[180] = new BigDecimal("1450");
+			clGBigDecimalArray[184] = new BigDecimal("1840");
+			clGBigDecimalArray[400] = new BigDecimal("4000");
+
+			int[] clGValues = {1, 200, 210, 260, 270, 320, 330, 440, 480, 490, 500, 510, 640, 710, 840, 870, 1200, 1250, 1450, 1840, 4000};
+			int[] clGIndexes = {0, 40, 55, 60, 65, 72, 75, 80, 83, 90, 92, 110, 120, 130, 144, 150, 166, 169, 180, 184, 400};
+
+			for (int j = 0; j < clGIndexes.length - 1; j++) {
+				int startIndex = clGIndexes[j];
+				int endIndex = clGIndexes[j + 1];
+				BigDecimal startValue = new BigDecimal(clGValues[j]);
+				BigDecimal endValue = j + 1 < clGValues.length ? new BigDecimal(clGValues[j + 1]) : BigDecimal.ZERO;
+				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), RoundingMode.HALF_UP);
+
+				for(int i = startIndex + 1; i < endIndex; i++){
+					clGBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
+				}
+			}
+
 			for(int co = 0; co < partsCoolerHistoryVOList.size(); co++) {
 				PartsCoolerHistoryVO partsCoolerHistoryVO = partsCoolerHistoryVOList.get(co);
 				BigDecimal coolerValue = BigDecimal.ZERO;
@@ -1600,7 +1759,177 @@ public class ESCAServiceImpl implements ESCAService {
 					}
 				}
 			}
-			
+			// PSUAS 배열 데이터 작성
+			BigDecimal[] psuFBigDecimalArray = new BigDecimal[401];
+
+			for(int i = 0; i < psuFBigDecimalArray.length; i++){
+				psuFBigDecimalArray[i] = BigDecimal.ZERO;
+			}
+
+			psuFBigDecimalArray[0] = new BigDecimal("1");
+			psuFBigDecimalArray[25] = new BigDecimal("250");
+			psuFBigDecimalArray[50] = new BigDecimal("420");
+			psuFBigDecimalArray[55] = new BigDecimal("440");
+			psuFBigDecimalArray[70] = new BigDecimal("630");
+			psuFBigDecimalArray[85] = new BigDecimal("640");
+			psuFBigDecimalArray[100] = new BigDecimal("660");
+			psuFBigDecimalArray[110] = new BigDecimal("1060");
+			psuFBigDecimalArray[140] = new BigDecimal("1300");
+			psuFBigDecimalArray[170] = new BigDecimal("1550");
+			psuFBigDecimalArray[200] = new BigDecimal("3000");
+			psuFBigDecimalArray[400] = new BigDecimal("6000");
+
+			int[] psuFValues = {1, 250, 420, 440, 630, 640, 660, 1060, 1300, 1550, 3000, 6000};
+			int[] psuFIndexes = {0, 25, 50, 55, 70, 85, 100, 110, 140, 170, 200, 400};
+			for (int j = 0; j < psuFIndexes.length - 1; j++) {
+				int startIndex = psuFIndexes[j];
+				int endIndex = psuFIndexes[j + 1];
+				BigDecimal startValue = new BigDecimal(psuFValues[j]);
+				BigDecimal endValue = j + 1 < psuFValues.length ? new BigDecimal(psuFValues[j + 1]) : BigDecimal.ZERO;
+				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), RoundingMode.HALF_UP);
+
+				for(int i = startIndex + 1; i < endIndex; i++){
+					psuFBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
+				}
+			}
+			// PFM(소재) 배열 데이터 작성
+			BigDecimal[] psuGBigDecimalArray = new BigDecimal[401];
+
+			for(int i = 0; i < psuGBigDecimalArray.length; i++){
+				psuGBigDecimalArray[i] = BigDecimal.ZERO;
+			}
+
+			psuGBigDecimalArray[0] = new BigDecimal("1");
+			psuGBigDecimalArray[22] = new BigDecimal("330");
+			psuGBigDecimalArray[26] = new BigDecimal("390");
+			psuGBigDecimalArray[29] = new BigDecimal("1095");
+			psuGBigDecimalArray[35] = new BigDecimal("1245");
+			psuGBigDecimalArray[44] = new BigDecimal("1260");
+			psuGBigDecimalArray[52] = new BigDecimal("1290");
+			psuGBigDecimalArray[58] = new BigDecimal("1305");
+			psuGBigDecimalArray[59] = new BigDecimal("1320");
+			psuGBigDecimalArray[66] = new BigDecimal("1335");
+			psuGBigDecimalArray[69] = new BigDecimal("1350");
+			psuGBigDecimalArray[70] = new BigDecimal("1365");
+			psuGBigDecimalArray[71] = new BigDecimal("1380");
+			psuGBigDecimalArray[80] = new BigDecimal("1410");
+			psuGBigDecimalArray[88] = new BigDecimal("1425");
+			psuGBigDecimalArray[91] = new BigDecimal("1440");
+			psuGBigDecimalArray[92] = new BigDecimal("1470");
+			psuGBigDecimalArray[118] = new BigDecimal("1590");
+			psuGBigDecimalArray[132] = new BigDecimal("1980");
+			psuGBigDecimalArray[138] = new BigDecimal("2070");
+			psuGBigDecimalArray[142] = new BigDecimal("2130");
+			psuGBigDecimalArray[160] = new BigDecimal("2400");
+			psuGBigDecimalArray[182] = new BigDecimal("2730");
+			psuGBigDecimalArray[184] = new BigDecimal("3300");
+			psuGBigDecimalArray[400] = new BigDecimal("나오면넣기");
+
+			int[] psuGValues = {1, 330, 390, 1095, 1245, 1260, 1290, 1305, 1320, 1320, 1335, 1350, 1365, 1380, 1410, 1425, 1440, 1470, 1590, 1980, 2070, 2130, 2400, 2730, 3300, 추가};
+			int[] psuGIndexes = {0, 22, 26, 29, 35, 44, 52, 58, 59, 66, 69, 70, 71, 80, 88, 91, 92, 118, 132, 138, 142, 160, 182, 184, 400};
+			for (int j = 0; j < psuGIndexes.length - 1; j++) {
+				int startIndex = psuGIndexes[j];
+				int endIndex = psuGIndexes[j + 1];
+				BigDecimal startValue = new BigDecimal(psuGValues[j]);
+				BigDecimal endValue = j + 1 < psuGValues.length ? new BigDecimal(psuGValues[j + 1]) : BigDecimal.ZERO;
+				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), RoundingMode.HALF_UP);
+
+				for(int i = startIndex + 1; i < endIndex; i++){
+					psuGBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
+				}
+			}
+			// PSM(안정성) 배열 데이터 작성
+			BigDecimal[] psuHBigDecimalArray = new BigDecimal[401];
+
+			for(int i = 0; i < psuHBigDecimalArray.length; i++){
+				psuHBigDecimalArray[i] = BigDecimal.ZERO;
+			}
+
+			psuHBigDecimalArray[0] = new BigDecimal("1");
+			psuHBigDecimalArray[22] = new BigDecimal("110");
+			psuHBigDecimalArray[26] = new BigDecimal("260");
+			psuHBigDecimalArray[29] = new BigDecimal("265");
+			psuHBigDecimalArray[35] = new BigDecimal("275");
+			psuHBigDecimalArray[44] = new BigDecimal("280");
+			psuHBigDecimalArray[52] = new BigDecimal("285");
+			psuHBigDecimalArray[58] = new BigDecimal("295");
+			psuHBigDecimalArray[59] = new BigDecimal("300");
+			psuHBigDecimalArray[66] = new BigDecimal("330");
+			psuHBigDecimalArray[69] = new BigDecimal("380");
+			psuHBigDecimalArray[70] = new BigDecimal("385");
+			psuHBigDecimalArray[71] = new BigDecimal("390");
+			psuHBigDecimalArray[80] = new BigDecimal("420");
+			psuHBigDecimalArray[88] = new BigDecimal("450");
+			psuHBigDecimalArray[91] = new BigDecimal("455");
+			psuHBigDecimalArray[92] = new BigDecimal("460");
+			psuHBigDecimalArray[118] = new BigDecimal("465");
+			psuHBigDecimalArray[132] = new BigDecimal("660");
+			psuHBigDecimalArray[138] = new BigDecimal("670");
+			psuHBigDecimalArray[142] = new BigDecimal("740");
+			psuHBigDecimalArray[160] = new BigDecimal("745");
+			psuHBigDecimalArray[182] = new BigDecimal("755");
+			psuHBigDecimalArray[184] = new BigDecimal("920");
+			psuHBigDecimalArray[400] = new BigDecimal("3000");
+
+			int[] psuHValues = {1, 110, 260, 265, 275, 280, 285, 295, 300, 330, 380, 385, 390, 420, 450, 455, 460, 465, 660, 670, 740, 745, 745, 755, 920, 3000};
+			int[] psuHIndexes = {0, 22, 26, 29, 35, 44, 52, 58, 59, 66, 69, 70, 71, 80, 88, 91, 92, 118, 132, 138, 142, 160, 182, 184, 400};
+			for (int j = 0; j < psuHIndexes.length - 1; j++) {
+				int startIndex = psuHIndexes[j];
+				int endIndex = psuHIndexes[j + 1];
+				BigDecimal startValue = new BigDecimal(psuHValues[j]);
+				BigDecimal endValue = j + 1 < psuHValues.length ? new BigDecimal(psuHValues[j + 1]) : BigDecimal.ZERO;
+				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), RoundingMode.HALF_UP);
+
+				for(int i = startIndex + 1; i < endIndex; i++){
+					psuHBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
+				}
+			}
+			// SFT 배열 데이터 작성
+			BigDecimal[] psuZBigDecimalArray = new BigDecimal[401];
+
+			for(int i = 0; i < psuZBigDecimalArray.length; i++){
+				psuZBigDecimalArray[i] = BigDecimal.ZERO;
+			}
+
+			psuZBigDecimalArray[0] = new BigDecimal("1");
+			psuZBigDecimalArray[27] = new BigDecimal("459");
+			psuZBigDecimalArray[32] = new BigDecimal("935");
+			psuZBigDecimalArray[36] = new BigDecimal("1445");
+			psuZBigDecimalArray[48] = new BigDecimal("1462");
+			psuZBigDecimalArray[54] = new BigDecimal("1479");
+			psuZBigDecimalArray[55] = new BigDecimal("1496");
+			psuZBigDecimalArray[56] = new BigDecimal("1513");
+			psuZBigDecimalArray[59] = new BigDecimal("1530");
+			psuZBigDecimalArray[61] = new BigDecimal("1547");
+			psuZBigDecimalArray[64] = new BigDecimal("1564");
+			psuZBigDecimalArray[68] = new BigDecimal("1581");
+			psuZBigDecimalArray[72] = new BigDecimal("1615");
+			psuZBigDecimalArray[96] = new BigDecimal("1632");
+			psuZBigDecimalArray[97] = new BigDecimal("1649");
+			psuZBigDecimalArray[99] = new BigDecimal("1683");
+			psuZBigDecimalArray[110] = new BigDecimal("1717");
+			psuZBigDecimalArray[112] = new BigDecimal("1734");
+			psuZBigDecimalArray[118] = new BigDecimal("1785");
+			psuZBigDecimalArray[122] = new BigDecimal("2176");
+			psuZBigDecimalArray[136] = new BigDecimal("2193");
+			psuZBigDecimalArray[144] = new BigDecimal("2210");
+			psuZBigDecimalArray[194] = new BigDecimal("2567");
+			psuZBigDecimalArray[198] = new BigDecimal("2584");
+			psuZBigDecimalArray[400] = new BigDecimal("5700");
+
+			int[] psuZValues = {1, 459, 935, 1445, 1462, 1479, 1496, 1513, 1530, 1547, 1564, 1581, 1615, 1632, 1649, 1683, 1717, 1734, 1785, 2176, 2193, 2210, 2567, 2584, 5700};
+			int[] psuZIndexes = {0, 27, 32, 36, 48, 54, 55, 56, 59, 61, 64, 68, 72, 96, 97, 99, 110, 112, 118, 122, 136, 144, 194, 198, 400};
+			for (int j = 0; j < psuZIndexes.length - 1; j++) {
+				int startIndex = psuZIndexes[j];
+				int endIndex = psuZIndexes[j + 1];
+				BigDecimal startValue = new BigDecimal(psuZValues[j]);
+				BigDecimal endValue = j + 1 < psuZValues.length ? new BigDecimal(psuZValues[j + 1]) : BigDecimal.ZERO;
+				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), RoundingMode.HALF_UP);
+
+				for(int i = startIndex + 1; i < endIndex; i++){
+					psuZBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
+				}
+			}
 			for(int ps = 0; ps < partsPsuHistoryVOList.size(); ps++) {
 				PartsPsuHistoryVO partsPsuHistoryVO = partsPsuHistoryVOList.get(ps);
 				BigDecimal psuValue = BigDecimal.ZERO;
@@ -1647,7 +1976,128 @@ public class ESCAServiceImpl implements ESCAService {
 					}
 				}
 			}
-			
+			// CASEAS 배열 데이터 작성
+			BigDecimal[] caseFBigDecimalArray = new BigDecimal[401];
+
+			for(int i = 0; i < caseFBigDecimalArray.length; i++){
+				caseFBigDecimalArray[i] = BigDecimal.ZERO;
+			}
+
+			caseFBigDecimalArray[0] = new BigDecimal("1");
+			caseFBigDecimalArray[40] = new BigDecimal("7600");
+			caseFBigDecimalArray[55] = new BigDecimal("16340");
+			caseFBigDecimalArray[70] = new BigDecimal("16530");
+			caseFBigDecimalArray[80] = new BigDecimal("16720");
+			caseFBigDecimalArray[85] = new BigDecimal("16910");
+			caseFBigDecimalArray[100] = new BigDecimal("17100");
+			caseFBigDecimalArray[110] = new BigDecimal("19000");
+			caseFBigDecimalArray[140] = new BigDecimal("21850");
+			caseFBigDecimalArray[170] = new BigDecimal("22040");
+			caseFBigDecimalArray[200] = new BigDecimal("26600");
+			caseFBigDecimalArray[400] = new BigDecimal("53200");
+
+			int[] caseFValues = {1, 7600, 16340, 16530, 16720, 16910, 17100, 19000, 21850, 22040, 26600, 53200};
+			int[] caseFIndexes = {0, 40, 55, 70, 80, 85, 100, 110, 140, 170, 200, 400};
+			for (int j = 0; j < caseFIndexes.length - 1; j++) {
+				int startIndex = caseFIndexes[j];
+				int endIndex = caseFIndexes[j + 1];
+				BigDecimal startValue = new BigDecimal(caseFValues[j]);
+				BigDecimal endValue = j + 1 < caseFValues.length ? new BigDecimal(caseFValues[j + 1]) : BigDecimal.ZERO;
+				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), RoundingMode.HALF_UP);
+
+				for(int i = startIndex + 1; i < endIndex; i++){
+					caseFBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
+				}
+			}
+			// ADAP 배열 데이터 작성
+			BigDecimal[] caseGBigDecimalArray = new BigDecimal[401];
+
+			for(int i = 0; i < caseGBigDecimalArray.length; i++){
+				caseGBigDecimalArray[i] = BigDecimal.ZERO;
+			}
+
+			caseGBigDecimalArray[0] = new BigDecimal("1");
+			caseGBigDecimalArray[7] = new BigDecimal("2058");
+			caseGBigDecimalArray[13] = new BigDecimal("13818");
+			caseGBigDecimalArray[14] = new BigDecimal("14112");
+			caseGBigDecimalArray[16] = new BigDecimal("14406");
+			caseGBigDecimalArray[21] = new BigDecimal("14700");
+			caseGBigDecimalArray[25] = new BigDecimal("14994");
+			caseGBigDecimalArray[26] = new BigDecimal("15288");
+			caseGBigDecimalArray[31] = new BigDecimal("15582");
+			caseGBigDecimalArray[32] = new BigDecimal("15876");
+			caseGBigDecimalArray[35] = new BigDecimal("16170");
+			caseGBigDecimalArray[39] = new BigDecimal("16464");
+			caseGBigDecimalArray[41] = new BigDecimal("16758");
+			caseGBigDecimalArray[42] = new BigDecimal("17052");
+			caseGBigDecimalArray[50] = new BigDecimal("17346");
+			caseGBigDecimalArray[52] = new BigDecimal("17640");
+			caseGBigDecimalArray[62] = new BigDecimal("23814");
+			caseGBigDecimalArray[70] = new BigDecimal("24108");
+			caseGBigDecimalArray[78] = new BigDecimal("24402");
+			caseGBigDecimalArray[82] = new BigDecimal("32340");
+			caseGBigDecimalArray[400] = new BigDecimal("161700");
+
+			int[] caseGValues = {1, 2058, 13818, 14112, 14406, 14700, 14994, 15288, 15582, 15876, 16170, 16464, 16758, 17052, 17346, 17640, 23814, 24108, 24402, 32340, 161700};
+			int[] caseGIndexes = {0, 7, 13, 14, 16, 21, 25, 26, 31, 32, 35, 39, 41, 42, 50, 52, 62, 70, 78, 82, 400};
+			for (int j = 0; j < caseGIndexes.length - 1; j++) {
+				int startIndex = caseGIndexes[j];
+				int endIndex = caseGIndexes[j + 1];
+				BigDecimal startValue = new BigDecimal(caseGValues[j]);
+				BigDecimal endValue = j + 1 < caseGValues.length ? new BigDecimal(caseGValues[j + 1]) : BigDecimal.ZERO;
+				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), RoundingMode.HALF_UP);
+
+				for(int i = startIndex + 1; i < endIndex; i++){
+					caseGBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
+				}
+			}
+			// Cool 배열 데이터 작성
+			BigDecimal[] caseHBigDecimalArray = new BigDecimal[401];
+
+			for(int i = 0; i < caseHBigDecimalArray.length; i++){
+				caseHBigDecimalArray[i] = BigDecimal.ZERO;
+			}
+
+			caseHBigDecimalArray[0] = new BigDecimal("1");
+			caseHBigDecimalArray[12] = new BigDecimal("2220");
+			caseHBigDecimalArray[17] = new BigDecimal("4255");
+			caseHBigDecimalArray[19] = new BigDecimal("4440");
+			caseHBigDecimalArray[22] = new BigDecimal("5550");
+			caseHBigDecimalArray[24] = new BigDecimal("5735");
+			caseHBigDecimalArray[29] = new BigDecimal("5920");
+			caseHBigDecimalArray[34] = new BigDecimal("6105");
+			caseHBigDecimalArray[38] = new BigDecimal("6290");
+			caseHBigDecimalArray[44] = new BigDecimal("6475");
+			caseHBigDecimalArray[45] = new BigDecimal("8325");
+			caseHBigDecimalArray[48] = new BigDecimal("8880");
+			caseHBigDecimalArray[50] = new BigDecimal("10175");
+			caseHBigDecimalArray[58] = new BigDecimal("12025");
+			caseHBigDecimalArray[62] = new BigDecimal("12210");
+			caseHBigDecimalArray[68] = new BigDecimal("12395");
+			caseHBigDecimalArray[70] = new BigDecimal("12580");
+			caseHBigDecimalArray[76] = new BigDecimal("12765");
+			caseHBigDecimalArray[90] = new BigDecimal("16650");
+			caseHBigDecimalArray[96] = new BigDecimal("17760");
+			caseHBigDecimalArray[100] = new BigDecimal("18500");
+			caseHBigDecimalArray[124] = new BigDecimal("22940");
+			caseHBigDecimalArray[136] = new BigDecimal("30155");
+			caseHBigDecimalArray[140] = new BigDecimal("30340");
+			caseHBigDecimalArray[400] = new BigDecimal("79180");
+
+			int[] caseHValues = {1, 2220, 4255, 4440, 5550, 5735, 5920, 6105, 6290, 6475, 8325, 8880, 10175, 12025, 12210, 12395, 12580, 12765, 16650, 17760, 18500, 22940, 30155, 30340, 79180};
+			int[] caseHIndexes = {0, 12, 17, 19, 22, 24, 29, 34, 38, 44, 45, 48, 50, 58, 62, 68, 70, 76, 90, 96, 100, 124, 136, 140, 400};
+			for (int j = 0; j < caseHIndexes.length - 1; j++) {
+				int startIndex = caseHIndexes[j];
+				int endIndex = caseHIndexes[j + 1];
+				BigDecimal startValue = new BigDecimal(caseHValues[j]);
+				BigDecimal endValue = j + 1 < caseHValues.length ? new BigDecimal(caseHValues[j + 1]) : BigDecimal.ZERO;
+				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), RoundingMode.HALF_UP);
+
+				for(int i = startIndex + 1; i < endIndex; i++){
+					caseHBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
+				}
+			}
+
 			for(int ca = 0; ca < partsCaseHistoryVOList.size(); ca++) {
 				PartsCaseHistoryVO partsCaseHistoryVO = partsCaseHistoryVOList.get(ca);
 				BigDecimal caseValue = BigDecimal.ZERO;
@@ -1686,6 +2136,126 @@ public class ESCAServiceImpl implements ESCAService {
 			 - [calculation6] 1+[calculation2]+[calculation3]+[calculation4]+[calculation5]
 			 - Ssd Value = [calculation1]*[calculation6] 
 			*--------------------------------------------------*/
+			// FNC 배열 데이터 작성
+			BigDecimal[] ssdFBigDecimalArray = new BigDecimal[401];
+
+			for(int i = 0; i < ssdFBigDecimalArray.length; i++){
+				ssdFBigDecimalArray[i] = BigDecimal.ZERO;
+			}
+
+			ssdFBigDecimalArray[0] = new BigDecimal("1");
+			ssdFBigDecimalArray[21] = new BigDecimal("672");
+			ssdFBigDecimalArray[22] = new BigDecimal("768");
+			ssdFBigDecimalArray[25] = new BigDecimal("896");
+			ssdFBigDecimalArray[30] = new BigDecimal("960");
+			ssdFBigDecimalArray[35] = new BigDecimal("1056");
+			ssdFBigDecimalArray[37] = new BigDecimal("1120");
+			ssdFBigDecimalArray[39] = new BigDecimal("1216");
+			ssdFBigDecimalArray[41] = new BigDecimal("1312");
+			ssdFBigDecimalArray[42] = new BigDecimal("1376");
+			ssdFBigDecimalArray[44] = new BigDecimal("1440");
+			ssdFBigDecimalArray[45] = new BigDecimal("1472");
+			ssdFBigDecimalArray[49] = new BigDecimal("1504");
+			ssdFBigDecimalArray[50] = new BigDecimal("1536");
+			ssdFBigDecimalArray[51] = new BigDecimal("1568");
+			ssdFBigDecimalArray[60] = new BigDecimal("1920");
+			ssdFBigDecimalArray[70] = new BigDecimal("2240");
+			ssdFBigDecimalArray[74] = new BigDecimal("2368");
+			ssdFBigDecimalArray[78] = new BigDecimal("2496");
+			ssdFBigDecimalArray[82] = new BigDecimal("2528");
+			ssdFBigDecimalArray[84] = new BigDecimal("2688");
+			ssdFBigDecimalArray[90] = new BigDecimal("2720");
+			ssdFBigDecimalArray[98] = new BigDecimal("4768");
+			ssdFBigDecimalArray[102] = new BigDecimal("4800");
+			ssdFBigDecimalArray[400] = new BigDecimal("19200");
+
+			int[] ssdFValues = {1, 672, 768, 896, 960, 1056, 1120, 1216, 1312, 1376, 1440, 1472, 1504, 1536, 1568, 1920, 2240, 2368, 2496, 2528, 2688, 2720, 4768, 4800, 19200};
+			int[] ssdFIndexes = {0, 21, 22, 25, 30, 35, 37, 39, 41, 42, 44, 45, 49, 50, 51, 60, 70, 74, 78, 82, 84, 90, 98, 102, 400};
+			for (int j = 0; j < ssdFIndexes.length - 1; j++) {
+				int startIndex = ssdFIndexes[j];
+				int endIndex = ssdFIndexes[j + 1];
+				BigDecimal startValue = new BigDecimal(ssdFValues[j]);
+				BigDecimal endValue = j + 1 < ssdFValues.length ? new BigDecimal(ssdFValues[j + 1]) : BigDecimal.ZERO;
+				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), RoundingMode.HALF_UP);
+
+				for(int i = startIndex + 1; i < endIndex; i++){
+					ssdFBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
+				}
+			}
+			// WAR 배열 데이터 작성
+			BigDecimal[] ssdGBigDecimalArray = new BigDecimal[401];
+
+			for(int i = 0; i < ssdGBigDecimalArray.length; i++){
+				ssdGBigDecimalArray[i] = BigDecimal.ZERO;
+			}
+
+			ssdGBigDecimalArray[0] = new BigDecimal("1");
+			ssdGBigDecimalArray[12] = new BigDecimal("90");
+			ssdGBigDecimalArray[24] = new BigDecimal("95");
+			ssdGBigDecimalArray[36] = new BigDecimal("96");
+			ssdGBigDecimalArray[48] = new BigDecimal("97");
+			ssdGBigDecimalArray[60] = new BigDecimal("98");
+			ssdGBigDecimalArray[72] = new BigDecimal("99");
+			ssdGBigDecimalArray[96] = new BigDecimal("128");
+			ssdGBigDecimalArray[120] = new BigDecimal("130");
+			ssdGBigDecimalArray[400] = new BigDecimal("추가");
+
+			int[] ssdGValues = {1, 90, 95, 96, 97, 98, 99, 128, 130, 추가};
+			int[] ssdGIndexes = {0, 12, 24, 36, 48, 60, 72, 96, 120, 400};
+			for (int j = 0; j < ssdGIndexes.length - 1; j++) {
+				int startIndex = ssdGIndexes[j];
+				int endIndex = ssdGIndexes[j + 1];
+				BigDecimal startValue = new BigDecimal(ssdGValues[j]);
+				BigDecimal endValue = j + 1 < ssdGValues.length ? new BigDecimal(ssdGValues[j + 1]) : BigDecimal.ZERO;
+				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), RoundingMode.HALF_UP);
+
+				for(int i = startIndex + 1; i < endIndex; i++){
+					ssdGBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
+				}
+			}
+			// RLB 배열 데이터 작성
+			BigDecimal[] ssdHBigDecimalArray = new BigDecimal[401];
+
+			for(int i = 0; i < ssdHBigDecimalArray.length; i++){
+				ssdHBigDecimalArray[i] = BigDecimal.ZERO;
+			}
+
+			ssdHBigDecimalArray[0] = new BigDecimal("1");
+			ssdHBigDecimalArray[25] = new BigDecimal("31");
+			ssdHBigDecimalArray[29] = new BigDecimal("32");
+			ssdHBigDecimalArray[33] = new BigDecimal("35");
+			ssdHBigDecimalArray[40] = new BigDecimal("36");
+			ssdHBigDecimalArray[41] = new BigDecimal("37");
+			ssdHBigDecimalArray[43] = new BigDecimal("94");
+			ssdHBigDecimalArray[44] = new BigDecimal("95");
+			ssdHBigDecimalArray[47] = new BigDecimal("96");
+			ssdHBigDecimalArray[50] = new BigDecimal("97");
+			ssdHBigDecimalArray[51] = new BigDecimal("98");
+			ssdHBigDecimalArray[58] = new BigDecimal("107");
+			ssdHBigDecimalArray[66] = new BigDecimal("108");
+			ssdHBigDecimalArray[80] = new BigDecimal("109");
+			ssdHBigDecimalArray[82] = new BigDecimal("115");
+			ssdHBigDecimalArray[86] = new BigDecimal("116");
+			ssdHBigDecimalArray[88] = new BigDecimal("117");
+			ssdHBigDecimalArray[94] = new BigDecimal("118");
+			ssdHBigDecimalArray[100] = new BigDecimal("121");
+			ssdHBigDecimalArray[102] = new BigDecimal("122");
+			ssdHBigDecimalArray[400] = new BigDecimal("추가");
+
+			int[] ssdHValues = {1, 31, 32, 35, 36, 37, 94, 95, 96, 97, 98, 107, 1008, 109, 115, 116, 117, 118, 121, 122, 추가};
+			int[] ssdHIndexes = {0, 25, 29, 33, 40, 41, 43, 44, 47, 50, 51, 58, 66, 80, 82, 86, 88, 94, 100, 102, 400};
+			for (int j = 0; j < ssdHIndexes.length - 1; j++) {
+				int startIndex = ssdHIndexes[j];
+				int endIndex = ssdHIndexes[j + 1];
+				BigDecimal startValue = new BigDecimal(ssdHValues[j]);
+				BigDecimal endValue = j + 1 < ssdHValues.length ? new BigDecimal(ssdHValues[j + 1]) : BigDecimal.ZERO;
+				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), RoundingMode.HALF_UP);
+
+				for(int i = startIndex + 1; i < endIndex; i++){
+					ssdHBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
+				}
+			}
+
 			for(int ss = 0; ss < partsSsdHistoryVOList.size(); ss++) {
 				PartsSsdHistoryVO partsSsdHistoryVO = partsSsdHistoryVOList.get(ss);
 				BigDecimal ssdValue = BigDecimal.ZERO;

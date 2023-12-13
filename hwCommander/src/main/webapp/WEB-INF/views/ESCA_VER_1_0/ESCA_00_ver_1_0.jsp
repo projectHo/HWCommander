@@ -1703,26 +1703,26 @@
 									<!-- <button class="btn btn-primary q12-save-btn" onclick="javascript:questionTwelveSaveBtn()">저장</button> -->
 								</h2>
 								<h3 class="mt-3">C드라이브(SSD)의 용량을 선택해주세요</h3>
-								<div class="mt-3 row">
+								<div class="mt-3 row w-75">
 									<div class="col-lg">
 										<input type="radio" class="btn-check" name="btnradio" id="q12-answer1">
 										<label class="btn btn-outline-secondary w-75 h-100" for="q12-answer1" onclick="javascript:questionTwelveBtn(this)"><p class="pt-1 m-0">예산에 맞게</p></label>
 									</div>
-									<div class="col-lg">
+									<div class="col-lg text-center">
 										<input type="radio" class="btn-check" name="btnradio" id="q12-answer2">
 										<label class="btn btn-outline-secondary w-75" for="q12-answer2" onclick="javascript:questionTwelveBtn(this)"><p class="pt-1 m-0">256GB</p></label>
 									</div>
-									<div class="col-lg">
+									<div class="col-lg text-end">
 										<input type="radio" class="btn-check" name="btnradio" id="q12-answer3">
 										<label class="btn btn-outline-secondary w-75 h-100" for="q12-answer3" onclick="javascript:questionTwelveBtn(this)"><p class="pt-1 m-0">512GB</p></label>
 									</div>
 								</div>
-								<div class="row">
-									<div class="col-lg">
+								<div class="row w-75">
+									<div class="col-lg text-center">
 										<input type="radio" class="btn-check" name="btnradio" id="q12-answer4">
 										<label class="btn btn-outline-secondary w-75 h-100" for="q12-answer4" onclick="javascript:questionTwelveBtn(this)"><p class="pt-1 m-0">1024GB(1TB)</p></label>
 									</div>
-									<div class="col-lg">
+									<div class="col-lg text-center">
 										<input type="radio" class="btn-check" name="btnradio" id="q12-answer5">
 										<label class="btn btn-outline-secondary w-75 h-100" for="q12-answer5" onclick="javascript:questionTwelveBtn(this)"><p class="pt-1 m-0">2048GB(2TB)</p></label>
 									</div>
