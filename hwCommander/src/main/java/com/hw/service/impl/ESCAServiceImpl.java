@@ -1125,6 +1125,7 @@ public class ESCAServiceImpl implements ESCAService {
 			}
 		}
 		
+		
 		// GPUAS 배열 데이터 작성
 		BigDecimal[] gpuGBigDecimalArray = new BigDecimal[401];
 
@@ -1163,6 +1164,7 @@ public class ESCAServiceImpl implements ESCAService {
 		}
 		
 		// gpu value 연산
+		// gpu value 연산
 		for(int i = 0; i < partsGpuHistoryVOList.size(); i++) {
 			PartsGpuHistoryVO partsGpuHistoryVO = partsGpuHistoryVOList.get(i);
 			
@@ -1180,6 +1182,7 @@ public class ESCAServiceImpl implements ESCAService {
 			BigDecimal calculation4 = BigDecimal.ZERO;
 			BigDecimal calculation5 = BigDecimal.ZERO;
 			BigDecimal calculation6 = BigDecimal.ZERO;
+			BigDecimal calculation6 = BigDecimal.ZERO;
 			
 			calculation1 = QC.multiply(CQC).subtract(new BigDecimal("1"));
 			calculation2 = GPUAS.multiply(CAS).setScale(0, BigDecimal.ROUND_HALF_UP);
@@ -1193,7 +1196,20 @@ public class ESCAServiceImpl implements ESCAService {
 			calculation4 = gpuFBigDecimalArray[calculation2.intValue()].multiply(gpuGBigDecimalArray[calculation3.intValue()]).divide(GPUCV);
 			calculation5 = new BigDecimal("1").add(calculation4);
 			calculation6 = GC.multiply(calculation5).multiply(calculation1);
+			calculation1 = QC.multiply(CQC).subtract(new BigDecimal("1"));
+			calculation2 = GPUAS.multiply(CAS).setScale(0, BigDecimal.ROUND_HALF_UP);
+			if(0 == calculation2.compareTo(new BigDecimal("401"))) {
+				calculation2 = new BigDecimal("400");
+			}
+			calculation3 = GSV.multiply(CMT).setScale(0, BigDecimal.ROUND_HALF_UP);
+			if(0 == calculation3.compareTo(new BigDecimal("401"))) {
+				calculation3 = new BigDecimal("400");
+			}
+			calculation4 = gpuFBigDecimalArray[calculation2.intValue()].multiply(gpuGBigDecimalArray[calculation3.intValue()]).divide(GPUCV);
+			calculation5 = new BigDecimal("1").add(calculation4);
+			calculation6 = GC.multiply(calculation5).multiply(calculation1);
 			
+			partsGpuHistoryVO.setGpuValue(calculation6);
 			partsGpuHistoryVO.setGpuValue(calculation6);
 		}
 		

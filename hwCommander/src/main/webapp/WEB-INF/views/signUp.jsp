@@ -63,8 +63,11 @@ function agreeTerms(){
 // 09.07 약관 스크롤 이벤트 추가
 function scrollTerms(elem){
 	var scrollTop = $(elem).scrollTop();
+	console.log(scrollTop);
 	var innerHeight = $(elem).innerHeight();
+	console.log(innerHeight);
 	var scrollHeight = $(elem).prop('scrollHeight');
+	console.log(scrollHeight);
 	if (scrollTop + innerHeight >= scrollHeight) {
 		$("#agree-terms").removeClass("btn-outline-primary").addClass("btn-primary").attr("disabled",false);
 	}
