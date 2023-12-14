@@ -1033,6 +1033,10 @@ public class ESCAServiceImpl implements ESCAService {
 		 - 가장 위 제품부터 아래 제품과 Value를 비교한다.
 		 - Value가 이전 결과보다 낮으면 소거한다.(value가 같고 가격이 다르면 이전 제품을 소거해야함. 이전 결과의 제품이 가격은 더 높은데 value가 같으니까.)
 		 - 소거됐을 경우 이전 Value결과를 유지하고 다음 제품을 비교한다.
+		 -
+		 - 23.12.14 GPU Value 변경
+		 - GPU Value = PR(GPU)*{1+f(GPUAS*AScustom)*g(GSV*소재custom)/보정수치}*{1-(QC*QCcustom)}
+		 - = GC*{1+f(GPUAS*CAS)*g(GSV*CMT)/GPUCV}*{1-(QC*CQC)}
 		*--------------------------------------------------*/
 		
 		// maker as_score -> gpu gpuas 값 이식
@@ -1077,10 +1081,6 @@ public class ESCAServiceImpl implements ESCAService {
 			partsGpuHistoryVOList.get(i).setMappingPrAndGcResourceScore(resultGC);
 		}
 		
-		
-		
-		// gpu value 연산
-
 		// GSV 배열 데이터 작성
 		BigDecimal[] gpuFBigDecimalArray = new BigDecimal[401];
 
@@ -1124,6 +1124,7 @@ public class ESCAServiceImpl implements ESCAService {
 				gpuFBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
 			}
 		}
+		
 		// GPUAS 배열 데이터 작성
 		BigDecimal[] gpuGBigDecimalArray = new BigDecimal[401];
 
@@ -1161,47 +1162,9 @@ public class ESCAServiceImpl implements ESCAService {
 			}
 		}
 		
+		// gpu value 연산
 		for(int i = 0; i < partsGpuHistoryVOList.size(); i++) {
 			PartsGpuHistoryVO partsGpuHistoryVO = partsGpuHistoryVOList.get(i);
-			
-//			int GC = partsGpuHistoryVO.getGc();
-//			
-//			// 23.07.30 1의자리 0인건 잘못된 데이터라고 함.. 연산에서 제외 0이 아닐때만 연산 ㄱㄱ
-//			String gcStr = String.valueOf(GC);
-//			if(!"0".equals(gcStr.substring(gcStr.length()-1))) {
-//			
-//			// 23.07.30 10억 미만 연산제외
-//			if(GC < 1000000000) {
-////				- * GPU Value = GC(GC)*(1+QC*0.1*CQC+GSV*0.001*CMT+AS(GPUAS)*CAS*0.001)
-////				대입변수 변환
-////				- * GPU Value = GC(GC)*(1+[calculation1]+[calculation2]+[calculation3])
-////				[calculation1] QC*0.1*CQC
-////				[calculation2] GSV*0.001*CMT
-////				[calculation3] AS(GPUAS 단 하나)*CAS*0.001
-////				[calculation4] (1+[calculation1]+[calculation2]+[calculation3])
-////				[calculation5] GC(parts_gpu gc값) * [calculation4]
-////				GPU Value = [calculation5]
-//				
-//				BigDecimal QC = new BigDecimal(partsGpuHistoryVO.getQc());
-//				BigDecimal GSV = partsGpuHistoryVO.getGsv();
-//				BigDecimal GPUAS = new BigDecimal(partsGpuHistoryVO.getGpuas());
-//				
-//				BigDecimal calculation1 = BigDecimal.ZERO;
-//				BigDecimal calculation2 = BigDecimal.ZERO;
-//				BigDecimal calculation3 = BigDecimal.ZERO;
-//				BigDecimal calculation4 = BigDecimal.ZERO;
-//				BigDecimal calculation5 = BigDecimal.ZERO;
-//				
-//				calculation1 = QC.multiply(new BigDecimal("0.1")).multiply(CQC);
-//				calculation2 = GSV.multiply(new BigDecimal("0.001")).multiply(CMT);
-//				calculation3 = GPUAS.multiply(CAS).multiply(new BigDecimal("0.001"));
-//				calculation4 = new BigDecimal("1").add(calculation1).add(calculation2).add(calculation3);
-//				calculation5 = new BigDecimal(GC).multiply(calculation4);
-//				
-//				partsGpuHistoryVO.setGpuValue(calculation5);
-//			}else {
-//				partsGpuHistoryVO.setGpuValue(new BigDecimal(0));
-//			}
 			
 			// init
 			partsGpuHistoryVO.setGpuValue(new BigDecimal(0));
@@ -1209,19 +1172,29 @@ public class ESCAServiceImpl implements ESCAService {
 			BigDecimal GSV = partsGpuHistoryVO.getGsv();
 			BigDecimal GPUAS = new BigDecimal(partsGpuHistoryVO.getGpuas());
 			BigDecimal GC = partsGpuHistoryVO.getMappingPrAndGcResourceScore();
+			BigDecimal GPUCV = new BigDecimal("1"); // 보정수치
+			
 			BigDecimal calculation1 = BigDecimal.ZERO;
 			BigDecimal calculation2 = BigDecimal.ZERO;
 			BigDecimal calculation3 = BigDecimal.ZERO;
 			BigDecimal calculation4 = BigDecimal.ZERO;
 			BigDecimal calculation5 = BigDecimal.ZERO;
+			BigDecimal calculation6 = BigDecimal.ZERO;
 			
-			calculation1 = QC.multiply(new BigDecimal("0.1")).multiply(CQC);
-			calculation2 = GSV.multiply(new BigDecimal("0.001")).multiply(CMT);
-			calculation3 = GPUAS.multiply(CAS).multiply(new BigDecimal("0.001"));
-			calculation4 = new BigDecimal("1").add(calculation1).add(calculation2).add(calculation3);
-			calculation5 = GC.multiply(calculation4);
+			calculation1 = QC.multiply(CQC).subtract(new BigDecimal("1"));
+			calculation2 = GPUAS.multiply(CAS).setScale(0, BigDecimal.ROUND_HALF_UP);
+			if(0 == calculation2.compareTo(new BigDecimal("401"))) {
+				calculation2 = new BigDecimal("400");
+			}
+			calculation3 = GSV.multiply(CMT).setScale(0, BigDecimal.ROUND_HALF_UP);
+			if(0 == calculation3.compareTo(new BigDecimal("401"))) {
+				calculation3 = new BigDecimal("400");
+			}
+			calculation4 = gpuFBigDecimalArray[calculation2.intValue()].multiply(gpuGBigDecimalArray[calculation3.intValue()]).divide(GPUCV);
+			calculation5 = new BigDecimal("1").add(calculation4);
+			calculation6 = GC.multiply(calculation5).multiply(calculation1);
 			
-			partsGpuHistoryVO.setGpuValue(calculation5);
+			partsGpuHistoryVO.setGpuValue(calculation6);
 		}
 
 //		기존  소거방법 폐기
@@ -1823,9 +1796,9 @@ public class ESCAServiceImpl implements ESCAService {
 			psuGBigDecimalArray[160] = new BigDecimal("2400");
 			psuGBigDecimalArray[182] = new BigDecimal("2730");
 			psuGBigDecimalArray[184] = new BigDecimal("3300");
-			psuGBigDecimalArray[400] = new BigDecimal("나오면넣기");
+			psuGBigDecimalArray[400] = new BigDecimal("7050");
 
-			int[] psuGValues = {1, 330, 390, 1095, 1245, 1260, 1290, 1305, 1320, 1320, 1335, 1350, 1365, 1380, 1410, 1425, 1440, 1470, 1590, 1980, 2070, 2130, 2400, 2730, 3300, 추가};
+			int[] psuGValues = {1, 330, 390, 1095, 1245, 1260, 1290, 1305, 1320, 1320, 1335, 1350, 1365, 1380, 1410, 1425, 1440, 1470, 1590, 1980, 2070, 2130, 2400, 2730, 3300, 7050};
 			int[] psuGIndexes = {0, 22, 26, 29, 35, 44, 52, 58, 59, 66, 69, 70, 71, 80, 88, 91, 92, 118, 132, 138, 142, 160, 182, 184, 400};
 			for (int j = 0; j < psuGIndexes.length - 1; j++) {
 				int startIndex = psuGIndexes[j];
@@ -2189,73 +2162,75 @@ public class ESCAServiceImpl implements ESCAService {
 				ssdGBigDecimalArray[i] = BigDecimal.ZERO;
 			}
 
-			ssdGBigDecimalArray[0] = new BigDecimal("1");
-			ssdGBigDecimalArray[12] = new BigDecimal("90");
-			ssdGBigDecimalArray[24] = new BigDecimal("95");
-			ssdGBigDecimalArray[36] = new BigDecimal("96");
-			ssdGBigDecimalArray[48] = new BigDecimal("97");
-			ssdGBigDecimalArray[60] = new BigDecimal("98");
-			ssdGBigDecimalArray[72] = new BigDecimal("99");
-			ssdGBigDecimalArray[96] = new BigDecimal("128");
-			ssdGBigDecimalArray[120] = new BigDecimal("130");
-			ssdGBigDecimalArray[400] = new BigDecimal("추가");
+//			todo
+//			ssdGBigDecimalArray[0] = new BigDecimal("1");
+//			ssdGBigDecimalArray[12] = new BigDecimal("90");
+//			ssdGBigDecimalArray[24] = new BigDecimal("95");
+//			ssdGBigDecimalArray[36] = new BigDecimal("96");
+//			ssdGBigDecimalArray[48] = new BigDecimal("97");
+//			ssdGBigDecimalArray[60] = new BigDecimal("98");
+//			ssdGBigDecimalArray[72] = new BigDecimal("99");
+//			ssdGBigDecimalArray[96] = new BigDecimal("128");
+//			ssdGBigDecimalArray[120] = new BigDecimal("130");
+//			ssdGBigDecimalArray[400] = new BigDecimal("추가");
+//
+//			int[] ssdGValues = {1, 90, 95, 96, 97, 98, 99, 128, 130, 추가};
+//			int[] ssdGIndexes = {0, 12, 24, 36, 48, 60, 72, 96, 120, 400};
+//			for (int j = 0; j < ssdGIndexes.length - 1; j++) {
+//				int startIndex = ssdGIndexes[j];
+//				int endIndex = ssdGIndexes[j + 1];
+//				BigDecimal startValue = new BigDecimal(ssdGValues[j]);
+//				BigDecimal endValue = j + 1 < ssdGValues.length ? new BigDecimal(ssdGValues[j + 1]) : BigDecimal.ZERO;
+//				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), RoundingMode.HALF_UP);
+//
+//				for(int i = startIndex + 1; i < endIndex; i++){
+//					ssdGBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
+//				}
+//			}
+//			// RLB 배열 데이터 작성
+//			BigDecimal[] ssdHBigDecimalArray = new BigDecimal[401];
+//
+//			for(int i = 0; i < ssdHBigDecimalArray.length; i++){
+//				ssdHBigDecimalArray[i] = BigDecimal.ZERO;
+//			}
+//
+//			ssdHBigDecimalArray[0] = new BigDecimal("1");
+//			ssdHBigDecimalArray[25] = new BigDecimal("31");
+//			ssdHBigDecimalArray[29] = new BigDecimal("32");
+//			ssdHBigDecimalArray[33] = new BigDecimal("35");
+//			ssdHBigDecimalArray[40] = new BigDecimal("36");
+//			ssdHBigDecimalArray[41] = new BigDecimal("37");
+//			ssdHBigDecimalArray[43] = new BigDecimal("94");
+//			ssdHBigDecimalArray[44] = new BigDecimal("95");
+//			ssdHBigDecimalArray[47] = new BigDecimal("96");
+//			ssdHBigDecimalArray[50] = new BigDecimal("97");
+//			ssdHBigDecimalArray[51] = new BigDecimal("98");
+//			ssdHBigDecimalArray[58] = new BigDecimal("107");
+//			ssdHBigDecimalArray[66] = new BigDecimal("108");
+//			ssdHBigDecimalArray[80] = new BigDecimal("109");
+//			ssdHBigDecimalArray[82] = new BigDecimal("115");
+//			ssdHBigDecimalArray[86] = new BigDecimal("116");
+//			ssdHBigDecimalArray[88] = new BigDecimal("117");
+//			ssdHBigDecimalArray[94] = new BigDecimal("118");
+//			ssdHBigDecimalArray[100] = new BigDecimal("121");
+//			ssdHBigDecimalArray[102] = new BigDecimal("122");
+//			ssdHBigDecimalArray[400] = new BigDecimal("추가");
+//
+//			int[] ssdHValues = {1, 31, 32, 35, 36, 37, 94, 95, 96, 97, 98, 107, 1008, 109, 115, 116, 117, 118, 121, 122, 추가};
+//			int[] ssdHIndexes = {0, 25, 29, 33, 40, 41, 43, 44, 47, 50, 51, 58, 66, 80, 82, 86, 88, 94, 100, 102, 400};
+//			for (int j = 0; j < ssdHIndexes.length - 1; j++) {
+//				int startIndex = ssdHIndexes[j];
+//				int endIndex = ssdHIndexes[j + 1];
+//				BigDecimal startValue = new BigDecimal(ssdHValues[j]);
+//				BigDecimal endValue = j + 1 < ssdHValues.length ? new BigDecimal(ssdHValues[j + 1]) : BigDecimal.ZERO;
+//				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), RoundingMode.HALF_UP);
+//
+//				for(int i = startIndex + 1; i < endIndex; i++){
+//					ssdHBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
+//				}
+//			}
 
-			int[] ssdGValues = {1, 90, 95, 96, 97, 98, 99, 128, 130, 추가};
-			int[] ssdGIndexes = {0, 12, 24, 36, 48, 60, 72, 96, 120, 400};
-			for (int j = 0; j < ssdGIndexes.length - 1; j++) {
-				int startIndex = ssdGIndexes[j];
-				int endIndex = ssdGIndexes[j + 1];
-				BigDecimal startValue = new BigDecimal(ssdGValues[j]);
-				BigDecimal endValue = j + 1 < ssdGValues.length ? new BigDecimal(ssdGValues[j + 1]) : BigDecimal.ZERO;
-				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), RoundingMode.HALF_UP);
-
-				for(int i = startIndex + 1; i < endIndex; i++){
-					ssdGBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
-				}
-			}
-			// RLB 배열 데이터 작성
-			BigDecimal[] ssdHBigDecimalArray = new BigDecimal[401];
-
-			for(int i = 0; i < ssdHBigDecimalArray.length; i++){
-				ssdHBigDecimalArray[i] = BigDecimal.ZERO;
-			}
-
-			ssdHBigDecimalArray[0] = new BigDecimal("1");
-			ssdHBigDecimalArray[25] = new BigDecimal("31");
-			ssdHBigDecimalArray[29] = new BigDecimal("32");
-			ssdHBigDecimalArray[33] = new BigDecimal("35");
-			ssdHBigDecimalArray[40] = new BigDecimal("36");
-			ssdHBigDecimalArray[41] = new BigDecimal("37");
-			ssdHBigDecimalArray[43] = new BigDecimal("94");
-			ssdHBigDecimalArray[44] = new BigDecimal("95");
-			ssdHBigDecimalArray[47] = new BigDecimal("96");
-			ssdHBigDecimalArray[50] = new BigDecimal("97");
-			ssdHBigDecimalArray[51] = new BigDecimal("98");
-			ssdHBigDecimalArray[58] = new BigDecimal("107");
-			ssdHBigDecimalArray[66] = new BigDecimal("108");
-			ssdHBigDecimalArray[80] = new BigDecimal("109");
-			ssdHBigDecimalArray[82] = new BigDecimal("115");
-			ssdHBigDecimalArray[86] = new BigDecimal("116");
-			ssdHBigDecimalArray[88] = new BigDecimal("117");
-			ssdHBigDecimalArray[94] = new BigDecimal("118");
-			ssdHBigDecimalArray[100] = new BigDecimal("121");
-			ssdHBigDecimalArray[102] = new BigDecimal("122");
-			ssdHBigDecimalArray[400] = new BigDecimal("추가");
-
-			int[] ssdHValues = {1, 31, 32, 35, 36, 37, 94, 95, 96, 97, 98, 107, 1008, 109, 115, 116, 117, 118, 121, 122, 추가};
-			int[] ssdHIndexes = {0, 25, 29, 33, 40, 41, 43, 44, 47, 50, 51, 58, 66, 80, 82, 86, 88, 94, 100, 102, 400};
-			for (int j = 0; j < ssdHIndexes.length - 1; j++) {
-				int startIndex = ssdHIndexes[j];
-				int endIndex = ssdHIndexes[j + 1];
-				BigDecimal startValue = new BigDecimal(ssdHValues[j]);
-				BigDecimal endValue = j + 1 < ssdHValues.length ? new BigDecimal(ssdHValues[j + 1]) : BigDecimal.ZERO;
-				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), RoundingMode.HALF_UP);
-
-				for(int i = startIndex + 1; i < endIndex; i++){
-					ssdHBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
-				}
-			}
-
+			
 			for(int ss = 0; ss < partsSsdHistoryVOList.size(); ss++) {
 				PartsSsdHistoryVO partsSsdHistoryVO = partsSsdHistoryVOList.get(ss);
 				BigDecimal ssdValue = BigDecimal.ZERO;
@@ -2815,6 +2790,13 @@ public class ESCAServiceImpl implements ESCAService {
 				 - [calculation4] BIOS*0.0001*CSFT
 				 - [calculation5] 1+[calculation2]+[calculation3]+[calculation4]
 				 - Mb Value = [calculation1]*[calculation5]
+				 -
+				 - 23.12.14 MB Value 변경
+				 - MB Value = PR(GPU)*0.03*{1+f(MBAS*AScustom)*g(PORT*소재custom)*h(BIOS*안정성custom)/보정수치}*{1-(QC*QCcustom)}
+				 - = GC*0.03*{1+f(MBAS*CAS)*g(PORT*CMT)*h(BIOS*CSFT)/MBCV}*{1-(QC*CQC)}
+				 - 수식 잘못됨. 다시 전달받음.
+				 - MB Value = PR(CPU)*0.6*{1+f(MBAS*AScustom)*g(PORT*소재custom)*h(BIOS*안정성custom)/보정수치}*{1-(QC*QCcustom)}
+				 - = CC*0.6*{1+f(MBAS*CAS)*g(PORT*CMT)*h(BIOS*CSFT)/MBCV}*{1-(QC*CQC)}
 				*--------------------------------------------------*/
 				BigDecimal CC = partsCpuHistoryVOList.get(cpuIndex).getCpuValue();
 				
@@ -2825,6 +2807,23 @@ public class ESCAServiceImpl implements ESCAService {
 							partsMbHistoryVOList.get(z).setMbas(partsMakerHistoryVOList.get(ma).getAsScore());
 						}
 					}
+				}
+				
+				// todo MB배열
+				BigDecimal[] mbFBigDecimalArray = new BigDecimal[401];
+				BigDecimal[] mbGBigDecimalArray = new BigDecimal[401];
+				BigDecimal[] mbHBigDecimalArray = new BigDecimal[401];
+
+				for(int i = 0; i < mbFBigDecimalArray.length; i++){
+					mbFBigDecimalArray[i] = BigDecimal.ZERO;
+				}
+				
+				for(int i = 0; i < mbGBigDecimalArray.length; i++){
+					mbGBigDecimalArray[i] = BigDecimal.ZERO;
+				}
+				
+				for(int i = 0; i < mbHBigDecimalArray.length; i++){
+					mbHBigDecimalArray[i] = BigDecimal.ZERO;
 				}
 				
 				for(int mb = 0; mb < partsMbHistoryVOList.size(); mb++) {
@@ -2838,6 +2837,19 @@ public class ESCAServiceImpl implements ESCAService {
 					BigDecimal calculation3 = BigDecimal.ZERO;
 					BigDecimal calculation4 = BigDecimal.ZERO;
 					BigDecimal calculation5 = BigDecimal.ZERO;
+					BigDecimal calculation6 = BigDecimal.ZERO;
+					BigDecimal calculation7 = BigDecimal.ZERO;
+					BigDecimal calculation8 = BigDecimal.ZERO;
+					
+//					 - = GC*0.03*{calculation7}*{calculation2}
+//					calculation1 = QC*CQC
+//					calculation2 = 1-calculation1
+//					calculation3 = MBAS*CAS (반올림, maxindex 체크필요)
+//					calculation4 = PORT*CMT (반올림, maxindex 체크필요)
+//					5 = BIOS*CSF (반올림, maxindex 체크필요)
+//					6 = f(calculation3)*g(calculation4)*h(calculation5)/MBCV
+//					7 = 1+calculation6
+//					8 = GC*0.03*{calculation7}*{calculation2}
 					
 					calculation1 = CC.multiply(new BigDecimal("0.4"));
 					calculation2 = MBAS.multiply(new BigDecimal("0.001")).multiply(CAS);
@@ -2845,6 +2857,11 @@ public class ESCAServiceImpl implements ESCAService {
 					calculation4 = BIOS.multiply(new BigDecimal("0.0001")).multiply(CSFT);
 					calculation5 = new BigDecimal("1").add(calculation2).add(calculation3).add(calculation4);
 					mbValue = calculation1.multiply(calculation5);
+					
+//					calculation2 = GPUAS.multiply(CAS).setScale(0, BigDecimal.ROUND_HALF_UP);
+//					if(0 == calculation2.compareTo(new BigDecimal("401"))) {
+//						calculation2 = new BigDecimal("400");
+//					}
 					
 					partsMbHistoryVO.setMbValue(mbValue);
 				}
