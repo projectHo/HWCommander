@@ -23,4 +23,5 @@ public class PartsHddHistoryVO {
 	private String regDtm;
 	private int multiBulk;
 	private int volume;
+	private int qc;
 }

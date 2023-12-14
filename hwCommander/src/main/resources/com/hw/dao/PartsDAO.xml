@@ -243,7 +243,7 @@
 			, a.multi_bulk                                                                     AS multiBulk
 			, a.apu                                                                            AS apu
 			, (SELECT MAX(history_seq) FROM parts_cpu_history WHERE id = a.id)                 AS partsHistorySeq
-			, a.cl_soc                                                                         AS clSoc     
+			, a.cl_soc                                                                         AS clSoc
 		FROM
 			parts_cpu a
 		<where>
@@ -271,7 +271,7 @@
 			, updt_dtm            = NOW()         
 			, multi_bulk          = #{multiBulk}  
 			, apu                 = #{apu}
-			, cl_soc              = #{clSoc}        
+			, cl_soc              = #{clSoc}
 		WHERE
 			id = #{id}
 	</update>
@@ -353,6 +353,7 @@
 			, wifi
 			, mc
 			, lim_vrm
+			, qc
 		)
 		VALUES
 		(
@@ -379,6 +380,7 @@
 			, #{wifi}
 			, #{mc}
 			, #{limVrm}
+			, #{qc}
 		)
 	</insert>
 	
@@ -417,6 +419,7 @@
 			, a.mc                                                                             AS mc
 			, (SELECT MAX(history_seq) FROM parts_mb_history WHERE id = a.id)                  AS partsHistorySeq
 			, a.lim_vrm                                                                        AS limVrm
+			, a.qc                                                                             AS qc
 		FROM
 			parts_mb a
 		<where>
@@ -452,6 +455,7 @@
 			, wifi                = #{wifi}
 			, mc                  = #{mc}
 			, lim_vrm             = #{limVrm}
+			, qc                  = #{qc}
 		WHERE
 			id = #{id}
 	</update>
@@ -487,6 +491,7 @@
 			, wifi
 			, mc
 			, lim_vrm
+			, qc
 		)
 		VALUES
 		(
@@ -514,6 +519,7 @@
 			, #{wifi}
 			, #{mc}
 			, #{limVrm}
+			, #{qc}
 		)
 	</insert>
 	
@@ -551,6 +557,7 @@
 			, a.wifi                                                                           AS wifi
 			, a.mc                                                                             AS mc
 			, a.lim_vrm                                                                        AS limVrm
+			, a.qc                                                                             AS qc
 		FROM
 			parts_mb_history a
 		<where>
@@ -783,6 +790,7 @@
 			, reg_dtm
 			, updt_dtm
 			, multi_bulk
+			, qc
 		)
 		VALUES
 		(
@@ -803,6 +811,7 @@
 			, NOW()
 			, #{updtDtm}
 			, #{multiBulk}
+			, #{qc}
 		)
 	</insert>
 	
@@ -828,7 +837,8 @@
 			, a.reg_dtm                                                                        AS regDtm    
 			, a.updt_dtm                                                                       AS updtDtm
 			, a.multi_bulk                                                                     AS multiBulk
-			, (SELECT MAX(history_seq) FROM parts_psu_history WHERE id = a.id)                 AS partsHistorySeq     
+			, (SELECT MAX(history_seq) FROM parts_psu_history WHERE id = a.id)                 AS partsHistorySeq
+			, a.qc                                                                             AS qc     
 		FROM
 			parts_psu a
 		<where>
@@ -856,7 +866,8 @@
 			, twelve_pin          = #{twelvePin} 
 			, parts_image         = #{partsImage}
 			, updt_dtm            = NOW()        
-			, multi_bulk          = #{multiBulk} 
+			, multi_bulk          = #{multiBulk}
+			, qc                  = #{qc}  
 		WHERE
 			id = #{id}
 	</update>
@@ -885,6 +896,7 @@
 			, parts_image
 			, reg_dtm
 			, multi_bulk
+			, qc
 		)
 		VALUES
 		(
@@ -905,6 +917,7 @@
 			, #{partsImage}
 			, NOW()
 			, #{multiBulk}
+			, #{qc}
 		)
 	</insert>
 	
@@ -940,6 +953,7 @@
 			, reg_dtm
 			, updt_dtm
 			, multi_bulk
+			, qc
 		)
 		VALUES
 		(
@@ -968,6 +982,7 @@
 			, NOW()
 			, #{updtDtm}
 			, #{multiBulk}
+			, #{qc}
 		)
 	</insert>
 	
@@ -1005,6 +1020,7 @@
 			, a.updt_dtm                                                                       AS updtDtm
 			, a.multi_bulk                                                                     AS multiBulk
 			, (SELECT MAX(history_seq) FROM parts_case_history WHERE id = a.id)                AS partsHistorySeq
+			, a.qc                                                                             AS qc
 		FROM
 			parts_case a
 		<where>
@@ -1040,7 +1056,8 @@
 			, str_three_dot_five  = #{strThreeDotFive}
 			, parts_image         = #{partsImage}     
 			, updt_dtm            = NOW()             
-			, multi_bulk          = #{multiBulk}      
+			, multi_bulk          = #{multiBulk}
+			, qc                  = #{qc}
 		WHERE
 			id = #{id}
 	</update>
@@ -1077,6 +1094,7 @@
 			, parts_image
 			, reg_dtm
 			, multi_bulk
+			, qc
 		)
 		VALUES
 		(
@@ -1105,6 +1123,7 @@
 			, #{partsImage}
 			, NOW()
 			, #{multiBulk}
+			, #{qc}
 		)
 	</insert>
 	
@@ -1136,6 +1155,7 @@
 			, updt_dtm
 			, multi_bulk
 			, cl_soc
+			, qc
 		)
 		VALUES
 		(
@@ -1160,6 +1180,7 @@
 			, #{updtDtm}
 			, #{multiBulk}
 			, #{clSoc}
+			, #{qc}
 		)
 	</insert>
 	
@@ -1192,6 +1213,7 @@
 			, a.multi_bulk                                                                     AS multiBulk
 			, (SELECT MAX(history_seq) FROM parts_cooler_history WHERE id = a.id)              AS partsHistorySeq
 			, a.cl_soc                                                                         AS clSoc
+			, a.qc                                                                             AS qc
 		FROM
 			parts_cooler a
 		<where>
@@ -1223,7 +1245,8 @@
 			, parts_image         = #{partsImage}
 			, updt_dtm            = NOW()        
 			, multi_bulk          = #{multiBulk}
-			, cl_soc              = #{clSoc}  
+			, cl_soc              = #{clSoc}
+			, qc                  = #{qc}
 		WHERE
 			id = #{id}
 	</update>
@@ -1256,6 +1279,7 @@
 			, reg_dtm
 			, multi_bulk
 			, cl_soc
+			, qc
 		)
 		VALUES
 		(
@@ -1280,6 +1304,7 @@
 			, NOW()
 			, #{multiBulk}
 			, #{clSoc}
+			, #{qc}
 		)
 	</insert>
 	
@@ -1306,6 +1331,7 @@
 			, updt_dtm
 			, multi_bulk
 			, volume
+			, qc
 		)
 		VALUES
 		(
@@ -1325,6 +1351,7 @@
 			, #{updtDtm}
 			, #{multiBulk}
 			, #{volume}
+			, #{qc}
 		)
 	</insert>
 	
@@ -1348,6 +1375,7 @@
 			, a.multi_bulk                                                                     AS multiBulk
 			, a.volume                                                                         AS volume
 			, (SELECT MAX(history_seq) FROM parts_hdd_history WHERE id = a.id)                 AS partsHistorySeq
+			, a.qc                                                                             AS qc
 		FROM
 			parts_hdd a
 		<where>
@@ -1374,7 +1402,8 @@
 			, parts_image         = #{partsImage}     
 			, updt_dtm            = NOW()             
 			, multi_bulk          = #{multiBulk}      
-			, volume              = #{volume}         
+			, volume              = #{volume}
+			, qc                  = #{qc}
 		WHERE
 			id = #{id}
 	</update>
@@ -1402,6 +1431,7 @@
 			, reg_dtm
 			, multi_bulk
 			, volume
+			, qc
 		)
 		VALUES
 		(
@@ -1421,6 +1451,7 @@
 			, NOW()
 			, #{multiBulk}
 			, #{volume}
+			, #{qc}
 		)
 	</insert>
 	
@@ -1448,6 +1479,7 @@
 			, updt_dtm
 			, multi_bulk
 			, volume
+			, qc
 		)
 		VALUES
 		(
@@ -1468,6 +1500,7 @@
 			, #{updtDtm}
 			, #{multiBulk}
 			, #{volume}
+			, #{qc}
 		)
 	</insert>
 	
@@ -1492,7 +1525,8 @@
 			, a.updt_dtm                                                                       AS updtDtm
 			, a.multi_bulk                                                                     AS multiBulk
 			, a.volume                                                                         AS volume
-			, (SELECT MAX(history_seq) FROM parts_ssd_history WHERE id = a.id)                 AS partsHistorySeq   
+			, (SELECT MAX(history_seq) FROM parts_ssd_history WHERE id = a.id)                 AS partsHistorySeq
+			, a.qc                                                                             AS qc   
 		FROM
 			parts_ssd a
 		<where>
@@ -1520,7 +1554,8 @@
 			, parts_image         = #{partsImage}   
 			, updt_dtm            = NOW()           
 			, multi_bulk          = #{multiBulk}    
-			, volume              = #{volume}       
+			, volume              = #{volume}
+			, qc                  = #{qc}
 		WHERE
 			id = #{id}
 	</update>
@@ -1549,6 +1584,7 @@
 			, reg_dtm
 			, multi_bulk
 			, volume
+			, qc
 		)
 		VALUES
 		(
@@ -1569,6 +1605,7 @@
 			, NOW()
 			, #{multiBulk}
 			, #{volume}
+			, #{qc}
 		)
 	</insert>
 	
@@ -1593,6 +1630,7 @@
 			, reg_dtm
 			, updt_dtm
 			, multi_bulk
+			, qc
 		)
 		VALUES
 		(
@@ -1610,6 +1648,7 @@
 			, NOW()
 			, #{updtDtm}
 			, #{multiBulk}
+			, #{qc}
 		)
 	</insert>
 	
@@ -1633,7 +1672,8 @@
 			, a.reg_dtm                                                                        AS regDtm    
 			, a.updt_dtm                                                                       AS updtDtm
 			, a.multi_bulk                                                                     AS multiBulk
-			, (SELECT MAX(history_seq) FROM parts_sf_history WHERE id = a.id)                  AS partsHistorySeq   
+			, (SELECT MAX(history_seq) FROM parts_sf_history WHERE id = a.id)                  AS partsHistorySeq
+			, a.qc                                                                             AS qc   
 		FROM
 			parts_sf a
 		<where>
@@ -1658,7 +1698,8 @@
 			, ft                  = #{ft}        
 			, parts_image         = #{partsImage}
 			, updt_dtm            = NOW()        
-			, multi_bulk          = #{multiBulk} 
+			, multi_bulk          = #{multiBulk}
+			, qc                  = #{qc}  
 		WHERE
 			id = #{id}
 	</update>
@@ -1684,6 +1725,7 @@
 			, parts_image
 			, reg_dtm
 			, multi_bulk
+			, qc
 		)
 		VALUES
 		(
@@ -1701,6 +1743,7 @@
 			, #{partsImage}
 			, NOW()
 			, #{multiBulk}
+			, #{qc}
 		)
 	</insert>
 	

@@ -27,6 +27,7 @@ public class PartsPsuVO {
 	private String regDtm;
 	private String updtDtm;
 	private int multiBulk;
+	private int qc;
 	
 	private int partsHistorySeq;
 }

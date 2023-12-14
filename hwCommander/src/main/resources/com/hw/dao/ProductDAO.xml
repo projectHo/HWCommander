@@ -322,6 +322,7 @@
 			, a.wifi                                                                           AS wifi
 			, a.mc                                                                             AS mc
 			, a.lim_vrm                                                                        AS limVrm
+			, a.qc                                                                             AS qc
 		FROM
 			parts_mb_history a
 		WHERE
@@ -424,6 +425,7 @@
 			, a.parts_image                                                                    AS partsImage
 			, a.reg_dtm                                                                        AS regDtm    
 			, a.multi_bulk                                                                     AS multiBulk
+			, a.qc                                                                             AS qc
 		FROM
 			parts_psu_history a
 		WHERE
@@ -484,6 +486,7 @@
 			, a.parts_image                                                                    AS partsImage     
 			, a.reg_dtm                                                                        AS regDtm         
 			, a.multi_bulk                                                                     AS multiBulk
+			, a.qc                                                                             AS qc
 		FROM
 			parts_case_history a
 		WHERE
@@ -539,6 +542,7 @@
 			, a.reg_dtm                                                                        AS regDtm    
 			, a.multi_bulk                                                                     AS multiBulk
 			, a.cl_soc                                                                         AS clSoc
+			, a.qc                                                                             AS qc
 		FROM
 			parts_cooler_history a
 		WHERE
@@ -585,6 +589,7 @@
 			, a.reg_dtm                                                                        AS regDtm         
 			, a.multi_bulk                                                                     AS multiBulk
 			, a.volume                                                                         AS volume
+			, a.qc                                                                             AS qc
 		FROM
 			parts_hdd_history a
 		WHERE
@@ -631,6 +636,7 @@
 			, a.reg_dtm                                                                        AS regDtm       
 			, a.multi_bulk                                                                     AS multiBulk
 			, a.volume                                                                         AS volume
+			, a.qc                                                                             AS qc
 		FROM
 			parts_ssd_history a
 		WHERE
@@ -678,6 +684,7 @@
 			, a.parts_image                                                                    AS partsImage
 			, a.reg_dtm                                                                        AS regDtm    
 			, a.multi_bulk                                                                     AS multiBulk
+			, a.qc                                                                             AS qc
 		FROM
 			parts_sf_history a
 		WHERE

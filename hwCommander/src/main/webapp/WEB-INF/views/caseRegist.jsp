@@ -61,7 +61,9 @@ function goCaseRegist() {
 		fh : $("#fh").val(),
 		ft : $("#ft").val(),
 		strTwoDotFive : $("#strTwoDotFive").val(),
-		strThreeDotFive : $("#strThreeDotFive").val()
+		strThreeDotFive : $("#strThreeDotFive").val(),
+		multiBulk : $("#multiBulk").val(),
+		qc : $("#qc").val()
 	};
 	
 	form.append("multipartFile", $("#multipartFile")[0].files[0]);
@@ -414,6 +416,15 @@ function validationCheck() {
                                            <div class="form-floating">
                                                <input class="form-control" id="multiBulk" name="multiBulk" type="text" placeholder="Enter multiBulk" />
                                                <label for="multiBulk">멀티팩 벌크</label>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   
+                                   <div class="row mb-3">
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+                                               <input class="form-control" id="qc" name="qc" type="text" placeholder="Enter qc" />
+                                               <label for="qc">QC</label>
                                            </div>
                                        </div>
                                    </div>

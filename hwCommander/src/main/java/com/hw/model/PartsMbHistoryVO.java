@@ -40,6 +40,7 @@ public class PartsMbHistoryVO {
 	private int wifi;
 	private int mc;
 	private int limVrm;
+	private int qc;
 	
 	// EstimateCalculation Field
 	private int mbas;

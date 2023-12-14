@@ -62,6 +62,7 @@ function dataSetting() {
 	$("#strTwoDotFive").val("${selectData.strTwoDotFive}");
 	$("#strThreeDotFive").val("${selectData.strThreeDotFive}");
 	$("#multiBulk").val("${selectData.multiBulk}");
+	$("#qc").val("${selectData.qc}");
 	
 	$("#id").val("${selectData.id}");
 	$("#partsImage").val("${selectData.partsImage}");
@@ -97,6 +98,8 @@ function goCaseUpdate() {
 			ft : $("#ft").val(),
 			strTwoDotFive : $("#strTwoDotFive").val(),
 			strThreeDotFive : $("#strThreeDotFive").val(),
+			multiBulk : $("#multiBulk").val(),
+			qc : $("#qc").val(),
 			partsImage : $("#partsImage").val()
 		};
 	
@@ -452,6 +455,15 @@ function validationCheck() {
                                            <div class="form-floating">
                                                <input class="form-control" id="multiBulk" name="multiBulk" type="text" placeholder="Enter multiBulk" />
                                                <label for="multiBulk">멀티팩 벌크</label>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   
+                                   <div class="row mb-3">
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+                                               <input class="form-control" id="qc" name="qc" type="text" placeholder="Enter qc" />
+                                               <label for="qc">QC</label>
                                            </div>
                                        </div>
                                    </div>
