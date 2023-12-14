@@ -23,6 +23,7 @@ public class PartsHddVO {
 	private String updtDtm;
 	private int multiBulk;
 	private int volume;
+	private int qc;
 	
 	private int partsHistorySeq;
 }

@@ -41,6 +41,7 @@ public class PartsCaseVO {
 	private String regDtm;
 	private String updtDtm;
 	private int multiBulk;
+	private int qc;
 	
 	private int partsHistorySeq;
 }

@@ -32,6 +32,7 @@ public class PartsCoolerVO {
 	private String updtDtm;
 	private int multiBulk;
 	private String clSoc;
+	private int qc;
 	
 	private int partsHistorySeq;
 }

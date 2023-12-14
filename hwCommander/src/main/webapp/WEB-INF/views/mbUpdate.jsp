@@ -55,6 +55,7 @@ function dataSetting() {
 	$("#wifi").val("${selectData.wifi}");
 	$("#mc").val("${selectData.mc}");
 	$("#limVrm").val("${selectData.limVrm}");
+	$("#qc").val("${selectData.qc}");
 	
 	$("#id").val("${selectData.id}");
 	$("#partsImage").val("${selectData.partsImage}");
@@ -389,6 +390,12 @@ function validationCheck() {
                                            <div class="form-floating">
                                                <input class="form-control" id="limVrm" name="limVrm" type="text" placeholder="Enter limVrm" />
                                                <label for="limVrm">LIM VRM</label>
+                                           </div>
+                                       </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+                                               <input class="form-control" id="qc" name="qc" type="text" placeholder="Enter qc" />
+                                               <label for="qc">QC</label>
                                            </div>
                                        </div>
                                    </div>

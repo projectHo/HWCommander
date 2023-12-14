@@ -27,6 +27,7 @@ public class PartsPsuHistoryVO {
 	private String partsImage;
 	private String regDtm;
 	private int multiBulk;
+	private int qc;
 	
 	// EstimateCalculation Field
 	private int psuas;

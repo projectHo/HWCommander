@@ -40,6 +40,7 @@ public class PartsMbVO {
 	private int wifi;
 	private int mc;
 	private int limVrm;
+	private int qc;
 	
 	private int partsHistorySeq;
 }

@@ -51,6 +51,7 @@ function dataSetting() {
 	$("#it").val("${selectData.it}");
 	$("#multiBulk").val("${selectData.multiBulk}");
 	$("#clSoc").val("${selectData.clSoc}");
+	$("#qc").val("${selectData.qc}");
 	
 	$("#id").val("${selectData.id}");
 	$("#partsImage").val("${selectData.partsImage}");
@@ -350,6 +351,15 @@ function validationCheck() {
                                            <div class="form-floating">
                                                <input class="form-control" id="clSoc" name="clSoc" type="text" placeholder="Enter clSoc" />
                                                <label for="clSoc">CL SOC</label>
+                                           </div>
+                                       </div>
+                                   </div>
+                                   
+                                   <div class="row mb-3">
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+                                               <input class="form-control" id="qc" name="qc" type="text" placeholder="Enter qc" />
+                                               <label for="qc">QC</label>
                                            </div>
                                        </div>
                                    </div>

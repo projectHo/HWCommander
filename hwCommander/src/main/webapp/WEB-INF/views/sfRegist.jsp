@@ -275,6 +275,12 @@ function validationCheck() {
                                                <label for="multiBulk">멀티팩 벌크</label>
                                            </div>
                                        </div>
+                                       <div class="col-md-3">
+                                           <div class="form-floating">
+                                               <input class="form-control" id="qc" name="qc" type="text" placeholder="Enter qc" />
+                                               <label for="qc">QC</label>
+                                           </div>
+                                       </div>
                                    </div>
                                    
                                    <div class="mt-4 mb-0">

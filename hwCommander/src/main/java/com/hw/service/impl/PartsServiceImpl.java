@@ -268,6 +268,7 @@ public class PartsServiceImpl implements PartsService {
 			partsMbHistoryVO.setWifi(partsMbVO.getWifi());
 			partsMbHistoryVO.setMc(partsMbVO.getMc());
 			partsMbHistoryVO.setLimVrm(partsMbVO.getLimVrm());
+			partsMbHistoryVO.setQc(partsMbVO.getQc());
 			
 			result += partsDAO.insertPartsMbHistoryVO(partsMbHistoryVO);
 		}
@@ -329,6 +330,7 @@ public class PartsServiceImpl implements PartsService {
 			partsMbHistoryVO.setWifi(partsMbVO.getWifi());
 			partsMbHistoryVO.setMc(partsMbVO.getMc());
 			partsMbHistoryVO.setLimVrm(partsMbVO.getLimVrm());
+			partsMbHistoryVO.setQc(partsMbVO.getQc());
 			
 			result += partsDAO.insertPartsMbHistoryVO(partsMbHistoryVO);
 		}
@@ -489,6 +491,7 @@ public class PartsServiceImpl implements PartsService {
 			partsPsuHistoryVO.setTwelvePin(partsPsuVO.getTwelvePin());
 			partsPsuHistoryVO.setPartsImage(partsPsuVO.getPartsImage());
 			partsPsuHistoryVO.setMultiBulk(partsPsuVO.getMultiBulk());
+			partsPsuHistoryVO.setQc(partsPsuVO.getQc());
 
 			result += partsDAO.insertPartsPsuHistoryVO(partsPsuHistoryVO);
 		}
@@ -543,6 +546,7 @@ public class PartsServiceImpl implements PartsService {
 			partsPsuHistoryVO.setTwelvePin(partsPsuVO.getTwelvePin());
 			partsPsuHistoryVO.setPartsImage(partsPsuVO.getPartsImage());
 			partsPsuHistoryVO.setMultiBulk(partsPsuVO.getMultiBulk());
+			partsPsuHistoryVO.setQc(partsPsuVO.getQc());
 
 			result += partsDAO.insertPartsPsuHistoryVO(partsPsuHistoryVO);
 		}
@@ -587,6 +591,7 @@ public class PartsServiceImpl implements PartsService {
 			partsCaseHistoryVO.setStrThreeDotFive(partsCaseVO.getStrThreeDotFive());
 			partsCaseHistoryVO.setPartsImage(partsCaseVO.getPartsImage());
 			partsCaseHistoryVO.setMultiBulk(partsCaseVO.getMultiBulk());
+			partsCaseHistoryVO.setQc(partsCaseVO.getQc());
 
 			result += partsDAO.insertPartsCaseHistoryVO(partsCaseHistoryVO);
 		}
@@ -649,6 +654,7 @@ public class PartsServiceImpl implements PartsService {
 			partsCaseHistoryVO.setStrThreeDotFive(partsCaseVO.getStrThreeDotFive());
 			partsCaseHistoryVO.setPartsImage(partsCaseVO.getPartsImage());
 			partsCaseHistoryVO.setMultiBulk(partsCaseVO.getMultiBulk());
+			partsCaseHistoryVO.setQc(partsCaseVO.getQc());
 
 			result += partsDAO.insertPartsCaseHistoryVO(partsCaseHistoryVO);
 		}
@@ -689,6 +695,7 @@ public class PartsServiceImpl implements PartsService {
 			partsCoolerHistoryVO.setPartsImage(partsCoolerVO.getPartsImage());
 			partsCoolerHistoryVO.setMultiBulk(partsCoolerVO.getMultiBulk());
 			partsCoolerHistoryVO.setClSoc(partsCoolerVO.getClSoc());
+			partsCoolerHistoryVO.setQc(partsCoolerVO.getQc());
 
 			result += partsDAO.insertPartsCoolerHistoryVO(partsCoolerHistoryVO);
 		}
@@ -747,6 +754,7 @@ public class PartsServiceImpl implements PartsService {
 			partsCoolerHistoryVO.setPartsImage(partsCoolerVO.getPartsImage());
 			partsCoolerHistoryVO.setMultiBulk(partsCoolerVO.getMultiBulk());
 			partsCoolerHistoryVO.setClSoc(partsCoolerVO.getClSoc());
+			partsCoolerHistoryVO.setQc(partsCoolerVO.getQc());
 
 			result += partsDAO.insertPartsCoolerHistoryVO(partsCoolerHistoryVO);
 		}
@@ -782,6 +790,7 @@ public class PartsServiceImpl implements PartsService {
 			partsHddHistoryVO.setPartsImage(partsHddVO.getPartsImage());
 			partsHddHistoryVO.setMultiBulk(partsHddVO.getMultiBulk());
 			partsHddHistoryVO.setVolume(partsHddVO.getVolume());
+			partsHddHistoryVO.setQc(partsHddVO.getQc());
 			
 			result += partsDAO.insertPartsHddHistoryVO(partsHddHistoryVO);
 		}
@@ -835,6 +844,7 @@ public class PartsServiceImpl implements PartsService {
 			partsHddHistoryVO.setPartsImage(partsHddVO.getPartsImage());
 			partsHddHistoryVO.setMultiBulk(partsHddVO.getMultiBulk());
 			partsHddHistoryVO.setVolume(partsHddVO.getVolume());
+			partsHddHistoryVO.setQc(partsHddVO.getQc());
 			
 			result += partsDAO.insertPartsHddHistoryVO(partsHddHistoryVO);
 		}
@@ -871,6 +881,7 @@ public class PartsServiceImpl implements PartsService {
 			partsSsdHistoryVO.setPartsImage(partsSsdVO.getPartsImage());
 			partsSsdHistoryVO.setMultiBulk(partsSsdVO.getMultiBulk());
 			partsSsdHistoryVO.setVolume(partsSsdVO.getVolume());
+			partsSsdHistoryVO.setQc(partsSsdVO.getQc());
 
 			result += partsDAO.insertPartsSsdHistoryVO(partsSsdHistoryVO);
 		}
@@ -925,6 +936,7 @@ public class PartsServiceImpl implements PartsService {
 			partsSsdHistoryVO.setPartsImage(partsSsdVO.getPartsImage());
 			partsSsdHistoryVO.setMultiBulk(partsSsdVO.getMultiBulk());
 			partsSsdHistoryVO.setVolume(partsSsdVO.getVolume());
+			partsSsdHistoryVO.setQc(partsSsdVO.getQc());
 
 			result += partsDAO.insertPartsSsdHistoryVO(partsSsdHistoryVO);
 		}
@@ -958,6 +970,7 @@ public class PartsServiceImpl implements PartsService {
 			partsSfHistoryVO.setFt(partsSfVO.getFt());
 			partsSfHistoryVO.setPartsImage(partsSfVO.getPartsImage());
 			partsSfHistoryVO.setMultiBulk(partsSfVO.getMultiBulk());
+			partsSfHistoryVO.setQc(partsSfVO.getQc());
 
 			result += partsDAO.insertPartsSfHistoryVO(partsSfHistoryVO);
 		}
@@ -1009,6 +1022,7 @@ public class PartsServiceImpl implements PartsService {
 			partsSfHistoryVO.setFt(partsSfVO.getFt());
 			partsSfHistoryVO.setPartsImage(partsSfVO.getPartsImage());
 			partsSfHistoryVO.setMultiBulk(partsSfVO.getMultiBulk());
+			partsSfHistoryVO.setQc(partsSfVO.getQc());
 
 			result += partsDAO.insertPartsSfHistoryVO(partsSfHistoryVO);
 		}
