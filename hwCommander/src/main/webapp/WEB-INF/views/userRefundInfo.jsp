@@ -221,7 +221,12 @@
                                 <td>${refundInfoVO.requestRefundPriceStr}원</td>
                             </tr>
                             <tr>
-                                <th class="d-flex w-100 justify-content-between align-items-center"><span class="align-middle">환불 사유</span><button class="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#changeRefundReasonModal">수정</button></th>
+                                <c:if test="${refundInfoVO.refundStateCd == 1}">
+                                    <th class="d-flex w-100 justify-content-between align-items-center"><span class="align-middle">환불 사유</span><button class="btn btn-outline-success btn-sm" data-bs-toggle="modal" data-bs-target="#changeRefundReasonModal">수정</button></th>
+                                </c:if>
+                                <c:if test="${refundInfoVO.refundStateCd != 1}">
+                                    <th>환불 사유</th>
+                                </c:if>
                                 <td class="align-middle">${refundInfoVO.refundReasonCdNm}</td>
                             </tr>
                             <tr>

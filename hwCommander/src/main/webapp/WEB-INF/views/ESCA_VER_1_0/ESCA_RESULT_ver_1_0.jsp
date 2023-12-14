@@ -38,6 +38,16 @@
 		insertRams();
 		boxHeadInput();
 	})
+	function loginCheck() {
+		var check = false;
+		if("${loginUser}" == "") {
+			alert("로그인 후 이용해주세요.");
+			location.href = "/user/login.do";
+		}else {
+			check = true;
+		}
+		return check;
+	}
 	let productMaster = "${productMaster}";
 	let mbInfo = "${productMbDetailInfo}";
 	let productDet = "${productDetail}";
@@ -146,7 +156,9 @@
 	}
 	
 	function clickReturnBtn () {
-		location.href = "/ESCA/ESCASelect.do";
+		if(loginCheck()){
+			location.href = "/ESCA/ESCASelect.do";
+		}
 		sessionStorage.clear();
 	}
 	let orderQtys;
@@ -154,17 +166,17 @@
 	function clickOrderBtn() {
 		// 09.06 오류 상태 추가 및 램 변경시 업데이트 로직 추가 필요
 		if(sessionStorage.getItem("pay") == "y"){
-			location.href = "/order/sheet.do?accessRoute=direct&productIds="+"${productMaster.id}"+"&orderQtys="+orderQtys+"&boxQtys="+boxQtys;
+			if(loginCheck()){
+				location.href = "/order/sheet.do?accessRoute=direct&productIds="+"${productMaster.id}"+"&orderQtys="+orderQtys+"&boxQtys="+boxQtys;
+			}
 		}else {
 			alert("과거 견적 기준으로는 구매하실 수 없습니다!");
 		}
 	}
-	function clickSingleOrderBtn(){
+	function clickSinglOrderBtn(el){
 		if(sessionStorage.getItem("pay") == "y"){
-			if(confirm("사용된 제품 박스를 추가할까요? (5,000원)")){
-				location.href = "/order/sheet.do?accessRoute=direct&productIds="+"${productMaster.id}"+"&orderQtys=1&boxQtys=1";
-			}else {
-				location.href = "/order/sheet.do?accessRoute=direct&productIds="+"${productMaster.id}"+"&orderQtys=1&boxQtys=0";
+			if(loginCheck()){
+				location.href = "/order/sheet.do?accessRoute=direct&productIds="+"${productMaster.id}"+"&orderQtys=1"+"&boxQtys="+$(el).attr("box");
 			}
 		}else {
 			alert("과거 견적 기준으로는 구매하실 수 없습니다!");
@@ -181,7 +193,6 @@
 			$("#orderCount").val("${productMaster.productQty}");
 		}
 		orderQtys = $(el).val();
-		console.log(orderQtys);
 	}
 	function orderBoxCount(el){
 		if($(el).val().length>=1 && !numberCheck.test($(el).val())){
@@ -193,7 +204,6 @@
 			$(el).val($("#orderCount").val());
 		}
 		boxQtys = $(el).val();
-		console.log(boxQtys);
 	}
 	function clickSaveBtn(){
 		$("#modal-description").modal("show");
@@ -256,9 +266,6 @@
 			location.href = "/";
 			sessionStorage.clear();
 		}else {
-			// for(let i = 0; i<=19 ; i++){
-			// 	sessionStorage.setItem("data-" + i, "");
-			// }
 			sessionStorage.clear();
 			location.href = "/ESCA/ESCASelect.do";
 		}
@@ -266,23 +273,28 @@
 	
 	function boxHeadInput(){
 		$("#id-input").val("ID : " + "${loginUser.id}");
+		const currentDate = new Date();
+		const year = currentDate.getFullYear();
+		const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+		const day = String(currentDate.getDate()).padStart(2, "0");
+		const hours = currentDate.getHours();
+		const minutes = currentDate.getMinutes();
+		const seconds = currentDate.getSeconds();
+		const formattedDate = year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
 
 		if(sessionStorage.getItem("targetData") == ""){
-			const currentDate = new Date();
-			const year = currentDate.getFullYear();
-			const month = String(currentDate.getMonth() + 1).padStart(2, "0");
-			const day = String(currentDate.getDate()).padStart(2, "0");
-			const hours = currentDate.getHours();
-			const minutes = currentDate.getMinutes();
-			const seconds = currentDate.getSeconds();
-			const formattedDate = year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
+			$("#date-input").val("Date : " + formattedDate);
+		}else if(sessionStorage.getItem("pay") == "y"){
 			$("#date-input").val("Date : " + formattedDate);
 		}else {
 			$("#date-input").val("Date : " + sessionStorage.getItem("targetData"));
 		}
 
 		const urlString = location.href;
-		const matchedId = urlString.match(/userId%2C([^%]+)/);
+		const matchedId = urlString.match(/userId,([^%]+)/);
+		if(matchedId == null){
+			const matchedId = urlString.match(/userId%2C([^%]+)/);
+		}
 		const recommenderName = matchedId[1];
 		if("${loginUser.id}" != recommenderName){
 			$("#recommender-input").parent().css("display","block");
@@ -310,7 +322,9 @@
 				dataType: "json",
 				success: function() {
 					alert("성공적으로 저장되었습니다.");
-					location.href = "/user/estimateStorage.do?id=" + "${loginUser.id}";
+					if(loginCheck()){
+						location.href = "/user/estimateStorage.do?id=" + "${loginUser.id}";
+					}
 				},
 				error: function() {
 					alert("저장에 실패했습니다.");
@@ -332,7 +346,9 @@
 				dataType: "json",
 				success: function() {
 					alert("성공적으로 저장되었습니다.");
-					location.href = "/user/estimateStorage.do?id=" + "${loginUser.id}";
+					if(loginCheck()){
+						location.href = "/user/estimateStorage.do?id=" + "${loginUser.id}";
+					}
 				},
 				error: function() {
 					alert("저장에 실패했습니다.");
@@ -458,7 +474,7 @@
 							<button type="button" class="form-control" data-bs-toggle="modal" data-bs-target="#orderCheck">주문하기</button>
 						</c:if>
 						<c:if test="${productMaster.productQty == 1}">
-							<button type="button" class="form-control" onclick="javascript:clickSingleOrderBtn()">주문하기</button>
+							<button type="button" class="form-control" data-bs-toggle="modal" data-bs-target="#orderBoxCheck">주문하기</button>
 						</c:if>
 					</div>
 					<div class="col">
@@ -516,6 +532,24 @@
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
 						<button type="button" class="btn btn-primary" onclick="javascript:clickOrderBtn()">주문하기</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 재고 1개 인 경우 박스추가 모달 -->
+		<div class="modal fade" id="orderBoxCheck" tabindex="-1" data-bs-keyboard="false" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5">사용된 제품 박스 추가</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						사용된 제품들의 박스를 추가할까요?(5,000원)
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" box="0" onclick="javascript:clickSingleOrderBtn(this)">아니요</button>
+						<button type="button" class="btn btn-primary" box="1" onclick="javascript:clickSingleOrderBtn(this)">네</button>
 					</div>
 				</div>
 			</div>

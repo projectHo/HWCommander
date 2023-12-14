@@ -183,6 +183,11 @@ public class UserController {
 		
 		return userLoginCheck(request, model, "userInfoUpdate");
 	}
+	@RequestMapping(value = "/userMailInfoUpdateLogic.do", method = RequestMethod.POST)
+	@ResponseBody
+	public Integer userMailInfoUpdateLogic(UserInfoVO userInfoVO) {
+		return userService.userMailInfoUpdateLogic(userInfoVO);
+	}
 	
 	/*--------------------------------------------------
 	 - 회원정보수정로직

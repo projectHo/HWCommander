@@ -41,7 +41,7 @@
 
 		// 텍스트 애니메이션
 		typeText();
-
+		$("#base-modal").modal("show");
 	})
 
 	let index = 0;
@@ -171,7 +171,33 @@
 			</div>
 		  </div>
 		</div>
-	  </div>
+	</div>
+	<div class="modal fade" id="base-modal" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+		  <div class="modal-content">
+			<div class="modal-header justify-content-center">
+			  	<h1 class="modal-title fs-5 pt-2">견적산출 사전확인</h1>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<p>현재 적용되어있는 로직은 베타버전입니다.</p>
+					<p>업데이트 마다 점점 나아진 로직으로 개편 될 예정이지만</p>
+					<p>산출 결과에 정상적인 수치가 나오지 않을 수 있습니다.</p>
+					<p>위 경우에는 오류가 발생했다는 경고문과 함께 견적 산출이</p>
+					<p>정상적으로 표시되지 않고 구매 또한 할 수 없게 만들었습니다.</p>
+					<p>그 외 산출 결과에는 문제가 없으니 참고하여 이용해주시면 감사하겠습니다.</p>
+				</div>
+			</div>
+			<div class="modal-footer justify-content-between">
+				<div class="row w-100">
+					<div class="col-md text-end">
+						<button class="btn btn-primary w-50" data-bs-dismiss="modal">시작하기</button>
+					</div>
+				</div>
+			</div>
+		  </div>
+		</div>
+	</div>
 	<div class="basic_background w-100">
 		<div class="d-flex">
 			<!-- 빈 영역 -->

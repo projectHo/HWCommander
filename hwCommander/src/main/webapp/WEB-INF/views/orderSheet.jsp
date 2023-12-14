@@ -68,7 +68,6 @@
 %>
 
 <script>
-	let a = "${productMasterVO}"
     $(function() {
 		// bootstrap 툴팁
 		const tooltipTriggerList = $('[data-bs-toggle="tooltip"]');
@@ -281,7 +280,6 @@ function btnCheckOutClick() {
 function findDaumAddr() {
 	new daum.Postcode({
         oncomplete: function(data) {
-        	console.log(data);
         	
             $("#recipientZipcode").val(data.zonecode);
             $("#recipientJibunAddr").val(data.jibunAddress);
