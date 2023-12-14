@@ -28,6 +28,8 @@
 			, reg_dtm
 			, updt_dtm
 			, di
+			, del_yn
+			, del_dtm
 		)
 		VALUES
 		(
@@ -48,6 +50,8 @@
 			, NOW()
 			, #{updtDtm}
 			, #{di}
+			, 'N'
+			, #{delDtm}
 		)
 	</insert>
 	
@@ -96,9 +100,112 @@
 			user_info
 		WHERE id = #{id} 
 		AND pw = SHA2(#{pw}, 256)
+		AND del_yn = 'N'
 	</select>
 	
 	<select id="getDiDupliChkCount" resultType="Integer" parameterType="String">
 		SELECT COUNT(1) AS di_cnt FROM user_info WHERE di = #{di}
 	</select>
+	
+	<update id="tempDeleteAccountLogic" parameterType="userInfoVO">
+		UPDATE user_info SET del_yn = 'Y', del_dtm = NOW() WHERE id = #{id}
+	</update>
+	
+	<update id="userInfoUpdateLogic" parameterType="userInfoVO">
+		UPDATE
+			user_info
+		SET
+			pw                       = #{pw}
+			<!-- , user_type_cd           = #{userTypeCd} -->
+			, sex_cd                 = #{sexCd}
+			, name                   = #{name}
+			, birth                  = #{birth}
+			, hp_number              = #{hpNumber}
+			, jibun_addr             = #{jibunAddr}
+			, road_addr              = #{roadAddr}
+			, detail_addr            = #{detailAddr}
+			, zipcode                = #{zipcode}
+			, mail                   = #{mail}
+			, mail_key               = #{mailKey}
+			, mail_confirm           = #{mailConfirm}
+			, updt_dtm               = NOW()
+			, di                     = #{di}
+			<!-- 어차피 tempDeleteAccountLogic 에서 탈퇴처리 하니 기본 userInfo update query에서는 
+			삭제 함. 이렇게되면 복구처리는 따로 query랑 logic 생성해줘야함.
+			, del_yn                 = #{delYn}
+			, del_dtm                = #{delDtm}
+			 -->
+		WHERE
+			id = #{id}
+	</update>
+	
+	<select id="getUserEscasStorageAllList" resultType="userEscasStorageVO" parameterType="userEscasStorageVO">
+		SELECT 
+			a.user_id                                                                         AS userId                 
+			, a.seq                                                                             AS seq                    
+			, a.escas_storage_description                                                       AS escasStorageDescription
+			, a.escas_url_parameter                                                             AS escasUrlParameter      
+			, a.escas_logic_version                                                             AS escasLogicVersion      
+			, a.reg_dtm                                                                         AS regDtm                 
+			, a.updt_dtm                                                                        AS updtDtm                        
+		FROM
+			user_escas_storage a
+		<where>
+		    <if test="userId != null and userId != ''">
+		    	AND a.user_id = #{userId}
+		    	ORDER BY a.reg_dtm DESC 
+		    </if>
+		</where>
+	</select>
+	
+	<select id="getUserEscasStorageVOMaxSeq" resultType="Integer" parameterType="String">
+		SELECT IFNULL(MAX(seq), 0)+1 AS seq FROM user_escas_storage WHERE user_id = #{userId} 
+	</select>
+	
+	<insert id="insertUserEscasStorageVO" parameterType="userEscasStorageVO">
+		INSERT INTO user_escas_storage
+		(
+			user_id
+			, seq
+			, escas_storage_description
+			, escas_url_parameter
+			, escas_logic_version
+			, reg_dtm
+			, updt_dtm
+		)
+		VALUES
+		(
+			#{userId}
+			, #{seq}
+			, #{escasStorageDescription}
+			, #{escasUrlParameter}
+			, #{escasLogicVersion}
+			, NOW()
+			, #{updtDtm}
+		)
+	</insert>
+	
+	<update id="updateUserEscasStorageVO" parameterType="userEscasStorageVO">
+		UPDATE
+			user_escas_storage
+		SET
+			user_id                          = #{userId}                 
+			, seq                            = #{seq}                    
+			, escas_storage_description      = #{escasStorageDescription}
+			, escas_url_parameter            = #{escasUrlParameter}      
+			, escas_logic_version            = #{escasLogicVersion}      
+			, updt_dtm                       = NOW()                                          
+		WHERE
+			user_id = #{userId}
+	</update>
+	
+	<delete id="deleteUserEscasStorageVO" parameterType="userEscasStorageVO">
+		DELETE
+		FROM
+			user_escas_storage
+		WHERE
+			user_id = #{userId}
+			AND seq = #{seq}
+	</delete>
+
 </mapper>

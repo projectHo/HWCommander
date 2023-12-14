@@ -6,7 +6,7 @@
 <mapper namespace="com.hw.dao.ProductDAO">
 
 	<select id="getProductMasterVOMaxId" resultType="String">
-		SELECT CONCAT('PRODUCT', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 8)), 0)+1, 6, '0') FROM product_master)) AS id FROM DUAL
+		SELECT CONCAT('PRODUCT', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 8)), 0)+1, 9, '0') FROM product_master)) AS id FROM DUAL
 	</select>
 	
 	<insert id="insertProductMasterVO" parameterType="productMasterVO">
@@ -260,6 +260,7 @@
 			, a.reg_dtm                                                                        AS regDtm      
 			, a.multi_bulk                                                                     AS multiBulk
 			, a.apu                                                                            AS apu
+			, a.cl_soc                                                                         AS clSoc
 		FROM
 			parts_cpu_history a
 		WHERE
@@ -537,6 +538,7 @@
 			, a.parts_image                                                                    AS partsImage
 			, a.reg_dtm                                                                        AS regDtm    
 			, a.multi_bulk                                                                     AS multiBulk
+			, a.cl_soc                                                                         AS clSoc
 		FROM
 			parts_cooler_history a
 		WHERE
@@ -736,7 +738,7 @@
 
 	
 	<select id="getBanpumMasterVOMaxId" resultType="String">
-		SELECT CONCAT('BANPUM', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 7)), 0)+1, 6, '0') FROM banpum_master)) AS id FROM DUAL
+		SELECT CONCAT('BANPUM', (SELECT LPAD(IFNULL(MAX(SUBSTR(TRIM(id), 7)), 0)+1, 9, '0') FROM banpum_master)) AS id FROM DUAL
 	</select>
 	
 	<insert id="insertBanpumMasterVO" parameterType="banpumMasterVO">
@@ -794,7 +796,7 @@
 		)
 	</insert>
 	
-	<select id="getBanpumMasterAllList" resultType="banpumMasterVO">
+	<select id="getBanpumMasterAllList" resultType="banpumMasterVO" parameterType="banpumMasterVO">
 		SELECT 
 			a.id                                                                              AS id               
 			, a.banpum_name                                                                   AS banpumName       
@@ -822,10 +824,11 @@
 			, a.updt_dtm                                                                      AS updtDtm          
 		FROM
 			banpum_master a
-			<!-- 
-		WHERE
-			a.exposure_yn = 'Y'
-			 -->
+		<where>
+		    <if test="exposureYn != null and exposureYn != ''">
+		    	AND a.exposure_yn = #{exposureYn} 
+		    </if>
+		</where>
 	</select>
 	
 	<select id="getBanpumMasterById" parameterType="String" resultType="banpumMasterVO">
@@ -892,5 +895,13 @@
 		WHERE
 			id = #{id}
 	</update>
+	
+	<delete id="deleteBanpumMasterVO" parameterType="String">
+		DELETE
+		FROM
+			banpum_master
+		WHERE
+			id = #{id}
+	</delete>
 	
 </mapper>
