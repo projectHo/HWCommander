@@ -1174,8 +1174,8 @@ public class ESCAServiceImpl implements ESCAService {
 			BigDecimal GSV = partsGpuHistoryVO.getGsv();
 			BigDecimal GPUAS = new BigDecimal(partsGpuHistoryVO.getGpuas());
 			BigDecimal GC = partsGpuHistoryVO.getMappingPrAndGcResourceScore();
-			BigDecimal GPUCV = new BigDecimal(Math.sqrt((-(Math.pow(((CAS+CMT)/2)-3.69003173099010,2))+Math.pow(99.1219170095487,2))-99.0532084158416)); // 보정수치
-			
+			BigDecimal GPUCV = new BigDecimal((Math.sqrt(-(Math.pow((CAS+CMT)/2-3.69003173099010,2))+Math.pow(99.1219170095487,2))-99.0532084158416)/100); // 보정수치
+			GPUCV = GPUCV.setScale(8, BigDecimal.ROUND_HALF_UP);
 			BigDecimal calculation1 = BigDecimal.ZERO;
 			BigDecimal calculation2 = BigDecimal.ZERO;
 			BigDecimal calculation3 = BigDecimal.ZERO;
@@ -1721,7 +1721,8 @@ public class ESCAServiceImpl implements ESCAService {
 						.multiply(new BigDecimal(partsCoolerHistoryVO.getWcas()))
 						.add(new BigDecimal(partsCoolerHistoryVO.getAcas()));
 				BigDecimal Thermal = new BigDecimal(partsCoolerHistoryVO.getThermal());
-				BigDecimal COOLERCV = new BigDecimal(Math.sqrt((-Math.pow(((CAS+CMT+CSFT)/3-4.66451733306545),2)+Math.pow(4.84255185018178,2))-1.30099441629508)); // 보정수치
+				BigDecimal COOLERCV = new BigDecimal((Math.sqrt(-(Math.pow((CAS+CTH)/2-4.66451733306545,2))+Math.pow(4.84255185018178,2))-1.30099441629508)/100); // 보정수치
+				COOLERCV = COOLERCV.setScale(8, BigDecimal.ROUND_HALF_UP);
 				BigDecimal calculation1 = BigDecimal.ZERO;
 				BigDecimal calculation2 = BigDecimal.ZERO;
 				BigDecimal calculation3 = BigDecimal.ZERO;
@@ -1951,8 +1952,8 @@ public class ESCAServiceImpl implements ESCAService {
 				BigDecimal SFT = partsPsuHistoryVO.getSft();
 				BigDecimal PFM = partsPsuHistoryVO.getPfm();
 				BigDecimal PSUAS = new BigDecimal(partsPsuHistoryVO.getPsuas());
-				BigDecimal PSUCV = new BigDecimal(Math.sqrt((-Math.pow((CAS+CMT+CSFT+CSFT)/4-1.93961451569933,2)+Math.pow(5.07397370455103,2))-4.68861436726927)); // 보정수치
-				
+				BigDecimal PSUCV = new BigDecimal((Math.sqrt(-(Math.pow((CAS+CMT+CSFT+CSFT)/4-1.93961451569933,2))+Math.pow(5.07397370455103,2))-4.68861436726927)/100);
+				PSUCV = PSUCV.setScale(8, BigDecimal.ROUND_HALF_UP);
 				BigDecimal calculation1 = BigDecimal.ZERO;
 				BigDecimal calculation2 = BigDecimal.ZERO;
 				BigDecimal calculation3 = BigDecimal.ZERO;
@@ -2148,8 +2149,8 @@ public class ESCAServiceImpl implements ESCAService {
 				BigDecimal COOL = partsCaseHistoryVO.getCool();
 				BigDecimal ADAP = partsCaseHistoryVO.getAdap();
 				BigDecimal CASEAS = new BigDecimal(partsCaseHistoryVO.getCaseas());
-				BigDecimal CASECV = new BigDecimal(Math.sqrt((-Math.pow(((CAS+CMT+CTH)/3-3.89419544969697),2)+Math.pow(303.072584544466,2))-303.047565151515)); // 보정수치
-				
+				BigDecimal CASECV = new BigDecimal((Math.sqrt(-(Math.pow((CAS+CMT+CTH)/3-3.89419544969697,2))+Math.pow(303.072584544466,2))-303.047565151515)/100);
+				CASECV = CASECV.setScale(8, BigDecimal.ROUND_HALF_UP);
 				BigDecimal calculation1 = BigDecimal.ZERO;
 				BigDecimal calculation2 = BigDecimal.ZERO;
 				BigDecimal calculation3 = BigDecimal.ZERO;
@@ -2327,7 +2328,8 @@ public class ESCAServiceImpl implements ESCAService {
 				BigDecimal RLB = partsSsdHistoryVO.getRlb();
 				BigDecimal WAR = new BigDecimal(partsSsdHistoryVO.getWar());
 				BigDecimal FNC = new BigDecimal(partsSsdHistoryVO.getFnc());
-				BigDecimal SSDCV = new BigDecimal(Math.sqrt((-Math.pow(((CMT+CAS+CSFT)/3-3.54346273182768),2)+Math.pow(26.4850395509368,2))-26.2469272845953)); // 보정수치
+				BigDecimal SSDCV = new BigDecimal((Math.sqrt(-(Math.pow((CMT+CAS+CSFT)/3-3.54346273182768,2))+Math.pow(26.4850395509368,2))-26.2469272845953)/100);
+				SSDCV = SSDCV.setScale(8, BigDecimal.ROUND_HALF_UP);
 				BigDecimal BASIC = partsSsdHistoryVO.getBasic();
 				BigDecimal calculation1 = BigDecimal.ZERO;
 				BigDecimal calculation2 = BigDecimal.ZERO;
@@ -3048,7 +3050,8 @@ public class ESCAServiceImpl implements ESCAService {
 					BigDecimal PORT = new BigDecimal(partsMbHistoryVO.getPort());
 					BigDecimal BIOS = new BigDecimal(partsMbHistoryVO.getBios());
 					BigDecimal QC = new BigDecimal(partsMbHistoryVO.getQc());
-					BigDecimal MVCV = new BigDecimal(Math.sqrt((-Math.pow(((CAS+CMT+CSFT)/3-2.42195519383753),2)+Math.pow(28.1279551670743,2))-28.0234900560224)); // 보정수치
+					BigDecimal MVCV = new BigDecimal((Math.sqrt(-(Math.pow((CAS+CMT+CSFT)/3-2.42195519383753,2))+Math.pow(28.1279551670743,2))-28.0234900560224)/100);
+					MVCV = MVCV.setScale(8, BigDecimal.ROUND_HALF_UP);
 					BigDecimal calculation1 = BigDecimal.ZERO;
 					BigDecimal calculation2 = BigDecimal.ZERO;
 					BigDecimal calculation3 = BigDecimal.ZERO;
