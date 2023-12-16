@@ -1125,7 +1125,6 @@ public class ESCAServiceImpl implements ESCAService {
 			}
 		}
 		
-		
 		// GPUAS 배열 데이터 작성
 		BigDecimal[] gpuGBigDecimalArray = new BigDecimal[401];
 
@@ -1164,7 +1163,6 @@ public class ESCAServiceImpl implements ESCAService {
 		}
 		
 		// gpu value 연산
-		// gpu value 연산
 		for(int i = 0; i < partsGpuHistoryVOList.size(); i++) {
 			PartsGpuHistoryVO partsGpuHistoryVO = partsGpuHistoryVOList.get(i);
 			
@@ -1174,15 +1172,16 @@ public class ESCAServiceImpl implements ESCAService {
 			BigDecimal GSV = partsGpuHistoryVO.getGsv();
 			BigDecimal GPUAS = new BigDecimal(partsGpuHistoryVO.getGpuas());
 			BigDecimal GC = partsGpuHistoryVO.getMappingPrAndGcResourceScore();
-			BigDecimal GPUCV = new BigDecimal((Math.sqrt(-(Math.pow((CAS+CMT)/2-3.69003173099010,2))+Math.pow(99.1219170095487,2))-99.0532084158416)/100); // 보정수치
-			GPUCV = GPUCV.setScale(8, BigDecimal.ROUND_HALF_UP);
+			BigDecimal gpuOne = CAS.add(CMT).divide(BigDecimal.valueOf(2)).subtract(new BigDecimal("3.69003173099010")).pow(2).negate();
+			BigDecimal gpuTwo = new BigDecimal("99.1219170095487").pow(2);
+			BigDecimal gpuThree = gpuOne.add(gpuTwo);
+			BigDecimal GPUCV =  new BigDecimal(Math.sqrt(gpuThree.doubleValue())).subtract(new BigDecimal("99.0532084158416")).divide(BigDecimal.valueOf(100)).setScale(8, BigDecimal.ROUND_HALF_UP);// 보정수치
 			BigDecimal calculation1 = BigDecimal.ZERO;
 			BigDecimal calculation2 = BigDecimal.ZERO;
 			BigDecimal calculation3 = BigDecimal.ZERO;
 			BigDecimal calculation4 = BigDecimal.ZERO;
 			BigDecimal calculation5 = BigDecimal.ZERO;
 			BigDecimal calculation6 = BigDecimal.ZERO;
-			BigDecimal calculation6 = BigDecimal.ZERO;
 			
 			calculation1 = QC.multiply(CQC).subtract(new BigDecimal("1"));
 			calculation2 = GPUAS.multiply(CAS).setScale(0, BigDecimal.ROUND_HALF_UP);
@@ -1193,26 +1192,13 @@ public class ESCAServiceImpl implements ESCAService {
 			if(0 == calculation3.compareTo(new BigDecimal("401"))) {
 				calculation3 = new BigDecimal("400");
 			}
-			calculation4 = gpuFBigDecimalArray[calculation2.intValue()].multiply(gpuGBigDecimalArray[calculation3.intValue()]).divide(GPUCV);
-			calculation5 = new BigDecimal("1").add(calculation4);
-			calculation6 = GC.multiply(calculation5).multiply(calculation1);
-			calculation1 = QC.multiply(CQC).subtract(new BigDecimal("1"));
-			calculation2 = GPUAS.multiply(CAS).setScale(0, BigDecimal.ROUND_HALF_UP);
-			if(0 == calculation2.compareTo(new BigDecimal("401"))) {
-				calculation2 = new BigDecimal("400");
-			}
-			calculation3 = GSV.multiply(CMT).setScale(0, BigDecimal.ROUND_HALF_UP);
-			if(0 == calculation3.compareTo(new BigDecimal("401"))) {
-				calculation3 = new BigDecimal("400");
-			}
-			calculation4 = gpuFBigDecimalArray[calculation2.intValue()].multiply(gpuGBigDecimalArray[calculation3.intValue()]).divide(GPUCV);
+			calculation4 = gpuFBigDecimalArray[calculation2.intValue()].multiply(gpuGBigDecimalArray[calculation3.intValue()]).divide(GPUCV, 10, BigDecimal.ROUND_HALF_UP);
 			calculation5 = new BigDecimal("1").add(calculation4);
 			calculation6 = GC.multiply(calculation5).multiply(calculation1);
 			
-			partsGpuHistoryVO.setGpuValue(calculation6);
 			partsGpuHistoryVO.setGpuValue(calculation6);
 		}
-		
+
 //		기존  소거방법 폐기
 //		BigDecimal maxValue = BigDecimal.ZERO;
 //		for(int i = partsGpuHistoryVOList.size()-1; i >= 0; i--) {
@@ -1721,8 +1707,10 @@ public class ESCAServiceImpl implements ESCAService {
 						.multiply(new BigDecimal(partsCoolerHistoryVO.getWcas()))
 						.add(new BigDecimal(partsCoolerHistoryVO.getAcas()));
 				BigDecimal Thermal = new BigDecimal(partsCoolerHistoryVO.getThermal());
-				BigDecimal COOLERCV = new BigDecimal((Math.sqrt(-(Math.pow((CAS+CTH)/2-4.66451733306545,2))+Math.pow(4.84255185018178,2))-1.30099441629508)/100); // 보정수치
-				COOLERCV = COOLERCV.setScale(8, BigDecimal.ROUND_HALF_UP);
+				BigDecimal clOne = CAS.add(CTH).divide(BigDecimal.valueOf(2)).subtract(new BigDecimal("4.66451733306545")).pow(2).negate();
+				BigDecimal clTwo = new BigDecimal("4.84255185018178").pow(2);
+				BigDecimal clThree = clOne.add(clTwo);
+				BigDecimal COOLERCV =  new BigDecimal(Math.sqrt(clThree.doubleValue())).subtract(new BigDecimal("1.30099441629508")).divide(BigDecimal.valueOf(100)).setScale(8, BigDecimal.ROUND_HALF_UP); //보정수치
 				BigDecimal calculation1 = BigDecimal.ZERO;
 				BigDecimal calculation2 = BigDecimal.ZERO;
 				BigDecimal calculation3 = BigDecimal.ZERO;
@@ -1744,7 +1732,7 @@ public class ESCAServiceImpl implements ESCAService {
 				calculation5 				
 				= clFBigDecimalArray[calculation3.intValue()]
 						.multiply(clGBigDecimalArray[calculation4.intValue()])
-						.divide(COOLERCV);
+						.divide(COOLERCV, 10, BigDecimal.ROUND_HALF_UP);
 				calculation6 = new BigDecimal("1").add(calculation5);
 				calculation7 = GC.multiply(new BigDecimal("0.03")).multiply(calculation6).multiply(calculation2);
 				
@@ -1952,8 +1940,11 @@ public class ESCAServiceImpl implements ESCAService {
 				BigDecimal SFT = partsPsuHistoryVO.getSft();
 				BigDecimal PFM = partsPsuHistoryVO.getPfm();
 				BigDecimal PSUAS = new BigDecimal(partsPsuHistoryVO.getPsuas());
-				BigDecimal PSUCV = new BigDecimal((Math.sqrt(-(Math.pow((CAS+CMT+CSFT+CSFT)/4-1.93961451569933,2))+Math.pow(5.07397370455103,2))-4.68861436726927)/100);
-				PSUCV = PSUCV.setScale(8, BigDecimal.ROUND_HALF_UP);
+				BigDecimal psuOne = CAS.add(CMT).add(CSFT).add(CSFT).divide(BigDecimal.valueOf(4)).subtract(new BigDecimal("1.93961451569933")).pow(2).negate();
+				BigDecimal psuTwo = new BigDecimal("5.07397370455103").pow(2);
+				BigDecimal psuThree = psuOne.add(psuTwo);
+				BigDecimal PSUCV =  new BigDecimal(Math.sqrt(psuThree.doubleValue())).subtract(new BigDecimal("4.68861436726927")).divide(BigDecimal.valueOf(100)).setScale(8, BigDecimal.ROUND_HALF_UP);// 보정수치
+				
 				BigDecimal calculation1 = BigDecimal.ZERO;
 				BigDecimal calculation2 = BigDecimal.ZERO;
 				BigDecimal calculation3 = BigDecimal.ZERO;
@@ -1987,7 +1978,7 @@ public class ESCAServiceImpl implements ESCAService {
 						.multiply(psuGBigDecimalArray[calculation5.intValue()])
 						.multiply(psuHBigDecimalArray[calculation4.intValue()])
 						.multiply(psuZBigDecimalArray[calculation3.intValue()])
-						.divide(PSUCV);
+						.divide(PSUCV, 10, BigDecimal.ROUND_HALF_UP);
 				calculation8 = new BigDecimal("1").add(calculation7);
 				calculation9 = GC.multiply(new BigDecimal("0.001157"))
 						.multiply(PFM)
@@ -2149,8 +2140,11 @@ public class ESCAServiceImpl implements ESCAService {
 				BigDecimal COOL = partsCaseHistoryVO.getCool();
 				BigDecimal ADAP = partsCaseHistoryVO.getAdap();
 				BigDecimal CASEAS = new BigDecimal(partsCaseHistoryVO.getCaseas());
-				BigDecimal CASECV = new BigDecimal((Math.sqrt(-(Math.pow((CAS+CMT+CTH)/3-3.89419544969697,2))+Math.pow(303.072584544466,2))-303.047565151515)/100);
-				CASECV = CASECV.setScale(8, BigDecimal.ROUND_HALF_UP);
+				BigDecimal caseOne = CAS.add(CMT).add(CTH).divide(BigDecimal.valueOf(3)).subtract(new BigDecimal("3.89419544969697")).pow(2).negate();
+				BigDecimal caseTwo = new BigDecimal("303.072584544466").pow(2);
+				BigDecimal caseThree = caseOne.add(caseTwo);
+				BigDecimal CASECV =  new BigDecimal(Math.sqrt(caseThree.doubleValue())).subtract(new BigDecimal("303.047565151515")).divide(BigDecimal.valueOf(100)).setScale(8, BigDecimal.ROUND_HALF_UP);// 보정수치
+				
 				BigDecimal calculation1 = BigDecimal.ZERO;
 				BigDecimal calculation2 = BigDecimal.ZERO;
 				BigDecimal calculation3 = BigDecimal.ZERO;
@@ -2178,7 +2172,7 @@ public class ESCAServiceImpl implements ESCAService {
 				= caseFBigDecimalArray[calculation5.intValue()]
 						.multiply(caseGBigDecimalArray[calculation4.intValue()])
 						.multiply(caseHBigDecimalArray[calculation3.intValue()])
-						.divide(CASECV);
+						.divide(CASECV, 10, BigDecimal.ROUND_HALF_UP);
 				calculation7 = new BigDecimal("1").add(calculation6);
 				calculation8 = GC.multiply(new BigDecimal("0.04"))
 						.multiply(calculation7)
@@ -2328,8 +2322,10 @@ public class ESCAServiceImpl implements ESCAService {
 				BigDecimal RLB = partsSsdHistoryVO.getRlb();
 				BigDecimal WAR = new BigDecimal(partsSsdHistoryVO.getWar());
 				BigDecimal FNC = new BigDecimal(partsSsdHistoryVO.getFnc());
-				BigDecimal SSDCV = new BigDecimal((Math.sqrt(-(Math.pow((CMT+CAS+CSFT)/3-3.54346273182768,2))+Math.pow(26.4850395509368,2))-26.2469272845953)/100);
-				SSDCV = SSDCV.setScale(8, BigDecimal.ROUND_HALF_UP);
+				BigDecimal ssdOne = CAS.add(CMT).add(CSFT).divide(BigDecimal.valueOf(3)).subtract(new BigDecimal("3.54346273182768")).pow(2).negate();
+				BigDecimal ssdTwo = new BigDecimal("26.4850395509368").pow(2);
+				BigDecimal ssdThree = ssdOne.add(ssdTwo);
+				BigDecimal SSDCV =  new BigDecimal(Math.sqrt(ssdThree.doubleValue())).subtract(new BigDecimal("26.2469272845953")).divide(BigDecimal.valueOf(100)).setScale(8, BigDecimal.ROUND_HALF_UP);// 보정수치
 				BigDecimal BASIC = partsSsdHistoryVO.getBasic();
 				BigDecimal calculation1 = BigDecimal.ZERO;
 				BigDecimal calculation2 = BigDecimal.ZERO;
@@ -2358,7 +2354,7 @@ public class ESCAServiceImpl implements ESCAService {
 				= ssdFBigDecimalArray[calculation5.intValue()]
 						.multiply(ssdGBigDecimalArray[calculation4.intValue()])
 						.multiply(ssdHBigDecimalArray[calculation3.intValue()])
-						.divide(SSDCV);
+						.divide(SSDCV, 10, BigDecimal.ROUND_HALF_UP);
 				calculation7 = new BigDecimal("1").add(calculation6);
 				calculation8 = GC.multiply(new BigDecimal("0.001245"))
 						.multiply(BASIC)
@@ -3050,8 +3046,10 @@ public class ESCAServiceImpl implements ESCAService {
 					BigDecimal PORT = new BigDecimal(partsMbHistoryVO.getPort());
 					BigDecimal BIOS = new BigDecimal(partsMbHistoryVO.getBios());
 					BigDecimal QC = new BigDecimal(partsMbHistoryVO.getQc());
-					BigDecimal MVCV = new BigDecimal((Math.sqrt(-(Math.pow((CAS+CMT+CSFT)/3-2.42195519383753,2))+Math.pow(28.1279551670743,2))-28.0234900560224)/100);
-					MVCV = MVCV.setScale(8, BigDecimal.ROUND_HALF_UP);
+					BigDecimal mbOne = CAS.add(CMT).add(CSFT).divide(BigDecimal.valueOf(3)).subtract(new BigDecimal("2.42195519383753")).pow(2).negate();
+					BigDecimal mbTwo = new BigDecimal("28.1279551670743").pow(2);
+					BigDecimal mbThree = mbOne.add(mbTwo);
+					BigDecimal MVCV =  new BigDecimal(Math.sqrt(mbThree.doubleValue())).subtract(new BigDecimal("28.0234900560224")).divide(BigDecimal.valueOf(100)).setScale(8, BigDecimal.ROUND_HALF_UP);// 보정수치
 					BigDecimal calculation1 = BigDecimal.ZERO;
 					BigDecimal calculation2 = BigDecimal.ZERO;
 					BigDecimal calculation3 = BigDecimal.ZERO;
@@ -3080,7 +3078,7 @@ public class ESCAServiceImpl implements ESCAService {
 					= mbFBigDecimalArray[calculation3.intValue()]
 							.multiply(mbGBigDecimalArray[calculation4.intValue()])
 							.multiply(mbHBigDecimalArray[calculation5.intValue()])
-							.divide(MVCV);
+							.divide(MVCV, 10, BigDecimal.ROUND_HALF_UP);
 					
 					calculation7 = new BigDecimal("1").add(calculation6);
 					calculation8 = CC
