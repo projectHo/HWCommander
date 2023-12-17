@@ -276,7 +276,7 @@
 		const mailCheckRegExp = new RegExp("([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\"\(\[\]!#-[^-~ \t]|(\\[\t -~]))+\")@([!#-'*+/-9=?A-Z^-~-]+(\.[!#-'*+/-9=?A-Z^-~-]+)*|\[[\t -Z^-~]*])");
 
 		if (!mailCheckRegExp.test($('.recipient-mail-addr').val())) {
-			alert("올바른 이메일을 입력하세요.");
+			alert("올바른 이메일 형식을 입력해주세요");
 			$('.recipient-mail-addr').focus();
 			return false;
 		}
@@ -285,7 +285,7 @@
 			alert("변경된 내용이 없습니다. 다시 확인해주세요");
 			return false;
 		}
-		if(confirm("수정 하시겠습니까?")){
+		if(confirm("수정 하시겠습니까? 확인을 누르시면 로그아웃되며 이메일 인증 전 로그인 불가능합니다.")){
 			$.ajax({
 				type: "post",
 				url: "/user/userMailInfoUpdateLogic.do",
@@ -309,8 +309,8 @@
 				},
 				dataType: "json",
 				success: function(response) {
-					alert("이메일 인증 후 정상 반영됩니다! 이메일 인증을 해주세요");
-					location.reload();				
+					alert("이메일 인증 후 정상 반영됩니다! 이메일 인증 후 재로그인 해주세요!");
+					location.href = "/user/logoutLogic.do";			
 				},
 				error: function(xhr, status, error) {
 					alert("통신에 실패했습니다. 다시 시도해주세요.");
@@ -329,12 +329,19 @@
 			$(".card-secession-detail").addClass("show");
 		}, 100);
 	}
+	function secessionMoalOpen(){
+		if($("#user-id").val() == "${loginUser.id}"){
+			$("#secessionModal").modal("show");
+		}else{
+			alert("아이디를 정확히 입력해주세요");
+		}
+	}
 	function secessionBtn(){
 		$.ajax({
 			type: "post",
 			url: "/user/tempDeleteAccountLogic.do",
 			data: {
-				id: "${loginUser.id}"
+				id: $("#user-id").val()
 			},
 			dataType: "json",
 			success: function(){
@@ -342,7 +349,7 @@
 				location.href = "/user/logoutLogic.do";
 			},
 			error: function() {
-				alert("신청 실패했습니다. 다시 시도해주세요.");
+				alert("알수없는 이유로 요청 실패했습니다. 다시 시도해주시거나 고객센터에 문의해주세요.");
 				location.reload();
 			}
 		})
@@ -720,11 +727,11 @@
 								<h6 class="card-subtitle mb-2 text-muted">${loginUser.name}님</h6>
 								<p class="card-text">
 									<div class="form-floating mb-3 col-6 mx-auto mt-5">
-										<input type="text" class="form-control" id="id" placeholder="">
+										<input type="text" class="form-control" id="user-id" placeholder="">
 										<label for="floatingInput">ID</label>
 									</div>
 									<div class="d-flex justify-content-center">
-										<button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#secessionModal">회원 탈퇴</button>
+										<button type="button" class="btn btn-outline-secondary" onclick="javascript:secessionMoalOpen()">회원 탈퇴</button>
 									</div>
 								</p>
 							</div>

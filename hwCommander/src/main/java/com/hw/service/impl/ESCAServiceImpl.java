@@ -742,7 +742,6 @@ public class ESCAServiceImpl implements ESCAService {
 			}
 		}
 		
-		
 		/*--------------------------------------------------
 		 - 6. 클라이언트가 9번에 답변하였을 경우 MB의 Mem Soc수치가 4(DDR4)/5(DDR5)
 		 - /관계없음(상관없음)인 MB제품을 제외하곤 모든 MB제품을 소거한다.
@@ -882,51 +881,54 @@ public class ESCAServiceImpl implements ESCAService {
 		// DB Column volume(INT)
 		// 관리자 입력값
 		
-		if(null != answer11) {
-			for(int i = partsSsdHistoryVOList.size()-1; i >= 0; i--) {
-				if(0 == answer11) {
-					// 예산에맞게
+		for(int i = partsSsdHistoryVOList.size()-1; i >= 0; i--) {
+			if(null == answer11
+					|| 0 == answer11) {
+				// 예산에맞게
 //					if(VC.intValue() > 100) {
-					// 07.29 VC와 Price 일원화 하기로 함 프론트에서 만 단위 곱해서 보내준 수 그대로 쓰기로 함.
-					if(VC.intValue() > 1000000) {
-						// 예산 100만원 초과면 1024 제외하고 모두 소거
-						if(1024 != partsSsdHistoryVOList.get(i).getVolume()) {
-							partsSsdHistoryVOList.remove(i);
-						}
-					}else {
-						// 예산이 100만원 이하이면 512 제외하고 모두 소거
-						if(512 != partsSsdHistoryVOList.get(i).getVolume()) {
-							partsSsdHistoryVOList.remove(i);
-						}
-					}
-				}
-				
-				if(1 == answer11) {
-					// 256GB
-					if(256 != partsSsdHistoryVOList.get(i).getVolume()) {
+				// 07.29 VC와 Price 일원화 하기로 함 프론트에서 만 단위 곱해서 보내준 수 그대로 쓰기로 함.
+				if(VC.intValue() > 1000000) {
+					// 예산 100만원 초과면 1024 제외하고 모두 소거
+					if(1024 != partsSsdHistoryVOList.get(i).getVolume()) {
 						partsSsdHistoryVOList.remove(i);
 					}
-				}
-				
-				if(2 == answer11) {
-					// 512GB
+				}else {
+					// 예산이 100만원 이하이면 512 제외하고 모두 소거
 					if(512 != partsSsdHistoryVOList.get(i).getVolume()) {
 						partsSsdHistoryVOList.remove(i);
 					}
 				}
-				
-				if(3 == answer11) {
-					// 1024GB
-					if(1024 != partsSsdHistoryVOList.get(i).getVolume()) {
-						partsSsdHistoryVOList.remove(i);
-					}
+			}
+			
+			if(null != answer11
+					&& 1 == answer11) {
+				// 256GB
+				if(256 != partsSsdHistoryVOList.get(i).getVolume()) {
+					partsSsdHistoryVOList.remove(i);
 				}
-				
-				if(4 == answer11) {
-					// 2048GB
-					if(2048 != partsSsdHistoryVOList.get(i).getVolume()) {
-						partsSsdHistoryVOList.remove(i);
-					}
+			}
+			
+			if(null != answer11
+					&& 2 == answer11) {
+				// 512GB
+				if(512 != partsSsdHistoryVOList.get(i).getVolume()) {
+					partsSsdHistoryVOList.remove(i);
+				}
+			}
+			
+			if(null != answer11
+					&& 3 == answer11) {
+				// 1024GB
+				if(1024 != partsSsdHistoryVOList.get(i).getVolume()) {
+					partsSsdHistoryVOList.remove(i);
+				}
+			}
+			
+			if(null != answer11
+					&& 4 == answer11) {
+				// 2048GB
+				if(2048 != partsSsdHistoryVOList.get(i).getVolume()) {
+					partsSsdHistoryVOList.remove(i);
 				}
 			}
 		}
@@ -1949,6 +1951,12 @@ public class ESCAServiceImpl implements ESCAService {
 				BigDecimal psuThree = psuOne.add(psuTwo);
 				BigDecimal PSUCV =  new BigDecimal(Math.sqrt(psuThree.doubleValue())).subtract(new BigDecimal("4.68861436726927")).divide(BigDecimal.valueOf(100)).setScale(8, BigDecimal.ROUND_HALF_UP);// 보정수치
 				
+				// 23.12.18 가성비 제품 선택 시 과도한 PSU제품 선택에 의한 밸류 기본값 조정 - 임시방편으로 수행됨. 추후 뻥파워 이슈 제품을 거를 방법 선정해야함.
+				BigDecimal customCheck = CMT.add(CSFT).add(CAS);
+				if(customCheck.compareTo(BigDecimal.ZERO) == 0) {
+					PFM = BigDecimal.ZERO;
+				}
+				
 				BigDecimal calculation1 = BigDecimal.ZERO;
 				BigDecimal calculation2 = BigDecimal.ZERO;
 				BigDecimal calculation3 = BigDecimal.ZERO;
@@ -2343,6 +2351,12 @@ public class ESCAServiceImpl implements ESCAService {
 				BigDecimal calculation8 = BigDecimal.ZERO;
 				BigDecimal calculation9 = BigDecimal.ZERO;
 				
+				// 23.12.18 가성비 제품 선택 시 과도한 PSU제품 선택에 의한 밸류 기본값 조정 - 임시방편으로 수행됨. 추후 뻥파워 이슈 제품을 거를 방법 선정해야함.
+				BigDecimal customCheck = CMT.add(CSFT).add(CAS);
+				if(customCheck.compareTo(BigDecimal.ZERO) == 0) {
+					BASIC = BigDecimal.ZERO;
+				}
+				
 				calculation1 = QC.multiply(CQC).multiply(new BigDecimal("0.1"));
 				calculation2 = new BigDecimal("1").subtract(calculation1);
 				calculation3 = RLB.multiply(CSFT).setScale(0, BigDecimal.ROUND_HALF_UP);
@@ -2462,114 +2476,96 @@ public class ESCAServiceImpl implements ESCAService {
 //				System.out.println("################# 드러오냐 #########################");
 //			}
 			
-			/*--------------------------------------------------
-			 - 15-3. Cooler Value 기준 소거처리부 
-			*--------------------------------------------------*/
-
-			// cooler value 소거법 적용 전 로직 추가(formula_cd : PRT020) 23.10.06
-//			PRT020
-//			formula	01	AC
-//			formula	02	WC
-
-			List<PartsCoolerHistoryVO> PRT020_01_List = new ArrayList<>();
-			List<PartsCoolerHistoryVO> PRT020_02_List = new ArrayList<>();
-			// etc 취급안함.
-			
-			for(int i = 0; i < partsCoolerHistoryVOList.size(); i++) {
-				if("01".equals(partsCoolerHistoryVOList.get(i).getFormulaCd())) {
-					PRT020_01_List.add(partsCoolerHistoryVOList.get(i));
-				}else {
-					PRT020_02_List.add(partsCoolerHistoryVOList.get(i));
-				}
-			}
-			
-			// PRT020_01_List 소거
-			valueEraseProcessingByCooler(PRT020_01_List);
-			
-			// PRT020_02_List 소거
-			valueEraseProcessingByCooler(PRT020_02_List);
-			
-			// PRT020_01_List, PRT020_02_List 각각 소거 후 리스트화
-			partsCoolerHistoryVOList = new ArrayList<>();
-			
-			for(int i = 0; i < PRT020_01_List.size(); i++) {
-				partsCoolerHistoryVOList.add(PRT020_01_List.get(i));
-			}
-			
-			for(int i = 0; i < PRT020_02_List.size(); i++) {
-				partsCoolerHistoryVOList.add(PRT020_02_List.get(i));
-			}
 			
 			/*--------------------------------------------------
 			 - 15-4. Psu Value 기준 소거처리부 
+			 - 23.12.17 소거 조건추가
 			*--------------------------------------------------*/
-			for(int i = partsPsuHistoryVOList.size()-1; i >= 1; i--) {
-				int targetIndex = i-1;
+			
+			BigDecimal zeroPsuCheck = BigDecimal.ZERO;
+			BigDecimal customPsuCheck = CSFT.add(CAS).add(CMT);
+			
+			if(zeroPsuCheck.compareTo(customPsuCheck) > 0) {
 				
-				BigDecimal value1 = partsPsuHistoryVOList.get(targetIndex).getPsuValue();
-				BigDecimal value2 = partsPsuHistoryVOList.get(targetIndex+1).getPsuValue();
-				
-				int compareResult1 = value1.compareTo(value2);
-				
-				if(compareResult1 < 0) {
-					// value1 < value2
-					continue;
-				}
-				
-				// 중첩 반복(대상 인덱스로부터 위로 검증)
-				int zTargetSize = partsPsuHistoryVOList.size();
-				for(int z = targetIndex+1; z < zTargetSize; z++) {
-					if(z == zTargetSize) {
-						break;
-					}
-					BigDecimal value3 = partsPsuHistoryVOList.get(z).getPsuValue();
+			
+				for(int i = partsPsuHistoryVOList.size()-1; i >= 1; i--) {
+					int targetIndex = i-1;
 					
-					int compareResult2 = value1.compareTo(value3);
-					if(compareResult2 > 0 || compareResult2 == 0) {
-						// value1 > value3 or value1 == value3
-						partsPsuHistoryVOList.remove(z);
-						--zTargetSize;
-						--z;
+					BigDecimal value1 = partsPsuHistoryVOList.get(targetIndex).getPsuValue();
+					BigDecimal value2 = partsPsuHistoryVOList.get(targetIndex+1).getPsuValue();
+					
+					int compareResult1 = value1.compareTo(value2);
+					
+					if(compareResult1 < 0) {
+						// value1 < value2
+						continue;
+					}
+					
+					// 중첩 반복(대상 인덱스로부터 위로 검증)
+					int zTargetSize = partsPsuHistoryVOList.size();
+					for(int z = targetIndex+1; z < zTargetSize; z++) {
+						if(z == zTargetSize) {
+							break;
+						}
+						BigDecimal value3 = partsPsuHistoryVOList.get(z).getPsuValue();
+						
+						int compareResult2 = value1.compareTo(value3);
+						if(compareResult2 > 0 || compareResult2 == 0) {
+							// value1 > value3 or value1 == value3
+							partsPsuHistoryVOList.remove(z);
+							--zTargetSize;
+							--z;
+						}
 					}
 				}
 			}
 			
 			/*--------------------------------------------------
 			 - 15-5. Case Value 기준 소거처리부 
+			 - 23.12.17 소거 조건추가
 			*--------------------------------------------------*/
-			for(int i = partsCaseHistoryVOList.size()-1; i >= 1; i--) {
-				int targetIndex = i-1;
-				
-				BigDecimal value1 = partsCaseHistoryVOList.get(targetIndex).getCaseValue();
-				BigDecimal value2 = partsCaseHistoryVOList.get(targetIndex+1).getCaseValue();
-				
-				int compareResult1 = value1.compareTo(value2);
-				
-				if(compareResult1 < 0) {
-					// value1 < value2
-					continue;
-				}
-				
-				// 중첩 반복(대상 인덱스로부터 위로 검증)
-				int zTargetSize = partsCaseHistoryVOList.size();
-				for(int z = targetIndex+1; z < zTargetSize; z++) {
-					if(z == zTargetSize) {
-						break;
-					}
-					BigDecimal value3 = partsCaseHistoryVOList.get(z).getCaseValue();
+			
+			BigDecimal zeroCaseCheck = BigDecimal.ZERO;
+			BigDecimal customCaseCheck = CTH.add(CAS).add(CMT);
+			
+			if(zeroCaseCheck.compareTo(customCaseCheck) > 0) {
+			
+				for(int i = partsCaseHistoryVOList.size()-1; i >= 1; i--) {
+					int targetIndex = i-1;
 					
-					int compareResult2 = value1.compareTo(value3);
-					if(compareResult2 > 0 || compareResult2 == 0) {
-						// value1 > value3 or value1 == value3
-						partsCaseHistoryVOList.remove(z);
-						--zTargetSize;
-						--z;
+					BigDecimal value1 = partsCaseHistoryVOList.get(targetIndex).getCaseValue();
+					BigDecimal value2 = partsCaseHistoryVOList.get(targetIndex+1).getCaseValue();
+					
+					int compareResult1 = value1.compareTo(value2);
+					
+					if(compareResult1 < 0) {
+						// value1 < value2
+						continue;
+					}
+					
+					// 중첩 반복(대상 인덱스로부터 위로 검증)
+					int zTargetSize = partsCaseHistoryVOList.size();
+					for(int z = targetIndex+1; z < zTargetSize; z++) {
+						if(z == zTargetSize) {
+							break;
+						}
+						BigDecimal value3 = partsCaseHistoryVOList.get(z).getCaseValue();
+						
+						int compareResult2 = value1.compareTo(value3);
+						if(compareResult2 > 0 || compareResult2 == 0) {
+							// value1 > value3 or value1 == value3
+							partsCaseHistoryVOList.remove(z);
+							--zTargetSize;
+							--z;
+						}
 					}
 				}
 			}
 			
+			
 			/*--------------------------------------------------
 			 - 15-6. Ssd Value 기준 소거처리부 
+			 - 23.12.17 소거 조건추가
 			*--------------------------------------------------*/
 			
 			// ssd value 소거법 적용 전 로직 추가(scs_cd : PRT008) 23.10.06
@@ -2625,138 +2621,146 @@ public class ESCAServiceImpl implements ESCAService {
 //					4096
 
 			// 아이 시발 scs_cd랑 volume이랑 경우의 수 각각 둬서 리스트업 해야함.. 23.10.10
-			List<PartsSsdHistoryVO> PRT008_01and256_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_01and512_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_01and1024_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_01and2048_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_01and4096_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_03and256_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_03and512_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_03and1024_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_03and2048_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_03and4096_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_04and256_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_04and512_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_04and1024_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_04and2048_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_04and4096_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_05and256_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_05and512_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_05and1024_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_05and2048_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_05and4096_List = new ArrayList<>();
 			
-			List<PartsSsdHistoryVO> ssdEtcList = new ArrayList<>();
+			BigDecimal zeroSsdCheck = BigDecimal.ZERO;
+			BigDecimal customSsdCheck = CSFT.add(CAS).add(CMT);
 			
-			for(int i = 0; i < partsSsdHistoryVOList.size(); i++) {
-				if("01".equals(partsSsdHistoryVOList.get(i).getScsCd())) {
-					if(256 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_01and256_List.add(partsSsdHistoryVOList.get(i));
-					}else if(512 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_01and512_List.add(partsSsdHistoryVOList.get(i));
-					}else if(1024 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_01and1024_List.add(partsSsdHistoryVOList.get(i));
-					}else if(2048 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_01and2048_List.add(partsSsdHistoryVOList.get(i));
-					}else if(4096 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_01and4096_List.add(partsSsdHistoryVOList.get(i));
+			if(zeroSsdCheck.compareTo(customSsdCheck) > 0) {
+				
+				List<PartsSsdHistoryVO> PRT008_01and256_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_01and512_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_01and1024_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_01and2048_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_01and4096_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_03and256_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_03and512_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_03and1024_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_03and2048_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_03and4096_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_04and256_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_04and512_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_04and1024_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_04and2048_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_04and4096_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_05and256_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_05and512_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_05and1024_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_05and2048_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_05and4096_List = new ArrayList<>();
+				
+				List<PartsSsdHistoryVO> ssdEtcList = new ArrayList<>();
+				
+				for(int i = 0; i < partsSsdHistoryVOList.size(); i++) {
+					if("01".equals(partsSsdHistoryVOList.get(i).getScsCd())) {
+						if(256 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_01and256_List.add(partsSsdHistoryVOList.get(i));
+						}else if(512 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_01and512_List.add(partsSsdHistoryVOList.get(i));
+						}else if(1024 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_01and1024_List.add(partsSsdHistoryVOList.get(i));
+						}else if(2048 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_01and2048_List.add(partsSsdHistoryVOList.get(i));
+						}else if(4096 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_01and4096_List.add(partsSsdHistoryVOList.get(i));
+						}else {
+							ssdEtcList.add(partsSsdHistoryVOList.get(i));
+						}
+					}else if("03".equals(partsSsdHistoryVOList.get(i).getScsCd())) {
+						if(256 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_03and256_List.add(partsSsdHistoryVOList.get(i));
+						}else if(512 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_03and512_List.add(partsSsdHistoryVOList.get(i));
+						}else if(1024 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_03and1024_List.add(partsSsdHistoryVOList.get(i));
+						}else if(2048 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_03and2048_List.add(partsSsdHistoryVOList.get(i));
+						}else if(4096 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_03and4096_List.add(partsSsdHistoryVOList.get(i));
+						}else {
+							ssdEtcList.add(partsSsdHistoryVOList.get(i));
+						}
+					}else if("04".equals(partsSsdHistoryVOList.get(i).getScsCd())) {
+						if(256 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_04and256_List.add(partsSsdHistoryVOList.get(i));
+						}else if(512 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_04and512_List.add(partsSsdHistoryVOList.get(i));
+						}else if(1024 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_04and1024_List.add(partsSsdHistoryVOList.get(i));
+						}else if(2048 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_04and2048_List.add(partsSsdHistoryVOList.get(i));
+						}else if(4096 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_04and4096_List.add(partsSsdHistoryVOList.get(i));
+						}else {
+							ssdEtcList.add(partsSsdHistoryVOList.get(i));
+						}
+					}else if("05".equals(partsSsdHistoryVOList.get(i).getScsCd())) {
+						if(256 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_05and256_List.add(partsSsdHistoryVOList.get(i));
+						}else if(512 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_05and512_List.add(partsSsdHistoryVOList.get(i));
+						}else if(1024 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_05and1024_List.add(partsSsdHistoryVOList.get(i));
+						}else if(2048 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_05and2048_List.add(partsSsdHistoryVOList.get(i));
+						}else if(4096 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_05and4096_List.add(partsSsdHistoryVOList.get(i));
+						}else {
+							ssdEtcList.add(partsSsdHistoryVOList.get(i));
+						}
 					}else {
 						ssdEtcList.add(partsSsdHistoryVOList.get(i));
 					}
-				}else if("03".equals(partsSsdHistoryVOList.get(i).getScsCd())) {
-					if(256 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_03and256_List.add(partsSsdHistoryVOList.get(i));
-					}else if(512 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_03and512_List.add(partsSsdHistoryVOList.get(i));
-					}else if(1024 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_03and1024_List.add(partsSsdHistoryVOList.get(i));
-					}else if(2048 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_03and2048_List.add(partsSsdHistoryVOList.get(i));
-					}else if(4096 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_03and4096_List.add(partsSsdHistoryVOList.get(i));
-					}else {
-						ssdEtcList.add(partsSsdHistoryVOList.get(i));
-					}
-				}else if("04".equals(partsSsdHistoryVOList.get(i).getScsCd())) {
-					if(256 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_04and256_List.add(partsSsdHistoryVOList.get(i));
-					}else if(512 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_04and512_List.add(partsSsdHistoryVOList.get(i));
-					}else if(1024 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_04and1024_List.add(partsSsdHistoryVOList.get(i));
-					}else if(2048 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_04and2048_List.add(partsSsdHistoryVOList.get(i));
-					}else if(4096 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_04and4096_List.add(partsSsdHistoryVOList.get(i));
-					}else {
-						ssdEtcList.add(partsSsdHistoryVOList.get(i));
-					}
-				}else if("05".equals(partsSsdHistoryVOList.get(i).getScsCd())) {
-					if(256 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_05and256_List.add(partsSsdHistoryVOList.get(i));
-					}else if(512 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_05and512_List.add(partsSsdHistoryVOList.get(i));
-					}else if(1024 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_05and1024_List.add(partsSsdHistoryVOList.get(i));
-					}else if(2048 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_05and2048_List.add(partsSsdHistoryVOList.get(i));
-					}else if(4096 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_05and4096_List.add(partsSsdHistoryVOList.get(i));
-					}else {
-						ssdEtcList.add(partsSsdHistoryVOList.get(i));
-					}
-				}else {
-					ssdEtcList.add(partsSsdHistoryVOList.get(i));
 				}
+				
+				valueEraseProcessingBySsd(PRT008_01and256_List);
+				valueEraseProcessingBySsd(PRT008_01and512_List);
+				valueEraseProcessingBySsd(PRT008_01and1024_List);
+				valueEraseProcessingBySsd(PRT008_01and2048_List);
+				valueEraseProcessingBySsd(PRT008_01and4096_List);
+				valueEraseProcessingBySsd(PRT008_03and256_List);
+				valueEraseProcessingBySsd(PRT008_03and512_List);
+				valueEraseProcessingBySsd(PRT008_03and1024_List);
+				valueEraseProcessingBySsd(PRT008_03and2048_List);
+				valueEraseProcessingBySsd(PRT008_03and4096_List);
+				valueEraseProcessingBySsd(PRT008_04and256_List);
+				valueEraseProcessingBySsd(PRT008_04and512_List);
+				valueEraseProcessingBySsd(PRT008_04and1024_List);
+				valueEraseProcessingBySsd(PRT008_04and2048_List);
+				valueEraseProcessingBySsd(PRT008_04and4096_List);
+				valueEraseProcessingBySsd(PRT008_05and256_List);
+				valueEraseProcessingBySsd(PRT008_05and512_List);
+				valueEraseProcessingBySsd(PRT008_05and1024_List);
+				valueEraseProcessingBySsd(PRT008_05and2048_List);
+				valueEraseProcessingBySsd(PRT008_05and4096_List);
+				valueEraseProcessingBySsd(ssdEtcList);
+				
+				// 각각 소거 후 리스트화
+				partsSsdHistoryVOList = new ArrayList<>();
+				
+				// 기존리스트에 결과리스트 삽입
+				addListBySsd(partsSsdHistoryVOList, PRT008_01and256_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_01and512_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_01and1024_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_01and2048_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_01and4096_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_03and256_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_03and512_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_03and1024_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_03and2048_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_03and4096_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_04and256_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_04and512_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_04and1024_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_04and2048_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_04and4096_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_05and256_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_05and512_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_05and1024_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_05and2048_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_05and4096_List);
+				addListBySsd(partsSsdHistoryVOList, ssdEtcList);
+				
 			}
-			
-			valueEraseProcessingBySsd(PRT008_01and256_List);
-			valueEraseProcessingBySsd(PRT008_01and512_List);
-			valueEraseProcessingBySsd(PRT008_01and1024_List);
-			valueEraseProcessingBySsd(PRT008_01and2048_List);
-			valueEraseProcessingBySsd(PRT008_01and4096_List);
-			valueEraseProcessingBySsd(PRT008_03and256_List);
-			valueEraseProcessingBySsd(PRT008_03and512_List);
-			valueEraseProcessingBySsd(PRT008_03and1024_List);
-			valueEraseProcessingBySsd(PRT008_03and2048_List);
-			valueEraseProcessingBySsd(PRT008_03and4096_List);
-			valueEraseProcessingBySsd(PRT008_04and256_List);
-			valueEraseProcessingBySsd(PRT008_04and512_List);
-			valueEraseProcessingBySsd(PRT008_04and1024_List);
-			valueEraseProcessingBySsd(PRT008_04and2048_List);
-			valueEraseProcessingBySsd(PRT008_04and4096_List);
-			valueEraseProcessingBySsd(PRT008_05and256_List);
-			valueEraseProcessingBySsd(PRT008_05and512_List);
-			valueEraseProcessingBySsd(PRT008_05and1024_List);
-			valueEraseProcessingBySsd(PRT008_05and2048_List);
-			valueEraseProcessingBySsd(PRT008_05and4096_List);
-			valueEraseProcessingBySsd(ssdEtcList);
-			
-			// 각각 소거 후 리스트화
-			partsSsdHistoryVOList = new ArrayList<>();
-			
-			// 기존리스트에 결과리스트 삽입
-			addListBySsd(partsSsdHistoryVOList, PRT008_01and256_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_01and512_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_01and1024_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_01and2048_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_01and4096_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_03and256_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_03and512_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_03and1024_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_03and2048_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_03and4096_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_04and256_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_04and512_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_04and1024_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_04and2048_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_04and4096_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_05and256_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_05and512_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_05and1024_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_05and2048_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_05and4096_List);
-			addListBySsd(partsSsdHistoryVOList, ssdEtcList);
 
 			/*--------------------------------------------------
 			 - 16. BN이 α번째 GPU>CPU인 CPU제품들을 모두 소거한다. 
@@ -2893,6 +2897,65 @@ public class ESCAServiceImpl implements ESCAService {
 				 - 18-2. 현재 진행 cpu Index의 가격 빼기
 				*--------------------------------------------------*/
 				VC = VC.subtract(new BigDecimal(partsCpuHistoryVOList.get(cpuIndex).getPartsPrice()));
+				
+				/*--------------------------------------------------
+				 - 18-3. Thermal이 β번째 CPU+CTH*5>Cooler인 모든 Cooler제품을 소거한다.
+				*--------------------------------------------------*/
+
+				
+				
+				BigDecimal cpu_thermal = new BigDecimal(partsCpuHistoryVOList.get(cpuIndex).getThermal());
+				BigDecimal algorithm26TargetData = CTH.multiply(new BigDecimal("5")).add(cpu_thermal);
+				for(int i = partsCoolerHistoryVOList.size()-1; i >= 0; i--) {
+					BigDecimal Thermal = new BigDecimal(partsCoolerHistoryVOList.get(i).getThermal());
+					int compareResult = algorithm26TargetData.compareTo(Thermal);
+					if(compareResult > 0) {
+						partsCoolerHistoryVOList.remove(i);
+					}
+				}
+				
+
+				
+				
+				/*--------------------------------------------------
+				 - 18-4. Cooler Value 기준 소거처리부 
+				*--------------------------------------------------*/
+				// cooler value 소거법 적용 전 로직 추가(formula_cd : PRT020) 23.10.06
+//				PRT020
+//				formula	01	AC
+//				formula	02	WC
+				
+
+				List<PartsCoolerHistoryVO> PRT020_01_List = new ArrayList<>();
+				List<PartsCoolerHistoryVO> PRT020_02_List = new ArrayList<>();
+				// etc 취급안함.
+				
+				for(int i = 0; i < partsCoolerHistoryVOList.size(); i++) {
+					if("01".equals(partsCoolerHistoryVOList.get(i).getFormulaCd())) {
+						PRT020_01_List.add(partsCoolerHistoryVOList.get(i));
+					}else {
+						PRT020_02_List.add(partsCoolerHistoryVOList.get(i));
+					}
+				}
+				
+				// PRT020_01_List 소거
+				valueEraseProcessingByCooler(PRT020_01_List);
+				
+				// PRT020_02_List 소거
+				valueEraseProcessingByCooler(PRT020_02_List);
+				
+				// PRT020_01_List, PRT020_02_List 각각 소거 후 리스트화
+				partsCoolerHistoryVOList = new ArrayList<>();
+				
+				for(int i = 0; i < PRT020_01_List.size(); i++) {
+					partsCoolerHistoryVOList.add(PRT020_01_List.get(i));
+				}
+				
+				for(int i = 0; i < PRT020_02_List.size(); i++) {
+					partsCoolerHistoryVOList.add(PRT020_02_List.get(i));
+				}
+					
+				
 				
 				/*--------------------------------------------------
 				 - 19. CC(β번째 선택된 CPU)를 계산하여 MB테이블의 모든 제품 Value를 계산한다.
@@ -3096,40 +3159,7 @@ public class ESCAServiceImpl implements ESCAService {
 					partsMbHistoryVO.setMbValue(calculation9);
 				}
 				
-				/*--------------------------------------------------
-				 - 20. MB테이블에서 Value가 더 낮음과 동시에 Price가 더 높은
-				 - (완벽한 하위 호환에 있는)제품이 있는 경우 하위 호환 제품을 소거한다.  
-				*--------------------------------------------------*/
-				for(int i = partsMbHistoryVOList.size()-1; i >= 1; i--) {
-					int targetIndex = i-1;
-					
-					BigDecimal value1 = partsMbHistoryVOList.get(targetIndex).getMbValue();
-					BigDecimal value2 = partsMbHistoryVOList.get(targetIndex+1).getMbValue();
-					
-					int compareResult1 = value1.compareTo(value2);
-					
-					if(compareResult1 < 0) {
-						// value1 < value2
-						continue;
-					}
-					
-					// 중첩 반복(대상 인덱스로부터 위로 검증)
-					int zTargetSize = partsMbHistoryVOList.size();
-					for(int z = targetIndex+1; z < zTargetSize; z++) {
-						if(z == zTargetSize) {
-							break;
-						}
-						BigDecimal value3 = partsMbHistoryVOList.get(z).getMbValue();
-						
-						int compareResult2 = value1.compareTo(value3);
-						if(compareResult2 > 0 || compareResult2 == 0) {
-							// value1 > value3 or value1 == value3
-							partsMbHistoryVOList.remove(z);
-							--zTargetSize;
-							--z;
-						}
-					}
-				}
+				
 				
 				/*--------------------------------------------------
 				 - 21. VC=<Price인 MB제품을 모두 소거한다.
@@ -3288,6 +3318,41 @@ public class ESCAServiceImpl implements ESCAService {
 				}
 				
 				/*--------------------------------------------------
+				 - 20. MB테이블에서 Value가 더 낮음과 동시에 Price가 더 높은
+				 - (완벽한 하위 호환에 있는)제품이 있는 경우 하위 호환 제품을 소거한다.  
+				*--------------------------------------------------*/
+				for(int i = partsMbHistoryVOList.size()-1; i >= 1; i--) {
+					int targetIndex = i-1;
+					
+					BigDecimal value1 = partsMbHistoryVOList.get(targetIndex).getMbValue();
+					BigDecimal value2 = partsMbHistoryVOList.get(targetIndex+1).getMbValue();
+					
+					int compareResult1 = value1.compareTo(value2);
+					
+					if(compareResult1 < 0) {
+						// value1 < value2
+						continue;
+					}
+					
+					// 중첩 반복(대상 인덱스로부터 위로 검증)
+					int zTargetSize = partsMbHistoryVOList.size();
+					for(int z = targetIndex+1; z < zTargetSize; z++) {
+						if(z == zTargetSize) {
+							break;
+						}
+						BigDecimal value3 = partsMbHistoryVOList.get(z).getMbValue();
+						
+						int compareResult2 = value1.compareTo(value3);
+						if(compareResult2 > 0 || compareResult2 == 0) {
+							// value1 > value3 or value1 == value3
+							partsMbHistoryVOList.remove(z);
+							--zTargetSize;
+							--z;
+						}
+					}
+				}
+				
+				/*--------------------------------------------------
 				 - 24. 남은 MB제품의 개수를 limγ라 한다.
 				 - limγ<γ라면 아래 변수 정렬 후 18번으로 돌아간다.
 				 - (소거된 제품도 18번 시점으로 롤백한다.)
@@ -3398,18 +3463,7 @@ public class ESCAServiceImpl implements ESCAService {
 						}
 					}
 					
-					/*--------------------------------------------------
-					 - 26. Thermal이 β번째 CPU+CTH*5>Cooler인 모든 Cooler제품을 소거한다.
-					*--------------------------------------------------*/
-					BigDecimal cpu_thermal = new BigDecimal(partsCpuHistoryVOList.get(cpuIndex).getThermal());
-					BigDecimal algorithm26TargetData = CTH.multiply(new BigDecimal("5")).add(cpu_thermal);
-					for(int i = partsCoolerHistoryVOList.size()-1; i >= 0; i--) {
-						BigDecimal Thermal = new BigDecimal(partsCoolerHistoryVOList.get(i).getThermal());
-						int compareResult = algorithm26TargetData.compareTo(Thermal);
-						if(compareResult > 0) {
-							partsCoolerHistoryVOList.remove(i);
-						}
-					}
+					
 					
 					/*--------------------------------------------------
 					 - 27. 남은 Cooler제품의 개수를 limk이라 한다.
@@ -3581,43 +3635,100 @@ public class ESCAServiceImpl implements ESCAService {
 						 - 32. k번째 Cooler의 IH⊂CASE 혹은 IT⊂CASE 둘 중 하나 
 						 - 이상을 만족하는 CASE를 제외한 모든 CASE제품을 소거한다.
 						 - 23.08.03 추가정보 32번 : 2자리수 4진법 (IH, IT)
+						 - 23.12.17 수냉일 때만 소거법 적용
 						*--------------------------------------------------*/
-						String coolerIH = String.format("%02d", partsCoolerHistoryVOList.get(coolerIndex).getIh());
-						String coolerIT = String.format("%02d", partsCoolerHistoryVOList.get(coolerIndex).getIt());
-						int coolerIH1 = Integer.parseInt(coolerIH.substring(0, 1));
-						int coolerIH2 = Integer.parseInt(coolerIH.substring(1, 2));
-						int coolerIT1 = Integer.parseInt(coolerIT.substring(0, 1));
-						int coolerIT2 = Integer.parseInt(coolerIT.substring(1, 2));
 						
-						for(int i = partsCaseHistoryVOList.size()-1; i >= 0; i--) {
-							String caseIH = String.format("%02d", partsCaseHistoryVOList.get(i).getIh());
-							String caseIT = String.format("%02d", partsCaseHistoryVOList.get(i).getIt());
-							int caseIH1 = Integer.parseInt(caseIH.substring(0, 1));
-							int caseIH2 = Integer.parseInt(caseIH.substring(1, 2));
-							int caseIT1 = Integer.parseInt(caseIT.substring(0, 1));
-							int caseIT2 = Integer.parseInt(caseIT.substring(1, 2));
-							int subset = 0;
+						if ("02".equals(partsCoolerHistoryVOList.get(coolerIndex).getFormulaCd())){
+							String coolerIH = String.format("%02d", partsCoolerHistoryVOList.get(coolerIndex).getIh());
+							String coolerIT = String.format("%02d", partsCoolerHistoryVOList.get(coolerIndex).getIt());
+							int coolerIH1 = Integer.parseInt(coolerIH.substring(0, 1));
+							int coolerIH2 = Integer.parseInt(coolerIH.substring(1, 2));
+							int coolerIT1 = Integer.parseInt(coolerIT.substring(0, 1));
+							int coolerIT2 = Integer.parseInt(coolerIT.substring(1, 2));
 							
-							if(coolerIH1 <= caseIH1) {
-								subset = 1;
-							}
-							
-							if(coolerIH2 <= caseIH2) {
-								subset = 1;
-							}
-							
-							if(coolerIT1 <= caseIT1) {
-								subset = 1;
-							}
-							
-							if(coolerIT2 <= caseIT2) {
-								subset = 1;
-							}
-							
-							if(subset == 0) {
-								partsCaseHistoryVOList.remove(i);
+							for(int i = partsCaseHistoryVOList.size()-1; i >= 0; i--) {
+								
+								String caseIH = String.format("%02d", partsCaseHistoryVOList.get(i).getIh());
+								String caseIT = String.format("%02d", partsCaseHistoryVOList.get(i).getIt());
+								int caseIH1 = Integer.parseInt(caseIH.substring(0, 1));
+								int caseIH2 = Integer.parseInt(caseIH.substring(1, 2));
+								int caseIT1 = Integer.parseInt(caseIT.substring(0, 1));
+								int caseIT2 = Integer.parseInt(caseIT.substring(1, 2));
+								int subset = 0;
+								
+								// 23.12.17 쿨러의 인자가 0일 때 소거법 적용 제외 
+								if(coolerIH1 != 0) {
+									if(coolerIH1 <= caseIH1) {
+										subset = 1;
+									}
+								}
+								
+								if(coolerIH2 != 0) {
+									if(coolerIH2 <= caseIH2) {
+										subset = 1;
+									}
+								}
+								
+								
+								if(coolerIT1 != 0) {
+									if(coolerIT1 <= caseIT1) {
+										subset = 1;
+									}
+								}
+								
+								if(coolerIT2 != 0) {
+									if(coolerIT2 <= caseIT2) {
+										subset = 1;
+									}
+								}
+								
+								if(subset == 0) {
+									partsCaseHistoryVOList.remove(i);
+								}
 							}
 						}
+						
+						
+						// 23.12.17 소거 조건추가
+						
+						if(zeroCaseCheck.compareTo(customCaseCheck) == 0
+								|| zeroCaseCheck.compareTo(customCaseCheck) < 0) {
+							
+							for(int i = partsCaseHistoryVOList.size()-1; i >= 1; i--) {
+								int targetIndex = i-1;
+								
+								BigDecimal value1 = partsCaseHistoryVOList.get(targetIndex).getCaseValue();
+								BigDecimal value2 = partsCaseHistoryVOList.get(targetIndex+1).getCaseValue();
+								
+								int compareResult1 = value1.compareTo(value2);
+								
+								if(compareResult1 < 0) {
+									// value1 < value2
+									continue;
+								}
+								
+								// 중첩 반복(대상 인덱스로부터 위로 검증)
+								int zTargetSize = partsCaseHistoryVOList.size();
+								for(int z = targetIndex+1; z < zTargetSize; z++) {
+									if(z == zTargetSize) {
+										break;
+									}
+									BigDecimal value3 = partsCaseHistoryVOList.get(z).getCaseValue();
+									
+									int compareResult2 = value1.compareTo(value3);
+									if(compareResult2 > 0 || compareResult2 == 0) {
+										// value1 > value3 or value1 == value3
+										partsCaseHistoryVOList.remove(z);
+										--zTargetSize;
+										--z;
+									}
+								}
+							}
+							
+						}
+						
+						
+						
 						
 						/*--------------------------------------------------
 						 - 33. 남은 CASE제품의 개수를 limp 라고 한다.
@@ -3790,6 +3901,43 @@ public class ESCAServiceImpl implements ESCAService {
 									partsPsuHistoryVOList.remove(i);
 								}
 							}
+						
+							
+							if(zeroPsuCheck.compareTo(customPsuCheck) == 0
+									|| zeroPsuCheck.compareTo(customPsuCheck) < 0) {
+								
+								
+								for(int i = partsPsuHistoryVOList.size()-1; i >= 1; i--) {
+									int targetIndex = i-1;
+									
+									BigDecimal value1 = partsPsuHistoryVOList.get(targetIndex).getPsuValue();
+									BigDecimal value2 = partsPsuHistoryVOList.get(targetIndex+1).getPsuValue();
+									
+									int compareResult1 = value1.compareTo(value2);
+									
+									if(compareResult1 < 0) {
+										// value1 < value2
+										continue;
+									}
+									
+									// 중첩 반복(대상 인덱스로부터 위로 검증)
+									int zTargetSize = partsPsuHistoryVOList.size();
+									for(int z = targetIndex+1; z < zTargetSize; z++) {
+										if(z == zTargetSize) {
+											break;
+										}
+										BigDecimal value3 = partsPsuHistoryVOList.get(z).getPsuValue();
+										
+										int compareResult2 = value1.compareTo(value3);
+										if(compareResult2 > 0 || compareResult2 == 0) {
+											// value1 > value3 or value1 == value3
+											partsPsuHistoryVOList.remove(z);
+											--zTargetSize;
+											--z;
+										}
+									}
+								}
+							}
 							
 							
 							/*--------------------------------------------------
@@ -3957,6 +4105,146 @@ public class ESCAServiceImpl implements ESCAService {
 										if(mbScs < ssdScs) {
 											partsSsdHistoryVOList.remove(i);
 										}
+									}
+									
+									
+									if(zeroSsdCheck.compareTo(customSsdCheck) == 0
+											|| zeroSsdCheck.compareTo(customSsdCheck) < 0) {
+					
+						
+										List<PartsSsdHistoryVO> PRT008_01and256_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_01and512_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_01and1024_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_01and2048_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_01and4096_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_03and256_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_03and512_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_03and1024_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_03and2048_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_03and4096_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_04and256_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_04and512_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_04and1024_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_04and2048_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_04and4096_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_05and256_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_05and512_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_05and1024_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_05and2048_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_05and4096_List = new ArrayList<>();
+										
+										List<PartsSsdHistoryVO> ssdEtcList = new ArrayList<>();
+										
+										for(int i = 0; i < partsSsdHistoryVOList.size(); i++) {
+											if("01".equals(partsSsdHistoryVOList.get(i).getScsCd())) {
+												if(256 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_01and256_List.add(partsSsdHistoryVOList.get(i));
+												}else if(512 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_01and512_List.add(partsSsdHistoryVOList.get(i));
+												}else if(1024 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_01and1024_List.add(partsSsdHistoryVOList.get(i));
+												}else if(2048 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_01and2048_List.add(partsSsdHistoryVOList.get(i));
+												}else if(4096 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_01and4096_List.add(partsSsdHistoryVOList.get(i));
+												}else {
+													ssdEtcList.add(partsSsdHistoryVOList.get(i));
+												}
+											}else if("03".equals(partsSsdHistoryVOList.get(i).getScsCd())) {
+												if(256 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_03and256_List.add(partsSsdHistoryVOList.get(i));
+												}else if(512 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_03and512_List.add(partsSsdHistoryVOList.get(i));
+												}else if(1024 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_03and1024_List.add(partsSsdHistoryVOList.get(i));
+												}else if(2048 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_03and2048_List.add(partsSsdHistoryVOList.get(i));
+												}else if(4096 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_03and4096_List.add(partsSsdHistoryVOList.get(i));
+												}else {
+													ssdEtcList.add(partsSsdHistoryVOList.get(i));
+												}
+											}else if("04".equals(partsSsdHistoryVOList.get(i).getScsCd())) {
+												if(256 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_04and256_List.add(partsSsdHistoryVOList.get(i));
+												}else if(512 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_04and512_List.add(partsSsdHistoryVOList.get(i));
+												}else if(1024 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_04and1024_List.add(partsSsdHistoryVOList.get(i));
+												}else if(2048 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_04and2048_List.add(partsSsdHistoryVOList.get(i));
+												}else if(4096 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_04and4096_List.add(partsSsdHistoryVOList.get(i));
+												}else {
+													ssdEtcList.add(partsSsdHistoryVOList.get(i));
+												}
+											}else if("05".equals(partsSsdHistoryVOList.get(i).getScsCd())) {
+												if(256 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_05and256_List.add(partsSsdHistoryVOList.get(i));
+												}else if(512 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_05and512_List.add(partsSsdHistoryVOList.get(i));
+												}else if(1024 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_05and1024_List.add(partsSsdHistoryVOList.get(i));
+												}else if(2048 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_05and2048_List.add(partsSsdHistoryVOList.get(i));
+												}else if(4096 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_05and4096_List.add(partsSsdHistoryVOList.get(i));
+												}else {
+													ssdEtcList.add(partsSsdHistoryVOList.get(i));
+												}
+											}else {
+												ssdEtcList.add(partsSsdHistoryVOList.get(i));
+											}
+										}
+										
+										valueEraseProcessingBySsd(PRT008_01and256_List);
+										valueEraseProcessingBySsd(PRT008_01and512_List);
+										valueEraseProcessingBySsd(PRT008_01and1024_List);
+										valueEraseProcessingBySsd(PRT008_01and2048_List);
+										valueEraseProcessingBySsd(PRT008_01and4096_List);
+										valueEraseProcessingBySsd(PRT008_03and256_List);
+										valueEraseProcessingBySsd(PRT008_03and512_List);
+										valueEraseProcessingBySsd(PRT008_03and1024_List);
+										valueEraseProcessingBySsd(PRT008_03and2048_List);
+										valueEraseProcessingBySsd(PRT008_03and4096_List);
+										valueEraseProcessingBySsd(PRT008_04and256_List);
+										valueEraseProcessingBySsd(PRT008_04and512_List);
+										valueEraseProcessingBySsd(PRT008_04and1024_List);
+										valueEraseProcessingBySsd(PRT008_04and2048_List);
+										valueEraseProcessingBySsd(PRT008_04and4096_List);
+										valueEraseProcessingBySsd(PRT008_05and256_List);
+										valueEraseProcessingBySsd(PRT008_05and512_List);
+										valueEraseProcessingBySsd(PRT008_05and1024_List);
+										valueEraseProcessingBySsd(PRT008_05and2048_List);
+										valueEraseProcessingBySsd(PRT008_05and4096_List);
+										valueEraseProcessingBySsd(ssdEtcList);
+										
+										// 각각 소거 후 리스트화
+										partsSsdHistoryVOList = new ArrayList<>();
+										
+										// 기존리스트에 결과리스트 삽입
+										addListBySsd(partsSsdHistoryVOList, PRT008_01and256_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_01and512_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_01and1024_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_01and2048_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_01and4096_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_03and256_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_03and512_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_03and1024_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_03and2048_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_03and4096_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_04and256_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_04and512_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_04and1024_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_04and2048_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_04and4096_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_05and256_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_05and512_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_05and1024_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_05and2048_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_05and4096_List);
+										addListBySsd(partsSsdHistoryVOList, ssdEtcList);
+										
 									}
 									
 									
