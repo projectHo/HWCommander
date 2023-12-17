@@ -742,7 +742,6 @@ public class ESCAServiceImpl implements ESCAService {
 			}
 		}
 		
-		
 		/*--------------------------------------------------
 		 - 6. 클라이언트가 9번에 답변하였을 경우 MB의 Mem Soc수치가 4(DDR4)/5(DDR5)
 		 - /관계없음(상관없음)인 MB제품을 제외하곤 모든 MB제품을 소거한다.
@@ -882,51 +881,54 @@ public class ESCAServiceImpl implements ESCAService {
 		// DB Column volume(INT)
 		// 관리자 입력값
 		
-		if(null != answer11) {
-			for(int i = partsSsdHistoryVOList.size()-1; i >= 0; i--) {
-				if(0 == answer11) {
-					// 예산에맞게
+		for(int i = partsSsdHistoryVOList.size()-1; i >= 0; i--) {
+			if(null == answer11
+					|| 0 == answer11) {
+				// 예산에맞게
 //					if(VC.intValue() > 100) {
-					// 07.29 VC와 Price 일원화 하기로 함 프론트에서 만 단위 곱해서 보내준 수 그대로 쓰기로 함.
-					if(VC.intValue() > 1000000) {
-						// 예산 100만원 초과면 1024 제외하고 모두 소거
-						if(1024 != partsSsdHistoryVOList.get(i).getVolume()) {
-							partsSsdHistoryVOList.remove(i);
-						}
-					}else {
-						// 예산이 100만원 이하이면 512 제외하고 모두 소거
-						if(512 != partsSsdHistoryVOList.get(i).getVolume()) {
-							partsSsdHistoryVOList.remove(i);
-						}
-					}
-				}
-				
-				if(1 == answer11) {
-					// 256GB
-					if(256 != partsSsdHistoryVOList.get(i).getVolume()) {
+				// 07.29 VC와 Price 일원화 하기로 함 프론트에서 만 단위 곱해서 보내준 수 그대로 쓰기로 함.
+				if(VC.intValue() > 1000000) {
+					// 예산 100만원 초과면 1024 제외하고 모두 소거
+					if(1024 != partsSsdHistoryVOList.get(i).getVolume()) {
 						partsSsdHistoryVOList.remove(i);
 					}
-				}
-				
-				if(2 == answer11) {
-					// 512GB
+				}else {
+					// 예산이 100만원 이하이면 512 제외하고 모두 소거
 					if(512 != partsSsdHistoryVOList.get(i).getVolume()) {
 						partsSsdHistoryVOList.remove(i);
 					}
 				}
-				
-				if(3 == answer11) {
-					// 1024GB
-					if(1024 != partsSsdHistoryVOList.get(i).getVolume()) {
-						partsSsdHistoryVOList.remove(i);
-					}
+			}
+			
+			if(null != answer11
+					&& 1 == answer11) {
+				// 256GB
+				if(256 != partsSsdHistoryVOList.get(i).getVolume()) {
+					partsSsdHistoryVOList.remove(i);
 				}
-				
-				if(4 == answer11) {
-					// 2048GB
-					if(2048 != partsSsdHistoryVOList.get(i).getVolume()) {
-						partsSsdHistoryVOList.remove(i);
-					}
+			}
+			
+			if(null != answer11
+					&& 2 == answer11) {
+				// 512GB
+				if(512 != partsSsdHistoryVOList.get(i).getVolume()) {
+					partsSsdHistoryVOList.remove(i);
+				}
+			}
+			
+			if(null != answer11
+					&& 3 == answer11) {
+				// 1024GB
+				if(1024 != partsSsdHistoryVOList.get(i).getVolume()) {
+					partsSsdHistoryVOList.remove(i);
+				}
+			}
+			
+			if(null != answer11
+					&& 4 == answer11) {
+				// 2048GB
+				if(2048 != partsSsdHistoryVOList.get(i).getVolume()) {
+					partsSsdHistoryVOList.remove(i);
 				}
 			}
 		}
@@ -1118,7 +1120,7 @@ public class ESCAServiceImpl implements ESCAService {
 			int endIndex = gpuFIndexes[j + 1];
 			BigDecimal startValue = new BigDecimal(gpuFValues[j]);
 			BigDecimal endValue = j + 1 < gpuFValues.length ? new BigDecimal(gpuFValues[j + 1]) : BigDecimal.ZERO;
-			BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), RoundingMode.HALF_UP);
+			BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), 3, BigDecimal.ROUND_HALF_UP);
 
 			for(int i = startIndex + 1; i < endIndex; i++){
 				gpuFBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
@@ -1155,7 +1157,7 @@ public class ESCAServiceImpl implements ESCAService {
 			int endIndex = gpuGIndexes[j + 1];
 			BigDecimal startValue = new BigDecimal(gpuGValues[j]);
 			BigDecimal endValue = j + 1 < gpuGValues.length ? new BigDecimal(gpuGValues[j + 1]) : BigDecimal.ZERO;
-			BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), RoundingMode.HALF_UP);
+			BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), 3, BigDecimal.ROUND_HALF_UP);
 
 			for(int i = startIndex + 1; i < endIndex; i++){
 				gpuGBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
@@ -1175,15 +1177,16 @@ public class ESCAServiceImpl implements ESCAService {
 			BigDecimal gpuOne = CAS.add(CMT).divide(BigDecimal.valueOf(2)).subtract(new BigDecimal("3.69003173099010")).pow(2).negate();
 			BigDecimal gpuTwo = new BigDecimal("99.1219170095487").pow(2);
 			BigDecimal gpuThree = gpuOne.add(gpuTwo);
-			BigDecimal GPUCV =  new BigDecimal(Math.sqrt(gpuThree.doubleValue())).subtract(new BigDecimal("99.0532084158416")).divide(BigDecimal.valueOf(100)).setScale(8, BigDecimal.ROUND_HALF_UP);// 보정수치
+			BigDecimal GPUCV =  new BigDecimal(Math.sqrt(gpuThree.doubleValue())).subtract(new BigDecimal("99.0532084158416")).divide(BigDecimal.valueOf(100)).setScale(6, BigDecimal.ROUND_HALF_UP);// 보정수치
 			BigDecimal calculation1 = BigDecimal.ZERO;
 			BigDecimal calculation2 = BigDecimal.ZERO;
 			BigDecimal calculation3 = BigDecimal.ZERO;
 			BigDecimal calculation4 = BigDecimal.ZERO;
 			BigDecimal calculation5 = BigDecimal.ZERO;
 			BigDecimal calculation6 = BigDecimal.ZERO;
+			BigDecimal calculation7 = BigDecimal.ZERO;
 			
-			calculation1 = QC.multiply(CQC).subtract(new BigDecimal("1"));
+			calculation1 = new BigDecimal("1").subtract(QC.multiply(CQC).multiply(new BigDecimal("0.1")));
 			calculation2 = GPUAS.multiply(CAS).setScale(0, BigDecimal.ROUND_HALF_UP);
 			if(0 == calculation2.compareTo(new BigDecimal("401"))) {
 				calculation2 = new BigDecimal("400");
@@ -1192,11 +1195,12 @@ public class ESCAServiceImpl implements ESCAService {
 			if(0 == calculation3.compareTo(new BigDecimal("401"))) {
 				calculation3 = new BigDecimal("400");
 			}
-			calculation4 = gpuFBigDecimalArray[calculation2.intValue()].multiply(gpuGBigDecimalArray[calculation3.intValue()]).divide(GPUCV, 10, BigDecimal.ROUND_HALF_UP);
-			calculation5 = new BigDecimal("1").add(calculation4);
-			calculation6 = GC.multiply(calculation5).multiply(calculation1);
+			calculation4 = gpuFBigDecimalArray[calculation2.intValue()].multiply(gpuGBigDecimalArray[calculation3.intValue()]);
+			calculation5 = new BigDecimal(Math.sqrt(calculation4.doubleValue())).multiply(GPUCV).setScale(6, BigDecimal.ROUND_HALF_UP);
+			calculation6 = new BigDecimal("1").add(calculation5);
+			calculation7 = GC.multiply(calculation6).multiply(calculation1).setScale(6, BigDecimal.ROUND_HALF_UP);
 			
-			partsGpuHistoryVO.setGpuValue(calculation6);
+			partsGpuHistoryVO.setGpuValue(calculation7);
 		}
 
 //		기존  소거방법 폐기
@@ -1634,22 +1638,23 @@ public class ESCAServiceImpl implements ESCAService {
 			clFBigDecimalArray[12] = new BigDecimal("12");
 			clFBigDecimalArray[24] = new BigDecimal("24");
 			clFBigDecimalArray[36] = new BigDecimal("69");
-			clFBigDecimalArray[70] = new BigDecimal("73");
+			clFBigDecimalArray[60] = new BigDecimal("70");
+			clFBigDecimalArray[72] = new BigDecimal("73");
 			clFBigDecimalArray[96] = new BigDecimal("74");
 			clFBigDecimalArray[120] = new BigDecimal("80");
 			clFBigDecimalArray[144] = new BigDecimal("81");
 			clFBigDecimalArray[192] = new BigDecimal("192");
 			clFBigDecimalArray[400] = new BigDecimal("600");
 
-			int[] clFValues = {1, 12, 24, 69, 73, 74, 80, 81, 192, 600};
-			int[] clFIndexes = {0, 12, 24, 36, 70, 96, 120, 144, 192, 400};
+			int[] clFValues = {1, 12, 24, 69, 70, 73, 74, 80, 81, 192, 600};
+			int[] clFIndexes = {0, 12, 24, 36, 60, 72, 96, 120, 144, 192, 400};
 
 			for (int j = 0; j < clFIndexes.length - 1; j++) {
 				int startIndex = clFIndexes[j];
 				int endIndex = clFIndexes[j + 1];
 				BigDecimal startValue = new BigDecimal(clFValues[j]);
 				BigDecimal endValue = j + 1 < clFValues.length ? new BigDecimal(clFValues[j + 1]) : BigDecimal.ZERO;
-				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), RoundingMode.HALF_UP);
+				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), 3, BigDecimal.ROUND_HALF_UP);
 
 				for(int i = startIndex + 1; i < endIndex; i++){
 					clFBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
@@ -1692,7 +1697,7 @@ public class ESCAServiceImpl implements ESCAService {
 				int endIndex = clGIndexes[j + 1];
 				BigDecimal startValue = new BigDecimal(clGValues[j]);
 				BigDecimal endValue = j + 1 < clGValues.length ? new BigDecimal(clGValues[j + 1]) : BigDecimal.ZERO;
-				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), RoundingMode.HALF_UP);
+				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), 3, BigDecimal.ROUND_HALF_UP);
 
 				for(int i = startIndex + 1; i < endIndex; i++){
 					clGBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
@@ -1710,7 +1715,7 @@ public class ESCAServiceImpl implements ESCAService {
 				BigDecimal clOne = CAS.add(CTH).divide(BigDecimal.valueOf(2)).subtract(new BigDecimal("4.66451733306545")).pow(2).negate();
 				BigDecimal clTwo = new BigDecimal("4.84255185018178").pow(2);
 				BigDecimal clThree = clOne.add(clTwo);
-				BigDecimal COOLERCV =  new BigDecimal(Math.sqrt(clThree.doubleValue())).subtract(new BigDecimal("1.30099441629508")).divide(BigDecimal.valueOf(100)).setScale(8, BigDecimal.ROUND_HALF_UP); //보정수치
+				BigDecimal COOLERCV =  new BigDecimal(Math.sqrt(clThree.doubleValue())).subtract(new BigDecimal("1.30099441629508")).divide(BigDecimal.valueOf(100)).setScale(6, BigDecimal.ROUND_HALF_UP); //보정수치
 				BigDecimal calculation1 = BigDecimal.ZERO;
 				BigDecimal calculation2 = BigDecimal.ZERO;
 				BigDecimal calculation3 = BigDecimal.ZERO;
@@ -1718,8 +1723,9 @@ public class ESCAServiceImpl implements ESCAService {
 				BigDecimal calculation5 = BigDecimal.ZERO;
 				BigDecimal calculation6 = BigDecimal.ZERO;
 				BigDecimal calculation7 = BigDecimal.ZERO;
+				BigDecimal calculation8 = BigDecimal.ZERO;
 				
-				calculation1 = QC.multiply(CQC);
+				calculation1 = QC.multiply(CQC).multiply(new BigDecimal("0.1"));
 				calculation2 = new BigDecimal("1").subtract(calculation1);
 				calculation3 = CLAS.multiply(CAS).setScale(0, BigDecimal.ROUND_HALF_UP);
 				if(0 == calculation3.compareTo(new BigDecimal("401"))) {
@@ -1731,12 +1737,12 @@ public class ESCAServiceImpl implements ESCAService {
 				}
 				calculation5 				
 				= clFBigDecimalArray[calculation3.intValue()]
-						.multiply(clGBigDecimalArray[calculation4.intValue()])
-						.divide(COOLERCV, 10, BigDecimal.ROUND_HALF_UP);
-				calculation6 = new BigDecimal("1").add(calculation5);
-				calculation7 = GC.multiply(new BigDecimal("0.03")).multiply(calculation6).multiply(calculation2);
+						.multiply(clGBigDecimalArray[calculation4.intValue()]);
+				calculation6 = new BigDecimal(Math.sqrt(calculation5.doubleValue())).multiply(COOLERCV).setScale(6, BigDecimal.ROUND_HALF_UP);
+				calculation7 = new BigDecimal("1").add(calculation6);
+				calculation8 = GC.multiply(new BigDecimal("0.03")).multiply(calculation7).multiply(calculation2);
 				
-				partsCoolerHistoryVO.setCoolerValue(calculation7);
+				partsCoolerHistoryVO.setCoolerValue(calculation8);
 			}
 			
 			/*--------------------------------------------------
@@ -1790,7 +1796,7 @@ public class ESCAServiceImpl implements ESCAService {
 				int endIndex = psuFIndexes[j + 1];
 				BigDecimal startValue = new BigDecimal(psuFValues[j]);
 				BigDecimal endValue = j + 1 < psuFValues.length ? new BigDecimal(psuFValues[j + 1]) : BigDecimal.ZERO;
-				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), RoundingMode.HALF_UP);
+				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), 3, BigDecimal.ROUND_HALF_UP);
 
 				for(int i = startIndex + 1; i < endIndex; i++){
 					psuFBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
@@ -1836,7 +1842,7 @@ public class ESCAServiceImpl implements ESCAService {
 				int endIndex = psuGIndexes[j + 1];
 				BigDecimal startValue = new BigDecimal(psuGValues[j]);
 				BigDecimal endValue = j + 1 < psuGValues.length ? new BigDecimal(psuGValues[j + 1]) : BigDecimal.ZERO;
-				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), RoundingMode.HALF_UP);
+				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), 3, BigDecimal.ROUND_HALF_UP);
 
 				for(int i = startIndex + 1; i < endIndex; i++){
 					psuGBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
@@ -1882,7 +1888,7 @@ public class ESCAServiceImpl implements ESCAService {
 				int endIndex = psuHIndexes[j + 1];
 				BigDecimal startValue = new BigDecimal(psuHValues[j]);
 				BigDecimal endValue = j + 1 < psuHValues.length ? new BigDecimal(psuHValues[j + 1]) : BigDecimal.ZERO;
-				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), RoundingMode.HALF_UP);
+				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), 3, BigDecimal.ROUND_HALF_UP);
 
 				for(int i = startIndex + 1; i < endIndex; i++){
 					psuHBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
@@ -1928,7 +1934,7 @@ public class ESCAServiceImpl implements ESCAService {
 				int endIndex = psuZIndexes[j + 1];
 				BigDecimal startValue = new BigDecimal(psuZValues[j]);
 				BigDecimal endValue = j + 1 < psuZValues.length ? new BigDecimal(psuZValues[j + 1]) : BigDecimal.ZERO;
-				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), RoundingMode.HALF_UP);
+				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), 3, BigDecimal.ROUND_HALF_UP);
 
 				for(int i = startIndex + 1; i < endIndex; i++){
 					psuZBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
@@ -1945,6 +1951,12 @@ public class ESCAServiceImpl implements ESCAService {
 				BigDecimal psuThree = psuOne.add(psuTwo);
 				BigDecimal PSUCV =  new BigDecimal(Math.sqrt(psuThree.doubleValue())).subtract(new BigDecimal("4.68861436726927")).divide(BigDecimal.valueOf(100)).setScale(8, BigDecimal.ROUND_HALF_UP);// 보정수치
 				
+				// 23.12.18 가성비 제품 선택 시 과도한 PSU제품 선택에 의한 밸류 기본값 조정 - 임시방편으로 수행됨. 추후 뻥파워 이슈 제품을 거를 방법 선정해야함.
+				BigDecimal customCheck = CMT.add(CSFT).add(CAS);
+				if(customCheck.compareTo(BigDecimal.ZERO) == 0) {
+					PFM = BigDecimal.ZERO;
+				}
+				
 				BigDecimal calculation1 = BigDecimal.ZERO;
 				BigDecimal calculation2 = BigDecimal.ZERO;
 				BigDecimal calculation3 = BigDecimal.ZERO;
@@ -1954,8 +1966,9 @@ public class ESCAServiceImpl implements ESCAService {
 				BigDecimal calculation7 = BigDecimal.ZERO;
 				BigDecimal calculation8 = BigDecimal.ZERO;
 				BigDecimal calculation9 = BigDecimal.ZERO;
+				BigDecimal calculation10 = BigDecimal.ZERO;
 				
-				calculation1 = QC.multiply(CQC);
+				calculation1 = QC.multiply(CQC).multiply(new BigDecimal("0.1"));
 				calculation2 = new BigDecimal("1").subtract(calculation1);
 				calculation3 = SFT.multiply(CSFT).setScale(0, BigDecimal.ROUND_HALF_UP);
 				if(0 == calculation3.compareTo(new BigDecimal("401"))) {
@@ -1977,15 +1990,15 @@ public class ESCAServiceImpl implements ESCAService {
 				= psuFBigDecimalArray[calculation6.intValue()]
 						.multiply(psuGBigDecimalArray[calculation5.intValue()])
 						.multiply(psuHBigDecimalArray[calculation4.intValue()])
-						.multiply(psuZBigDecimalArray[calculation3.intValue()])
-						.divide(PSUCV, 10, BigDecimal.ROUND_HALF_UP);
-				calculation8 = new BigDecimal("1").add(calculation7);
-				calculation9 = GC.multiply(new BigDecimal("0.001157"))
+						.multiply(psuZBigDecimalArray[calculation3.intValue()]);
+				calculation8 = new BigDecimal(Math.sqrt(calculation7.doubleValue())).multiply(PSUCV).setScale(6, BigDecimal.ROUND_HALF_UP);
+				calculation9 = new BigDecimal("1").add(calculation8);
+				calculation10 = GC.multiply(new BigDecimal("0.001157"))
 						.multiply(PFM)
-						.multiply(calculation8)
+						.multiply(calculation9)
 						.multiply(calculation2);
 				
-				partsPsuHistoryVO.setPsuValue(calculation9);
+				partsPsuHistoryVO.setPsuValue(calculation10);
 			}
 			
 			/*--------------------------------------------------
@@ -2039,7 +2052,7 @@ public class ESCAServiceImpl implements ESCAService {
 				int endIndex = caseFIndexes[j + 1];
 				BigDecimal startValue = new BigDecimal(caseFValues[j]);
 				BigDecimal endValue = j + 1 < caseFValues.length ? new BigDecimal(caseFValues[j + 1]) : BigDecimal.ZERO;
-				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), RoundingMode.HALF_UP);
+				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), 3, BigDecimal.ROUND_HALF_UP);
 
 				for(int i = startIndex + 1; i < endIndex; i++){
 					caseFBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
@@ -2081,7 +2094,7 @@ public class ESCAServiceImpl implements ESCAService {
 				int endIndex = caseGIndexes[j + 1];
 				BigDecimal startValue = new BigDecimal(caseGValues[j]);
 				BigDecimal endValue = j + 1 < caseGValues.length ? new BigDecimal(caseGValues[j + 1]) : BigDecimal.ZERO;
-				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), RoundingMode.HALF_UP);
+				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), 3, BigDecimal.ROUND_HALF_UP);
 
 				for(int i = startIndex + 1; i < endIndex; i++){
 					caseGBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
@@ -2127,7 +2140,7 @@ public class ESCAServiceImpl implements ESCAService {
 				int endIndex = caseHIndexes[j + 1];
 				BigDecimal startValue = new BigDecimal(caseHValues[j]);
 				BigDecimal endValue = j + 1 < caseHValues.length ? new BigDecimal(caseHValues[j + 1]) : BigDecimal.ZERO;
-				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), RoundingMode.HALF_UP);
+				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), 3, BigDecimal.ROUND_HALF_UP);
 
 				for(int i = startIndex + 1; i < endIndex; i++){
 					caseHBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
@@ -2153,8 +2166,9 @@ public class ESCAServiceImpl implements ESCAService {
 				BigDecimal calculation6 = BigDecimal.ZERO;
 				BigDecimal calculation7 = BigDecimal.ZERO;
 				BigDecimal calculation8 = BigDecimal.ZERO;
+				BigDecimal calculation9 = BigDecimal.ZERO;
 				
-				calculation1 = QC.multiply(CQC);
+				calculation1 = QC.multiply(CQC).multiply(new BigDecimal("0.1"));
 				calculation2 = new BigDecimal("1").subtract(calculation1);
 				calculation3 = COOL.multiply(CTH).setScale(0, BigDecimal.ROUND_HALF_UP);
 				if(0 == calculation3.compareTo(new BigDecimal("401"))) {
@@ -2171,14 +2185,14 @@ public class ESCAServiceImpl implements ESCAService {
 				calculation6			
 				= caseFBigDecimalArray[calculation5.intValue()]
 						.multiply(caseGBigDecimalArray[calculation4.intValue()])
-						.multiply(caseHBigDecimalArray[calculation3.intValue()])
-						.divide(CASECV, 10, BigDecimal.ROUND_HALF_UP);
-				calculation7 = new BigDecimal("1").add(calculation6);
-				calculation8 = GC.multiply(new BigDecimal("0.04"))
-						.multiply(calculation7)
+						.multiply(caseHBigDecimalArray[calculation3.intValue()]);
+				calculation7 = new BigDecimal(Math.sqrt(calculation6.doubleValue())).multiply(CASECV).setScale(6, BigDecimal.ROUND_HALF_UP);
+				calculation8 = new BigDecimal("1").add(calculation7);
+				calculation9 = GC.multiply(new BigDecimal("0.04"))
+						.multiply(calculation8)
 						.multiply(calculation2);
 				
-				partsCaseHistoryVO.setCaseValue(calculation8);
+				partsCaseHistoryVO.setCaseValue(calculation9);
 			}
 			
 			/*--------------------------------------------------
@@ -2236,7 +2250,7 @@ public class ESCAServiceImpl implements ESCAService {
 				int endIndex = ssdFIndexes[j + 1];
 				BigDecimal startValue = new BigDecimal(ssdFValues[j]);
 				BigDecimal endValue = j + 1 < ssdFValues.length ? new BigDecimal(ssdFValues[j + 1]) : BigDecimal.ZERO;
-				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), RoundingMode.HALF_UP);
+				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), 3, BigDecimal.ROUND_HALF_UP);
 
 				for(int i = startIndex + 1; i < endIndex; i++){
 					ssdFBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
@@ -2267,7 +2281,7 @@ public class ESCAServiceImpl implements ESCAService {
 				int endIndex = ssdGIndexes[j + 1];
 				BigDecimal startValue = new BigDecimal(ssdGValues[j]);
 				BigDecimal endValue = j + 1 < ssdGValues.length ? new BigDecimal(ssdGValues[j + 1]) : BigDecimal.ZERO;
-				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), RoundingMode.HALF_UP);
+				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), 3, BigDecimal.ROUND_HALF_UP);
 
 				for(int i = startIndex + 1; i < endIndex; i++){
 					ssdGBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
@@ -2309,7 +2323,7 @@ public class ESCAServiceImpl implements ESCAService {
 				int endIndex = ssdHIndexes[j + 1];
 				BigDecimal startValue = new BigDecimal(ssdHValues[j]);
 				BigDecimal endValue = j + 1 < ssdHValues.length ? new BigDecimal(ssdHValues[j + 1]) : BigDecimal.ZERO;
-				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), RoundingMode.HALF_UP);
+				BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), 3, BigDecimal.ROUND_HALF_UP);
 
 				for(int i = startIndex + 1; i < endIndex; i++){
 					ssdHBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
@@ -2335,8 +2349,15 @@ public class ESCAServiceImpl implements ESCAService {
 				BigDecimal calculation6 = BigDecimal.ZERO;
 				BigDecimal calculation7 = BigDecimal.ZERO;
 				BigDecimal calculation8 = BigDecimal.ZERO;
+				BigDecimal calculation9 = BigDecimal.ZERO;
 				
-				calculation1 = QC.multiply(CQC);
+				// 23.12.18 가성비 제품 선택 시 과도한 PSU제품 선택에 의한 밸류 기본값 조정 - 임시방편으로 수행됨. 추후 뻥파워 이슈 제품을 거를 방법 선정해야함.
+				BigDecimal customCheck = CMT.add(CSFT).add(CAS);
+				if(customCheck.compareTo(BigDecimal.ZERO) == 0) {
+					BASIC = BigDecimal.ZERO;
+				}
+				
+				calculation1 = QC.multiply(CQC).multiply(new BigDecimal("0.1"));
 				calculation2 = new BigDecimal("1").subtract(calculation1);
 				calculation3 = RLB.multiply(CSFT).setScale(0, BigDecimal.ROUND_HALF_UP);
 				if(0 == calculation3.compareTo(new BigDecimal("401"))) {
@@ -2353,15 +2374,15 @@ public class ESCAServiceImpl implements ESCAService {
 				calculation6 				
 				= ssdFBigDecimalArray[calculation5.intValue()]
 						.multiply(ssdGBigDecimalArray[calculation4.intValue()])
-						.multiply(ssdHBigDecimalArray[calculation3.intValue()])
-						.divide(SSDCV, 10, BigDecimal.ROUND_HALF_UP);
-				calculation7 = new BigDecimal("1").add(calculation6);
-				calculation8 = GC.multiply(new BigDecimal("0.001245"))
+						.multiply(ssdHBigDecimalArray[calculation3.intValue()]);
+				calculation7 = new BigDecimal(Math.sqrt(calculation6.doubleValue())).multiply(SSDCV).setScale(6, BigDecimal.ROUND_HALF_UP); 
+				calculation8 = new BigDecimal("1").add(calculation7);
+				calculation9 = GC.multiply(new BigDecimal("0.001245"))
 						.multiply(BASIC)
-						.multiply(calculation7)
+						.multiply(calculation8)
 						.multiply(calculation2);
 
-				partsSsdHistoryVO.setSsdValue(calculation8);
+				partsSsdHistoryVO.setSsdValue(calculation9);
 			}
 			
 			/*--------------------------------------------------
@@ -2455,114 +2476,96 @@ public class ESCAServiceImpl implements ESCAService {
 //				System.out.println("################# 드러오냐 #########################");
 //			}
 			
-			/*--------------------------------------------------
-			 - 15-3. Cooler Value 기준 소거처리부 
-			*--------------------------------------------------*/
-
-			// cooler value 소거법 적용 전 로직 추가(formula_cd : PRT020) 23.10.06
-//			PRT020
-//			formula	01	AC
-//			formula	02	WC
-
-			List<PartsCoolerHistoryVO> PRT020_01_List = new ArrayList<>();
-			List<PartsCoolerHistoryVO> PRT020_02_List = new ArrayList<>();
-			// etc 취급안함.
-			
-			for(int i = 0; i < partsCoolerHistoryVOList.size(); i++) {
-				if("01".equals(partsCoolerHistoryVOList.get(i).getFormulaCd())) {
-					PRT020_01_List.add(partsCoolerHistoryVOList.get(i));
-				}else {
-					PRT020_02_List.add(partsCoolerHistoryVOList.get(i));
-				}
-			}
-			
-			// PRT020_01_List 소거
-			valueEraseProcessingByCooler(PRT020_01_List);
-			
-			// PRT020_02_List 소거
-			valueEraseProcessingByCooler(PRT020_02_List);
-			
-			// PRT020_01_List, PRT020_02_List 각각 소거 후 리스트화
-			partsCoolerHistoryVOList = new ArrayList<>();
-			
-			for(int i = 0; i < PRT020_01_List.size(); i++) {
-				partsCoolerHistoryVOList.add(PRT020_01_List.get(i));
-			}
-			
-			for(int i = 0; i < PRT020_02_List.size(); i++) {
-				partsCoolerHistoryVOList.add(PRT020_02_List.get(i));
-			}
 			
 			/*--------------------------------------------------
 			 - 15-4. Psu Value 기준 소거처리부 
+			 - 23.12.17 소거 조건추가
 			*--------------------------------------------------*/
-			for(int i = partsPsuHistoryVOList.size()-1; i >= 1; i--) {
-				int targetIndex = i-1;
+			
+			BigDecimal zeroPsuCheck = BigDecimal.ZERO;
+			BigDecimal customPsuCheck = CSFT.add(CAS).add(CMT);
+			
+			if(zeroPsuCheck.compareTo(customPsuCheck) > 0) {
 				
-				BigDecimal value1 = partsPsuHistoryVOList.get(targetIndex).getPsuValue();
-				BigDecimal value2 = partsPsuHistoryVOList.get(targetIndex+1).getPsuValue();
-				
-				int compareResult1 = value1.compareTo(value2);
-				
-				if(compareResult1 < 0) {
-					// value1 < value2
-					continue;
-				}
-				
-				// 중첩 반복(대상 인덱스로부터 위로 검증)
-				int zTargetSize = partsPsuHistoryVOList.size();
-				for(int z = targetIndex+1; z < zTargetSize; z++) {
-					if(z == zTargetSize) {
-						break;
-					}
-					BigDecimal value3 = partsPsuHistoryVOList.get(z).getPsuValue();
+			
+				for(int i = partsPsuHistoryVOList.size()-1; i >= 1; i--) {
+					int targetIndex = i-1;
 					
-					int compareResult2 = value1.compareTo(value3);
-					if(compareResult2 > 0 || compareResult2 == 0) {
-						// value1 > value3 or value1 == value3
-						partsPsuHistoryVOList.remove(z);
-						--zTargetSize;
-						--z;
+					BigDecimal value1 = partsPsuHistoryVOList.get(targetIndex).getPsuValue();
+					BigDecimal value2 = partsPsuHistoryVOList.get(targetIndex+1).getPsuValue();
+					
+					int compareResult1 = value1.compareTo(value2);
+					
+					if(compareResult1 < 0) {
+						// value1 < value2
+						continue;
+					}
+					
+					// 중첩 반복(대상 인덱스로부터 위로 검증)
+					int zTargetSize = partsPsuHistoryVOList.size();
+					for(int z = targetIndex+1; z < zTargetSize; z++) {
+						if(z == zTargetSize) {
+							break;
+						}
+						BigDecimal value3 = partsPsuHistoryVOList.get(z).getPsuValue();
+						
+						int compareResult2 = value1.compareTo(value3);
+						if(compareResult2 > 0 || compareResult2 == 0) {
+							// value1 > value3 or value1 == value3
+							partsPsuHistoryVOList.remove(z);
+							--zTargetSize;
+							--z;
+						}
 					}
 				}
 			}
 			
 			/*--------------------------------------------------
 			 - 15-5. Case Value 기준 소거처리부 
+			 - 23.12.17 소거 조건추가
 			*--------------------------------------------------*/
-			for(int i = partsCaseHistoryVOList.size()-1; i >= 1; i--) {
-				int targetIndex = i-1;
-				
-				BigDecimal value1 = partsCaseHistoryVOList.get(targetIndex).getCaseValue();
-				BigDecimal value2 = partsCaseHistoryVOList.get(targetIndex+1).getCaseValue();
-				
-				int compareResult1 = value1.compareTo(value2);
-				
-				if(compareResult1 < 0) {
-					// value1 < value2
-					continue;
-				}
-				
-				// 중첩 반복(대상 인덱스로부터 위로 검증)
-				int zTargetSize = partsCaseHistoryVOList.size();
-				for(int z = targetIndex+1; z < zTargetSize; z++) {
-					if(z == zTargetSize) {
-						break;
-					}
-					BigDecimal value3 = partsCaseHistoryVOList.get(z).getCaseValue();
+			
+			BigDecimal zeroCaseCheck = BigDecimal.ZERO;
+			BigDecimal customCaseCheck = CTH.add(CAS).add(CMT);
+			
+			if(zeroCaseCheck.compareTo(customCaseCheck) > 0) {
+			
+				for(int i = partsCaseHistoryVOList.size()-1; i >= 1; i--) {
+					int targetIndex = i-1;
 					
-					int compareResult2 = value1.compareTo(value3);
-					if(compareResult2 > 0 || compareResult2 == 0) {
-						// value1 > value3 or value1 == value3
-						partsCaseHistoryVOList.remove(z);
-						--zTargetSize;
-						--z;
+					BigDecimal value1 = partsCaseHistoryVOList.get(targetIndex).getCaseValue();
+					BigDecimal value2 = partsCaseHistoryVOList.get(targetIndex+1).getCaseValue();
+					
+					int compareResult1 = value1.compareTo(value2);
+					
+					if(compareResult1 < 0) {
+						// value1 < value2
+						continue;
+					}
+					
+					// 중첩 반복(대상 인덱스로부터 위로 검증)
+					int zTargetSize = partsCaseHistoryVOList.size();
+					for(int z = targetIndex+1; z < zTargetSize; z++) {
+						if(z == zTargetSize) {
+							break;
+						}
+						BigDecimal value3 = partsCaseHistoryVOList.get(z).getCaseValue();
+						
+						int compareResult2 = value1.compareTo(value3);
+						if(compareResult2 > 0 || compareResult2 == 0) {
+							// value1 > value3 or value1 == value3
+							partsCaseHistoryVOList.remove(z);
+							--zTargetSize;
+							--z;
+						}
 					}
 				}
 			}
 			
+			
 			/*--------------------------------------------------
 			 - 15-6. Ssd Value 기준 소거처리부 
+			 - 23.12.17 소거 조건추가
 			*--------------------------------------------------*/
 			
 			// ssd value 소거법 적용 전 로직 추가(scs_cd : PRT008) 23.10.06
@@ -2618,138 +2621,146 @@ public class ESCAServiceImpl implements ESCAService {
 //					4096
 
 			// 아이 시발 scs_cd랑 volume이랑 경우의 수 각각 둬서 리스트업 해야함.. 23.10.10
-			List<PartsSsdHistoryVO> PRT008_01and256_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_01and512_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_01and1024_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_01and2048_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_01and4096_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_03and256_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_03and512_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_03and1024_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_03and2048_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_03and4096_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_04and256_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_04and512_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_04and1024_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_04and2048_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_04and4096_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_05and256_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_05and512_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_05and1024_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_05and2048_List = new ArrayList<>();
-			List<PartsSsdHistoryVO> PRT008_05and4096_List = new ArrayList<>();
 			
-			List<PartsSsdHistoryVO> ssdEtcList = new ArrayList<>();
+			BigDecimal zeroSsdCheck = BigDecimal.ZERO;
+			BigDecimal customSsdCheck = CSFT.add(CAS).add(CMT);
 			
-			for(int i = 0; i < partsSsdHistoryVOList.size(); i++) {
-				if("01".equals(partsSsdHistoryVOList.get(i).getScsCd())) {
-					if(256 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_01and256_List.add(partsSsdHistoryVOList.get(i));
-					}else if(512 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_01and512_List.add(partsSsdHistoryVOList.get(i));
-					}else if(1024 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_01and1024_List.add(partsSsdHistoryVOList.get(i));
-					}else if(2048 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_01and2048_List.add(partsSsdHistoryVOList.get(i));
-					}else if(4096 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_01and4096_List.add(partsSsdHistoryVOList.get(i));
+			if(zeroSsdCheck.compareTo(customSsdCheck) > 0) {
+				
+				List<PartsSsdHistoryVO> PRT008_01and256_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_01and512_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_01and1024_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_01and2048_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_01and4096_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_03and256_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_03and512_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_03and1024_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_03and2048_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_03and4096_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_04and256_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_04and512_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_04and1024_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_04and2048_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_04and4096_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_05and256_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_05and512_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_05and1024_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_05and2048_List = new ArrayList<>();
+				List<PartsSsdHistoryVO> PRT008_05and4096_List = new ArrayList<>();
+				
+				List<PartsSsdHistoryVO> ssdEtcList = new ArrayList<>();
+				
+				for(int i = 0; i < partsSsdHistoryVOList.size(); i++) {
+					if("01".equals(partsSsdHistoryVOList.get(i).getScsCd())) {
+						if(256 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_01and256_List.add(partsSsdHistoryVOList.get(i));
+						}else if(512 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_01and512_List.add(partsSsdHistoryVOList.get(i));
+						}else if(1024 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_01and1024_List.add(partsSsdHistoryVOList.get(i));
+						}else if(2048 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_01and2048_List.add(partsSsdHistoryVOList.get(i));
+						}else if(4096 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_01and4096_List.add(partsSsdHistoryVOList.get(i));
+						}else {
+							ssdEtcList.add(partsSsdHistoryVOList.get(i));
+						}
+					}else if("03".equals(partsSsdHistoryVOList.get(i).getScsCd())) {
+						if(256 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_03and256_List.add(partsSsdHistoryVOList.get(i));
+						}else if(512 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_03and512_List.add(partsSsdHistoryVOList.get(i));
+						}else if(1024 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_03and1024_List.add(partsSsdHistoryVOList.get(i));
+						}else if(2048 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_03and2048_List.add(partsSsdHistoryVOList.get(i));
+						}else if(4096 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_03and4096_List.add(partsSsdHistoryVOList.get(i));
+						}else {
+							ssdEtcList.add(partsSsdHistoryVOList.get(i));
+						}
+					}else if("04".equals(partsSsdHistoryVOList.get(i).getScsCd())) {
+						if(256 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_04and256_List.add(partsSsdHistoryVOList.get(i));
+						}else if(512 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_04and512_List.add(partsSsdHistoryVOList.get(i));
+						}else if(1024 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_04and1024_List.add(partsSsdHistoryVOList.get(i));
+						}else if(2048 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_04and2048_List.add(partsSsdHistoryVOList.get(i));
+						}else if(4096 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_04and4096_List.add(partsSsdHistoryVOList.get(i));
+						}else {
+							ssdEtcList.add(partsSsdHistoryVOList.get(i));
+						}
+					}else if("05".equals(partsSsdHistoryVOList.get(i).getScsCd())) {
+						if(256 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_05and256_List.add(partsSsdHistoryVOList.get(i));
+						}else if(512 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_05and512_List.add(partsSsdHistoryVOList.get(i));
+						}else if(1024 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_05and1024_List.add(partsSsdHistoryVOList.get(i));
+						}else if(2048 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_05and2048_List.add(partsSsdHistoryVOList.get(i));
+						}else if(4096 == partsSsdHistoryVOList.get(i).getVolume()) {
+							PRT008_05and4096_List.add(partsSsdHistoryVOList.get(i));
+						}else {
+							ssdEtcList.add(partsSsdHistoryVOList.get(i));
+						}
 					}else {
 						ssdEtcList.add(partsSsdHistoryVOList.get(i));
 					}
-				}else if("03".equals(partsSsdHistoryVOList.get(i).getScsCd())) {
-					if(256 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_03and256_List.add(partsSsdHistoryVOList.get(i));
-					}else if(512 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_03and512_List.add(partsSsdHistoryVOList.get(i));
-					}else if(1024 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_03and1024_List.add(partsSsdHistoryVOList.get(i));
-					}else if(2048 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_03and2048_List.add(partsSsdHistoryVOList.get(i));
-					}else if(4096 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_03and4096_List.add(partsSsdHistoryVOList.get(i));
-					}else {
-						ssdEtcList.add(partsSsdHistoryVOList.get(i));
-					}
-				}else if("04".equals(partsSsdHistoryVOList.get(i).getScsCd())) {
-					if(256 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_04and256_List.add(partsSsdHistoryVOList.get(i));
-					}else if(512 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_04and512_List.add(partsSsdHistoryVOList.get(i));
-					}else if(1024 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_04and1024_List.add(partsSsdHistoryVOList.get(i));
-					}else if(2048 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_04and2048_List.add(partsSsdHistoryVOList.get(i));
-					}else if(4096 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_04and4096_List.add(partsSsdHistoryVOList.get(i));
-					}else {
-						ssdEtcList.add(partsSsdHistoryVOList.get(i));
-					}
-				}else if("05".equals(partsSsdHistoryVOList.get(i).getScsCd())) {
-					if(256 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_05and256_List.add(partsSsdHistoryVOList.get(i));
-					}else if(512 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_05and512_List.add(partsSsdHistoryVOList.get(i));
-					}else if(1024 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_05and1024_List.add(partsSsdHistoryVOList.get(i));
-					}else if(2048 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_05and2048_List.add(partsSsdHistoryVOList.get(i));
-					}else if(4096 == partsSsdHistoryVOList.get(i).getVolume()) {
-						PRT008_05and4096_List.add(partsSsdHistoryVOList.get(i));
-					}else {
-						ssdEtcList.add(partsSsdHistoryVOList.get(i));
-					}
-				}else {
-					ssdEtcList.add(partsSsdHistoryVOList.get(i));
 				}
+				
+				valueEraseProcessingBySsd(PRT008_01and256_List);
+				valueEraseProcessingBySsd(PRT008_01and512_List);
+				valueEraseProcessingBySsd(PRT008_01and1024_List);
+				valueEraseProcessingBySsd(PRT008_01and2048_List);
+				valueEraseProcessingBySsd(PRT008_01and4096_List);
+				valueEraseProcessingBySsd(PRT008_03and256_List);
+				valueEraseProcessingBySsd(PRT008_03and512_List);
+				valueEraseProcessingBySsd(PRT008_03and1024_List);
+				valueEraseProcessingBySsd(PRT008_03and2048_List);
+				valueEraseProcessingBySsd(PRT008_03and4096_List);
+				valueEraseProcessingBySsd(PRT008_04and256_List);
+				valueEraseProcessingBySsd(PRT008_04and512_List);
+				valueEraseProcessingBySsd(PRT008_04and1024_List);
+				valueEraseProcessingBySsd(PRT008_04and2048_List);
+				valueEraseProcessingBySsd(PRT008_04and4096_List);
+				valueEraseProcessingBySsd(PRT008_05and256_List);
+				valueEraseProcessingBySsd(PRT008_05and512_List);
+				valueEraseProcessingBySsd(PRT008_05and1024_List);
+				valueEraseProcessingBySsd(PRT008_05and2048_List);
+				valueEraseProcessingBySsd(PRT008_05and4096_List);
+				valueEraseProcessingBySsd(ssdEtcList);
+				
+				// 각각 소거 후 리스트화
+				partsSsdHistoryVOList = new ArrayList<>();
+				
+				// 기존리스트에 결과리스트 삽입
+				addListBySsd(partsSsdHistoryVOList, PRT008_01and256_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_01and512_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_01and1024_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_01and2048_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_01and4096_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_03and256_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_03and512_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_03and1024_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_03and2048_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_03and4096_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_04and256_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_04and512_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_04and1024_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_04and2048_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_04and4096_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_05and256_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_05and512_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_05and1024_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_05and2048_List);
+				addListBySsd(partsSsdHistoryVOList, PRT008_05and4096_List);
+				addListBySsd(partsSsdHistoryVOList, ssdEtcList);
+				
 			}
-			
-			valueEraseProcessingBySsd(PRT008_01and256_List);
-			valueEraseProcessingBySsd(PRT008_01and512_List);
-			valueEraseProcessingBySsd(PRT008_01and1024_List);
-			valueEraseProcessingBySsd(PRT008_01and2048_List);
-			valueEraseProcessingBySsd(PRT008_01and4096_List);
-			valueEraseProcessingBySsd(PRT008_03and256_List);
-			valueEraseProcessingBySsd(PRT008_03and512_List);
-			valueEraseProcessingBySsd(PRT008_03and1024_List);
-			valueEraseProcessingBySsd(PRT008_03and2048_List);
-			valueEraseProcessingBySsd(PRT008_03and4096_List);
-			valueEraseProcessingBySsd(PRT008_04and256_List);
-			valueEraseProcessingBySsd(PRT008_04and512_List);
-			valueEraseProcessingBySsd(PRT008_04and1024_List);
-			valueEraseProcessingBySsd(PRT008_04and2048_List);
-			valueEraseProcessingBySsd(PRT008_04and4096_List);
-			valueEraseProcessingBySsd(PRT008_05and256_List);
-			valueEraseProcessingBySsd(PRT008_05and512_List);
-			valueEraseProcessingBySsd(PRT008_05and1024_List);
-			valueEraseProcessingBySsd(PRT008_05and2048_List);
-			valueEraseProcessingBySsd(PRT008_05and4096_List);
-			valueEraseProcessingBySsd(ssdEtcList);
-			
-			// 각각 소거 후 리스트화
-			partsSsdHistoryVOList = new ArrayList<>();
-			
-			// 기존리스트에 결과리스트 삽입
-			addListBySsd(partsSsdHistoryVOList, PRT008_01and256_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_01and512_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_01and1024_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_01and2048_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_01and4096_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_03and256_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_03and512_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_03and1024_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_03and2048_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_03and4096_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_04and256_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_04and512_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_04and1024_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_04and2048_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_04and4096_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_05and256_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_05and512_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_05and1024_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_05and2048_List);
-			addListBySsd(partsSsdHistoryVOList, PRT008_05and4096_List);
-			addListBySsd(partsSsdHistoryVOList, ssdEtcList);
 
 			/*--------------------------------------------------
 			 - 16. BN이 α번째 GPU>CPU인 CPU제품들을 모두 소거한다. 
@@ -2888,6 +2899,65 @@ public class ESCAServiceImpl implements ESCAService {
 				VC = VC.subtract(new BigDecimal(partsCpuHistoryVOList.get(cpuIndex).getPartsPrice()));
 				
 				/*--------------------------------------------------
+				 - 18-3. Thermal이 β번째 CPU+CTH*5>Cooler인 모든 Cooler제품을 소거한다.
+				*--------------------------------------------------*/
+
+				
+				
+				BigDecimal cpu_thermal = new BigDecimal(partsCpuHistoryVOList.get(cpuIndex).getThermal());
+				BigDecimal algorithm26TargetData = CTH.multiply(new BigDecimal("5")).add(cpu_thermal);
+				for(int i = partsCoolerHistoryVOList.size()-1; i >= 0; i--) {
+					BigDecimal Thermal = new BigDecimal(partsCoolerHistoryVOList.get(i).getThermal());
+					int compareResult = algorithm26TargetData.compareTo(Thermal);
+					if(compareResult > 0) {
+						partsCoolerHistoryVOList.remove(i);
+					}
+				}
+				
+
+				
+				
+				/*--------------------------------------------------
+				 - 18-4. Cooler Value 기준 소거처리부 
+				*--------------------------------------------------*/
+				// cooler value 소거법 적용 전 로직 추가(formula_cd : PRT020) 23.10.06
+//				PRT020
+//				formula	01	AC
+//				formula	02	WC
+				
+
+				List<PartsCoolerHistoryVO> PRT020_01_List = new ArrayList<>();
+				List<PartsCoolerHistoryVO> PRT020_02_List = new ArrayList<>();
+				// etc 취급안함.
+				
+				for(int i = 0; i < partsCoolerHistoryVOList.size(); i++) {
+					if("01".equals(partsCoolerHistoryVOList.get(i).getFormulaCd())) {
+						PRT020_01_List.add(partsCoolerHistoryVOList.get(i));
+					}else {
+						PRT020_02_List.add(partsCoolerHistoryVOList.get(i));
+					}
+				}
+				
+				// PRT020_01_List 소거
+				valueEraseProcessingByCooler(PRT020_01_List);
+				
+				// PRT020_02_List 소거
+				valueEraseProcessingByCooler(PRT020_02_List);
+				
+				// PRT020_01_List, PRT020_02_List 각각 소거 후 리스트화
+				partsCoolerHistoryVOList = new ArrayList<>();
+				
+				for(int i = 0; i < PRT020_01_List.size(); i++) {
+					partsCoolerHistoryVOList.add(PRT020_01_List.get(i));
+				}
+				
+				for(int i = 0; i < PRT020_02_List.size(); i++) {
+					partsCoolerHistoryVOList.add(PRT020_02_List.get(i));
+				}
+					
+				
+				
+				/*--------------------------------------------------
 				 - 19. CC(β번째 선택된 CPU)를 계산하여 MB테이블의 모든 제품 Value를 계산한다.
 				 - MB Value = CPU Value*0.4*(1+AS(MBAS)*0.001*CAS+Port*0.001*CMT+BIOS*0.0001*CSFT)
 				 - 대입변수 변환
@@ -2941,7 +3011,7 @@ public class ESCAServiceImpl implements ESCAService {
 					int endIndex = mdFIndexes[j + 1];
 					BigDecimal startValue = new BigDecimal(mbFValues[j]);
 					BigDecimal endValue = j + 1 < mbFValues.length ? new BigDecimal(mbFValues[j + 1]) : BigDecimal.ZERO;
-					BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), RoundingMode.HALF_UP);
+					BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), 3, BigDecimal.ROUND_HALF_UP);
 
 					for(int i = startIndex + 1; i < endIndex; i++){
 						mbFBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
@@ -2986,7 +3056,7 @@ public class ESCAServiceImpl implements ESCAService {
 					int endIndex = mdGIndexes[j + 1];
 					BigDecimal startValue = new BigDecimal(mbGValues[j]);
 					BigDecimal endValue = j + 1 < mbGValues.length ? new BigDecimal(mbGValues[j + 1]) : BigDecimal.ZERO;
-					BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), RoundingMode.HALF_UP);
+					BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), 3, BigDecimal.ROUND_HALF_UP);
 
 					for(int i = startIndex + 1; i < endIndex; i++){
 						mbGBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
@@ -3032,7 +3102,7 @@ public class ESCAServiceImpl implements ESCAService {
 					int endIndex = mdHIndexes[j + 1];
 					BigDecimal startValue = new BigDecimal(mbHValues[j]);
 					BigDecimal endValue = j + 1 < mbHValues.length ? new BigDecimal(mbHValues[j + 1]) : BigDecimal.ZERO;
-					BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), RoundingMode.HALF_UP);
+					BigDecimal increment = endValue.subtract(startValue).divide(new BigDecimal(endIndex - startIndex), 3, BigDecimal.ROUND_HALF_UP);
 
 					for(int i = startIndex + 1; i < endIndex; i++){
 						mbHBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
@@ -3058,8 +3128,9 @@ public class ESCAServiceImpl implements ESCAService {
 					BigDecimal calculation6 = BigDecimal.ZERO;
 					BigDecimal calculation7 = BigDecimal.ZERO;
 					BigDecimal calculation8 = BigDecimal.ZERO;
+					BigDecimal calculation9 = BigDecimal.ZERO;
 					
-					calculation1 = QC.multiply(CQC);
+					calculation1 = QC.multiply(CQC).multiply(new BigDecimal("0.1"));
 					calculation2 = new BigDecimal("1").subtract(calculation1);
 					calculation3 = MBAS.multiply(CAS).setScale(0, BigDecimal.ROUND_HALF_UP);
 					if(0 == calculation3.compareTo(new BigDecimal("401"))) {
@@ -3077,54 +3148,18 @@ public class ESCAServiceImpl implements ESCAService {
 					calculation6 
 					= mbFBigDecimalArray[calculation3.intValue()]
 							.multiply(mbGBigDecimalArray[calculation4.intValue()])
-							.multiply(mbHBigDecimalArray[calculation5.intValue()])
-							.divide(MVCV, 10, BigDecimal.ROUND_HALF_UP);
-					
-					calculation7 = new BigDecimal("1").add(calculation6);
-					calculation8 = CC
-							.multiply(new BigDecimal("6"))
-							.multiply(calculation7)
+							.multiply(mbHBigDecimalArray[calculation5.intValue()]);
+					calculation7 = new BigDecimal(Math.sqrt(calculation6.doubleValue())).multiply(MVCV).setScale(6, BigDecimal.ROUND_HALF_UP);
+					calculation8 = new BigDecimal("1").add(calculation7);
+					calculation9 = CC
+							.multiply(new BigDecimal("0.6"))
+							.multiply(calculation8)
 							.multiply(calculation2);
 					
-					mbValue = calculation1.multiply(calculation8);
-					
-					partsMbHistoryVO.setMbValue(mbValue);
+					partsMbHistoryVO.setMbValue(calculation9);
 				}
 				
-				/*--------------------------------------------------
-				 - 20. MB테이블에서 Value가 더 낮음과 동시에 Price가 더 높은
-				 - (완벽한 하위 호환에 있는)제품이 있는 경우 하위 호환 제품을 소거한다.  
-				*--------------------------------------------------*/
-				for(int i = partsMbHistoryVOList.size()-1; i >= 1; i--) {
-					int targetIndex = i-1;
-					
-					BigDecimal value1 = partsMbHistoryVOList.get(targetIndex).getMbValue();
-					BigDecimal value2 = partsMbHistoryVOList.get(targetIndex+1).getMbValue();
-					
-					int compareResult1 = value1.compareTo(value2);
-					
-					if(compareResult1 < 0) {
-						// value1 < value2
-						continue;
-					}
-					
-					// 중첩 반복(대상 인덱스로부터 위로 검증)
-					int zTargetSize = partsMbHistoryVOList.size();
-					for(int z = targetIndex+1; z < zTargetSize; z++) {
-						if(z == zTargetSize) {
-							break;
-						}
-						BigDecimal value3 = partsMbHistoryVOList.get(z).getMbValue();
-						
-						int compareResult2 = value1.compareTo(value3);
-						if(compareResult2 > 0 || compareResult2 == 0) {
-							// value1 > value3 or value1 == value3
-							partsMbHistoryVOList.remove(z);
-							--zTargetSize;
-							--z;
-						}
-					}
-				}
+				
 				
 				/*--------------------------------------------------
 				 - 21. VC=<Price인 MB제품을 모두 소거한다.
@@ -3283,6 +3318,41 @@ public class ESCAServiceImpl implements ESCAService {
 				}
 				
 				/*--------------------------------------------------
+				 - 20. MB테이블에서 Value가 더 낮음과 동시에 Price가 더 높은
+				 - (완벽한 하위 호환에 있는)제품이 있는 경우 하위 호환 제품을 소거한다.  
+				*--------------------------------------------------*/
+				for(int i = partsMbHistoryVOList.size()-1; i >= 1; i--) {
+					int targetIndex = i-1;
+					
+					BigDecimal value1 = partsMbHistoryVOList.get(targetIndex).getMbValue();
+					BigDecimal value2 = partsMbHistoryVOList.get(targetIndex+1).getMbValue();
+					
+					int compareResult1 = value1.compareTo(value2);
+					
+					if(compareResult1 < 0) {
+						// value1 < value2
+						continue;
+					}
+					
+					// 중첩 반복(대상 인덱스로부터 위로 검증)
+					int zTargetSize = partsMbHistoryVOList.size();
+					for(int z = targetIndex+1; z < zTargetSize; z++) {
+						if(z == zTargetSize) {
+							break;
+						}
+						BigDecimal value3 = partsMbHistoryVOList.get(z).getMbValue();
+						
+						int compareResult2 = value1.compareTo(value3);
+						if(compareResult2 > 0 || compareResult2 == 0) {
+							// value1 > value3 or value1 == value3
+							partsMbHistoryVOList.remove(z);
+							--zTargetSize;
+							--z;
+						}
+					}
+				}
+				
+				/*--------------------------------------------------
 				 - 24. 남은 MB제품의 개수를 limγ라 한다.
 				 - limγ<γ라면 아래 변수 정렬 후 18번으로 돌아간다.
 				 - (소거된 제품도 18번 시점으로 롤백한다.)
@@ -3393,18 +3463,7 @@ public class ESCAServiceImpl implements ESCAService {
 						}
 					}
 					
-					/*--------------------------------------------------
-					 - 26. Thermal이 β번째 CPU+CTH*5>Cooler인 모든 Cooler제품을 소거한다.
-					*--------------------------------------------------*/
-					BigDecimal cpu_thermal = new BigDecimal(partsCpuHistoryVOList.get(cpuIndex).getThermal());
-					BigDecimal algorithm26TargetData = CTH.multiply(new BigDecimal("5")).add(cpu_thermal);
-					for(int i = partsCoolerHistoryVOList.size()-1; i >= 0; i--) {
-						BigDecimal Thermal = new BigDecimal(partsCoolerHistoryVOList.get(i).getThermal());
-						int compareResult = algorithm26TargetData.compareTo(Thermal);
-						if(compareResult > 0) {
-							partsCoolerHistoryVOList.remove(i);
-						}
-					}
+					
 					
 					/*--------------------------------------------------
 					 - 27. 남은 Cooler제품의 개수를 limk이라 한다.
@@ -3576,43 +3635,100 @@ public class ESCAServiceImpl implements ESCAService {
 						 - 32. k번째 Cooler의 IH⊂CASE 혹은 IT⊂CASE 둘 중 하나 
 						 - 이상을 만족하는 CASE를 제외한 모든 CASE제품을 소거한다.
 						 - 23.08.03 추가정보 32번 : 2자리수 4진법 (IH, IT)
+						 - 23.12.17 수냉일 때만 소거법 적용
 						*--------------------------------------------------*/
-						String coolerIH = String.format("%02d", partsCoolerHistoryVOList.get(coolerIndex).getIh());
-						String coolerIT = String.format("%02d", partsCoolerHistoryVOList.get(coolerIndex).getIt());
-						int coolerIH1 = Integer.parseInt(coolerIH.substring(0, 1));
-						int coolerIH2 = Integer.parseInt(coolerIH.substring(1, 2));
-						int coolerIT1 = Integer.parseInt(coolerIT.substring(0, 1));
-						int coolerIT2 = Integer.parseInt(coolerIT.substring(1, 2));
 						
-						for(int i = partsCaseHistoryVOList.size()-1; i >= 0; i--) {
-							String caseIH = String.format("%02d", partsCaseHistoryVOList.get(i).getIh());
-							String caseIT = String.format("%02d", partsCaseHistoryVOList.get(i).getIt());
-							int caseIH1 = Integer.parseInt(caseIH.substring(0, 1));
-							int caseIH2 = Integer.parseInt(caseIH.substring(1, 2));
-							int caseIT1 = Integer.parseInt(caseIT.substring(0, 1));
-							int caseIT2 = Integer.parseInt(caseIT.substring(1, 2));
-							int subset = 0;
+						if ("02".equals(partsCoolerHistoryVOList.get(coolerIndex).getFormulaCd())){
+							String coolerIH = String.format("%02d", partsCoolerHistoryVOList.get(coolerIndex).getIh());
+							String coolerIT = String.format("%02d", partsCoolerHistoryVOList.get(coolerIndex).getIt());
+							int coolerIH1 = Integer.parseInt(coolerIH.substring(0, 1));
+							int coolerIH2 = Integer.parseInt(coolerIH.substring(1, 2));
+							int coolerIT1 = Integer.parseInt(coolerIT.substring(0, 1));
+							int coolerIT2 = Integer.parseInt(coolerIT.substring(1, 2));
 							
-							if(coolerIH1 <= caseIH1) {
-								subset = 1;
-							}
-							
-							if(coolerIH2 <= caseIH2) {
-								subset = 1;
-							}
-							
-							if(coolerIT1 <= caseIT1) {
-								subset = 1;
-							}
-							
-							if(coolerIT2 <= caseIT2) {
-								subset = 1;
-							}
-							
-							if(subset == 0) {
-								partsCaseHistoryVOList.remove(i);
+							for(int i = partsCaseHistoryVOList.size()-1; i >= 0; i--) {
+								
+								String caseIH = String.format("%02d", partsCaseHistoryVOList.get(i).getIh());
+								String caseIT = String.format("%02d", partsCaseHistoryVOList.get(i).getIt());
+								int caseIH1 = Integer.parseInt(caseIH.substring(0, 1));
+								int caseIH2 = Integer.parseInt(caseIH.substring(1, 2));
+								int caseIT1 = Integer.parseInt(caseIT.substring(0, 1));
+								int caseIT2 = Integer.parseInt(caseIT.substring(1, 2));
+								int subset = 0;
+								
+								// 23.12.17 쿨러의 인자가 0일 때 소거법 적용 제외 
+								if(coolerIH1 != 0) {
+									if(coolerIH1 <= caseIH1) {
+										subset = 1;
+									}
+								}
+								
+								if(coolerIH2 != 0) {
+									if(coolerIH2 <= caseIH2) {
+										subset = 1;
+									}
+								}
+								
+								
+								if(coolerIT1 != 0) {
+									if(coolerIT1 <= caseIT1) {
+										subset = 1;
+									}
+								}
+								
+								if(coolerIT2 != 0) {
+									if(coolerIT2 <= caseIT2) {
+										subset = 1;
+									}
+								}
+								
+								if(subset == 0) {
+									partsCaseHistoryVOList.remove(i);
+								}
 							}
 						}
+						
+						
+						// 23.12.17 소거 조건추가
+						
+						if(zeroCaseCheck.compareTo(customCaseCheck) == 0
+								|| zeroCaseCheck.compareTo(customCaseCheck) < 0) {
+							
+							for(int i = partsCaseHistoryVOList.size()-1; i >= 1; i--) {
+								int targetIndex = i-1;
+								
+								BigDecimal value1 = partsCaseHistoryVOList.get(targetIndex).getCaseValue();
+								BigDecimal value2 = partsCaseHistoryVOList.get(targetIndex+1).getCaseValue();
+								
+								int compareResult1 = value1.compareTo(value2);
+								
+								if(compareResult1 < 0) {
+									// value1 < value2
+									continue;
+								}
+								
+								// 중첩 반복(대상 인덱스로부터 위로 검증)
+								int zTargetSize = partsCaseHistoryVOList.size();
+								for(int z = targetIndex+1; z < zTargetSize; z++) {
+									if(z == zTargetSize) {
+										break;
+									}
+									BigDecimal value3 = partsCaseHistoryVOList.get(z).getCaseValue();
+									
+									int compareResult2 = value1.compareTo(value3);
+									if(compareResult2 > 0 || compareResult2 == 0) {
+										// value1 > value3 or value1 == value3
+										partsCaseHistoryVOList.remove(z);
+										--zTargetSize;
+										--z;
+									}
+								}
+							}
+							
+						}
+						
+						
+						
 						
 						/*--------------------------------------------------
 						 - 33. 남은 CASE제품의 개수를 limp 라고 한다.
@@ -3785,6 +3901,43 @@ public class ESCAServiceImpl implements ESCAService {
 									partsPsuHistoryVOList.remove(i);
 								}
 							}
+						
+							
+							if(zeroPsuCheck.compareTo(customPsuCheck) == 0
+									|| zeroPsuCheck.compareTo(customPsuCheck) < 0) {
+								
+								
+								for(int i = partsPsuHistoryVOList.size()-1; i >= 1; i--) {
+									int targetIndex = i-1;
+									
+									BigDecimal value1 = partsPsuHistoryVOList.get(targetIndex).getPsuValue();
+									BigDecimal value2 = partsPsuHistoryVOList.get(targetIndex+1).getPsuValue();
+									
+									int compareResult1 = value1.compareTo(value2);
+									
+									if(compareResult1 < 0) {
+										// value1 < value2
+										continue;
+									}
+									
+									// 중첩 반복(대상 인덱스로부터 위로 검증)
+									int zTargetSize = partsPsuHistoryVOList.size();
+									for(int z = targetIndex+1; z < zTargetSize; z++) {
+										if(z == zTargetSize) {
+											break;
+										}
+										BigDecimal value3 = partsPsuHistoryVOList.get(z).getPsuValue();
+										
+										int compareResult2 = value1.compareTo(value3);
+										if(compareResult2 > 0 || compareResult2 == 0) {
+											// value1 > value3 or value1 == value3
+											partsPsuHistoryVOList.remove(z);
+											--zTargetSize;
+											--z;
+										}
+									}
+								}
+							}
 							
 							
 							/*--------------------------------------------------
@@ -3955,6 +4108,146 @@ public class ESCAServiceImpl implements ESCAService {
 									}
 									
 									
+									if(zeroSsdCheck.compareTo(customSsdCheck) == 0
+											|| zeroSsdCheck.compareTo(customSsdCheck) < 0) {
+					
+						
+										List<PartsSsdHistoryVO> PRT008_01and256_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_01and512_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_01and1024_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_01and2048_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_01and4096_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_03and256_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_03and512_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_03and1024_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_03and2048_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_03and4096_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_04and256_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_04and512_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_04and1024_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_04and2048_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_04and4096_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_05and256_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_05and512_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_05and1024_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_05and2048_List = new ArrayList<>();
+										List<PartsSsdHistoryVO> PRT008_05and4096_List = new ArrayList<>();
+										
+										List<PartsSsdHistoryVO> ssdEtcList = new ArrayList<>();
+										
+										for(int i = 0; i < partsSsdHistoryVOList.size(); i++) {
+											if("01".equals(partsSsdHistoryVOList.get(i).getScsCd())) {
+												if(256 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_01and256_List.add(partsSsdHistoryVOList.get(i));
+												}else if(512 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_01and512_List.add(partsSsdHistoryVOList.get(i));
+												}else if(1024 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_01and1024_List.add(partsSsdHistoryVOList.get(i));
+												}else if(2048 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_01and2048_List.add(partsSsdHistoryVOList.get(i));
+												}else if(4096 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_01and4096_List.add(partsSsdHistoryVOList.get(i));
+												}else {
+													ssdEtcList.add(partsSsdHistoryVOList.get(i));
+												}
+											}else if("03".equals(partsSsdHistoryVOList.get(i).getScsCd())) {
+												if(256 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_03and256_List.add(partsSsdHistoryVOList.get(i));
+												}else if(512 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_03and512_List.add(partsSsdHistoryVOList.get(i));
+												}else if(1024 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_03and1024_List.add(partsSsdHistoryVOList.get(i));
+												}else if(2048 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_03and2048_List.add(partsSsdHistoryVOList.get(i));
+												}else if(4096 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_03and4096_List.add(partsSsdHistoryVOList.get(i));
+												}else {
+													ssdEtcList.add(partsSsdHistoryVOList.get(i));
+												}
+											}else if("04".equals(partsSsdHistoryVOList.get(i).getScsCd())) {
+												if(256 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_04and256_List.add(partsSsdHistoryVOList.get(i));
+												}else if(512 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_04and512_List.add(partsSsdHistoryVOList.get(i));
+												}else if(1024 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_04and1024_List.add(partsSsdHistoryVOList.get(i));
+												}else if(2048 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_04and2048_List.add(partsSsdHistoryVOList.get(i));
+												}else if(4096 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_04and4096_List.add(partsSsdHistoryVOList.get(i));
+												}else {
+													ssdEtcList.add(partsSsdHistoryVOList.get(i));
+												}
+											}else if("05".equals(partsSsdHistoryVOList.get(i).getScsCd())) {
+												if(256 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_05and256_List.add(partsSsdHistoryVOList.get(i));
+												}else if(512 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_05and512_List.add(partsSsdHistoryVOList.get(i));
+												}else if(1024 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_05and1024_List.add(partsSsdHistoryVOList.get(i));
+												}else if(2048 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_05and2048_List.add(partsSsdHistoryVOList.get(i));
+												}else if(4096 == partsSsdHistoryVOList.get(i).getVolume()) {
+													PRT008_05and4096_List.add(partsSsdHistoryVOList.get(i));
+												}else {
+													ssdEtcList.add(partsSsdHistoryVOList.get(i));
+												}
+											}else {
+												ssdEtcList.add(partsSsdHistoryVOList.get(i));
+											}
+										}
+										
+										valueEraseProcessingBySsd(PRT008_01and256_List);
+										valueEraseProcessingBySsd(PRT008_01and512_List);
+										valueEraseProcessingBySsd(PRT008_01and1024_List);
+										valueEraseProcessingBySsd(PRT008_01and2048_List);
+										valueEraseProcessingBySsd(PRT008_01and4096_List);
+										valueEraseProcessingBySsd(PRT008_03and256_List);
+										valueEraseProcessingBySsd(PRT008_03and512_List);
+										valueEraseProcessingBySsd(PRT008_03and1024_List);
+										valueEraseProcessingBySsd(PRT008_03and2048_List);
+										valueEraseProcessingBySsd(PRT008_03and4096_List);
+										valueEraseProcessingBySsd(PRT008_04and256_List);
+										valueEraseProcessingBySsd(PRT008_04and512_List);
+										valueEraseProcessingBySsd(PRT008_04and1024_List);
+										valueEraseProcessingBySsd(PRT008_04and2048_List);
+										valueEraseProcessingBySsd(PRT008_04and4096_List);
+										valueEraseProcessingBySsd(PRT008_05and256_List);
+										valueEraseProcessingBySsd(PRT008_05and512_List);
+										valueEraseProcessingBySsd(PRT008_05and1024_List);
+										valueEraseProcessingBySsd(PRT008_05and2048_List);
+										valueEraseProcessingBySsd(PRT008_05and4096_List);
+										valueEraseProcessingBySsd(ssdEtcList);
+										
+										// 각각 소거 후 리스트화
+										partsSsdHistoryVOList = new ArrayList<>();
+										
+										// 기존리스트에 결과리스트 삽입
+										addListBySsd(partsSsdHistoryVOList, PRT008_01and256_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_01and512_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_01and1024_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_01and2048_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_01and4096_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_03and256_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_03and512_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_03and1024_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_03and2048_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_03and4096_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_04and256_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_04and512_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_04and1024_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_04and2048_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_04and4096_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_05and256_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_05and512_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_05and1024_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_05and2048_List);
+										addListBySsd(partsSsdHistoryVOList, PRT008_05and4096_List);
+										addListBySsd(partsSsdHistoryVOList, ssdEtcList);
+										
+									}
+									
+									
 									/*--------------------------------------------------
 									 - 45. 남은 SSD제품의 개수를 limy라고 한다.
 									 - limy<y라면 아래 변수 정렬 후 42번으로 돌아간다.(소거 시점도 42번으로 롤백한다.)
@@ -4065,6 +4358,7 @@ public class ESCAServiceImpl implements ESCAService {
 			estimateCalculationResultPrivateMasterVO.setErrChk(true);
 			estimateCalculationResultPrivateMasterVO.setErrMsg(errMsg);
 		}else {
+			
 			/*--------------------------------------------------
 			 - 48. ω>1일 경우 Value.SUM(1~ω)으로부터 가장 높은 
 			 - 수치를 가진 견적을 추적한다.
