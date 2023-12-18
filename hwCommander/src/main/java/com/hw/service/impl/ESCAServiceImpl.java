@@ -3796,13 +3796,13 @@ public class ESCAServiceImpl implements ESCAService {
 							/*--------------------------------------------------
 							 - 34. VC=<Price인 모든 PSU제품을 소거한다.
 							*--------------------------------------------------*/
-							// for(int i = partsPsuHistoryVOList.size()-1; i >= 0; i--) {
-							// 	BigDecimal psuPrice = new BigDecimal(partsPsuHistoryVOList.get(i).getPartsPrice());
-							// 	int compareResult = VC.compareTo(psuPrice);
-							// 	if(compareResult < 0 || compareResult == 0) {
-							// 		partsPsuHistoryVOList.remove(i);
-							// 	}
-							// }
+							for(int i = partsPsuHistoryVOList.size()-1; i >= 0; i--) {
+								BigDecimal psuPrice = new BigDecimal(partsPsuHistoryVOList.get(i).getPartsPrice());
+								int compareResult = VC.compareTo(psuPrice);
+								if(compareResult < 0 || compareResult == 0) {
+									partsPsuHistoryVOList.remove(i);
+								}
+							}
 							
 							/*--------------------------------------------------
 							 - 35. α번째 GPU의 TDP>PSU인 모든 PSU제품을 소거한다.
@@ -4081,13 +4081,13 @@ public class ESCAServiceImpl implements ESCAService {
 									/*--------------------------------------------------
 									 - 43. VC<PRICE인 모든 SSD제품을 소거한다.
 									*--------------------------------------------------*/
-									// for(int i = partsSsdHistoryVOList.size()-1; i >= 0; i--) {
-									// 	BigDecimal ssdPrice = new BigDecimal(partsSsdHistoryVOList.get(i).getPartsPrice());
-									// 	int compareResult = VC.compareTo(ssdPrice);
-									// 	if(compareResult < 0) {
-									// 		partsSsdHistoryVOList.remove(i);
-									// 	}
-									// }
+									for(int i = partsSsdHistoryVOList.size()-1; i >= 0; i--) {
+										BigDecimal ssdPrice = new BigDecimal(partsSsdHistoryVOList.get(i).getPartsPrice());
+										int compareResult = VC.compareTo(ssdPrice);
+										if(compareResult < 0) {
+											partsSsdHistoryVOList.remove(i);
+										}
+									}
 									
 									/*--------------------------------------------------
 									 - 44. γ번째 MB의 SCS<SSD인 모든 SSD제품을 소거한다.
