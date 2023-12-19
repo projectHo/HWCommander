@@ -37,6 +37,7 @@
 		enterPartsText();
 		insertRams();
 		boxHeadInput();
+		answersModal();
 	})
 	function loginCheck() {
 		var check = false;
@@ -356,6 +357,14 @@
 			})
 		}
 	}
+	function answersModal(){
+		if(sessionStorage.getItem("data-0") == 0){
+			$("#answerCheck").children($(".modal-body")).append("<p></p>").html("질문 1 : 프리도스( + 0원)");
+		}else if(sessionStorage.getItem("data-0") == 1){
+			$("#answerCheck").children($(".modal-body")).append("<p></p>").html("질문 1 : COEM(설치형 + 150,000원)");
+		}
+		
+	}
 </script>
 </head>
 <body>
@@ -550,6 +559,23 @@
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" box="0" onclick="javascript:clickSingleOrderBtn(this)">아니요</button>
 						<button type="button" class="btn btn-primary" box="1" onclick="javascript:clickSingleOrderBtn(this)">네</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- 질문답변 확인용 모달 -->
+		<div class="modal fade" id="answerCheck" tabindex="-1" data-bs-keyboard="true" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h1 class="modal-title fs-5">질문 답변확인</h1>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-primary" data-bs-dismiss="modal">확인</button>
 					</div>
 				</div>
 			</div>

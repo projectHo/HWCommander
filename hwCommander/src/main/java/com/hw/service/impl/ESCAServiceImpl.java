@@ -1187,16 +1187,16 @@ public class ESCAServiceImpl implements ESCAService {
 			BigDecimal calculation7 = BigDecimal.ZERO;
 			
 			calculation1 = new BigDecimal("1").subtract(QC.multiply(CQC).multiply(new BigDecimal("0.1")));
-			calculation2 = GPUAS.multiply(CAS).setScale(0, BigDecimal.ROUND_HALF_UP);
+			calculation2 = GSV.multiply(CAS).setScale(0, BigDecimal.ROUND_HALF_UP);
 			if(0 == calculation2.compareTo(new BigDecimal("401"))) {
 				calculation2 = new BigDecimal("400");
 			}
-			calculation3 = GSV.multiply(CMT).setScale(0, BigDecimal.ROUND_HALF_UP);
+			calculation3 = GPUAS.multiply(CMT).setScale(0, BigDecimal.ROUND_HALF_UP);
 			if(0 == calculation3.compareTo(new BigDecimal("401"))) {
 				calculation3 = new BigDecimal("400");
 			}
 			calculation4 = gpuFBigDecimalArray[calculation2.intValue()].multiply(gpuGBigDecimalArray[calculation3.intValue()]);
-			calculation5 = new BigDecimal(Math.sqrt(calculation4.doubleValue())).multiply(GPUCV).setScale(6, BigDecimal.ROUND_HALF_UP);
+			calculation5 = new BigDecimal(Math.pow(calculation4.doubleValue(), 1.0 / 2.0)).multiply(GPUCV).setScale(6, BigDecimal.ROUND_HALF_UP);
 			calculation6 = new BigDecimal("1").add(calculation5);
 			calculation7 = GC.multiply(calculation6).multiply(calculation1).setScale(6, BigDecimal.ROUND_HALF_UP);
 			
@@ -1991,7 +1991,7 @@ public class ESCAServiceImpl implements ESCAService {
 						.multiply(psuGBigDecimalArray[calculation5.intValue()])
 						.multiply(psuHBigDecimalArray[calculation4.intValue()])
 						.multiply(psuZBigDecimalArray[calculation3.intValue()]);
-				calculation8 = new BigDecimal(Math.sqrt(calculation7.doubleValue())).multiply(PSUCV).setScale(6, BigDecimal.ROUND_HALF_UP);
+				calculation8 = new BigDecimal(Math.pow(calculation7.doubleValue(), 1.0 / 4.0)).multiply(PSUCV).setScale(6, BigDecimal.ROUND_HALF_UP);
 				calculation9 = new BigDecimal("1").add(calculation8);
 				calculation10 = GC.multiply(new BigDecimal("0.001157"))
 						.multiply(PFM)
@@ -2186,7 +2186,7 @@ public class ESCAServiceImpl implements ESCAService {
 				= caseFBigDecimalArray[calculation5.intValue()]
 						.multiply(caseGBigDecimalArray[calculation4.intValue()])
 						.multiply(caseHBigDecimalArray[calculation3.intValue()]);
-				calculation7 = new BigDecimal(Math.sqrt(calculation6.doubleValue())).multiply(CASECV).setScale(6, BigDecimal.ROUND_HALF_UP);
+				calculation7 = new BigDecimal(Math.pow(calculation6.doubleValue(), 1.0 / 3.0)).multiply(CASECV).setScale(6, BigDecimal.ROUND_HALF_UP);
 				calculation8 = new BigDecimal("1").add(calculation7);
 				calculation9 = GC.multiply(new BigDecimal("0.04"))
 						.multiply(calculation8)
@@ -2334,7 +2334,7 @@ public class ESCAServiceImpl implements ESCAService {
 				PartsSsdHistoryVO partsSsdHistoryVO = partsSsdHistoryVOList.get(ss);
 				BigDecimal QC = new BigDecimal(partsSsdHistoryVO.getQc());
 				BigDecimal RLB = partsSsdHistoryVO.getRlb();
-				BigDecimal WAR = new BigDecimal(partsSsdHistoryVO.getWar());
+				BigDecimal WAR = new BigDecimal(partsSsdHistoryVO.getWar()).multiply(new BigDecimal("12"));
 				BigDecimal FNC = new BigDecimal(partsSsdHistoryVO.getFnc());
 				BigDecimal ssdOne = CAS.add(CMT).add(CSFT).divide(BigDecimal.valueOf(3)).subtract(new BigDecimal("3.54346273182768")).pow(2).negate();
 				BigDecimal ssdTwo = new BigDecimal("26.4850395509368").pow(2);
@@ -2375,7 +2375,7 @@ public class ESCAServiceImpl implements ESCAService {
 				= ssdFBigDecimalArray[calculation5.intValue()]
 						.multiply(ssdGBigDecimalArray[calculation4.intValue()])
 						.multiply(ssdHBigDecimalArray[calculation3.intValue()]);
-				calculation7 = new BigDecimal(Math.sqrt(calculation6.doubleValue())).multiply(SSDCV).setScale(6, BigDecimal.ROUND_HALF_UP); 
+				calculation7 = new BigDecimal(Math.pow(calculation6.doubleValue(), 1.0 / 3.0)).multiply(SSDCV).setScale(6, BigDecimal.ROUND_HALF_UP); 
 				calculation8 = new BigDecimal("1").add(calculation7);
 				calculation9 = GC.multiply(new BigDecimal("0.001245"))
 						.multiply(BASIC)
@@ -3149,7 +3149,7 @@ public class ESCAServiceImpl implements ESCAService {
 					= mbFBigDecimalArray[calculation3.intValue()]
 							.multiply(mbGBigDecimalArray[calculation4.intValue()])
 							.multiply(mbHBigDecimalArray[calculation5.intValue()]);
-					calculation7 = new BigDecimal(Math.sqrt(calculation6.doubleValue())).multiply(MVCV).setScale(6, BigDecimal.ROUND_HALF_UP);
+					calculation7 = new BigDecimal(Math.pow(calculation6.doubleValue(), 1.0 / 3.0)).multiply(MVCV).setScale(6, BigDecimal.ROUND_HALF_UP);
 					calculation8 = new BigDecimal("1").add(calculation7);
 					calculation9 = CC
 							.multiply(new BigDecimal("0.6"))
@@ -4334,7 +4334,14 @@ public class ESCAServiceImpl implements ESCAService {
 													.add(resultVO.getRamValue())
 													.add(resultVO.getSsdValue())
 											);
-											
+											System.out.println(resultVO.getGpuId() + " : " + resultVO.getGpuValue());
+											System.out.println(resultVO.getCpuId() + " : " + resultVO.getCpuValue());
+											System.out.println(resultVO.getMbId() + " : " + resultVO.getMbValue());
+											System.out.println(resultVO.getCoolerId() + " : " + resultVO.getCoolerValue());
+											System.out.println(resultVO.getCaseId() + " : " + resultVO.getCaseValue());
+											System.out.println(resultVO.getPsuId() + " : " + resultVO.getPsuValue());
+											System.out.println(resultVO.getRamId() + " : " + resultVO.getRamValue());
+											System.out.println(resultVO.getSsdId() + " : " + resultVO.getSsdValue());
 											ω.add(resultVO);
 										}
 										
