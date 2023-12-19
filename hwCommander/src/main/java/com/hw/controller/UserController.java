@@ -304,15 +304,18 @@ public class UserController {
 	public String goMyPage(HttpServletRequest request, Model model) {
 		HttpSession httpSession = request.getSession();
 		UserInfoVO user = (UserInfoVO) httpSession.getAttribute("loginUser");
-		
-		List<OrderMasterVO> orderMasterVOList = orderService.getOrderMasterListByOrdererUserId(user.getId());
-		List<RefundInfoVO> refundInfoVOList = orderService.getRefundInfoByUserId(user.getId());
-		
-		model.addAttribute("loginUser", user);
-		model.addAttribute("orderMasterVOList", orderMasterVOList);
-		model.addAttribute("refundInfoVOList", refundInfoVOList);
-		
-		return userLoginCheck(request, model, "myPage");
+		if( null != user ){
+			List<OrderMasterVO> orderMasterVOList = orderService.getOrderMasterListByOrdererUserId(user.getId());
+			List<RefundInfoVO> refundInfoVOList = orderService.getRefundInfoByUserId(user.getId());
+			
+			model.addAttribute("loginUser", user);
+			model.addAttribute("orderMasterVOList", orderMasterVOList);
+			model.addAttribute("refundInfoVOList", refundInfoVOList);
+
+			return userLoginCheck(request, model, "myPage");
+		}else {
+			return userLoginCheck(request, model, "myPage");
+		}
 	}
 	
 	@RequestMapping(value = "/idAndPwCheck.do", method = RequestMethod.POST)
