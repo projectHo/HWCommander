@@ -171,8 +171,8 @@
 		}else if($(el).val() < 0){
 			alert("0원 이상으로 입력해주세요~");
 			$(el).val("");
-		}else if($(el).val() > 500){
-			alert("500만원 이하로 입력해주세요!");
+		}else if($(el).val() > 250){
+			alert("250만원 이하로 입력해주세요!");
 			$(el).val("");
 		}else if (!chkNum.test($(el).val())){
 			alert("숫자만 입력해주세요!!");
@@ -1353,11 +1353,12 @@
 									<span>질문 2번</span>
 									<!-- <button class="btn btn-primary q2-save-btn" onclick="javascript:questionTwoSaveBtn()">저장</button> -->
 								</h2>
-								<h3 class="mt-3">본체에 투자하실 최대 한도는 얼마인가요? (최대 500만원)</h3>
+								<h3 class="mt-3">본체에 투자하실 최대 한도는 얼마인가요? (최대 250만원)</h3>
+								<small class="mt-2">※현재 높은 가격대의 제품에 대한 로직 완성도가 다소 미흡하여 보완중입니다. 빠른 시일 내로 500만원대까지 확장할 수 있도록 하겠습니다. (예상 완성일 23년 12월 21일)※</small>
 								<div class="mt-2 mb-5 row">
 									<div class="col-md">
 										<div class="input-group has-validation text-end d-flex flex-end justify-content-center mb-5 calc-input-element">
-											<input type="text" class="form-control input-field text-end w-50 first-q-input fs-5 pt-2" min="0" max="500" placeholder="ex) 300" id="can-pay-val" aria-describedby="inputGroupPrepend" required oninput="javascript:questionTwoBtns(this)"/>
+											<input type="text" class="form-control input-field text-end w-50 first-q-input fs-5 pt-2" min="0" max="250" placeholder="ex) 250" id="can-pay-val" aria-describedby="inputGroupPrepend" required oninput="javascript:questionTwoBtns(this)"/>
 											<span class="input-group-text fs-5 pt-2" id="inputGroupPrepend">만원</span>
 										</div>
 									</div>
@@ -1392,7 +1393,8 @@
 									</div>
 									<div class="col text-center">
 										<div class="list-group q3-surf" processLgCd="03">
-											<button class="list-group-item list-group-item-action" type="button" id="PR999999" state="00" onclick="javascript:q3SurfBtn(this)">서핑</button>
+											<button class="list-group-item list-group-item-action" type="button" id="PR999999" state="00" onclick="javascript:q3SurfBtn(this)" disabled>서핑</button>
+											<small class="mt-2">※점검중입니다※</small>
 										</div>
 									</div>
 								</div>
