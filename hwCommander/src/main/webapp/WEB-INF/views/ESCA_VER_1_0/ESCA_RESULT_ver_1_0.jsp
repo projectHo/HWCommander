@@ -292,14 +292,15 @@
 		}
 
 		const urlString = location.href;
-		const matchedId = urlString.match(/userId,([^%]+)/);
+		const matchedId = urlString.match(/userId%2C([^%]+)/);
 		if(matchedId == null){
 			const matchedId = urlString.match(/userId%2C([^%]+)/);
-		}
-		const recommenderName = matchedId[1];
-		if("${loginUser.id}" != recommenderName){
-			$("#recommender-input").parent().css("display","block");
-			$("#recommender-input").val("추천인 ID : "+ recommenderName).css("display","block");
+		}else {
+			const recommenderName = matchedId[1];
+			if("${loginUser.id}" != recommenderName){
+				$("#recommender-input").parent().css("display","block");
+				$("#recommender-input").val("추천인 ID : "+ recommenderName).css("display","block");
+			}
 		}
 	}
 	function descriptionInput(el){
@@ -358,12 +359,334 @@
 		}
 	}
 	function answersModal(){
-		if(sessionStorage.getItem("data-0") == 0){
-			$("#answerCheck").children($(".modal-body")).append("<p></p>").html("질문 1 : 프리도스( + 0원)");
-		}else if(sessionStorage.getItem("data-0") == 1){
-			$("#answerCheck").children($(".modal-body")).append("<p></p>").html("질문 1 : COEM(설치형 + 150,000원)");
+		if(sessionStorage.getItem("data-0") == "0"){
+			$("#answerCheck .modal-body").append("<p>질문 1 : 프리도스(+0원)</p>");
+		}else if(sessionStorage.getItem("data-0") == "1"){
+			$("#answerCheck .modal-body").append("<p>질문 1 : COEM(+150,000원)</p>");
+		}else if(sessionStorage.getItem("data-0") == "2"){
+			$("#answerCheck .modal-body").append("<p>질문 1 : Fpp(+180,000원)</p>");
 		}
-		
+		let answer2 = Number(sessionStorage.getItem("data-1"))*10000;
+		answer2 = answer2.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+		$("#answerCheck .modal-body").append("<p>질문 2 : " + answer2 + "원</p>");
+
+		const answer3 = JSON.parse(sessionStorage.getItem("data-2"));
+		let answer3a;
+		$("#answerCheck .modal-body").append("<p>질문 3 : 사용 목적 ⤵️</p>");
+		if(answer3.length > 1){
+			for(let i = 0; i < answer3.length ; i++){
+				if(answer3[i][0] == "PR000001"){
+					$("#answerCheck .modal-body").append("<p>이름 = Apex Legend" + " / 비중 = " + answer3[i][1] + "</p>");
+					answer3a = "Apex Legend";
+				}
+				if(answer3[i][0] == "PR000002"){
+					$("#answerCheck .modal-body").append("<p>이름 = Valorant" + " / 비중 = " + answer3[i][1] + "</p>");
+					answer3a = "Valorant";
+				}
+				if(answer3[i][0] == "PR000029"){
+					$("#answerCheck .modal-body").append("<p>이름 = PUBG" + " / 비중 = " + answer3[i][1] + "</p>");
+					answer3a = "PUBG";
+				}
+				if(answer3[i][0] == "PR000032"){
+					$("#answerCheck .modal-body").append("<p>이름 = [FPS 기타]" + " / 비중 = " + answer3[i][1] + "</p>");
+					answer3a = "[FPS 기타]";
+				}
+				if(answer3[i][0] == "PR000003"){
+					$("#answerCheck .modal-body").append("<p>이름 = League of Legends" + " / 비중 = " + answer3[i][1] + "</p>");
+					answer3a = "League of Legends";
+				}
+				if(answer3[i][0] == "PR000004"){
+					$("#answerCheck .modal-body").append("<p>이름 = Dota 2" + " / 비중 = " + answer3[i][1] + "</p>");
+					answer3a = "Dota 2";
+				}
+				if(answer3[i][0] == "PR000005"){
+					$("#answerCheck .modal-body").append("<p>이름 = Heros of the Storm" + " / 비중 = " + answer3[i][1] + "</p>");
+					answer3a = "Heros of the Storm";
+				}
+				if(answer3[i][0] == "PR000033"){
+					$("#answerCheck .modal-body").append("<p>이름 = [AOS 기타]" + " / 비중 = " + answer3[i][1] + "</p>");
+					answer3a = "[AOS 기타]";
+				}
+				if(answer3[i][0] == "PR000006"){
+					$("#answerCheck .modal-body").append("<p>이름 = Lost Ark" + " / 비중 = " + answer3[i][1] + "</p>");
+					answer3a = "Lost Ark";
+				}
+				if(answer3[i][0] == "PR000007"){
+					$("#answerCheck .modal-body").append("<p>이름 = Diablo IV" + " / 비중 = " + answer3[i][1] + "</p>");
+					answer3a = "Diablo IV";
+				}
+				if(answer3[i][0] == "PR000008"){
+					$("#answerCheck .modal-body").append("<p>이름 = Dungeon and Fighter" + " / 비중 = " + answer3[i][1] + "</p>");
+					answer3a = "Dungeon and Fighter";
+				}
+				if(answer3[i][0] == "PR000009"){
+					$("#answerCheck .modal-body").append("<p>이름 = FIFA Online 4" + " / 비중 = " + answer3[i][1] + "</p>");
+					answer3a = "FIFA Online 4";
+				}
+				if(answer3[i][0] == "PR000010"){
+					$("#answerCheck .modal-body").append("<p>이름 = Starcraft Remastered" + " / 비중 = " + answer3[i][1] + "</p>");
+					answer3a = "Starcraft Remastered";
+				}
+				if(answer3[i][0] == "PR000011"){
+					$("#answerCheck .modal-body").append("<p>이름 = Warcraft III Reforged" + " / 비중 = " + answer3[i][1] + "</p>");
+					answer3a = "Warcraft III Reforged";
+				}
+				if(answer3[i][0] == "PR000012"){
+					$("#answerCheck .modal-body").append("<p>이름 = Forza Horizon 5" + " / 비중 = " + answer3[i][1] + "</p>");
+					answer3a = "Forza Horizon 5";
+				}
+				if(answer3[i][0] == "PR000013"){
+					$("#answerCheck .modal-body").append("<p>이름 = Assetto Corsa" + " / 비중 = " + answer3[i][1] + "</p>");
+					answer3a = "Assetto Corsa";
+				}
+				if(answer3[i][0] == "PR000014"){
+					$("#answerCheck .modal-body").append("<p>이름 = Grand Theft Auto V" + " / 비중 = " + answer3[i][1] + "</p>");
+					answer3a = "Grand Theft Auto V";
+				}
+				if(answer3[i][0] == "PR000015"){
+					$("#answerCheck .modal-body").append("<p>이름 = Illustrator" + " / 비중 = " + answer3[i][1] + "</p>");
+					answer3a = "Illustrator";
+				}
+				if(answer3[i][0] == "PR000016"){
+					$("#answerCheck .modal-body").append("<p>이름 = PhotoShop" + " / 비중 = " + answer3[i][1] + "</p>");
+					answer3a = "PhotoShop";
+				}
+				if(answer3[i][0] == "PR000030"){
+					$("#answerCheck .modal-body").append("<p>이름 = CAD" + " / 비중 = " + answer3[i][1] + "</p>");
+					answer3a = "CAD";
+				}
+				if(answer3[i][0] == "PR000017"){
+					$("#answerCheck .modal-body").append("<p>이름 = Cinema 4D" + " / 비중 = " + answer3[i][1] + "</p>");
+					answer3a = "Cinema 4D";
+				}
+				if(answer3[i][0] == "PR000018"){
+					$("#answerCheck .modal-body").append("<p>이름 = Blender" + " / 비중 = " + answer3[i][1] + "</p>");
+					answer3a = "Blender";
+				}
+				if(answer3[i][0] == "PR000019"){
+					$("#answerCheck .modal-body").append("<p>이름 = 3DS MAX" + " / 비중 = " + answer3[i][1] + "</p>");
+					answer3a = "3DS MAX";
+				}
+				if(answer3[i][0] == "PR000020"){
+					$("#answerCheck .modal-body").append("<p>이름 = Web Publicing" + " / 비중 = " + answer3[i][1] + "</p>");
+					answer3a = "Web Publicing";
+				}
+				if(answer3[i][0] == "PR000021"){
+					$("#answerCheck .modal-body").append("<p>이름 = Embedded" + " / 비중 = " + answer3[i][1] + "</p>");
+					answer3a = "Embedded";
+				}
+				if(answer3[i][0] == "PR000022"){
+					$("#answerCheck .modal-body").append("<p>이름 = VSC" + " / 비중 = " + answer3[i][1] + "</p>");
+					answer3a = "VSC";
+				}
+				if(answer3[i][0] == "PR000023"){
+					$("#answerCheck .modal-body").append("<p>이름 = Premiere Pro" + " / 비중 = " + answer3[i][1] + "</p>");
+					answer3a = "Premiere Pro";
+				}
+				if(answer3[i][0] == "PR000024"){
+					$("#answerCheck .modal-body").append("<p>이름 = DaVinci Resolve" + " / 비중 = " + answer3[i][1] + "</p>");
+					answer3a = "DaVinci Resolve";
+				}
+				if(answer3[i][0] == "PR000025"){
+					$("#answerCheck .modal-body").append("<p>이름 = PowerDirector" + " / 비중 = " + answer3[i][1] + "</p>");
+					answer3a = "PowerDirector";
+				}
+				if(answer3[i][0] == "PR000031"){
+					$("#answerCheck .modal-body").append("<p>이름 = After Effect" + " / 비중 = " + answer3[i][1] + "</p>");
+					answer3a = "After Effect";
+				}
+				if(answer3[i][0] == "PR000026"){
+					$("#answerCheck .modal-body").append("<p>이름 = Excel" + " / 비중 = " + answer3[i][1] + "</p>");
+					answer3a = "Excel";
+				}
+				if(answer3[i][0] == "PR000027"){
+					$("#answerCheck .modal-body").append("<p>이름 = CAPS CCTV" + " / 비중 = " + answer3[i][1] + "</p>");
+					answer3a = "CAPS CCTV";
+				}
+				if(answer3[i][0] == "PR000028"){
+					$("#answerCheck .modal-body").append("<p>이름 = SAP ERP" + " / 비중 = " + answer3[i][1] + "</p>");
+					answer3a = "SAP ERP";
+				}
+			}
+		}else {
+			if(answer3[0][0] == "PR000001"){
+					answer3a = "Apex Legend";
+				}
+				if(answer3[0][0] == "PR000002"){
+					answer3a = "Valorant";
+				}
+				if(answer3[0][0] == "PR000029"){
+					answer3a = "PUBG";
+				}
+				if(answer3[0][0] == "PR000032"){
+					answer3a = "[FPS 기타]";
+				}
+				if(answer3[0][0] == "PR000003"){
+					answer3a = "League of Legends";
+				}
+				if(answer3[0][0] == "PR000004"){
+					answer3a = "Dota 2";
+				}
+				if(answer3[0][0] == "PR000005"){
+					answer3a = "Heros of the Storm";
+				}
+				if(answer3[0][0] == "PR000033"){
+					answer3a = "[AOS 기타]";
+				}
+				if(answer3[0][0] == "PR000006"){
+					answer3a = "Lost Ark";
+				}
+				if(answer3[0][0] == "PR000007"){
+					answer3a = "Diablo IV";
+				}
+				if(answer3[0][0] == "PR000008"){
+					answer3a = "Dungeon and Fighter";
+				}
+				if(answer3[0][0] == "PR000009"){
+					answer3a = "FIFA Online 4";
+				}
+				if(answer3[0][0] == "PR000010"){
+					answer3a = "Starcraft Remastered";
+				}
+				if(answer3[0][0] == "PR000011"){
+					answer3a = "Warcraft III Reforged";
+				}
+				if(answer3[0][0] == "PR000012"){
+					answer3a = "Forza Horizon 5";
+				}
+				if(answer3[0][0] == "PR000013"){
+					answer3a = "Assetto Corsa";
+				}
+				if(answer3[0][0] == "PR000014"){
+					answer3a = "Grand Theft Auto V";
+				}
+				if(answer3[0][0] == "PR000015"){
+					answer3a = "Illustrator";
+				}
+				if(answer3[0][0] == "PR000016"){
+					answer3a = "PhotoShop";
+				}
+				if(answer3[0][0] == "PR000030"){
+					answer3a = "CAD";
+				}
+				if(answer3[0][0] == "PR000017"){
+					answer3a = "Cinema 4D";
+				}
+				if(answer3[0][0] == "PR000018"){
+					answer3a = "Blender";
+				}
+				if(answer3[0][0] == "PR000019"){
+					answer3a = "3DS MAX";
+				}
+				if(answer3[0][0] == "PR000020"){
+					answer3a = "Web Publicing";
+				}
+				if(answer3[0][0] == "PR000021"){
+					answer3a = "Embedded";
+				}
+				if(answer3[0][0] == "PR000022"){
+					answer3a = "VSC";
+				}
+				if(answer3[0][0] == "PR000023"){
+					answer3a = "Premiere Pro";
+				}
+				if(answer3[0][0] == "PR000024"){
+					answer3a = "DaVinci Resolve";
+				}
+				if(answer3[0][0] == "PR000025"){
+					answer3a = "PowerDirector";
+				}
+				if(answer3[0][0] == "PR000031"){
+					answer3a = "After Effect";
+				}
+				if(answer3[0][0] == "PR000026"){
+					answer3a = "Excel";
+				}
+				if(answer3[0][0] == "PR000027"){
+					answer3a = "CAPS CCTV";
+				}
+				if(answer3[0][0] == "PR000028"){
+					answer3a = "SAP ERP";
+				}
+			$("#answerCheck .modal-body").append("<p>이름 = " + answer3a + " / 비중 = " + answer3[0][1] + "</p>");
+		}
+		if(sessionStorage.getItem("data-3")){
+			let answer4 = JSON.parse(sessionStorage.getItem("data-3"));
+			$("#answerCheck .modal-body").append("<p>질문 4 : 발열(" + answer4[0]  + "), 소재(" + answer4[1] + "), AS(" + answer4[2] + "), 소음(" + answer4[3] + "), 안정성(" + answer4[4] + "), QC(" + answer4[5] + "</p>");
+		}
+		if(sessionStorage.getItem("data-4")){
+			if(sessionStorage.getItem("data-4") == 0) {
+				$("#answerCheck .modal-body").append("<p>질문 5(블루투스) : 필요합니다</p>");
+			}else if(sessionStorage.getItem("data-4") == 1){
+				$("#answerCheck .modal-body").append("<p>질문 5(블루투스) : 필요없습니다</p>");
+			}
+		}
+
+		if(sessionStorage.getItem("data-5")){
+			if(sessionStorage.getItem("data-5") == 0) {
+				$("#answerCheck .modal-body").append("<p>질문 6(CPU) : Intel</p>");
+			}else if(sessionStorage.getItem("data-5") == 1){
+				$("#answerCheck .modal-body").append("<p>질문 6(CPU) : AMD</p>");
+			}else if(sessionStorage.getItem("data-5") == 2){
+				$("#answerCheck .modal-body").append("<p>질문 6(CPU) : 상관없음</p>");
+			}
+		}
+
+		if(sessionStorage.getItem("data-6")){
+			if(sessionStorage.getItem("data-6") == 0) {
+				$("#answerCheck .modal-body").append("<p>질문 7(내장그래픽) : 필요합니다</p>");
+			}else if(sessionStorage.getItem("data-6") == 1){
+				$("#answerCheck .modal-body").append("<p>질문 7(내장그래픽) : 필요없습니다</p>");
+			}else if(sessionStorage.getItem("data-6") == 2){
+				$("#answerCheck .modal-body").append("<p>질문 7(내장그래픽) : 상관없음</p>");
+			}
+		}
+
+		if(sessionStorage.getItem("data-7")){
+			if(sessionStorage.getItem("data-7") == 0) {
+				$("#answerCheck .modal-body").append("<p>질문 8(수냉쿨러) : 선호</p>");
+			}else if(sessionStorage.getItem("data-7") == 1){
+				$("#answerCheck .modal-body").append("<p>질문 8(수냉쿨러) : 비선호</p>");
+			}else if(sessionStorage.getItem("data-7") == 2){
+				$("#answerCheck .modal-body").append("<p>질문 8(수냉쿨러) : 상관없음</p>");
+			}
+		}
+
+		if(sessionStorage.getItem("data-9")){
+			if(sessionStorage.getItem("data-9") == 0) {
+				$("#answerCheck .modal-body").append("<p>질문 10(램) : DDR4</p>");
+			}else if(sessionStorage.getItem("data-9") == 1){
+				$("#answerCheck .modal-body").append("<p>질문 10(램) : DDR5</p>");
+			}else if(sessionStorage.getItem("data-9") == 2){
+				$("#answerCheck .modal-body").append("<p>질문 10(램) : 상관없음</p>");
+			}
+		}
+
+		if(sessionStorage.getItem("data-10")){
+			if(sessionStorage.getItem("data-10") == 0) {
+				$("#answerCheck .modal-body").append("<p>질문 11 : 벌크</p>");
+			}else if(sessionStorage.getItem("data-10") == 1){
+				$("#answerCheck .modal-body").append("<p>질문 11 : 멀티팩</p>");
+			}else if(sessionStorage.getItem("data-10") == 2){
+				$("#answerCheck .modal-body").append("<p>질문 11 : 둘다 좋음</p>");
+			}else if(sessionStorage.getItem("data-10") == 3){
+				$("#answerCheck .modal-body").append("<p>질문 11 : 둘다 싫음</p>");
+			}
+		}
+
+		if(sessionStorage.getItem("data-11")){
+			if(sessionStorage.getItem("data-11") == 0) {
+				$("#answerCheck .modal-body").append("<p>질문 12(SSD) : 예산에 맞게</p>");
+			}else if(sessionStorage.getItem("data-11") == 1){
+				$("#answerCheck .modal-body").append("<p>질문 12(SSD) : 256GB</p>");
+			}else if(sessionStorage.getItem("data-11") == 2){
+				$("#answerCheck .modal-body").append("<p>질문 12(SSD) : 512GB</p>");
+			}else if(sessionStorage.getItem("data-11") == 3){
+				$("#answerCheck .modal-body").append("<p>질문 12(SSD) : 1024GB</p>");
+			}else if(sessionStorage.getItem("data-11") == 4){
+				$("#answerCheck .modal-body").append("<p>질문 12(SSD) : 2048GB</p>");
+			}
+		}
 	}
 </script>
 </head>
@@ -425,6 +748,7 @@
 											<h4 class="card-title position-relative result-index">제품 상세 정보</h4>
 										</div>
 										<div class="col d-flex gap-2 justify-content-end">
+											<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#answerCheck">질문 확인</button>
 											<div class="dropdown">
 												<!-- data-bs-toggle="dropdown" -->
 												<button class="btn btn-secondary dropdown-toggle change-ram-btn" type="button" aria-expanded="false" onclick="javascript:alert('준비중입니다')">
@@ -565,7 +889,7 @@
 		</div>
 		<!-- 질문답변 확인용 모달 -->
 		<div class="modal fade" id="answerCheck" tabindex="-1" data-bs-keyboard="true" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-dialog modal-dialog-centered modal-lg">
 				<div class="modal-content">
 					<div class="modal-header">
 						<h1 class="modal-title fs-5">질문 답변확인</h1>

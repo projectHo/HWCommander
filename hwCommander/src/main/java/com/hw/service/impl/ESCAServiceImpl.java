@@ -1835,7 +1835,7 @@ public class ESCAServiceImpl implements ESCAService {
 			psuGBigDecimalArray[184] = new BigDecimal("3300");
 			psuGBigDecimalArray[400] = new BigDecimal("7050");
 
-			int[] psuGValues = {1, 330, 390, 1095, 1245, 1260, 1290, 1305, 1320, 1320, 1335, 1350, 1365, 1380, 1410, 1425, 1440, 1470, 1590, 1980, 2070, 2130, 2400, 2730, 3300, 7050};
+			int[] psuGValues = {1, 330, 390, 1095, 1245, 1260, 1290, 1305, 1320, 1335, 1350, 1365, 1380, 1410, 1425, 1440, 1470, 1590, 1980, 2070, 2130, 2400, 2730, 3300, 7050};
 			int[] psuGIndexes = {0, 22, 26, 29, 35, 44, 52, 58, 59, 66, 69, 70, 71, 80, 88, 91, 92, 118, 132, 138, 142, 160, 182, 184, 400};
 			for (int j = 0; j < psuGIndexes.length - 1; j++) {
 				int startIndex = psuGIndexes[j];
@@ -1881,7 +1881,7 @@ public class ESCAServiceImpl implements ESCAService {
 			psuHBigDecimalArray[184] = new BigDecimal("920");
 			psuHBigDecimalArray[400] = new BigDecimal("3000");
 
-			int[] psuHValues = {1, 110, 260, 265, 275, 280, 285, 295, 300, 330, 380, 385, 390, 420, 450, 455, 460, 465, 660, 670, 740, 745, 745, 755, 920, 3000};
+			int[] psuHValues = {1, 110, 260, 265, 275, 280, 285, 295, 300, 330, 380, 385, 390, 420, 450, 455, 460, 465, 660, 670, 740, 745, 755, 920, 3000};
 			int[] psuHIndexes = {0, 22, 26, 29, 35, 44, 52, 58, 59, 66, 69, 70, 71, 80, 88, 91, 92, 118, 132, 138, 142, 160, 182, 184, 400};
 			for (int j = 0; j < psuHIndexes.length - 1; j++) {
 				int startIndex = psuHIndexes[j];
@@ -1999,6 +1999,7 @@ public class ESCAServiceImpl implements ESCAService {
 						.multiply(calculation2);
 				
 				partsPsuHistoryVO.setPsuValue(calculation10);
+				
 			}
 			
 			/*--------------------------------------------------
@@ -2380,7 +2381,8 @@ public class ESCAServiceImpl implements ESCAService {
 				calculation9 = GC.multiply(new BigDecimal("0.001245"))
 						.multiply(BASIC)
 						.multiply(calculation8)
-						.multiply(calculation2);
+						.multiply(calculation2)
+						.setScale(6, BigDecimal.ROUND_HALF_UP);
 
 				partsSsdHistoryVO.setSsdValue(calculation9);
 			}
@@ -3064,6 +3066,7 @@ public class ESCAServiceImpl implements ESCAService {
 				}
 
 				//BIOS 배열 데이터 작성
+				
 				BigDecimal[] mbHBigDecimalArray = new BigDecimal[401];
 
 				for(int i = 0; i < mbHBigDecimalArray.length; i++){
@@ -3108,7 +3111,6 @@ public class ESCAServiceImpl implements ESCAService {
 						mbHBigDecimalArray[i] = startValue.add(increment.multiply(new BigDecimal(i - startIndex)));
 					}
 				}
-				
 				for(int mb = 0; mb < partsMbHistoryVOList.size(); mb++) {
 					PartsMbHistoryVO partsMbHistoryVO = partsMbHistoryVOList.get(mb);
 					BigDecimal mbValue = BigDecimal.ZERO;
@@ -4334,14 +4336,7 @@ public class ESCAServiceImpl implements ESCAService {
 													.add(resultVO.getRamValue())
 													.add(resultVO.getSsdValue())
 											);
-											System.out.println(resultVO.getGpuId() + " : " + resultVO.getGpuValue());
-											System.out.println(resultVO.getCpuId() + " : " + resultVO.getCpuValue());
-											System.out.println(resultVO.getMbId() + " : " + resultVO.getMbValue());
-											System.out.println(resultVO.getCoolerId() + " : " + resultVO.getCoolerValue());
-											System.out.println(resultVO.getCaseId() + " : " + resultVO.getCaseValue());
-											System.out.println(resultVO.getPsuId() + " : " + resultVO.getPsuValue());
-											System.out.println(resultVO.getRamId() + " : " + resultVO.getRamValue());
-											System.out.println(resultVO.getSsdId() + " : " + resultVO.getSsdValue());
+											
 											ω.add(resultVO);
 										}
 										
