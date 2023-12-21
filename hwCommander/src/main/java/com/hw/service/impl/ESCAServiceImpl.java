@@ -1952,10 +1952,10 @@ public class ESCAServiceImpl implements ESCAService {
 				BigDecimal PSUCV =  new BigDecimal(Math.sqrt(psuThree.doubleValue())).subtract(new BigDecimal("4.68861436726927")).divide(BigDecimal.valueOf(100)).setScale(8, BigDecimal.ROUND_HALF_UP);// 보정수치
 				
 				// 23.12.18 가성비 제품 선택 시 과도한 PSU제품 선택에 의한 밸류 기본값 조정 - 임시방편으로 수행됨. 추후 뻥파워 이슈 제품을 거를 방법 선정해야함.
-				BigDecimal customCheck = CMT.add(CSFT).add(CAS);
-				if(customCheck.compareTo(BigDecimal.ZERO) == 0) {
-					PFM = BigDecimal.ZERO;
-				}
+				// BigDecimal customCheck = CMT.add(CSFT).add(CAS);
+				// if(customCheck.compareTo(BigDecimal.ZERO) == 0) {
+				// 	PFM = BigDecimal.ZERO;
+				// }
 				
 				BigDecimal calculation1 = BigDecimal.ZERO;
 				BigDecimal calculation2 = BigDecimal.ZERO;
@@ -2353,10 +2353,10 @@ public class ESCAServiceImpl implements ESCAService {
 				BigDecimal calculation9 = BigDecimal.ZERO;
 				
 				// 23.12.18 가성비 제품 선택 시 과도한 PSU제품 선택에 의한 밸류 기본값 조정 - 임시방편으로 수행됨. 추후 뻥파워 이슈 제품을 거를 방법 선정해야함.
-				BigDecimal customCheck = CMT.add(CSFT).add(CAS);
-				if(customCheck.compareTo(BigDecimal.ZERO) == 0) {
-					BASIC = BigDecimal.ZERO;
-				}
+				// BigDecimal customCheck = CMT.add(CSFT).add(CAS);
+				// if(customCheck.compareTo(BigDecimal.ZERO) == 0) {
+				// 	BASIC = BigDecimal.ZERO;
+				// }
 				
 				calculation1 = QC.multiply(CQC).multiply(new BigDecimal("0.1"));
 				calculation2 = new BigDecimal("1").subtract(calculation1);

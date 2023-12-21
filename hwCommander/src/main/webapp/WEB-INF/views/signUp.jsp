@@ -27,6 +27,7 @@
 var targetId = null;
 
     $(function() {
+		alert("전체 약관을 확인 하신 후 동의가 가능합니다.");
 		$('#btn_signUp').on("click", function () {
         	if(!validationCheck()) {
         		return false;
@@ -240,7 +241,6 @@ function idDupliChk(id) {
 function findDaumAddr() {
 	new daum.Postcode({
         oncomplete: function(data) {
-        	console.log(data);
         	
             $("#zipcode").val(data.zonecode);
             $("#jibunAddr").val(data.jibunAddress);
