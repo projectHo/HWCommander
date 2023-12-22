@@ -7,10 +7,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Bootstrap CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 <link rel="stylesheet" href="/resources/css/main.css">
+<link rel="stylesheet" href="/resources/css/login.css">
 <link rel="stylesheet" href="/resources/css/estimateCalculationOneCss.css" />
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 <script>
 
     $(function() {
@@ -80,26 +81,33 @@ function comnOnKeyUp() {
 	<div class="basic_background w-100">
 		<div class="d-flex">
 			<!-- 빈 영역 -->
-			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
-			<div class="" style="width: 70%!important;">
-				<div class="estimateCalc_background p-5 mb-5">
+			<div class="justify-content-start login-empty-space"></div>
+			<div class="container">
+				<div class="estimateCalc_background pt-3 pb-3 mb-5">
 					<div class="container">
 						<form id="login_form">
-							<div class="form-floating mb-3 col-6 mx-auto mt-5">
+							<div class="form-floating mb-3 col-6 mx-auto mt-5 login-input">
 								<input type="text" class="form-control" id="id" name="id" onkeyup="javascript:comnOnKeyUp()">
 								<label for="floatingInput">ID</label>
 							</div>
-							<div class="form-floating mb-5 col-6 mx-auto">
+							<div class="form-floating mb-5 col-6 mx-auto login-input">
 								<input type="password" class="form-control" id="pw" name="pw" onkeyup="javascript:comnOnKeyUp()">
 								<label for="floatingPassword">Password</label>
 							</div>
-							<div class="d-grid gap-2 mb-3 col-6 mx-auto">
+							<div class="d-grid gap-2 pb-3 col-6 mx-auto login-btn">
 								<button class="btn btn-outline-secondary btn-lg" type="button" onclick="javascript:login()">Login</button>
 							</div>
-							<div class="d-flex justify-content-center mb-2">
+							<!-- 모바일 -->
+							<div class="gap-2 mb-3 col-6 mx-auto login-display-mobile">
+								<a class="btn btn-primary btn-md" href="/user/signUp.do">회원가입</a>
+								<a class="btn btn-outline-secondary btn-md" href="javascript:alert('준비중')">아이디 찾기</a>
+								<a class="btn btn-outline-secondary btn-md" href="javascript:alert('준비중')">비밀번호 찾기</a>
+							</div>
+							<!-- 웹 -->
+							<div class="justify-content-center mb-2 login-display-web">
 								<nav class="navbar navbar-expand-md">
 									<div class="container-fluid">
-										<div class="collapse navbar-collapse">
+										<div>
 											<div class="navbar-nav">
 												<a class="nav-link" href="/user/signUp.do">회원가입</a>
 												<span class="navbar-text">|</span>
@@ -116,7 +124,7 @@ function comnOnKeyUp() {
 				</div>
 			</div>
 			<!-- 빈 영역 -->
-			<div class="justify-content-end" style="width: 15%!important;"></div>
+			<div class="justify-content-end login-empty-space"></div>
 		</div>
 	</div>
 	

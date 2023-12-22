@@ -152,14 +152,7 @@ body {
   height: 100%;
 }
 
-.main-video-one {
-  position: absolute;
-  left: -0.1%;
-}
-.main-video-two {
-  position: absolute;
-  right: -0.1%;
-}
+
 .banpum-mall-video-one {
   position: absolute;
   right: 10%;
@@ -208,6 +201,43 @@ body {
   }
   .tooltip-inner {
     font-size: 24px;
+  }
+}
+
+@media (min-width: 280px){
+  .main-video-one {
+    position: absolute;
+    object-fit: fill!important;
+    width: 101%;
+    height: 50%;
+    left: 0;
+    top: 0;
+  }
+  .main-video-two {
+    position: absolute;
+    object-fit: fill!important;
+    width: 101%;
+    height: 50%;
+    bottom: 0;
+  }
+}
+
+@media (min-width: 717px){
+  .main-video-one {
+    width: 60%;
+    height: 100%;
+    left: 0%;
+  }
+  .main-video-two {
+    width: 50%;
+    height: 100%;
+    right: -0.1%;
+  }
+}
+
+@media (min-width: 1920px){
+  .main-video-one {
+    left: -0.1%;
   }
 }
 

@@ -1,0 +1,35 @@
+@media (min-width: 280px){
+    .login-empty-space {
+        width: 5%;
+    }
+}
+
+@media (max-width: 767px){
+    .login-input {
+        width: 100%!important;
+    }
+    .login-btn {
+        width: 100%!important;
+        border-bottom: 1px solid black;
+        padding-bottom: 1rem!important;
+    }
+    .login-display-mobile {
+        width: 100%!important;
+        display: grid!important;
+        padding-top: 1rem!important;
+    }
+    .login-display-web {
+        display: none!important;
+    }
+}
+@media (min-width: 768px){
+    .login-empty-space {
+        width: 15%;
+    }
+    .login-display-mobile {
+        display: none!important;
+    }
+    .login-display-web {
+        display: flex!important;
+    }
+}

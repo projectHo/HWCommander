@@ -201,10 +201,10 @@
 	<div class="basic_background w-100">
 		<div class="d-flex">
 			<!-- 빈 영역 -->
-			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
+			<div class="h-25 justify-content-start esca-empty-space"></div>
 			<!-- 작업영역 -->
-			<div class="estimateCalc_background p-5" style="width: 70% !important">
-				<div class="w-75 container">
+			<div class="estimateCalc_background pt-3 pb-3 container">
+				<div class="container">
 					<div class="row mt-2 pb-4">
 						<div class="col-md-2"></div>
 						<div class="col-md-8 d-flex p-2">
@@ -212,7 +212,7 @@
 						</div>
 						<div class="col-md-2"></div>
 					</div>
-				   <div class="row pb-3">
+				   <div class="row pb-3 gap-2">
 					   <div class="col-md d-flex justify-content-center">
 						   <input type="radio" class="btn-check" name="btnradio" id="answer-a">
 						   <label class="btn btn-outline-secondary w-75" for="answer-a" onclick="javascript:clickAnswerBtn(this)" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="처음 이용하시거나 과거 견적산출이 필요 없으신 경우 새로 진행합니다."><p class="pt-2 m-0">최신 버전</p></label>
@@ -226,7 +226,7 @@
 	 		</div>
 			
 			<!-- 빈 영역 -->
-			<div class="justify-content-end" style="width: 15%!important;"></div>
+			<div class="justify-content-end esca-empty-space"></div>
 		</div>
 		
 		<!-- 2022.11.16 디자인이미지 추가 -->

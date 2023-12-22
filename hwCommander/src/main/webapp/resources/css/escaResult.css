@@ -1,0 +1,15 @@
+@media (min-width: 280px){
+    .escaResult-empty-space {
+        width: 5%!important;
+    }
+}
+@media (max-width: 767px){
+    .escaResult-empty-space {
+        width: 5%!important;
+    }
+}
+@media (min-width: 768px){
+    .escaResult-empty-space {
+        width: 15%!important;
+    }
+}

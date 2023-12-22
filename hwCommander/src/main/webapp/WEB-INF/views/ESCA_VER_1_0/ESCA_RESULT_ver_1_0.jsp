@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="/resources/css/main.css">
 <link rel="stylesheet" href="/resources/css/estimateCalculationOneCss.css" />
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
-
+<link rel="stylesheet" href="/resources/css/escaResult.css">
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
@@ -711,10 +711,10 @@
 	<div class="basic_background w-100">
 		<div class="d-flex">
 			<!-- 빈 영역 -->
-			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
+			<div class="justify-content-start escaResult-empty-space"></div>
 			<!-- 작업영역 -->
 			<div id="capturedImage"></div>
-			<div class="estimateCalc_background p-5" id="capture-container" style="width: 70% !important">
+			<div class="estimateCalc_background pt-3 pb-3 container" id="capture-container">
 				<div class="row">
 					<div class="row w-100">
 						<div class="col-md-2">
@@ -836,7 +836,7 @@
 				</div>
 			</div>
 			<!-- 빈 영역 -->
-			<div class="justify-content-end" style="width: 15%!important;"></div>
+			<div class="justify-content-end escaResult-empty-space"></div>
 		</div>
 		<!-- 주문 수량 모달 -->
 		<div class="modal fade" id="orderCheck" tabindex="-1" data-bs-keyboard="false" aria-hidden="true">

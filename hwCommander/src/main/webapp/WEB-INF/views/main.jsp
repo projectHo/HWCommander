@@ -195,7 +195,7 @@
         <!-- 비로그인 퀵메뉴 -->
         <c:if test="${loginUser == null}">
           <ul class="list-group list-group-flush bg-none quick">
-            <li class="list-group-item bg-transparent p-4 pt-3 fixed-top text-start pb-1"><h2>MENU</h2></li>
+            <li class="list-group-item bg-transparent p-4 pt-3 fixed-top text-start pb-1"><h2>메뉴</h2></li>
             <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goEscaBtn()">견적산출</li>
             <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goEventMallBtn()">이벤트몰</li>
             
@@ -208,7 +208,7 @@
         <!-- 고객 로그인 퀵메뉴 -->
         <c:if test="${loginUser != null && loginUser.mailConfirm == 'Y' && loginUser.userTypeCd == '02'}">
           <ul class="list-group list-group-flush bg-none">
-            <li class="list-group-item bg-transparent p-4 pt-3 fixed-top text-start pb-1"><h2>MENU</h2></li>
+            <li class="list-group-item bg-transparent p-4 pt-3 fixed-top text-start pb-1"><h2>메뉴</h2></li>
             <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goEscaBtn()">견적산출</li>
             <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goStorageBtn()">견적 저장소</li>
             <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goEventMallBtn()">이벤트몰</li>
@@ -222,7 +222,7 @@
         <!-- 관리자 로그인 퀵메뉴 -->
         <c:if test="${loginUser != null && loginUser.userTypeCd == '01'}">
           <ul class="list-group list-group-flush bg-none">
-            <li class="list-group-item bg-transparent p-4 pt-3 fixed-top text-start pb-1"><h2>MENU</h2></li>
+            <li class="list-group-item bg-transparent p-4 pt-3 fixed-top text-start pb-1"><h2>메뉴</h2></li>
             <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goAdminBtn()">AdminPage</li>
           </ul>
           <ul class="list-group list-group-flush flex-row bg-none fixed-bottom">
