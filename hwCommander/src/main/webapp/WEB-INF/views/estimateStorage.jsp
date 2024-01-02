@@ -8,6 +8,7 @@
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 <link rel="stylesheet" href="/resources/css/main.css">
+<link rel="stylesheet" href="/resources/css/escaStorage.css">
 <link rel="stylesheet" href="/resources/css/estimateCalculationOneCss.css" />
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 
@@ -69,33 +70,33 @@
 	<div class="basic_background w-100">
 		<div class="d-flex">
 			<!-- 빈 영역 -->
-			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
+			<div class="h-25 justify-content-start esca-storage-empty-space"></div>
 			<!-- 작업영역 -->
-			<div class="estimateCalc_background p-5" style="width: 70% !important">
-				<h1 class="d-flex justify-content-center mb-2">견적 저장소</h1>
-				<h5 class="d-flex justify-content-center mb-5">※ 저장은 총 50개까지 가능합니다.</h5>
+			<div class="estimateCalc_background esca-storage-main">
+				<h1 class="d-flex justify-content-center mb-2 fw-bold">견적 저장소</h1>
+				<h6 class="d-flex justify-content-center mb-5">※ 저장은 총 50개까지 가능합니다.</h6>
 				<table class="table table-hover">
 					<thead>
 						<tr>
-							<th scope="col" class="col-2 border-end">번호 / 버전</th>
-							<th scope="col" class="col-8 border-end">견적 이름</th>
-							<th scope="col" class="col-2">선택</th>
+							<th scope="col" class="col-md-2 border-end">번호 / 버전</th>
+							<th scope="col" class="col-md-8 border-end">견적 이름</th>
+							<th scope="col" class="col-md-2">선택</th>
 						</tr>
 					</thead>
 					<tbody>
 						<c:forEach var="item" items="${userEscasStorageVOList}">
 							<tr param="${item.escasUrlParameter}">
 								<th scope="row" class="border-end pt-4 seq" name="${item.seq}">
-									 ${item.seq} / ver : ${item.escasLogicVersion}
+										${item.seq} / 1.0
 								</th>
 								<td id="description" class="border-end" name="${item.escasStorageDescription}">
 									${item.escasStorageDescription}
 								</td>
-								<td class="d-flex gap-2">
-									<button class="btn btn-outline-primary w-50" onclick="clickEscaBtn(this)">
+								<td class="d-flex justify-content-center gap-2">
+									<button class="btn btn-outline-primary esca-storage-btns" onclick="clickEscaBtn(this)">
 										견적산출
 									</button>
-									<button class="btn btn-outline-danger w-50" onclick="clickEscaDeleteBtn(this)">
+									<button class="btn btn-outline-danger esca-storage-btns" onclick="clickEscaDeleteBtn(this)">
 										삭제
 									</button>
 								</td>
@@ -106,7 +107,7 @@
 	 		</div>
 			
 			<!-- 빈 영역 -->
-			<div class="justify-content-end" style="width: 15%!important;"></div>
+			<div class="justify-content-end esca-storage-empty-space"></div>
 		</div>
 		
 		<!-- 2022.11.16 디자인이미지 추가 -->

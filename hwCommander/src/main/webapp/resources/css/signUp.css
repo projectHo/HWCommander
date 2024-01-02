@@ -1,0 +1,31 @@
+@media (min-width: 280px){
+    .sign-up-empty-space{
+        width: 3%!important;
+    }
+    .sign-up-main {
+        width: 94%!important;
+        padding: 0.5rem!important;
+    }
+    .sign-up-container {
+        width: 100%!important;
+    }
+    .sign-up-inputs {
+        width: 100%!important;
+    }
+}
+
+@media (min-width: 1440px){
+    .sign-up-empty-space{
+        width: 15%!important;
+    }
+    .sign-up-main {
+        width: 70%!important;
+        padding: 3rem!important;
+    }
+    .sign-up-container {
+        width: 75%!important;
+    }
+    .sign-up-inputs {
+        width: 50%!important;
+    }
+}

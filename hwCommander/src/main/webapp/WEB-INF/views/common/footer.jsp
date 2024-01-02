@@ -69,10 +69,10 @@
 							<p class="fs-6" style="margin-bottom:0;important;">모든 상품은 현우의 컴퓨터 공방에서 책임지고 있습니다.</p>
 						</div>
 						<div class="d-flex justify-content-center">
-							<p class="fs-6" style="margin-bottom:0;important;">*민원 담당자 강현우 / 연락처 010-7625-0478</p>
+							<p class="fs-6" style="margin-bottom:0;important;">*민원 담당자 이해창 / 연락처 010-7625-0478</p>
 						</div>
 					</div>
-					<div class="col">
+					<div class="col-md">
 						<nav class="nav flex-column">
 						  <h4><b>현우의 컴퓨터 공방</b></h4>
 						  <a class="nav-link disabled text-dark" href="#">대표 : 이해창 | tel. 010-7625-0478</a>

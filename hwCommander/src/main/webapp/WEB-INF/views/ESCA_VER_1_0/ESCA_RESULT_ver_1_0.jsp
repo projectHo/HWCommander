@@ -715,7 +715,7 @@
 			<!-- 작업영역 -->
 			<div id="capturedImage"></div>
 			<div class="estimateCalc_background pt-3 pb-3 container" id="capture-container">
-				<div class="row">
+				<div class="row justify-content-center">
 					<div class="row w-100">
 						<div class="col-md-2">
 							<div class="input-group mb-3 w-100">
@@ -724,13 +724,13 @@
 						</div>
 						<div class="col"></div>
 						<div class="col-md-2">
-							<div class="input-group w-100" style="display: none;">
+							<div class="input-group w-100 result-inputs" style="display: none;">
 								<input type="text" class="form-control pb-0 ps-3 w-100" id="recommender-input" value="추천인 : 오류" style="background-color: #fff;" disabled>
 							</div>
 						</div>
 						<div class="col-md-3">
-							<div class="input-group w-100">
-								<input type="text" class="form-control pb-0 ps-3 text-center" id="date-input"aria-label="Text input with checkbox" value="Date : 0000-00-00" style="background-color: #fff;" disabled>
+							<div class="input-group w-100 result-inputs">
+								<input type="text" class="form-control pb-0 ps-3" id="date-input"aria-label="Text input with checkbox" value="Date : 0000-00-00" style="background-color: #fff;" disabled>
 							</div>
 						</div>
 					</div>
@@ -744,11 +744,11 @@
 							  <div class="col-md-8">
 								<div class="card-body">
 									<div class="row">
-										<div class="col">
+										<div class="col-md">
 											<h4 class="card-title position-relative result-index">제품 상세 정보</h4>
 										</div>
-										<div class="col d-flex gap-2 justify-content-end">
-											<button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#answerCheck">질문 확인</button>
+										<div class="col-md d-md-flex gap-2 justify-content-end">
+											<!-- <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#answerCheck">질문 확인</button> -->
 											<div class="dropdown">
 												<!-- data-bs-toggle="dropdown" -->
 												<button class="btn btn-secondary dropdown-toggle change-ram-btn" type="button" aria-expanded="false" onclick="javascript:alert('준비중입니다')">
@@ -798,22 +798,22 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col">
+					<div class="col-md result-buttom-btns result-ret-btn">
 						<button type="button" class="form-control" onclick="javascript:clickReturnBtn()">다시하기</button>
 					</div>
-					<div class="col-3"></div>
-					<div class="col">
+					<div class="col-md-3 result-buttom-btns"></div>
+					<div class="col-md result-buttom-btns">
 						<c:if test="${productMaster.productQty > 1}">
-							<button type="button" class="form-control" data-bs-toggle="modal" data-bs-target="#orderCheck">주문하기</button>
+							<button type="button" class="form-control btn btn-primary" data-bs-toggle="modal" data-bs-target="#orderCheck">주문하기</button>
 						</c:if>
 						<c:if test="${productMaster.productQty == 1}">
-							<button type="button" class="form-control" data-bs-toggle="modal" data-bs-target="#orderBoxCheck">주문하기</button>
+							<button type="button" class="form-control btn btn-primary" data-bs-toggle="modal" data-bs-target="#orderBoxCheck">주문하기</button>
 						</c:if>
 					</div>
-					<div class="col">
+					<div class="col-md result-buttom-btns">
 						<button type="button" class="form-control" onclick="javascript:clickCaptureBtn()">캡쳐하기</button>
 					</div>
-					<div class="col">
+					<div class="col-md result-buttom-btns">
 						<button type="button" class="form-control" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="질문에 대한 답변들을 저장합니다. 추후 견적 산출시 현재 견적과 다를 수 있으니 참고 부탁드립니다!!" onclick="javascript:clickSaveBtn()">질문저장</button>
 					</div>
 				</div>

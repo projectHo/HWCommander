@@ -150,24 +150,32 @@
 	// 질문 페이지 별 이벤트들
 	// 1번질문
 	function questionOneBtns(el){
-		if($(el).attr("val") == "1"){
-			sessionStorage.setItem("data-0",0);
-			$(".q1-badge").html("OS : 프리도스");
-		}else if($(el).attr("val") == "2"){
-			sessionStorage.setItem("data-0",1);
-			$(".q1-badge").html("OS : COEM");
+		if($(el).prev().prop("checked")){
+			setTimeout(() => {
+				$(el).prev().prop("checked",false);
+			}, 100);
+			$(".q1-badge").html("").attr('bool',"0");
+			sessionStorage.setItem("data-0","");
 		}else {
-			sessionStorage.setItem("data-0",2);
-			$(".q1-badge").html("OS : Fpp");
+			if($(el).attr("val") == "1"){
+				sessionStorage.setItem("data-0",0);
+				$(".q1-badge").html("OS : 프리도스");
+			}else if($(el).attr("val") == "2"){
+				sessionStorage.setItem("data-0",1);
+				$(".q1-badge").html("OS : COEM");
+			}else {
+				sessionStorage.setItem("data-0",2);
+				$(".q1-badge").html("OS : Fpp");
+			}
+			$(".q1-badge").attr("bool","1");
 		}
-		$(".q1-badge").attr("bool","1");
 	}
 
 	// 2번질문
 	function questionTwoBtns(el){
 		const chkNum = /[0-9]/;
 		if (!$(el).val()){
-			$(".q2-badge").html("Price : " + $(el).val()).attr("bool","0");	
+			$(".q2-badge").html("").attr("bool","0");	
 		}else if($(el).val() < 0){
 			alert("0원 이상으로 입력해주세요~");
 			$(el).val("");
@@ -207,7 +215,6 @@
 
 		let isDuplicate = false;
 		if($(".q3-table").css("display") == "table"){
-			console.log("11")
 			for(let i = 0 ; i < $("#q3-tbody").children().length ; i++){
 				let findedId = $("#q3-tbody").children().eq(i).find("td").attr("id");
 				if(q3ModalElem.q3ModalId != findedId){
@@ -241,7 +248,6 @@
 			for(let i = 0 ; i < $("#q3-tbody").children().length ; i++){
 				let findedId = $("#q3-tbody").children().eq(i).find("td").attr("id");
 				q3TbodyIds.push(findedId);
-				console.log(q3TbodyIds);
 			}
 			let filteredQ3List = [];
 
@@ -252,7 +258,6 @@
 			}
 			savedQ3List = filteredQ3List;
 
-			console.log(savedQ3List);
 		}
 	}
 	let savedQ3List = [];
@@ -657,73 +662,92 @@
 			hexInputs[i].value = "1.00";
 		}
 		hexagonType();
+		$(".q4-badge").html("");
+		sessionStorage.setItem("data-3","");
 	}
 
 	// 5번질문
-	let q5Answers = 0;
 	function questionFiveBtn(el){
-		if($(el).children().html() == "필요합니다"){
-			// q5Answers = 0;
-			sessionStorage.setItem("data-4",0);
-			$(".q5-badge").html("Wifi : 필요");
+		if($(el).prev().prop("checked")){
+			setTimeout(() => {
+				$(el).prev().prop("checked",false);
+			}, 100);
+			sessionStorage.setItem("data-4","");
+			$(".q5-badge").html("");
+		}else {
+			if($(el).children().html() == "필요합니다"){
+				sessionStorage.setItem("data-4",0);
+				$(".q5-badge").html("Wifi : 필요");
 			}else {
-				// q5Answers = 1;
 				sessionStorage.setItem("data-4",1);
 				$(".q5-badge").html("Wifi : 불필요");
 			}
+		}
 	}
 
 	// 6번질문
-	let q6Answers = 0;
 	function questionSixBtn(el){
-		if($(el).children().html() == "Intel"){
-			// q6Answers = 0;
-			sessionStorage.setItem("data-5",0);
-			$(".q6-badge").html("CPU : Intel");
-		}else if ($(el).children().html() == "AMD") {
-			// q6Answers = 1;
-			sessionStorage.setItem("data-5",1);
-			$(".q6-badge").html("CPU : AMD");
+		if($(el).prev().prop("checked")){
+			setTimeout(() => {
+				$(el).prev().prop("checked",false);
+			}, 100);
+			sessionStorage.setItem("data-5","");
+			$(".q6-badge").html("");
 		}else {
-			// q6Answers = 2;
-			sessionStorage.setItem("data-5",2);
-			$(".q6-badge").html("CPU : 상관없음");
+			if($(el).children().html() == "Intel"){
+				sessionStorage.setItem("data-5",0);
+				$(".q6-badge").html("CPU : Intel");
+			}else if ($(el).children().html() == "AMD") {
+				sessionStorage.setItem("data-5",1);
+				$(".q6-badge").html("CPU : AMD");
+			}else {
+				sessionStorage.setItem("data-5",2);
+				$(".q6-badge").html("CPU : 상관없음");
+			}
 		}
 	}
 
 	// 7번질문
-	let q7Answers = 0;
 	function questionSevenBtn(el){
-		if($(el).children().html() == "필요합니다"){
-			// q7Answers = 0;
-			sessionStorage.setItem("data-6",0);
-			$(".q7-badge").html("GPU : 필요");
-		}else if ($(el).children().html() == "상관없음") {
-			// q7Answers = 1;
-			sessionStorage.setItem("data-6",2);
-			$(".q7-badge").html("GPU : 상관없음");
+		if($(el).prev().prop("checked")){
+			setTimeout(() => {
+				$(el).prev().prop("checked",false);
+			}, 100);
+			sessionStorage.setItem("data-6","");
+			$(".q7-badge").html("");
 		}else {
-			// q7Answers = 2;
-			sessionStorage.setItem("data-6",1);
-			$(".q7-badge").html("GPU : 불필요");
+			if($(el).children().html() == "필요합니다"){
+				sessionStorage.setItem("data-6",0);
+				$(".q7-badge").html("GPU : 필요");
+			}else if ($(el).children().html() == "상관없음") {
+				sessionStorage.setItem("data-6",2);
+				$(".q7-badge").html("GPU : 상관없음");
+			}else {
+				sessionStorage.setItem("data-6",1);
+				$(".q7-badge").html("GPU : 불필요");
+			}
 		}
 	}
 
 	// 8번질문
-	let q8Answers = 0;
 	function questionEightBtn(el){
-		if($(el).children().html() == "선호"){
-			// q8Answers = 0;
-			sessionStorage.setItem("data-7",0);
-			$(".q8-badge").html("Aio : 선호");
-		}else if ($(el).children().html() == "비선호") {
-			// q8Answers = 1;
-			sessionStorage.setItem("data-7",1);
-			$(".q8-badge").html("Aio : 비선호");
+		if($(el).prev().prop("checked")){
+			setTimeout(() => {
+				$(el).prev().prop("checked",false);
+			}, 100);
+			sessionStorage.setItem("data-7","");
+			$(".q8-badge").html("");
 		}else {
-			// q8Answers = 2;
-			sessionStorage.setItem("data-7",2);
-			$(".q8-badge").html("Aio : 무관");
+			if($(el).children().html() == "선호"){
+				sessionStorage.setItem("data-7",0);
+				$(".q8-badge").html("Aio : 선호");
+			}else if ($(el).children().html() == "비선호") {
+				sessionStorage.setItem("data-7",1);
+				$(".q8-badge").html("Aio : 비선호");
+			}else {
+				sessionStorage.setItem("data-7",2);
+				$(".q8-badge").html("Aio : 무관");
+			}
 		}
 	}
 
@@ -731,71 +755,81 @@
 	// 미구현
 
 	// 10번질문
-	let q10Answers = 0;
 	function questionTenBtn(el){
-		if($(el).children().html() == "DDR4"){
-			// q10Answers = 0;
-			sessionStorage.setItem("data-9",0);
-			$(".q10-badge").html("RAM : DDR4");
-		}else if ($(el).children().html() == "DDR5") {
-			// q10Answers = 1;
-			sessionStorage.setItem("data-9",1);
-			$(".q10-badge").html("RAM : DDR5");
+		if($(el).prev().prop("checked")){
+			setTimeout(() => {
+				$(el).prev().prop("checked",false);
+			}, 100);
+			sessionStorage.setItem("data-9","");
+			$(".q10-badge").html("");
 		}else {
-			// q10Answers = 2;
-			sessionStorage.setItem("data-9",2);
-			$(".q10-badge").html("RAM : 무관");
+			if($(el).children().html() == "DDR4"){
+				sessionStorage.setItem("data-9",0);
+				$(".q10-badge").html("RAM : DDR4");
+			}else if ($(el).children().html() == "DDR5") {
+				sessionStorage.setItem("data-9",1);
+				$(".q10-badge").html("RAM : DDR5");
+			}else {
+				sessionStorage.setItem("data-9",2);
+				$(".q10-badge").html("RAM : 무관");
+			}
 		}
 	}
 
 	// 11번질문
-	let q11Answers = 0;
 	function questionElevenBtn(el){
-		if($(el).children().html() == "벌크"){
-			// q11Answers = 0;
-			sessionStorage.setItem("data-10",0);
-			$(".q11-badge").html("Pack : Bulk");
-		}else if($(el).children().html() == "멀티팩") {
-			// q11Answers = 1;
-			sessionStorage.setItem("data-10",1);
-			$(".q11-badge").html("Pack : Multi");
-		}else if($(el).children().html() == "둘다 좋음"){
-			// q11Answers = 2;
-			sessionStorage.setItem("data-10",2);
-			$(".q11-badge").html("Pack : 무관");
+		if($(el).prev().prop("checked")){
+			setTimeout(() => {
+				$(el).prev().prop("checked",false);
+			}, 100);
+			sessionStorage.setItem("data-10","");
+			$(".q11-badge").html("");
 		}else {
-			// q11Answers = 3;
-			sessionStorage.setItem("data-10",3);
-			$(".q11-badge").html("Pack : 제외");
+			if($(el).children().html() == "벌크"){
+				sessionStorage.setItem("data-10",0);
+				$(".q11-badge").html("Pack : Bulk");
+			}else if($(el).children().html() == "멀티팩") {
+				sessionStorage.setItem("data-10",1);
+				$(".q11-badge").html("Pack : Multi");
+			}else if($(el).children().html() == "둘다 좋음"){
+				sessionStorage.setItem("data-10",2);
+				$(".q11-badge").html("Pack : 무관");
+			}else {
+				sessionStorage.setItem("data-10",3);
+				$(".q11-badge").html("Pack : 제외");
+			}
 		}
 	}
 
 	// 12번질문
-	let q12Answers = 0;
 	function questionTwelveBtn(el){
-		if($(el).children().html() == "예산에 맞게"){
-			// q12Answers = 0;
-			sessionStorage.setItem("data-11",0);
-			$(".q12-badge").html("SSD : 예산");
-		}else if($(el).children().html() == "256GB") {
-			// q12Answers = 1;
-			sessionStorage.setItem("data-11",1);
-			$(".q12-badge").html("SSD : 256GB");
-		}else if($(el).children().html() == "512GB"){
-			// q12Answers = 2;
-			sessionStorage.setItem("data-11",2);
-			$(".q12-badge").html("SSD : 512GB");
-		}else if($(el).children().html() == "1024GB(1TB)"){
-			// q12Answers = 3;
-			sessionStorage.setItem("data-11",3);
-			$(".q12-badge").html("SSD : 1024GB");
+		if($(el).prev().prop("checked")){
+			setTimeout(() => {
+				$(el).prev().prop("checked",false);
+			}, 100);
+			sessionStorage.setItem("data-11","");
+			$(".q12-badge").html("");
 		}else {
-			// q12Answers = 4;
-			sessionStorage.setItem("data-11",4);
-			$(".q12-badge").html("SSD : 2048GB");
+			if($(el).children().html() == "예산에 맞게"){
+				sessionStorage.setItem("data-11",0);
+				$(".q12-badge").html("SSD : 예산");
+			}else if($(el).children().html() == "256GB") {
+				sessionStorage.setItem("data-11",1);
+				$(".q12-badge").html("SSD : 256GB");
+			}else if($(el).children().html() == "512GB"){
+				sessionStorage.setItem("data-11",2);
+				$(".q12-badge").html("SSD : 512GB");
+			}else if($(el).children().html() == "1024GB(1TB)"){
+				sessionStorage.setItem("data-11",3);
+				$(".q12-badge").html("SSD : 1024GB");
+			}else {
+				sessionStorage.setItem("data-11",4);
+				$(".q12-badge").html("SSD : 2048GB");
+			}
 		}
 	}
 
+	// 이후 미구현
 	// 13번질문
 	let q13Answers = [];
 	function questionThirteenBtn(el){
@@ -1101,7 +1135,7 @@
 
 			<!-- ui 업데이트 시안 -->
 			<div class="container main-box">
-				<div class="d-flex mt-3 mb-5 rounded" id="wrapper">
+				<div class="mx-auto d-flex mt-3 mb-5 rounded" id="wrapper">
 					<!-- Sidebar-->
 					<div class="border-end bg-white" id="sidebar-wrapper">
 						<div class="sidebar-heading border-bottom bg-light ps-2">질문 목록</div>
@@ -1330,15 +1364,15 @@
 								<h3 class="mt-3">OS(윈도우) 라이센스가 필요하신가요?</h3>
 								<div class="mt-2 mb-5 row">
 									<div class="col-xxl-2 question-col-3">
-										<input type="radio" class="btn-check" name="btnradio" id="answer-a">
+										<input type="radio" class="btn-check q1-inputs" name="btnradio" id="answer-a">
 										<label class="btn btn-outline-secondary w-75" for="answer-a" val="1" qname="프리도스" onclick="javascript:questionOneBtns(this)" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Free Dos(OS 미설치) : 구매 후 바로 사용하실 수 없고 윈도우를 직접 설치하셔야 합니다. 최적화가 되어있지 않고, 드라이버가 담긴 USB를 제공합니다!"><p class="pt-2 m-0">프리도스</br>0원</p></label>
 									</div>
 									<div class="col-xxl-2 question-col-3">
-										<input type="radio" class="btn-check" name="btnradio" id="answer-b">
+										<input type="radio" class="btn-check q1-inputs" name="btnradio" id="answer-b">
 										<label class="btn btn-outline-secondary w-75" for="answer-b" val="2" qname="COEM" onclick="javascript:questionOneBtns(this)" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="COEM(메인보드 귀속형) : 최적화 작업을 무상 진행합니다. 윈도우는 해당 PC를 폐기하거나 메인보드의 수명이 다하거나 당사 귀책 외의 사항으로 교체 시 라이선스를 재구매하셔야 합니다!"><p class="pt-2 m-0">COEM</br>150,000원</p></label>
 									</div>
 									<div class="col-xxl-2 question-col-3">
-										<input type="radio" class="btn-check" name="btnradio" id="answer-c">
+										<input type="radio" class="btn-check q1-inputs" name="btnradio" id="answer-c">
 										<label class="btn btn-outline-secondary w-75" for="answer-c" val="3" qname="FPP" onclick="javascript:questionOneBtns(this)" data-bs-toggle="tooltip" data-bs-placement="bottom" data-bs-title="Fpp(라이센스 구매형) : 최적화 작업을 무상 진행합니다. 윈도우는 해당 PC를 폐기하거나 교체 할 경우 라이센스를 유지하고 다른 PC로 이전 가능합니다."><p class="pt-2 m-0">Fpp</br>180,000원</p></label>
 									</div>
 									<div class="col-md-6"></div>
@@ -1354,7 +1388,7 @@
 									<!-- <button class="btn btn-primary q2-save-btn" onclick="javascript:questionTwoSaveBtn()">저장</button> -->
 								</h2>
 								<h3 class="mt-3">본체에 투자하실 최대 한도는 얼마인가요? (최대 250만원)</h3>
-								<small class="mt-2">※현재 높은 가격대의 제품에 대한 로직 완성도가 다소 미흡하여 보완중입니다. 빠른 시일 내로 500만원대까지 확장할 수 있도록 하겠습니다. (예상 완성일 23년 12월 21일)※</small>
+								<small class="mt-2">※현재 높은 가격대의 제품에 대한 로직 완성도가 다소 미흡하여 보완중입니다. 빠른 시일 내로 500만원대까지 확장할 수 있도록 하겠습니다. (예상 완성일 24년 1월 2일)※</small>
 								<div class="mt-2 mb-5 row">
 									<div class="col-md">
 										<div class="input-group has-validation text-end d-flex flex-end justify-content-center mb-5 calc-input-element">

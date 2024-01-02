@@ -1,11 +1,24 @@
-@media (min-width: 280px){
-    .escaResult-empty-space {
-        width: 5%!important;
-    }
-}
 @media (max-width: 767px){
+    * {
+        font-size: 13px;
+    }
     .escaResult-empty-space {
-        width: 5%!important;
+        width: 1%!important;
+    }
+    .change-ram-btn, .change-case-btn {
+        margin-bottom: 0.5rem;
+    }
+    .result-inputs {
+        margin-bottom: 0.5rem;
+    }
+    .card {
+        padding: 0;
+    }
+    .result-buttom-btns {
+        padding-bottom: 0.5rem;
+    }
+    .result-ret-btn {
+        border-bottom: 1px dashed black;
     }
 }
 @media (min-width: 768px){

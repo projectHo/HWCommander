@@ -1,0 +1,27 @@
+
+
+@media (min-width: 280px){
+    .esca-storage-empty-space {
+        width: 3%!important;
+    }
+    .esca-storage-main {
+        width: 94%!important;
+        padding: 2rem 0.5rem!important;
+    }
+    .esca-storage-btns {
+        width: fit-content!important;
+    }
+}
+
+@media (min-width: 768px){
+    .esca-storage-empty-space {
+        width: 15%!important;
+    }
+    .esca-storage-main {
+        width: 70%!important;
+        padding: 3rem!important;
+    }
+    .esca-storage-btns {
+        width: 50%!important;
+    }
+}
