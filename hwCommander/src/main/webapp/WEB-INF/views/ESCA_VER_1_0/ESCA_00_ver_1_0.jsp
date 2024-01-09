@@ -1388,7 +1388,7 @@
 									<!-- <button class="btn btn-primary q2-save-btn" onclick="javascript:questionTwoSaveBtn()">저장</button> -->
 								</h2>
 								<h3 class="mt-3">본체에 투자하실 최대 한도는 얼마인가요? (최대 250만원)</h3>
-								<small class="mt-2">※현재 높은 가격대의 제품에 대한 로직 완성도가 다소 미흡하여 보완중입니다. 빠른 시일 내로 500만원대까지 확장할 수 있도록 하겠습니다. (예상 완성일 24년 1월 2일)※</small>
+								<small class="mt-2">※현재 높은 가격대의 제품에 대한 로직 완성도가 다소 미흡하여 보완중입니다. 빠른 시일 내로 500만원대까지 확장할 수 있도록 하겠습니다. (예상 완성일 24년 1월)※</small>
 								<div class="mt-2 mb-5 row">
 									<div class="col-md">
 										<div class="input-group has-validation text-end d-flex flex-end justify-content-center mb-5 calc-input-element">

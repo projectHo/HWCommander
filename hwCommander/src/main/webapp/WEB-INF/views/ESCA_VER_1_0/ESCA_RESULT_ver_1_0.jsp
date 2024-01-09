@@ -246,7 +246,7 @@
 	function clickCaptureBtn(){
 		html2canvas(document.querySelector("#capture-container")).then(canvas => {
 			$(".change-ram-btn").css("display","none");
-			saveAs(canvas.toDataURL('image/png'),"capture-test.png");
+			saveAs(canvas.toDataURL('image/png'),"HWC-Capture.png");
 			$(".change-ram-btn").css("display","inline-block");
 		});
 	};
@@ -714,7 +714,7 @@
 			<div class="justify-content-start escaResult-empty-space"></div>
 			<!-- 작업영역 -->
 			<div id="capturedImage"></div>
-			<div class="estimateCalc_background pt-3 pb-3 container" id="capture-container">
+			<div class="estimateCalc_background container" id="capture-container">
 				<div class="row justify-content-center">
 					<div class="row w-100">
 						<div class="col-md-2">

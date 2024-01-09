@@ -23,7 +23,7 @@
         <property name="driverClass" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
         <property name="url" value="jdbc:log4jdbc:mariadb://127.0.0.1:3306/hwcommander"></property>
         <property name="username" value="root"></property>
-        <property name="password" value="hw17171771!"></property>
+        <property name="password" value=""></property>
         
     </bean>
  

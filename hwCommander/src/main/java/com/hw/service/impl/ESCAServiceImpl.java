@@ -484,7 +484,7 @@ public class ESCAServiceImpl implements ESCAService {
 	
 		// etc(targetDate) index=20
 		tempText = urlTextArray[20];
-		tempText = tempText.replaceAll(" ", "");
+//		tempText = tempText.replaceAll(" ", "");
 		
 		tempText = tempText.replaceAll("etc", "");
 		tempText = tempText.replaceAll("<", "");
@@ -4533,6 +4533,169 @@ public class ESCAServiceImpl implements ESCAService {
 //				productMasterVO.setProductQty(1);
 				// 23.11.02 완본체 견적산출자동등록 수량 999개로 정함.
 				productMasterVO.setProductQty(999);
+				productMasterVO.setProductDescription("targetUserId:"+targetUserId);
+				productMasterVO.setProductImage(partsCaseVO.getPartsImage());
+				productMasterVO.setProductRegistPathCd("02");
+				
+				// 업무공백 중 발생한 수정사항 질문 0번 추가
+				productMasterVO.setWindowsName(windowsName);
+				productMasterVO.setWindowsPrice(windowsPrice);
+				
+				productPrice += windowsPrice;
+				productMasterVO.setProductPrice(productPrice);
+				
+				productDAO.insertProductMasterVO(productMasterVO);
+			}else {
+				int productPrice = 0;
+				String maxId = productDAO.getProductMasterVOMaxId();
+				
+				estimateCalculationResultPrivateMasterVO.setCreateProductId(maxId);
+				
+				// gpu 등록
+				ProductDetailVO productDetailGpuVO = new ProductDetailVO();
+				PartsGpuVO partsGpuVO = partsService.getPartsGpuVOById(estimateCalculationResultPrivateMasterVO.getSelectProduct().getGpuId());
+				
+				productDetailGpuVO.setId(maxId);
+				productDetailGpuVO.setSeq(1);
+				productDetailGpuVO.setPartsTypeCd("01");
+				productDetailGpuVO.setPartsId(partsGpuVO.getId());
+				productDetailGpuVO.setPartsName(partsGpuVO.getPartsName());
+				productDetailGpuVO.setPartsQty(1);
+				productDetailGpuVO.setPartsPrice(partsGpuVO.getPartsPrice());
+				productDetailGpuVO.setPartsTotalPrice(partsGpuVO.getPartsPrice());
+				productDetailGpuVO.setPartsHistorySeq(partsGpuVO.getPartsHistorySeq());
+				productPrice += partsGpuVO.getPartsPrice();
+				
+				productDAO.insertProductDetailVO(productDetailGpuVO);
+				
+				// cpu 등록
+				ProductDetailVO productDetailCpuVO = new ProductDetailVO();
+				PartsCpuVO partsCpuVO = partsService.getPartsCpuVOById(estimateCalculationResultPrivateMasterVO.getSelectProduct().getCpuId());
+				
+				productDetailCpuVO.setId(maxId);
+				productDetailCpuVO.setSeq(2);
+				productDetailCpuVO.setPartsTypeCd("02");
+				productDetailCpuVO.setPartsId(partsCpuVO.getId());
+				productDetailCpuVO.setPartsName(partsCpuVO.getPartsName());
+				productDetailCpuVO.setPartsQty(1);
+				productDetailCpuVO.setPartsPrice(partsCpuVO.getPartsPrice());
+				productDetailCpuVO.setPartsTotalPrice(partsCpuVO.getPartsPrice());
+				productDetailCpuVO.setPartsHistorySeq(partsCpuVO.getPartsHistorySeq());
+				productPrice += partsCpuVO.getPartsPrice();
+				
+				productDAO.insertProductDetailVO(productDetailCpuVO);
+				
+				// mb 등록
+				ProductDetailVO productDetailMbVO = new ProductDetailVO();
+				PartsMbVO partsMbVO = partsService.getPartsMbVOById(estimateCalculationResultPrivateMasterVO.getSelectProduct().getMbId());
+				
+				productDetailMbVO.setId(maxId);
+				productDetailMbVO.setSeq(3);
+				productDetailMbVO.setPartsTypeCd("03");
+				productDetailMbVO.setPartsId(partsMbVO.getId());
+				productDetailMbVO.setPartsName(partsMbVO.getPartsName());
+				productDetailMbVO.setPartsQty(1);
+				productDetailMbVO.setPartsPrice(partsMbVO.getPartsPrice());
+				productDetailMbVO.setPartsTotalPrice(partsMbVO.getPartsPrice());
+				productDetailMbVO.setPartsHistorySeq(partsMbVO.getPartsHistorySeq());
+				productPrice += partsMbVO.getPartsPrice();
+				
+				productDAO.insertProductDetailVO(productDetailMbVO);
+				
+				// Cooler 등록
+				ProductDetailVO productDetailCoolerVO = new ProductDetailVO();
+				PartsCoolerVO partsCoolerVO = partsService.getPartsCoolerVOById(estimateCalculationResultPrivateMasterVO.getSelectProduct().getCoolerId());
+				
+				productDetailCoolerVO.setId(maxId);
+				productDetailCoolerVO.setSeq(4);
+				productDetailCoolerVO.setPartsTypeCd("07");
+				productDetailCoolerVO.setPartsId(partsCoolerVO.getId());
+				productDetailCoolerVO.setPartsName(partsCoolerVO.getPartsName());
+				productDetailCoolerVO.setPartsQty(1);
+				productDetailCoolerVO.setPartsPrice(partsCoolerVO.getPartsPrice());
+				productDetailCoolerVO.setPartsTotalPrice(partsCoolerVO.getPartsPrice());
+				productDetailCoolerVO.setPartsHistorySeq(partsCoolerVO.getPartsHistorySeq());
+				productPrice += partsCoolerVO.getPartsPrice();
+				
+				productDAO.insertProductDetailVO(productDetailCoolerVO);
+				
+				// Case 등록
+				ProductDetailVO productDetailCaseVO = new ProductDetailVO();
+				PartsCaseVO partsCaseVO = partsService.getPartsCaseVOById(estimateCalculationResultPrivateMasterVO.getSelectProduct().getCaseId());
+				
+				productDetailCaseVO.setId(maxId);
+				productDetailCaseVO.setSeq(5);
+				productDetailCaseVO.setPartsTypeCd("06");
+				productDetailCaseVO.setPartsId(partsCaseVO.getId());
+				productDetailCaseVO.setPartsName(partsCaseVO.getPartsName());
+				productDetailCaseVO.setPartsQty(1);
+				productDetailCaseVO.setPartsPrice(partsCaseVO.getPartsPrice());
+				productDetailCaseVO.setPartsTotalPrice(partsCaseVO.getPartsPrice());
+				productDetailCaseVO.setPartsHistorySeq(partsCaseVO.getPartsHistorySeq());
+				productPrice += partsCaseVO.getPartsPrice();
+				
+				productDAO.insertProductDetailVO(productDetailCaseVO);
+				
+				// Psu 등록
+				ProductDetailVO productDetailPsuVO = new ProductDetailVO();
+				PartsPsuVO partsPsuVO = partsService.getPartsPsuVOById(estimateCalculationResultPrivateMasterVO.getSelectProduct().getPsuId());
+				
+				productDetailPsuVO.setId(maxId);
+				productDetailPsuVO.setSeq(6);
+				productDetailPsuVO.setPartsTypeCd("05");
+				productDetailPsuVO.setPartsId(partsPsuVO.getId());
+				productDetailPsuVO.setPartsName(partsPsuVO.getPartsName());
+				productDetailPsuVO.setPartsQty(1);
+				productDetailPsuVO.setPartsPrice(partsPsuVO.getPartsPrice());
+				productDetailPsuVO.setPartsTotalPrice(partsPsuVO.getPartsPrice());
+				productDetailPsuVO.setPartsHistorySeq(partsPsuVO.getPartsHistorySeq());
+				productPrice += partsPsuVO.getPartsPrice();
+				
+				productDAO.insertProductDetailVO(productDetailPsuVO);
+				
+				// Ram 등록
+				ProductDetailVO productDetailRamVO = new ProductDetailVO();
+				PartsRamVO partsRamVO = partsService.getPartsRamVOById(estimateCalculationResultPrivateMasterVO.getSelectProduct().getRamId());
+				
+				productDetailRamVO.setId(maxId);
+				productDetailRamVO.setSeq(7);
+				productDetailRamVO.setPartsTypeCd("04");
+				productDetailRamVO.setPartsId(partsRamVO.getId());
+				productDetailRamVO.setPartsName(partsRamVO.getPartsName());
+				productDetailRamVO.setPartsQty(1);
+				productDetailRamVO.setPartsPrice(partsRamVO.getPartsPrice());
+				productDetailRamVO.setPartsTotalPrice(partsRamVO.getPartsPrice());
+				productDetailRamVO.setPartsHistorySeq(partsRamVO.getPartsHistorySeq());
+				productPrice += partsRamVO.getPartsPrice();
+				
+				productDAO.insertProductDetailVO(productDetailRamVO);
+				
+				// Ssd 등록
+				ProductDetailVO productDetailSsdVO = new ProductDetailVO();
+				PartsSsdVO partsSsdVO = partsService.getPartsSsdVOById(estimateCalculationResultPrivateMasterVO.getSelectProduct().getSsdId());
+				
+				productDetailSsdVO.setId(maxId);
+				productDetailSsdVO.setSeq(8);
+				productDetailSsdVO.setPartsTypeCd("09");
+				productDetailSsdVO.setPartsId(partsSsdVO.getId());
+				productDetailSsdVO.setPartsName(partsSsdVO.getPartsName());
+				productDetailSsdVO.setPartsQty(1);
+				productDetailSsdVO.setPartsPrice(partsSsdVO.getPartsPrice());
+				productDetailSsdVO.setPartsTotalPrice(partsSsdVO.getPartsPrice());
+				productDetailSsdVO.setPartsHistorySeq(partsSsdVO.getPartsHistorySeq());
+				productPrice += partsSsdVO.getPartsPrice();
+				
+				productDAO.insertProductDetailVO(productDetailSsdVO);
+				
+				// 완본체 마스터등록
+				ProductMasterVO productMasterVO = new ProductMasterVO();
+				productMasterVO.setId(maxId);
+				productMasterVO.setProductName("견적산출 자동등록 완본체");
+//				productMasterVO.setProductPrice(productPrice);
+//				productMasterVO.setProductQty(1);
+				// 23.11.02 완본체 견적산출자동등록 수량 999개로 정함.
+				// 24.01.09 과거 견적산출로 수량 0개로 구매 불가 세팅.
+				productMasterVO.setProductQty(0);
 				productMasterVO.setProductDescription("targetUserId:"+targetUserId);
 				productMasterVO.setProductImage(partsCaseVO.getPartsImage());
 				productMasterVO.setProductRegistPathCd("02");
