@@ -1198,7 +1198,7 @@ public class ESCAServiceImpl implements ESCAService {
 			calculation4 = gpuFBigDecimalArray[calculation2.intValue()].multiply(gpuGBigDecimalArray[calculation3.intValue()]);
 			calculation5 = new BigDecimal(Math.pow(calculation4.doubleValue(), 1.0 / 2.0)).multiply(GPUCV).setScale(6, BigDecimal.ROUND_HALF_UP);
 			calculation6 = new BigDecimal("1").add(calculation5);
-			calculation7 = GC.multiply(calculation6).multiply(calculation1).setScale(6, BigDecimal.ROUND_HALF_UP);
+			calculation7 = GC.multiply(calculation6).multiply(calculation1).setScale(6, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal("1.17518"));
 			
 			partsGpuHistoryVO.setGpuValue(calculation7);
 		}
@@ -1450,6 +1450,7 @@ public class ESCAServiceImpl implements ESCAService {
 //			}
 			
 			// 23.08.07 2번질문 배율적용
+			// 01.09 cpu 배율 추가 적용
 			for(int c = 0; c < partsCpuHistoryVOList.size(); c++) {
 				PartsCpuHistoryVO partsCpuHistoryVO = partsCpuHistoryVOList.get(c);
 				BigDecimal resultCC = BigDecimal.ZERO;
@@ -1466,7 +1467,7 @@ public class ESCAServiceImpl implements ESCAService {
 							
 							if(pr_id.equals(processResourceDetailHistoryVO.getId())
 									&& partsCpuHistoryVO.getId().equals(processResourceDetailHistoryVO.getResourceMappingValue())) {
-								resultCC = resultCC.add(processResourceDetailHistoryVO.getResourceScore().multiply(scale));
+								resultCC = resultCC.add(processResourceDetailHistoryVO.getResourceScore().multiply(scale)).multiply(new BigDecimal("1.57860"));
 							}
 						}
 					}
@@ -1606,7 +1607,7 @@ public class ESCAServiceImpl implements ESCAService {
 					}
 				}
 				
-				ramValue = CL.add(RV);
+				ramValue = CL.add(RV).multiply(new BigDecimal("0.36800"));
 				partsRamHistoryVO.setRamValue(ramValue);
 			}
 			
@@ -1740,7 +1741,7 @@ public class ESCAServiceImpl implements ESCAService {
 						.multiply(clGBigDecimalArray[calculation4.intValue()]);
 				calculation6 = new BigDecimal(Math.sqrt(calculation5.doubleValue())).multiply(COOLERCV).setScale(6, BigDecimal.ROUND_HALF_UP);
 				calculation7 = new BigDecimal("1").add(calculation6);
-				calculation8 = GC.multiply(new BigDecimal("0.03")).multiply(calculation7).multiply(calculation2);
+				calculation8 = GC.multiply(new BigDecimal("0.03")).multiply(calculation7).multiply(calculation2).multiply(new BigDecimal("0.79902"));
 				
 				partsCoolerHistoryVO.setCoolerValue(calculation8);
 			}
@@ -1996,7 +1997,8 @@ public class ESCAServiceImpl implements ESCAService {
 				calculation10 = GC.multiply(new BigDecimal("0.001157"))
 						.multiply(PFM)
 						.multiply(calculation9)
-						.multiply(calculation2);
+						.multiply(calculation2)
+						.multiply(new BigDecimal("0.62049"));
 				
 				partsPsuHistoryVO.setPsuValue(calculation10);
 				
@@ -2191,7 +2193,8 @@ public class ESCAServiceImpl implements ESCAService {
 				calculation8 = new BigDecimal("1").add(calculation7);
 				calculation9 = GC.multiply(new BigDecimal("0.04"))
 						.multiply(calculation8)
-						.multiply(calculation2);
+						.multiply(calculation2)
+						.multiply(new BigDecimal("0.77516"));
 				
 				partsCaseHistoryVO.setCaseValue(calculation9);
 			}
@@ -2382,7 +2385,8 @@ public class ESCAServiceImpl implements ESCAService {
 						.multiply(BASIC)
 						.multiply(calculation8)
 						.multiply(calculation2)
-						.setScale(6, BigDecimal.ROUND_HALF_UP);
+						.setScale(6, BigDecimal.ROUND_HALF_UP)
+						.multiply(new BigDecimal("0.82592"));
 
 				partsSsdHistoryVO.setSsdValue(calculation9);
 			}
@@ -3156,7 +3160,8 @@ public class ESCAServiceImpl implements ESCAService {
 					calculation9 = CC
 							.multiply(new BigDecimal("0.6"))
 							.multiply(calculation8)
-							.multiply(calculation2);
+							.multiply(calculation2)
+							.multiply(new BigDecimal("1.34320"));
 					
 					partsMbHistoryVO.setMbValue(calculation9);
 				}
