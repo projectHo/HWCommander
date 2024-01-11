@@ -18,3 +18,45 @@
 #myPw {
     font-family: sans-serif;
 }
+
+.mypage-empty-space {
+    width: 15%!important;
+}
+.mypage-main-space {
+    width: 70%!important;
+    height: 600px;
+}
+.mypage-main-mobile {
+    height: 508px;
+}
+@media (min-width : 1024px){
+    .mypage-main-mobile {
+        display: none;
+    }
+    .mypage-bt-imgs {
+        display: block;
+    }
+}
+@media (max-width : 1440px){
+    .mypage-empty-space {
+        width: 1%!important;
+    }
+    .mypage-main-space {
+        width: 98%!important;
+        display: block;
+    }
+}
+@media (max-width : 1023px){
+    .mypage-empty-space {
+        width: 1%!important;
+    }   
+    .mypage-main-space {
+        display: none;
+    }
+    .mypage-main-mobile {
+        display: block;
+    }
+    .mypage-bt-imgs {
+        display: none;
+    }
+}

@@ -366,9 +366,9 @@
 	<div class="basic_background w-100">
 		<div class="d-flex">
 			<!-- 빈 영역 -->
-			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
+			<div class="h-25 justify-content-start mypage-empty-space"></div>
 			<!-- 작업영역 -->
-			<div class="estimateCalc_background p-2 pt-5 pb-5" style="width: 70%!important; height: 600px;">
+			<div class="estimateCalc_background p-2 pt-5 pb-5 mypage-main-space">
 				<div class="row h-100">
 					<div class="col-2 ps-4 pe-0">
 						<div class="accordion accordion-flush" id="accordionFlushExample">
@@ -757,18 +757,98 @@
 						</div>
 					</div>
 				</div>
-				
-				
+			</div>
+			<!-- 01.11 모바일 환경 구성 -->
+			<div class="estimateCalc_background mypage-main-mobile p-2 pt-4 pb-4 mb-3 w-100">
+				<div class="accordion accordion-flush" id="accordionFlushMobile">
+					<div class="accordion-item">
+						<h2 class="accordion-header" id="flush-mobile-headingOne">
+							<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-mobile-collapseOne" aria-expanded="true">
+								구매 정보
+							</button>
+						</h2>
+						<div id="flush-mobile-collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionFlushMobile">
+							<div class="accordion-body">
+								<div class="list-group list-group-flush">
+									<a href="javascript:void(0)" class="list-group-item list-group-item-action" onclick="javascript:clickOrderDetail()">
+										주문 현황
+									</a>
+									<a href="javascript:void(0)" class="list-group-item list-group-item-action" onclick="javascript:clickRefundDetail()">
+										환불 내역
+									</a>
+									<a href="javascript:void(0)" class="list-group-item list-group-item-action" onclick="javascript:alert('준비중입니다.')">
+										배송지 관리(주소록)
+									</a>
+									<a href="javascript:void(0)" class="list-group-item list-group-item-action" onclick="javascript:alert('준비중입니다.')">
+										사업장 관리
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="accordion-item">
+						<h2 class="accordion-header" id="flush-mobile-headingTwo">
+							<button class="accordion-button accordion-button-single collapsed" onclick="javascript:alert('준비중입니다.')">
+								혜택 정보
+							</button>
+						</h2>
+					</div>
+					<div class="accordion-item">
+						<h2 class="accordion-header" id="flush-mobile-headingThree">
+							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-mobile-collapseThree" aria-expanded="false">
+								내 글 관리
+							</button>
+						</h2>
+						<div id="flush-mobile-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushMobile">
+							<div class="accordion-body">
+								<div class="list-group list-group-flush">
+									<a href="javascript:void(0)" class="list-group-item list-group-item-action" onclick="javascript:clickInquiryDetail()">
+										문의 사항
+									</a>
+									<a href="javascript:void(0)" class="list-group-item list-group-item-action" onclick="javascript:alert('준비중입니다.')">
+										리뷰 관리
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="accordion-item">
+						<h2 class="accordion-header" id="flush-mobile-headingFour">
+							<button class="accordion-button accordion-button-single collapsed" type="button" onclick="javascript:clickEstimateStorageDetail()">
+								견적 저장소
+							</button>
+						</h2>
+					</div>
+					<div class="accordion-item">
+						<h2 class="accordion-header" id="flush-mobile-headingFive">
+							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-mobile-collapseFive" aria-expanded="false">
+								회원 정보
+							</button>
+						</h2>
+						<div id="flush-mobile-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-headingFive" data-bs-parent="#accordionFlushMobile">
+							<div class="accordion-body">
+								<div class="list-group list-group-flush">
+									<a href="javascript:void(0)" class="list-group-item list-group-item-action" onclick="javascript:clickUserInfoDetail()">
+										내 정보
+									</a>
+									<a href="javascript:void(0)" class="list-group-item list-group-item-action" onclick="javascript:clickSecessionDetail()">
+										회원 탈퇴
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 			<!-- 빈 영역 -->
-			<div class="justify-content-end" style="width: 15%!important;"></div>
+			<div class="justify-content-end mypage-empty-space"></div>
 		</div>
 		
 		<!-- 2022.11.16 디자인이미지 추가 -->
-		<div class="mt-5 mx-5" style="height: 15%!important;">
+		<div class="mt-5 mx-5 mypage-bt-imgs" style="height: 15%!important;">
 			<img class="img-fluid float-end" src="/resources/img/layer-34-1200x107.png" alt="">
 		</div>
-		<div class="mt-2 mx-5" style="height: 15%!important;">
+		<div class="mt-2 mx-5 mypage-bt-imgs" style="height: 15%!important;">
 			<img class="img-fluid" src="/resources/img/layer-26.png" alt="">
 		</div>
 	</div>
