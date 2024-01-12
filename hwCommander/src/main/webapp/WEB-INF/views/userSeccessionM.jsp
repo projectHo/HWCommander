@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <head>
-<title>현우의 컴퓨터 공방 - 마이페이지</title>
+<title>현우의 컴퓨터 공방 - 주문현황</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <!-- Bootstrap CSS -->
@@ -24,11 +24,7 @@
 <link rel="stylesheet" href="/resources/css/mypage.css">
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-<%
-	String enc_data = String.valueOf(request.getAttribute("enc_data"));
-	String integrity_value = String.valueOf(request.getAttribute("integrity_value"));
-	String token_version_id = String.valueOf(request.getAttribute("token_version_id"));
-%>
+
 <script>
 	function loginCheck() {
 		var check = false;
@@ -758,88 +754,6 @@
 					</div>
 				</div>
 			</div>
-			<!-- 01.11 모바일 환경 구성 -->
-			<div class="estimateCalc_background mypage-main-mobile p-2 pt-4 pb-4 mb-3 w-100">
-				<div class="accordion accordion-flush" id="accordionFlushMobile">
-					<div class="accordion-item">
-						<h2 class="accordion-header" id="flush-mobile-headingOne">
-							<button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#flush-mobile-collapseOne" aria-expanded="true">
-								구매 정보
-							</button>
-						</h2>
-						<div id="flush-mobile-collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionFlushMobile">
-							<div class="accordion-body">
-								<div class="list-group list-group-flush">
-									<a href="javascript:void(0)" class="list-group-item list-group-item-action">
-										주문 현황
-									</a>
-									<a href="javascript:void(0)" class="list-group-item list-group-item-action">
-										환불 내역
-									</a>
-									<a href="javascript:void(0)" class="list-group-item list-group-item-action" onclick="javascript:alert('준비중입니다.')">
-										배송지 관리(주소록)
-									</a>
-									<a href="javascript:void(0)" class="list-group-item list-group-item-action" onclick="javascript:alert('준비중입니다.')">
-										사업장 관리
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="accordion-item">
-						<h2 class="accordion-header" id="flush-mobile-headingTwo">
-							<button class="accordion-button accordion-button-single collapsed" onclick="javascript:alert('준비중입니다.')">
-								혜택 정보
-							</button>
-						</h2>
-					</div>
-					<div class="accordion-item">
-						<h2 class="accordion-header" id="flush-mobile-headingThree">
-							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-mobile-collapseThree" aria-expanded="false">
-								내 글 관리
-							</button>
-						</h2>
-						<div id="flush-mobile-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushMobile">
-							<div class="accordion-body">
-								<div class="list-group list-group-flush">
-									<a href="javascript:void(0)" class="list-group-item list-group-item-action">
-										문의 사항
-									</a>
-									<a href="javascript:void(0)" class="list-group-item list-group-item-action" onclick="javascript:alert('준비중입니다.')">
-										리뷰 관리
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="accordion-item">
-						<h2 class="accordion-header" id="flush-mobile-headingFour">
-							<button class="accordion-button accordion-button-single collapsed" type="button">
-								견적 저장소
-							</button>
-						</h2>
-					</div>
-					<div class="accordion-item">
-						<h2 class="accordion-header" id="flush-mobile-headingFive">
-							<button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-mobile-collapseFive" aria-expanded="false">
-								회원 정보
-							</button>
-						</h2>
-						<div id="flush-mobile-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-headingFive" data-bs-parent="#accordionFlushMobile">
-							<div class="accordion-body">
-								<div class="list-group list-group-flush">
-									<a href="javascript:void(0)" class="list-group-item list-group-item-action">
-										내 정보
-									</a>
-									<a href="javascript:void(0)" class="list-group-item list-group-item-action">
-										회원 탈퇴
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
 			<!-- 빈 영역 -->
 			<div class="justify-content-end mypage-empty-space"></div>
 		</div>
@@ -853,13 +767,6 @@
 		</div>
 	</div>
 
-	<input type="hidden" id="di" name="di" value="" />
-	<form name="form_chk" id="form_chk">
-		<input type="hidden" id="m" name="m" value="service" />
-		<input type="hidden" id="token_version_id" name="token_version_id" value="<%=token_version_id%>" />
-		<input type="hidden" id="enc_data" name="enc_data" value="<%=enc_data%>" />
-		<input type="hidden" id="integrity_value" name="integrity_value" value="<%=integrity_value%>" />
-  </form>
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 	
 </body>

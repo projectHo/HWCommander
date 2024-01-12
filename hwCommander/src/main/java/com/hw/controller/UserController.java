@@ -331,7 +331,63 @@ public class UserController {
 		
 		return loginCheck;
 	}
-	
+	@RequestMapping(value = "/orderStateM.do", method = RequestMethod.GET)
+	public String goOrderStateM(HttpServletRequest request, Model model) {
+		HttpSession httpSession = request.getSession();
+		UserInfoVO user = (UserInfoVO) httpSession.getAttribute("loginUser");
+		if( null != user ){
+			List<OrderMasterVO> orderMasterVOList = orderService.getOrderMasterListByOrdererUserId(user.getId());
+			
+			model.addAttribute("loginUser", user);
+			model.addAttribute("orderMasterVOList", orderMasterVOList);
+
+			return userLoginCheck(request, model, "userOrderStateM");
+		}else {
+			return userLoginCheck(request, model, "userOrderStateM");
+		}
+	}
+	@RequestMapping(value = "/refundStateM.do", method = RequestMethod.GET)
+	public String goRefundStateM(HttpServletRequest request, Model model) {
+		HttpSession httpSession = request.getSession();
+		UserInfoVO user = (UserInfoVO) httpSession.getAttribute("loginUser");
+		if( null != user ){
+			List<RefundInfoVO> refundInfoVOList = orderService.getRefundInfoByUserId(user.getId());
+			
+			model.addAttribute("loginUser", user);
+			model.addAttribute("refundInfoVOList", refundInfoVOList);
+
+
+			return userLoginCheck(request, model, "userRefundStateM");
+		}else {
+			return userLoginCheck(request, model, "userRefundStateM");
+		}
+	}
+	@RequestMapping(value = "/infoM.do", method = RequestMethod.GET)
+	public String goInfoM(HttpServletRequest request, Model model) {
+		HttpSession httpSession = request.getSession();
+		UserInfoVO user = (UserInfoVO) httpSession.getAttribute("loginUser");
+		if( null != user ){
+
+			model.addAttribute("loginUser", user);
+
+			return userLoginCheck(request, model, "userInfoM");
+		}else {
+			return userLoginCheck(request, model, "userInfoM");
+		}
+	}
+	@RequestMapping(value = "/seccessionM.do", method = RequestMethod.GET)
+	public String goSeccessionM(HttpServletRequest request, Model model) {
+		HttpSession httpSession = request.getSession();
+		UserInfoVO user = (UserInfoVO) httpSession.getAttribute("loginUser");
+		if( null != user ){
+
+			model.addAttribute("loginUser", user);
+
+			return userLoginCheck(request, model, "userSeccessionM");
+		}else {
+			return userLoginCheck(request, model, "userSeccessionM");
+		}
+	}
 //	23.11.05 refund_info 로직이 구현완료됨으로써 기존 order_master에 orderStateCd 직접변경 하던 로직 폐기 
 //	@RequestMapping(value = "/orderRefundRequestToAdminLogic.do", method = RequestMethod.POST)
 //	@ResponseBody
