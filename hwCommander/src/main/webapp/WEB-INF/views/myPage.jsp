@@ -354,6 +354,12 @@
 			}
 		})
 	}
+	// 모바일 페이지 관련
+	function goInfoM(){
+		if(loginCheck()){
+			location.href = "/user/infoM.do";
+		}
+	}
 	$(function(){
 		$(".card-list").removeClass("show").css("display","none");
 		$(".card-order-detail").css("display","block").addClass("show");
@@ -770,7 +776,7 @@
 						<div id="flush-mobile-collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionFlushMobile">
 							<div class="accordion-body">
 								<div class="list-group list-group-flush">
-									<a href="javascript:void(0)" class="list-group-item list-group-item-action">
+									<a href="javascript:void(0)" class="list-group-item list-group-item-action" onclick="javascript:goInfoM()">
 										주문 현황
 									</a>
 									<a href="javascript:void(0)" class="list-group-item list-group-item-action">

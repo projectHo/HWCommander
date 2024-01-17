@@ -367,8 +367,10 @@ public class UserController {
 		HttpSession httpSession = request.getSession();
 		UserInfoVO user = (UserInfoVO) httpSession.getAttribute("loginUser");
 		if( null != user ){
-
+			List<OrderMasterVO> orderMasterVOList = orderService.getOrderMasterListByOrdererUserId(user.getId());
+			
 			model.addAttribute("loginUser", user);
+			model.addAttribute("orderMasterVOList", orderMasterVOList);
 
 			return userLoginCheck(request, model, "userInfoM");
 		}else {

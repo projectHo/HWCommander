@@ -50,13 +50,8 @@
       location.href = "/userBanpumMall.do";
     }
     function goMyPageBtn(){
-      var windowWidth = window.outerWidth;
-      if(windowWidth < 1440){
-        alert("마이페이지는 현재 1920x1080이상의 화면에서만 접속 가능합니다. 빠른 시일 내에 모든 해상도에서 접속 가능하도록 하겠습니다. 죄송합니다.");
-      }else if(windowWidth >= 1440){
-        if(loginCheck()) {
-          location.href ="/user/myPage.do";
-        }
+      if(loginCheck()) {
+        location.href ="/user/myPage.do";
       }
     }
     function goStorageBtn(){
@@ -79,6 +74,9 @@
       if(loginCheck()) {
         location.href = "/admin/main.do";
       }
+    }
+    function goAboutUs() {
+      location.href = "/aboutUs.do";
     }
     function logout() {
       if(confirm("로그아웃 하시겠습니까?")) {
@@ -640,6 +638,7 @@
             <li class="list-group-item bg-transparent p-4 pt-3 fixed-top text-start pb-1"><h2>메뉴</h2></li>
             <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goEscaBtn()">견적산출</li>
             <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goEventMallBtn()">이벤트몰</li>
+            <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goAboutUs()">회사소개</li>
             
           </ul>
           <ul class="list-group list-group-flush flex-row bg-none fixed-bottom">
@@ -655,6 +654,7 @@
             <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goStorageBtn()">견적 저장소</li>
             <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goEventMallBtn()">이벤트몰</li>
             <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goServiceBtn()">고객센터</li>
+            <li class="list-group-item list-group-item-action bg-transparent p-3" onclick="javascript:goAboutUs()">회사소개</li>
           </ul>
           <ul class="list-group list-group-flush flex-row bg-none fixed-bottom">
             <li class="list-group-item list-group-item-action bg-transparent p-3 border-end border-dark border-bottom-0" style="--bs-border-opacity: .2;" onclick="javascript:logout()">로그아웃</li>

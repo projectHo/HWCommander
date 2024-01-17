@@ -9,19 +9,8 @@
 <!-- Bootstrap CSS -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 <link rel="stylesheet" href="/resources/css/main.css">
+<link rel="stylesheet" href="/resources/css/aboutUs.css">
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
-<style>
-	.content {
-		background-color: rgba(224,34,238,0.05);;
-		border-radius: 14px;
-		border: 2px solid rgba(224,34,238,0.1);
-	}
-	.about-divider {
-		border: 1px solid black;
-		width: 100%;
-		margin: 0 auto;
-	}
-</style>
 </head>
 <body>
 	<%@ include file="./common/header.jsp" %>
@@ -30,12 +19,13 @@
 	<div class="termsOfService_background w-100">
 		<div class="d-flex">
 			<!-- 빈 영역 -->
-			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
-			<div class="content pt-5 px-5 mx-5" style="width: 70%!important;">
+			<div class="h-25 justify-content-start about-us-empty-space"></div>
+			<div class="content pt-5 px-sm-5 mx-sm-5 about-us-main-space">
 				<h1><b>현우의 컴퓨터 공방</b></h1>
 
 				<!-- 01.15 소개글 수정 -->
-				<div class="about-us-container mt-5 p-4">
+				<div class="about-divider mt-5"></div>
+				<div class="about-us-container p-4 border-top-black">
 					<h2 class="mb-5"><b>원칙과 철학</b></h2>
 					<h4 class="mb-3"><b>"공학자의 기원은 과학자이며, 과학자는 결과로 원인을 만들지 않는다."</b></h4>
 					<p>연구의 과정이 결과를 만들어내는 구조를 위해<br>우리는 적당한 결과에 타협하지 않는다.</p>
@@ -113,7 +103,7 @@
 			
 			</div>
 			<!-- 빈 영역 -->
-			<div class="justify-content-end" style="width: 15%!important;"></div>
+			<div class="justify-content-end about-us-empty-space"></div>
 		</div>
 	</div>
 	<%@ include file="./common/footer.jsp" %>

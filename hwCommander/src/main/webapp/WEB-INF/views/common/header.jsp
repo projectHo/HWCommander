@@ -22,8 +22,15 @@ function goCartPage() {
 }
 
 function goOrderListPage() {
-	if(loginCheck()) {
-		location.href = "/user/orderList.do";
+	let width = window.outerWidth;
+	if(width >=1440){
+		if(loginCheck()) {
+			location.href = "/user/orderList.do";
+		}
+	}else {
+		if(loginCheck()) {
+			location.href = '/user/infoM.do';
+		}
 	}
 }
 
@@ -40,13 +47,8 @@ function logout() {
 }
 
 function goMyPage() {
-	var windowWidth = window.outerWidth;
-	if(windowWidth < 1440){
-		alert("마이페이지는 현재 1920x1080이상의 화면에서만 접속 가능합니다. 빠른 시일 내에 모든 해상도에서 접속 가능하도록 하겠습니다. 죄송합니다.");
-	}else if(windowWidth >= 1440){
-		if(loginCheck()) {
-			location.href ="/user/myPage.do";
-		}
+	if(loginCheck()) {
+		location.href ="/user/myPage.do";
 	}
 }
 

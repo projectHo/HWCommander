@@ -1,0 +1,38 @@
+.content {
+    background-color: rgba(224,34,238,0.05);;
+    border-radius: 14px;
+    border: 2px solid rgba(224,34,238,0.1);
+}
+.about-divider {
+    border: 1px solid black;
+    width: 100%;
+    margin: 0 auto;
+}
+.about-us-empty-space {
+    width: 15%!important;
+}
+.about-us-main-space {
+    width: 70%!important;
+}
+
+@media (max-width: 1023px){
+    .about-us-empty-space {
+        width: 5%!important;
+    }
+    .about-us-main-space {
+        width: 90%!important;
+    }
+}
+
+@media (max-width: 767px){
+    .about-us-empty-space {
+        width: 0%!important;
+    }
+    .about-us-main-space {
+        width: 100%!important;
+    }
+    .content {
+        border: none;
+        background-color: inherit;
+    }
+}
