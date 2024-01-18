@@ -40,7 +40,30 @@
 			<!-- 빈 영역 -->
 			<div class="h-25 justify-content-start info-m-empty-space"></div>
 			<!-- 작업영역 -->
-
+			<div class="w-100 estimateCalc_background pt-5 pb-5 ps-2 pe-2">
+				<h1 class="pt-2 ps-2">${loginUser.name}님의 주문 내역</h1>
+				<c:forEach items="${orderMasterVOList}" var="item">
+					<c:if test="${item.orderStateCd < 09 || item.orderStateCd == 11}">
+						<div class="cards mb-2 p-2">
+							<h3 class="pt-1 mb-0">${item.orderDateStr}</h3>
+							<div class="goods-box p-3 pb-2">
+								<div class="goods-header">
+									<div class="goods-name">상품명 : ${item.orderName}</div>
+								</div>
+								<div class="goods-body pb-2">
+									<div class="goods-state">배송현황 : <small>${item.orderStateCdNm}</small></div>
+									<div class="goods-num">주문번호 :${item.id}</div>
+									<div class="goods-price">금액 : ${item.totOrderPriceStr}원</div>
+								</div>
+								<div class="goods-button d-flex justify-content-between">
+									<button class="btn btn-outline-secondary">주문취소</button>
+									<button class="btn btn-outline-primary">상세보기</button>
+								</div>
+							</div>
+						</div>
+					</c:if>
+				</c:forEach>
+			</div>
 			<!-- 빈 영역 -->
 			<div class="justify-content-end info-m-empty-space"></div>
 		</div>

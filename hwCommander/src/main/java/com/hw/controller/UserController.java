@@ -352,8 +352,11 @@ public class UserController {
 		UserInfoVO user = (UserInfoVO) httpSession.getAttribute("loginUser");
 		if( null != user ){
 			List<RefundInfoVO> refundInfoVOList = orderService.getRefundInfoByUserId(user.getId());
+			List<OrderMasterVO> orderMasterVOList = orderService.getOrderMasterListByOrdererUserId(user.getId());
 			
 			model.addAttribute("loginUser", user);
+			
+			model.addAttribute("orderMasterVOList", orderMasterVOList);
 			model.addAttribute("refundInfoVOList", refundInfoVOList);
 
 

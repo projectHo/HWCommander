@@ -360,6 +360,11 @@
 			location.href = "/user/infoM.do";
 		}
 	}
+	function goRefundStateM() {
+		if(loginCheck()){
+			location.href = "/user/refundStateM.do";
+		}
+	}
 	$(function(){
 		$(".card-list").removeClass("show").css("display","none");
 		$(".card-order-detail").css("display","block").addClass("show");
@@ -528,7 +533,7 @@
 														</c:if>
 													</c:forEach>
 													<td class="item-id" name="${item.id}">${item.orderId}</td>
-													<td>${item.requestRefundPrice}원</td>
+													<td>${item.requestRefundPriceStr}원</td>
 													<c:forEach var="orderItem" items="${orderMasterVOList}">
 														<c:if test="${orderItem.id == item.orderId}">
 															<td class="item-cd" cd="${item.refundStateCd}">${orderItem.orderStateCdNm}</td>
@@ -779,7 +784,7 @@
 									<a href="javascript:void(0)" class="list-group-item list-group-item-action" onclick="javascript:goInfoM()">
 										주문 현황
 									</a>
-									<a href="javascript:void(0)" class="list-group-item list-group-item-action">
+									<a href="javascript:void(0)" class="list-group-item list-group-item-action" onclick="javascript:goRefundStateM()">
 										환불 내역
 									</a>
 									<a href="javascript:void(0)" class="list-group-item list-group-item-action" onclick="javascript:alert('준비중입니다.')">
