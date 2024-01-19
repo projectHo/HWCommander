@@ -27,6 +27,45 @@
 
 <script>
 	let aa = "${orderMasterVOList}";
+	function loginCheck() {
+		var check = false;
+		if("${loginUser}" == "") {
+			alert("로그인 후 이용해주세요.");
+			location.href = "/user/login.do";
+		}else {
+			check = true;
+		}
+		return check;
+	}
+	function cancleOrderBtn(el){
+		if(loginCheck()){
+			if(confirm("정말 취소 하시겠습니까?")){
+				$.ajax({
+					type: "post",
+					url: "/order/orderDeleteLogic.do",
+					data: {
+						id: $(el).attr("val")
+					},
+					dataType: "json",
+					success: function(response) {
+						alert("정상적으로 삭제했습니다!");
+						location.href = "/user/myPage.do";
+					},
+					error: function(xhr, status, error) {
+						alert("삭제를 실패했습니다. 다시 시도해주세요");
+						location.reload();
+					}
+				});
+			}else {
+				return false;
+			}
+		}
+	}
+	function goRefundM(el){
+		if(loginCheck()){
+			location.href = "/user/refundM.do?id=" + $(el).attr("refund-id");
+		}
+	}
 	$(function(){
 		
 	})
@@ -56,7 +95,12 @@
 									<div class="goods-price">금액 : ${item.totOrderPriceStr}원</div>
 								</div>
 								<div class="goods-button d-flex justify-content-between">
-									<button class="btn btn-outline-secondary">주문취소</button>
+									<c:if test="${item.orderStateCd == 1}">
+										<button class="btn btn-outline-secondary" val="${item.id}" onclick="javascript:cancleOrderBtn(this)">주문취소</button>
+									</c:if>
+									<c:if test="${item.orderStateCd > 1 && item.orderStateCd != 11}">
+										<button class="btn btn-outline-secondary" refund-id="${item.id}" onclick="javascript:goRefundM(this)">환불요청</button>
+									</c:if>
 									<button class="btn btn-outline-primary">상세보기</button>
 								</div>
 							</div>

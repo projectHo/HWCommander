@@ -365,6 +365,19 @@ public class UserController {
 			return userLoginCheck(request, model, "userRefundStateM");
 		}
 	}
+	@RequestMapping(value = "/refundM.do", method = RequestMethod.GET)
+	public String goRefundM(HttpServletRequest request
+			, Model model
+			, @RequestParam(value = "id", required = true) String id) {
+		HttpSession httpSession = request.getSession();
+		UserInfoVO user = (UserInfoVO) httpSession.getAttribute("loginUser");
+		
+		model.addAttribute("loginUser", user);
+		model.addAttribute("orderMasterVO", orderService.getOrderMasterById(id));
+		model.addAttribute("orderDetailVOList", orderService.getOrderDetailListById(id));
+		
+		return userLoginCheck(request, model, "userRefundM");
+	}
 	@RequestMapping(value = "/infoM.do", method = RequestMethod.GET)
 	public String goInfoM(HttpServletRequest request, Model model) {
 		HttpSession httpSession = request.getSession();

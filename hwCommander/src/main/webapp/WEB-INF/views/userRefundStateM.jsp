@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <head>
-<title>현우의 컴퓨터 공방 - 주문현황</title>
+<title>현우의 컴퓨터 공방 - 환불 요청 현황</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <!-- Bootstrap CSS -->
@@ -26,7 +26,32 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 <script>
-	let aa = "${refundInfoVOList}"
+	function cancleRefundBtn(el){
+        if(confirm("환불요청을 취소하시겠습니까?")){
+            $.ajax({
+                type: "post",
+                url: "/user/refundDeleteLogic.do",
+                data: {
+                    id: $(el).attr("refund-id"),
+                    orderId: $(el).attr("order-id")
+                },
+                dataType: "json",
+                success: function(response) {
+                    alert("정상적으로 취소되었습니다!");
+                    if(loginCheck()) {
+                        location.href ="/user/myPage.do";
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert("요청 실패했습니다.. 다시 시도해주세요!");
+                    console.log(error);
+                    location.reload();
+                }
+            });
+        }else {
+            return false;
+        }
+    }
 	$(function(){
 		
 	})
@@ -57,7 +82,9 @@
 										<div class="goods-price">금액 : ${item.requestRefundPriceStr}원</div>
 									</div>
 									<div class="goods-button d-flex justify-content-between">
-										<button class="btn btn-outline-secondary">주문취소</button>
+										<c:if test="${item.refundStateCd == 1}">
+											<button class="btn btn-outline-secondary" refund-id="${item.id}" order-id="${orderItem.id}" onclick="javascript:cancleRefundBtn(this)">환불취소</button>
+										</c:if>
 										<button class="btn btn-outline-primary">상세보기</button>
 									</div>
 								</div>

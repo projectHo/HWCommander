@@ -20,7 +20,6 @@
 
 <link rel="stylesheet" href="/resources/css/refundInfo.css">
 <script>
-    let a = "${refundInfoVO}"
     function cancleRefundBtn(){
         if(confirm("환불요청을 취소하시겠습니까?")){
             $.ajax({
