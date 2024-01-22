@@ -1,0 +1,35 @@
+.order-list-detail-empty-space {
+    width: 15%;
+}
+.order-list-detail-main-space {
+    width: 70%;
+}
+.first-th {
+    width: 20%;
+}
+.req-input-tds{
+    position: relative;
+}
+.text-counter {
+    position: absolute;
+    right: 69px;
+    top: 0;
+    line-height: 60px;
+    z-index: 99;
+}
+@media (max-width : 1439px){
+    .text-counter {
+        display: none!important;
+    }
+}
+@media (max-width : 767px){
+    .order-list-detail-empty-space {
+        width: 0%;
+    }
+    .order-list-detail-main-space {
+        width: 100%;
+    }   
+    .first-th {
+        width: 30%;
+    }
+}

@@ -66,6 +66,11 @@
 			location.href = "/user/refundM.do?id=" + $(el).attr("refund-id");
 		}
 	}
+	function goOrderListDetail(el){
+		if(loginCheck()){
+			location.href = "/user/orderListDetail.do?id=" + $(el).attr("val");
+		}
+	}
 	$(function(){
 		
 	})
@@ -101,7 +106,7 @@
 									<c:if test="${item.orderStateCd > 1 && item.orderStateCd != 11}">
 										<button class="btn btn-outline-secondary" refund-id="${item.id}" onclick="javascript:goRefundM(this)">환불요청</button>
 									</c:if>
-									<button class="btn btn-outline-primary">상세보기</button>
+									<button class="btn btn-outline-primary" val="${item.id}" onclick="javascript:goOrderListDetail(this)">상세보기</button>
 								</div>
 							</div>
 						</div>

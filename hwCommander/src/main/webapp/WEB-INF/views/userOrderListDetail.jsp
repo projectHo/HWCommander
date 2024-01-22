@@ -9,6 +9,7 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
 <link rel="stylesheet" href="/resources/css/main.css">
 <link rel="stylesheet" href="/resources/css/estimateCalculationOneCss.css" />
+<link rel="stylesheet" href="/resources/css/userOrderListDetail.css" />
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -25,7 +26,7 @@
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 <script>
-	let aaa = "${orderDetailVOList[0]}";
+	let width = window.outerWidth;
 	// 데이터 불러오기
 	var Pattern = /\((.*?)\)/;
 	var masterInfoMatch = Pattern.exec("${orderMasterVO}");
@@ -40,51 +41,22 @@
 		masterInfoObject[key] = value;
 	}
 	function loadData(){
-		$(".order-num").html(masterInfoObject.id);
-		$(".order-date").html(masterInfoObject.orderDateStr);
-		$(".orderer-name").html(masterInfoObject.ordererName);
-
-		// if(masterInfoObject.orderStateCd == 1 && masterInfoObject.paymentMethod == "account-transfer"){
-		// 	$(".pay-state").html("결제 이전");
-		// 	$(".order-state").html(masterInfoObject.orderStateCdNm);
-		// }else if(masterInfoObject.orderStateCd == 9){
-		// 	$(".pay-state").html(masterInfoObject.orderStateCdNm);
-		// 	$(".order-state").html(masterInfoObject.orderStateCdNm);
-		// }else if(masterInfoObject.orderStateCd != 1){
-		// 	$(".pay-state").html("결제 완료");
-		// 	$(".order-state").html(masterInfoObject.orderStateCdNm);
-		// }else if(masterInfoObject.orderStateCd == 1 && masterInfoObject.paymentMethod == "Card"){
-		// 	$(".pay-state").html("결제 이전");
-		// 	$(".order-state").html(masterInfoObject.orderStateCdNm);
-		// }
-		$(".order-state").html(masterInfoObject.orderStateCdNm);
-		if(masterInfoObject.orderStateCd == 1){
+		if("${orderMasterVO.orderStateCd}" == 1){
 			$(".pay-state").html("결제 이전");
-		}else if(masterInfoObject.orderStateCd == 9) {
+		}else if("${orderMasterVO.orderStateCd}" == 9) {
 			$(".pay-state").html("환불 요청");
-		}else if(masterInfoObject.orderStateCd == 10){
+		}else if("${orderMasterVO.orderStateCd}" == 10){
 			$(".pay-state").html("환불 완료");
 		}else {
 			$(".pay-state").html("결제 완료");
 		}
-		$(".orderer-hp").html(masterInfoObject.ordererHpNumber.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3"));
-		$(".orderer-email").html(masterInfoObject.ordererMail);
-		$(".recipient-name").html(masterInfoObject.recipientName);
 		$(".recipient-hp").html(masterInfoObject.recipientHpNumber.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3"));
 		$(".recipient-next-hp").val(masterInfoObject.recipientHpNumber2.replace(/(\d{3})(\d{4})(\d{4})/, "$1-$2-$3"));
-		$(".recipient-zip-code").val(masterInfoObject.recipientZipcode);
-		$(".recipient-jibun-addr").val(masterInfoObject.recipientJibunAddr);
-		$(".recipient-road-addr").val(masterInfoObject.recipientRoadAddr);
-		$(".recipient-detail-addr").val(masterInfoObject.recipientDetailAddr);
-		$(".order-req").val(masterInfoObject.orderRequest);
-		$(".delivery-req").val(masterInfoObject.deliveryRequest);
-		$(".waybill").html(masterInfoObject.waybillNumber);
 		if(masterInfoObject.paymentMethod == "Card"){
 			$(".payment-meth").html("카드");
 		}else if(masterInfoObject.paymentMethod == "account-transfer"){
 			$(".payment-meth").html("계좌이체");
 		}
-		$(".tot-order-price").html(masterInfoObject.totOrderPriceStr + "원")
 	};
 	// 다음 지도
 	function findDaumAddr() {
@@ -99,13 +71,15 @@
 }
 	// 수정버튼
 	function editHpBtn(){
-		if($(".recipient-next-hp").val() === ""){
+		if($(".recipient-next-hp").val() == masterInfoObject.recipientHpNumber2){
+			alert("변동사항이 없습니다!");
+		}else if($(".recipient-next-hp").val() === ""){
 			if(confirm("추가 연락처를 삭제할까요?")){
 				$.ajax({
 				type: "post",
 				url: "/user/orderUpdateRecipientHpNumber2Logic.do",
 				data: {
-					id: $(".order-num").html(),
+					id: "${orderMasterVO.id}",
 					recipientHpNumber2: $(".recipient-next-hp").val()
 				},
 				dataType: "json",
@@ -121,25 +95,27 @@
 				return false;
 			}
 		}else if($(".recipient-next-hp").val().length < 11){
-			alert("번호를 정확히 입력해주세요! ex) 01011111111");
+			alert("번호를 정확히 입력해주세요! ex) 01012345678");
 			$(".recipient-next-hp").focus();
 		}else {
-			$.ajax({
-				type: "post",
-				url: "/user/orderUpdateRecipientHpNumber2Logic.do",
-				data: {
-					id: $(".order-num").html(),
-					recipientHpNumber2: $(".recipient-next-hp").val()
-				},
-				dataType: "json",
-				success: function(response) {
-					alert("정상적으로 수정됐습니다!");
-					location.reload();
-				},
-				error: function(xhr, status, error) {
-					alert("수정에 실패했습니다.. 다시 입력해주세요!");
-				}
-			});
+			if(confirm("입력하신 번호 : " + $(".recipient-next-hp").val() + "\n이대로 저장 하시겠습니까?")){
+				$.ajax({
+					type: "post",
+					url: "/user/orderUpdateRecipientHpNumber2Logic.do",
+					data: {
+						id: "${orderMasterVO.id}",
+						recipientHpNumber2: $(".recipient-next-hp").val()
+					},
+					dataType: "json",
+					success: function(response) {
+						alert("정상적으로 수정됐습니다!");
+						location.reload();
+					},
+					error: function(xhr, status, error) {
+						alert("수정에 실패했습니다.. 다시 입력해주세요!");
+					}
+				});
+			}
 		}
 	}
 	
@@ -148,40 +124,176 @@
 	}
 
 	function saveAddrBtn(){
-		if($(".recipient-detail-addr").val() === ""){
+		if(masterInfoObject.recipientJibunAddr == $(".recipient-jibun-addr").val() && masterInfoObject.recipientRoadAddr == $(".recipient-road-addr").val() && masterInfoObject.recipientDetailAddr == $(".recipient-detail-addr").val() && masterInfoObject.recipientZipcode == $(".recipient-zip-code").val()){
+			alert("변경사항이 없습니다!");
+		}else if($(".recipient-detail-addr").val() === ""){
 			alert("상세 주소를 입력해주세요!");
 			$(".recipient-detail-addr").focus();
 		}else{
-			$.ajax({
-				type: "post",
-				url: "/user/orderUpdateAddrsLogic.do",
-				data: {
-					id: $(".order-num").html(),
-					recipientJibunAddr: $(".recipient-jibun-addr").val(),
-					recipientRoadAddr: $(".recipient-road-addr").val(),
-					recipientDetailAddr: $(".recipient-detail-addr").val(),
-					recipientZipcode: $(".recipient-zip-code").val()
-				},
-				dataType: "json",
-				success: function(response) {
-					alert("정상적으로 수정됐습니다!");
-					location.reload();
-				},
-				error: function(xhr, status, error) {
-					alert("수정에 실패했습니다.. 다시 입력해주세요!");
-				}
-			});
+			if(confirm("주소를 다시한번 확인해주세요!\n\n" + "지번주소 : " + $(".recipient-jibun-addr").val() + "\n도로명 주소 : " + $(".recipient-road-addr").val() + "\n상세주소 : " + $(".recipient-detail-addr").val() + "\n\n이대로 저장할까요?")){
+				$.ajax({
+					type: "post",
+					url: "/user/orderUpdateAddrsLogic.do",
+					data: {
+						id: "${orderMasterVO.id}",
+						recipientJibunAddr: $(".recipient-jibun-addr").val(),
+						recipientRoadAddr: $(".recipient-road-addr").val(),
+						recipientDetailAddr: $(".recipient-detail-addr").val(),
+						recipientZipcode: $(".recipient-zip-code").val()
+					},
+					dataType: "json",
+					success: function(response) {
+						alert("정상적으로 수정됐습니다!");
+						location.reload();
+					},
+					error: function(xhr, status, error) {
+						alert("수정에 실패했습니다.. 다시 입력해주세요!");
+					}
+				});
+			}
 		}
 	}
-	
-	function editOrderReqBtn(){
-		if($(".order-req").val() === ""){
+	function clickReqInput(el){
+		$(".text-counter").css("display","none");
+		if($(el).hasClass("order-req")){
+			orderTextCount();
+			$("._order").css("display","block");
+		}else {
+			deliveryTextCount();
+			$("._delivery").css("display","block");
+		}
+	}
+	function reqInput(el){
+		if($(el).val().length > 50){
+			$(el).val($(el).val().substring(0, 50));
+		}
+	}
+	function orderTextCount(){
+		let num = $(".order-req").val().length;
+		$("._order").html(num + "/50");
+	}
+	function deliveryTextCount(){
+		let num = $(".delivery-req").val().length;
+		$("._delivery").html(num + "/50");
+	}
+	function insertOrderCountText(el){
+		let num = $("#modalOrderReq").val().length;
+		$(".text-counter-order-modal").html(num + "/50");
+	}
+	function modalOrderTextCount(){
+		let num = $("#modalOrderReq").val().length;
+		$(".text-counter-order-modal").html(num + "/50");
+	}
+	function insertDeliveryCountText(el){
+		let num = $("#modalDeliveryReq").val().length;
+		$(".text-counter-delivery-modal").html(num + "/50");
+	}
+	function modalOrderTextCount(){
+		let num = $("#modalDeliveryReq").val().length;
+		$(".text-counter-delivery-modal").html(num + "/50");
+	}
+	function orderReqModalSave(){
+		let input = $("#modalOrderReq").val();
+		if(input === "${orderMasterVO.orderRequest}"){
+			alert("변경사항이 없습니다!");
+		}else if(input === ""){
 			if(confirm("요청내용을 삭제할까요?")){
 				$.ajax({
 					type: "post",
 					url: "/user/orderUpdateOrderRequest.do",
 					data: {
-						id: $(".order-num").html(),
+						id: "${orderMasterVO.id}",
+						orderRequest: input
+					},
+					dataType: "json",
+					success: function(response) {
+						alert("정상적으로 삭제되었습니다!");
+						location.reload();
+					},
+					error: function(xhr, status, error) {
+						alert("수정에 실패했습니다.. 다시 입력해주세요!");
+					}
+				});
+			}else {
+				return false;
+			}
+		}else {
+			if(confirm("작성내용 : " + input + "\n\n이대로 저장 하시겠습니까?")){
+				$.ajax({
+					type: "post",
+					url: "/user/orderUpdateOrderRequest.do",
+					data: {
+						id: "${orderMasterVO.id}",
+						orderRequest: input
+					},
+					dataType: "json",
+					success: function(response) {
+						alert("정상적으로 수정됐습니다!");
+						location.reload();
+					},
+					error: function(xhr, status, error) {
+						alert("수정에 실패했습니다.. 다시 입력해주세요!");
+					}
+				});
+			}
+		}
+	}
+	function deliveryReqModalSave(){
+		let input = $("#modalDeliveryReq").val();
+		if(input === "" && "${orderMasterVO.deliveryRequest}" != input){
+			if(confirm("요청내용을 삭제할까요?")){
+				$.ajax({
+					type: "post",
+					url: "/user/orderUpdateDeliveryRequest.do",
+					data: {
+						id: "${orderMasterVO.id}",
+						deliveryRequest: input
+					},
+					dataType: "json",
+					success: function(response) {
+						alert("정상적으로 삭제되었습니다!");
+						location.reload();
+					},
+					error: function(xhr, status, error) {
+						alert("수정에 실패했습니다.. 다시 입력해주세요!");
+					}
+				});
+			}else {
+				return false;
+			}
+		}else if(input === "${orderMasterVO.deliveryRequest}"){
+			alert("변경 사항이 없습니다!");
+		}else {
+			if(confirm("작성내용 : " + input + "\n\n이대로 저장 하시겠습니까?")){
+				$.ajax({
+					type: "post",
+					url: "/user/orderUpdateDeliveryRequest.do",
+					data: {
+						id: "${orderMasterVO.id}",
+						deliveryRequest: input
+					},
+					dataType: "json",
+					success: function(response) {
+						alert("정상적으로 수정됐습니다!");
+						location.reload();
+					},
+					error: function(xhr, status, error) {
+						alert("수정에 실패했습니다.. 다시 입력해주세요!");
+					}
+				});
+			}
+		}
+	}
+	function editOrderReqBtn(){
+		if($(".order-req").val() === "${orderMasterVO.orderRequest}"){
+			alert("변경사항이 없습니다!");
+		}else if($(".order-req").val() === ""){
+			if(confirm("요청내용을 삭제할까요?")){
+				$.ajax({
+					type: "post",
+					url: "/user/orderUpdateOrderRequest.do",
+					data: {
+						id: "${orderMasterVO.id}",
 						orderRequest: $(".order-req").val()
 					},
 					dataType: "json",
@@ -197,33 +309,35 @@
 				return false;
 			}
 		}else {
-			$.ajax({
-				type: "post",
-				url: "/user/orderUpdateOrderRequest.do",
-				data: {
-					id: $(".order-num").html(),
-					orderRequest: $(".order-req").val()
-				},
-				dataType: "json",
-				success: function(response) {
-					alert("정상적으로 수정됐습니다!");
-					location.reload();
-				},
-				error: function(xhr, status, error) {
-					alert("수정에 실패했습니다.. 다시 입력해주세요!");
-				}
-			});
+			if(confirm("작성내용 : " + $(".order-req").val() + "\n\n이대로 저장 하시겠습니까?")){
+				$.ajax({
+					type: "post",
+					url: "/user/orderUpdateOrderRequest.do",
+					data: {
+						id: "${orderMasterVO.id}",
+						orderRequest: $(".order-req").val()
+					},
+					dataType: "json",
+					success: function(response) {
+						alert("정상적으로 수정됐습니다!");
+						location.reload();
+					},
+					error: function(xhr, status, error) {
+						alert("수정에 실패했습니다.. 다시 입력해주세요!");
+					}
+				});
+			}
 		}
 	}
 	
 	function editDeliveryReqBtn(){
-		if($(".delivery-req").val() === ""){
+		if($(".delivery-req").val() === "" && "${orderMasterVO.deliveryRequest}" != $(".delivery-req").val()){
 			if(confirm("요청내용을 삭제할까요?")){
 				$.ajax({
 					type: "post",
 					url: "/user/orderUpdateDeliveryRequest.do",
 					data: {
-						id: $(".order-num").html(),
+						id: "${orderMasterVO.id}",
 						deliveryRequest: $(".delivery-req").val()
 					},
 					dataType: "json",
@@ -238,23 +352,27 @@
 			}else {
 				return false;
 			}
+		}else if($(".delivery-req").val() === "${orderMasterVO.deliveryRequest}"){
+			alert("변경 사항이 없습니다!");
 		}else {
-			$.ajax({
-				type: "post",
-				url: "/user/orderUpdateDeliveryRequest.do",
-				data: {
-					id: $(".order-num").html(),
-					deliveryRequest: $(".delivery-req").val()
-				},
-				dataType: "json",
-				success: function(response) {
-					alert("정상적으로 수정됐습니다!");
-					location.reload();
-				},
-				error: function(xhr, status, error) {
-					alert("수정에 실패했습니다.. 다시 입력해주세요!");
-				}
-			});
+			if(confirm("작성내용 : " + $(".delivery-req").val() + "\n\n이대로 저장 하시겠습니까?")){
+				$.ajax({
+					type: "post",
+					url: "/user/orderUpdateDeliveryRequest.do",
+					data: {
+						id: "${orderMasterVO.id}",
+						deliveryRequest: $(".delivery-req").val()
+					},
+					dataType: "json",
+					success: function(response) {
+						alert("정상적으로 수정됐습니다!");
+						location.reload();
+					},
+					error: function(xhr, status, error) {
+						alert("수정에 실패했습니다.. 다시 입력해주세요!");
+					}
+				});
+			}
 		}
 		
 	}
@@ -279,7 +397,7 @@
 					type: "post",
 					url: "/user/orderVideoRequestToAdminLogic.do",
 					data: {
-						id: $(".order-num").html()
+						id: "${orderMasterVO.id}"
 					},
 					dataType: "json",
 					success: function(response) {
@@ -497,10 +615,90 @@
 		}else {
 			$("#refundBoxCount").val("${orderDetailVOList[0].boxQty}");
 		}
-		
+	}
+	function trSettings(){
+		$(".trs").children().remove();
+		if(width < 768){
+			let oneChildA = $(`<th style="width: 30%;" scope="row">상품명</th>`);
+			let oneChildB = $(`<td>${orderMasterVO.orderName}</td>`);
+			$(".tr-one").append(oneChildA);
+			$(".tr-one").append(oneChildB);
+			let twoChildA = $(`<th style="width: 30%;">주문날짜</th>`);
+			let twoChildB = $(`<td>${orderMasterVO.orderDateStr}</td>`);
+			$(".tr-two").append(twoChildA);
+			$(".tr-two").append(twoChildB);
+			let threeChildA = $(`<th style="width: 30%;" scope="row">주문자</th>`);
+			let threeChildB = $(`<td>${orderMasterVO.ordererName}</td>`);
+			$(".tr-three").append(threeChildA);
+			$(".tr-three").append(threeChildB);
+			let fourChildA = $(`<th style="width: 30%;">결제상태</th>`);
+			let fourChildB = $(`<td class="pay-state"></td>`);
+			$(".tr-four").append(fourChildA);
+			$(".tr-four").append(fourChildB);
+			let fiveChildA = $(`<th style="width: 30%;" scope="row">주문번호</th>`);
+			let fiveChildB = $(`<td>${orderMasterVO.id}</td>`);
+			$(".tr-five").append(fiveChildA);
+			$(".tr-five").append(fiveChildB);
+			let sixChildA = $(`<th style="width: 30%;">이메일 주소</th>`);
+			let sixChildB = $(`<td>${orderMasterVO.ordererMail}</td>`);
+			$(".tr-six").append(sixChildA);
+			$(".tr-six").append(sixChildB);
+			$(".p-tags-a").html("주문 시<br>요청사항");
+			$(".p-tags-b").html("배송 시<br>요청사항");
+		}else if(width >= 1024){
+			let oneChildA = $(`<th style="width: 20%;" scope="row">상품명</th>`);
+			let oneChildB = $(`<td>${orderMasterVO.orderName}</td>`);
+			let oneChildC = $(`<th style="width: 20%;" scope="row">주문번호</th>`);
+			let oneChildD = $(`<td>${orderMasterVO.id}</td>`);
+			$(".tr-one").append(oneChildA);
+			$(".tr-one").append(oneChildB);
+			$(".tr-one").append(oneChildC);
+			$(".tr-one").append(oneChildD);
+			let twoChildA = $(`<th style="width: 20%;">주문날짜</th>`);
+			let twoChildB = $(`<td>${orderMasterVO.orderDateStr}</td>`);
+			let twoChildC = $(`<th style="width: 20%;" scope="row">주문자</th>`);
+			let twoChildD = $(`<td>${orderMasterVO.ordererName}</td>`);
+			$(".tr-two").append(twoChildA);
+			$(".tr-two").append(twoChildB);
+			$(".tr-two").append(twoChildC);
+			$(".tr-two").append(twoChildD);
+			let threeChildA = $(`<th style="width: 20%;">결제상태</th>`);
+			let threeChildB = $(`<td class="pay-state"></td>`);
+			let threeChildC = $(`<th style="width: 20%;">이메일 주소</th>`);
+			let threeChildD = $(`<td>${orderMasterVO.ordererMail}</td>`);
+			$(".tr-three").append(threeChildA);
+			$(".tr-three").append(threeChildB);
+			$(".tr-three").append(threeChildC);
+			$(".tr-three").append(threeChildD);
+			$(".p-tags-a").html("주문 시 요청사항");
+			$(".p-tags-b").html("배송 시 요청사항");
+		}
+	}
+	function reqBtnSetting(){
+		$(".order-req-input-group").find(".btn").remove();
+		$(".delivery-req-input-group").find(".btn").remove();
+		if(width < 1440){
+			$(".order-req-input-group").append(`<button class="btn btn-outline-secondary btn-s" type="button" data-bs-toggle="modal" data-bs-target="#orderReqModal" onclick="javascript:insertOrderCountText(this)">수정</button>`);
+			$(".delivery-req-input-group").append(`<button class="btn btn-outline-secondary btn-s" type="button" data-bs-toggle="modal" data-bs-target="#deliveryReqModal" onclick="javascript:insertDeliveryCountText(this)">수정</button>`);
+			$(".order-req").attr("readonly",true);
+			$(".delivery-req").attr("readonly",true);
+		}else if(width >= 1440){
+			$(".order-req-input-group").append(`<button class="btn btn-outline-secondary btn-s" type="button" id="button-addon4" onclick="javascript:editOrderReqBtn()">저장</button>`);
+			$(".delivery-req-input-group").append(`<button class="btn btn-outline-secondary btn-s" type="button" id="button-addon5" onclick="javascript:editDeliveryReqBtn()">저장</button>`);
+			$(".order-req").attr("readonly",false);
+			$(".delivery-req").attr("readonly",false);
+		}
 	}
 	$(function(){
+		trSettings();
+		reqBtnSetting();
 		loadData();
+		$(window).on("resize",function(){
+			width = window.outerWidth;
+			trSettings();
+			reqBtnSetting();
+			loadData();
+		})
 		var Pattern = /\((.*?)\)/;
 		var userInfoMatch = Pattern.exec("${loginUser}");
 		var userInfoValues = userInfoMatch[1];
@@ -527,6 +725,12 @@
 		if(masterInfoObject.orderStateCd == 1 && masterInfoObject.paymentMethod == "account-transfer"){
 			$(".account-numb-tr").css("display","table-row");
 		}
+
+		let orderTextNum = $(".order-req").val().length;
+		let deliveryTextNum = $("delivery-req").val().length;
+		console.log(orderTextNum);
+		$("_order").html(orderTextNum + "/50");
+		$("_delivery").html(deliveryTextNum + "/50");
 	})
 </script>
 </head>
@@ -536,16 +740,16 @@
 	<div class="basic_background w-100">
 		<div class="d-flex">
 			<!-- 빈 영역 -->
-			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
+			<div class="h-25 justify-content-start order-list-detail-empty-space"></div>
 			<!-- 작업영역 -->
-			<div class="estimateCalc_background p-5" style="width: 70% !important">
+			<div class="estimateCalc_background p-md-5 pt-5 pb-5 order-list-detail-main-space">
 				<div class="container">
-					<div class="buttons mb-3 d-flex justify-content-md-between">
-						<h2 class="mb-3">
+					<div class="buttons mb-3 d-md-flex justify-content-md-between">
+						<h2 class="mb-3 text-center">
 							<span class="user-name"></span>
 							<b>님의 주문 상세내역</b>
 						</h2>
-						<div class="mt-2">
+						<div class="mt-2 text-end">
 							<c:if test="${orderMasterVO.orderStateCd == 1}">
 								<button class="btn btn-outline-success me-md-2" type="button" onclick="javascript:cancleOrderBtn()">주문 취소</button>
 							</c:if>
@@ -561,32 +765,20 @@
 						</div>	
 					</div>
 					<table class="table table-secondary table-bordered" style="border-collapse: separate;">
-						<tbody>
-								<tr>
-									<th style="width: 20%;" scope="row">주문번호</th>
-									<td style="width: 30%;" class="order-num"></td>
-									<th style="width: 20%;">주문날짜</th>
-									<td style="width: 30%;" class="order-date"></td>
-								</tr>
-								<tr>
-									<th style="width: 20%;" scope="row">주문자</th>
-									<td style="width: 30%;" class="orderer-name"></td>
-									<th style="width: 20%;">결제상태</th>
-									<td style="width: 30%;" class="pay-state"></td>
-								</tr>
-								<tr>
-									<th style="width: 20%;" scope="row">연락처</th>
-									<td style="width: 30%;" class="orderer-hp"></td>
-									<th style="width: 20%;">이메일 주소</th>
-									<td style="width: 30%;" class="orderer-email"></td>
-								</tr>
+						<tbody class="trs-body">
+							<tr class="tr-one trs"></tr>
+							<tr class="tr-two trs"></tr>
+							<tr class="tr-three trs"></tr>
+							<tr class="tr-four trs"></tr>
+							<tr class="tr-five trs"></tr>
+							<tr class="tr-six trs"></tr>
 						</tbody>
 					</table>
 					<table class="table table-secondary table-bordered" style="border-collapse: separate;">
 						<thead>
 							<tr>
-								<th scope="col" style="width: 20%;">수령인</th>
-								<th scope="col" style="font-weight: 400;" class="recipient-name"></th>
+								<th class="first-th" scope="col">수령인</th>
+								<th scope="col" style="font-weight: 400;">${orderMasterVO.recipientName}</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -598,7 +790,7 @@
 								<th scope="row" class="align-middle">추가 연락처</th>
 								<td>
 									<div class="input-group">
-										<input maxlength="11" type="text" class="form-control recipient-next-hp" aria-label="Recipient's another hpNumber" aria-describedby="button-addon" oninput="javascript:checkHp()">
+										<input maxlength="11" type="text" class="form-control recipient-next-hp" aria-label="Recipient's another hpNumber" aria-describedby="button-addon" oninput="javascript:checkHp()" placeholder="ex)01012345678">
 										<button class="btn btn-outline-secondary btn-s" type="button" id="button-addon" onclick="javascript:editHpBtn()">저장</button>
 									</div>
 								</td>
@@ -607,7 +799,7 @@
 								<th scope="row" class="align-middle">주소</th>
 								<td>
 									<div class="input-group">
-										<input type="text" class="form-control recipient-zip-code" aria-label="Recipient's addr" aria-describedby="button-addon2" readonly="readonly">
+										<input type="text" class="form-control recipient-zip-code" aria-label="Recipient's addr" aria-describedby="button-addon2" readonly="readonly" value="${orderMasterVO.recipientZipcode}">
 										<button class="btn btn-outline-secondary btn-s" type="button" id="button-addon2" onclick="javascript:editAddrBtn()">찾기</button>
 									</div>
 								</td>
@@ -615,45 +807,45 @@
 							<tr>
 								<th scope="row" class="align-middle">지번주소</th>
 								<td>
-									<input type="text" class="form-control recipient-jibun-addr" aria-label="Recipient's Ji addr" readonly="readonly">
+									<input type="text" class="form-control recipient-jibun-addr" aria-label="Recipient's Ji addr" readonly="readonly" value="${orderMasterVO.recipientJibunAddr}">
 								</td>
 							</tr>
 							<tr>
 								<th scope="row" class="align-middle">도로명주소</th>
 								<td>
-									<input type="text" class="form-control recipient-road-addr" aria-label="Recipient's Road addr" readonly="readonly">
+									<input type="text" class="form-control recipient-road-addr" aria-label="Recipient's Road addr" readonly="readonly" value="${orderMasterVO.recipientRoadAddr}">
 								</td>
 							</tr>
 							<tr>
 								<th scope="row" class="align-middle">상세주소</th>
 								<td>
 									<div class="input-group">
-										<input type="text" class="form-control recipient-detail-addr" aria-label="Recipient's Detail addr" aria-describedby="button-addon3">
+										<input type="text" class="form-control recipient-detail-addr" aria-label="Recipient's Detail addr" aria-describedby="button-addon3" value="${orderMasterVO.recipientDetailAddr}">
 										<button class="btn btn-outline-secondary btn-s" type="button" id="button-addon3" onclick="javascript:saveAddrBtn()">저장</button>
 									</div>
 								</td>
 							</tr>
 							<tr>
-								<th scope="row" class="align-middle">주문 시 요청사항</th>
-								<td>
-									<div class="input-group">
-										<input type="text" class="form-control order-req" aria-label="Recipient's order required" aria-describedby="button-addon4">
-										<button class="btn btn-outline-secondary btn-s" type="button" id="button-addon4" onclick="javascript:editOrderReqBtn()">저장</button>
+								<th scope="row" class="align-middle p-tags-a">주문 시 요청사항</th>
+								<td class="req-input-tds">
+									<div class="input-group order-req-input-group">
+										<input type="text" class="form-control order-req" aria-label="Recipient's order required" aria-describedby="button-addon4" value="${orderMasterVO.orderRequest}" oninput="javascript:reqInput(this); orderTextCount();" onclick="clickReqInput(this)" placeholder="최대 50자">
 									</div>
+									<div class="text-counter _order"></div>
 								</td>
 							</tr>
 							<tr>
-								<th scope="row" class="align-middle">배송 시 요청사항</th>
-								<td>
-									<div class="input-group">
-										<input type="text" class="form-control delivery-req" aria-label="Recipient's delivery required" aria-describedby="button-addon5">
-										<button class="btn btn-outline-secondary btn-s" type="button" id="button-addon5" onclick="javascript:editDeliveryReqBtn()">저장</button>
+								<th scope="row" class="align-middle p-tags-b">배송 시 요청사항</th>
+								<td class="req-input-tds">
+									<div class="input-group delivery-req-input-group">
+										<input type="text" class="form-control delivery-req" aria-label="Recipient's delivery required" aria-describedby="button-addon5" value="${orderMasterVO.deliveryRequest}" oninput="javascript:reqInput(this); deliveryTextCount();" onclick="clickReqInput(this)" placeholder="최대 50자">
 									</div>
+									<div class="text-counter _delivery"></div>
 								</td>
 							</tr>
 							<tr>
 								<th scope="row">상태</th>
-								<td class="order-state"></td>
+								<td>${orderMasterVO.orderStateCdNm}</td>
 							</tr>
 							<tr>
 								<th scope="row">결제 수단</th>
@@ -665,7 +857,7 @@
 							</tr>
 							<tr>
 								<th class="align-middle" scope="row">결제 금액</th>
-								<td class="tot-order-price"></td>
+								<td>${orderMasterVO.totOrderPriceStr}원</td>
 							</tr>
 						</tbody>
 					</table>
@@ -771,11 +963,49 @@
 						  </div>
 						</div>
 					</div>
+					<!-- 모바일용 주문 요청사항 모달 -->
+					<div class="modal fade" id="orderReqModal" tabindex="-1" aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered">
+						  <div class="modal-content">
+							<div class="modal-header">
+							  <h1 class="modal-title fs-5">주문 시 요청사항</h1>
+							  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+							</div>
+							<div class="modal-body position-relative p-0 m-3">
+								<textarea class="form-control" id="modalOrderReq" cols="30" rows="4" oninput="javascript:reqInput(this); modalOrderTextCount(this)">${orderMasterVO.orderRequest}</textarea>
+								<div class="text-counter-order-modal position-absolute bottom-0 end-0 me-2"></div>
+							</div>
+							<div class="modal-footer">
+							  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+							  <button type="button" class="btn btn-primary" onclick="javascript:orderReqModalSave()">저장</button>
+							</div>
+						  </div>
+						</div>
+					</div>
+					<!-- 모바일용 배송 요청사항 모달 -->
+					<div class="modal fade" id="deliveryReqModal" tabindex="-1" aria-hidden="true">
+						<div class="modal-dialog modal-dialog-centered">
+						  <div class="modal-content">
+							<div class="modal-header">
+							  <h1 class="modal-title fs-5">배송 시 요청사항</h1>
+							  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+							</div>
+							<div class="modal-body position-relative p-0 m-3">
+								<textarea class="form-control" id="modalDeliveryReq" cols="30" rows="4" oninput="javascript:reqInput(this); modalOrderTextCount(this)">${orderMasterVO.deliveryRequest}</textarea>
+								<div class="text-counter-delivery-modal position-absolute bottom-0 end-0 me-2"></div>
+							</div>
+							<div class="modal-footer">
+							  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+							  <button type="button" class="btn btn-primary" onclick="javascript:deliveryReqModalSave()">저장</button>
+							</div>
+						  </div>
+						</div>
+					</div>
 				</div>
 	 		</div>
 			
 			<!-- 빈 영역 -->
-			<div class="justify-content-end" style="width: 15%!important;"></div>
+			<div class="justify-content-end order-list-detail-empty-space"></div>
 		</div>
 		
 		<!-- 2022.11.16 디자인이미지 추가 -->

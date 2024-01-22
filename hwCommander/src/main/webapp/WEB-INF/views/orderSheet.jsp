@@ -731,7 +731,7 @@ function recDupliChk(id) {
 	<input type="hidden" id="inicis_buyername" name="buyername">
 	<input type="hidden" id="inicis_buyertel" name="buyertel">
 	<input type="hidden" id="inicis_buyeremail" name="buyeremail">
-
+	<input type="hidden" name="quotabase" value="1:2:3:4:5:6:7:8:9:10:11:12">
 		
 	<!-- todo wonho 로컬테스트 -->
 	<%-- 
