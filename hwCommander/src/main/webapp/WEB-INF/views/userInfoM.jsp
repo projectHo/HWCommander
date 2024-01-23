@@ -82,9 +82,9 @@
 	<div class="basic_background w-100">
 		<div class="d-flex">
 			<!-- 빈 영역 -->
-			<div class="h-25 justify-content-start info-m-empty-space"></div>
+			<div class="h-25 justify-content-start" style="width: 0.5%;"></div>
 			<!-- 작업영역 -->
-			<div class="w-100 estimateCalc_background pt-5 pb-5 ps-2 pe-2">
+			<div class="w-100 estimateCalc_background pt-5 pb-5 ps-2 pe-2" style="width: 99%;">
 				<h1 class="pt-2 ps-2">${loginUser.name}님의 주문 내역</h1>
 				<c:forEach items="${orderMasterVOList}" var="item">
 					<c:if test="${item.orderStateCd < 09 || item.orderStateCd == 11}">
@@ -96,7 +96,7 @@
 								</div>
 								<div class="goods-body pb-2">
 									<div class="goods-state">배송현황 : <small>${item.orderStateCdNm}</small></div>
-									<div class="goods-num">주문번호 :${item.id}</div>
+									<div class="goods-num">주문번호 : ${item.id}</div>
 									<div class="goods-price">금액 : ${item.totOrderPriceStr}원</div>
 								</div>
 								<div class="goods-button d-flex justify-content-between">
@@ -114,7 +114,7 @@
 				</c:forEach>
 			</div>
 			<!-- 빈 영역 -->
-			<div class="justify-content-end info-m-empty-space"></div>
+			<div class="justify-content-end" style="width: 0.5%;"></div>
 		</div>
 		
 		<!-- 2022.11.16 디자인이미지 추가 -->

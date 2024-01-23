@@ -1,0 +1,65 @@
+.refund-min-height {
+    min-height: 40px;
+}
+
+.refund-info-scrollable {
+    max-height: 200px;
+    overflow-y: auto;
+    word-break: break-all;
+}
+.table {
+    border-collapse : separate;
+}
+tr th {
+    word-break: keep-all;
+    width: 20%;
+}
+.refund-info-empty-space {
+    width: 15%!important;
+}
+
+.refund-info-main-space {
+    width: 70%!important;
+}
+#refundReason {
+    height: 200px;
+}
+.reason-div {
+    max-height: 200px;
+    overflow-y: auto;
+    word-break: break-all;
+}
+@media (max-width : 1919px){
+    .refund-info-btns svg{
+        width: 24px;
+    }
+}
+@media (max-width : 1439px) {
+    .refund-info-empty-space {
+        width: 0.5%!important;
+    }
+    
+    .refund-info-main-space {
+        width: 99%!important;
+    }
+    .refund-info-btns svg{
+        width: 18px;
+    }
+    .refund-info-btns button {
+        font-size: 14px;
+        padding-left: 0.5rem!important;
+        padding-right: 0.5rem!important;
+    }
+    .refund-state {
+        height: 56px;
+    }
+    .refund-info-first-th {
+        width: 30%!important;
+    }
+}
+
+@media (min-width : 768px) and (max-width : 1023px){
+    .refund-info-btns button {
+        font-size: 10px;
+    }
+}

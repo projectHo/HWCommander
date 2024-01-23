@@ -285,7 +285,7 @@
 			alert("변경된 내용이 없습니다. 다시 확인해주세요");
 			return false;
 		}
-		if(confirm("수정 하시겠습니까? 확인을 누르시면 로그아웃되며 이메일 인증 전 로그인 불가능합니다.")){
+		if(confirm("확인을 누르시면 로그아웃되며 이메일 인증 전 로그인 불가능합니다. 수정 하시겠습니까?")){
 			$.ajax({
 				type: "post",
 				url: "/user/userMailInfoUpdateLogic.do",
@@ -364,6 +364,29 @@
 		if(loginCheck()){
 			location.href = "/user/refundStateM.do";
 		}
+	}
+	function checkMyInfoM() {
+		$.ajax({
+			type: "post",
+			url: "/user/idAndPwCheck.do",
+			data: {
+				id: $("#myIdM").val(),
+				pw: $("#myPwM").val()
+			},
+			dataType: "json",
+			success: function(response) {
+				if (response === true) {
+					location.href = "/user/profileM.do"
+				} else {
+					alert("아이디 비밀번호가 일치하지 않습니다. 다시 입력해주세요.");
+				}
+				
+			},
+			error: function(xhr, status, error) {
+				alert("통신에 실패했습니다. 다시 시도해주세요.");
+				location.reload();
+			}
+		});
 	}
 	$(function(){
 		$(".card-list").removeClass("show").css("display","none");
@@ -813,9 +836,27 @@
 						<div id="flush-mobile-collapseThree" class="accordion-collapse collapse" aria-labelledby="flush-headingThree" data-bs-parent="#accordionFlushMobile">
 							<div class="accordion-body">
 								<div class="list-group list-group-flush">
-									<a href="javascript:void(0)" class="list-group-item list-group-item-action">
+									<a href="javascript:void(0)" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#inquiryModal">
 										문의 사항
 									</a>
+									<!-- 문의사항 모바일 모달 -->
+									<div class="modal fade" id="inquiryModal" tabindex="-1" aria-hidden="true">
+										<div class="modal-dialog modal-dialog-centered">
+										  <div class="modal-content">
+											<div class="modal-header">
+											  <h1 class="modal-title fs-5">문의사항</h1>
+											  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+											</div>
+											<div class="modal-body">
+												<p>고객센터 전화를 통해 문의해주시기 바랍니다.</p>
+												<span class="mt-3">고객센터 : <a href="tel:010-7625-0478" class="card-link">010-7625-0478</a></span>
+											</div>
+											<div class="modal-footer">
+											  <button type="button" class="btn btn-primary" data-bs-dismiss="modal">닫기</button>
+											</div>
+										  </div>
+										</div>
+									</div>
 									<a href="javascript:void(0)" class="list-group-item list-group-item-action" onclick="javascript:alert('준비중입니다.')">
 										리뷰 관리
 									</a>
@@ -839,10 +880,36 @@
 						<div id="flush-mobile-collapseFive" class="accordion-collapse collapse" aria-labelledby="flush-headingFive" data-bs-parent="#accordionFlushMobile">
 							<div class="accordion-body">
 								<div class="list-group list-group-flush">
-									<a href="javascript:void(0)" class="list-group-item list-group-item-action">
+									<a href="javascript:void(0)" class="list-group-item list-group-item-action" data-bs-toggle="modal" data-bs-target="#profileModal">
 										내 정보
 									</a>
-									<a href="javascript:void(0)" class="list-group-item list-group-item-action">
+									<!-- 내정보 인증 모달 -->
+									<div class="modal fade" id="profileModal" tabindex="-1" aria-hidden="true">
+										<div class="modal-dialog modal-dialog-centered">
+										  <div class="modal-content">
+											<div class="modal-header">
+											  <h1 class="modal-title fs-5">회원정보확인</h1>
+											  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+											</div>
+											<div class="modal-body">
+												<p class="mb-0">정보를 안전하게 보호하기 위해</p>
+												<p>아이디와 비밀번호를 입력해주세요</p>
+												<div class="form-floating mb-2 mx-auto mt-2">
+													<input type="text" class="form-control" id="myIdM" placeholder="">
+													<label for="floatingInput">ID</label>
+												</div>
+												<div class="form-floating mb-3 mx-auto">
+													<input type="password" class="form-control" id="myPwM" placeholder="">
+													<label for="floatingPassword">Password</label>
+												</div>
+												<div>
+													<button type="button" class="btn btn-outline-secondary w-100" onclick="javascript:checkMyInfoM()">확인</button>
+												</div>
+											</div>
+										  </div>
+										</div>
+									</div>
+									<a href="javascript:void(0)" class="list-group-item list-group-item-action" onclick="javascript:alert('회원 탈퇴는 pc환경에서만 가능합니다. pc에서 재시도 부탁드립니다.')">
 										회원 탈퇴
 									</a>
 								</div>

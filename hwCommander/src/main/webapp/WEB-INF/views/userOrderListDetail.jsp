@@ -60,15 +60,15 @@
 	};
 	// 다음 지도
 	function findDaumAddr() {
-	new daum.Postcode({
-        oncomplete: function(data) {
-            $(".recipient-zip-code").val(data.zonecode);
-            $(".recipient-jibun-addr").val(data.jibunAddress);
-            $(".recipient-road-addr").val(data.roadAddress);
-            $(".recipient-detail-addr").val("");
-        }
-    }).open();
-}
+		new daum.Postcode({
+			oncomplete: function(data) {
+				$(".recipient-zip-code").val(data.zonecode);
+				$(".recipient-jibun-addr").val(data.jibunAddress);
+				$(".recipient-road-addr").val(data.roadAddress);
+				$(".recipient-detail-addr").val("");
+			}
+		}).open();
+	}
 	// 수정버튼
 	function editHpBtn(){
 		if($(".recipient-next-hp").val() == masterInfoObject.recipientHpNumber2){
@@ -188,7 +188,7 @@
 		let num = $("#modalDeliveryReq").val().length;
 		$(".text-counter-delivery-modal").html(num + "/50");
 	}
-	function modalOrderTextCount(){
+	function modalDeliveryTextCount(){
 		let num = $("#modalDeliveryReq").val().length;
 		$(".text-counter-delivery-modal").html(num + "/50");
 	}
@@ -551,6 +551,9 @@
 		}
 	}
 	function refundReasonUserWriteText(el){
+		if($(el).val().length > 200){
+            $(el).val($(el).val().substring(0, 200));
+		}
 		refundReasonUserWrite = String($(el).val());
 	}
 	function cancleOrderBtn(){
@@ -725,12 +728,6 @@
 		if(masterInfoObject.orderStateCd == 1 && masterInfoObject.paymentMethod == "account-transfer"){
 			$(".account-numb-tr").css("display","table-row");
 		}
-
-		let orderTextNum = $(".order-req").val().length;
-		let deliveryTextNum = $("delivery-req").val().length;
-		console.log(orderTextNum);
-		$("_order").html(orderTextNum + "/50");
-		$("_delivery").html(deliveryTextNum + "/50");
 	})
 </script>
 </head>
@@ -972,7 +969,7 @@
 							  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 							</div>
 							<div class="modal-body position-relative p-0 m-3">
-								<textarea class="form-control" id="modalOrderReq" cols="30" rows="4" oninput="javascript:reqInput(this); modalOrderTextCount(this)">${orderMasterVO.orderRequest}</textarea>
+								<textarea class="form-control" id="modalOrderReq" cols="30" rows="4" oninput="javascript:reqInput(this); modalOrderTextCount()">${orderMasterVO.orderRequest}</textarea>
 								<div class="text-counter-order-modal position-absolute bottom-0 end-0 me-2"></div>
 							</div>
 							<div class="modal-footer">
@@ -991,7 +988,7 @@
 							  <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
 							</div>
 							<div class="modal-body position-relative p-0 m-3">
-								<textarea class="form-control" id="modalDeliveryReq" cols="30" rows="4" oninput="javascript:reqInput(this); modalOrderTextCount(this)">${orderMasterVO.deliveryRequest}</textarea>
+								<textarea class="form-control" id="modalDeliveryReq" cols="30" rows="4" oninput="javascript:reqInput(this); modalDeliveryTextCount()">${orderMasterVO.deliveryRequest}</textarea>
 								<div class="text-counter-delivery-modal position-absolute bottom-0 end-0 me-2"></div>
 							</div>
 							<div class="modal-footer">

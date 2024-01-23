@@ -52,6 +52,11 @@
             return false;
         }
     }
+	function goRefundInfo(el){
+		if(loginCheck()){
+			location.href = "/user/refundInfo.do?id=" + $(el).attr("val");
+		}
+	}
 	$(function(){
 		
 	})
@@ -63,9 +68,9 @@
 	<div class="basic_background w-100">
 		<div class="d-flex">
 			<!-- 빈 영역 -->
-			<div class="h-25 justify-content-start info-m-empty-space"></div>
+			<div class="h-25 justify-content-start" style="width: 0.5%;"></div>
 			<!-- 작업영역 -->
-			<div class="w-100 estimateCalc_background pt-5 pb-5 ps-2 pe-2">
+			<div class="w-100 estimateCalc_background pt-5 pb-5 ps-2 pe-2" style="width: 99%;">
 				<h1 class="pt-2 ps-2">${loginUser.name}님의 환불 내역</h1>
 				<c:forEach items="${refundInfoVOList}" var="item">
 					<c:forEach items="${orderMasterVOList}" var="orderItem">
@@ -85,7 +90,7 @@
 										<c:if test="${item.refundStateCd == 1}">
 											<button class="btn btn-outline-secondary" refund-id="${item.id}" order-id="${orderItem.id}" onclick="javascript:cancleRefundBtn(this)">환불취소</button>
 										</c:if>
-										<button class="btn btn-outline-primary">상세보기</button>
+										<button class="btn btn-outline-primary" val="${item.id}" onclick="javascript:goRefundInfo(this)">상세보기</button>
 									</div>
 								</div>
 							</div>
@@ -94,7 +99,7 @@
 				</c:forEach>
 			</div>
 			<!-- 빈 영역 -->
-			<div class="justify-content-end info-m-empty-space"></div>
+			<div class="justify-content-end" style="width: 0.5%;"></div>
 		</div>
 		
 		<!-- 2022.11.16 디자인이미지 추가 -->

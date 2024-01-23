@@ -406,6 +406,19 @@ public class UserController {
 			return userLoginCheck(request, model, "userSeccessionM");
 		}
 	}
+	@RequestMapping(value = "/profileM.do", method = RequestMethod.GET)
+	public String goProfileM(HttpServletRequest request, Model model) {
+		HttpSession httpSession = request.getSession();
+		UserInfoVO user = (UserInfoVO) httpSession.getAttribute("loginUser");
+		if( null != user ){
+
+			model.addAttribute("loginUser", user);
+
+			return userLoginCheck(request, model, "userProfileM");
+		}else {
+			return userLoginCheck(request, model, "userProfileM");
+		}
+	}
 //	23.11.05 refund_info 로직이 구현완료됨으로써 기존 order_master에 orderStateCd 직접변경 하던 로직 폐기 
 //	@RequestMapping(value = "/orderRefundRequestToAdminLogic.do", method = RequestMethod.POST)
 //	@ResponseBody
