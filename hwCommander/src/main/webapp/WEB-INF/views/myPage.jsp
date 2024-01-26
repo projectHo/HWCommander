@@ -1,5 +1,11 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
+<%@ page import="java.io.File" %>
+<%
+    String filePath = application.getRealPath("/") + "style.css";
+    File file = new File(filePath);
+    long lastModified = file.lastModified();
+%>
 <head>
 <title>현우의 컴퓨터 공방 - 마이페이지</title>
 <!-- Required meta tags -->
@@ -21,7 +27,7 @@
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet"/>
-<link rel="stylesheet" href="/resources/css/mypage.css">
+<link rel="stylesheet" href="/resources/css/mypage.css?<%=lastModified%>">
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <%

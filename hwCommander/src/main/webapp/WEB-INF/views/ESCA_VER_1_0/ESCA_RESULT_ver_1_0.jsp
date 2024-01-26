@@ -38,7 +38,241 @@
 		insertRams();
 		boxHeadInput();
 		answersModal();
+
+		answersMatches();
 	})
+	function answersMatches(){
+		const urlString = location.href;
+		var matches = urlString.match(/answer\d+%3C(.*?)%3E/g);
+		console.log(matches);
+		let values = [];
+
+		for(let i = 0; i < 20; i++){
+			if(i != 2 && i != 7 && i != 1){
+				let a = matches[i].match(/answer\d{1,2}/);
+				let b = matches[i].match(/%3C(.*?)%3E/);
+				b = b[1].split("%2C");
+				if(b[0] != "null" && b[1] != "null"){
+					b.unshift(a[0]);
+					values.push(b);
+				}
+			}else if (i == 1 || i == 2){
+				let a = matches[i].match(/answer\d{1,2}/);
+				let b = matches[i].match(/%3C(.*?)%3E/)[1];
+				let c = b.split("%3A");
+				let d = [a[0]];
+				c.forEach(function(part) {
+					d = d.concat(part.split("%2C"));
+				})
+				values.push(d);
+			}
+		}
+		console.log(values);
+		for(let i = values.length-1 ; i >= 0 ; i--){
+			console.log(i);
+			if(values[i][0] == "answer0"){
+				if(values[i][2] == "0"){
+					$(".answer1-p").after('<small><p class="mb-0 pb-1">┖ OS : 프리도스(+0원)</p></small>');
+				}else if(values[i][2] == "1"){
+					$(".answer1-p").after('<small><p class="mb-0 pb-1">┖ OS : COEM(+150,000원)</p></small>');
+				}else if(values[i][2] == "2"){
+					$(".answer1-p").after('<small><p class="mb-0 pb-1">┖ OS : Fpp(+180,000원)</p></small>');
+				}
+			}
+			if(values[i][0] == "answer1"){
+				$(".answer2-p").after('<small><p class="mb-0 pb-1">┖ 예산 : ' + values[i][2].replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원</p></small>");
+			}
+			if(values[i][0] == "answer2"){
+				let answer3a;
+				for(let j = values[i].length-2; j >= 1; j-=2){
+					if(values[i][j] == "PR000001"){
+						answer3a = "Apex Legend";
+					}
+					if(values[i][j] == "PR000002"){
+						answer3a = "Valorant";
+					}
+					if(values[i][j] == "PR000029"){
+						answer3a = "PUBG";
+					}
+					if(values[i][j] == "PR000032"){
+						answer3a = "[FPS 기타]";
+					}
+					if(values[i][j] == "PR000003"){
+						answer3a = "League of Legends";
+					}
+					if(values[i][j] == "PR000004"){
+						answer3a = "Dota 2";
+					}
+					if(values[i][j] == "PR000005"){
+						answer3a = "Heros of the Storm";
+					}
+					if(values[i][j] == "PR000033"){
+						answer3a = "[AOS 기타]";
+					}
+					if(values[i][j] == "PR000006"){
+						answer3a = "Lost Ark";
+					}
+					if(values[i][j] == "PR000007"){
+						answer3a = "Diablo IV";
+					}
+					if(values[i][j] == "PR000008"){
+						answer3a = "Dungeon and Fighter";
+					}
+					if(values[i][j] == "PR000009"){
+						answer3a = "FIFA Online 4";
+					}
+					if(values[i][j] == "PR000010"){
+						answer3a = "Starcraft Remastered";
+					}
+					if(values[i][j] == "PR000011"){
+						answer3a = "Warcraft III Reforged";
+					}
+					if(values[i][j] == "PR000012"){
+						answer3a = "Forza Horizon 5";
+					}
+					if(values[i][j] == "PR000013"){
+						answer3a = "Assetto Corsa";
+					}
+					if(values[i][j] == "PR000014"){
+						answer3a = "Grand Theft Auto V";
+					}
+					if(values[i][j] == "PR000015"){
+						answer3a = "Illustrator";
+					}
+					if(values[i][j] == "PR000016"){
+						answer3a = "PhotoShop";
+					}
+					if(values[i][j] == "PR000030"){
+						answer3a = "CAD";
+					}
+					if(values[i][j] == "PR000017"){
+						answer3a = "Cinema 4D";
+					}
+					if(values[i][j] == "PR000018"){
+						answer3a = "Blender";
+					}
+					if(values[i][j] == "PR000019"){
+						answer3a = "3DS MAX";
+					}
+					if(values[i][j] == "PR000020"){
+						answer3a = "Web Publicing";
+					}
+					if(values[i][j] == "PR000021"){
+						answer3a = "Embedded";
+					}
+					if(values[i][j] == "PR000022"){
+						answer3a = "VSC";
+					}
+					if(values[i][j] == "PR000023"){
+						answer3a = "Premiere Pro";
+					}
+					if(values[i][j] == "PR000024"){
+						answer3a = "DaVinci Resolve";
+					}
+					if(values[i][j] == "PR000025"){
+						answer3a = "PowerDirector";
+					}
+					if(values[i][j] == "PR000031"){
+						answer3a = "After Effect";
+					}
+					if(values[i][j] == "PR000026"){
+						answer3a = "Excel";
+					}
+					if(values[i][j] == "PR000027"){
+						answer3a = "CAPS CCTV";
+					}
+					if(values[i][j] == "PR000028"){
+						answer3a = "SAP ERP";
+					}
+					$(".answer3-p").after('<small><p class="mb-0 pb-1">┖ 이름 :  ' + answer3a + " / 비중 : " + Math.round(values[i][j+1]) + "%</p></small>");
+				}
+			}
+			if(values[i][0] == "answer3"){
+				$(".answer4-p").after('<small><p class="mb-0 pb-1">┖ 발열 : ' + values[i][2] + "점 / 소재 : " + values[i][4] + "점 / AS : " + values[i][6] + "점 / 소음 : " + values[i][8] + "점 / 안정성 : " + values[i][10] + "점 / QC : " + values[i][12] + "점</p></small>");
+			}
+			if(values[i][0] == "answer4"){
+				let answer4;
+				if(values[i][2] == "0"){
+					answer4 = "필요";
+				}else if(values[i][2] == "1"){
+					answer4 = "불필요";
+				}
+				$(".answer5-p").after('<small><p class="mb-0 pb-1">┖ 무선 : ' + answer4 + '</p></small>');
+			}
+			if(values[i][0] == "answer5"){
+				let answer5;
+				if(values[i][2] == "0"){
+					answer5 = "Intel";
+				}else if(values[i][2] == "1"){
+					answer5 = "Amd";
+				}else {
+					answer5 = "상관없음";
+				}
+				$(".answer6-p").after('<small><p class="mb-0 pb-1">┖ CPU : ' + answer5 + '</p></small>');
+			}
+			if(values[i][0] == "answer6"){
+				let answer6;
+				if(values[i][2] == "0"){
+					answer6 = "필요";
+				}else if(values[i][2] == "1"){
+					answer6 = "불필요";
+				}else {
+					answer6 = "상관없음";
+				}
+				$(".answer7-p").after('<small><p class="mb-0 pb-1">┖ 내장그래픽 : ' + answer6 + '</p></small>');
+			}
+			if(values[i][0] == "answer7"){
+				let answer7;
+				if(values[i][2] == "0"){
+					answer7 = "필요";
+				}else if(values[i][2] == "1"){
+					answer7 = "불필요";
+				}else {
+					answer7 = "상관없음";
+				}
+				$(".answer8-p").after('<small><p class="mb-0 pb-1">┖ 수냉쿨러 : ' + answer7 + '</p></small>');
+			}
+			if(values[i][0] == "answer8"){
+				let answer8;
+				if(values[i][2] == "0"){
+					answer8 = "DDR4";
+				}else if(values[i][2] == "1"){
+					answer8 = "DDR5";
+				}else {
+					answer8 = "상관없음";
+				}
+				$(".answer9-p").after('<small><p class="mb-0 pb-1">┖ 램버전 : ' + answer8 + '</p></small>');
+			}
+			if(values[i][0] == "answer10"){
+				let answer10;
+				if(values[i][2] == "0"){
+					answer10 = "벌크";
+				}else if(values[i][2] == "1"){
+					answer10 = "멀티팩";
+				}else if(values[i][2] == "2") {
+					answer10 = "둘다 좋음";
+				}else {
+					answer10 = "둘다 싫음";
+				}
+				$(".answer11-p").after('<small><p class="mb-0 pb-1">┖ 벌크&멀티팩 : ' + answer10 + '</p></small>');
+			}
+			if(values[i][0] == "answer11"){
+				let answer11;
+				if(values[i][2] == "0"){
+					answer11 = "예산에 맞게";
+				}else if(values[i][2] == "1"){
+					answer11 = "256GB";
+				}else if(values[i][2] == "2") {
+					answer11 = "512GB";
+				}else if(values[i][2] == "3"){
+					answer11 = "1024GB";
+				}else {
+					answer11 = "2048GB";
+				}
+				$(".answer12-p").after('<small><p class="mb-0 pb-1">┖ SSD : ' + answer11 + '</p></small>');
+			}
+		}
+	}
 	function loginCheck() {
 		var check = false;
 		if("${loginUser}" == "") {
@@ -769,16 +1003,18 @@
 										</div>
 									</div>
 									<div class="container mb-3 position-relative result-index">
-										<p class="card-text mb-0 fw-bold pb-1">가격 : <span class="fw-normal price-text">오류</span></p>
-										<p class="card-text mb-0 fw-bold pb-1">CPU : <span class="fw-normal cpu-text">오류</span></p>
-										<p class="card-text mb-0 fw-bold pb-1">Cooler : <span class="fw-normal cooler-text">오류</span></p>
-										<p class="card-text mb-0 fw-bold pb-1">MB : <span class="fw-normal mb-text">오류</span></p>
-										<p class="card-text mb-0 fw-bold pb-1">GPU : <span class="fw-normal gpu-text">오류</span></p>
-										<p class="card-text mb-0 fw-bold pb-1">SSD : <span class="fw-normal ssd-text">오류</span></p>
-										<p class="card-text mb-0 fw-bold pb-1">CASE : <span class="fw-normal case-text">오류</span></p>
+										<p class="card-text mb-0 fw-bold answer2-p">가격 : <span class="fw-normal price-text">오류</span></p>
+										<p class="card-text mb-0 fw-bold answer6-p answer7-p">CPU : <span class="fw-normal cpu-text">오류</span></p>
+										<p class="card-text mb-0 fw-bold answer8-p">Cooler : <span class="fw-normal cooler-text">오류</span></p>
+										<p class="card-text mb-0 fw-bold answer5-p">MB : <span class="fw-normal mb-text">오류</span></p>
+										<p class="card-text mb-0 fw-bold answer9-p">RAM : <span class="fw-normal ram-text">오류</span></p>
+										<p class="card-text mb-0 fw-bold">GPU : <span class="fw-normal gpu-text">오류</span></p>
+										<p class="card-text mb-0 fw-bold">SSD : <span class="fw-normal ssd-text">오류</span></p>
+										<p class="card-text mb-0 fw-bold">CASE : <span class="fw-normal case-text">오류</span></p>
 										<p class="card-text mb-0 fw-bold">PSU : <span class="fw-normal psu-text">오류</span></p>
-										<p class="card-text mb-0 fw-bold">RAM : <span class="fw-normal ram-text">오류</span></p>
-										<p class="card-text mb-0 fw-bold">OS : <span class="fw-normal">${productMaster.windowsName}</span></p>
+										<p class="card-text mb-0 fw-bold answer1-p">OS : <span class="fw-normal">${productMaster.windowsName}</span></p>
+										<p class="card-text mb-0 fw-bold answer3-p">사용 용도</p>
+										<p class="card-text mb-0 fw-bold answer4-p answer11-p">기타 질문들</p>
 									</div>
 									<!-- <h4 class="card-title">제품 설명</h4>
 									<div class="container mb-3">
