@@ -20,10 +20,13 @@
 
 <link rel="stylesheet" href="/resources/css/banpumMallDetail.css">
 <script>
-
-	let aa = "${banpumMaster}";
     $(function() {
-
+		let width = $(window).outerWidth();
+		if(width < 1024){
+			$(".d-mobile").removeClass("d-none");
+		}else {
+			$(".d-pc").removeClass("d-none");
+		}
     });
     
 function goTermsOfService() {
@@ -99,10 +102,9 @@ function boxQtysCheck(el){
 	<%@ include file="./common/header.jsp" %>
 
 	<div class="basic_background w-100">
-		<div class="d-flex">
+		<div class="d-flex d-pc d-none">
 			<!-- 빈 영역 -->
 			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
-			
 			<!-- 본문영역 -->
 			<div style="width: 70%!important;">
 				<div class="w-100 row align-items-center mt-4 mb-4">
@@ -180,66 +182,146 @@ function boxQtysCheck(el){
 									</div>
 							    </div>
 							  </div>
-							  
-							  <!-- 수량 박스체크 모달 -->
-							  <div class="modal fade" id="banpumQModal" tabindex="-1" aria-hidden="true">
-								<div class="modal-dialog modal-dialog-centered">
-								  <div class="modal-content">
-									<div class="modal-header">
-										<h2>주문 수량을 입력해주세요</h2>
-									  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-									</div>
-									<div class="modal-body">
-										<div class="row p-2">
-											<div class="col">
-												제품 수량
-												<input type="text" class="form-control" id="orderQtys" placeholder="최대 ${banpumMaster.banpumQty}개" oninput="javascript:orderQtysCheck(this)">
-												<p class="text-danger fade mt-2 mb-0">재고가 ${banpumMaster.banpumQty}개 입니다</p>
-											</div>
-											<div class="col">
-												사용된 제품 박스
-												<input type="number" class="form-control" id="boxQtys" placeholder="주문 수량 이하로 입력해주세요" oninput="javascript:boxQtysCheck(this)">
-												<p class="text-danger fade mt-2 mb-0"></p>
-											</div>
-										</div>
-									</div>
-									<div class="modal-footer">
-									  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-									  <button type="button" class="btn btn-primary" onclick="javascript:goDirectOrder()">주문하기</button>
-									</div>
-								  </div>
-								</div>
-							  </div>
-							  <!-- 재고 1개 주문시 박스추가여부 모달 -->
-							  <div class="modal fade" id="banpumSModal" tabindex="-1" aria-hidden="true">
-								<div class="modal-dialog modal-dialog-centered">
-								  <div class="modal-content">
-									<div class="modal-header">
-										<h2>주문하기</h2>
-									  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-									</div>
-									<div class="modal-body">
-										<div class="row p-2">
-											사용된 제품들의 박스를 추가할까요?(5,000원)
-										</div>
-									</div>
-									<div class="modal-footer">
-									  <button type="button" class="btn btn-secondary" box="0" onclick="javascript:goSingleOrder(this)">아니요</button>
-									  <button type="button" class="btn btn-primary" box="1" onclick="javascript:goSingleOrder(this)">네</button>
-									</div>
-								  </div>
-								</div>
-							  </div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-			
 			<!-- 빈 영역 -->
 			<div class="justify-content-end" style="width: 15%!important;"></div>
 		</div>
-		
+
+		<div class="d-flex d-mobile d-none">
+			<!-- 빈 영역 -->
+			<div class="h-25 justify-content-start" style="width: 1%!important;"></div>
+			<!-- 본문영역 -->
+			<div style="width: 98%!important;">
+				<div class="card mb-4 pt-5 pb-3 estimateCalc_background">
+					<div class="card-body">				
+						<div class="container">
+							<div id="images">
+							<!-- 임시 몰루이미지
+								<img class="img-fluid rounded mx-auto d-block" src="/resources/img/tempImage_600x600.png">
+								-->  
+								<div id="banpumMallDetailIndicators" class="carousel carousel-dark slide" data-bs-ride="true">
+									<div class="carousel-indicators">
+										<button type="button" data-bs-target="#banpumMallDetailIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+										<c:forEach var="i" begin="2" end="15">
+											<c:set var="key" value="banpumImage${i}" />
+											<c:if test="${not empty banpumMaster[key]}">
+												<button type="button" data-bs-target="#banpumMallDetailIndicators" data-bs-slide-to="${i-1}" aria-label="Slide ${i}"></button>
+											</c:if>
+										</c:forEach>
+									</div>
+									<div class="carousel-inner">
+										<div class="carousel-item active">
+											<img src="${banpumMaster.banpumImage1}" class="d-block w-100 h-100" alt="...">
+										</div>
+										<c:forEach var="i" begin="2" end="15">
+											<c:set var="key" value="banpumImage${i}" />
+											<c:if test="${not empty banpumMaster[key]}">
+												<div class="carousel-item">
+													<img src="${banpumMaster[key]}" class="d-block w-100 h-100" alt="...">
+												</div>
+											</c:if>
+										</c:forEach>
+									</div>
+									<button class="carousel-control-prev" type="button" data-bs-target="#banpumMallDetailIndicators" data-bs-slide="prev">
+										<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+										<span class="visually-hidden">Previous</span>
+									</button>
+									<button class="carousel-control-next" type="button" data-bs-target="#banpumMallDetailIndicators" data-bs-slide="next">
+										<span class="carousel-control-next-icon" aria-hidden="true"></span>
+										<span class="visually-hidden">Next</span>
+									</button>
+								</div>
+							</div>
+							<div class="mt-3">
+								<p class="h2">${banpumMaster.banpumName}</p>
+								<p class="h4">가격 : <span class="h5">${banpumMaster.banpumPriceStr}</span></p>
+								<p class="h3 border-bottom">상세 정보</p>
+								<p class="h6 mt-3">${banpumMaster.banpumDescriptionStr}</p>
+								<p class="h5 mb-1 pt-2 border-top">배송 기간 : <span class="h6">영업일 기준 약 2일 소요</span></p>
+								<p class="h5 mb-1">택배사 : <span class="h6">우체국 택배</span></p>
+								<p class="h5">배송비 : <span class="h6">무료</span></p>
+								<p class="mb-1"><small>도서산간 지역의 경우 배송이 제한되거나 추가요금이 발생할 수 있습니다.</small></p>
+								<p class="m-0"><small>AS 기준은 각 부품의 유통사 규정에 따르며 해당 쇼핑몰에서 1년간 무상 AS를 지원해드립니다.</small></p>
+							</div>
+							<div class="row">
+								<div class="col-5">
+									<!-- <p class="h3 mt-3 mb-3">제품 상세 정보</p>
+									<p class="h3 mb-5">${banpumMaster.banpumDescriptionStr}</p> -->
+								</div>
+								<div class="col-7">
+								</div>
+							</div>
+							
+							<!-- 버튼부 -->
+							<div class="d-flex w-100 flex-column mt-2">
+								<div class="pb-2 border-bottom">
+									<button class="btn btn-outline-secondary btn-sm w-100" type="button" onclick="javascript:goTermsOfService()">이용약관</button>
+								</div>
+								<!-- <button class="btn btn-primary btn-lg me-md-2" type="button" onclick="javascript:goCart()">장바구니</button> -->
+								<div class="pt-2">
+									<button class="btn btn-primary w-100" type="button" onclick="javascript:onOrder()">주문하기</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- 빈 영역 -->
+			<div class="justify-content-end" style="width: 1%!important;"></div>
+		</div>
+		<!-- 수량 박스체크 모달 -->
+		<div class="modal fade" id="banpumQModal" tabindex="-1" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+			  <div class="modal-content">
+				<div class="modal-header">
+					<h2>주문 수량을 입력해주세요</h2>
+				  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="row p-2">
+						<div class="col">
+							제품 수량
+							<input type="text" class="form-control" id="orderQtys" placeholder="최대 ${banpumMaster.banpumQty}개" oninput="javascript:orderQtysCheck(this)">
+							<p class="text-danger fade mt-2 mb-0">재고가 ${banpumMaster.banpumQty}개 입니다</p>
+						</div>
+						<div class="col">
+							사용된 제품 박스
+							<input type="number" class="form-control" id="boxQtys" placeholder="주문 수량 이하로 입력해주세요" oninput="javascript:boxQtysCheck(this)">
+							<p class="text-danger fade mt-2 mb-0"></p>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+				  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+				  <button type="button" class="btn btn-primary" onclick="javascript:goDirectOrder()">주문하기</button>
+				</div>
+			  </div>
+			</div>
+		  </div>
+		  <!-- 재고 1개 주문시 박스추가여부 모달 -->
+		  <div class="modal fade" id="banpumSModal" tabindex="-1" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+			  <div class="modal-content">
+				<div class="modal-header">
+					<h2>주문하기</h2>
+				  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					<div class="row p-2">
+						사용된 제품들의 박스를 추가할까요?(+5,000원)
+					</div>
+				</div>
+				<div class="modal-footer">
+				  <button type="button" class="btn btn-secondary" box="0" onclick="javascript:goSingleOrder(this)">아니요</button>
+				  <button type="button" class="btn btn-primary" box="1" onclick="javascript:goSingleOrder(this)">네</button>
+				</div>
+			  </div>
+			</div>
+		  </div>
 		<!-- 2022.11.16 디자인이미지 추가 -->
 		<div class="mt-5 mx-5" style="height: 15%!important;">
 			<img class="img-fluid float-end" src="/resources/img/layer-34-1200x107.png" alt="">

@@ -2,3 +2,24 @@
     width: 500px;
     height: 500px;
 }
+.modal-body div, small {
+    word-break: keep-all;
+}
+@media (max-width : 1023px){
+    .carousel-item{
+        height: 480px;
+    }
+}
+
+@media (max-width : 767px){
+    .carousel-item{
+        height: 360px;
+    }
+}
+
+
+@media (max-width : 374px){
+    .carousel-item{
+        height: 280px;
+    }
+}
