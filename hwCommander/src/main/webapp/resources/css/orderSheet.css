@@ -25,7 +25,7 @@
     width: 500px;
     height: 300px;
     position: absolute;
-    top: 48%;
+    bottom: -100%;
     right: 3%;
 }
 .goni-wrap p {
@@ -40,6 +40,7 @@
     bottom: 12%;
     right: 20%;
     opacity: 0.7;
+    cursor: pointer;
 }
 
 .goni-speech {
@@ -47,5 +48,4 @@
     z-index: 1;
     top: -21%;
     left: 10%;
-    cursor: pointer;
 }

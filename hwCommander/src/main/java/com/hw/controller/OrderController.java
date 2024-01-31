@@ -145,7 +145,11 @@ public class OrderController {
 	public String inicisPayReturn(Model model) {
 		return "orderReturn";
 	}
-	
+	// 01.31 모바일환경 테스트
+	@RequestMapping(value = "/inicisPayReturnM.do", method = RequestMethod.POST)
+	public String inicisPayReturnM(Model model) {
+		return "orderReturnM";
+	}
 	@RequestMapping(value = "/inicisPayComplete.do", method = RequestMethod.POST)
 	@ResponseBody
 	public Integer inicisPayComplete(@RequestParam(value = "id", required = true) String id) {

@@ -110,7 +110,7 @@
                             </thead>
                             <tbody>
                                 <c:forEach var="item" items="${banpumMasterList}">
-                                    <tr name="${item.id}">
+                                    <tr>
                                         <td>
                                             <div id="banpumMallIndicators${item.id}" class="carousel carousel-dark slide w-100" data-bs-ride="true">
                                                 <div class="carousel-indicators">
@@ -137,7 +137,7 @@
                                                 </div>
                                             </div>
                                         </td>
-                                        <td class="td-caption">
+                                        <td class="td-caption" name="${item.id}">
                                             <p>이름 : ${item.banpumName}</p>
                                             <p>가격 : ${item.banpumPriceStr}</p>
                                             <p>설명 : ${item.banpumDescription}</p>
