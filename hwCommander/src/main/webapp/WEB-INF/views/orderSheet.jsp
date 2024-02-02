@@ -247,6 +247,73 @@ function btnCheckOutClickM(){
 				}
 			}
 		});
+	}else if($("#payment-method-account-transfer").prop("checked") == true) {
+		var orderRegistFormArray = [];
+		
+		$('#productListInfoTable tr').each(function (index) {
+			if(0 != index) {
+				// orderDetail Set
+				var item = {
+					id : $(this).find('input[name=id]').val(),
+					productId : $(this).find('input[name=productId]').val(),
+					productPrice : $(this).find('input[name=productPrice]').val(),
+					productOrderQty : "${orderQtys}",
+					boxQty : "${boxQtys}",
+					boxTotPrice : "${boxTotPrice}"
+				};
+				orderRegistFormArray.push(item);
+			}
+		});
+		
+		if(2 < $('#productListInfoTable tr').length) {
+			orderName += "외 "+($('#productListInfoTable tr').length-1)+"건";
+		}
+		
+		
+		var orderMasterVO = {
+			id : $('input[name=oid]').val(),
+			orderName : "${orderName}",
+			totOrderPrice : $("#inicis_price").val(),
+			orderStateCd : "01",
+			ordererUserId : "${loginUser.id}",
+			ordererName : $("#ordererName").val(),
+			ordererHpNumber : $("#ordererHpNumber").val(),
+			ordererMail : $("#ordererMail").val(),
+			recipientName : $("#recipientName").val(),
+			recipientHpNumber : $("#recipientHpNumber").val(),
+			recipientHpNumber2 : $("#recipientHpNumber2").val(),
+			recipientJibunAddr : $("#recipientJibunAddr").val(),
+			recipientRoadAddr : $("#recipientRoadAddr").val(),
+			recipientDetailAddr : $("#recipientDetailAddr").val(),
+			recipientZipcode : $("#recipientZipcode").val(),
+			orderRequest : $("#orderRequest").val(),
+			deliveryRequest : $("#deliveryRequest").val(),
+			paymentMethod : "account-transfer",
+			videoRequestCd : "01"
+		};
+		
+		var ajaxData = {
+				orderMasterVO : JSON.stringify(orderMasterVO),
+				orderDetailVOList : JSON.stringify(orderRegistFormArray)
+		};
+			
+		$.ajax({
+			type: "post",
+			url: "/order/orderRegistLogic.do",
+			data: ajaxData,
+			dataType: 'json',
+			success: function (data) {
+				
+				console.log(data);
+				
+				if(data == 2) {
+					alert("계좌로 입금해주시면 주문이 완료됩니다. \n계좌번호 : 645-910900-07207 하나은행 이해창(현우의 컴퓨터 공방) \n계좌번호는 주문내역에서 확인 가능합니다!");
+					location.href = "/user/infoM.do";
+				}else {
+					alert("주문서 작성에 오류가 발생했습니다.\n 관리자에게 문의하세요.");
+				}
+			}
+		});
 	}
 }
 function btnCheckOutClick() {
@@ -741,54 +808,47 @@ function recDupliChk(id) {
 										<%-- 임시 몰루이미지 
 										<img class="img-fluid rounded mx-auto d-block" src="/resources/img/tempImage_600x600.png">
 										--%>
-										<img class="img-fluid rounded d-block" src="${productMasterVO.productImage}" alt="" style="cursor:pointer; width:200px; height:200px; object-fit:contain;">
-									</td>
-								</tr>
-								<tr>
-									<td class="align-middle pb-0">
-										<div class="row pt-2">
+										<img class="img-fluid rounded d-block" src="${productMasterVO.productImage}" alt="" style="cursor:pointer; width:100%; height:280px; object-fit:contain;">
+
+										<div class="row pt-3">
 											<div class="col fs-4">
-												${productMasterVO.productName}
+												상품명 : ${productMasterVO.productName}
 											</div>
 										</div>
-										<div class="row pt-2">
-											<h5 class="col mb-0">
+										<div class="row pt-3">
+											<h4 class="col mb-0">
 												부품 상세
-											</h5>
+											</h4>
 										</div>
-										<div class="row p-2">
+										<div class="row pt-2 m-2 border-top border-bottom mb-3">
 											<div class="col" id="product-detail-box">
 												<c:choose>
 													<c:when test="${productMasterVO.windowsName == 'COEM'}">
-														<p class="mb-1">윈도우 : 메인보드 귀속형(${productMasterVO.windowsName})</p>
+														<p class="mb-2"><small>윈도우 : 메인보드 귀속형(${productMasterVO.windowsName})</small></p>
 													</c:when>
 													<c:when test="${productMasterVO.windowsName == 'FPP'}">
-														<p class="mb-1">윈도우 : 구매형(${productMasterVO.windowsName})</p>
+														<p class="mb-2"><small>윈도우 : 구매형(${productMasterVO.windowsName})</small></p>
 													</c:when>
 													<c:otherwise>
-														<p class="mb-1">윈도우 : 미포함</p>
+														<p class="mb-2"><small>윈도우 : 미포함</small></p>
 													</c:otherwise>
 												</c:choose>
-												<p class="mb-1">메인보드 : ${productDetailVOList[2].partsName}</p>
-												<p class="mb-1">파워 : ${productDetailVOList[5].partsName}</p>
-												<p class="mb-1">CPU : ${productDetailVOList[1].partsName}</p>
-												<p class="mb-1">그래픽카드 : ${productDetailVOList[0].partsName}</p> 
-												<p class="mb-1">램 : ${productDetailVOList[6].partsName}</p>
-												<p class="mb-1">저장장치 : (${productDetailVOList[7].partsTypeCdNm}) ${productDetailVOList[7].partsName}</p>
-												<p class="mb-1">케이스 : ${productDetailVOList[4].partsName}</p>
-												<p class="mb-0">쿨러 : ${productDetailVOList[3].partsName}</p>
+												<p class="mb-2"><small>메인보드 : ${productDetailVOList[2].partsName}</small></p>
+												<p class="mb-2"><small>파워 : ${productDetailVOList[5].partsName}</small></p>
+												<p class="mb-2"><small>CPU : ${productDetailVOList[1].partsName}</small></p>
+												<p class="mb-2"><small>그래픽카드 : ${productDetailVOList[0].partsName}<</small>/p> 
+												<p class="mb-2"><small>램 : ${productDetailVOList[6].partsName}</small></p>
+												<p class="mb-2"><small>저장장치 : (${productDetailVOList[7].partsTypeCdNm}) ${productDetailVOList[7].partsName}</small></p>
+												<p class="mb-2"><small>케이스 : ${productDetailVOList[4].partsName}</small></p>
+												<p class="mb-1"><small>쿨러 : ${productDetailVOList[3].partsName}</small></p>
 											</div>
 										</div>
-									</td>
-								</tr>
-								<tr>
-									<td class="align-middle text-center">
-										<div class="p-2">
-											<p class="p-2 border-bottom fs-4">주문 내역</p>
-											<p class="p-2 border-bottom">상품 가격 : ${orderQtys}개, 개당${productMasterVO.productPriceStr}</p>
-											<p class="p-2 border-bottom">박스 추가 : ${boxQtys}개, 총 ${boxTotPriceStr}원</p>
-											<h4 class="p-2"> 총 금액 : ${totOrderPriceStr}원</h4>
+										<p class="fs-4 mb-0">주문 내역</p>
+										<div class="p-2 border-top border-bottom mb-2 mt-2">
+											<p class="ps-2 pe-2">상품 가격 : ${orderQtys}개, 개당${productMasterVO.productPriceStr}</p>
+											<p class="ps-2 pe-2 mb-0">박스 추가 : ${boxQtys}개, 총 ${boxTotPriceStr}원</p>
 										</div>
+										<h4 class="mb-0"> 총 금액 : ${totOrderPriceStr}원</h4>
 									</td>
 								</tr>
 							</c:if>
@@ -989,8 +1049,15 @@ function recDupliChk(id) {
 							<img class="goni-img" src="/resources/img/goni.png" alt="" data-bs-toggle="tooltip" data-bs-placement="left" data-bs-title="저희는 노동치 이상의 수익을 요구하지 않습니다. 결제 수단에 따라 차액을 마진으로 생각하지 않으며, 계좌이체를 결제 수단으로 이용함에 따라 발생하는 카드수수료 차액만큼을 할인가로 적용해드립니다.">
 						</div>
 					</div>
-					<div class="d-grid p-3">
-						<a class="btn btn-secondary btn-block" id="btn_check_out" onclick="javascript:btnCheckOutClickM()">결제하기</a>
+					<div class="d-pc">
+						<div class="d-grid p-3">
+							<a class="btn btn-secondary btn-block" id="btn_check_out" onclick="javascript:btnCheckOutClick()">결제하기</a>
+						</div>
+					</div>
+					<div class="d-mobile">
+						<div class="d-grid p-3">
+							<a class="btn btn-secondary btn-block" id="btn_check_out" onclick="javascript:btnCheckOutClickM()">결제하기</a>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -1040,15 +1107,15 @@ function recDupliChk(id) {
 	<input type="hidden" name="P_QUOTABASE" value="1:2:3:4:5:6:7:8:9:10:11:12">
 		
 	<!-- todo wonho 로컬테스트 -->
-	
+	<%--
 	<input type="hidden" name="P_NEXT_URL" value="https://localhost:8080/order/inicisPayReturnM.do">
 	<input type="hidden" name="closeUrl" value="https://localhost:8080/order/inicisPayClose.do?id=<%=oid%>">
-	
+	--%>
 	<!-- todo wonho 운영 -->
-	<%--
+	
 	<input type="hidden" name="P_NEXT_URL" value="https://hwcommander.com/order/inicisPayReturnM.do">
 	<input type="hidden" name="closeUrl" value="https://hwcommander.com/order/inicisPayClose.do?id=<%=oid%>">
-	--%> 
+	 
 </form>
 </body>
 </html>
