@@ -41,14 +41,15 @@ function login() {
         		//location.href = "/";
 				if(document.referrer.includes("/user/signUp.do")){
 					location.href = "/";
+				}else if (document.referrer.includes("/user/login.do")){
+					location.href = "/";
 				}else {
 					location.href = document.referrer;
 				}
 
         	}else {
         		alert("메일인증을 완료 후 시도해주세요.");
-        		//location.href = "/";
-        		location.href = document.referrer;
+        		location.href = "/";
         	}
         }
     });

@@ -250,3 +250,26 @@
 #myPwM {
   font-family: sans-serif;
 }
+
+/* 부트스트랩 미비한 부분 추가 */
+
+.w-0 {
+  width: 0%!important;
+}
+
+.w-15 {
+  width: 15%!important;
+}
+
+.text-keep {
+  word-break: keep-all;
+}
+
+@media (min-width : 1024px) {
+  .w-lg-15 {
+    width: 15%!important;
+  }
+  .w-lg-70 {
+    width: 70%!important;
+  }
+}

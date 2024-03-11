@@ -1352,14 +1352,19 @@
 						<div class="container-fluid q-box">
 							<h1 class="mt-4 q-top">견적산출</h1>
 							<div class="q-base q-box fade show">
-								<h2 class="mt-4">질문은 총 20개 이며 1~3번은 필수 질문입니다!</h2>
+								<h2 class="mt-4">질문은 총 20개(현재는 12개) 이며 1~3번은 필수 질문입니다!</h2>
 								<h3 class="mt-3">목록의 질문을 클릭해서 질문에 답해주세요!</h3>
+								<div class="d-flex justify-content-end">
+									<button class="btn btn-primary btn-lg" qnum="1" onclick="javascript:clickQestionList(this)">시작하기</button>
+								</div>
 							</div>
 							<!-- 1번 질문 -->
 							<div class="q-1 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 1번</span>
-									<!-- <button class="btn btn-primary q1-save-btn" onclick="javascript:questionOneSaveBtn()">저장</button> -->
+									<div class="d-flex gap-2">
+										<button class="btn btn-primary pb-0" qnum="2" onclick="javascript:clickQestionList(this)">></button>
+									</div>
 								</h2>
 								<h3 class="mt-3">OS(윈도우) 라이센스가 필요하신가요?</h3>
 								<div class="mt-2 mb-5 row">
@@ -1385,7 +1390,10 @@
 							<div class="q-2 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 2번</span>
-									<!-- <button class="btn btn-primary q2-save-btn" onclick="javascript:questionTwoSaveBtn()">저장</button> -->
+									<div class="d-flex gap-2">
+										<button class="btn btn-primary pb-0" qnum="1" onclick="javascript:clickQestionList(this)"><</button>
+										<button class="btn btn-primary pb-0" qnum="3" onclick="javascript:clickQestionList(this)">></button>
+									</div>
 								</h2>
 								<h3 class="mt-3">본체에 투자하실 최대 한도는 얼마인가요? (최대 500만원)</h3>
 								<!-- <small class="mt-2">※현재 높은 가격대의 제품에 대한 로직 완성도가 다소 미흡하여 보완중입니다. 빠른 시일 내로 500만원대까지 확장할 수 있도록 하겠습니다. (예상 완성일 24년 1월)※</small> -->
@@ -1404,7 +1412,10 @@
 							<div class="q-3 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 3번</span>
-									<!-- <button class="btn btn-primary q3-save-btn" onclick="javascript:questionThreeSaveBtn()">저장</button> -->
+									<div class="d-flex gap-2">
+										<button class="btn btn-primary pb-0" qnum="2" onclick="javascript:clickQestionList(this)"><</button>
+										<button class="btn btn-primary pb-0" qnum="4" onclick="javascript:clickQestionList(this)">></button>
+									</div>
 								</h2>
 								<h3 class="mt-3">주 사용 목적을 선택해주세요 (다중선택 가능)</h3>
 								<div class="row">
@@ -1482,7 +1493,10 @@
 							<div class="q-4 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 4번</span>
-									<!-- <button class="btn btn-primary q4-save-btn" onclick="javascript:questionFourSaveBtn()">저장</button> -->
+									<div class="d-flex gap-2">
+										<button class="btn btn-primary pb-0" qnum="3" onclick="javascript:clickQestionList(this)"><</button>
+										<button class="btn btn-primary pb-0" qnum="5" onclick="javascript:clickQestionList(this)">></button>
+									</div>
 								</h2>
 								<h3 class="mt-3">예산을 세분화하여 편성 해주세요</h3>
 								<div class="row">
@@ -1602,7 +1616,10 @@
 							<div class="q-5 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 5번</span>
-									<!-- <button class="btn btn-primary q5-save-btn" onclick="javascript:questionFiveSaveBtn()">저장</button> -->
+									<div class="d-flex gap-2">
+										<button class="btn btn-primary pb-0" qnum="4" onclick="javascript:clickQestionList(this)"><</button>
+										<button class="btn btn-primary pb-0" qnum="6" onclick="javascript:clickQestionList(this)">></button>
+									</div>
 								</h2>
 								<h3 class="mt-3">WIFI, 블루투스 옵션이 포함된 PC가 필요하신가요?</h3>
 								<div class="mt-3 mb-5 row">
@@ -1620,7 +1637,10 @@
 							<div class="q-6 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 6번</span>
-									<!-- <button class="btn btn-primary q6-save-btn" onclick="javascript:questionSixSaveBtn()">저장</button> -->
+									<div class="d-flex gap-2">
+										<button class="btn btn-primary pb-0" qnum="5" onclick="javascript:clickQestionList(this)"><</button>
+										<button class="btn btn-primary pb-0" qnum="7" onclick="javascript:clickQestionList(this)">></button>
+									</div>
 								</h2>
 								<h3 class="mt-3">선호하는 CPU 제조사를 선택해주세요</h3>
 								<div class="mt-3 mb-5 row">
@@ -1642,7 +1662,10 @@
 							<div class="q-7 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 7번</span>
-									<!-- <button class="btn btn-primary q7-save-btn" onclick="javascript:questionSevenSaveBtn()">저장</button> -->
+									<div class="d-flex gap-2">
+										<button class="btn btn-primary pb-0" qnum="6" onclick="javascript:clickQestionList(this)"><</button>
+										<button class="btn btn-primary pb-0" qnum="8" onclick="javascript:clickQestionList(this)">></button>
+									</div>
 								</h2>
 								<h3 class="mt-3">내장그래픽이 필요하십니까?</h3>
 								<div class="mt-3 mb-5 row">
@@ -1664,7 +1687,10 @@
 							<div class="q-8 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 8번</span>
-									<!-- <button class="btn btn-primary q8-save-btn" onclick="javascript:questionEightSaveBtn()">저장</button> -->
+									<div class="d-flex gap-2">
+										<button class="btn btn-primary pb-0" qnum="7" onclick="javascript:clickQestionList(this)"><</button>
+										<button class="btn btn-primary pb-0" qnum="10" onclick="javascript:clickQestionList(this)">></button>
+									</div>
 								</h2>
 								<h3 class="mt-3">수냉쿨러를 선호하십니까?</h3>
 								<div class="mt-3 mb-5 row">
@@ -1688,7 +1714,10 @@
 							<div class="q-10 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 10번</span>
-									<!-- <button class="btn btn-primary q10-save-btn" onclick="javascript:questionTenSaveBtn()">저장</button> -->
+									<div class="d-flex gap-2">
+										<button class="btn btn-primary pb-0" qnum="8" onclick="javascript:clickQestionList(this)"><</button>
+										<button class="btn btn-primary pb-0" qnum="11" onclick="javascript:clickQestionList(this)">></button>
+									</div>
 								</h2>
 								<h3 class="mt-3">메모리(램)카드의 버전을 DDR4, DDR5 중에서 골라주세요</h3>
 								<div class="mt-3 mb-5 row">
@@ -1710,7 +1739,10 @@
 							<div class="q-11 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 11번</span>
-									<!-- <button class="btn btn-primary q11-save-btn" onclick="javascript:questionElevenSaveBtn()">저장</button> -->
+									<div class="d-flex gap-2">
+										<button class="btn btn-primary pb-0" qnum="10" onclick="javascript:clickQestionList(this)"><</button>
+										<button class="btn btn-primary pb-0" qnum="12" onclick="javascript:clickQestionList(this)">></button>
+									</div>
 								</h2>
 								<h3 class="mt-3">벌크나 멀티팩을 선호 하십니까?</h3>
 								<div class="mt-3 mb-5 row">
@@ -1736,7 +1768,11 @@
 							<div class="q-12 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 12번</span>
-									<!-- <button class="btn btn-primary q12-save-btn" onclick="javascript:questionTwelveSaveBtn()">저장</button> -->
+									<div class="d-flex gap-2">
+										<button type="button" class="btn btn-success" id="es-btn" onclick="javascript:sendAllData()">견적 산출</button>
+										<!-- <button class="btn btn-primary pb-0" qnum="11" onclick="javascript:clickQestionList(this)"><</button> -->
+										<!-- <button class="btn btn-primary pb-0" qnum="13" onclick="javascript:clickQestionList(this)">></button> -->
+									</div>
 								</h2>
 								<h3 class="mt-3">C드라이브(SSD)의 용량을 선택해주세요</h3>
 								<div class="mt-3 row w-75">
@@ -1744,21 +1780,21 @@
 										<input type="radio" class="btn-check" name="btnradio" id="q12-answer1">
 										<label class="btn btn-outline-secondary w-75 h-100" for="q12-answer1" onclick="javascript:questionTwelveBtn(this)"><p class="pt-1 m-0">예산에 맞게</p></label>
 									</div>
-									<div class="col-lg text-center">
+									<div class="col-lg text-lg-center">
 										<input type="radio" class="btn-check" name="btnradio" id="q12-answer2">
 										<label class="btn btn-outline-secondary w-75" for="q12-answer2" onclick="javascript:questionTwelveBtn(this)"><p class="pt-1 m-0">256GB</p></label>
 									</div>
-									<div class="col-lg text-end">
+									<div class="col-lg text-lg-end">
 										<input type="radio" class="btn-check" name="btnradio" id="q12-answer3">
 										<label class="btn btn-outline-secondary w-75 h-100" for="q12-answer3" onclick="javascript:questionTwelveBtn(this)"><p class="pt-1 m-0">512GB</p></label>
 									</div>
 								</div>
 								<div class="row w-75">
-									<div class="col-lg text-center">
+									<div class="col-lg text-lg-center">
 										<input type="radio" class="btn-check" name="btnradio" id="q12-answer4">
 										<label class="btn btn-outline-secondary w-75 h-100" for="q12-answer4" onclick="javascript:questionTwelveBtn(this)"><p class="pt-1 m-0">1024GB(1TB)</p></label>
 									</div>
-									<div class="col-lg text-center">
+									<div class="col-lg text-lg-center">
 										<input type="radio" class="btn-check" name="btnradio" id="q12-answer5">
 										<label class="btn btn-outline-secondary w-75 h-100" for="q12-answer5" onclick="javascript:questionTwelveBtn(this)"><p class="pt-1 m-0">2048GB(2TB)</p></label>
 									</div>
@@ -1768,7 +1804,10 @@
 							<div class="q-13 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 13번</span>
-									<!-- <button class="btn btn-primary q13-save-btn" onclick="javascript:questionThirteenSaveBtn()">저장</button> -->
+									<div class="d-flex gap-2">
+										<button class="btn btn-primary pb-0" qnum="12" onclick="javascript:clickQestionList(this)"><</button>
+										<button class="btn btn-primary pb-0" qnum="14" onclick="javascript:clickQestionList(this)">></button>
+									</div>
 								</h2>
 								<h3 class="mt-3">원하시는 본체 옆판의 소재를 선택해주세요!(다중선택 가능)</h3>
 								<div class="mt-3 row">
@@ -1804,7 +1843,10 @@
 							<div class="q-14 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 14번</span>
-									<!-- <button class="btn btn-primary q14-save-btn" onclick="javascript:questionFourteenSaveBtn()">저장</button> -->
+									<div class="d-flex gap-2">
+										<button class="btn btn-primary pb-0" qnum="13" onclick="javascript:clickQestionList(this)"><</button>
+										<button class="btn btn-primary pb-0" qnum="15" onclick="javascript:clickQestionList(this)">></button>
+									</div>
 								</h2>
 								<h3 class="mt-3">HDD를 선택해주세요</h3>
 								<div class="mt-3 row">
@@ -1850,7 +1892,10 @@
 							<div class="q-15 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 15번</span>
-									<!-- <button class="btn btn-primary q15-save-btn" onclick="javascript:questionFifteenSaveBtn()">저장</button> -->
+									<div class="d-flex gap-2">
+										<button class="btn btn-primary pb-0" qnum="14" onclick="javascript:clickQestionList(this)"><</button>
+										<button class="btn btn-primary pb-0" qnum="16" onclick="javascript:clickQestionList(this)">></button>
+									</div>
 								</h2>
 								<h3 class="mt-3">케이스에 팬을 추가할까요?</h3>
 								<div class="mt-3 mb-5 row">
@@ -1872,7 +1917,10 @@
 							<div class="q-16 fade q-box">
 								<h2 class="mt-4 d-flex justify-content-between">
 									<span>질문 16번</span>
-									<!-- <button class="btn btn-primary q16-save-btn" onclick="javascript:questionSixteenSaveBtn()">저장</button> -->
+									<div class="d-flex gap-2">
+										<button class="btn btn-primary pb-0" qnum="15" onclick="javascript:clickQestionList(this)"><</button>
+										<!-- <button class="btn btn-primary pb-0" qnum="17" onclick="javascript:clickQestionList(this)">></button> -->
+									</div>
 								</h2>
 								<h3 class="mt-3">본체에 LED를 선택해주세요(다중선택)</h3>
 								<div class="mt-3 row">

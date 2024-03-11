@@ -9,6 +9,10 @@
 .q3-head-name,.q3-head-ganre,.q3-th-ganre {
     text-overflow: ellipsis;
 }
+#wrapper {
+    width: 100%;
+}
+
 /* 반응형 */
 @media (min-width : 320px){
     .q-top, .q-box {
@@ -70,9 +74,6 @@
         top: 22px;
         left: -5px;
     }
-    #wrapper {
-        width: 313px;
-    }
 }
 
 @media (min-width : 375px){
@@ -127,9 +128,6 @@
         top: 20px;
         left: -7px;
     }
-    #wrapper {
-        width: 367.5px;
-    }
 }
 
 @media (min-width : 425px){
@@ -183,9 +181,6 @@
     .l-three {
         top: 20px;
         left: -9px;
-    }
-    #wrapper {
-        width: 416.5px;
     }
 }
 

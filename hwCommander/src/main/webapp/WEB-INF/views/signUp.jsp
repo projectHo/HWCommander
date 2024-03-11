@@ -118,6 +118,11 @@ function validationCheck() {
 		return false;
 	}
 	
+	if($('#pw').val().length < 8 || $('#pw').val().length > 16){
+		alert("8~16자의 영문 대/소문자, 숫자, 특수문자를 사용해 주세요.");
+		$('#pw').focus();
+		return false;
+	}
 	if($('#pw').val() != $('#pwConfirm').val()) {
 		alert("비밀번호가 일치하지 않습니다.");
 		return false;
@@ -212,7 +217,11 @@ function idDupliChk(id) {
 		alert("아이디를 입력하세요.");
 		return false;
 	}
-	
+	if(id.length <= 4 || id.length > 20){
+		alert("5~20자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.");
+		$("#id").focus();
+		return false;
+	}
 	$.ajax({
         type: "post",
         url: "/user/idDupliChk.do",
@@ -451,7 +460,7 @@ function hpNumberAuthentication() {
 									<span class="input-group-text bg-white pe-1">
 										<svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M5 19C5 16.7909 6.79086 15 9 15H15C17.2091 15 19 16.7909 19 19C19 20.1046 18.1046 21 17 21H7C5.89543 21 5 20.1046 5 19Z" stroke="#000000" stroke-width="0.8399999999999999"></path> <circle cx="12" cy="7" r="4" stroke="#000000" stroke-width="0.8399999999999999"></circle> </g></svg>
 									</span>
-									<input type="text" id="id" name="id" class="form-control border-start-0 join-members" placeholder="아이디" required autocomplete="off">
+									<input type="text" id="id" name="id" class="form-control border-start-0 join-members" minlength="5" maxlength="20" placeholder="아이디(5~20자의 영문 소문자, 숫자와 특수기호(_),(-))" required autocomplete="off">
 									<button type="button" class="btn btn-outline-secondary" maxlength="25" id="btn_id_dupli_chk">중복확인</button>
 								</div>
 							</div>
@@ -464,7 +473,7 @@ function hpNumberAuthentication() {
 									<span class="input-group-text bg-white pe-1">
 										<svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M12 14.5V16.5M7 10.0288C7.47142 10 8.05259 10 8.8 10H15.2C15.9474 10 16.5286 10 17 10.0288M7 10.0288C6.41168 10.0647 5.99429 10.1455 5.63803 10.327C5.07354 10.6146 4.6146 11.0735 4.32698 11.638C4 12.2798 4 13.1198 4 14.8V16.2C4 17.8802 4 18.7202 4.32698 19.362C4.6146 19.9265 5.07354 20.3854 5.63803 20.673C6.27976 21 7.11984 21 8.8 21H15.2C16.8802 21 17.7202 21 18.362 20.673C18.9265 20.3854 19.3854 19.9265 19.673 19.362C20 18.7202 20 17.8802 20 16.2V14.8C20 13.1198 20 12.2798 19.673 11.638C19.3854 11.0735 18.9265 10.6146 18.362 10.327C18.0057 10.1455 17.5883 10.0647 17 10.0288M7 10.0288V8C7 5.23858 9.23858 3 12 3C14.7614 3 17 5.23858 17 8V10.0288" stroke="#000000" stroke-width="1.176" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
 									</span>
-									<input type="password" id="pw" name="pw" class="form-control border-start-0 join-members" maxlength="30" placeholder="비밀번호" required>
+									<input type="password" id="pw" name="pw" class="form-control border-start-0 join-members" maxlength="30" minlength="8" placeholder="비밀번호(8~16자의 영문 대/소문자, 숫자, 특수문자)" required>
 								</div>
 							</div>
 							<div class="row justify-content-center">
@@ -476,7 +485,7 @@ function hpNumberAuthentication() {
 									<span class="input-group-text bg-white pe-1">
 										<svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g id="Interface / Check"> <path id="Vector" d="M6 12L10.2426 16.2426L18.727 7.75732" stroke="#000000" stroke-width="1.176" stroke-linecap="round" stroke-linejoin="round"></path> </g> </g></svg>
 									</span>
-									<input type="password" id="pwConfirm" name="pwConfirm" class="form-control border-start-0 join-members" maxlength="30" placeholder="비밀번호 확인" required>
+									<input type="password" id="pwConfirm" name="pwConfirm" class="form-control border-start-0 join-members" maxlength="30" minlength="8" placeholder="비밀번호 확인" required>
 								</div>
 							</div>
 							<div class="row justify-content-center">
