@@ -48,8 +48,8 @@
 		<div class="d-flex">
 			<!-- 빈 영역 -->
 			<div class="h-25 justify-content-start w-lg-15"></div>
-			<div class="w-auto w-lg-70 px-5 px-md-0">
-				<div class="w-100 row align-items-center mt-4 pb-5 mb-5 mb-xl-0">
+			<div class="w-auto w-lg-70 px-sm-5 px-md-0">
+				<div class="w-100 row align-items-center mt-4 pb-5 mb-5 mb-xl-0 mx-auto gap-4 gap-lg-0">
 					<div class="col">
 						<div class="d-flex justify-content-center">
 							<a href="/">
@@ -62,17 +62,15 @@
 						<div class="d-flex justify-content-center">
 							<p class="fs-6 text-white">@ Copyright HW Commander 2019 - 2023</p>
 						</div>
-						<div class="d-flex flex-column justify-content-center gap-2">
-							<div class="fs-6"> <span>판매되는 모든 상품은 현우의 컴퓨터 공방에서 책임지고 있습니다.</span></div>
-							<div class="fs-6">*민원 담당자 이해창 /&nbsp;<span>연락처 010-7625-0478</span></div>
-							<p class="fs-6" style="margin-bottom:0;important;">현우의 컴퓨터 공방에서 운영하는 사이트에서</p>
-						</div>
-						<!-- <div class="d-flex justify-content-center">
-							<p class="fs-6" style="margin-bottom:0;important;"></p>
+						<div class="d-flex justify-content-center">
+							<p class="fs-6" style="margin-bottom:0;important;">판매되는 모든 상품은 현우의 컴퓨터 공방에서 책임지고 있습니다.</p>
 						</div>
 						<div class="d-flex justify-content-center">
-							<p class="fs-6" style="margin-bottom:0;important;"></p>
-						</div> -->
+							<p class="fs-6" style="margin-bottom:0;important;">* 민원 담당자 이해창 / 연락처 010-7625-0478</p>
+						</div>
+						<div class="d-flex justify-content-center">
+							<p class="fs-6" style="margin-bottom:0;important;">현우의 컴퓨터 공방에서 운영하는 사이트에서</p>
+						</div>
 					</div>
 					<div class="col-md">
 						<nav class="nav flex-column">

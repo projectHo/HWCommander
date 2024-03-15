@@ -21,11 +21,11 @@
 			<!-- 빈 영역 -->
 			<div class="h-25 justify-content-start about-us-empty-space"></div>
 			<div class="content pt-5 px-sm-5 mx-sm-5 about-us-main-space">
-				<h1><b>현우의 컴퓨터 공방</b></h1>
+				<h1 class="ps-4 ps-sm-0"><b>현우의 컴퓨터 공방</b></h1>
 
 				<!-- 01.15 소개글 수정 -->
 				<div class="about-divider mt-5"></div>
-				<div class="about-us-container p-4 border-top-black">
+				<div class="about-us-container m-2 m-sm-4 p-4 border-top-black">
 					<h2 class="mb-5"><b>원칙과 철학</b></h2>
 					<h4 class="mb-3"><b>"공학자의 기원은 과학자이며, 과학자는 결과로 원인을 만들지 않는다."</b></h4>
 					<p>연구의 과정이 결과를 만들어내는 구조를 위해<br>우리는 적당한 결과에 타협하지 않는다.</p>
@@ -37,8 +37,8 @@
 					<p>때문에 모든 사용자가 그 용도와 가치에 대해 다르게<br>생각했을 때 나오는 모든 경우의 수가 저희가 낼 수 있는<br>견적의 종류가 됩니다.<br></p>
 					<p>우리 현우의 컴퓨터 공방에서는 수십억 가지의 경우의 수 중<br>당신에게 가장 적합한 단 한가지 견적을 알려드립니다.</p>
 				</div>
-				<div class="about-divider"></div>
-				<div class="about-us-container mt-5 p-4 text-end">
+				<div class="about-divider my-3"></div>
+				<div class="about-us-container m-2 m-sm-4 p-4 text-end">
 					<h2 class="mb-5"><b>투명성과 데이터베이스</b></h2>
 					<h4 class="mb-3"><b>"소비자의 선택이 아닌 생산자의 담합이 시장 구조를 통제한다면 독점이 된다.<br>우리는 일한 만큼만 벌고, 변하지 않는다."</b></h4>
 					<p>더 좋은 제품이 더 저렴하게 나온다면 우선순위로 노출되는<br>자연한 구조를 통해 시장은 자연히 회복한다.</p>
@@ -49,8 +49,8 @@
 					<p>하지만 이 노출도는 영구적이지 않으며, 기획전이 종료되어<br>가격이 원복될 때 자연히 순위권에서 내려가게 되며, 소비자의 부담이 줄어들게끔 단가의 절감<br>혹은 동급 제품 대비 높은 성능을 위한 연구 경쟁을 추진하도록 유도합니다.</p>
 					<p>해당 구조의 투명성을 위해 저희는 모든 데이터베이스 이력을 보존하며<br>과거 이력을 조회하여 견적을 추출할 수 있는 이전버전 로직 시스템까지 구축을 마친 상태입니다.</p>
 				</div>
-				<div class="about-divider"></div>
-				<div class="about-us-container mt-5 p-4">
+				<div class="about-divider my-3"></div>
+				<div class="about-us-container m-2 m-sm-4 p-4">
 					<h2 class="mb-5"><b>신뢰, 그에 맞는 품질</b></h2>
 					<p>저희가 원하는 이상적인 구조의 공방을 세우기 위해서는<br>저희 업체가 정상궤도에 돌아야 하며, 성장력을 깎더라도 안정성을 중시해야 합니다.</p>
 					<p>인력에 빗댄다면 저희의 평균 주문 소요인력이 30명이 필요하다 한들 저희는 15인으로 고수해야 합니다.</p>

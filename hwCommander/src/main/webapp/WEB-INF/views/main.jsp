@@ -61,7 +61,7 @@
     }
     function goServiceBtn(){
       if(loginCheck()) {
-        alert("준비중");
+        alert("고객센터 전화를 통해 문의해주시기 바랍니다.\n\n전화번호 : 010-7625-0478");
       }
     }
     function goLogin(){

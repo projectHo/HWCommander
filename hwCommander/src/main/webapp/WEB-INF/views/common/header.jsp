@@ -36,7 +36,7 @@ function goOrderListPage() {
 
 function goServiceCenterPage() {
 	if(loginCheck()) {
-		alert("준비중");
+		alert("고객센터 전화를 통해 문의해주시기 바랍니다.\n\n전화번호 : 010-7625-0478");
 	}
 }
 
@@ -74,12 +74,10 @@ function loginCheck() {
 <body>
 	<div class="header_background w-100">
 		<div class="d-flex">
-			<!-- 빈 영역 -->
-			<div class="h-25 justify-content-start" style="width: 10%!important;"></div>
-			<div class="mt-3" style="width: 80%!important;">
-				<div class="w-100 row align-items-center mt-4 mb-4">
-					<div class="col"></div>
-					<div class="col mt-3">
+			<div class="mt-3 mx-auto" style="width: 90%;">
+				<div class="w-100 row align-items-center mt-4 mb-4 mx-auto">
+					<div class="col-4"></div>
+					<div class="col-4 mt-3">
 						<div class="d-flex justify-content-center">
 							<a href="/">
 							<!-- 2023.05.20 로고수정
@@ -89,7 +87,7 @@ function loginCheck() {
 							</a>
 						</div>
 					</div>
-					<div class="col mx-4 align-self-start">
+					<div class="col-4 align-self-start header-pc-nav">
 						<div class="float-end">	
 							<nav class="navbar navbar-expand-md">
 							  <div class="container-fluid">
@@ -102,7 +100,7 @@ function loginCheck() {
 										<span class="navbar-text">|</span>
 								        <a class="nav-link text-nowrap" href="javascript:goCartPage()">견적저장소</a>
 								        <span class="navbar-text">|</span>
-								        <a class="nav-link text-nowrap" href="javascript:goOrderListPage()">주문내역</a>
+								        <a class="nav-link text-nowrap" href="javascript:goMyPage()">주문내역</a>
 								        <span class="navbar-text">|</span>
 								        <a class="nav-link text-nowrap" href="javascript:goServiceCenterPage()">고객센터</a>
 									</c:if>
@@ -113,8 +111,6 @@ function loginCheck() {
 										<a class="nav-link text-nowrap" href="javascript:goMyPage()">MyPage</a>
 							        	<span class="navbar-text">|</span>
 								        <a class="nav-link text-nowrap" href="javascript:goCartPage()">견적저장소</a>
-								        <span class="navbar-text">|</span>
-								        <a class="nav-link text-nowrap" href="javascript:goOrderListPage()">주문내역</a>
 								        <span class="navbar-text">|</span>
 								        <a class="nav-link text-nowrap" href="javascript:goServiceCenterPage()">고객센터</a>
 									</c:if>
@@ -132,27 +128,23 @@ function loginCheck() {
 					</div>
 				</div>
 			</div>
-			<!-- 빈 영역 -->
-			<div class="justify-content-end" style="width: 10%!important;"></div>
 		</div>
 		<div class="d-flex">
-			<!-- 빈 영역 -->
-			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
-			<div class="mt-4" style="width: 70%!important;">
+			<div class="mt-4 w-100">
 				<div class="w-100 row align-items-center">
 					<div id="mainMenu" class="mt-2" style="display: none;">
 						<nav class="navbar navbar-dark navbar-expand-lg">
 						  <div class="container-fluid">
 						    <div class="collapse navbar-collapse justify-content-around">
 						      <div class="navbar-nav">
-						        <h3><a class="nav-link mx-5" href="/aboutUs.do">회사소개</a></h3>
+						        <h3><a class="nav-link mx-5 text-nowrap" href="/aboutUs.do">회사소개</a></h3>
 								<!--
-						        <h3><a class="nav-link mx-5" href="/productMall.do">완본체 몰(폐기예정)</a></h3>
+						        <h3><a class="nav-link mx-5 text-nowrap" href="/productMall.do">완본체 몰(폐기예정)</a></h3>
 						        -->
-						        <h3><a class="nav-link mx-5" href="/userBanpumMall.do">이벤트몰</a></h3>
-						        <!-- <h3><a class="nav-link mx-5" href="javascript:alert('준비중')">문의게시판</a></h3> -->
-						        <h3><a class="nav-link mx-5" href="javascript:alert('준비중')">문의게시판</a></h3>
-						        <h3><a class="nav-link mx-5" href="/ESCA/ESCASelect.do">견적산출</a></h3>
+						        <h3><a class="nav-link mx-5 text-nowrap" href="/userBanpumMall.do">이벤트몰</a></h3>
+						        <!-- <h3><a class="nav-link mx-5 text-nowrap" href="javascript:alert('준비중')">문의게시판</a></h3> -->
+						        <h3><a class="nav-link mx-5 text-nowrap" href="javascript:alert('준비중')">문의게시판</a></h3>
+						        <h3><a class="nav-link mx-5 text-nowrap" href="/ESCA/ESCASelect.do">견적산출</a></h3>
 						      </div>
 						    </div>
 						  </div>
@@ -219,8 +211,6 @@ function loginCheck() {
 					</div>
 				</div>
 			</div>
-			<!-- 빈 영역 -->
-			<div class="justify-content-end" style="width: 15%!important;"></div>
 		</div>
 	</div>
 </body>

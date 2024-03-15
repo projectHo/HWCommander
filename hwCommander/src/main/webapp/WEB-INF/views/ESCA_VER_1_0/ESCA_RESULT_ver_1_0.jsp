@@ -37,14 +37,12 @@
 		enterPartsText();
 		insertRams();
 		boxHeadInput();
-		answersModal();
 
 		answersMatches();
 	})
 	function answersMatches(){
 		const urlString = location.href;
 		var matches = urlString.match(/answer\d+%3C(.*?)%3E/g);
-		console.log(matches);
 		let values = [];
 
 		for(let i = 0; i < 20; i++){
@@ -67,9 +65,7 @@
 				values.push(d);
 			}
 		}
-		console.log(values);
 		for(let i = values.length-1 ; i >= 0 ; i--){
-			console.log(i);
 			if(values[i][0] == "answer0"){
 				if(values[i][2] == "0"){
 					$(".answer1-p").after('<small><p class="mb-0 pb-1">┖ OS : 프리도스(+0원)</p></small>');
@@ -187,7 +183,7 @@
 					$(".answer3-p").after('<small><p class="mb-0 pb-1">┖ 이름 :  ' + answer3a + " / 비중 : " + Math.round(values[i][j+1]) + "%</p></small>");
 				}
 			}
-			if(values[i][0] == "answer3"){
+			if(values[i][0] == "answer3" && values[i][2] != "null"){
 				$(".answer4-p").after('<small><p class="mb-0 pb-1">┖ 발열 : ' + values[i][2] + "점 / 소재 : " + values[i][4] + "점 / AS : " + values[i][6] + "점 / 소음 : " + values[i][8] + "점 / 안정성 : " + values[i][10] + "점 / QC : " + values[i][12] + "점</p></small>");
 			}
 			if(values[i][0] == "answer4"){
