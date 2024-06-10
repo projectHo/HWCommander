@@ -1,0 +1,12 @@
+.header-container {
+    height: 120px!important;
+    background-color: #020203;
+    min-width: 1920px;
+}
+.flex-1 {
+    flex: 1;
+}
+
+.header-inner-buttons {
+    width: 100px;
+}

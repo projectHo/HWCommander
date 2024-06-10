@@ -33,6 +33,7 @@ $(function() {
 		$("#hpNumber", opener.document).prop('readonly', true);
 		
 		$("#di", opener.document).val("${di}");
+		$(".after-auth", opener.document).removeClass("d-none");
 		
 		alert("정상인증되어 회원가입 정보에 반영합니다. \n반영된 정보는 수정할 수 없습니다.");
 		parent.close();

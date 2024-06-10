@@ -260,7 +260,9 @@
 .w-15 {
   width: 15%!important;
 }
-
+.w-fit {
+  width: fit-content!important;
+}
 .text-keep {
   word-break: keep-all;
 }

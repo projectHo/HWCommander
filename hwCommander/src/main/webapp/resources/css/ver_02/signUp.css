@@ -1,0 +1,35 @@
+.sign-up-container {
+    background-color: #0f0f14;
+    min-height: calc(100vh - 579px);
+}
+
+.sign-up-box {
+    background-color: #161617;
+    border-radius: 12px;
+}
+
+.sign-up-inputs {
+    background-color: transparent!important;
+    color: white!important;
+}
+
+.sign-up-inputs::placeholder {
+    color: #939393!important;
+}
+
+.sign-up-box a {
+    transition: 0.2s all ease-in-out;
+}
+
+.sign-up-small-btns {
+    width: fit-content;
+}
+
+.sign-up-divider {
+    border-top: 1px solid #939393;
+}
+.sign-up-radios {
+    background-color: transparent!important;
+    border-color: white!important;
+    transition: 0.2s all ease-in-out;
+}

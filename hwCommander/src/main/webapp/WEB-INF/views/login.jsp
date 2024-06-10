@@ -7,11 +7,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Bootstrap CSS -->
-<link rel="stylesheet" href="/resources/css/main.css">
-<link rel="stylesheet" href="/resources/css/login.css">
-<link rel="stylesheet" href="/resources/css/estimateCalculationOneCss.css" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+
+<!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+<link rel="stylesheet" href="/resources/css/ver_02/login.css">
 <script>
 
     $(function() {
@@ -78,54 +80,41 @@ function comnOnKeyUp() {
 </head>
 <body>
 	<%@ include file="./common/header.jsp" %>
-
-	<div class="basic_background w-100">
-		<div class="d-flex">
-			<!-- 빈 영역 -->
-			<div class="justify-content-start login-empty-space"></div>
-			<div class="container">
-				<div class="estimateCalc_background pt-3 pb-3 mb-5">
-					<div class="container">
-						<form id="login_form">
-							<div class="form-floating mb-3 col-6 mx-auto mt-5 login-input">
-								<input type="text" class="form-control" id="id" name="id" onkeyup="javascript:comnOnKeyUp()">
-								<label for="floatingInput">ID</label>
+	<div class="login-container w-100 py-5">
+		<div class="container mb-5">
+			<div class="login-box p-5 w-50 mx-auto">
+				<form id="login_form">
+					<div class="px-5 d-flex flex-column gap-3">
+						<div class="d-flex flex-column text-center pb-4">
+							<h3 class="text-white fw-bold">로그인 하고</h3>
+							<h3 class="text-white fw-bold">다양한 기능을 사용해보세요</h3>
+						</div>
+						<div class="d-flex flex-column gap-2">
+							<h6 class="text-white">아이디</h6>
+							<input type="text" placeholder="아이디를 입력해주세요" class="form-control login-inputs p-3" id="id" name="id" onkeyup="javascript:comnOnKeyUp()" autocomplete="off">
+						</div>
+						<div class="d-flex flex-column gap-2">
+							<h6 class="text-white">비밀번호</h6>
+							<input type="password" placeholder="비밀번호를 입력해주세요" class="form-control login-inputs p-3" id="pw" name="pw" onkeyup="javascript:comnOnKeyUp()">
+						</div>
+						<div class="d-flex justify-content-between align-items-center pb-4">
+							<div class="d-flex gap-2 align-items-center">
+								<input type="checkbox" name="" id="login-cb" class="form-check-input bg-dark m-0">
+								<label for="login-cb"><h6 class="text-white m-0">로그인 유지</h6></label>
 							</div>
-							<div class="form-floating mb-5 col-6 mx-auto login-input">
-								<input type="password" class="form-control" id="pw" name="pw" onkeyup="javascript:comnOnKeyUp()">
-								<label for="floatingPassword">Password</label>
-							</div>
-							<div class="d-grid gap-2 pb-3 col-6 mx-auto login-btn">
-								<button class="btn btn-outline-secondary btn-lg" type="button" onclick="javascript:login()">Login</button>
-							</div>
-							<!-- 모바일 -->
-							<div class="gap-2 mb-3 col-6 mx-auto login-display-mobile">
-								<a class="btn btn-primary btn-md" href="/user/signUp.do">회원가입</a>
-								<a class="btn btn-outline-secondary btn-md" href="javascript:alert('준비중')">아이디 찾기</a>
-								<a class="btn btn-outline-secondary btn-md" href="javascript:alert('준비중')">비밀번호 찾기</a>
-							</div>
-							<!-- 웹 -->
-							<div class="justify-content-center mb-2 login-display-web">
-								<nav class="navbar navbar-expand-md">
-									<div class="container-fluid">
-										<div>
-											<div class="navbar-nav">
-												<a class="nav-link" href="/user/signUp.do">회원가입</a>
-												<span class="navbar-text">|</span>
-												<a class="nav-link" href="javascript:alert('준비중')">아이디 찾기</a>
-												<span class="navbar-text">|</span>
-												<a class="nav-link" href="javascript:alert('준비중')">비밀번호 찾기</a>
-											</div>
-										</div>
-									</div>
-								</nav>
-							</div>
-						</form>
+							<h6 class="m-0"><a href="#" onclick="javascript:void(0)" class="text-decoration-none">비밀번호 찾기</a></h6>
+						</div>
+		
+						<button type="button" class="btn btn-lg btn-light w-100 fw-bold py-3 mb-2" onclick="javascript:login()">로그인</button>
+						
+						<div class="d-flex gap-3 align-items-center justify-content-center pb-3">
+							<h6 class="text-white">아직 회원이 아니시라면</h6>
+							<h6 class="text-primary"><a href="/user/signUp.do" class="text-decoration-none">회원가입 하기</a></h6>
+						</div>
 					</div>
-				</div>
+				</form>
 			</div>
-			<!-- 빈 영역 -->
-			<div class="justify-content-end login-empty-space"></div>
+
 		</div>
 	</div>
 	

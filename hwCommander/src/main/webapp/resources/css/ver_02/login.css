@@ -1,0 +1,22 @@
+.login-container {
+    background-color: #0f0f14;
+    min-height: calc(100vh - 579px);
+}
+
+.login-box {
+    background-color: #161617;
+    border-radius: 12px;
+}
+
+.login-inputs {
+    background-color: transparent!important;
+    color: white!important;
+}
+
+.login-inputs::placeholder {
+    color: #939393!important;
+}
+
+.login-box a {
+    transition: 0.2s all ease-in-out;
+}

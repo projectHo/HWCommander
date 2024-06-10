@@ -1,0 +1,21 @@
+.esca-select-container {
+    background-color: #0f0f14;
+    min-height: calc(100vh - 579px);
+}
+.esca-select-boxs {
+    background-color: #161617;
+    border-radius: 12px;
+    border: 1px solid #656565;
+    color: #71767F;
+    cursor: pointer;
+    transition: 0.2s all ease-in-out;
+}
+
+.esca-select-boxs.clicked {
+    background-color: #26282B;
+    border: 1px solid #FFFFFF;
+}
+
+.svg-box svg path{
+    transition: 0.3s all ease-in-out;
+}

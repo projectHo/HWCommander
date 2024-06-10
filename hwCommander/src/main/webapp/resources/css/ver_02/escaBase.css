@@ -1,0 +1,201 @@
+.esca-container {
+    background-color: #0f0f14;
+    min-height: calc(100vh - 579px);
+    min-width: 1920px;
+}
+
+.esca-head-text {
+    border-bottom: 1px solid #656565;
+}
+
+.esca-left-side {
+    border-right: 1px solid #656565;
+}
+
+.esca-left-side button.active {
+    background-color: #FFF!important;
+    color: #0453EC!important;
+    border:1px solid #0453EC!important;
+    position:relative;
+}
+
+.esca-left-side button.active::before {
+    content: "";
+    position: absolute;
+    top: -2px;
+    left: -1px;
+    right: 0px;
+    bottom: 0px;
+    border: 2px solid #0453EC;
+    border-radius:6px;
+    pointer-events: none;
+    box-sizing: border-box;
+}
+.esca-left-side button::after {
+    content: "";
+    position: absolute;
+    bottom: calc(50% - 5px);
+    width: 10px;
+    height: 10px;
+    right: -11%;
+    background-color:#0f0f14;
+    border: 1px solid #656565!important;
+    border-radius: 50%;
+}
+.esca-left-side button.active::after {
+    content: "";
+    position: absolute;
+    bottom: calc(50% - 6px);
+    width: 12px;
+    height: 12px;
+    right: -11.7%;
+    background-color:#FFF;
+    border-radius: 50%;
+}
+.esca-left-side button.done::after{
+    background-color: #2e74ff;
+}
+
+.btn:disabled{
+    opacity:1!important;
+    color: #595959!important;
+}
+
+.qestion-box-item-input {
+    background-color: transparent!important;
+    border-color: #656565!important;
+    padding: 0.75rem!important;
+    color: #FFF!important;
+}
+
+.qestion-box-item-input::placeholder {
+    color: #656565!important;
+}
+
+.question-box-item button.check {
+    background-color: #303031!important;
+    border: 1px solid #656565!important;
+}
+.question-box-item button.check.active {
+    background-color: #434445!important;
+    border: 1px solid #FFF!important;
+}
+
+.question-box-item-buttons button {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    min-width: 162px;
+}
+.descriptionForButtons {
+    top: calc(100% + 30px);
+    left: 0;
+    background-color: #303031;
+    width: 500%;
+    border-radius: 14px;
+    max-width: 850px;
+}
+
+#descriptionForButton1 div::before {
+    position: absolute;
+    content: "";
+    width: 20px;
+    height: 20px;
+    top: -10px;
+    left: 40px;
+    background-color: #303031;
+    transform: rotate(45deg);
+}
+
+#descriptionForButton2 div::before {
+    position: absolute;
+    content: "";
+    width: 20px;
+    height: 20px;
+    top: -10px;
+    left: 35%;
+    background-color: #303031;
+    transform: rotate(45deg);
+}
+
+#descriptionForButton3 div::before {
+    position: absolute;
+    content: "";
+    width: 20px;
+    height: 20px;
+    top: -10px;
+    right: 35%;
+    background-color: #303031;
+    transform: rotate(45deg);
+}
+
+.q-3-taps {
+    background-color: transparent!important;
+    cursor: default!important;
+}
+
+.q-3-s span{
+    font-size: 12px;
+}
+
+.q3-select-items {
+    background-color: #1c1c21!important;
+    border-radius: 8px;
+}
+
+.q3-select-items .q3-select-item{
+    border: 1px solid #656565!important;
+    border-radius: 8px;
+    background-color: #28282E!important;
+}
+
+.q3-select-inputs {
+    background-color: #000!important;
+    color: #FFF!important;
+}
+
+.q3-select-inputs::placeholder {
+    color: #656565!important;
+}
+
+.q3-select-close {
+    cursor: pointer;
+}
+.q3-item-names {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.q4-description-box {
+    background-color: #1c1c21;
+    border-radius: 8px;
+    min-height: 400px;
+}
+
+.q4-description-box::before {
+    position: absolute;
+    content: "";
+    width: 20px;
+    height: 20px;
+    left: -10px;
+    top: calc(50% - 10px);
+    background-color: #1c1c21;
+    transform: rotate(45deg);
+}
+
+.q4-desciption-input-group {
+    border: 1px solid #747474;
+    background-color: transparent;
+    border-radius: 8px;
+}
+.q4-desciption-divider {
+    border: 1px solid #747474;
+}
+.q4-desciption-input-group input {
+    background-color: transparent;
+    
+}
+.q4-desciption-input-group input:focus {
+    box-shadow:none!important;
+    border-color:inherit!important;
+    background-color: transparent!important;
+}

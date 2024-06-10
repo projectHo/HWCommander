@@ -1,0 +1,106 @@
+.my-page-container {
+    background-color: #0f0f14;
+    min-height: calc(100vh - 579px);
+}
+
+.my-page-head-text {
+    border-bottom: 1px solid #656565;
+}
+
+.my-page-left-side {
+    border-right: 1px solid #656565;
+}
+
+.accordion-item {
+    border: none!important;
+    background-color: transparent!important;
+}
+
+.accordion-item button{
+    border-radius: 8px;
+    box-shadow: none!important;
+}
+.accordion-button {
+    color: #FFFFFF!important;
+    background-color: #3f3f43!important;
+}
+.accordion-button.collapsed {
+    color: #656565!important;
+    background-color: #1b1b20!important;
+    transition: 0.2s all ease-in-out;
+}
+.accordion-button:hover {
+    color: #FFFFFF!important;
+    background-color: #3f3f43!important;
+}
+
+.accordion-body h6 a {
+    color: #656565!important;
+    cursor: pointer;
+    transition: 0.2s all ease-in-out;
+}
+.accordion-body h6 a:hover {
+    color:#FFFFFF!important;
+}
+.accordion-body h6.active a{
+    color:#FFFFFF!important;
+}
+
+.accordion-button::after {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='lightgray' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='M2 5L8 11L14 5'/%3e%3c/svg%3e")!important;
+}
+
+.accordion-button:not(.collapsed)::after {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='none' stroke='white' stroke-linecap='round' stroke-linejoin='round'%3e%3cpath d='M2 5L8 11L14 5'/%3e%3c/svg%3e")!important;
+}
+
+.no-arrow::after {
+    display: none;
+}
+
+.description-boxs {
+    transition: 0.2s all ease-in-out;
+}
+.order-detail-items {
+    cursor: pointer;
+}
+.order-detail-divider {
+    border-top: 1px solid #1A1A1C;
+}
+
+.my-info-check-before input, .secession input {
+    background-color: transparent!important;
+    color: white!important;
+}
+
+.my-info-check-before input::placeholder, .secession input::placeholder {
+    color: #939393!important;
+}
+
+.my-info form {
+    width: fit-content;
+}
+
+.my-info-after-inputs {
+    background-color: transparent!important;
+    position: relative;
+    transition: 0.2s all ease-in-out!important;
+}
+
+.my-info-after-inputs::placeholder {
+    color: #939393!important;
+}
+
+.my-info-check-after h5 {
+    color: #D3D3D3!important;
+    width: 15%;
+}
+
+.my-info-check-after-input-boxs button{
+    right: 8px;
+    top: 10px;
+}
+
+.secession-container {
+    width: fit-content;
+}

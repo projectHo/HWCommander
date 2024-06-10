@@ -1,0 +1,28 @@
+.order-detail-container {
+    background-color: #0f0f14;
+    min-height: calc(100vh - 579px);
+}
+
+.order-detail-boxs {
+    border: 1px solid #656565;
+    border-radius: 12px;
+    background-color: transparent!important;
+}
+
+.order-detail-inputs {
+    background-color: transparent!important;
+    color: white!important;
+    transition: 0.2s all ease-in-out!important;
+}
+
+.order-detail-inputs::placeholder {
+    color: #939393!important;
+}
+
+.order-detail-divider {
+    border-top: 1px solid #656565;
+}
+
+.modal#refundTermsModal {
+    
+}

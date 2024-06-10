@@ -43,6 +43,8 @@ public class HomeController {
 	public String home(@SessionAttribute(name = "loginUser", required = false)UserInfoVO userInfoVO, Model model) {
 		
 		model.addAttribute("loginUser", userInfoVO);
+
+		model.addAttribute("banpumMasterList", productService.getBanpumMasterAllListByExposureYn("Y"));
 		
 		return "main";
 	}

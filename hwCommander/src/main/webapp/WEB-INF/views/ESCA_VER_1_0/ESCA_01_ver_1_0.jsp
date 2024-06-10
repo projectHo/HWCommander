@@ -5,126 +5,23 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
     <title>현우의 컴퓨터 공방 - 견적산출</title>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous" />
-    <link rel="stylesheet" href="/resources/css/main.css" />
-    <link rel="stylesheet" href="/resources/css/estimateCalculationOneCss.css" />
-    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
-
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-	<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
-    <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="/resources/css/ver_02/escaBase.css">
+	<link rel="stylesheet" href="/resources/css/ver_02/esca_00.css">
+	<!-- Bootstrap CSS -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 
     <script>
-		var progress = 0;
-		function clickReturnBtn(){
-			sessionStorage.setItem("data-1","null");
-			window.location.href = "ESCA_00_ver_1_0.do";
-		}
-		function clickNextBtn() {
-			if($(".first-q-input").val() !== ""){
-				// 견적산출 데이터처리부(송신)
-				sessionStorage.setItem("data-1",$("#can-pay-val").val());
-				$(".next-btn").addClass('is-valid');
-				location.href = "ESCA_02_ver_1_0.do";
-			}
-		}
-
-		function clickEstimateBtn(el) {
-			$(el).next().css("display","block");
-			$(el).addClass("is-invalid");
-			setTimeout(() => {
-				$(el).next().css("display","none");
-				$(el).removeClass("is-invalid");
-			}, 3000);
-		}
-
-		function priceCheck(el){
-			if($(el).val() < 0){
-				alert("0원 이상으로 입력해주세요~");
-				$(el).val("");
-			}else if($(el).val() > 500){
-				alert("500만원 이하로 입력해주세요!");
-				$(el).val("");
-			}else if (isNaN(parseFloat($(el).val())) && $(el).val() != ""){
-				alert("숫자만 입력해주세요!!");
-				$(el).val("");
-			}
-		}
-			
-		function animateBackgroundColor() {
-			$(".donut-container").css(
-			"background",
-			"conic-gradient(#df22ee 0% " + progress + "%, #f2f2f2 100% 0%)"
-			);
-
-			if (progress < 100) {
-			progress += 3;
-			setTimeout(animateBackgroundColor, 20);
-			} else {
-				$(".donut-fill").html("1");
-			goToZero();
-			}
-		}
-
-		function goToZero() {
-			$(".donut-container").css(
-			"background",
-			"conic-gradient(#df22ee 0% " + progress + "%, #f2f2f2 100% 0%)"
-			);
-			progress -= 3;
-			if (progress > 0) {
-			setTimeout(goToZero, 20);
-			}
-		}
-			
-		let index = 0;
-		function typeText() {
-			const inputElement = $("#typingInput");
-			const text = "본체의 가용 예산 한도는 얼마입니까? (최대 500만원)";
-			if (index < text.length) {
-				inputElement.val(function(i, val) {
-				return val + text.charAt(index);
-				});
-				index++;
-				setTimeout(typeText, 50);
-			}
-		}
-
-		$(function () {
-			// bootstrap tooltip base
-			const tooltipTriggerList = $('[data-bs-toggle="tooltip"]');
-			const tooltipList = tooltipTriggerList.map(function() {
-				return new bootstrap.Tooltip($(this)[0]);
-			}).get();
-			// 견적산출 데이터처리부(수신)
-			if(sessionStorage.getItem("data-1")){
-				$('#can-pay-val').val(sessionStorage.getItem("data-1"));
-			}
-			
-			// functions
-			animateBackgroundColor();
-			
-			typeText();
-
-			$(".donut-fill").css("left","calc(50% - 12px)");
-		});
-
-		
-		
-	  
-   
 
     </script>
   </head>
   <body>
-    <%@ include file="/WEB-INF/views/common/header.jsp" %>
 
     <div class="basic_background w-100">
       <div class="d-flex">
@@ -174,18 +71,5 @@ language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
         <div class="justify-content-end" style="width: 15% !important"></div>
       </div>
 
-      <!-- 2022.11.16 디자인이미지 추가 -->
-      <div class="mt-5 mx-5" style="height: 15% !important">
-        <img
-          class="img-fluid float-end"
-          src="/resources/img/layer-34-1200x107.png"
-          alt="" />
-      </div>
-      <div class="mt-2 mx-5" style="height: 15% !important">
-        <img class="img-fluid" src="/resources/img/layer-26.png" alt="" />
-      </div>
-    </div>
-
-    <%@ include file="/WEB-INF/views/common/footer.jsp" %>
   </body>
 </html>

@@ -2,44 +2,44 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - 견적산출 결과</title>
+<title>현우의 컴퓨터 공방 - 반품몰 상세</title>
 <!-- Required meta tags -->
-<meta charset="UTF-8">
-<!-- Bootstrap CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-<link rel="stylesheet" href="/resources/css/main.css">
-<link rel="stylesheet" href="/resources/css/estimateCalculationOneCss.css" />
+<meta charset="utf-8">
+<!-- Bootstrap & jquery -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
-<link rel="stylesheet" href="/resources/css/escaResult.css">
+
+<link rel="stylesheet" href="/resources/css/ver_02/ESCA_RESULT.css">
+
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
 <meta name="author" content="" />
-<script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
-<link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet"/>
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
 
-<!-- 08.23 캡쳐 스크립트 -->
+<!-- 캡쳐 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.5.0-beta4/html2canvas.min.js"></script>
 
 <script>
-	$(function() {
-		if (productMaster == ""){
+    $(function() {
+		if ("${productMaster}" == ""){
 			$("#resultErrorModal").modal("show");
 			return false;
 		}
-		const tooltipList = $('[data-bs-toggle="tooltip"]').map(function() {
-			return new bootstrap.Tooltip($(this)[0]);
-		}).get();
-		// 부품 이름 입력 & 총 가격 계산
-		enterPartsText();
-		insertRams();
 		boxHeadInput();
-
 		answersMatches();
-	})
+    });
+    function loginCheck() {
+		var check = false;
+		if("${loginUser}" == "") {
+			alert("로그인 후 이용해주세요.");
+			location.href = "/user/login.do";
+		}else {
+			check = true;
+		}
+		return check;
+	}
+
 	function answersMatches(){
 		const urlString = location.href;
 		var matches = urlString.match(/answer\d+%3C(.*?)%3E/g);
@@ -269,135 +269,36 @@
 			}
 		}
 	}
-	function loginCheck() {
-		var check = false;
-		if("${loginUser}" == "") {
-			alert("로그인 후 이용해주세요.");
-			location.href = "/user/login.do";
-		}else {
-			check = true;
+
+	function boxQtyCheckBox(){
+		if($("#boxCheck").prop("checked") == true){
+			$("#itemBoxQty").attr("value",1);
+			boxQtys = 1;
+		}else if($("#boxCheck").prop("checked") == false){
+			$("#itemBoxQty").attr("value",0);
+			boxQtys = 0;
 		}
-		return check;
 	}
-	let productMaster = "${productMaster}";
-	let mbInfo = "${productMbDetailInfo}";
-	let productDet = "${productDetail}";
-	let partsRam = "${partsRam}";
-	let partsRam2 = "${productRamDetailInfo}";
-	let loginUser = "${loginUser}";
-	
-	// 마스터 리스트화
-	const productMasterDetail = productMaster.substring(1, productMaster.length - 1);
-	const productMasterSplit = productMasterDetail.split('PartsproductMasterHistoryVO(');
-	
-	const productMasterResult = {};
-	let productMasterIdVal = "";
-	let productMasterIndex = 0;
-	productMasterSplit.forEach(item => {
-	const keyValuePairs = item.split(', ');
-	const detail = {};
-	keyValuePairs.forEach(pair => {
-		const [key, value] = pair.split('=');
-		detail[key] = value;
-	});
-	
-	if (!productMasterResult[productMasterIndex]) {
-		productMasterResult[productMasterIndex] = [];
-	}
-	productMasterResult[productMasterIndex].push(detail);	
-	productMasterIndex++;
-	});
-		
-		
-	// 추천된 마더보드 리스트화
-	const mbDetail = mbInfo.substring(1, mbInfo.length - 1);
-	const mbSplit = mbDetail.split('PartsMbHistoryVO(');
-	
-	const mbResult = {};
-	let mbIdVal = "";
-	let mbIndex = 0;
-	mbSplit.forEach(item => {
-	const keyValuePairs = item.split(', ');
-	const detail = {};
-	keyValuePairs.forEach(pair => {
-		const [key, value] = pair.split('=');
-		detail[key] = value;
-	});
-	
-	if (!mbResult[mbIndex]) {
-		mbResult[mbIndex] = [];
-	}
-	mbResult[mbIndex].push(detail);	
-	mbIndex++;
-	});
 
-	// 추천된 부품 디테일 리스트화
-	const productDetail = productDet.substring(1, productDet.length - 1);
-	const productSplit = productDetail.split('ProductDetailVO(');
-	
-	const productResult = {};
-	let productIdVal = "";
-	let productIndex = 0;
-	productSplit.forEach(item => {
-	const keyValuePairs = item.split(', ');
-	const detail = {};
-	keyValuePairs.forEach(pair => {
-		const [key, value] = pair.split('=');
-		detail[key] = value;
-	});
-	
-	if (!productResult[productIndex]) {
-		productResult[productIndex] = [];
+	function goOrderSheet(){
+		if(loginCheck()) {
+			location.href = "/order/sheet.do?accessRoute=banpum&productIds=" + $("#itemId").val() + "&orderQtys=" + $("#itemQty").val() + "&boxQtys=" + $("#itemBoxQty").val();
+		}
 	}
-	productResult[productIndex].push(detail);	
-	productIndex++;
-	});
-
-	// 전체 램 리스트화
-	const ramDetail = partsRam.substring(1, partsRam.length - 1);
-	const ramSplit = ramDetail.split('PartsRamVO(');
-
-	const ramResult = {};
-	var ramIdVal = "";
-	let ramIndex = 0;
-	ramSplit.forEach(item => {
-	const keyValuePairs = item.split(', ');
-	const detail = {};
-	keyValuePairs.forEach(pair => {
-		const [key, value] = pair.split('=');
-		detail[key] = value;
-	});
-	if (!ramResult[ramIndex]) {
-		ramResult[ramIndex] = [];
-	}
-	ramResult[ramIndex].push(detail);
-	ramIndex++;
-	});
-
-	function enterPartsText () {
-		$(".gpu-text").html(productResult[1][0].partsName);
-		$(".cpu-text").html(productResult[2][0].partsName);
-		$(".mb-text").html(productResult[3][0].partsName);
-		$(".cooler-text").html(productResult[4][0].partsName);
-		$(".case-text").html(productResult[5][0].partsName);
-		$(".psu-text").html(productResult[6][0].partsName);
-		$(".ram-text").html(productResult[7][0].partsName);
-		$(".ssd-text").html(productResult[8][0].partsName);
-		$(".price-text").html("${productMaster.productPriceStr}");
-	}
-	
-	function clickReturnBtn () {
+	function clickReturnBtn() {
 		if(loginCheck()){
 			location.href = "/ESCA/ESCASelect.do";
 		}
 		sessionStorage.clear();
 	}
-	let orderQtys;
-	let boxQtys;
+	let orderQtys = 0;
+	let boxQtys = 0;
 	function clickOrderBtn() {
-		// 09.06 오류 상태 추가 및 램 변경시 업데이트 로직 추가 필요
 		if(sessionStorage.getItem("pay") == "y"){
-			if(loginCheck()){
+			if(orderQtys == 0){
+				alert("주문 수량을 확인해주세요");
+
+			}else if(loginCheck()){
 				location.href = "/order/sheet.do?accessRoute=direct&productIds="+"${productMaster.id}"+"&orderQtys="+orderQtys+"&boxQtys="+boxQtys;
 			}
 		}else {
@@ -407,77 +308,66 @@
 	function clickSinglOrderBtn(el){
 		if(sessionStorage.getItem("pay") == "y"){
 			if(loginCheck()){
-				location.href = "/order/sheet.do?accessRoute=direct&productIds="+"${productMaster.id}"+"&orderQtys=1"+"&boxQtys="+$(el).attr("box");
+				location.href = "/order/sheet.do?accessRoute=direct&productIds="+"${productMaster.id}"+"&orderQtys=1"+"&boxQtys="+ boxQtys;
 			}
 		}else {
 			alert("과거 견적 기준으로는 구매하실 수 없습니다!");
 		}
 	}
 	const numberCheck = /^[0-9]+$/;
-	function orderCount(el){
-		if($(el).val().length>=1 && !numberCheck.test($(el).val())){
-			alert("숫자만 입력해주세요");
-			$(el).val("");
+	function itemsOrderControl(el){
+		if($(".order-item-qty").val().length>=1 && !numberCheck.test($(".order-item-qty").val())){
+			alert("올바르게 입력해주세요");
+			$(".order-item-qty").val("");
 			return false;
 		}
-		if(Number($(el).val()) >= Number("${productMaster.productQty}")){
-			$("#orderCount").val("${productMaster.productQty}");
+		if(Number($(".order-item-qty").val()) >= Number("${productMaster.productQty}")){
+			$(".order-item-qty").val("${productMaster.productQty}");
 		}
-		orderQtys = $(el).val();
-	}
-	function orderBoxCount(el){
-		if($(el).val().length>=1 && !numberCheck.test($(el).val())){
-			alert("숫자만 입력해주세요");
-			$(el).val("");
-			return false;
-		}
-		if(Number($(el).val()) > $("#orderCount").val()){
-			$(el).val($("#orderCount").val());
-		}
-		boxQtys = $(el).val();
-	}
-	function clickSaveBtn(){
-		$("#modal-description").modal("show");
-	}
-
-	let differencePrices = [];
-	let ramRufIndex = 1;
-	let basedRam = productResult[6][0].partsPrice;
-	for (let i = 1; i<Object.keys(ramResult).length; i++){
-		if(ramResult[i][0].partsPrice !== "0" && ramResult[i][0].partsPrice !== "9999999"){
-			let defferenceRam = ramResult[i][0].partsPrice;
-			let calcPrices = Number(defferenceRam) - Number(basedRam);
-			differencePrices.push(calcPrices);
-		}
-	}
-	function insertRams(){
-		for(let i = 1; i<Object.keys(ramResult).length; i++){
-			if(ramResult[i][0].partsPrice !== "0" && ramResult[i][0].partsPrice !== "9999999" && mbResult[0][0].memSocCd === ramResult[i][0].memSocCd){
-				let li = $("<li></li>");
-				let button = $("<button></button>").addClass("dropdown-item").attr("cd",i).attr("nb",ramRufIndex).attr("type","button").attr("onclick","javascript:clickChangeRam(this)").html(ramResult[i][0].partsName + "(" + differencePrices[ramRufIndex-1] + ")");
-				li.append(button);
-				$(".dropdown-menu.ram").append(li);
-				ramRufIndex++;
+		if($(el).attr("control-cd") == "0"){
+			if($(".order-item-qty").val() == "0"){
+				$(".order-item-qty").val("0");
+			}else {
+				$(".order-item-qty").val(Number($(".order-item-qty").val())-1);
+			}
+		}else if($(el).attr("control-cd") == "1"){
+			if($(".order-item-qty").val() == "${productMaster.productQty}"){
+				$(".order-item-qty").val("${productMaster.productQty}");
+			}else {
+				$(".order-item-qty").val(Number($(".order-item-qty").val())+1);
 			}
 		}
+		orderQtys = $(".order-item-qty").val();
 	}
-
-	function clickChangeRam(e){
-		if($(e).attr("cd") === "0"){
-			enterPartsText();
-		}else {
-			const ramCd = $(e).attr("cd");
-			const ramI = $(e).attr("nb");
-			$(".ram-text").html(ramResult[ramCd][0].partsName);
-			$(".price-text").html(((Number("${productMaster.productPrice}") + differencePrices[ramI-1]).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',') + "원"));
+	function boxsOrderControl(el){
+		if($(".order-box-qty").val().length>=1 && !numberCheck.test($(".order-box-qty").val())){
+			alert("올바르게 입력해주세요");
+			$(".order-box-qty").val("");
+			return false;
 		}
+		if(Number($(".order-box-qty").val()) >= Number("${productMaster.productQty}")){
+			$(".order-box-qty").val("${productMaster.productQty}");
+		}
+		if($(el).attr("control-cd") == "0"){
+			if($(".order-box-qty").val() == "0"){
+				$(".order-box-qty").val("0");
+			}else {
+				$(".order-box-qty").val(Number($(".order-box-qty").val())-1);
+			}
+		}else if($(el).attr("control-cd") == "1"){
+			if($(".order-box-qty").val() == $(".order-item-qty").val()){
+				$(".order-box-qty").val($(".order-box-qty").val());
+			}else if($(".order-box-qty").val() == "${productMaster.productQty}"){
+				$(".order-box-qty").val("${productMaster.productQty}");
+			}else {
+				$(".order-box-qty").val(Number($(".order-box-qty").val())+1);
+			}
+		}
+		boxQtys = $(".order-box-qty").val();
 	}
-	// 캡쳐 기능
 	function clickCaptureBtn(){
 		html2canvas(document.querySelector("#capture-container")).then(canvas => {
-			$(".change-ram-btn").css("display","none");
 			saveAs(canvas.toDataURL('image/png'),"HWC-Capture.png");
-			$(".change-ram-btn").css("display","inline-block");
 		});
 	};
 	function saveAs(uri, filename) { 
@@ -491,47 +381,6 @@
 		} else { 
 			window.open(uri); 
 		} 
-	}
-	function modalButtons(el){
-		if($(el).hasClass("btn-secondary")){
-			location.href = "/";
-			sessionStorage.clear();
-		}else {
-			sessionStorage.clear();
-			location.href = "/ESCA/ESCASelect.do";
-		}
-	}
-	
-	function boxHeadInput(){
-		$("#id-input").val("ID : " + "${loginUser.id}");
-		const currentDate = new Date();
-		const year = currentDate.getFullYear();
-		const month = String(currentDate.getMonth() + 1).padStart(2, "0");
-		const day = String(currentDate.getDate()).padStart(2, "0");
-		const hours = currentDate.getHours();
-		const minutes = currentDate.getMinutes();
-		const seconds = currentDate.getSeconds();
-		const formattedDate = year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
-
-		if(sessionStorage.getItem("targetData") == ""){
-			$("#date-input").val("Date : " + formattedDate);
-		}else if(sessionStorage.getItem("pay") == "y"){
-			$("#date-input").val("Date : " + formattedDate);
-		}else {
-			$("#date-input").val("Date : " + sessionStorage.getItem("targetData"));
-		}
-
-		const urlString = location.href;
-		const matchedId = urlString.match(/userId%2C([^%]+)/);
-		if(matchedId == null){
-			const matchedId = urlString.match(/userId%2C([^%]+)/);
-		}else {
-			const recommenderName = matchedId[1];
-			if("${loginUser.id}" != recommenderName){
-				$("#recommender-input").parent().css("display","block");
-				$("#recommender-input").val("추천인 ID : "+ recommenderName).css("display","block");
-			}
-		}
 	}
 	function descriptionInput(el){
 		if($(el).val().length > 20){
@@ -588,233 +437,216 @@
 			})
 		}
 	}
+	function boxHeadInput(){
+		$("#id-input").val("ID : " + "${loginUser.id}");
+		const currentDate = new Date();
+		const year = currentDate.getFullYear();
+		const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+		const day = String(currentDate.getDate()).padStart(2, "0");
+		const hours = currentDate.getHours();
+		const minutes = currentDate.getMinutes();
+		const seconds = currentDate.getSeconds();
+		const formattedDate = year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds;
+
+		if(sessionStorage.getItem("targetData") == ""){
+			$("#date-input").val("Date : " + formattedDate);
+		}else if(sessionStorage.getItem("pay") == "y"){
+			$("#date-input").val("Date : " + formattedDate);
+		}else {
+			$("#date-input").val("Date : " + sessionStorage.getItem("targetData"));
+		}
+
+		const urlString = location.href;
+		const matchedId = urlString.match(/userId%2C([^%]+)/);
+		if(matchedId == null){
+			const matchedId = urlString.match(/userId%2C([^%]+)/);
+		}else {
+			const recommenderName = matchedId[1];
+			if("${loginUser.id}" != recommenderName){
+				$("#recommender-input").parent().css("display","block");
+				$("#recommender-input").val("추천인 ID : "+ recommenderName).css("display","block");
+			}
+		}
+	}
 </script>
 </head>
 <body>
 	<%@ include file="/WEB-INF/views/common/header.jsp" %>
+
+	<div class="w-100" style="background-color: #0F0F14;">
+		<div class="container px-5 py-5">
+			<div class="d-flex flex-column gap-5">
+				<div class="d-flex justify-content-center align-items-center">
+					<h2 class="fw-bold text-light">견적산출 결과</h2>
+				</div>
+				<div class="d-flex gap-5" id="capture-container" style="color: #FFF;">
+					<div class="w-50">
+						<div class="w-100 h-100 rounded d-flex flex-column gap-3">
+							<img src="${productMaster.productImage}" class="img-fluid rounded w-100 flex-1 border-1 border border-secondary" alt="...">
+							<div class="d-flex gap-3">
+								<div class="input-group flex-1">
+									<input type="text" class="form-control text-light px-3 py-2" id="id-input"aria-label="Text input with checkbox" value="ID : error" style="background-color: transparent;" disabled>
+								</div>
+								<div class="input-group flex-1 result-inputs" style="display: none;">
+									<input type="text" class="form-control text-light px-3 py-2" id="recommender-input" value="추천인 : 오류" style="background-color: transparent;" disabled>
+								</div>
+							</div>
+							<div class="input-group w-100 result-inputs">
+								<input type="text" class="form-control text-light px-3 py-2" id="date-input"aria-label="Text input with checkbox" value="Date : 0000-00-00" style="background-color: transparent;" disabled>
+							</div>
+						</div>
+					</div>
+					<div class="w-50 d-flex flex-column text-start text-light gap-2">
+						<h3 class="fw-bold">${productMaster.productName}</h3>
+						<h2 class="fw-bold answer2-p">${productMaster.productPriceStr}</h2>
+						<h6>택배배송* 영업일 기준 약 2일 소요 | 배송비 무료 [우체국 택배]</h6>
+						<h5 class="mt-2 fw-semibold">상세정보</h5>
+						<div class="d-flex flex-column gap-1">
+							<c:forEach var="item" items="${productDetail}">
+								<c:if test="${item.partsTypeCdNm == 'CPU'}">
+									<h6 class="m-0 answer6-p">${item.partsTypeCdNm} : <span>${item.partsName}</span></h6>	
+								</c:if>
+								<c:if test="${item.partsTypeCdNm == 'Cooler'}">
+									<h6 class="m-0 answer8-p">${item.partsTypeCdNm} : <span>${item.partsName}</span></h6>	
+								</c:if>
+								<c:if test="${item.partsTypeCdNm == 'MB'}">
+									<h6 class="m-0 answer5-p">${item.partsTypeCdNm} : <span>${item.partsName}</span></h6>	
+								</c:if>
+								<c:if test="${item.partsTypeCdNm == 'RAM'}">
+									<h6 class="m-0 answer9-p">${item.partsTypeCdNm} : <span>${item.partsName}</span></h6>	
+								</c:if>
+								<c:if test="${item.partsTypeCdNm != 'CPU' && item.partsTypeCdNm != 'Cooler' && item.partsTypeCdNm != 'MB' && item.partsTypeCdNm != 'RAM'}">
+									<h6 class="m-0">${item.partsTypeCdNm} : <span>${item.partsName}</span></h6>
+								</c:if>
+							</c:forEach>
+							<h6 class="m-0 answer1-p">OS : <span>${productMaster.windowsName}</span></h6>
+							<h6 class="m-0 answer3-p">사용 용도</h6>
+							<h6 class="m-0 answer4-p">기타</h6>
+							
+						</div>
+						<div class="w-100 border-top my-2" style="border-color: #404040!important;"></div>
+
+						<c:if test="${productMaster.productQty != 1}">
+							<div class="d-flex flex-column gap-2">
+								<h5 class="fw-semibold m-0 d-flex align-items-center">상품 수량&nbsp;<div class="fs-6">| 최대 <span>${productMaster.productQty}</span>개</div></h5>
+								<div class="d-flex border border-1 mb-2" style="border-radius: 4px; border-color: #D3D3D3; height: 44px; min-width: 166px; max-width: 200px;">
+									<div class="w-25 d-flex justify-content-center align-items-center btn" style="border-right: 1px solid #D3D3D3; border-radius: 0;" control-cd="0" onclick="javascript:itemsOrderControl(this)">
+										<svg width="17" height="3" viewBox="0 0 17 3" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path fill-rule="evenodd" clip-rule="evenodd" d="M16.5 1.25C16.5 1.94036 15.9404 2.5 15.25 2.5L1.25 2.5C0.559644 2.5 -6.23395e-08 1.94036 -4.01598e-08 1.25C-1.79802e-08 0.559643 0.559644 -9.47993e-07 1.25 -9.06937e-07L15.25 -7.43391e-08C15.9404 -3.32827e-08 16.5 0.559644 16.5 1.25Z" fill="#D3D3D3"/>
+										</svg>
+									</div>
+									<div class="w-50 d-flex justify-content-center align-items-center">
+										<div class="w-100 d-flex justify-content-center align-items-center h-100">
+											<input type="text" value="0" class="text-center form-control border-0 mx-1 bg-transparent text-white order-item-qty" oninput="javascript:itemsOrderControl(this)">
+										</div>
+									</div>
+									<div class="w-25 d-flex justify-content-center align-items-center" style="background-color: #D3D3D3; cursor: pointer;" control-cd="1" onclick="javascript:itemsOrderControl(this)">
+										<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path fill-rule="evenodd" clip-rule="evenodd" d="M10.25 2C10.25 1.30964 9.69036 0.75 9 0.75C8.30964 0.75 7.75 1.30964 7.75 2V7.41675H2C1.30964 7.41675 0.75 7.97639 0.75 8.66675C0.75 9.3571 1.30964 9.91675 2 9.91675H7.75V16C7.75 16.6904 8.30964 17.25 9 17.25C9.69036 17.25 10.25 16.6904 10.25 16V9.91675H16C16.6904 9.91675 17.25 9.3571 17.25 8.66675C17.25 7.97639 16.6904 7.41675 16 7.41675H10.25V2Z" fill="#0F0F14"/>
+										</svg>
+									</div>
+								</div>
+								<h5 class="fw-semibold m-0 d-flex align-items-center">박스 추가&nbsp;<div class="fs-6">| 최대 수량은 상품 수량을 넘을 수 없습니다</div></h5>
+								<div class="d-flex border border-1" style="border-radius: 4px; border-color: #D3D3D3; height: 44px; min-width: 166px; max-width: 200px;">
+									<div class="w-25 d-flex justify-content-center align-items-center btn" style="border-right: 1px solid #D3D3D3; border-radius: 0;" control-cd="0" onclick="javascript:boxsOrderControl(this)">
+										<svg width="17" height="3" viewBox="0 0 17 3" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path fill-rule="evenodd" clip-rule="evenodd" d="M16.5 1.25C16.5 1.94036 15.9404 2.5 15.25 2.5L1.25 2.5C0.559644 2.5 -6.23395e-08 1.94036 -4.01598e-08 1.25C-1.79802e-08 0.559643 0.559644 -9.47993e-07 1.25 -9.06937e-07L15.25 -7.43391e-08C15.9404 -3.32827e-08 16.5 0.559644 16.5 1.25Z" fill="#D3D3D3"/>
+										</svg>
+									</div>
+									<div class="w-50 d-flex justify-content-center align-items-center">
+										<div class="w-100 d-flex justify-content-center align-items-center h-100">
+											<input type="text" value="0" class="text-center form-control border-0 mx-1 bg-transparent text-white order-box-qty" oninput="javascript:boxsOrderControl(this)">
+										</div>
+									</div>
+									<div class="w-25 d-flex justify-content-center align-items-center" style="background-color: #D3D3D3; cursor: pointer;" control-cd="1" onclick="javascript:boxsOrderControl(this)">
+										<svg width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+											<path fill-rule="evenodd" clip-rule="evenodd" d="M10.25 2C10.25 1.30964 9.69036 0.75 9 0.75C8.30964 0.75 7.75 1.30964 7.75 2V7.41675H2C1.30964 7.41675 0.75 7.97639 0.75 8.66675C0.75 9.3571 1.30964 9.91675 2 9.91675H7.75V16C7.75 16.6904 8.30964 17.25 9 17.25C9.69036 17.25 10.25 16.6904 10.25 16V9.91675H16C16.6904 9.91675 17.25 9.3571 17.25 8.66675C17.25 7.97639 16.6904 7.41675 16 7.41675H10.25V2Z" fill="#0F0F14"/>
+										</svg>
+									</div>
+								</div>
+							</div>
+							<div class="w-100 border-top my-2" style="border-color: #404040!important;"></div>
+						</c:if>
+						<c:if test="${productMaster.productQty == 1}">
+							<div class="d-flex align-items-center gap-2">
+								<input type="checkbox" id="boxCheck" class="form-check-input bg-dark m-0" onclick="javacript:boxQtyCheckBox()">
+								<label for="boxCheck"><h6 class="m-0 d-flex align-items-center">사용된 제품 박스 추가(+5,000원)</h6></label>
+							</div>
+							<div class="w-100 border-top my-2" style="border-color: #404040!important;"></div>
+						</c:if>
+
+						<div class="d-flex flex-column">
+							<h6>배송 주의사항*</h6>
+							<div class="m-0" style="font-size: 12px;">도서산간 지역의 경우 배송이 제한되거나 추가요금이 발생할 수 있습니다.</div>
+							<div class="m-0" style="font-size: 12px;">AS 기준은 각 부품의 유통사 규정에 따르며 해당 쇼핑몰에서 1년간 무상 AS를 지원해드립니다.</div>
+							<div class="m-0 mt-2" style="font-size: 12px;">제품 견본 이미지는 케이스의 외관을 보여드리기 위함입니다.</div>
+							<div class="m-0" style="font-size: 12px;">내장제품의 형태가 상이하니 케이스의 형태만 확인하여 선택 부탁드립니다.</div>
+						</div>
+					</div>
+				</div>
+				<c:if test="${productMaster.productQty != 1}">
+					<div class="d-flex justify-content-between align-items-center mb-5 gap-4">
+						<button type="button" class="btn btn-secondary btn-lg fw-bold px-5" onclick="javascript:clickReturnBtn()">뒤로가기</button>
+						<div class="d-flex align-items-center gap-3">
+							<button type="button" class="btn btn-light btn-lg fw-bold px-5" onclick="javascript:clickCaptureBtn()">캡쳐하기</button>
+							<button type="button" class="btn btn-light btn-lg fw-bold px-5" data-bs-toggle="modal" data-bs-target="#modal-description">질문저장</button>
+							<button type="button" class="btn btn-primary btn-lg fw-bold px-5" onclick="javascript:clickOrderBtn()">주문하기</button>
+						</div>
+					</div>
+				</c:if>
+				<c:if test="${productMaster.productQty == 1}">
+					<div class="d-flex justify-content-center align-items-center mb-5 gap-4">
+						<button type="button" class="btn btn-secondary btn-lg fw-bold px-5" onclick="javascript:clickReturnBtn()">뒤로가기</button>
+						<div class="d-flex align-items-center gap-3">
+							<button type="button" class="btn btn-light btn-lg fw-bold px-5" data-bs-toggle="modal" data-bs-target="#modal-description">캡쳐하기</button>
+							<button type="button" class="btn btn-light btn-lg fw-bold px-5" onclick="javascript:goOrderSheet()">질문저장</button>
+							<button type="button" class="btn btn-primary btn-lg fw-bold px-5" onclick="javascript:clickSinglOrderBtn()">주문하기</button>
+						</div>
+					</div>
+				</c:if>
+			</div>
+		</div>
+	</div>
+
+	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
+	
 	<div class="modal fade" id="resultErrorModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
 		<div class="modal-dialog modal-dialog-centered">
 		  <div class="modal-content">
-			<div class="modal-header">
+			<div class="modal-header border-0">
 			  <h1 class="modal-title fs-5">견적산출 오류!</h1>
 			</div>
 			<div class="modal-body">
 			  견적 산출 중 오류가 발생했습니다...!!<br>조건을 바꿔서 다시하시거나 이벤트몰을 이용해주세요!
 			</div>
-			<div class="modal-footer">
-			  <button type="button" class="btn btn-secondary" onclick="javascript:modalButtons(this)">홈페이지</button>
-			  <button type="button" class="btn btn-primary" onclick="javascript:modalButtons(this)">다시하기</button>
+			<div class="modal-footer border-0">
+			  <button type="button" class="btn btn-secondary" onclick="javascript:location.href = '/' ">홈페이지</button>
+			  <button type="button" class="btn btn-primary" onclick="javascript:clickReturnBtn()">다시하기</button>
 			</div>
 		  </div>
 		</div>
-	  </div>
-	<div class="basic_background w-100">
-		<div class="d-flex">
-			<!-- 빈 영역 -->
-			<div class="justify-content-start escaResult-empty-space"></div>
-			<!-- 작업영역 -->
-			<div id="capturedImage"></div>
-			<div class="estimateCalc_background container" id="capture-container">
-				<div class="row justify-content-center">
-					<div class="row w-100">
-						<div class="col-md-2">
-							<div class="input-group mb-3 w-100">
-								<input type="text" class="form-control pb-0 ps-3" id="id-input"aria-label="Text input with checkbox" value="ID : error" style="background-color: #fff;" disabled>
-							</div>
-						</div>
-						<div class="col"></div>
-						<div class="col-md-2">
-							<div class="input-group w-100 result-inputs" style="display: none;">
-								<input type="text" class="form-control pb-0 ps-3 w-100" id="recommender-input" value="추천인 : 오류" style="background-color: #fff;" disabled>
-							</div>
-						</div>
-						<div class="col-md-3">
-							<div class="input-group w-100 result-inputs">
-								<input type="text" class="form-control pb-0 ps-3" id="date-input"aria-label="Text input with checkbox" value="Date : 0000-00-00" style="background-color: #fff;" disabled>
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="card mb-3">
-							<div class="row g-0">
-							  <div class="col-md-4 pt-3 ps-2">
-								<img src="${productMaster.productImage}" class="img-fluid rounded-start" alt="...">
-								<p class="p-2">제품 견본 이미지는 케이스의 외관을 보여드리기 위함입니다. 내장제품의 형태가 상이하니 케이스의 형태만 확인하여 선택 부탁드립니다.</p>
-							  </div>
-							  <div class="col-md-8">
-								<div class="card-body">
-									<div class="row">
-										<div class="col-md">
-											<h4 class="card-title position-relative result-index">제품 상세 정보</h4>
-										</div>
-										<div class="col-md d-md-flex gap-2 justify-content-end">
-											<!-- <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#answerCheck">질문 확인</button> -->
-											<div class="dropdown">
-												<!-- data-bs-toggle="dropdown" -->
-												<button class="btn btn-secondary dropdown-toggle change-ram-btn" type="button" aria-expanded="false" onclick="javascript:alert('준비중입니다')">
-													Ram 변경하기
-												</button>
-												<ul class="dropdown-menu ram">
-													<li><button class="dropdown-item" cd="0" type="button" onclick="clickChangeRam(this)">추천 램으로 돌아가기</button></li>
-												</ul>
-											</div>
-											<div class="dropdown">
-												<button class="btn btn-secondary dropdown-toggle change-case-btn" type="button" aria-expanded="false" onclick="javascript:alert('준비중입니다')">
-													케이스 변경하기
-												</button>
-												<ul class="dropdown-menu">
-													<li></li>
-												</ul>
-											</div>
-										</div>
-									</div>
-									<div class="container mb-3 position-relative result-index">
-										<p class="card-text mb-0 fw-bold answer2-p">가격 : <span class="fw-normal price-text">오류</span></p>
-										<p class="card-text mb-0 fw-bold answer6-p answer7-p">CPU : <span class="fw-normal cpu-text">오류</span></p>
-										<p class="card-text mb-0 fw-bold answer8-p">Cooler : <span class="fw-normal cooler-text">오류</span></p>
-										<p class="card-text mb-0 fw-bold answer5-p">MB : <span class="fw-normal mb-text">오류</span></p>
-										<p class="card-text mb-0 fw-bold answer9-p">RAM : <span class="fw-normal ram-text">오류</span></p>
-										<p class="card-text mb-0 fw-bold">GPU : <span class="fw-normal gpu-text">오류</span></p>
-										<p class="card-text mb-0 fw-bold">SSD : <span class="fw-normal ssd-text">오류</span></p>
-										<p class="card-text mb-0 fw-bold">CASE : <span class="fw-normal case-text">오류</span></p>
-										<p class="card-text mb-0 fw-bold">PSU : <span class="fw-normal psu-text">오류</span></p>
-										<p class="card-text mb-0 fw-bold answer1-p">OS : <span class="fw-normal">${productMaster.windowsName}</span></p>
-										<p class="card-text mb-0 fw-bold answer3-p">사용 용도</p>
-										<p class="card-text mb-0 fw-bold answer4-p answer11-p">기타 질문들</p>
-									</div>
-									<!-- <h4 class="card-title">제품 설명</h4>
-									<div class="container mb-3">
-										<p class="card-text fw-bold">제품설명블라블라</p>
-									</div> -->
-									<h4 class="card-title position-relative result-index">배송 정보</h4>
-									<div class="container mb-3 position-relative result-index">
-										<p class="card-text mb-0 fw-bold pb-1">배송기간 : <span class="fw-normal delivery-period">영업일 기준 1~2일</span></p>
-										<p class="card-text mb-0 fw-bold pb-1">택배사 : <span class="fw-normal delivery-period">우체국택배</span></p>
-										<p class="card-text mb-0 fw-bold"><small class="text-muted">도서산간 지역의 경우 배송이 제한되거나 추가요금이 발생할 수 있습니다.</small></p>
-										<p class="card-text"><small class="text-muted">AS 기준은 각 부품의 유통사 규정에 따르며 해당 쇼핑몰에서 1년간 무상 AS를 지원해드립니다.</small></p>
-									</div>
-								</div>
-							  </div>
-							</div>
-						  </div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-md result-buttom-btns result-ret-btn">
-						<button type="button" class="form-control" onclick="javascript:clickReturnBtn()">다시하기</button>
-					</div>
-					<div class="col-md-3 result-buttom-btns"></div>
-					<div class="col-md result-buttom-btns">
-						<c:if test="${productMaster.productQty > 1}">
-							<button type="button" class="form-control btn btn-primary" data-bs-toggle="modal" data-bs-target="#orderCheck">주문하기</button>
-						</c:if>
-						<c:if test="${productMaster.productQty == 1}">
-							<button type="button" class="form-control btn btn-primary" data-bs-toggle="modal" data-bs-target="#orderBoxCheck">주문하기</button>
-						</c:if>
-					</div>
-					<div class="col-md result-buttom-btns">
-						<button type="button" class="form-control" onclick="javascript:clickCaptureBtn()">캡쳐하기</button>
-					</div>
-					<div class="col-md result-buttom-btns">
-						<button type="button" class="form-control" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-title="질문에 대한 답변들을 저장합니다. 추후 견적 산출시 현재 견적과 다를 수 있으니 참고 부탁드립니다!!" onclick="javascript:clickSaveBtn()">질문저장</button>
-					</div>
-				</div>
-	 		</div>
-			<div class="modal fade" data-bs-backdrop="static" id="modal-description" tabindex="-1" aria-hidden="true">
-				<div class="modal-dialog modal-dialog-centered">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h1 class="modal-title fs-5">질문 저장하기</h1>
-						</div>
-						<div class="modal-body">
-							<h3 class="text-center">견적의 이름을 입력해주세요!</h3>
-							<input type="text" class="form-control" placeholder="최대 20자" oninput="javascript:descriptionInput(this)">
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-							<button type="button" class="btn btn-primary" onclick="javascript:goSaveBtn()">저장</button>
-						</div>
-					</div>
-				</div>
-			</div>
-			<!-- 빈 영역 -->
-			<div class="justify-content-end escaResult-empty-space"></div>
-		</div>
-		<!-- 주문 수량 모달 -->
-		<div class="modal fade" id="orderCheck" tabindex="-1" data-bs-keyboard="false" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h1 class="modal-title fs-5">주문 수량확인</h1>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
-						<div class="d-flex gap-2">
-							<div class="w-50">
-								<div class="form-floating">
-									<input type="text" class="form-control" id="orderCount" autocomplete="off" oninput="javascript:orderCount(this)">
-									<label for="orderCount">주문 수량(최대 ${productMaster.productQty}개)</label>
-								</div>
-							</div>
-							<div class="w-50">
-								<div class="form-floating">
-									<input type="text" class="form-control" id="orderBoxCount" autocomplete="off" oninput="javascript:orderBoxCount(this)">
-									<label for="orderBoxCount">박스 추가수량(개당 5,000원)</label>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-						<button type="button" class="btn btn-primary" onclick="javascript:clickOrderBtn()">주문하기</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- 재고 1개 인 경우 박스추가 모달 -->
-		<div class="modal fade" id="orderBoxCheck" tabindex="-1" data-bs-keyboard="false" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h1 class="modal-title fs-5">사용된 제품 박스 추가</h1>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
-						사용된 제품들의 박스를 추가할까요?(5,000원)
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-secondary" box="0" onclick="javascript:clickSingleOrderBtn(this)">아니요</button>
-						<button type="button" class="btn btn-primary" box="1" onclick="javascript:clickSingleOrderBtn(this)">네</button>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- 질문답변 확인용 모달 -->
-		<div class="modal fade" id="answerCheck" tabindex="-1" data-bs-keyboard="true" aria-hidden="true">
-			<div class="modal-dialog modal-dialog-centered modal-lg">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h1 class="modal-title fs-5">질문 답변확인</h1>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-					</div>
-					<div class="modal-body">
+	</div>
 
-					</div>
-					<div class="modal-footer">
-						<button type="button" class="btn btn-primary" data-bs-dismiss="modal">확인</button>
-					</div>
+
+	<div class="modal fade" data-bs-backdrop="static" id="modal-description" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content p-3">
+				<div class="modal-body">
+					<h3 class="text-center mb-3">견적의 이름을 입력해주세요!</h3>
+					<input type="text" class="form-control" placeholder="최대 20자" oninput="javascript:descriptionInput(this)">
+				</div>
+				<div class="modal-footer border-0 w-100 d-flex gap-3">
+					<button type="button" class="btn btn-light border-1 border border-dark fw-bold flex-1" data-bs-dismiss="modal">취소</button>
+					<button type="button" class="btn btn-dark fw-bold flex-1" onclick="javascript:goSaveBtn()">저장</button>
 				</div>
 			</div>
-		</div>
-		<!-- 2022.11.16 디자인이미지 추가 -->
-		<div class="mt-5 mx-5" style="height: 15%!important;">
-			<img class="img-fluid float-end" src="/resources/img/layer-34-1200x107.png" alt="">
-		</div>
-		<div class="mt-2 mx-5" style="height: 15%!important;">
-			<img class="img-fluid" src="/resources/img/layer-26.png" alt="">
 		</div>
 	</div>
-	<input type="hidden" name="${userEscasStorageVOList.size()}" class="storage-size">
-	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
+
 </body>
+<style>
+	html {
+		background-color: black;
+	}
+</style>
 </html>

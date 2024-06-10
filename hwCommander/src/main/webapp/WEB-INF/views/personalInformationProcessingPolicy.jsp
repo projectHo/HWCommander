@@ -7,18 +7,19 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <!-- Bootstrap CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-<link rel="stylesheet" href="/resources/css/main.css">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="/resources/css/ver_02/personalInformationProcessingPolicy.css">
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 </head>
 <body>
 	<%@ include file="./common/header.jsp" %>
-	<div class="termsOfService_background w-100">
-		<div class="d-flex">
-			<!-- 빈 영역 -->
-			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
-			<div class="content pt-5 px-5 mx-5" style="width: 70%!important;">
-			
+
+	<div class="personal-information-processing-policy-body py-5">
+		<div class="d-flex flex-column gap-5 justify-content-center align-items-center mx-auto container">
+			<h1 class="text-white fw-bold">개인정보 처리 방침</h1>
+			<div class="personal-information-processing-policy-boxs p-5 text-white">
+
 				<p>현우의 컴퓨터공방(HWCommander)을 이용하시는 이용자분들의 개인정보를 다루는데에는 아래와 같은 개인정보처리방침을 준수하고 있습니다.</p>
 				<P>해당 방침은 법령이나 지침, 혹은 자사 정책에 따라 변경될 수 있으니 수시로 확인해주시길 바랍니다.</P>
 				<P>■ 수집하는 개인정보 항목 및 수집방법<br>가. 수집하는 개인정보의 항목<br>o 회사는 회원가입, 상담, 서비스 신청 등을 위해 아래와 같은 개인정보를 수집하고 있습니다.</P>
@@ -60,10 +61,10 @@
 				<p class="mb-5">o 귀하께서는 회사의 서비스를 이용하시며 발생하는 모든 개인정보보호 관련 민원을 개인정보보호책임자 혹은 담당부서로 신고하실 수 있습니다.<br>o 회사는 이용자들의 신고사항에 대해 신속하게 충분한 답변을 드릴 것입니다.<br>o 기타 개인정보침해에 대한 신고나 상담이 필요하신 경우에는 아래 기관에 문의하시기 바랍니다.<br>개인정보침해신고센터 (privacy.kisa.or.kr / 국번 없이 118)<br>대검찰청 사이버범죄수사단 (www.spo.go.kr / 02-3480-2000)<br>경찰청 사이버안전국 (www.ctrc.go.kr/ 국번 없이 182)</p>
 
 			</div>
-			<!-- 빈 영역 -->
-			<div class="justify-content-end" style="width: 15%!important;"></div>
 		</div>
 	</div>
+
+
 	<%@ include file="./common/footer.jsp" %>
 </body>
 </html>

@@ -1,0 +1,25 @@
+.refund-info-container {
+    background-color: #0f0f14;
+    min-height: calc(100vh - 579px);
+}
+
+.refund-info-boxs {
+    border: 1px solid #656565;
+    border-radius: 12px;
+    background-color: transparent!important;
+}
+
+.refund-info-inputs {
+    background-color: transparent!important;
+    color: white!important;
+    transition: 0.2s all ease-in-out!important;
+}
+
+.refund-info-inputs::placeholder {
+    color: #939393!important;
+}
+
+.refund-info-boxs textarea {
+    height: 200px;
+    resize: none;
+}

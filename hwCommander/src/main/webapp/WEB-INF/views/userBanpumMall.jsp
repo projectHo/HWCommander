@@ -3,221 +3,80 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - 반품몰</title>
+<title>현우의 컴퓨터 공방 - 이벤트몰</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
-<!-- Bootstrap CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
-<link rel="stylesheet" href="/resources/css/main.css">
-<link rel="stylesheet" href="/resources/css/estimateCalculationOneCss.css">
+<!-- Bootstrap & jquery -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 
+<link rel="stylesheet" href="/resources/css/ver_02/banpummall.css">
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <meta name="description" content="" />
 <meta name="author" content="" />
-<script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
-
-<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
-<link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" rel="stylesheet"/>
-
-<link rel="stylesheet" href="/resources/css/banpumMall.css">
 <script>
     $(function() {
-        let width = $(window).outerWidth();
-        if(width < 1024){
-            $(".d-mobile").removeClass("d-none");
-            $('#banpunMallListTableMobile').DataTable({ 
-                bAutoWidth: false,
-                // columnDefs: [
-                //     { width: "30%", targets : 0 },
-                //     { width: "70%", targets: 1 }
-                // ],
-                lengthChange: false,
-                info: false,
-                ordering: false,
-                paging: true,
-                pageLength : 6,
-                language : {
-                    "search" : "검색 : ",
-                    "paginate" : {
-                        "previous" : "이전",
-                        "next" : "다음"
-                    }
-                },
-            });
-            $(".dataTables_filter").addClass("text-end");
-            $("#banpunMallListTableMobile").on('click', 'tbody .td-caption', function () {
-                var banpumId = $(this).attr("name");
-                location.href = "/userBanpumMallDetail.do?banpumMallId="+banpumId;
-            });
-            $('#banpunMallListTableMobile').on('page.dt', function () {
-                $('html, body').animate({
-                    scrollTop: $("#banpumMallTop").offset().top - 100
-                }, 10);
-            });
-        }else {
-            $(".d-pc").removeClass("d-none");
-            $('#banpunMallListTablePc').DataTable({ 
-                bAutoWidth: false,
-                columnDefs: [
-                    { width: "30%", targets : 0 },
-                    { width: "70%", targets: 1 }
-                ],
-                lengthChange: false,
-                info: false,
-                ordering: false,
-                paging: true,
-                pageLength : 6,
-                language : {
-                    "search" : "검색 : ",
-                    "paginate" : {
-                        "previous" : "이전",
-                        "next" : "다음"
-                    }
-                },
-            });
-            $("#banpunMallListTablePc").on('click', 'tbody .td-caption', function () {
-                var banpumId = $(this).attr("name");
-                location.href = "/userBanpumMallDetail.do?banpumMallId="+banpumId;
-            });
-            $('#banpunMallListTablePc').on('page.dt', function () {
-                $('html, body').animate({
-                    scrollTop: $("#banpumMallTop").offset().top - 100
-                }, 10);
-            });
-        }
     });
+    function goDetailPage(el){
+        location.href = "/userBanpumMallDetail.do?banpumMallId="+$(el).attr("item");
+    }
 </script>
 </head>
 <body>
-	<%@ include file="./common/header.jsp" %>
 
-	<div class="basic_background w-100">
-		<div class="d-flex">
-            <div class="d-pc d-flex w-100 d-none">
-                <!-- 빈 영역 -->
-                <div class="h-25 justify-content-start" style="width: 15%!important;"></div>
-                <div class="event-mall-background rounded p-sm-5 pt-5 pb-5" style="width: 70%!important;" id="banpumMallTop">
-                    <div class="p-sm-5 pe-2 ps-2">
-                        <table id="banpunMallListTablePc" class="table table-hover" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th style="width: 30%;">상품이미지</th>
-                                    <th style="width: 70%;">상품정보</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <c:forEach var="item" items="${banpumMasterList}">
-                                    <tr>
-                                        <td>
-                                            <div id="banpumMallIndicators${item.id}" class="carousel carousel-dark slide w-100" data-bs-ride="true">
-                                                <div class="carousel-indicators">
-                                                    <button type="button" data-bs-target="#banpumMallIndicators${item.id}" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                                                    <c:forEach var="i" begin="2" end="15">
-                                                        <c:set var="key" value="banpumImage${i}" />
-                                                        <c:if test="${not empty item[key]}">
-                                                            <button type="button" data-bs-target="#banpumMallIndicators${item.id}" data-bs-slide-to="${i-1}" aria-label="Slide ${i}"></button>
-                                                        </c:if>
-                                                    </c:forEach>
-                                                </div>    
-                                                <div class="carousel-inner">
-                                                    <div class="carousel-item active">
-                                                        <img src="${item.banpumImage1}" class="d-block w-100 h-100" alt="...">
-                                                    </div>
-                                                    <c:forEach var="i" begin="2" end="15">
-                                                        <c:set var="key" value="banpumImage${i}" />
-                                                        <c:if test="${not empty item[key]}">
-                                                            <div class="carousel-item">
-                                                                <img src="${item[key]}" class="d-block w-100 h-100" alt="...">
-                                                            </div>
-                                                        </c:if>
-                                                    </c:forEach>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="td-caption" name="${item.id}">
-                                            <p>이름 : ${item.banpumName}</p>
-                                            <p>가격 : ${item.banpumPriceStr}</p>
-                                            <p>설명 : ${item.banpumDescription}</p>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                            </tbody>
-                        </table>
+	<%@ include file="./common/header.jsp" %>
+    <div class="w-100" style="background-color: #0F0F14;">
+        <div class="container banpum-mall-container px-5 py-5">
+            <div class="d-flex flex-column gap-4">
+
+                <c:forEach var="i" begin="0" end="${fn:length(banpumMasterList)-1}" step="2">
+                    <div class="d-flex gap-4">
+                        <c:forEach var="j" begin="${i}" end="${i+1}">
+                            <div class="d-flex flex-column gap-3 w-50">
+                                
+                                <div class="banpummall-item-boxs aspect-ratio-3x4" item="${banpumMasterList[j].id}" onclick="javascript:goDetailPage(this)">
+                                    <c:if test='${banpumMasterList[j].banpumImage1 == ""}'>
+                                        <div class="d-flex flex-column gap-3 justify-content-center align-items-center">
+                                            <svg fill="#000000" width="100px" height="100px" viewBox="-3.2 -3.2 38.40 38.40" id="icon" xmlns="http://www.w3.org/2000/svg" stroke="#000000" stroke-width="0.192"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="1.7280000000000002"><defs><style>.cls-1{fill:none;}</style></defs><title>no-image</title><path d="M30,3.4141,28.5859,2,2,28.5859,3.4141,30l2-2H26a2.0027,2.0027,0,0,0,2-2V5.4141ZM26,26H7.4141l7.7929-7.793,2.3788,2.3787a2,2,0,0,0,2.8284,0L22,19l4,3.9973Zm0-5.8318-2.5858-2.5859a2,2,0,0,0-2.8284,0L19,19.1682l-2.377-2.3771L26,7.4141Z"></path><path d="M6,22V19l5-4.9966,1.3733,1.3733,1.4159-1.416-1.375-1.375a2,2,0,0,0-2.8284,0L6,16.1716V6H22V4H6A2.002,2.002,0,0,0,4,6V22Z"></path><rect id="_Transparent_Rectangle_" data-name="<Transparent Rectangle>" class="cls-1" width="32" height="32"></rect></g><g id="SVGRepo_iconCarrier"><defs><style>.cls-1{fill:none;}</style></defs><title>no-image</title><path d="M30,3.4141,28.5859,2,2,28.5859,3.4141,30l2-2H26a2.0027,2.0027,0,0,0,2-2V5.4141ZM26,26H7.4141l7.7929-7.793,2.3788,2.3787a2,2,0,0,0,2.8284,0L22,19l4,3.9973Zm0-5.8318-2.5858-2.5859a2,2,0,0,0-2.8284,0L19,19.1682l-2.377-2.3771L26,7.4141Z"></path><path d="M6,22V19l5-4.9966,1.3733,1.3733,1.4159-1.416-1.375-1.375a2,2,0,0,0-2.8284,0L6,16.1716V6H22V4H6A2.002,2.002,0,0,0,4,6V22Z"></path><rect id="_Transparent_Rectangle_" data-name="<Transparent Rectangle>" class="cls-1" width="32" height="32"></rect></g></svg>
+                                            <p class="fw-bold text-light">등록된 이미지가 없습니다</p>
+                                        </div>
+                                    </c:if>
+                                    <c:if test='${banpumMasterList[j].banpumImage1 != ""}'>
+                                        <div style="background-image: url(${banpumMasterList[j].banpumImage1}); background-position: center; background-size: inherit; background-repeat: no-repeat;"></div>
+                                    </c:if>
+                                </div>
+                                <div class="banpummall-text-boxs d-flex flex-column gap-2 text-light">
+                                    <h5 class="fw-semibold d-flex">
+                                        <span>이름 :&nbsp;</span>
+                                        <span>${banpumMasterList[j].banpumName}</span>
+                                    </h5>
+                                    <h5 class="fw-semibold d-flex">
+                                        <span>가격 :&nbsp;</span>
+                                        <span>${banpumMasterList[j].banpumPriceStr}</span>
+                                    </h5>
+                                    <h5 class="fw-semibold d-flex">
+                                        <span class="text-nowrap">설명 :&nbsp;</span>
+                                        <span class="line-clamp-2">${banpumMasterList[j].banpumDescription}</span>
+                                    </h5>
+                                </div>
+                            </div>
+                        </c:forEach>
                     </div>
-                </div>
-                <!-- 빈 영역 -->
-                <div class="justify-content-end" style="width: 15%!important;"></div>
+                </c:forEach>
+
             </div>
-            <div class="d-mobile d-flex w-100 d-none">
-                <!-- 빈 영역 -->
-                <div class="h-25 justify-content-start" style="width: 1%!important;"></div>
-                <div class="event-mall-background rounded p-sm-5 pt-5 pb-5" style="width: 98%!important;" id="banpumMallTop">
-                    <div class="p-sm-5 pe-2 ps-2">
-                        <table id="banpunMallListTableMobile" class="table table-hover" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>상품정보</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <c:forEach var="item" items="${banpumMasterList}">
-                                    <tr>
-                                        <td>
-                                            <div id="banpumMallIndicators${item.id}" class="carousel carousel-dark slide w-100" data-bs-ride="true">
-                                                <div class="carousel-indicators">
-                                                    <button type="button" data-bs-target="#banpumMallIndicators${item.id}" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                                                    <c:forEach var="i" begin="2" end="15">
-                                                        <c:set var="key" value="banpumImage${i}" />
-                                                        <c:if test="${not empty item[key]}">
-                                                            <button type="button" data-bs-target="#banpumMallIndicators${item.id}" data-bs-slide-to="${i-1}" aria-label="Slide ${i}"></button>
-                                                        </c:if>
-                                                    </c:forEach>
-                                                </div>    
-                                                <div class="carousel-inner">
-                                                    <div class="carousel-item active">
-                                                        <img src="${item.banpumImage1}" class="d-block w-100 h-100" alt="...">
-                                                    </div>
-                                                    <c:forEach var="i" begin="2" end="15">
-                                                        <c:set var="key" value="banpumImage${i}" />
-                                                        <c:if test="${not empty item[key]}">
-                                                            <div class="carousel-item">
-                                                                <img src="${item[key]}" class="d-block w-100 h-100" alt="...">
-                                                            </div>
-                                                        </c:if>
-                                                    </c:forEach>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td class="td-caption" name="${item.id}">
-                                            <p>이름 : ${item.banpumName}</p>
-                                            <p>가격 : ${item.banpumPriceStr}</p>
-                                            <p>설명 : ${item.banpumDescription}</p>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <!-- 빈 영역 -->
-                <div class="justify-content-end" style="width: 1%!important;"></div>
-            </div>
-		</div>
-		<!-- 2022.11.16 디자인이미지 추가 -->
-		<div class="mt-5 mx-5" style="height: 15%!important;">
-			<img class="img-fluid float-end" src="/resources/img/layer-34-1200x107.png" alt="">
-		</div>
-		<div class="mt-2 mx-5" style="height: 15%!important;">
-			<img class="img-fluid" src="/resources/img/layer-26.png" alt="">
-		</div>
-	</div>
-	
+        </div>
+
+    </div>
+
 	<%@ include file="./common/footer.jsp" %>
 	
 </body>
+<style>
+	html {
+		background-color: black;
+	}
+</style>
 </html>

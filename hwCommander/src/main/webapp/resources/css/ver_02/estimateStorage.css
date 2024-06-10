@@ -1,0 +1,14 @@
+.estimate-storage-divider-1 {
+    border-bottom: 1px solid #656565;
+}
+
+.estimate-storage-divider-2 {
+    border-bottom: 1px solid #1A1A1C;
+}
+
+.line-clamp-2 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+}

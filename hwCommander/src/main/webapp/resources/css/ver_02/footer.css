@@ -1,0 +1,8 @@
+.footer-container {
+    background-color: #020203;
+    min-width: 1920px;
+}
+
+.footer-container a {
+    cursor: pointer;
+}

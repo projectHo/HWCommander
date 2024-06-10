@@ -1,0 +1,29 @@
+.order-sheet-container {
+    background-color: #0f0f14;
+    min-height: calc(100vh - 579px);
+}
+
+.order-sheet-boxs {
+    border: 1px solid #656565;
+    border-radius: 12px;
+    background-color: transparent!important;
+}
+
+.order-sheet-inputs {
+    background-color: transparent!important;
+    color: white!important;
+}
+
+.order-sheet-inputs::placeholder {
+    color: #939393!important;
+}
+
+.order-sheet-radios {
+    background-color: transparent!important;
+    border-color: white!important;
+    transition: 0.2s all ease-in-out;
+}
+
+.order-sheet-divider {
+    border-top: 1px solid #656565;
+}
