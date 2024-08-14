@@ -11,7 +11,7 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>현우의 컴퓨터 공방 - PC가 어려운 당신을 위한 현명한 구매</title>
+  <title>HWCommander - PC가 어려운 당신을 위한 현명한 구매</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1" />
   <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 
@@ -851,17 +851,17 @@
                           <p class="fs-6 text-white">@ Copyright HW Commander 2019 - 2023</p>
                         </div>
                         <div class="d-md-flex flex-column justify-content-center">
-                          <span class="fs-6" style="margin-bottom:0!important;">현우의 컴퓨터 공방에서 운영하는 사이트에서 판매되는</span>
-                          <span class="fs-6" style="margin-bottom:0!important;">모든 상품은 현우의 컴퓨터 공방에서 책임지고 있습니다.</span>
+                          <span class="fs-6" style="margin-bottom:0!important;">HWCommander에서 운영하는 사이트에서 판매되는</span>
+                          <span class="fs-6" style="margin-bottom:0!important;">모든 상품은 HWCommander에서 책임지고 있습니다.</span>
                           <p class="fs-6" style="margin-bottom:0!important;">*민원 담당자 이해창 / 연락처 010-7625-0478</p>
                         </div>
                       </div>
                       <div class="col">
                         <nav class="nav flex-column main-footer-infos">
-                          <h4><b>현우의 컴퓨터 공방</b></h4>
+                          <h4><b>HWCommander</b></h4>
                           <a class="nav-link disabled text-dark" href="#">대표 : 이해창 | tel. 010-7625-0478</a>
                           <a class="nav-link disabled text-dark" href="#">사업자등록번호: 829-36-00813</a>
-                          <a class="nav-link disabled text-dark" href="#">서울시 용산구 보광로 110, 2층 현우의 컴퓨터 공방</a>
+                          <a class="nav-link disabled text-dark" href="#">서울시 용산구 보광로 110, 2층 HWCommander</a>
                           <a class="nav-link disabled text-dark" href="#">E-mail : pcvirusson@hanmail.net</a>
                           <a class="nav-link disabled text-dark" href="#">호스팅 제공자 : (주)카페24</a>
                           <a class="nav-link disabled text-dark" href="#">통신판매업 신고번호 : 2023-서울용산-1054 호</a>

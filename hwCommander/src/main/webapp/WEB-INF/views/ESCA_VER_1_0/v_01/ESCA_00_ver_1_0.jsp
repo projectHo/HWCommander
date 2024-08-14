@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - 견적산출</title>
+<title>HWCommander - 견적산출</title>
 <!-- Required meta tags -->
 <meta charset="UTF-8">
 <!-- Bootstrap CSS -->
@@ -1075,7 +1075,7 @@
 				<div class="modal-dialog modal-lg modal-dialog-centered">
 					<div class="modal-content">
 						<div class="modal-header justify-content-center">
-							<h5 class="modal-title">반갑습니다 현우의 컴퓨터 공방 입니다!</h5>
+							<h5 class="modal-title">반갑습니다 HWCommander 입니다!</h5>
 						</div>
 						<div class="modal-body text-center">
 							<div class="text-center d-sm-flex align-items-center mt-2 modal-btn-col">

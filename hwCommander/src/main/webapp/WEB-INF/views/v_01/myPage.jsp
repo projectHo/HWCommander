@@ -7,7 +7,7 @@
     long lastModified = file.lastModified();
 %>
 <head>
-<title>현우의 컴퓨터 공방 - 마이페이지</title>
+<title>HWCommander - 마이페이지</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <!-- Bootstrap CSS -->

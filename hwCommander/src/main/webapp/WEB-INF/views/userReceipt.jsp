@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - 영수증</title>
+<title>HWCommander - 영수증</title>
 <!-- Required meta tags -->
 <meta charset="UTF-8">
 <!-- Bootstrap CSS -->
@@ -46,7 +46,7 @@
 
 		// 새 창에 복사한 요소 삽입
 		const printWindow = window.open('', '_blank');
-		printWindow.document.write('<html><head><title>현우의 컴퓨터 공방 주문영수증 - 인쇄하기</title><style> * {color:black; text-decoration:none;}</style></head><body>');
+		printWindow.document.write('<html><head><title>HWCommander 주문영수증 - 인쇄하기</title><style> * {color:black; text-decoration:none;}</style></head><body>');
 		printWindow.document.write(elementsToPrint1.html()); // 선택한 요소 삽입
 		printWindow.document.write(elementsToPrint2.html()); // 선택한 요소 삽입
 		printWindow.document.write('</body></html>');

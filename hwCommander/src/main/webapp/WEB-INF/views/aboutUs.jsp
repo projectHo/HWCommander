@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>소개글 - 현우의 컴퓨터 공방</title>
+<title>소개글 - HWCommander</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -34,7 +34,7 @@
 					<p>호환성 뿐만 아니라 용도별 부품 적합성 그리고 소비자가 책정할 수 있는 좋은 상품의 기준 등을 토대로 작성된 저희의 알고리즘은 최종적으로 "자신의 컴퓨터를 어떤 기준으로 맞출지 구상을 마친 그 소비자가 만약 컴퓨터 시장을 완벽하게 이해하고 있었다면 어떤 견적으로 구성할까?"를 지표로 삼고 있습니다.</p>
 					<p>때문에 모든 사용자가 그 용도와 가치에 대해 다르게 생각했을 때 나오는 모든 경우의 수가 저희가 낼 수 있는 견적의 종류가 됩니다.</p>
 					<p><br></p>
-					<p>우리 현우의 컴퓨터 공방에서는 수십억 가지의 경우의 수 중 당신에게 가장 적합한 단 한가지 견적을 알려드립니다.</p>
+					<p>우리 HWCommander에서는 수십억 가지의 경우의 수 중 당신에게 가장 적합한 단 한가지 견적을 알려드립니다.</p>
 				</h5>
 			</div>
 			<div class="about-us-boxs p-5">

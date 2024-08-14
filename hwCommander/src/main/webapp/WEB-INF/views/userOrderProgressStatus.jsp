@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - 주문진핸현황</title>
+<title>HWCommander - 주문진핸현황</title>
 <!-- Required meta tags -->
 <meta charset="UTF-8">
 <!-- Bootstrap CSS -->

@@ -5,7 +5,7 @@
 <%@page import="java.util.*"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - OrderSheet</title>
+<title>HWCommander - OrderSheet</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <!-- Bootstrap CSS -->
@@ -307,7 +307,7 @@ function btnCheckOutClickM(){
 				console.log(data);
 				
 				if(data == 2) {
-					alert("계좌로 입금해주시면 주문이 완료됩니다. \n계좌번호 : 645-910900-07207 하나은행 이해창(현우의 컴퓨터 공방) \n계좌번호는 주문내역에서 확인 가능합니다!");
+					alert("계좌로 입금해주시면 주문이 완료됩니다. \n계좌번호 : 645-910900-07207 하나은행 이해창(HWCommander) \n계좌번호는 주문내역에서 확인 가능합니다!");
 					location.href = "/user/infoM.do";
 				}else {
 					alert("주문서 작성에 오류가 발생했습니다.\n 관리자에게 문의하세요.");
@@ -460,7 +460,7 @@ function btnCheckOutClick() {
 				console.log(data);
 				
 				if(data == 2) {
-					alert("계좌로 입금해주시면 주문이 완료됩니다. \n계좌번호 : 645-910900-07207 하나은행 이해창(현우의 컴퓨터 공방) \n계좌번호는 주문내역에서 확인 가능합니다!");
+					alert("계좌로 입금해주시면 주문이 완료됩니다. \n계좌번호 : 645-910900-07207 하나은행 이해창(HWCommander) \n계좌번호는 주문내역에서 확인 가능합니다!");
 					location.href = "/user/orderList.do";
 				}else {
 					alert("주문서 작성에 오류가 발생했습니다.\n 관리자에게 문의하세요.");

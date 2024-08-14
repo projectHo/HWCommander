@@ -3,7 +3,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - 이벤트몰</title>
+<title>HWCommander - 이벤트몰</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <!-- Bootstrap & jquery -->

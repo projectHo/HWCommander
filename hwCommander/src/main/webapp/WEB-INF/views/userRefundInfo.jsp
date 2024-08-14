@@ -4,7 +4,7 @@
 
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - 환불내역</title>
+<title>HWCommander - 환불내역</title>
 <!-- Required meta tags -->
 <meta charset="UTF-8">
 

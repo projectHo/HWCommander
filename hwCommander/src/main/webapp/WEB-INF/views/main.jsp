@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방</title>
+<title>HWCommander</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -388,7 +388,7 @@
 					</div>
 					<div class="d-flex flex-column gap-4 text-end">
 						<h6 class="fw-semibold text-white">사업자등록번호: 829-36-00813</h6>
-						<h6 class="fw-semibold text-white">서울시 용산구 보광로 110, 2층 현우의 컴퓨터 공방</h6>
+						<h6 class="fw-semibold text-white">서울시 용산구 보광로 110, 2층 HWCommander</h6>
 					</div>
 				</div>
 			</div>

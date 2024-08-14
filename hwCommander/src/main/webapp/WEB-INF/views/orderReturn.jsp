@@ -137,7 +137,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<title>현우의 컴퓨터 공방 - 결제완료</title>
+<title>HWCommander - 결제완료</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <!-- Bootstrap CSS -->

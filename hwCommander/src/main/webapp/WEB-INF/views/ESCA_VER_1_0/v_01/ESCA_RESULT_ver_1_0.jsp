@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - 견적산출 결과</title>
+<title>HWCommander - 견적산출 결과</title>
 <!-- Required meta tags -->
 <meta charset="UTF-8">
 <!-- Bootstrap CSS -->

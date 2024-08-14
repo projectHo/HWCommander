@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - nice aip 결과</title>
+<title>HWCommander - nice aip 결과</title>
 <!-- Required meta tags -->
 <meta charset="UTF-8">
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>

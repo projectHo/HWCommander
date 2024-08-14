@@ -4,7 +4,7 @@
 <%@ page import="java.io.File" %>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - 견적산출</title>
+<title>HWCommander - 견적산출</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />

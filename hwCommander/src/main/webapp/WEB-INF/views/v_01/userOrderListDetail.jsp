@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - 주문내역</title>
+<title>HWCommander - 주문내역</title>
 <!-- Required meta tags -->
 <meta charset="UTF-8">
 <!-- Bootstrap CSS -->
@@ -850,7 +850,7 @@
 							</tr>
 							<tr class="account-numb-tr" style="display: none;">
 								<th scope="row">입금계좌 번호</th>
-								<td class="account-numb">645-910900-07207 하나은행 이해창(현우의 컴퓨터 공방)</td>
+								<td class="account-numb">645-910900-07207 하나은행 이해창(HWCommander)</td>
 							</tr>
 							<tr>
 								<th class="align-middle" scope="row">결제 금액</th>

@@ -4,7 +4,7 @@
 
 <html>
 <head>
-<title>현우의 컴퓨터 공방 - 주문내역</title>
+<title>HWCommander - 주문내역</title>
 <!-- Required meta tags -->
 <meta charset="UTF-8">
 
@@ -673,7 +673,7 @@
 										<h6 class="fw-bold flex-grow-1">계좌번호</h6>
 										<div class="my-info-check-after-input-boxs w-75">
 											<div class="position-relative">
-												<input type="text" class="order-detail-inputs text-white form-control p-3 border-secondary" placeholder="계좌 번호" disabled autocomplete="off" value="645-910900-07207 하나은행 이해창(현우의 컴퓨터 공방)">
+												<input type="text" class="order-detail-inputs text-white form-control p-3 border-secondary" placeholder="계좌 번호" disabled autocomplete="off" value="645-910900-07207 하나은행 이해창(HWCommander)">
 											</div>
 										</div>
 									</div>

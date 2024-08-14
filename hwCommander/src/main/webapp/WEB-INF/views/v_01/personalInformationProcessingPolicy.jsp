@@ -2,7 +2,7 @@
 <%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8"%>
 <html>
 <head>
-<title>개인정보처리방침 - 현우의 컴퓨터 공방</title>
+<title>개인정보처리방침 - HWCommander</title>
 <!-- Required meta tags -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -19,7 +19,7 @@
 			<div class="h-25 justify-content-start" style="width: 15%!important;"></div>
 			<div class="content pt-5 px-5 mx-5" style="width: 70%!important;">
 			
-				<p>현우의 컴퓨터공방(HWCommander)을 이용하시는 이용자분들의 개인정보를 다루는데에는 아래와 같은 개인정보처리방침을 준수하고 있습니다.</p>
+				<p>HWCommander(HWCommander)을 이용하시는 이용자분들의 개인정보를 다루는데에는 아래와 같은 개인정보처리방침을 준수하고 있습니다.</p>
 				<P>해당 방침은 법령이나 지침, 혹은 자사 정책에 따라 변경될 수 있으니 수시로 확인해주시길 바랍니다.</P>
 				<P>■ 수집하는 개인정보 항목 및 수집방법<br>가. 수집하는 개인정보의 항목<br>o 회사는 회원가입, 상담, 서비스 신청 등을 위해 아래와 같은 개인정보를 수집하고 있습니다.</P>
 				
