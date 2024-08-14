@@ -10,8 +10,8 @@
 <meta charset="utf-8">
 <link rel="stylesheet" href="/resources/css/ver_02/orderSheet.css">
 <!-- Bootstrap CSS -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
 
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
@@ -25,9 +25,9 @@
 <!-- 이니시스js -->
 <!--테스트 JS-->
 
-<!-- 
-<script language="javascript" type="text/javascript" src="https://stgstdpay.inicis.com/stdjs/INIStdPay.js" charset="UTF-8"></script>
- -->
+
+<!-- <script language="javascript" type="text/javascript" src="https://stgstdpay.inicis.com/stdjs/INIStdPay.js" charset="UTF-8"></script> -->
+
 
 <!--운영 JS // PC -->
 <script language="javascript" type="text/javascript" src="https://stdpay.inicis.com/stdjs/INIStdPay.js" charset="UTF-8"></script>
@@ -64,7 +64,6 @@
     $(function() {
 		
     });
-
 	let paymentMethod;
 
 	function startPay() {
@@ -80,24 +79,6 @@
 		if(true){
 			var orderRegistFormArray = [];
 			
-			// $('#productListInfoTable tr').each(function (index) {
-			// 	if(0 != index) {
-			// 		// orderDetail Set
-			// 		var item = {
-			// 			id : $(this).find('input[name=id]').val(),
-			// 			productId : $(this).find('input[name=productId]').val(),
-			// 			productPrice : $(this).find('input[name=productPrice]').val(),
-			// 			productOrderQty : "${orderQtys}",
-			// 			boxQty : "${boxQtys}",
-			// 			boxTotPrice : "${boxTotPrice}"
-			// 		};
-			// 		orderRegistFormArray.push(item);
-			// 	}
-			// });
-			
-			// if(2 < $('#productListInfoTable tr').length) {
-			// 	orderName += "외 "+($('#productListInfoTable tr').length-1)+"건";
-			// }
 			$('#product-boxs').each(function (index) {
 				// orderDetail Set
 				var item = {
@@ -134,8 +115,8 @@
 			};
 			
 			var ajaxData = {
-					orderMasterVO : JSON.stringify(orderMasterVO),
-					orderDetailVOList : JSON.stringify(orderRegistFormArray)
+				orderMasterVO : JSON.stringify(orderMasterVO),
+				orderDetailVOList : JSON.stringify(orderRegistFormArray)
 			};
 			
 			if(paymentMethod == "card"){
@@ -153,6 +134,9 @@
 							$("#inicis_buyeremail").val($("#ordererMail").val());
 							
 							INIStdPay.pay('inicisSendForm');
+							setTimeout(() => {
+								$(".inipay_modal").addClass("show");
+							}, 500);
 						}else {
 							alert("주문서 작성에 오류가 발생했습니다.\n 관리자에게 문의하세요.");
 						}
@@ -181,7 +165,6 @@
 
 	function selectPayment(el){
 		paymentMethod = $(el).attr("id");
-		console.log(paymentMethod);
 	}
 	function findDaumAddr() {
 		new daum.Postcode({
@@ -623,15 +606,15 @@
 		<input type="hidden" name="P_QUOTABASE" value="1:2:3:4:5:6:7:8:9:10:11:12">
 			
 		<!-- todo wonho 로컬테스트 -->
-		
+		<%--
 		<input type="hidden" name="P_NEXT_URL" value="https://localhost:8080/order/inicisPayReturnM.do">
 		<input type="hidden" name="closeUrl" value="https://localhost:8080/order/inicisPayClose.do?id=<%=oid%>">
-		
+		--%>
 		<!-- todo wonho 운영 -->
-		<%--
+		
 		<input type="hidden" name="P_NEXT_URL" value="https://hwcommander.com/order/inicisPayReturnM.do">
 		<input type="hidden" name="closeUrl" value="https://hwcommander.com/order/inicisPayClose.do?id=<%=oid%>">
-		--%>
+		
 	</form>
 	<%@ include file="/WEB-INF/views/common/footer.jsp" %>
 </body>

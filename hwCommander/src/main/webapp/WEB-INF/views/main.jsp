@@ -36,7 +36,6 @@
 			on: {
 				slideChange: function() {
 					var activeSlide = this.slides[this.activeIndex];
-					console.log(activeSlide);
 				}
 			},
 		});
@@ -45,8 +44,7 @@
 	function loginCheck() {
 		var check = false;
 		if("${loginUser}" == "") {
-			alert("로그인 후 이용해주세요.");
-			location.href = "/user/login.do";
+			$("#alertModal").modal("show");
 		}else {
 			check = true;
 		}
@@ -112,6 +110,13 @@
 	function myPageBtn(){
 		if(loginCheck()) {
 			location.href ="/user/myPage.do";
+		}
+	}
+	function modalBtns(el){
+		if($(el).attr("modal-btn-cd") == "1"){
+			location.href = "/user/signUp.do";
+		}else {
+			location.href = "/user/login.do";
 		}
 	}
 </script>
@@ -403,7 +408,22 @@
 			},
     	});
 	</script>
-	<!-- <div class="basic_background w-100"> -->
+
+	<div class="modal fade" id="alertModal" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content p-3">
+				<div class="modal-body">
+					<div class="d-flex flex-column gap-2 justify-content-center align-items-center">
+						<span class="fs-6">로그인 후 이용해주세요</span>
+					</div>
+				</div>
+				<div class="modal-footer border-0 d-flex justify-content-between align-items-center gap-3 px-4">
+					<button type="button" class="btn py-2 btn-outline-light flex-1 text-dark border-1 border border-dark" onclick="javascript:modalBtns(this)" modal-btn-cd="1">회원가입</button>
+					<button type="button" class="btn py-2 btn-dark flex-1" onclick="javascript:modalBtns(this)" modal-btn-cd="2">로그인</button>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 <style>
 	html {

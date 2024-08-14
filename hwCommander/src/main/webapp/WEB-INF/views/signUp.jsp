@@ -262,6 +262,9 @@
 						alert("회원가입이 정상적으로 처리되지 않았습니다.\n고객센터로 문의해주세요.");
 					}
 					window.location = "/";
+				},
+				error: function(error){
+					alert("error : " + error);
 				}
 			});
 		}
@@ -348,10 +351,10 @@
 								<h6 class="text-white">주소</h6>
 								<button type="button" class="btn btn-primary fw-bold mb-2 sign-up-small-btns" onclick="findDaumAddr()">주소검색</button>
 								<div class="d-none d-flex flex-column gap-2 addr-container">
-									<input type="text" placeholder="지번주소" id="jibunAddr" class="form-control sign-up-inputs p-3" required readonly>
-									<input type="hidden" id="zipcode" placeholder="우편번호" class="form-control sign-up-inputs p-3" required readonly>
-									<input type="text" placeholder="도로명 주소" id="roadAddr" class="form-control sign-up-inputs p-3" required readonly>
-									<input type="text" placeholder="상세 주소를 입력해주세요" id="detailAddr" class="form-control sign-up-inputs p-3" required>
+									<input type="text" placeholder="지번주소" id="jibunAddr" name="jibunAddr" class="form-control sign-up-inputs p-3" required readonly>
+									<input type="hidden" id="zipcode" name="zipcode" placeholder="우편번호" class="form-control sign-up-inputs p-3" required readonly>
+									<input type="text" placeholder="도로명 주소" id="roadAddr" name="roadAddr" class="form-control sign-up-inputs p-3" required readonly>
+									<input type="text" placeholder="상세 주소를 입력해주세요" id="detailAddr" name="detailAddr" class="form-control sign-up-inputs p-3" required>
 								</div>
 							</div>
 	

@@ -136,7 +136,8 @@
             content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
         <title>KG이니시스 결제샘플</title>
 		
-		<script language="javascript" type="text/javascript" src="https://stdpay.inicis.com/stdjs/INIStdPay.js" charset="UTF-8"></script>
+		<script language="javascript" type="text/javascript" src="https://stdpay.inicis.com/stdjs/INIStdPay.js" charset="UTF-8">
+		</script>
         <script type="text/javascript">
         
         
@@ -144,7 +145,6 @@
     </head>
 
     <body class="wrap">
-
         <!-- 본문 -->
         <main class="col-8 cont" id="bill-01">
             <!-- 페이지타이틀 -->

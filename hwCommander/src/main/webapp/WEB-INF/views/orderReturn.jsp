@@ -150,10 +150,10 @@
 <meta name="description" content="" />
 <meta name="author" content="" />
 <!-- 이니시스 js -->
-<script language="javascript" type="text/javascript" src="https://stdpay.inicis.com/stdjs/INIStdPay.js" charset="UTF-8"></script>
+<script language="javascript" type="text/javascript" src="https://stdpay.inicis.com/stdjs/INIStdPay.js" charset="UTF-8">
+</script>
 <script type="text/javascript">
 $(function() {
-	
 	if("0000" == $("#resultCode").val()) {
 		
 		var ajaxData = {

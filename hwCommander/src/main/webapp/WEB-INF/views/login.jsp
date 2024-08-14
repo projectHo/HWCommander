@@ -102,7 +102,7 @@ function comnOnKeyUp() {
 								<input type="checkbox" name="" id="login-cb" class="form-check-input bg-dark m-0">
 								<label for="login-cb"><h6 class="text-white m-0">로그인 유지</h6></label>
 							</div>
-							<h6 class="m-0"><a href="#" onclick="javascript:void(0)" class="text-decoration-none">비밀번호 찾기</a></h6>
+							<h6 class="m-0"><a href="#" onclick="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#alertModal" class="text-decoration-none">비밀번호 찾기</a></h6>
 						</div>
 		
 						<button type="button" class="btn btn-lg btn-light w-100 fw-bold py-3 mb-2" onclick="javascript:login()">로그인</button>
@@ -117,7 +117,23 @@ function comnOnKeyUp() {
 
 		</div>
 	</div>
-	
+	<div class="modal fade" id="alertModal" tabindex="-1" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content p-3">
+				<div class="modal-body">
+					<div class="d-flex flex-column gap-2 justify-content-center align-items-center">
+						<span class="fw-bold fs-4">고객센터</span>
+						<span class="fs-6">점검중입니다.. 고객센터로 문의해주세요</span>
+						<span class="fw-semibold fs-6">고객센터 : 010-7625-0478</span>
+					</div>
+				</div>
+				<div class="modal-footer border-0 d-flex justify-content-between align-items-center gap-3 px-4">
+					<button type="button" class="btn py-2 btn-outline-light flex-1 text-dark border-1 border border-dark" data-bs-dismiss="modal">닫기</button>
+					<button type="button" class="btn py-2 btn-dark flex-1" data-bs-dismiss="modal">확인</button>
+				</div>
+			</div>
+		</div>
+	</div>
 	<%@ include file="./common/footer.jsp" %>
 
 </body>
