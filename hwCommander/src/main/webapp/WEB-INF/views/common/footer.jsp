@@ -81,7 +81,7 @@
 				</div>
 				<div class="d-flex flex-column gap-4 text-end">
 					<h6 class="fw-semibold text-white">사업자등록번호: 829-36-00813</h6>
-					<h6 class="fw-semibold text-white">서울시 용산구 보광로 110, 2층 HWCommander</h6>
+					<h6 class="fw-semibold text-white">서울특별시 영등포구 경인로112길 4-2, 1004호(영등포동1가, 엘스페이스 여의도)</h6>
 				</div>
 			</div>
 		</div>
